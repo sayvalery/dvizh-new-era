@@ -61,9 +61,46 @@ export const BlogPosts: CollectionConfig = {
       blocks: [RichTextBlock, ImageBlock, FormBlock, CTABlock, VideoBlock, QuoteBlock],
     },
     {
+      name: 'bodyHtml',
+      type: 'textarea',
+      label: 'Тело статьи (HTML)',
+      admin: {
+        description: 'HTML-контент, мигрированный из Webflow. Если заполнено — используется вместо блоков.',
+        rows: 15,
+        condition: (data) => !data.content?.length,
+      },
+    },
+    {
       name: 'author',
       type: 'text',
-      label: 'Автор',
+      label: 'Автор (текст)',
+      admin: { description: 'Устаревшее поле. Используй primaryAuthor.' },
+    },
+    {
+      name: 'primaryAuthor',
+      type: 'relationship',
+      relationTo: 'persons',
+      label: 'Основной автор',
+    },
+    {
+      name: 'coAuthors',
+      type: 'relationship',
+      relationTo: 'persons',
+      hasMany: true,
+      label: 'Соавторы',
+    },
+    {
+      name: 'company',
+      type: 'relationship',
+      relationTo: 'companies',
+      label: 'Компания',
+    },
+    {
+      name: 'tags',
+      type: 'relationship',
+      relationTo: 'tags',
+      hasMany: true,
+      label: 'Теги',
     },
     {
       name: 'publishedAt',
