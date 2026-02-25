@@ -1,6 +1,7 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro'
 import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
+import PersonCard from '../../components/ui/PersonCard.astro'
 import { getBlogPosts, getBlogPost } from '../../lib/payload'
 
 export async function getStaticPaths() {
@@ -25,10 +26,17 @@ if (!post) return Astro.redirect('/404')
 const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
 const coverUrl = post.cover?.url ? `${CMS_URL}${post.cover.url}` : null
 
-// Prefix all /api/media/ paths in bodyHtml with CMS_URL so images load correctly
+// Исправляем bodyHtml: картинки и ссылки из Webflow
 const bodyHtml = post.bodyHtml
-  ? post.bodyHtml.replaceAll('src="/api/media/', `src="${CMS_URL}/api/media/`)
+  ? post.bodyHtml
+      .replaceAll('src="/api/media/', `src="${CMS_URL}/api/media/`)
+      .replaceAll('href="https://dvizh.webflow.io/', 'href="/')
+      .replaceAll('href="https://www.dvizh.io/', 'href="/')
   : null
+
+// Основной автор из relation, fallback на текстовое поле
+const primaryAuthor = post.primaryAuthor ?? null
+const authorFallback = post.author ?? null
 ---
 
 <BlogLayout
@@ -56,10 +64,16 @@ const bodyHtml = post.bodyHtml
       <p class="text-xl text-gray-600 mb-6">{post.excerpt}</p>
     )}
 
-    <div class="flex items-center gap-4 text-sm text-gray-500 mb-8">
-      {post.author && <span>{post.author}</span>}
+    <!-- Автор + дата -->
+    <div class="flex items-center gap-4 mb-10">
+      {primaryAuthor ? (
+        <PersonCard person={primaryAuthor} variant="inline" />
+      ) : authorFallback ? (
+        <span class="text-sm text-gray-600">{authorFallback}</span>
+      ) : null}
+
       {post.publishedAt && (
-        <time datetime={post.publishedAt}>
+        <time datetime={post.publishedAt} class="text-sm text-gray-400">
           {new Date(post.publishedAt).toLocaleDateString('ru-RU', {
             day: 'numeric', month: 'long', year: 'numeric',
           })}
@@ -79,5 +93,13 @@ const bodyHtml = post.bodyHtml
       ? <BlockRenderer blocks={post.content} />
       : bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />
     }
+
+    <!-- Автор внизу статьи (полная карточка) -->
+    {primaryAuthor && (
+      <div class="mt-16 pt-8 border-t border-gray-200">
+        <p class="text-xs uppercase tracking-wide text-gray-400 mb-3">Автор</p>
+        <PersonCard person={primaryAuthor} variant="full" />
+      </div>
+    )}
   </article>
 </BlogLayout>

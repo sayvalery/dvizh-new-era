@@ -2,6 +2,8 @@
 import NavBar from '../ui/NavBar.astro'
 import type { NavItem } from '../ui/NavBar.astro'
 
+const isDev = import.meta.env.DEV
+
 const navItems: NavItem[] = [
   {
     label: 'Продукты',
@@ -31,5 +33,6 @@ const navItems: NavItem[] = [
 <NavBar
   logo={{ label: 'ДВИЖ', href: '/' }}
   items={navItems}
+  secondaryLink={isDev ? { label: 'UI Kit', href: '/ui-kit' } : undefined}
   cta={{ label: 'Запросить демо', preset: 'demo' }}
 />

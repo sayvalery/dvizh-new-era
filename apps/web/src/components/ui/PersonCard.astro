@@ -1,0 +1,54 @@
+---
+interface Person {
+  name: string
+  slug?: string
+  photo?: { url: string; alt?: string }
+  jobTitle?: string
+}
+
+interface Props {
+  person: Person
+  variant?: 'full' | 'inline'
+}
+
+const { person, variant = 'full' } = Astro.props
+const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+const photoUrl = person.photo?.url ? `${CMS_URL}${person.photo.url}` : null
+---
+
+{variant === 'inline' ? (
+  <div class="flex items-center gap-2">
+    {photoUrl ? (
+      <img
+        src={photoUrl}
+        alt={person.photo?.alt ?? person.name}
+        class="w-6 h-6 rounded-full object-cover shrink-0"
+      />
+    ) : (
+      <div class="w-6 h-6 rounded-full bg-gray-200 shrink-0 flex items-center justify-center">
+        <span class="text-xs text-gray-500 font-medium">{person.name[0]}</span>
+      </div>
+    )}
+    <span class="text-sm text-gray-700">{person.name}</span>
+  </div>
+) : (
+  <div class="flex items-center gap-3">
+    {photoUrl ? (
+      <img
+        src={photoUrl}
+        alt={person.photo?.alt ?? person.name}
+        class="w-11 h-11 rounded-full object-cover shrink-0"
+      />
+    ) : (
+      <div class="w-11 h-11 rounded-full bg-gray-200 shrink-0 flex items-center justify-center">
+        <span class="text-base text-gray-500 font-medium">{person.name[0]}</span>
+      </div>
+    )}
+    <div>
+      <p class="font-semibold text-sm leading-tight">{person.name}</p>
+      {person.jobTitle && (
+        <p class="text-sm text-gray-500 leading-tight mt-0.5">{person.jobTitle}</p>
+      )}
+    </div>
+  </div>
+)}

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import NavBar from '../../components/ui/NavBar.astro'
+import PersonCard from '../../components/ui/PersonCard.astro'
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -8,6 +9,7 @@ export function getStaticPaths() {
   return [
     { params: { slug: undefined }, props: { section: 'overview' } },
     { params: { slug: 'navigation' }, props: { section: 'navigation' } },
+    { params: { slug: 'persons' }, props: { section: 'persons' } },
     { params: { slug: 'typography' }, props: { section: 'typography' } },
     { params: { slug: 'colors' }, props: { section: 'colors' } },
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
@@ -21,6 +23,7 @@ const { section } = Astro.props
 const sections = [
   { slug: '', label: 'Обзор' },
   { slug: 'navigation', label: 'Навигация' },
+  { slug: 'persons', label: 'Персоны' },
   { slug: 'typography', label: 'Типографика' },
   { slug: 'colors', label: 'Цвета' },
   { slug: 'buttons', label: 'Кнопки' },
@@ -105,6 +108,47 @@ const sections = [
                 />
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'persons' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-6">Персоны</h1>
+          <div class="space-y-10">
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Full — аватар + имя + должность</p>
+              <div class="flex flex-wrap gap-6">
+                <PersonCard person={{ name: 'Иван Азизов', jobTitle: 'CEO, ДВИЖ' }} />
+                <PersonCard person={{ name: 'Анна Смирнова', jobTitle: 'Head of Product' }} />
+                <PersonCard person={{ name: 'Без должности' }} />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Inline — аватар + имя (без подзаголовка)</p>
+              <div class="flex flex-wrap gap-4">
+                <PersonCard person={{ name: 'Иван Азизов', jobTitle: 'CEO' }} variant="inline" />
+                <PersonCard person={{ name: 'Анна Смирнова' }} variant="inline" />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">В контексте статьи — inline в шапке, full внизу</p>
+              <div class="border rounded-xl p-6 max-w-lg space-y-4">
+                <div class="flex items-center gap-4">
+                  <PersonCard person={{ name: 'Иван Азизов' }} variant="inline" />
+                  <span class="text-sm text-gray-400">12 января 2025</span>
+                </div>
+                <p class="text-sm text-gray-600">Текст статьи…</p>
+                <div class="border-t pt-4">
+                  <p class="text-xs uppercase tracking-wide text-gray-400 mb-3">Автор</p>
+                  <PersonCard person={{ name: 'Иван Азизов', jobTitle: 'CEO, ДВИЖ' }} variant="full" />
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       )}
