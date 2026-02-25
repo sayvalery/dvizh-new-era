@@ -17,6 +17,7 @@ export const BlogPosts: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'status', 'publishedAt'],
     preview: (doc) => `${process.env.WEB_URL}/blog/${doc.slug}`,
+    group: 'Контент',
   },
   versions: {
     drafts: true,

@@ -9,6 +9,7 @@ export const Persons: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'jobTitle'],
+    group: 'Контент',
   },
   fields: [
     {

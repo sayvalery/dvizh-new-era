@@ -10,6 +10,7 @@ export const Glossaries: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug'],
     preview: (doc) => `${process.env.WEB_URL}/glossary/${doc.slug}`,
+    group: 'Контент',
   },
   fields: [
     {

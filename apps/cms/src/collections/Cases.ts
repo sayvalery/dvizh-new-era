@@ -13,6 +13,7 @@ export const Cases: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'client', 'status'],
+    group: 'Контент',
   },
   versions: { drafts: true },
   fields: [

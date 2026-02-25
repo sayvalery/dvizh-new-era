@@ -9,6 +9,7 @@ export const Videos: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'publishedAt'],
+    group: 'Контент',
   },
   versions: { drafts: true },
   fields: [

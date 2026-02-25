@@ -9,6 +9,7 @@ export const Companies: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug'],
+    group: 'Контент',
   },
   fields: [
     {

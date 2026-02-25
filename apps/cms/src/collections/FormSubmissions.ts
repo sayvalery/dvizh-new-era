@@ -7,6 +7,7 @@ export const FormSubmissions: CollectionConfig = {
     useAsTitle: 'email',
     defaultColumns: ['email', 'preset', 'createdAt'],
     description: 'Данные из форм на сайте. После сохранения отправляются в n8n/Albato.',
+    group: 'Система',
   },
   access: {
     // Публичный POST для создания, только авторизованные для чтения

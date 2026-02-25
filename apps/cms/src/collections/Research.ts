@@ -12,6 +12,7 @@ export const Research: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'status'],
+    group: 'Контент',
   },
   versions: { drafts: true },
   fields: [

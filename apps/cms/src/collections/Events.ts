@@ -10,6 +10,7 @@ export const Events: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'date'],
     preview: (doc) => `${process.env.WEB_URL}/events/${doc.slug}`,
+    group: 'Контент',
   },
   fields: [
     {
