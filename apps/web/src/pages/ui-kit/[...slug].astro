@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import NavBar from '../../components/ui/NavBar.astro'
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
   if (import.meta.env.PROD) return []
   return [
     { params: { slug: undefined }, props: { section: 'overview' } },
+    { params: { slug: 'navigation' }, props: { section: 'navigation' } },
     { params: { slug: 'typography' }, props: { section: 'typography' } },
     { params: { slug: 'colors' }, props: { section: 'colors' } },
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
@@ -18,6 +20,7 @@ const { section } = Astro.props
 
 const sections = [
   { slug: '', label: 'Обзор' },
+  { slug: 'navigation', label: 'Навигация' },
   { slug: 'typography', label: 'Типографика' },
   { slug: 'colors', label: 'Цвета' },
   { slug: 'buttons', label: 'Кнопки' },
@@ -55,6 +58,53 @@ const sections = [
                 {s.label} →
               </a>
             ))}
+          </div>
+        </div>
+      )}
+
+      {section === 'navigation' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-6">Навигация</h1>
+
+          <div class="space-y-10">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Основной сайт — с дропдаунами</p>
+              <div class="-mx-10 border-y border-gray-200">
+                <NavBar
+                  logo={{ label: 'ДВИЖ', href: '#' }}
+                  items={[
+                    { label: 'Продукты', children: [
+                      { label: 'Электронная регистрация', href: '#', description: 'Цифровая регистрация сделок' },
+                      { label: 'Ипотека', href: '#', description: 'Ипотечный процесс' },
+                      { label: 'QBR', href: '#', description: 'Аналитика и отчёты' },
+                    ]},
+                    { label: 'Решения', children: [
+                      { label: 'Для банков', href: '#' },
+                      { label: 'Для девелоперов', href: '#' },
+                    ]},
+                    { label: 'Блог', href: '#' },
+                    { label: 'О нас', href: '#' },
+                  ]}
+                  cta={{ label: 'Запросить демо', preset: 'demo' }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Блог / ДВИЖ Инсайты — с вторичной ссылкой</p>
+              <div class="-mx-10 border-y border-gray-200">
+                <NavBar
+                  logo={{ label: 'ДВИЖ Инсайты', href: '#' }}
+                  items={[
+                    { label: 'Кейсы', href: '#' },
+                    { label: 'Аналитика', href: '#' },
+                    { label: 'Маркетинг', href: '#' },
+                    { label: 'Правила девелопера', href: '#' },
+                  ]}
+                  secondaryLink={{ label: '← dvizh.io', href: '#' }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}

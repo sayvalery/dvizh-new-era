@@ -1,38 +1,35 @@
 ---
-interface Props {
-  nav: any
-}
+import NavBar from '../ui/NavBar.astro'
+import type { NavItem } from '../ui/NavBar.astro'
 
-const { nav } = Astro.props
-const items = nav?.items ?? []
+const navItems: NavItem[] = [
+  {
+    label: 'Продукты',
+    children: [
+      { label: 'Электронная регистрация', href: '/elektronnaya-registraciya', description: 'Цифровая регистрация сделок' },
+      { label: 'Ипотека', href: '/ipoteka', description: 'Ипотечный процесс от заявки до выдачи' },
+      { label: 'Ипотечный калькулятор', href: '/ipotechnyy-kalkulyator', description: 'Интеграция в сайт и CRM' },
+      { label: 'QBR', href: '/qbr', description: 'Аналитика и бизнес-отчёты' },
+      { label: 'Личный кабинет', href: '/lichnyy-kabinet', description: 'Кабинет клиента для ведения сделок' },
+      { label: 'Витрина', href: '/vitrina', description: 'Витрина объектов недвижимости' },
+      { label: 'Скоринг', href: '/scoring', description: 'Оценка кредитоспособности' },
+    ],
+  },
+  {
+    label: 'Решения',
+    children: [
+      { label: 'Для банков', href: '/banki', description: 'Ипотечные и розничные банки' },
+      { label: 'Для девелоперов', href: '/developers', description: 'Автоматизация продаж и сделок' },
+      { label: 'Для агентств недвижимости', href: '/agentstva-nedvizhimosti', description: 'Платформа для риелторов' },
+    ],
+  },
+  { label: 'Блог', href: '/blog' },
+  { label: 'О нас', href: '/about' },
+]
 ---
 
-<header class="border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="/" class="font-bold text-xl">Dvizh</a>
-    <nav class="hidden md:flex items-center gap-6">
-      {items.map((item: any) => (
-        <div class="relative group">
-          <a href={item.href} class="text-sm hover:text-gray-600">
-            {item.label}
-          </a>
-          {item.children?.length > 0 && (
-            <div class="absolute top-full left-0 bg-white border border-gray-200 shadow-md hidden group-hover:block min-w-48 z-10">
-              {item.children.map((child: any) => (
-                <a href={child.href} class="block px-4 py-2 text-sm hover:bg-gray-50">
-                  {child.label}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-    </nav>
-    <button
-      class="text-sm font-medium bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
-      data-sidebar-form={nav?.ctaFormPreset ?? 'demo'}
-    >
-      {nav?.ctaText ?? 'Запросить демо'}
-    </button>
-  </div>
-</header>
+<NavBar
+  logo={{ label: 'ДВИЖ', href: '/' }}
+  items={navItems}
+  cta={{ label: 'Запросить демо', preset: 'demo' }}
+/>

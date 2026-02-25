@@ -1,22 +1,22 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import Form from '../components/ui/Form.astro'
 ---
 
 <SiteLayout
-  title="Dvizh — цифровые решения для рынка недвижимости"
-  description="Ипотека, регистрация, скоринг и другие продукты для банков, девелоперов и агентств"
+  title="ДВИЖ — цифровые продукты для рынка недвижимости"
+  description="Ипотека, регистрация, скоринг и другие решения для банков, девелоперов и агентств"
 >
   <!-- Hero -->
-  <section class="max-w-7xl mx-auto px-4 py-20">
+  <section class="max-w-7xl mx-auto px-4 py-24">
     <h1 class="text-5xl font-bold tracking-tight mb-6">
-      Dvizh
+      Цифровые продукты<br />для рынка недвижимости
     </h1>
-    <p class="text-xl text-gray-600 max-w-2xl mb-8">
-      Цифровые продукты для рынка недвижимости. Ипотека, регистрация, скоринг и аналитика.
+    <p class="text-xl text-gray-600 max-w-2xl mb-10">
+      Помогаем банкам, девелоперам и агентствам автоматизировать ипотеку,
+      регистрацию сделок и продажи недвижимости.
     </p>
     <button
-      class="bg-black text-white px-6 py-3 rounded font-medium hover:bg-gray-800"
+      class="bg-black text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
       data-sidebar-form="demo"
     >
       Запросить демо
@@ -24,20 +24,37 @@ import Form from '../components/ui/Form.astro'
   </section>
 
   <!-- Продукты -->
-  <section class="max-w-7xl mx-auto px-4 py-16 border-t">
+  <section class="max-w-7xl mx-auto px-4 py-16 border-t border-gray-100">
     <h2 class="text-2xl font-bold mb-8">Продукты</h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       {[
-        { title: 'Ипотека', href: '/products/ipoteka' },
-        { title: 'Регистрация', href: '/products/registratsiya' },
-        { title: 'Скоринг', href: '/products/skoring' },
-        { title: 'Калькулятор', href: '/products/kalkulyator' },
-        { title: 'Личный кабинет', href: '/products/lichnyy-kabinet' },
-        { title: 'Витрина', href: '/products/vitrina' },
-        { title: 'Бизнес-ревью', href: '/products/biznes-revyu' },
+        { title: 'Электронная регистрация', href: '/elektronnaya-registraciya' },
+        { title: 'Ипотека', href: '/ipoteka' },
+        { title: 'Ипотечный калькулятор', href: '/ipotechnyy-kalkulyator' },
+        { title: 'QBR', href: '/qbr' },
+        { title: 'Личный кабинет', href: '/lichnyy-kabinet' },
+        { title: 'Витрина', href: '/vitrina' },
+        { title: 'Скоринг', href: '/scoring' },
       ].map(p => (
-        <a href={p.href} class="p-4 border rounded-lg hover:bg-gray-50">
-          <h3 class="font-medium">{p.title}</h3>
+        <a href={p.href} class="p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
+          <h3 class="font-medium text-sm">{p.title}</h3>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Решения -->
+  <section class="max-w-7xl mx-auto px-4 py-16 border-t border-gray-100">
+    <h2 class="text-2xl font-bold mb-8">Решения</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {[
+        { title: 'Для банков', href: '/banki', description: 'Комплексные решения для ипотечных и розничных банков' },
+        { title: 'Для девелоперов', href: '/developers', description: 'Автоматизация продаж и оформления сделок' },
+        { title: 'Для агентств недвижимости', href: '/agentstva-nedvizhimosti', description: 'Платформа для риелторов и агентств' },
+      ].map(s => (
+        <a href={s.href} class="p-6 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
+          <h3 class="font-semibold mb-1">{s.title}</h3>
+          <p class="text-sm text-gray-600">{s.description}</p>
         </a>
       ))}
     </div>
