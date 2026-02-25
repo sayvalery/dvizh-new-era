@@ -31,6 +31,11 @@ export default buildConfig({
     meta: {
       titleSuffix: '— Dvizh CMS',
     },
+    components: {
+      graphics: {
+        Icon: '/src/graphics/Icon',
+      },
+    },
   },
   collections: [
     Users,
@@ -61,6 +66,8 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || 'postgresql://dvizh:dvizh@localhost:5432/dvizh',
     },
   }),
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore — sharp types incompatible with Payload's SharpDependency, works at runtime
   sharp,
   cors: [
     process.env.WEB_URL || 'http://localhost:4321',
