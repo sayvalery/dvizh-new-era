@@ -5,18 +5,20 @@ import sharp from 'sharp'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import { Users } from './collections/Users'
-import { Media } from './collections/Media'
+// Контент
+import { BlogPosts } from './collections/BlogPosts'
 import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
-import { Companies } from './collections/Companies'
 import { Persons } from './collections/Persons'
-import { BlogPosts } from './collections/BlogPosts'
+import { Companies } from './collections/Companies'
 import { Videos } from './collections/Videos'
 import { Research } from './collections/Research'
 import { Cases } from './collections/Cases'
 import { Glossaries } from './collections/Glossaries'
 import { Events } from './collections/Events'
+import { Media } from './collections/Media'
+// Система
+import { Users } from './collections/Users'
 import { FormSubmissions } from './collections/FormSubmissions'
 import { Navigation } from './globals/Navigation'
 import { Footer } from './globals/Footer'
@@ -38,18 +40,20 @@ export default buildConfig({
     },
   },
   collections: [
-    Users,
-    Media,
+    // Контент
+    BlogPosts,
     Categories,
     Tags,
-    Companies,
     Persons,
-    BlogPosts,
+    Companies,
     Videos,
     Research,
     Cases,
     Glossaries,
     Events,
+    Media,
+    // Система
+    Users,
     FormSubmissions,
   ],
   globals: [
