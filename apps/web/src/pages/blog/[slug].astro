@@ -4,8 +4,15 @@ import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
 import { getBlogPosts, getBlogPost } from '../../lib/payload'
 
 export async function getStaticPaths() {
-  const { docs } = await getBlogPosts({ limit: 100 })
-  return docs.map((post: any) => ({
+  const allDocs: any[] = []
+  let page = 1
+  while (true) {
+    const { docs, hasNextPage } = await getBlogPosts({ limit: 100, page })
+    allDocs.push(...docs)
+    if (!hasNextPage) break
+    page++
+  }
+  return allDocs.map((post: any) => ({
     params: { slug: post.slug },
   }))
 }
@@ -17,6 +24,11 @@ if (!post) return Astro.redirect('/404')
 
 const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
 const coverUrl = post.cover?.url ? `${CMS_URL}${post.cover.url}` : null
+
+// Prefix all /api/media/ paths in bodyHtml with CMS_URL so images load correctly
+const bodyHtml = post.bodyHtml
+  ? post.bodyHtml.replaceAll('src="/api/media/', `src="${CMS_URL}/api/media/`)
+  : null
 ---
 
 <BaseLayout
@@ -31,7 +43,7 @@ const coverUrl = post.cover?.url ? `${CMS_URL}${post.cover.url}` : null
       {post.category?.title && (
         <>
           <span class="mx-2">›</span>
-          <a href={`/blog/category/${post.category.slug}`} class="hover:underline">
+          <a href={`/category/${post.category.slug}`} class="hover:underline">
             {post.category.title}
           </a>
         </>
@@ -63,6 +75,9 @@ const coverUrl = post.cover?.url ? `${CMS_URL}${post.cover.url}` : null
       />
     )}
 
-    <BlockRenderer blocks={post.content ?? []} />
+    {post.content?.length > 0
+      ? <BlockRenderer blocks={post.content} />
+      : bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />
+    }
   </article>
 </BaseLayout>

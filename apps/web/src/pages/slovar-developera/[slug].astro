@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
+import { getGlossaries, getGlossaryItem } from '../../lib/payload'
+
+export async function getStaticPaths() {
+  const allDocs: any[] = []
+  let page = 1
+  while (true) {
+    const result = await getGlossaries({ limit: 100, page })
+    allDocs.push(...result.docs)
+    if (!result.hasNextPage) break
+    page++
+  }
+  return allDocs.map((item: any) => ({
+    params: { slug: item.slug },
+  }))
+}
+
+const { slug } = Astro.params
+const item = await getGlossaryItem(slug!)
+
+if (!item) return Astro.redirect('/slovar-developera')
+
+const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+const bodyHtml = item.bodyHtml
+  ? item.bodyHtml.replaceAll('src="/api/media/', `src="${CMS_URL}/api/media/`)
+  : null
+---
+
+<BaseLayout
+  title={item.meta?.title ?? item.title}
+  description={item.meta?.description ?? item.excerpt}
+>
+  <article class="max-w-3xl mx-auto px-4 py-16">
+    <nav class="text-sm text-gray-500 mb-6">
+      <a href="/slovar-developera" class="hover:underline">Словарь девелопера</a>
+    </nav>
+
+    <h1 class="text-4xl font-bold mb-4">{item.title}</h1>
+
+    {item.excerpt && (
+      <p class="text-xl text-gray-600 mb-8">{item.excerpt}</p>
+    )}
+
+    {item.content?.length > 0
+      ? <BlockRenderer blocks={item.content} />
+      : bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />
+    }
+  </article>
+</BaseLayout>

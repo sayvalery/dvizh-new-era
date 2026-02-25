@@ -20,7 +20,7 @@ const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
         </a>
         {categories.map((cat: any) => (
           <a
-            href={`/blog/category/${cat.slug}`}
+            href={`/category/${cat.slug}`}
             class="px-3 py-1 rounded-full border text-sm hover:bg-gray-100"
           >
             {cat.title}

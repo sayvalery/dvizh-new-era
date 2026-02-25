@@ -1,6 +1,6 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro'
-import { getCategories, getBlogPosts } from '../../../lib/payload'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getCategories, getBlogPosts } from '../../lib/payload'
 
 export async function getStaticPaths() {
   const { docs: categories } = await getCategories()

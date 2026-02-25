@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getGlossaries } from '../../lib/payload'
+
+const allDocs: any[] = []
+let page = 1
+while (true) {
+  const result = await getGlossaries({ limit: 100, page })
+  allDocs.push(...result.docs)
+  if (!result.hasNextPage) break
+  page++
+}
+
+// Group by first letter
+const grouped: Record<string, any[]> = {}
+for (const item of allDocs) {
+  const letter = (item.title || '?')[0].toUpperCase()
+  ;(grouped[letter] ??= []).push(item)
+}
+const letters = Object.keys(grouped).sort()
+---
+
+<BaseLayout title="Словарь девелопера — ДВИЖ" description="Термины и понятия рынка недвижимости и ипотеки">
+  <div class="max-w-5xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-4">Словарь девелопера</h1>
+    <p class="text-xl text-gray-600 mb-10">Термины и понятия рынка недвижимости и ипотеки.</p>
+
+    <!-- Алфавитный указатель -->
+    <div class="flex flex-wrap gap-2 mb-10">
+      {letters.map(letter => (
+        <a href={`#letter-${letter}`} class="px-3 py-1 border rounded text-sm hover:bg-gray-100">
+          {letter}
+        </a>
+      ))}
+    </div>
+
+    <!-- Список по буквам -->
+    {letters.map(letter => (
+      <section id={`letter-${letter}`} class="mb-10">
+        <h2 class="text-2xl font-bold mb-4 border-b pb-2">{letter}</h2>
+        <ul class="space-y-2">
+          {grouped[letter].map((item: any) => (
+            <li>
+              <a href={`/slovar-developera/${item.slug}`} class="text-blue-700 hover:underline font-medium">
+                {item.title}
+              </a>
+              {item.excerpt && (
+                <span class="text-gray-600 text-sm ml-2">— {item.excerpt}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

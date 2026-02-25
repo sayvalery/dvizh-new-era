@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Form from '../components/ui/Form.astro'
+---
+
+<BaseLayout title="Скоринг — ДВИЖ">
+  <div class="max-w-5xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-4">Скоринг</h1>
+    <p class="text-xl text-gray-600 mb-12">Автоматическая оценка кредитоспособности заёмщиков.</p>
+
+    <div class="prose max-w-none mb-12">
+      <p>Контент страницы наполняется командой дизайна.</p>
+    </div>
+
+    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
+      <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
+      <Form preset="demo" />
+    </div>
+  </div>
+</BaseLayout>

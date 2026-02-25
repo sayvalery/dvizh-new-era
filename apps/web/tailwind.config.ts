@@ -9,5 +9,5 @@ export default {
       // fontFamily: { sans: [...] },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 } satisfies Config
