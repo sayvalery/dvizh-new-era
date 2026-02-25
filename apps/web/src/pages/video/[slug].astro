@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
 import { getVideos, getVideo } from '../../lib/payload'
 
 export async function getStaticPaths() {
@@ -16,7 +16,7 @@ const typeLabels: Record<string, string> = {
 }
 ---
 
-<BaseLayout title={video.meta?.title ?? video.title} description={video.meta?.description ?? video.description}>
+<SiteLayout title={video.meta?.title ?? video.title} description={video.meta?.description ?? video.description}>
   <div class="max-w-4xl mx-auto px-4 py-16">
     <nav class="text-sm text-gray-500 mb-6">
       <a href="/video" class="hover:underline">Видео</a>
@@ -38,4 +38,4 @@ const typeLabels: Record<string, string> = {
       </div>
     )}
   </div>
-</BaseLayout>
+</SiteLayout>

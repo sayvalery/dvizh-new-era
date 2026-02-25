@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import BlogLayout from '../../layouts/BlogLayout.astro'
 import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
 import { getBlogPosts, getBlogPost } from '../../lib/payload'
 
@@ -31,7 +31,7 @@ const bodyHtml = post.bodyHtml
   : null
 ---
 
-<BaseLayout
+<BlogLayout
   title={post.meta?.title ?? post.title}
   description={post.meta?.description ?? post.excerpt}
   ogImage={post.meta?.image?.url ? `${CMS_URL}${post.meta.image.url}` : undefined}
@@ -80,4 +80,4 @@ const bodyHtml = post.bodyHtml
       : bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />
     }
   </article>
-</BaseLayout>
+</BlogLayout>

@@ -1,11 +1,11 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
 import { getCases } from '../../lib/payload'
 
 const { docs: cases } = await getCases()
 ---
 
-<BaseLayout title="Кейсы">
+<SiteLayout title="Кейсы">
   <div class="max-w-7xl mx-auto px-4 py-16">
     <h1 class="text-4xl font-bold mb-10">Кейсы</h1>
 
@@ -23,4 +23,4 @@ const { docs: cases } = await getCases()
       </div>
     )}
   </div>
-</BaseLayout>
+</SiteLayout>

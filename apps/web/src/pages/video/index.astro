@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
 import { getVideos } from '../../lib/payload'
 
 const { docs: videos } = await getVideos()
@@ -12,7 +12,7 @@ const typeLabels: Record<string, string> = {
 }
 ---
 
-<BaseLayout title="Видео">
+<SiteLayout title="Видео">
   <div class="max-w-7xl mx-auto px-4 py-16">
     <h1 class="text-4xl font-bold mb-10">Видео</h1>
 
@@ -38,4 +38,4 @@ const typeLabels: Record<string, string> = {
       </div>
     )}
   </div>
-</BaseLayout>
+</SiteLayout>

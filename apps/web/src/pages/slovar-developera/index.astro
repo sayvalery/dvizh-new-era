@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import BlogLayout from '../../layouts/BlogLayout.astro'
 import { getGlossaries } from '../../lib/payload'
 
 const allDocs: any[] = []
@@ -20,7 +20,7 @@ for (const item of allDocs) {
 const letters = Object.keys(grouped).sort()
 ---
 
-<BaseLayout title="Словарь девелопера — ДВИЖ" description="Термины и понятия рынка недвижимости и ипотеки">
+<BlogLayout title="Словарь девелопера — ДВИЖ" description="Термины и понятия рынка недвижимости и ипотеки">
   <div class="max-w-5xl mx-auto px-4 py-16">
     <h1 class="text-4xl font-bold mb-4">Словарь девелопера</h1>
     <p class="text-xl text-gray-600 mb-10">Термины и понятия рынка недвижимости и ипотеки.</p>
@@ -53,4 +53,4 @@ const letters = Object.keys(grouped).sort()
       </section>
     ))}
   </div>
-</BaseLayout>
+</BlogLayout>

@@ -1,8 +1,5 @@
 ---
 import '../styles/global.css'
-import Header from '../components/layout/Header.astro'
-import Footer from '../components/layout/Footer.astro'
-import { getNavigation, getFooter } from '../lib/payload'
 
 interface Props {
   title?: string
@@ -11,11 +8,7 @@ interface Props {
 }
 
 const { title, description, ogImage } = Astro.props
-
-const nav = await getNavigation().catch(() => null)
-const footer = await getFooter().catch(() => null)
-
-const siteTitle = title ? `${title} — Dvizh` : 'Dvizh'
+const siteTitle = title ? `${title} — ДВИЖ` : 'ДВИЖ'
 ---
 
 <!doctype html>
@@ -23,15 +16,11 @@ const siteTitle = title ? `${title} — Dvizh` : 'Dvizh'
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description ?? ''} />
+    {description && <meta name="description" content={description} />}
     {ogImage && <meta property="og:image" content={ogImage} />}
     <title>{siteTitle}</title>
   </head>
   <body class="min-h-screen flex flex-col">
-    <Header nav={nav} />
-    <main class="flex-1">
-      <slot />
-    </main>
-    <Footer footer={footer} />
+    <slot />
   </body>
 </html>

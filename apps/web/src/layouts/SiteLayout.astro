@@ -1,0 +1,23 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import Header from '../components/layout/Header.astro'
+import Footer from '../components/layout/Footer.astro'
+import { getNavigation, getFooter } from '../lib/payload'
+
+interface Props {
+  title?: string
+  description?: string
+  ogImage?: string
+}
+
+const nav = await getNavigation().catch(() => null)
+const footer = await getFooter().catch(() => null)
+---
+
+<BaseLayout {...Astro.props}>
+  <Header nav={nav} />
+  <main class="flex-1">
+    <slot />
+  </main>
+  <Footer footer={footer} />
+</BaseLayout>

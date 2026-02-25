@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+// В продакшн-билде страница не генерируется
+export function getStaticPaths() {
+  if (import.meta.env.PROD) return []
+  return [
+    { params: { slug: undefined }, props: { section: 'overview' } },
+    { params: { slug: 'typography' }, props: { section: 'typography' } },
+    { params: { slug: 'colors' }, props: { section: 'colors' } },
+    { params: { slug: 'buttons' }, props: { section: 'buttons' } },
+    { params: { slug: 'forms' }, props: { section: 'forms' } },
+    { params: { slug: 'cards' }, props: { section: 'cards' } },
+  ]
+}
+
+const { section } = Astro.props
+
+const sections = [
+  { slug: '', label: 'Обзор' },
+  { slug: 'typography', label: 'Типографика' },
+  { slug: 'colors', label: 'Цвета' },
+  { slug: 'buttons', label: 'Кнопки' },
+  { slug: 'forms', label: 'Формы' },
+  { slug: 'cards', label: 'Карточки' },
+]
+---
+
+<BaseLayout title={`UI Kit — ${section}`}>
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-56 border-r border-gray-200 px-4 py-8 shrink-0">
+      <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">UI Kit</p>
+      <nav class="space-y-1">
+        {sections.map(s => (
+          <a
+            href={s.slug ? `/ui-kit/${s.slug}` : '/ui-kit'}
+            class={`block px-3 py-1.5 rounded text-sm ${section === (s.slug || 'overview') ? 'bg-gray-100 font-medium' : 'text-gray-600 hover:text-gray-900'}`}
+          >
+            {s.label}
+          </a>
+        ))}
+      </nav>
+    </aside>
+
+    <!-- Content -->
+    <main class="flex-1 px-10 py-8">
+      {section === 'overview' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-2">UI Kit</h1>
+          <p class="text-gray-600 mb-8">Компоненты и токены дизайн-системы ДВИЖ. Доступно только в dev-режиме.</p>
+          <div class="grid grid-cols-2 gap-4 max-w-lg">
+            {sections.slice(1).map(s => (
+              <a href={`/ui-kit/${s.slug}`} class="p-4 border rounded-xl hover:bg-gray-50 text-sm font-medium">
+                {s.label} →
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {section === 'typography' && (
+        <div class="space-y-8">
+          <h1 class="text-3xl font-bold mb-6">Типографика</h1>
+          <div class="space-y-4">
+            <div><span class="text-xs text-gray-400 block mb-1">text-5xl font-bold</span><p class="text-5xl font-bold">Заголовок H1</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-4xl font-bold</span><p class="text-4xl font-bold">Заголовок H2</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-3xl font-semibold</span><p class="text-3xl font-semibold">Заголовок H3</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-xl</span><p class="text-xl">Подзаголовок / лид-текст</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-base</span><p class="text-base">Основной текст. Движ помогает банкам и девелоперам автоматизировать ипотечный процесс.</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-sm text-gray-600</span><p class="text-sm text-gray-600">Вспомогательный текст, подписи, метаданные</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-xs uppercase tracking-wide</span><p class="text-xs uppercase tracking-wide text-gray-400">Метка / Теги</p></div>
+          </div>
+        </div>
+      )}
+
+      {section === 'colors' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-6">Цвета</h1>
+          <div class="space-y-6">
+            <div>
+              <p class="text-sm font-medium mb-3">Основные</p>
+              <div class="flex gap-3">
+                <div class="w-16 h-16 bg-black rounded-lg"></div>
+                <div class="w-16 h-16 bg-white border rounded-lg"></div>
+                <div class="w-16 h-16 bg-gray-100 rounded-lg"></div>
+                <div class="w-16 h-16 bg-gray-200 rounded-lg"></div>
+                <div class="w-16 h-16 bg-gray-500 rounded-lg"></div>
+                <div class="w-16 h-16 bg-gray-900 rounded-lg"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'buttons' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-6">Кнопки</h1>
+          <div class="space-y-8">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Primary</p>
+              <div class="flex gap-3 items-center">
+                <button class="bg-black text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-800">Запросить демо</button>
+                <button class="bg-black text-white px-4 py-2 rounded text-sm font-medium hover:bg-gray-800">Малый</button>
+                <button class="bg-black text-white px-8 py-4 rounded-xl font-medium hover:bg-gray-800">Большой</button>
+              </div>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Secondary</p>
+              <div class="flex gap-3 items-center">
+                <button class="border border-gray-900 text-gray-900 px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-50">Узнать больше</button>
+                <button class="border border-gray-300 text-gray-600 px-4 py-2 rounded text-sm hover:bg-gray-50">Отмена</button>
+              </div>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Ghost / Link</p>
+              <div class="flex gap-3 items-center">
+                <button class="text-gray-900 text-sm font-medium underline underline-offset-2">Подробнее →</button>
+                <button class="text-gray-500 text-sm hover:text-gray-900">← Назад</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'forms' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-6">Формы</h1>
+          <div class="max-w-md space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-1.5">Имя</label>
+              <input type="text" placeholder="Иван Иванов" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5">Email</label>
+              <input type="email" placeholder="ivan@company.ru" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5">Телефон</label>
+              <input type="tel" placeholder="+7 (999) 000-00-00" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900" />
+            </div>
+            <button class="w-full bg-black text-white py-3 rounded-lg font-medium text-sm hover:bg-gray-800">Отправить</button>
+          </div>
+        </div>
+      )}
+
+      {section === 'cards' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-6">Карточки</h1>
+          <div class="grid grid-cols-2 gap-6 max-w-2xl">
+            <div class="border rounded-xl p-6 hover:shadow-md transition-shadow">
+              <h3 class="font-semibold mb-2">Карточка продукта</h3>
+              <p class="text-sm text-gray-600">Описание продукта в одну-две строки.</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6">
+              <h3 class="font-semibold mb-2">Карточка на фоне</h3>
+              <p class="text-sm text-gray-600">Вариант с серым фоном.</p>
+            </div>
+            <div class="border rounded-xl overflow-hidden hover:shadow-md transition-shadow col-span-2">
+              <div class="bg-gray-100 h-40 w-full"></div>
+              <div class="p-5">
+                <span class="text-xs text-gray-400 uppercase tracking-wide">Категория</span>
+                <h3 class="font-semibold mt-1">Карточка статьи с обложкой</h3>
+                <p class="text-sm text-gray-600 mt-1 line-clamp-2">Описание статьи в две строки. Ещё немного текста для примера.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
+  </div>
+</BaseLayout>

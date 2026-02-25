@@ -1,12 +1,12 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import SiteLayout from '../../layouts/SiteLayout.astro'
 import Form from '../../components/ui/Form.astro'
 import { getResearch } from '../../lib/payload'
 
 const { docs: items } = await getResearch()
 ---
 
-<BaseLayout title="Исследования">
+<SiteLayout title="Исследования">
   <div class="max-w-7xl mx-auto px-4 py-16">
     <h1 class="text-4xl font-bold mb-10">Исследования</h1>
 
@@ -29,4 +29,4 @@ const { docs: items } = await getResearch()
       <Form preset="research" />
     </div>
   </div>
-</BaseLayout>
+</SiteLayout>
