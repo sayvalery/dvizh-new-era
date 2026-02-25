@@ -1,4 +1,20 @@
 ---
+/**
+ * CTABlock — CTA-баннер внутри статьи
+ *
+ * Тёмный баннер с заголовком, описанием и кнопкой.
+ * Кнопка может открывать дровер с формой или вести по ссылке.
+ *
+ * CMS-поля (блок 'cta' в BlogPosts → content):
+ *   heading      → текст заголовка (обязательно)
+ *   description  → текст под заголовком
+ *   buttonText   → текст кнопки (обязательно)
+ *   buttonAction → 'sidebarForm' | 'link'
+ *   formPreset   → 'lead' | 'subscribe' | 'demo' | 'research' (если buttonAction = sidebarForm)
+ *   link         → URL (если buttonAction = link)
+ *
+ * Рендерится через BlockRenderer.astro при blockType === 'cta'.
+ */
 interface Props {
   block: any
 }
@@ -19,8 +35,9 @@ const { block } = Astro.props
     </a>
   ) : (
     <button
+      x-data
+      @click={`$dispatch('open-drawer', { preset: '${block.formPreset ?? 'lead'}' })`}
       class="inline-block bg-white text-black px-5 py-2 rounded font-medium text-sm hover:bg-gray-100"
-      data-sidebar-form={block.formPreset ?? 'lead'}
     >
       {block.buttonText}
     </button>

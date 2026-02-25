@@ -1,4 +1,16 @@
 ---
+/**
+ * FormBlock — форма внутри статьи
+ *
+ * Отображает один из пресетов Form на сером фоне.
+ *
+ * CMS-поля (блок 'form' в BlogPosts → content):
+ *   preset      → 'lead' | 'subscribe' | 'demo' | 'research' (обязательно)
+ *   title       → заголовок над формой
+ *   description → описание под заголовком
+ *
+ * Рендерится через BlockRenderer.astro при blockType === 'form'.
+ */
 import Form from '../ui/Form.astro'
 
 interface Props {

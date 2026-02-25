@@ -1,4 +1,17 @@
 ---
+/**
+ * QuoteBlock — цитата внутри статьи
+ *
+ * Оформлена как blockquote с чёрной боковой полосой.
+ *
+ * CMS-поля (блок 'quote' в BlogPosts → content):
+ *   text    → текст цитаты (обязательно)
+ *   author  → имя автора
+ *   company → название компании
+ *   photo   → upload (Media). photo.url — абсолютный URL
+ *
+ * Рендерится через BlockRenderer.astro при blockType === 'quote'.
+ */
 interface Props {
   block: any
 }

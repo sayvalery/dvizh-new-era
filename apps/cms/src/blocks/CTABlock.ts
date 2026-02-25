@@ -36,7 +36,7 @@ export const CTABlock: Block = {
       name: 'formPreset',
       type: 'select',
       label: 'Пресет формы',
-      admin: { condition: (data) => data.buttonAction === 'sidebarForm' },
+      admin: { condition: (_data, siblingData) => siblingData?.buttonAction === 'sidebarForm' },
       options: [
         { label: 'Лид', value: 'lead' },
         { label: 'Подписка', value: 'subscribe' },
@@ -48,7 +48,7 @@ export const CTABlock: Block = {
       name: 'link',
       type: 'text',
       label: 'Ссылка',
-      admin: { condition: (data) => data.buttonAction === 'link' },
+      admin: { condition: (_data, siblingData) => siblingData?.buttonAction === 'link' },
     },
   ],
 }

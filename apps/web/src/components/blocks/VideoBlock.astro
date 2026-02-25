@@ -1,4 +1,19 @@
 ---
+/**
+ * VideoBlock — видео внутри статьи (YouTube или Vimeo)
+ *
+ * Автоматически конвертирует URL в embed-ссылку.
+ * Поддерживаемые форматы:
+ *   youtube.com/watch?v=... → https://www.youtube.com/embed/...
+ *   youtu.be/...            → https://www.youtube.com/embed/...
+ *   vimeo.com/...           → https://player.vimeo.com/video/...
+ *
+ * CMS-поля (блок 'video' в BlogPosts → content):
+ *   url     → URL видео (обязательно)
+ *   caption → подпись под видео
+ *
+ * Рендерится через BlockRenderer.astro при blockType === 'video'.
+ */
 interface Props {
   block: any
 }

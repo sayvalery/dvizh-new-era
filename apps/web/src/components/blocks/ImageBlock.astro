@@ -1,4 +1,14 @@
 ---
+/**
+ * ImageBlock — изображение с подписью внутри статьи
+ *
+ * CMS-поля (блок 'image' в BlogPosts → content):
+ *   image   → upload (Media). image.url — абсолютный URL (Payload serverURL включён)
+ *   caption → подпись под картинкой
+ *   alt     → alt-текст (если не задан — берётся из image.alt или caption)
+ *
+ * Рендерится через BlockRenderer.astro при blockType === 'image'.
+ */
 interface Props {
   block: any
 }

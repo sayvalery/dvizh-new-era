@@ -1,4 +1,19 @@
 ---
+/**
+ * PersonCard — карточка персоны
+ *
+ * Варианты:
+ *   full   (по умолчанию) — аватар 44px + имя + должность + компания. Для раздела авторов.
+ *   inline                — аватар 24px + имя. Для строки метаданных статьи.
+ *
+ * Примеры:
+ *   <PersonCard person={primaryAuthor} variant="inline" />   // в шапке статьи
+ *   <PersonCard person={author} variant="full" />            // в блоке авторов внизу
+ *
+ * person.slug  → кликабельная ссылка на /persons/[slug]
+ * person.company.slug → ссылка на /companies/[slug]
+ * person.photo.url    → абсолютный URL (Payload serverURL уже включён, не добавлять CMS_URL)
+ */
 interface Company {
   name: string
   slug?: string

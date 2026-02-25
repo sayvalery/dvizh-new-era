@@ -1,4 +1,27 @@
 ---
+/**
+ * NavBar — навигационная шапка
+ *
+ * Используется в:
+ *   Header.astro    → основной сайт (лого слева, пункты меню, CTA справа)
+ *   BlogLayout.astro → ДВИЖ Инсайты (только лого + secondaryLink "← dvizh.io")
+ *
+ * Props:
+ *   logo          → { label, href }
+ *   items         → пункты меню. children[] = выпадающий список (CSS hover, десктоп)
+ *   secondaryLink → ссылка слева от CTA (напр. "← dvizh.io" или "UI Kit")
+ *   cta           → кнопка справа. preset определяет какую форму откроет дровер.
+ *
+ * Пример (основной сайт):
+ *   <NavBar
+ *     logo={{ label: 'ДВИЖ', href: '/' }}
+ *     items={[{ label: 'Продукты', children: [...] }]}
+ *     cta={{ label: 'Запросить демо', preset: 'demo' }}
+ *   />
+ *
+ * CTA кнопка диспатчит 'open-drawer' через Alpine — дровер подхватывает в SiteLayout.
+ * Мобильное меню управляется Alpine x-data="{ mobileOpen: false }" на header.
+ */
 export interface NavChild {
   label: string
   href: string
@@ -87,7 +110,7 @@ const { logo, items = [], secondaryLink, cta } = Astro.props
       {cta && (
         <button
           class="text-sm font-medium bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-          data-sidebar-form={cta.preset ?? 'demo'}
+          @click={`$dispatch('open-drawer', { preset: '${cta.preset ?? 'demo'}' })`}
         >
           {cta.label}
         </button>
@@ -186,7 +209,7 @@ const { logo, items = [], secondaryLink, cta } = Astro.props
           {cta && (
             <button
               class="w-full text-sm font-medium bg-black text-white px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
-              data-sidebar-form={cta.preset ?? 'demo'}
+              @click={`$dispatch('open-drawer', { preset: '${cta.preset ?? 'demo'}' })`}
               @click="mobileOpen = false"
             >
               {cta.label}

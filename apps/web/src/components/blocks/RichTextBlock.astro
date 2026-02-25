@@ -1,7 +1,22 @@
 ---
-// Payload Lexical отдает контент в формате EditorState JSON.
-// Для MVP используем простой сериализатор.
-// В продакшене подключить @payloadcms/richtext-lexical/react или свой сериализатор.
+/**
+ * RichTextBlock — форматированный текст (Payload Lexical)
+ *
+ * Сериализует Payload Lexical EditorState в HTML.
+ * Поддерживаемые типы узлов: paragraph, heading (h1–h6),
+ * list (bullet/ordered), listitem, quote, link.
+ * Форматирование: bold (format & 1), italic (format & 2), underline (format & 8).
+ *
+ * Применяет классы Tailwind Typography: prose prose-gray max-w-none.
+ *
+ * CMS-поля (блок 'richText' в BlogPosts → content):
+ *   content → Lexical EditorState JSON (Rich Text поле Payload)
+ *
+ * Рендерится через BlockRenderer.astro при blockType === 'richText'.
+ *
+ * Примечание: для продакшена рассмотреть @payloadcms/richtext-lexical/react
+ * или официальный HTML-сериализатор от Payload.
+ */
 interface Props {
   block: any
 }

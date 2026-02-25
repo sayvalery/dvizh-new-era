@@ -2,6 +2,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import NavBar from '../../components/ui/NavBar.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
+import Form from '../../components/ui/Form.astro'
+import Drawer from '../../components/ui/Drawer.astro'
+import CTABlock from '../../components/blocks/CTABlock.astro'
+import ImageBlock from '../../components/blocks/ImageBlock.astro'
+import VideoBlock from '../../components/blocks/VideoBlock.astro'
+import QuoteBlock from '../../components/blocks/QuoteBlock.astro'
+import FormBlock from '../../components/blocks/FormBlock.astro'
+import RichTextBlock from '../../components/blocks/RichTextBlock.astro'
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -15,6 +23,8 @@ export function getStaticPaths() {
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
     { params: { slug: 'forms' }, props: { section: 'forms' } },
     { params: { slug: 'cards' }, props: { section: 'cards' } },
+    { params: { slug: 'drawer' }, props: { section: 'drawer' } },
+    { params: { slug: 'blocks' }, props: { section: 'blocks' } },
   ]
 }
 
@@ -29,6 +39,8 @@ const sections = [
   { slug: 'buttons', label: 'Кнопки' },
   { slug: 'forms', label: 'Формы' },
   { slug: 'cards', label: 'Карточки' },
+  { slug: 'drawer', label: 'Дровер' },
+  { slug: 'blocks', label: 'Блоки статей' },
 ]
 ---
 
@@ -220,21 +232,43 @@ const sections = [
 
       {section === 'forms' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Формы</h1>
-          <div class="max-w-md space-y-4">
+          <h1 class="text-3xl font-bold mb-8">Формы</h1>
+          <div class="space-y-12">
+
             <div>
-              <label class="block text-sm font-medium mb-1.5">Имя</label>
-              <input type="text" placeholder="Иван Иванов" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900" />
+              <p class="text-sm font-medium text-gray-400 mb-1">stacked (по умолчанию) — лейбл сверху</p>
+              <p class="text-xs text-gray-400 mb-4"><code>{'<Form preset="demo" />'}</code></p>
+              <div class="max-w-sm border rounded-xl p-6">
+                <Form preset="demo" />
+              </div>
             </div>
+
             <div>
-              <label class="block text-sm font-medium mb-1.5">Email</label>
-              <input type="email" placeholder="ivan@company.ru" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900" />
+              <p class="text-sm font-medium text-gray-400 mb-1">labels-left — лейбл слева, инпут справа</p>
+              <p class="text-xs text-gray-400 mb-4"><code>{'<Form preset="demo" layout="labels-left" />'}</code></p>
+              <div class="max-w-lg border rounded-xl p-6">
+                <Form preset="demo" layout="labels-left" />
+              </div>
             </div>
+
             <div>
-              <label class="block text-sm font-medium mb-1.5">Телефон</label>
-              <input type="tel" placeholder="+7 (999) 000-00-00" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900" />
+              <p class="text-sm font-medium text-gray-400 mb-1">Пресеты</p>
+              <div class="grid grid-cols-2 gap-6 max-w-2xl">
+                <div class="border rounded-xl p-5">
+                  <p class="text-xs text-gray-400 mb-3">preset="lead"</p>
+                  <Form preset="lead" />
+                </div>
+                <div class="border rounded-xl p-5">
+                  <p class="text-xs text-gray-400 mb-3">preset="subscribe"</p>
+                  <Form preset="subscribe" />
+                </div>
+                <div class="border rounded-xl p-5">
+                  <p class="text-xs text-gray-400 mb-3">preset="research"</p>
+                  <Form preset="research" />
+                </div>
+              </div>
             </div>
-            <button class="w-full bg-black text-white py-3 rounded-lg font-medium text-sm hover:bg-gray-800">Отправить</button>
+
           </div>
         </div>
       )}
@@ -259,6 +293,203 @@ const sections = [
                 <p class="text-sm text-gray-600 mt-1 line-clamp-2">Описание статьи в две строки. Ещё немного текста для примера.</p>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+      {section === 'drawer' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">Дровер</h1>
+          <div class="space-y-10">
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">
+                Глобальный дровер живёт в SiteLayout. Любая кнопка на странице открывает его через Alpine event:
+              </p>
+              <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-6">{'@click="$dispatch(\'open-drawer\', { preset: \'demo\' })"'}</pre>
+            </div>
+
+            <div x-data="{ open: false, preset: 'demo' }">
+              <p class="text-sm font-medium text-gray-400 mb-4">Демо — кнопки открывают разные пресеты</p>
+              <div class="flex flex-wrap gap-3 mb-8">
+                <button
+                  @click="preset = 'demo'; open = true"
+                  class="bg-black text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-800"
+                >
+                  Запросить демо
+                </button>
+                <button
+                  @click="preset = 'lead'; open = true"
+                  class="border border-gray-900 text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-50"
+                >
+                  Связаться с нами
+                </button>
+                <button
+                  @click="preset = 'research'; open = true"
+                  class="border border-gray-900 text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-50"
+                >
+                  Получить исследование
+                </button>
+              </div>
+
+              <!-- Inline drawer demo (самостоятельный, не глобальный) -->
+              <div x-show="open" class="fixed inset-0 z-40 bg-black/30" @click="open = false" style="display:none"></div>
+              <div
+                x-show="open"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="translate-x-full"
+                x-transition:enter-end="translate-x-0"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="translate-x-0"
+                x-transition:leave-end="translate-x-full"
+                class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-xl flex flex-col"
+                style="display:none"
+              >
+                <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 shrink-0">
+                  <div>
+                    <h2 x-show="preset === 'demo'" style="display:none" class="font-semibold">Запросить демо</h2>
+                    <h2 x-show="preset === 'lead'" style="display:none" class="font-semibold">Связаться с нами</h2>
+                    <h2 x-show="preset === 'research'" style="display:none" class="font-semibold">Получить исследование</h2>
+                  </div>
+                  <button @click="open = false" class="-mr-2 p-2 rounded-md text-gray-400 hover:text-gray-600">
+                    <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="flex-1 overflow-y-auto px-6 py-6">
+                  <div x-show="preset === 'demo'" style="display:none"><Form preset="demo" layout="labels-left" /></div>
+                  <div x-show="preset === 'lead'" style="display:none"><Form preset="lead" layout="labels-left" /></div>
+                  <div x-show="preset === 'research'" style="display:none"><Form preset="research" layout="labels-left" /></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+      {section === 'blocks' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-2">Блоки статей</h1>
+          <p class="text-gray-600 mb-1">
+            Добавляются в статью через CMS → BlogPosts → content (поле Rich Text с блоками).
+          </p>
+          <p class="text-sm text-gray-400 mb-2">
+            Конфиги: <code>apps/cms/src/blocks/</code>
+          </p>
+          <p class="text-sm text-gray-400 mb-10">
+            Рендереры: <code>apps/web/src/components/blocks/</code> → <code>BlockRenderer.astro</code>
+          </p>
+
+          <div class="space-y-16 max-w-2xl">
+
+            <!-- RichTextBlock -->
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">RichTextBlock — форматированный текст</p>
+              <p class="text-xs text-gray-400 mb-4">
+                blockType: <code>richText</code> · поле: <code>content</code> (Lexical JSON)
+              </p>
+              <div class="border rounded-xl p-6">
+                <RichTextBlock block={{
+                  content: {
+                    root: {
+                      children: [
+                        { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Заголовок внутри статьи', format: 0 }] },
+                        { type: 'paragraph', children: [{ type: 'text', text: 'Основной текст. ДВИЖ помогает банкам и девелоперам автоматизировать ипотечный процесс от заявки до регистрации сделки.', format: 0 }] },
+                        { type: 'list', listType: 'bullet', children: [
+                          { type: 'listitem', children: [{ type: 'text', text: 'Электронная регистрация сделок', format: 0 }] },
+                          { type: 'listitem', children: [{ type: 'text', text: 'Цифровая ипотека для банков', format: 0 }] },
+                          { type: 'listitem', children: [{ type: 'text', text: 'Ипотечный калькулятор', format: 0 }] },
+                        ]},
+                      ]
+                    }
+                  }
+                }} />
+              </div>
+            </div>
+
+            <!-- CTABlock -->
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">CTABlock — CTA-баннер</p>
+              <p class="text-xs text-gray-400 mb-2">
+                blockType: <code>cta</code> · поля: <code>heading</code>, <code>description</code>, <code>buttonText</code>, <code>buttonAction</code>, <code>formPreset</code> / <code>link</code>
+              </p>
+              <p class="text-xs text-gray-400 mb-4">
+                buttonAction: <code>sidebarForm</code> — открывает дровер, <code>link</code> — переход по ссылке
+              </p>
+              <div class="space-y-4">
+                <CTABlock block={{
+                  heading: 'Попробуйте электронную регистрацию',
+                  description: 'Покажем, как это работает для вашего банка или агентства недвижимости.',
+                  buttonText: 'Запросить демо',
+                  buttonAction: 'sidebarForm',
+                  formPreset: 'demo',
+                }} />
+                <CTABlock block={{
+                  heading: 'Читайте наши исследования',
+                  buttonText: 'Перейти в блог',
+                  buttonAction: 'link',
+                  link: '/blog',
+                }} />
+              </div>
+            </div>
+
+            <!-- QuoteBlock -->
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">QuoteBlock — цитата</p>
+              <p class="text-xs text-gray-400 mb-4">
+                blockType: <code>quote</code> · поля: <code>text</code>, <code>author</code>, <code>company</code>, <code>photo</code> (upload)
+              </p>
+              <div class="border rounded-xl px-6">
+                <QuoteBlock block={{
+                  text: 'ДВИЖ сократил время оформления ипотечной сделки с 14 дней до 2. Это кардинально изменило наш клиентский опыт.',
+                  author: 'Иван Петров',
+                  company: 'Банк "Надёжный"',
+                }} />
+              </div>
+            </div>
+
+            <!-- ImageBlock -->
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">ImageBlock — изображение</p>
+              <p class="text-xs text-gray-400 mb-4">
+                blockType: <code>image</code> · поля: <code>image</code> (upload), <code>caption</code>, <code>alt</code>
+              </p>
+              <div class="border rounded-xl px-6">
+                <ImageBlock block={{
+                  image: { url: 'https://placehold.co/800x400/f3f4f6/9ca3af?text=800+x+400' },
+                  caption: 'Подпись к изображению',
+                  alt: 'Демонстрационное изображение',
+                }} />
+              </div>
+            </div>
+
+            <!-- VideoBlock -->
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">VideoBlock — видео (YouTube / Vimeo)</p>
+              <p class="text-xs text-gray-400 mb-4">
+                blockType: <code>video</code> · поля: <code>url</code> (YouTube или Vimeo), <code>caption</code>
+              </p>
+              <div class="border rounded-xl px-6">
+                <VideoBlock block={{
+                  url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                  caption: 'Замените URL на реальное видео продукта',
+                }} />
+              </div>
+            </div>
+
+            <!-- FormBlock -->
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">FormBlock — форма внутри статьи</p>
+              <p class="text-xs text-gray-400 mb-4">
+                blockType: <code>form</code> · поля: <code>preset</code> (lead/subscribe/demo/research), <code>title</code>, <code>description</code>
+              </p>
+              <FormBlock block={{
+                title: 'Получите исследование',
+                description: 'Аналитика рынка ипотечного кредитования за 2024 год.',
+                preset: 'research',
+              }} />
+            </div>
+
           </div>
         </div>
       )}
