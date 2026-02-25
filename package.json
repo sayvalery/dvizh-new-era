@@ -10,6 +10,10 @@
     "dev": "pnpm --filter web dev",
     "dev:cms": "pnpm --filter cms dev",
     "build": "pnpm --filter web build",
-    "build:cms": "pnpm --filter cms build"
+    "build:cms": "pnpm --filter cms build",
+    "start:prod": "docker compose -f docker-compose.prod.yml up -d",
+    "stop:prod": "docker compose -f docker-compose.prod.yml down",
+    "build:prod": "bash scripts/build-site.sh",
+    "setup:prod": "bash scripts/setup-server.sh"
   }
 }

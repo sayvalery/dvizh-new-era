@@ -145,8 +145,7 @@ export async function getCase(slug: string) {
 
 export async function getGlossaries(options: FetchOptions = {}) {
   return fetchFromCMS<{ docs: any[]; totalDocs: number; hasNextPage: boolean }>('/glossaries', {
-    where: publishedFilter,
-    sort: 'title',
+    sort: 'name',
     limit: 50,
     depth: 1,
     ...options,
@@ -155,7 +154,7 @@ export async function getGlossaries(options: FetchOptions = {}) {
 
 export async function getGlossaryItem(slug: string) {
   const result = await fetchFromCMS<{ docs: any[] }>('/glossaries', {
-    where: { ...publishedFilter, slug: { equals: slug } },
+    where: { slug: { equals: slug } },
     depth: 2,
     limit: 1,
   })
