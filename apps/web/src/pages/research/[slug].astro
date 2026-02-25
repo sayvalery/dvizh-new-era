@@ -12,8 +12,7 @@ const { slug } = Astro.params
 const item = await getResearchItem(slug!)
 if (!item) return Astro.redirect('/404')
 
-const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
-const fileUrl = item.file?.url ? `${CMS_URL}${item.file.url}` : null
+const fileUrl = item.file?.url ?? null
 ---
 
 <SiteLayout title={item.meta?.title ?? item.title} description={item.meta?.description ?? item.description}>

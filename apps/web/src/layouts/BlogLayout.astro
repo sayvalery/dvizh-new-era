@@ -1,27 +1,17 @@
 ---
 import BaseLayout from './BaseLayout.astro'
 import NavBar from '../components/ui/NavBar.astro'
-import type { NavItem } from '../components/ui/NavBar.astro'
-import { getCategories } from '../lib/payload'
 
 interface Props {
   title?: string
   description?: string
   ogImage?: string
 }
-
-const { docs: categories } = await getCategories().catch(() => ({ docs: [] as any[] }))
-
-const navItems: NavItem[] = categories.map((cat: any) => ({
-  label: cat.title,
-  href: `/category/${cat.slug}`,
-}))
 ---
 
 <BaseLayout {...Astro.props}>
   <NavBar
     logo={{ label: 'ДВИЖ Инсайты', href: '/blog' }}
-    items={navItems}
     secondaryLink={{ label: '← dvizh.io', href: '/' }}
   />
   <main class="flex-1">

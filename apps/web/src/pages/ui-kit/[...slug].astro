@@ -35,9 +35,9 @@ const sections = [
 <BaseLayout title={`UI Kit — ${section}`}>
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-56 border-r border-gray-200 px-4 py-8 shrink-0">
+    <aside class="w-56 border-r border-gray-200 px-4 py-8 shrink-0 flex flex-col">
       <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">UI Kit</p>
-      <nav class="space-y-1">
+      <nav class="space-y-1 flex-1">
         {sections.map(s => (
           <a
             href={s.slug ? `/ui-kit/${s.slug}` : '/ui-kit'}
@@ -47,6 +47,7 @@ const sections = [
           </a>
         ))}
       </nav>
+      <a href="/" class="block px-3 py-1.5 text-sm text-gray-400 hover:text-gray-900 mt-4">← На сайт</a>
     </aside>
 
     <!-- Content -->

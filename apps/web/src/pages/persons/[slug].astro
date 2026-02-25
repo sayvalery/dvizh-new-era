@@ -1,0 +1,102 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro'
+import PersonCard from '../../components/ui/PersonCard.astro'
+import { getPersons, getPerson, getPostsByPerson } from '../../lib/payload'
+
+export async function getStaticPaths() {
+  const allPersons: any[] = []
+  let page = 1
+  while (true) {
+    const result = await getPersons({ limit: 100, page })
+    allPersons.push(...result.docs)
+    if (!result.hasNextPage) break
+    page++
+  }
+  return allPersons.map((p: any) => ({ params: { slug: p.slug } }))
+}
+
+const { slug } = Astro.params
+const person = await getPerson(slug!)
+if (!person) return Astro.redirect('/404')
+
+const { docs: posts } = await getPostsByPerson(slug!)
+---
+
+<BlogLayout
+  title={`${person.name} — ДВИЖ`}
+  description={person.description ?? person.jobTitle}
+>
+  <div class="max-w-4xl mx-auto px-4 py-16">
+
+    <!-- Шапка персоны -->
+    <div class="flex items-start gap-6 mb-12">
+      {person.photo?.url ? (
+        <img
+          src={person.photo.url}
+          alt={person.photo.alt ?? person.name}
+          class="w-24 h-24 rounded-full object-cover shrink-0"
+        />
+      ) : (
+        <div class="w-24 h-24 rounded-full bg-gray-200 shrink-0 flex items-center justify-center">
+          <span class="text-3xl text-gray-500 font-medium">{person.name[0]}</span>
+        </div>
+      )}
+      <div class="pt-2">
+        <h1 class="text-3xl font-bold mb-1">{person.name}</h1>
+        {person.jobTitle && (
+          <p class="text-gray-600 mb-2">
+            {person.jobTitle}
+            {person.company && (
+              <>, <a
+                href={`/companies/${person.company.slug}`}
+                class="hover:underline"
+              >{person.company.name}</a></>
+            )}
+          </p>
+        )}
+        {person.description && (
+          <p class="text-gray-600 mt-3 max-w-xl">{person.description}</p>
+        )}
+      </div>
+    </div>
+
+    <!-- Статьи -->
+    {posts.length > 0 && (
+      <section>
+        <h2 class="text-xl font-bold mb-6">Материалы</h2>
+        <div class="space-y-4">
+          {posts.map((post: any) => {
+            const coverUrl = post.cover?.url ?? null
+            return (
+              <a
+                href={`/blog/${post.slug}`}
+                class="flex gap-4 p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+              >
+                {coverUrl && (
+                  <img
+                    src={coverUrl}
+                    alt={post.title}
+                    class="w-24 h-16 object-cover rounded-lg shrink-0"
+                  />
+                )}
+                <div>
+                  {post.category?.title && (
+                    <span class="text-xs text-gray-400 uppercase tracking-wide">{post.category.title}</span>
+                  )}
+                  <h3 class="font-semibold text-sm mt-0.5">{post.title}</h3>
+                  {post.excerpt && (
+                    <p class="text-sm text-gray-500 mt-1 line-clamp-2">{post.excerpt}</p>
+                  )}
+                </div>
+              </a>
+            )
+          })}
+        </div>
+      </section>
+    )}
+
+    {posts.length === 0 && (
+      <p class="text-gray-500">Материалов пока нет.</p>
+    )}
+  </div>
+</BlogLayout>

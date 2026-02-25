@@ -19,6 +19,11 @@ const siteTitle = title ? `${title} — ДВИЖ` : 'ДВИЖ'
     {description && <meta name="description" content={description} />}
     {ogImage && <meta property="og:image" content={ogImage} />}
     <title>{siteTitle}</title>
+    <script>
+      import Alpine from 'alpinejs'
+      window.Alpine = Alpine
+      Alpine.start()
+    </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <slot />

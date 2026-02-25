@@ -1,0 +1,117 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro'
+import PersonCard from '../../components/ui/PersonCard.astro'
+import { getCompanies, getCompany, getPersonsByCompany, getPostsByCompany } from '../../lib/payload'
+
+export async function getStaticPaths() {
+  const allCompanies: any[] = []
+  let page = 1
+  while (true) {
+    const result = await getCompanies({ limit: 100, page })
+    allCompanies.push(...result.docs)
+    if (!result.hasNextPage) break
+    page++
+  }
+  return allCompanies.map((c: any) => ({ params: { slug: c.slug } }))
+}
+
+const { slug } = Astro.params
+const company = await getCompany(slug!)
+if (!company) return Astro.redirect('/404')
+
+const [{ docs: persons }, { docs: posts }] = await Promise.all([
+  getPersonsByCompany(slug!),
+  getPostsByCompany(slug!),
+])
+
+const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+const logoUrl = company.logo?.url ?? null
+---
+
+<BlogLayout
+  title={`${company.name} — ДВИЖ`}
+  description={company.description}
+>
+  <div class="max-w-4xl mx-auto px-4 py-16">
+
+    <!-- Шапка компании -->
+    <div class="flex items-center gap-6 mb-12">
+      {logoUrl ? (
+        <img
+          src={logoUrl}
+          alt={company.name}
+          class="w-16 h-16 object-contain rounded-xl border border-gray-100 p-2 shrink-0"
+        />
+      ) : (
+        <div class="w-16 h-16 rounded-xl bg-gray-100 shrink-0 flex items-center justify-center">
+          <span class="text-xl text-gray-500 font-bold">{company.name[0]}</span>
+        </div>
+      )}
+      <div>
+        <h1 class="text-3xl font-bold mb-1">{company.name}</h1>
+        {company.description && (
+          <p class="text-gray-600">{company.description}</p>
+        )}
+        {company.link && (
+          <a
+            href={company.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-gray-500 hover:text-gray-900 mt-1 inline-block"
+          >
+            {company.linkText ?? company.link} ↗
+          </a>
+        )}
+      </div>
+    </div>
+
+    <!-- Люди -->
+    {persons.length > 0 && (
+      <section class="mb-12">
+        <h2 class="text-xl font-bold mb-6">Люди</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          {persons.map((person: any) => (
+            <div class="p-4 border border-gray-200 rounded-xl">
+              <PersonCard person={person} variant="full" />
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Статьи -->
+    {posts.length > 0 && (
+      <section>
+        <h2 class="text-xl font-bold mb-6">Материалы</h2>
+        <div class="space-y-4">
+          {posts.map((post: any) => {
+            const coverUrl = post.cover?.url ?? null
+            return (
+              <a
+                href={`/blog/${post.slug}`}
+                class="flex gap-4 p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+              >
+                {coverUrl && (
+                  <img
+                    src={coverUrl}
+                    alt={post.title}
+                    class="w-24 h-16 object-cover rounded-lg shrink-0"
+                  />
+                )}
+                <div>
+                  {post.category?.title && (
+                    <span class="text-xs text-gray-400 uppercase tracking-wide">{post.category.title}</span>
+                  )}
+                  <h3 class="font-semibold text-sm mt-0.5">{post.title}</h3>
+                  {post.excerpt && (
+                    <p class="text-sm text-gray-500 mt-1 line-clamp-2">{post.excerpt}</p>
+                  )}
+                </div>
+              </a>
+            )
+          })}
+        </div>
+      </section>
+    )}
+  </div>
+</BlogLayout>

@@ -24,9 +24,9 @@ const post = await getBlogPost(slug!)
 if (!post) return Astro.redirect('/404')
 
 const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
-const coverUrl = post.cover?.url ? `${CMS_URL}${post.cover.url}` : null
+const coverUrl = post.cover?.url ?? null
 
-// Исправляем bodyHtml: картинки и ссылки из Webflow
+// Исправляем bodyHtml: картинки (относительные пути) и ссылки из Webflow
 const bodyHtml = post.bodyHtml
   ? post.bodyHtml
       .replaceAll('src="/api/media/', `src="${CMS_URL}/api/media/`)
@@ -37,12 +37,16 @@ const bodyHtml = post.bodyHtml
 // Основной автор из relation, fallback на текстовое поле
 const primaryAuthor = post.primaryAuthor ?? null
 const authorFallback = post.author ?? null
+// Соавторы без дублирования primaryAuthor
+const coAuthors = (post.coAuthors ?? []).filter(
+  (a: any) => a.id !== primaryAuthor?.id
+)
 ---
 
 <BlogLayout
   title={post.meta?.title ?? post.title}
   description={post.meta?.description ?? post.excerpt}
-  ogImage={post.meta?.image?.url ? `${CMS_URL}${post.meta.image.url}` : undefined}
+  ogImage={post.meta?.image?.url ?? undefined}
 >
   <article class="max-w-3xl mx-auto px-4 py-16">
     <!-- Хлебные крошки -->
@@ -94,11 +98,18 @@ const authorFallback = post.author ?? null
       : bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />
     }
 
-    <!-- Автор внизу статьи (полная карточка) -->
-    {primaryAuthor && (
+    <!-- Авторы внизу статьи (полные карточки) -->
+    {(primaryAuthor || coAuthors.length > 0) && (
       <div class="mt-16 pt-8 border-t border-gray-200">
-        <p class="text-xs uppercase tracking-wide text-gray-400 mb-3">Автор</p>
-        <PersonCard person={primaryAuthor} variant="full" />
+        <p class="text-xs uppercase tracking-wide text-gray-400 mb-4">
+          {coAuthors.length > 0 ? 'Авторы' : 'Автор'}
+        </p>
+        <div class="space-y-4">
+          {primaryAuthor && <PersonCard person={primaryAuthor} variant="full" />}
+          {coAuthors.map((author: any) => (
+            <PersonCard person={author} variant="full" />
+          ))}
+        </div>
       </div>
     )}
   </article>

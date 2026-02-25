@@ -21,7 +21,7 @@ const typeLabels: Record<string, string> = {
     ) : (
       <div class="grid md:grid-cols-3 gap-6">
         {videos.map((video: any) => {
-          const coverUrl = video.cover?.url ? `${CMS_URL}${video.cover.url}` : null
+          const coverUrl = video.cover?.url ?? null
           return (
             <a href={`/video/${video.slug}`} class="group border rounded-xl overflow-hidden hover:shadow-md transition-shadow">
               {coverUrl && <img src={coverUrl} alt={video.title} class="w-full aspect-video object-cover" />}

@@ -8,12 +8,20 @@ type FetchOptions = {
   sort?: string
 }
 
-/** Flatten a nested object to bracket-notation query string entries.
- *  { slug: { equals: 'foo' } } → "slug[equals]=foo"
+/** Flatten a nested object/array to bracket-notation query string entries.
+ *  { slug: { equals: 'foo' } }               → "slug[equals]=foo"
+ *  { or: [{ a: { equals: 1 } }] }            → "or[0][a][equals]=1"
  *  Payload v3 REST API requires this format for `where` filters.
  */
 function flattenParams(obj: unknown, prefix = ''): Record<string, string> {
-  if (obj !== null && typeof obj === 'object' && !Array.isArray(obj)) {
+  if (Array.isArray(obj)) {
+    const result: Record<string, string> = {}
+    obj.forEach((item, i) => {
+      Object.assign(result, flattenParams(item, `${prefix}[${i}]`))
+    })
+    return result
+  }
+  if (obj !== null && typeof obj === 'object') {
     const result: Record<string, string> = {}
     for (const [key, val] of Object.entries(obj as Record<string, unknown>)) {
       const newKey = prefix ? `${prefix}[${key}]` : key
@@ -152,6 +160,78 @@ export async function getGlossaryItem(slug: string) {
     limit: 1,
   })
   return result.docs[0] ?? null
+}
+
+export async function getPersons(options: FetchOptions = {}) {
+  return fetchFromCMS<{ docs: any[]; totalDocs: number; hasNextPage: boolean }>('/persons', {
+    sort: 'name',
+    limit: 100,
+    depth: 1,
+    ...options,
+  })
+}
+
+export async function getPerson(slug: string) {
+  const result = await fetchFromCMS<{ docs: any[] }>('/persons', {
+    where: { slug: { equals: slug } },
+    depth: 2,
+    limit: 1,
+  })
+  return result.docs[0] ?? null
+}
+
+export async function getPostsByPerson(slug: string) {
+  return fetchFromCMS<{ docs: any[]; totalDocs: number }>('/blog-posts', {
+    where: {
+      ...publishedFilter,
+      or: [
+        { 'primaryAuthor.slug': { equals: slug } },
+        { 'coAuthors.slug': { equals: slug } },
+      ],
+    },
+    sort: '-publishedAt',
+    limit: 100,
+    depth: 2,
+  })
+}
+
+export async function getCompanies(options: FetchOptions = {}) {
+  return fetchFromCMS<{ docs: any[]; totalDocs: number; hasNextPage: boolean }>('/companies', {
+    sort: 'name',
+    limit: 100,
+    depth: 1,
+    ...options,
+  })
+}
+
+export async function getCompany(slug: string) {
+  const result = await fetchFromCMS<{ docs: any[] }>('/companies', {
+    where: { slug: { equals: slug } },
+    depth: 2,
+    limit: 1,
+  })
+  return result.docs[0] ?? null
+}
+
+export async function getPersonsByCompany(slug: string) {
+  return fetchFromCMS<{ docs: any[] }>('/persons', {
+    where: { 'company.slug': { equals: slug } },
+    sort: 'name',
+    limit: 100,
+    depth: 1,
+  })
+}
+
+export async function getPostsByCompany(slug: string) {
+  return fetchFromCMS<{ docs: any[]; totalDocs: number }>('/blog-posts', {
+    where: {
+      ...publishedFilter,
+      'company.slug': { equals: slug },
+    },
+    sort: '-publishedAt',
+    limit: 100,
+    depth: 2,
+  })
 }
 
 export async function getNavigation() {
