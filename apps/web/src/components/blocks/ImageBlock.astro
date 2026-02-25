@@ -1,0 +1,25 @@
+---
+const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+
+interface Props {
+  block: any
+}
+
+const { block } = Astro.props
+const { image, caption, alt } = block
+
+const imageUrl = image?.url ? `${CMS_URL}${image.url}` : null
+const imageAlt = alt || image?.alt || caption || ''
+---
+
+{imageUrl && (
+  <figure class="my-8">
+    <img
+      src={imageUrl}
+      alt={imageAlt}
+      class="w-full rounded-lg"
+      loading="lazy"
+    />
+    {caption && <figcaption class="text-sm text-gray-500 mt-2 text-center">{caption}</figcaption>}
+  </figure>
+)}

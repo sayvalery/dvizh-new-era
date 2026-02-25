@@ -1,0 +1,101 @@
+---
+const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+
+interface Props {
+  preset: 'lead' | 'subscribe' | 'demo' | 'research'
+  class?: string
+}
+
+const { preset, class: className } = Astro.props
+
+const fields: Record<string, string[]> = {
+  lead: ['name', 'email', 'company'],
+  subscribe: ['email'],
+  demo: ['name', 'email', 'phone', 'company'],
+  research: ['name', 'email', 'company'],
+}
+
+const fieldLabels: Record<string, string> = {
+  name: 'Имя',
+  email: 'Email',
+  phone: 'Телефон',
+  company: 'Компания',
+}
+
+const formFields = fields[preset] ?? ['name', 'email']
+---
+
+<form
+  class:list={['space-y-3', className]}
+  data-preset={preset}
+  data-cms-url={CMS_URL}
+>
+  {formFields.map((field) => (
+    <div>
+      <label class="block text-sm font-medium mb-1">{fieldLabels[field]}</label>
+      <input
+        type={field === 'email' ? 'email' : 'text'}
+        name={field}
+        required={field === 'email' || field === 'name'}
+        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+        placeholder={fieldLabels[field]}
+      />
+    </div>
+  ))}
+
+  <div class="hidden">
+    <input name="_honeypot" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <button
+    type="submit"
+    class="w-full bg-black text-white py-2 rounded text-sm font-medium hover:bg-gray-800 disabled:opacity-50"
+  >
+    Отправить
+  </button>
+
+  <p class="form-success hidden text-sm text-green-600">Спасибо! Мы свяжемся с вами.</p>
+  <p class="form-error hidden text-sm text-red-600">Ошибка отправки. Попробуйте ещё раз.</p>
+</form>
+
+<script>
+  document.querySelectorAll('form[data-preset]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const f = e.target as HTMLFormElement
+      const cmsUrl = f.dataset.cmsUrl
+      const preset = f.dataset.preset
+
+      // Honeypot check
+      const honeypot = (f.querySelector('[name="_honeypot"]') as HTMLInputElement)?.value
+      if (honeypot) return
+
+      const data: Record<string, string> = { preset: preset ?? '' }
+      new FormData(f).forEach((val, key) => {
+        if (key !== '_honeypot') data[key] = val as string
+      })
+      data.page = window.location.href
+
+      const btn = f.querySelector('button[type="submit"]') as HTMLButtonElement
+      btn.disabled = true
+
+      try {
+        const res = await fetch(`${cmsUrl}/api/form-submissions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+        if (res.ok) {
+          f.querySelector('.form-success')?.classList.remove('hidden')
+          f.reset()
+        } else {
+          throw new Error('Server error')
+        }
+      } catch {
+        f.querySelector('.form-error')?.classList.remove('hidden')
+      } finally {
+        btn.disabled = false
+      }
+    })
+  })
+</script>

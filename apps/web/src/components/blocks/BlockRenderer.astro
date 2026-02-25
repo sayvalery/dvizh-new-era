@@ -1,0 +1,24 @@
+---
+import RichTextBlock from './RichTextBlock.astro'
+import ImageBlock from './ImageBlock.astro'
+import FormBlock from './FormBlock.astro'
+import CTABlock from './CTABlock.astro'
+import VideoBlock from './VideoBlock.astro'
+import QuoteBlock from './QuoteBlock.astro'
+
+interface Props {
+  blocks: any[]
+}
+
+const { blocks = [] } = Astro.props
+---
+
+{blocks.map((block) => {
+  if (block.blockType === 'richText') return <RichTextBlock block={block} />
+  if (block.blockType === 'image') return <ImageBlock block={block} />
+  if (block.blockType === 'form') return <FormBlock block={block} />
+  if (block.blockType === 'cta') return <CTABlock block={block} />
+  if (block.blockType === 'video') return <VideoBlock block={block} />
+  if (block.blockType === 'quote') return <QuoteBlock block={block} />
+  return null
+})}

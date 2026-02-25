@@ -1,0 +1,38 @@
+---
+interface Props {
+  nav: any
+}
+
+const { nav } = Astro.props
+const items = nav?.items ?? []
+---
+
+<header class="border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="/" class="font-bold text-xl">Dvizh</a>
+    <nav class="hidden md:flex items-center gap-6">
+      {items.map((item: any) => (
+        <div class="relative group">
+          <a href={item.href} class="text-sm hover:text-gray-600">
+            {item.label}
+          </a>
+          {item.children?.length > 0 && (
+            <div class="absolute top-full left-0 bg-white border border-gray-200 shadow-md hidden group-hover:block min-w-48 z-10">
+              {item.children.map((child: any) => (
+                <a href={child.href} class="block px-4 py-2 text-sm hover:bg-gray-50">
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
+    <button
+      class="text-sm font-medium bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+      data-sidebar-form={nav?.ctaFormPreset ?? 'demo'}
+    >
+      {nav?.ctaText ?? 'Запросить демо'}
+    </button>
+  </div>
+</header>

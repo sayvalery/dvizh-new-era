@@ -1,0 +1,39 @@
+---
+// Payload Lexical отдает контент в формате EditorState JSON.
+// Для MVP используем простой сериализатор.
+// В продакшене подключить @payloadcms/richtext-lexical/react или свой сериализатор.
+interface Props {
+  block: any
+}
+
+const { block } = Astro.props
+
+function serializeLexical(content: any): string {
+  if (!content?.root?.children) return ''
+  return content.root.children.map(serializeNode).join('')
+}
+
+function serializeNode(node: any): string {
+  if (node.type === 'text') {
+    let text = node.text ?? ''
+    if (node.format & 1) text = `<strong>${text}</strong>`
+    if (node.format & 2) text = `<em>${text}</em>`
+    if (node.format & 8) text = `<u>${text}</u>`
+    return text
+  }
+  const children = (node.children ?? []).map(serializeNode).join('')
+  switch (node.type) {
+    case 'paragraph': return `<p>${children}</p>`
+    case 'heading': return `<h${node.tag}>${children}</h${node.tag}>`
+    case 'list': return node.listType === 'bullet' ? `<ul>${children}</ul>` : `<ol>${children}</ol>`
+    case 'listitem': return `<li>${children}</li>`
+    case 'quote': return `<blockquote>${children}</blockquote>`
+    case 'link': return `<a href="${node.fields?.url ?? '#'}">${children}</a>`
+    default: return children
+  }
+}
+
+const html = serializeLexical(block.content)
+---
+
+<div class="prose prose-gray max-w-none" set:html={html} />

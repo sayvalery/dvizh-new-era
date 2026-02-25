@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getVideos } from '../../lib/payload'
+
+const { docs: videos } = await getVideos()
+const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+
+const typeLabels: Record<string, string> = {
+  webinar: 'Вебинар',
+  conference: 'Конференция',
+  podcast: 'Подкаст',
+}
+---
+
+<BaseLayout title="Видео">
+  <div class="max-w-7xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-10">Видео</h1>
+
+    {videos.length === 0 ? (
+      <p class="text-gray-500">Видео скоро появятся.</p>
+    ) : (
+      <div class="grid md:grid-cols-3 gap-6">
+        {videos.map((video: any) => {
+          const coverUrl = video.cover?.url ? `${CMS_URL}${video.cover.url}` : null
+          return (
+            <a href={`/video/${video.slug}`} class="group border rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+              {coverUrl && <img src={coverUrl} alt={video.title} class="w-full aspect-video object-cover" />}
+              <div class="p-5">
+                {video.type && (
+                  <span class="text-xs text-gray-500 uppercase tracking-wide">{typeLabels[video.type] ?? video.type}</span>
+                )}
+                <h2 class="font-semibold mt-1 group-hover:underline">{video.title}</h2>
+                {video.description && <p class="text-sm text-gray-600 mt-2 line-clamp-2">{video.description}</p>}
+              </div>
+            </a>
+          )
+        })}
+      </div>
+    )}
+  </div>
+</BaseLayout>

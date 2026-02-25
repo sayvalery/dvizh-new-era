@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Form from '../components/ui/Form.astro'
+---
+
+<BaseLayout
+  title="Dvizh — цифровые решения для рынка недвижимости"
+  description="Ипотека, регистрация, скоринг и другие продукты для банков, девелоперов и агентств"
+>
+  <!-- Hero -->
+  <section class="max-w-7xl mx-auto px-4 py-20">
+    <h1 class="text-5xl font-bold tracking-tight mb-6">
+      Dvizh
+    </h1>
+    <p class="text-xl text-gray-600 max-w-2xl mb-8">
+      Цифровые продукты для рынка недвижимости. Ипотека, регистрация, скоринг и аналитика.
+    </p>
+    <button
+      class="bg-black text-white px-6 py-3 rounded font-medium hover:bg-gray-800"
+      data-sidebar-form="demo"
+    >
+      Запросить демо
+    </button>
+  </section>
+
+  <!-- Продукты -->
+  <section class="max-w-7xl mx-auto px-4 py-16 border-t">
+    <h2 class="text-2xl font-bold mb-8">Продукты</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {[
+        { title: 'Ипотека', href: '/products/ipoteka' },
+        { title: 'Регистрация', href: '/products/registratsiya' },
+        { title: 'Скоринг', href: '/products/skoring' },
+        { title: 'Калькулятор', href: '/products/kalkulyator' },
+        { title: 'Личный кабинет', href: '/products/lichnyy-kabinet' },
+        { title: 'Витрина', href: '/products/vitrina' },
+        { title: 'Бизнес-ревью', href: '/products/biznes-revyu' },
+      ].map(p => (
+        <a href={p.href} class="p-4 border rounded-lg hover:bg-gray-50">
+          <h3 class="font-medium">{p.title}</h3>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  footer: any
+}
+
+const { footer } = Astro.props
+const columns = footer?.columns ?? []
+---
+
+<footer class="border-t border-gray-200 mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    {columns.length > 0 && (
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+        {columns.map((col: any) => (
+          <div>
+            {col.title && <h3 class="font-semibold text-sm mb-3">{col.title}</h3>}
+            <ul class="space-y-2">
+              {col.links?.map((link: any) => (
+                <li>
+                  <a href={link.href} class="text-sm text-gray-600 hover:text-gray-900">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    )}
+    <p class="text-sm text-gray-500">{footer?.copyright ?? '© 2024 Dvizh'}</p>
+  </div>
+</footer>

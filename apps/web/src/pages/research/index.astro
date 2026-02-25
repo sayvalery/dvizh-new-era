@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Form from '../../components/ui/Form.astro'
+import { getResearch } from '../../lib/payload'
+
+const { docs: items } = await getResearch()
+---
+
+<BaseLayout title="Исследования">
+  <div class="max-w-7xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-10">Исследования</h1>
+
+    {items.length === 0 ? (
+      <p class="text-gray-500">Исследования скоро появятся.</p>
+    ) : (
+      <div class="grid md:grid-cols-2 gap-6 mb-16">
+        {items.map((item: any) => (
+          <a href={`/research/${item.slug}`} class="p-6 border rounded-xl hover:bg-gray-50">
+            <h2 class="text-xl font-semibold mb-2">{item.title}</h2>
+            {item.description && <p class="text-sm text-gray-600">{item.description}</p>}
+          </a>
+        ))}
+      </div>
+    )}
+
+    <!-- Форма заказа исследования -->
+    <div class="max-w-md bg-gray-50 rounded-xl p-8">
+      <h2 class="text-xl font-semibold mb-4">Заказать исследование</h2>
+      <Form preset="research" />
+    </div>
+  </div>
+</BaseLayout>

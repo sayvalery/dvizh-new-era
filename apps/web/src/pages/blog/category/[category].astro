@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import { getCategories, getBlogPosts } from '../../../lib/payload'
+
+export async function getStaticPaths() {
+  const { docs: categories } = await getCategories()
+  return categories.map((cat: any) => ({
+    params: { category: cat.slug },
+    props: { category: cat },
+  }))
+}
+
+const { category } = Astro.props
+const { docs: posts } = await getBlogPosts({
+  where: {
+    _status: { equals: 'published' },
+    'category.slug': { equals: category.slug },
+  },
+})
+
+const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+---
+
+<BaseLayout title={`${category.title} — Блог`}>
+  <div class="max-w-7xl mx-auto px-4 py-16">
+    <nav class="text-sm text-gray-500 mb-4">
+      <a href="/blog" class="hover:underline">Блог</a>
+      <span class="mx-2">›</span>
+      <span>{category.title}</span>
+    </nav>
+    <h1 class="text-4xl font-bold mb-10">{category.title}</h1>
+
+    {posts.length === 0 ? (
+      <p class="text-gray-500">В этой категории пока нет статей.</p>
+    ) : (
+      <div class="grid md:grid-cols-3 gap-6">
+        {posts.map((post: any) => {
+          const coverUrl = post.cover?.url ? `${CMS_URL}${post.cover.url}` : null
+          return (
+            <a href={`/blog/${post.slug}`} class="group border rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+              {coverUrl && <img src={coverUrl} alt={post.title} class="w-full aspect-video object-cover" />}
+              <div class="p-5">
+                <h2 class="font-semibold group-hover:underline">{post.title}</h2>
+                {post.excerpt && <p class="text-sm text-gray-600 mt-2 line-clamp-2">{post.excerpt}</p>}
+              </div>
+            </a>
+          )
+        })}
+      </div>
+    )}
+  </div>
+</BaseLayout>

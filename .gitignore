@@ -1,0 +1,23 @@
+node_modules/
+dist/
+.dist/
+.env
+.env.local
+.env.*.local
+.DS_Store
+
+# Astro
+apps/web/.astro/
+apps/web/dist/
+
+# Next.js / Payload CMS
+apps/cms/.next/
+apps/cms/.cache/
+apps/cms/dist/
+apps/cms/media/
+
+# Docker
+postgres-data/
+
+# pnpm
+.pnpm-store/

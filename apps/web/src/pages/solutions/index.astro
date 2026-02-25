@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+const solutions = [
+  { slug: 'dlya-bankov', title: 'Для банков', description: 'Решения для ипотечных и розничных банков' },
+  { slug: 'dlya-developerov', title: 'Для девелоперов', description: 'Инструменты для застройщиков' },
+  { slug: 'dlya-agentstv', title: 'Для агентств недвижимости', description: 'Платформа для риелторов и агентств' },
+]
+---
+
+<BaseLayout title="Решения">
+  <div class="max-w-7xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-12">Решения</h1>
+    <div class="grid md:grid-cols-3 gap-6">
+      {solutions.map(s => (
+        <a href={`/solutions/${s.slug}`} class="p-6 border rounded-xl hover:bg-gray-50">
+          <h2 class="text-xl font-semibold mb-2">{s.title}</h2>
+          <p class="text-gray-600 text-sm">{s.description}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

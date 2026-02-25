@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Form from '../../components/ui/Form.astro'
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'dlya-bankov' }, props: { title: 'Для банков', description: 'Комплексные решения для ипотечных и розничных банков.' } },
+    { params: { slug: 'dlya-developerov' }, props: { title: 'Для девелоперов', description: 'Инструменты для автоматизации продаж и оформления сделок.' } },
+    { params: { slug: 'dlya-agentstv' }, props: { title: 'Для агентств недвижимости', description: 'Платформа для риелторов и агентств.' } },
+  ]
+}
+
+const { title, description } = Astro.props
+---
+
+<BaseLayout title={title}>
+  <div class="max-w-5xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-4">{title}</h1>
+    <p class="text-xl text-gray-600 mb-12">{description}</p>
+    <div class="prose max-w-none mb-12">
+      <p>Контент добавляется командой дизайна.</p>
+    </div>
+    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
+      <h2 class="text-xl font-semibold mb-4">Обсудить с нами</h2>
+      <Form preset="lead" />
+    </div>
+  </div>
+</BaseLayout>

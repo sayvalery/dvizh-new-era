@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Form from '../../components/ui/Form.astro'
+
+export function getStaticPaths() {
+  const products = [
+    {
+      slug: 'ipoteka',
+      title: 'Ипотека',
+      description: 'Цифровизация ипотечного процесса для банков и девелоперов.',
+    },
+    {
+      slug: 'registratsiya',
+      title: 'Регистрация',
+      description: 'Электронная регистрация сделок с недвижимостью.',
+    },
+    {
+      slug: 'skoring',
+      title: 'Скоринг',
+      description: 'Автоматическая оценка кредитоспособности заемщиков.',
+    },
+    {
+      slug: 'kalkulyator',
+      title: 'Калькулятор',
+      description: 'Ипотечный калькулятор с интеграцией в сайт.',
+    },
+    {
+      slug: 'lichnyy-kabinet',
+      title: 'Личный кабинет',
+      description: 'Личный кабинет клиента для ведения сделок.',
+    },
+    {
+      slug: 'vitrina',
+      title: 'Витрина',
+      description: 'Витрина объектов недвижимости.',
+    },
+    {
+      slug: 'biznes-revyu',
+      title: 'Бизнес-ревью',
+      description: 'Аналитика и бизнес-отчеты для управления.',
+    },
+  ]
+
+  return products.map(p => ({
+    params: { slug: p.slug },
+    props: p,
+  }))
+}
+
+const { slug, title, description } = Astro.props
+---
+
+<BaseLayout title={title}>
+  <div class="max-w-5xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-4">{title}</h1>
+    <p class="text-xl text-gray-600 mb-12">{description}</p>
+
+    <!-- Блоки страницы добавляются сюда при наполнении -->
+    <div class="prose max-w-none mb-12">
+      <p>Контент страницы наполняется командой дизайна.</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
+      <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
+      <Form preset="demo" />
+    </div>
+  </div>
+</BaseLayout>

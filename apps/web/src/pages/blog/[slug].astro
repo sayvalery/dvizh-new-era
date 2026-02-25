@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
+import { getBlogPosts, getBlogPost } from '../../lib/payload'
+
+export async function getStaticPaths() {
+  const { docs } = await getBlogPosts({ limit: 100 })
+  return docs.map((post: any) => ({
+    params: { slug: post.slug },
+  }))
+}
+
+const { slug } = Astro.params
+const post = await getBlogPost(slug!)
+
+if (!post) return Astro.redirect('/404')
+
+const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+const coverUrl = post.cover?.url ? `${CMS_URL}${post.cover.url}` : null
+---
+
+<BaseLayout
+  title={post.meta?.title ?? post.title}
+  description={post.meta?.description ?? post.excerpt}
+  ogImage={post.meta?.image?.url ? `${CMS_URL}${post.meta.image.url}` : undefined}
+>
+  <article class="max-w-3xl mx-auto px-4 py-16">
+    <!-- Хлебные крошки -->
+    <nav class="text-sm text-gray-500 mb-6">
+      <a href="/blog" class="hover:underline">Блог</a>
+      {post.category?.title && (
+        <>
+          <span class="mx-2">›</span>
+          <a href={`/blog/category/${post.category.slug}`} class="hover:underline">
+            {post.category.title}
+          </a>
+        </>
+      )}
+    </nav>
+
+    <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
+
+    {post.excerpt && (
+      <p class="text-xl text-gray-600 mb-6">{post.excerpt}</p>
+    )}
+
+    <div class="flex items-center gap-4 text-sm text-gray-500 mb-8">
+      {post.author && <span>{post.author}</span>}
+      {post.publishedAt && (
+        <time datetime={post.publishedAt}>
+          {new Date(post.publishedAt).toLocaleDateString('ru-RU', {
+            day: 'numeric', month: 'long', year: 'numeric',
+          })}
+        </time>
+      )}
+    </div>
+
+    {coverUrl && (
+      <img
+        src={coverUrl}
+        alt={post.cover?.alt ?? post.title}
+        class="w-full rounded-xl mb-10 aspect-video object-cover"
+      />
+    )}
+
+    <BlockRenderer blocks={post.content ?? []} />
+  </article>
+</BaseLayout>

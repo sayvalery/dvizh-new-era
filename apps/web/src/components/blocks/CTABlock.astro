@@ -1,0 +1,28 @@
+---
+interface Props {
+  block: any
+}
+
+const { block } = Astro.props
+---
+
+<div class="my-8 p-8 bg-black text-white rounded-xl">
+  {block.heading && <h3 class="text-xl font-bold mb-2">{block.heading}</h3>}
+  {block.description && <p class="text-sm text-gray-300 mb-4">{block.description}</p>}
+
+  {block.buttonAction === 'link' ? (
+    <a
+      href={block.link ?? '#'}
+      class="inline-block bg-white text-black px-5 py-2 rounded font-medium text-sm hover:bg-gray-100"
+    >
+      {block.buttonText}
+    </a>
+  ) : (
+    <button
+      class="inline-block bg-white text-black px-5 py-2 rounded font-medium text-sm hover:bg-gray-100"
+      data-sidebar-form={block.formPreset ?? 'lead'}
+    >
+      {block.buttonText}
+    </button>
+  )}
+</div>

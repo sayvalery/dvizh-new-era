@@ -1,0 +1,85 @@
+import type { CollectionConfig } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { RichTextBlock } from '../blocks/RichText'
+import { ImageBlock } from '../blocks/ImageBlock'
+import { FormBlock } from '../blocks/FormBlock'
+import { CTABlock } from '../blocks/CTABlock'
+import { VideoBlock } from '../blocks/VideoBlock'
+import { QuoteBlock } from '../blocks/QuoteBlock'
+
+export const BlogPosts: CollectionConfig = {
+  slug: 'blog-posts',
+  labels: { singular: 'Статья', plural: 'Статьи' },
+  access: {
+    read: () => true,
+  },
+  admin: {
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'category', 'status', 'publishedAt'],
+    preview: (doc) => `${process.env.WEB_URL}/blog/${doc.slug}`,
+  },
+  versions: {
+    drafts: true,
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      label: 'Заголовок',
+      required: true,
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      label: 'Slug',
+      required: true,
+      unique: true,
+      admin: { description: 'URL: /blog/[slug]' },
+    },
+    {
+      name: 'category',
+      type: 'relationship',
+      relationTo: 'categories',
+      label: 'Категория',
+    },
+    {
+      name: 'excerpt',
+      type: 'textarea',
+      label: 'Анонс',
+      admin: { description: 'Короткое описание для списка статей' },
+    },
+    {
+      name: 'cover',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Обложка',
+    },
+    {
+      name: 'content',
+      type: 'blocks',
+      label: 'Контент',
+      blocks: [RichTextBlock, ImageBlock, FormBlock, CTABlock, VideoBlock, QuoteBlock],
+    },
+    {
+      name: 'author',
+      type: 'text',
+      label: 'Автор',
+    },
+    {
+      name: 'publishedAt',
+      type: 'date',
+      label: 'Дата публикации',
+      admin: { date: { pickerAppearance: 'dayAndTime' } },
+    },
+    {
+      name: 'meta',
+      type: 'group',
+      label: 'SEO',
+      fields: [
+        { name: 'title', type: 'text', label: 'Meta title' },
+        { name: 'description', type: 'textarea', label: 'Meta description' },
+        { name: 'image', type: 'upload', relationTo: 'media', label: 'OG Image' },
+      ],
+    },
+  ],
+}

@@ -1,0 +1,29 @@
+{
+  "name": "cms",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3002",
+    "build": "next build",
+    "start": "next start",
+    "generate:types": "node --import ./node_modules/tsx/dist/esm/index.mjs node_modules/payload/dist/bin/index.js generate:types",
+    "generate:importmap": "node --import ./node_modules/tsx/dist/esm/index.mjs node_modules/payload/dist/bin/index.js generate:importmap"
+  },
+  "dependencies": {
+    "payload": "^3.0.0",
+    "@payloadcms/next": "^3.0.0",
+    "@payloadcms/richtext-lexical": "^3.0.0",
+    "@payloadcms/db-postgres": "^3.0.0",
+    "@payloadcms/plugin-form-builder": "^3.0.0",
+    "next": "15.4.11",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "typescript": "^5.0.0",
+    "tsx": "^4.0.0"
+  }
+}

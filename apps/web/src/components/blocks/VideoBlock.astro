@@ -1,0 +1,37 @@
+---
+interface Props {
+  block: any
+}
+
+const { block } = Astro.props
+
+// Поддержка YouTube и Vimeo
+function getEmbedUrl(url: string): string | null {
+  if (!url) return null
+
+  const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/)
+  if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`
+
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/)
+  if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`
+
+  return url
+}
+
+const embedUrl = getEmbedUrl(block.url)
+---
+
+{embedUrl && (
+  <figure class="my-8">
+    <div class="aspect-video rounded-lg overflow-hidden bg-gray-100">
+      <iframe
+        src={embedUrl}
+        class="w-full h-full"
+        frameborder="0"
+        allowfullscreen
+        loading="lazy"
+      />
+    </div>
+    {block.caption && <figcaption class="text-sm text-gray-500 mt-2 text-center">{block.caption}</figcaption>}
+  </figure>
+)}

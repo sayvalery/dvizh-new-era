@@ -1,0 +1,23 @@
+---
+const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+
+interface Props {
+  block: any
+}
+
+const { block } = Astro.props
+const photoUrl = block.photo?.url ? `${CMS_URL}${block.photo.url}` : null
+---
+
+<blockquote class="my-8 border-l-4 border-black pl-6">
+  <p class="text-lg italic text-gray-700 mb-4">"{block.text}"</p>
+  <footer class="flex items-center gap-3">
+    {photoUrl && (
+      <img src={photoUrl} alt={block.author ?? ''} class="w-10 h-10 rounded-full object-cover" />
+    )}
+    <div>
+      {block.author && <p class="font-medium text-sm">{block.author}</p>}
+      {block.company && <p class="text-sm text-gray-500">{block.company}</p>}
+    </div>
+  </footer>
+</blockquote>
