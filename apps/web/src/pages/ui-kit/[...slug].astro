@@ -870,6 +870,38 @@ const sections = [
                 ]}
               />
             </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 карточки из Pencil (mini вариант)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStoriesCarousel variant="mini" title="..." :stories={[...]} />`}</code></p>
+              <SuccessStoriesCarousel
+                variant="mini"
+                title="70+ историй успеха на рынке девелопмента"
+                stories={[
+                  {
+                    title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
+                    person: {
+                      name: "Петрова Надежда",
+                      jobTitle: "Директор по маркетингу, ЛСР"
+                    }
+                  },
+                  {
+                    title: "Дополнительно продали 96 квартир",
+                    person: {
+                      name: "Алексей Соколов",
+                      jobTitle: "Коммерческий директор, Самолет плюс"
+                    }
+                  },
+                  {
+                    title: "Увеличили объем закрытых сделок с 1116 до 3500 за год",
+                    person: {
+                      name: "Мария Иванова",
+                      jobTitle: "Руководитель отдела продаж"
+                    }
+                  }
+                ]}
+              />
+            </div>
           </div>
         </div>
       )}
