@@ -1,0 +1,99 @@
+---
+/**
+ * CTA — призыв к действию на основе Tailwind Plus "Simple justified on subtle brand"
+ *
+ * @example
+ * ```astro
+ * <CTA
+ *   title="Бонус от ДВИЖа"
+ *   description="Скачайте пример идеального отчета ипотечного отдела"
+ *   buttonText="Посмотреть демо"
+ *   buttonHref="#"
+ * />
+ * ```
+ */
+
+interface Props {
+  /** Основной заголовок */
+  title: string
+  /** Описание под заголовком */
+  description?: string
+  /** Текст на кнопке */
+  buttonText: string
+  /** Ссылка для кнопки */
+  buttonHref: string
+  /** URL иконки/изображения слева (опционально) */
+  image?: string
+  /** Alt-текст для изображения */
+  imageAlt?: string
+  /** Цвет фона: dark (по умолчанию) или light */
+  variant?: 'dark' | 'light'
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  title,
+  description,
+  buttonText,
+  buttonHref,
+  image,
+  imageAlt = 'Icon',
+  variant = 'dark',
+  class: className = ''
+} = Astro.props
+
+// Tailwind Plus стили + адаптация под дизайн из Pencil
+const bgColor = variant === 'dark' ? 'bg-[#3a3a3a]' : 'bg-indigo-100'
+const titleColor = variant === 'dark' ? 'text-white' : 'text-gray-900'
+const descriptionColor = variant === 'dark' ? 'text-[#d3d3d3]' : 'text-gray-600'
+const buttonBg = variant === 'dark' ? 'bg-[#ff4d00] hover:bg-[#e64600]' : 'bg-indigo-600 hover:bg-indigo-500'
+---
+
+<section class:list={[bgColor, 'rounded-[31px]', className]}>
+  <div class="mx-auto max-w-7xl px-6 py-10 sm:py-16 lg:flex lg:items-center lg:justify-between lg:px-8 lg:py-10">
+    <div class="flex items-center gap-7 lg:gap-8">
+      <!-- Иконка / Изображение -->
+      {image ? (
+        <img
+          src={image}
+          alt={imageAlt}
+          class="w-[94px] h-[95px] object-contain"
+          width="94"
+          height="95"
+        />
+      ) : (
+        <div class="w-[94px] h-[95px] flex items-center justify-center rounded-xl bg-white/10">
+          <svg class="w-12 h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182-3.182h8.364a2.25 2.25 0 013.182 3.182L21.75 15.75M6.75 19.5l4.5-4.5m0-4.5l-4.5 4.5M21.75 9l-4.5 4.5M4.5 4.5L4.5 4.5" />
+          </svg>
+        </div>
+      )}
+
+      <!-- Заголовок и описание -->
+      <div>
+        <h2 class:list={[titleColor, 'max-w-2xl text-2xl font-semibold tracking-tight sm:text-4xl lg:text-[40px]']}>
+          {title}
+        </h2>
+        {description && (
+          <p class:list={[descriptionColor, 'mt-2 text-base lg:text-[18px] max-w-lg']}>
+            {description}
+          </p>
+        )}
+      </div>
+    </div>
+
+    <!-- Кнопка -->
+    <div class="mt-8 flex items-center gap-x-6 lg:mt-0 lg:shrink-0">
+      <a
+        href={buttonHref}
+        class:list={[
+          buttonBg,
+          'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+        ]}
+      >
+        {buttonText}
+      </a>
+    </div>
+  </div>
+</section>

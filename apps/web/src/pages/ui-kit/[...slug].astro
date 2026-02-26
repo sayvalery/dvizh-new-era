@@ -4,6 +4,7 @@ import NavBar from '../../components/ui/NavBar.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
 import Form from '../../components/ui/Form.astro'
 import Drawer from '../../components/ui/Drawer.astro'
+import CTA from '../../components/ui/CTA.astro'
 import CTABlock from '../../components/blocks/CTABlock.astro'
 import ImageBlock from '../../components/blocks/ImageBlock.astro'
 import VideoBlock from '../../components/blocks/VideoBlock.astro'
@@ -29,6 +30,7 @@ export function getStaticPaths() {
     { params: { slug: 'forms' }, props: { section: 'forms' } },
     { params: { slug: 'cards' }, props: { section: 'cards' } },
     { params: { slug: 'drawer' }, props: { section: 'drawer' } },
+    { params: { slug: 'cta' }, props: { section: 'cta' } },
     { params: { slug: 'blocks' }, props: { section: 'blocks' } },
     { params: { slug: 'features' }, props: { section: 'features' } },
     { params: { slug: 'stories' }, props: { section: 'stories' } },
@@ -50,6 +52,7 @@ const sections = [
   { slug: 'forms', label: 'Формы' },
   { slug: 'cards', label: 'Карточки' },
   { slug: 'drawer', label: 'Дровер' },
+  { slug: 'cta', label: 'CTA' },
   { slug: 'blocks', label: 'Блоки статей' },
   { slug: 'features', label: 'Features Grid' },
   { slug: 'stories', label: 'Success Story' },
@@ -275,6 +278,22 @@ const sections = [
             </div>
 
             <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">inline + subscribe — только email</p>
+              <p class="text-xs text-gray-400 mb-4"><code>{'<Form preset="subscribe" layout="inline" />'}</code></p>
+              <div class="border rounded-xl p-6 max-w-md overflow-x-auto">
+                <Form preset="subscribe" layout="inline" />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">inline + research — имя, email, компания</p>
+              <p class="text-xs text-gray-400 mb-4"><code>{'<Form preset="research" layout="inline" />'}</code></p>
+              <div class="border rounded-xl p-6 overflow-x-auto">
+                <Form preset="research" layout="inline" />
+              </div>
+            </div>
+
+            <div>
               <p class="text-sm font-medium text-gray-400 mb-1">Пресеты</p>
               <div class="grid grid-cols-2 gap-6 max-w-2xl">
                 <div class="border rounded-xl p-5">
@@ -390,6 +409,50 @@ const sections = [
           </div>
         </div>
       )}
+      {section === 'cta' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">CTA</h1>
+          <p class="text-gray-600 mb-10">
+            Призыв к действию на основе Tailwind Plus. Заголовок, описание и кнопка.
+          </p>
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Тёмный вариант (как в Pencil)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{'<CTA title="Бонус от ДВИЖа" description="Скачайте пример идеального отчета ипотечного отдела" buttonText="Посмотреть демо" buttonHref="#"/>'}</code></p>
+              <CTA
+                title="Бонус от ДВИЖа"
+                description="Скачайте пример идеального отчета ипотечного отдела"
+                buttonText="Посмотреть демо"
+                buttonHref="#"
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Светлый вариант (Tailwind Plus)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{'<CTA variant="light" title="Ready to dive in?" description="Start your free trial today." buttonText="Get started" buttonHref="#"/>'}</code></p>
+              <CTA
+                variant="light"
+                title="Ready to dive in?"
+                description="Start your free trial today."
+                buttonText="Get started"
+                buttonHref="#"
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без описания</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{'<CTA title="Готовы начать?" buttonText="Начать" buttonHref="#"/>'}</code></p>
+              <CTA
+                title="Готовы начать?"
+                buttonText="Начать"
+                buttonHref="#"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {section === 'blocks' && (
         <div>
           <h1 class="text-3xl font-bold mb-2">Блоки статей</h1>

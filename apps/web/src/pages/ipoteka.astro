@@ -4,6 +4,7 @@ import Form from '../components/ui/Form.astro'
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
+import CTA from '../components/ui/CTA.astro'
 ---
 
 <SiteLayout title="Цифровая ипотека — ДВИЖ">
@@ -76,6 +77,16 @@ import StatsSection from '../components/ui/StatsSection.astro'
     image="https://placehold.co/637x625/d9d9d9/9ca3af?text=Image"
     variant="light"
   />
+
+  <!-- CTA Бонус -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <CTA
+      title="Бонус от ДВИЖа"
+      description="Скачайте пример идеального отчета ипотечного отдела"
+      buttonText="Посмотреть демо"
+      buttonHref="#"
+    />
+  </div>
 
   <!-- Форма захвата -->
   <div class="bg-gray-50 py-24">

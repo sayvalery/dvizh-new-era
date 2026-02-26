@@ -3,7 +3,7 @@
  * Form — контактная форма с пресетами
  *
  * Пресеты полей:
- *   lead      → name, email, company
+ *   lead      → name, email
  *   subscribe → email
  *   demo      → name, email, phone, company
  *   research  → name, email, company
@@ -33,7 +33,7 @@ interface Props {
 const { preset, layout = 'stacked', submitLabel, class: className } = Astro.props
 
 const fields: Record<string, string[]> = {
-  lead:     ['name', 'email', 'company'],
+  lead:     ['name', 'email'],
   subscribe:['email'],
   demo:     ['name', 'email', 'phone', 'company'],
   research: ['name', 'email', 'company'],
