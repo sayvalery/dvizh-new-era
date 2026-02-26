@@ -12,6 +12,8 @@
  * ```
  */
 
+import Form from './Form.astro'
+
 interface Props {
   /** Бейдж/надпись над заголовком (оранжевый) */
   badge?: string
@@ -19,16 +21,10 @@ interface Props {
   title: string
   /** Описание под заголовком */
   description?: string
-  /** Показывать инпуты и кнопку */
+  /** Показывать форму */
   withForm?: boolean
-  /** Placeholder для первого инпута */
-  input1Placeholder?: string
-  /** Placeholder для второго инпута */
-  input2Placeholder?: string
-  /** Текст на кнопке */
-  buttonText?: string
-  /** Действие при отправке формы */
-  formAction?: string
+  /** Пресет формы: lead, demo, subscribe, research */
+  formPreset?: 'lead' | 'demo' | 'subscribe' | 'research'
   /** Изображение справа (URL) */
   image?: string
   /** Alt-текст для изображения */
@@ -42,10 +38,7 @@ const {
   title,
   description,
   withForm = true,
-  input1Placeholder = 'Ваше имя',
-  input2Placeholder = 'Ваш e-mail',
-  buttonText = 'Посмотреть демо',
-  formAction = '/api/demo',
+  formPreset = 'lead',
   image,
   imageAlt = 'Hero image',
   class: className = ''
@@ -78,30 +71,9 @@ const {
           </div>
         </div>
 
-        <!-- Форма: инпуты + кнопка -->
+        <!-- Форма -->
         {withForm && (
-          <form action={formAction} method="POST" class="flex flex-col lg:flex-row gap-2 h-auto lg:h-16">
-            <input
-              type="text"
-              name="name"
-              placeholder={input1Placeholder}
-              class="flex-1 h-16 px-6 text-[18px] font-medium border border-[#c8c8c8] rounded-xl placeholder:text-gray-400 focus:outline-none focus:border-[#ff4d00]"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder={input2Placeholder}
-              class="flex-1 h-16 px-6 text-[18px] font-medium border border-[#c8c8c8] rounded-xl placeholder:text-gray-400 focus:outline-none focus:border-[#ff4d00]"
-              required
-            />
-            <button
-              type="submit"
-              class="h-16 px-9 text-[18px] font-bold text-white bg-[#ff4d00] rounded-xl hover:bg-[#e64600] transition-colors whitespace-nowrap"
-            >
-              {buttonText}
-            </button>
-          </form>
+          <Form preset={formPreset} layout="inline" />
         )}
       </div>
 
