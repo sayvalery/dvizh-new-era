@@ -5,6 +5,7 @@ import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
 import CTA from '../components/ui/CTA.astro'
+import BentoGrid from '../components/ui/BentoGrid.astro'
 import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
 ---
 
@@ -89,6 +90,18 @@ import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astr
     />
   </div>
 
+  <!-- Bento Grid -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <BentoGrid
+      columns={3}
+      items={[
+        { title: "Готовые интеграции с популярными системами", image: "" },
+        { title: "57 секунд — среднее время ответа в чате поддержки", image: "" },
+        { title: "Все ключевые показатели ипотечного отдела", image: "" }
+      ]}
+    />
+  </div>
+
   <!-- Stories Carousel -->
   <div class="max-w-[1440px] mx-auto px-4 py-20">
     <SuccessStoriesCarousel
@@ -154,9 +167,9 @@ import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astr
     <CTA
       variant="split"
       badge="Бонус от ДВИЖа"
-      title="Скачайте пример идеального отчета ипотечного отдела"
-      description="Узнайте, как digitales инструменты помогают закрывать больше сделок и повышать конверсию на каждом этапе."
-      buttonText="Посмотреть демо"
+      title="Подберем решение под ваши задачи"
+      description="Проведём бесплатный анализ вашего ипотечного отдела и покажем точки роста"
+      buttonText="Записаться на аудит"
       buttonHref="#"
     />
   </div>

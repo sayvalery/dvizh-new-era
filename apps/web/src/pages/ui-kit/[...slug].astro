@@ -906,6 +906,19 @@ const sections = [
                 ]}
               />
             </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Три колонки</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid columns={3} items={[...]} />`}</code></p>
+              <BentoGrid
+                columns={3}
+                items={[
+                  { title: "Автоматизация", image: "" },
+                  { title: "Интеграции", image: "" },
+                  { title: "Аналитика", image: "" }
+                ]}
+              />
+            </div>
           </div>
         </div>
       )}

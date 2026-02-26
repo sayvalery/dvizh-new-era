@@ -1,13 +1,15 @@
 ---
 /**
- * BentoGrid — сетка карточек (2 колонки)
+ * BentoGrid — сетка карточек
  *
  * @example
  * ```astro
  * <BentoGrid
+ *   columns={3}
  *   items={[
- *     { label: "Releases", title: "Push to deploy", description: "...", image: "/releases.png" },
- *     { label: "Integrations", title: "Connect tools", description: "..." }
+ *     { title: "Push to deploy", image: "/releases.png" },
+ *     { title: "Connect tools" },
+ *     { title: "Analytics" }
  *   ]}
  * />
  * ```
@@ -25,30 +27,46 @@ interface BentoItem {
 interface Props {
   /** Карточки сетки */
   items: BentoItem[]
+  /** Количество колонок: 2 (по умолчанию) или 3 */
+  columns?: 2 | 3
   /** Дополнительные CSS классы */
   class?: string
 }
 
 const {
   items,
+  columns = 2,
   class: className = ''
 } = Astro.props
+
+// Классы сетки
+const gridClass = columns === 3
+  ? 'grid grid-cols-1 gap-4 lg:grid-cols-3'
+  : 'grid grid-cols-1 gap-4 lg:grid-cols-2'
 
 // Скругления углов для карточек
 const getCardClass = (index: number) => {
   const classes = ['w-full overflow-hidden rounded-lg bg-white shadow outline outline-1 outline-black/5']
 
-  // Скругляем внешние углы сетки
-  if (index === 0) classes.push('lg:rounded-tl-[2rem]', 'max-lg:rounded-t-[2rem]')
-  if (index === 1) classes.push('lg:rounded-tr-[2rem]')
-  if (index === items.length - 2) classes.push('lg:rounded-bl-[2rem]')
-  if (index === items.length - 1) classes.push('lg:rounded-br-[2rem]', 'max-lg:rounded-b-[2rem]')
+  if (columns === 3) {
+    // Скругляем внешние углы для 3 колонок
+    if (index === 0) classes.push('lg:rounded-tl-[2rem]', 'max-lg:rounded-t-[2rem]')
+    if (index === 2) classes.push('lg:rounded-tr-[2rem]', 'max-lg:rounded-tr-[2rem]')
+    if (index === items.length - 3) classes.push('lg:rounded-bl-[2rem]')
+    if (index === items.length - 1) classes.push('lg:rounded-br-[2rem]', 'max-lg:rounded-b-[2rem]')
+  } else {
+    // Скругляем внешние углы для 2 колонок
+    if (index === 0) classes.push('lg:rounded-tl-[2rem]', 'max-lg:rounded-t-[2rem]')
+    if (index === 1) classes.push('lg:rounded-tr-[2rem]')
+    if (index === items.length - 2) classes.push('lg:rounded-bl-[2rem]')
+    if (index === items.length - 1) classes.push('lg:rounded-br-[2rem]', 'max-lg:rounded-b-[2rem]')
+  }
 
   return classes.join(' ')
 }
 ---
 
-<div class:list={['grid grid-cols-1 gap-4 lg:grid-cols-2', className]}>
+<div class:list={[gridClass, className]}>
   {items.map((item, index) => (
     <div class="flex p-px">
       <div class={getCardClass(index)}>
