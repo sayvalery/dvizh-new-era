@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import NavBar from '../../components/ui/NavBar.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
 import Form from '../../components/ui/Form.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
 import Drawer from '../../components/ui/Drawer.astro'
 import CTA from '../../components/ui/CTA.astro'
 import CTABlock from '../../components/blocks/CTABlock.astro'
@@ -29,6 +30,7 @@ export function getStaticPaths() {
     { params: { slug: 'colors' }, props: { section: 'colors' } },
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
     { params: { slug: 'forms' }, props: { section: 'forms' } },
+    { params: { slug: 'form-closing' }, props: { section: 'form-closing' } },
     { params: { slug: 'cards' }, props: { section: 'cards' } },
     { params: { slug: 'drawer' }, props: { section: 'drawer' } },
     { params: { slug: 'cta' }, props: { section: 'cta' } },
@@ -52,6 +54,7 @@ const sections = [
   { slug: 'colors', label: 'Цвета' },
   { slug: 'buttons', label: 'Кнопки' },
   { slug: 'forms', label: 'Формы' },
+  { slug: 'form-closing', label: 'Form Closing' },
   { slug: 'cards', label: 'Карточки' },
   { slug: 'drawer', label: 'Дровер' },
   { slug: 'cta', label: 'CTA' },
@@ -329,6 +332,39 @@ const sections = [
               </div>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {section === 'form-closing' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">Form Closing</h1>
+          <p class="gray-600 mb-10">
+            Панель в конце страницы с формой. Тёмный фон с градиентом, заголовок, описание, изображение справа.
+          </p>
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С изображением</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="Start using our app today" description="Ac euismod vel sit maecenas." image="/app-screenshot.png" />`}</code></p>
+              <FormClosing
+                preset="lead"
+                title="Начните пользоваться приложением сегодня"
+                description="Автоматизируйте рабочие процессы и повышайте эффективность команды."
+                image=""
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без изображения</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="Попробуйте ДВИЖ в деле" description="Оставьте заявку и мы свяжемся с вами." submitLabel="Получить демо" />`}</code></p>
+              <FormClosing
+                preset="lead"
+                title="Попробуйте ДВИЖ в деле"
+                description="Оставьте заявку и мы свяжемся с вами в ближайшее время."
+                submitLabel="Получить демо"
+              />
+            </div>
           </div>
         </div>
       )}
