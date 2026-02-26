@@ -1,0 +1,123 @@
+---
+/**
+ * SuccessStoriesCarousel — горизонтальная карусель карточек SuccessStory
+ *
+ * Использует CSS Scroll Snap для нативной прокрутки с эффектом «липания» к слайдам.
+ * Работает с тач-свайпом на мобильных и скроллом на десктопе.
+ *
+ * @example
+ * ```astro
+ * <SuccessStoriesCarousel
+ *   title="70+ историй успеха на рынке девелопмента"
+ *   :stories={[
+ *     {
+ *       title: "Помогли начать обрабатывать на 281% заявок больше",
+ *       quote: "Спасибо ДВИЖ за прескоринг.",
+ *       person: { name: "Иван Петров", jobTitle: "Директор, Компания" },
+ *       image: "/bg.jpg",
+ *       logo: "/logo.svg"
+ *     },
+ *     // ...
+ *   ]}
+ * />
+ * ```
+ */
+
+import SuccessStory from './SuccessStory.astro'
+
+interface Person {
+  name: string
+  slug?: string
+  photo?: { url: string; alt?: string }
+  jobTitle?: string
+  company?: { name: string; slug?: string }
+}
+
+interface StoryProps {
+  title: string
+  quote: string
+  person: Person
+  image: string
+  imageAlt?: string
+  logo?: string
+  logoAlt?: string
+}
+
+interface Props {
+  /** Заголовок секции */
+  title: string
+  /** Массив карточек SuccessStory */
+  stories: StoryProps[]
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const { title, stories, class: className = '' } = Astro.props
+---
+
+<section class:list={[className]} data-stories-carousel>
+  <!-- Заголовок -->
+  <h2 class="text-[64px] md:text-[80px] font-medium tracking-tight text-[#1b2226] leading-none mb-[52px]">
+    {title}
+  </h2>
+
+  <!-- Карусель с CSS Scroll Snap -->
+  <div
+    class="flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory scrollbar-hide cursor-grab select-none"
+    style="-webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth;"
+  >
+    {stories.map((story) => (
+      <div class="snap-center shrink-0 w-full max-w-[80%] xl:max-w-[900px]">
+        <SuccessStory {...story} />
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  // Simple drag-to-scroll for mouse users
+  document.querySelectorAll('[data-stories-carousel]').forEach(section => {
+    const container = section.querySelector('[class*="overflow-x-auto"]') as HTMLElement
+    if (!container) return
+
+    let isDown = false
+    let startX: number
+    let scrollLeft: number
+
+    container.addEventListener('mousedown', (e: MouseEvent) => {
+      isDown = true
+      container.style.cursor = 'grabbing'
+      startX = e.pageX - container.offsetLeft
+      scrollLeft = container.scrollLeft
+    })
+
+    container.addEventListener('mouseleave', () => {
+      isDown = false
+      container.style.cursor = ''
+    })
+
+    container.addEventListener('mouseup', () => {
+      isDown = false
+      container.style.cursor = ''
+    })
+
+    container.addEventListener('mousemove', (e: MouseEvent) => {
+      if (!isDown) return
+      e.preventDefault()
+      const x = e.pageX - container.offsetLeft
+      const walk = x - startX
+      container.scrollLeft = scrollLeft - walk
+    })
+  })
+</script>
+
+<style>
+  /* Скрыть скроллбар */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

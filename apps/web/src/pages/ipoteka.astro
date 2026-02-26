@@ -5,6 +5,7 @@ import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
 import CTA from '../components/ui/CTA.astro'
+import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
 ---
 
 <SiteLayout title="Цифровая ипотека — ДВИЖ">
@@ -85,6 +86,66 @@ import CTA from '../components/ui/CTA.astro'
       description="Скачайте пример идеального отчета ипотечного отдела"
       buttonText="Посмотреть демо"
       buttonHref="#"
+    />
+  </div>
+
+  <!-- Stories Carousel -->
+  <div class="max-w-[1440px] mx-auto px-4 py-20">
+    <SuccessStoriesCarousel
+      title="70+ историй успеха на рынке девелопмента"
+      stories={[
+        {
+          title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
+          quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения.",
+          person: {
+            name: "Петрова Надежда",
+            jobTitle: "Директор по маркетингу, ЛСР",
+            photo: { url: "https://i.pravatar.cc/150?img=47" }
+          },
+          image: "https://placehold.co/448x448/d9d9d9/9ca3af?text=ЛСР",
+          imageAlt: "ЛСР",
+          logo: "https://placehold.co/200x60/ffffff/333333?text=LSR",
+          logoAlt: "ЛСР"
+        },
+        {
+          title: "Дополнительно продали 96 квартир",
+          quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения ипотеки.",
+          person: {
+            name: "Алексей Соколов",
+            jobTitle: "Коммерческий директор, Самолет плюс",
+            photo: { url: "https://i.pravatar.cc/150?img=12" }
+          },
+          image: "https://placehold.co/448x448/d9d9d9/9ca3af?text=Самолет",
+          imageAlt: "Самолет плюс",
+          logo: "https://placehold.co/200x60/ffffff/333333?text=Aircraft",
+          logoAlt: "Самолет плюс"
+        },
+        {
+          title: "Увеличили объем закрытых сделок с 1116 до 3500 за год",
+          quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения ипотеки.",
+          person: {
+            name: "Мария Иванова",
+            jobTitle: "Руководитель отдела продаж",
+          },
+          image: "https://placehold.co/448x448/d9d9d9/9ca3af?text=Company",
+          imageAlt: "Компания",
+          logo: "https://placehold.co/200x60/ffffff/333333?text=Logo",
+          logoAlt: "Логотип"
+        },
+        {
+          title: "Сократили время обработки заявки с 3 дней до 4 часов",
+          quote: "Интеграция прошла гладко. API оказался хорошо задокументированным, а поддержка всегда на связи.",
+          person: {
+            name: "Дмитрий Козлов",
+            jobTitle: "IT-директор, Девелопер",
+            photo: { url: "https://i.pravatar.cc/150?img=68" }
+          },
+          image: "https://placehold.co/448x448/d9d9d9/9ca3af?text=Dev",
+          imageAlt: "Девелопер",
+          logo: "https://placehold.co/200x60/ffffff/333333?text=DEV",
+          logoAlt: "Девелопер"
+        }
+      ]}
     />
   </div>
 

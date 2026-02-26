@@ -14,6 +14,7 @@ import RichTextBlock from '../../components/blocks/RichTextBlock.astro'
 import FeaturesGrid from '../../components/ui/FeaturesGrid.astro'
 import BentoGrid from '../../components/ui/BentoGrid.astro'
 import SuccessStory from '../../components/ui/SuccessStory.astro'
+import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 import HeroSection from '../../components/ui/HeroSection.astro'
 import StatsSection from '../../components/ui/StatsSection.astro'
 
@@ -34,6 +35,7 @@ export function getStaticPaths() {
     { params: { slug: 'blocks' }, props: { section: 'blocks' } },
     { params: { slug: 'features' }, props: { section: 'features' } },
     { params: { slug: 'stories' }, props: { section: 'stories' } },
+    { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
   { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'hero' }, props: { section: 'hero' } },
     { params: { slug: 'stats' }, props: { section: 'stats' } },
@@ -56,6 +58,7 @@ const sections = [
   { slug: 'blocks', label: 'Блоки статей' },
   { slug: 'features', label: 'Features Grid' },
   { slug: 'stories', label: 'Success Story' },
+  { slug: 'stories-carousel', label: 'Stories Carousel' },
   { slug: 'bento', label: 'Bento Grid' },
   { slug: 'hero', label: 'Hero Section' },
   { slug: 'stats', label: 'Stats Section' },
@@ -714,6 +717,83 @@ const sections = [
                 }}
                 image="https://placehold.co/448x448/e5e7eb/6b7280?text=Банк"
                 imageAlt="Банк Стандарт"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'stories-carousel' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">Stories Carousel</h1>
+          <p class="text-gray-600 mb-10">
+            Горизонтальная карусель карточек SuccessStory с CSS Scroll Snap. Работает с тач-свайпом и скроллом.
+          </p>
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 карточки из Pencil</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{'<SuccessStoriesCarousel title="..." stories={[...]}'}</code></p>
+              <SuccessStoriesCarousel
+                title="70+ историй успеха на рынке девелопмента"
+                stories={[
+                  {
+                    title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
+                    quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения.",
+                    person: {
+                      name: "Петрова Надежда",
+                      jobTitle: "Директор по маркетингу, ЛСР",
+                      photo: { url: "https://i.pravatar.cc/150?img=47" }
+                    },
+                    image: "https://placehold.co/448x448/d9d9d9/9ca3af?text=ЛСР",
+                    imageAlt: "ЛСР",
+                    logo: "https://placehold.co/200x60/ffffff/333333?text=LSR",
+                    logoAlt: "ЛСР"
+                  },
+                  {
+                    title: "Дополнительно продали 96 квартир",
+                    quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения ипотеки.",
+                    person: {
+                      name: "Алексей Соколов",
+                      jobTitle: "Коммерческий директор, Самолет плюс",
+                      photo: { url: "https://i.pravatar.cc/150?img=12" }
+                    },
+                    image: "https://placehold.co/448x448/d9d9d9/9ca3af?text=Самолет",
+                    imageAlt: "Самолет плюс",
+                    logo: "https://placehold.co/200x60/ffffff/333333?text=Aircraft",
+                    logoAlt: "Самолет плюс"
+                  },
+                  {
+                    title: "Увеличили объем закрытых сделок с 1116 до 3500 за год",
+                    quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения ипотеки.",
+                    person: {
+                      name: "Мария Иванова",
+                      jobTitle: "Руководитель отдела продаж",
+                      photo: { url: "https://i.pravatar.cc/150?img=32" }
+                    },
+                    image: "https://placehold.co/448x448/d9d9d9/9ca3af?text=Company",
+                    imageAlt: "Компания",
+                    logo: "https://placehold.co/200x60/ffffff/333333?text=Logo",
+                    logoAlt: "Логотип"
+                  }
+                ]}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Одна карточка (для мобильных)</p>
+              <SuccessStoriesCarousel
+                title="История успеха"
+                stories={[
+                  {
+                    title: "Сократили время обработки заявки с 3 дней до 4 часов",
+                    quote: "Интеграция прошла гладко. API оказался хорошо задокументированным.",
+                    person: {
+                      name: "Иван Петров",
+                      jobTitle: "IT-директор",
+                    },
+                    image: "https://placehold.co/448x448/f3f4f6/9ca3af?text=Test",
+                  }
+                ]}
               />
             </div>
           </div>
