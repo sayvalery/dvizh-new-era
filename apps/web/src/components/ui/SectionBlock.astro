@@ -8,9 +8,11 @@
  *   title="Поможем перевыполнить план продаж на том же трафике"
  *   sections={[
  *     { title: "Цифровая ипотека", active: true, href: "#" },
- *     { title: "Ипотечный калькулятор", href: "#" },
- *     { title: "Финансовый скоринг", href: "#" },
- *     { title: "Электронная регистрация", href: "#" }
+ *     { title: "Ипотечный калькулятор", href: "#" }
+ *   ]}
+ *   descriptions={[
+ *     { text: "До 96% одобрения" },
+ *     { text: "Единая анкета в 40+ банков" }
  *   ]}
  *   buttons={[
  *     { label: "Связаться с нами", href: "#" },
@@ -31,11 +33,17 @@ interface Button {
   href: string
 }
 
+interface DescriptionItem {
+  text: string
+}
+
 interface Props {
   /** Основной заголовок */
   title: string
   /** Список секций (отображается слева) */
   sections?: SectionItem[]
+  /** Список описаний (отображается в центре справа) */
+  descriptions?: DescriptionItem[]
   /** Кнопки (отображаются внизу справа) */
   buttons?: Button[]
   /** Цвет активной секции (по умолчанию #FF4D00) */
@@ -49,6 +57,7 @@ interface Props {
 const {
   title,
   sections = [],
+  descriptions = [],
   buttons = [],
   activeColor = 'text-[#FF4D00]',
   inactiveColor = 'text-[#858585]',
@@ -92,14 +101,26 @@ const {
 
       <!-- Контент справа -->
       <div class="flex-1 bg-[#f8f8f8] rounded-[40px] p-10 lg:px-10 lg:py-10 flex flex-col justify-between gap-10 lg:gap-[168px]">
-        <!-- Заголовок -->
-        <h2 class="text-[40px] lg:text-[50px] font-medium leading-none tracking-tight text-[#32393E]">
-          {title}
-        </h2>
+        <!-- Заголовок + Описания -->
+        <div class="flex flex-col gap-[52px]">
+          <h2 class="text-[40px] lg:text-[50px] font-medium leading-none tracking-tight text-[#32393E]">
+            {title}
+          </h2>
 
-        <!-- Контент/placeholder -->
-        <div class="flex items-center justify-center flex-1">
-          <div class="w-full h-[200px] border border-dashed border-[#858585] rounded-[24px]"></div>
+          <!-- Контент/placeholder -->
+          {descriptions.length > 0 ? (
+            <div class="flex flex-col gap-4 text-left w-full">
+              {descriptions.map((item) => (
+                <p class="text-lg leading-[1.4] tracking-tight text-[#32393E]">
+                  {item.text}
+                </p>
+              ))}
+            </div>
+          ) : (
+            <div class="flex items-center justify-center flex-1">
+              <div class="w-full h-[200px] border border-dashed border-[#858585] rounded-[24px]"></div>
+            </div>
+          )}
         </div>
 
         <!-- Кнопки -->
