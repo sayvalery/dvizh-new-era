@@ -22,6 +22,7 @@ import StatsSection from '../../components/ui/StatsSection.astro'
 import Timeline from '../../components/ui/Timeline.astro'
 import BlogCard from '../../components/ui/BlogCard.astro'
 import SectionBlock from '../../components/ui/SectionBlock.astro'
+<<<<<<< HEAD
 import PropsTable from '../../components/ui/PropsTable.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
@@ -116,6 +117,9 @@ const statsSectionMeta = parseSource(statsSectionRaw)
 const timelineMeta = parseSource(timelineRaw)
 const blogCardMeta = parseSource(blogCardRaw)
 const sectionBlockMeta = parseSource(sectionBlockRaw)
+=======
+import GradientCTA from '../../components/ui/GradientCTA.astro'
+>>>>>>> 69d2ea8 (feat(ui): добавлен компонент GradientCTA)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -143,6 +147,7 @@ export function getStaticPaths() {
     { params: { slug: 'timeline' }, props: { section: 'timeline' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
     { params: { slug: 'section-block' }, props: { section: 'section-block' } },
+    { params: { slug: 'gradient-cta' }, props: { section: 'gradient-cta' } },
   ]
 }
 
@@ -171,6 +176,7 @@ const sections = [
   { slug: 'timeline', label: 'Timeline' },
   { slug: 'blogcard', label: 'Blog Card' },
   { slug: 'section-block', label: 'Section Block' },
+  { slug: 'gradient-cta', label: 'Gradient CTA' },
 ]
 ---
 
@@ -1585,6 +1591,22 @@ const sections = [
               { label: "Связаться с нами", href: "#" },
               { label: "Запросить демо", href: "#" }
             ]}
+          />
+        </div>
+      )}
+      {section === 'gradient-cta' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">Gradient CTA</h1>
+          <p class="text-gray-600 mb-10">
+            CTA-секция с градиентным фоном и изображением. Базируется на компоненте из Tailwind UI.
+          </p>
+
+          <GradientCTA
+            title="Boost your productivity. Start using our app today."
+            description="Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla."
+            primaryButton={{ label: "Get started", href: "#" }}
+            secondaryButton={{ label: "Learn more", href: "#" }}
+            image="https://tailwindcss.com/plus-assets/img/component-images/dark-project-app-screenshot.png"
           />
         </div>
       )}
