@@ -48,13 +48,24 @@ async function fetchFromCMS<T>(
   }
 
   const url = `${CMS_URL}/api${path}?${params.toString()}`
-  const res = await fetch(url)
 
-  if (!res.ok) {
-    throw new Error(`CMS fetch failed: ${res.status} ${url}`)
+  // Таймаут 2 секунды, чтобы не зависать, если CMS недоступен
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), 2000)
+
+  try {
+    const res = await fetch(url, { signal: controller.signal })
+    clearTimeout(timeoutId)
+
+    if (!res.ok) {
+      throw new Error(`CMS fetch failed: ${res.status} ${url}`)
+    }
+
+    return res.json() as Promise<T>
+  } catch {
+    clearTimeout(timeoutId)
+    throw new Error(`CMS unavailable: ${url}`)
   }
-
-  return res.json() as Promise<T>
 }
 
 // Только опубликованный контент

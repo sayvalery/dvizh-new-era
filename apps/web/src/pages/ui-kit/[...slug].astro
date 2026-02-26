@@ -11,6 +11,7 @@ import QuoteBlock from '../../components/blocks/QuoteBlock.astro'
 import FormBlock from '../../components/blocks/FormBlock.astro'
 import RichTextBlock from '../../components/blocks/RichTextBlock.astro'
 import FeaturesGrid from '../../components/ui/FeaturesGrid.astro'
+import SuccessStory from '../../components/ui/SuccessStory.astro'
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -27,6 +28,7 @@ export function getStaticPaths() {
     { params: { slug: 'drawer' }, props: { section: 'drawer' } },
     { params: { slug: 'blocks' }, props: { section: 'blocks' } },
     { params: { slug: 'features' }, props: { section: 'features' } },
+    { params: { slug: 'stories' }, props: { section: 'stories' } },
   ]
 }
 
@@ -44,6 +46,7 @@ const sections = [
   { slug: 'drawer', label: 'Дровер' },
   { slug: 'blocks', label: 'Блоки статей' },
   { slug: 'features', label: 'Features Grid' },
+  { slug: 'stories', label: 'Success Story' },
 ]
 ---
 
@@ -588,6 +591,50 @@ const sections = [
                   ]}
                 />
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'stories' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">Success Story</h1>
+          <p class="text-gray-600 mb-10">
+            Карточка истории успеха с метрикой, персоной и цитатой. Использует <code class="text-sm">PersonCard</code>.
+          </p>
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С выделением части текста (HTML в title)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{'<SuccessStory title="...<span class=..."">...</span>..." ... />'}</code></p>
+              <SuccessStory
+                title="Помогли начать обрабатывать на <span class='text-indigo-600'>281%</span> заявок больше, чем в среднем на рынке"
+                quote="Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента."
+                person={{
+                  name: "Петрова Надежда",
+                  jobTitle: "Директор по маркетингу, ЛСР",
+                  photo: { url: "https://i.pravatar.cc/150?img=47" }
+                }}
+                image="https://placehold.co/448x448/f3f4f6/9ca3af?text=ЛСР"
+                imageAlt="ЛСР"
+                logo="https://placehold.co/200x60/ffffff/333333?text=LSR"
+                logoAlt="ЛСР"
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Обычный текст без подсветки</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{'<SuccessStory title="..." quote="..." person={{...}} image="..." logo="..." />'}</code></p>
+              <SuccessStory
+                title="Сократили время обработки заявки с 3 дней до 4 часов"
+                quote="Интеграция прошла гладко. API оказался хорошо задокументированным, а поддержка всегда на связи."
+                person={{
+                  name: "Алексей Соколов",
+                  jobTitle: "IT-директор, Банк «Стандарт»",
+                  photo: { url: "https://i.pravatar.cc/150?img=12" }
+                }}
+                image="https://placehold.co/448x448/e5e7eb/6b7280?text=Банк"
+                imageAlt="Банк Стандарт"
+              />
             </div>
           </div>
         </div>

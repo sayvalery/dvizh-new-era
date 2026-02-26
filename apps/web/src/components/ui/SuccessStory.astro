@@ -1,0 +1,126 @@
+---
+/**
+ * SuccessStory — карточка истории успеха с метрикой, персоной и цитатой
+ *
+ * @example
+ * ```astro
+ * <SuccessStory
+ *   title="Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке"
+ *   quote="Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента."
+ *   person={{
+ *     name: "Петрова Надежда",
+ *     jobTitle: "Директор по маркетингу, ЛСР",
+ *     photo: { url: "/avatar.jpg" }
+ *   }}
+ *   image="/company-bg.jpg"
+ *   logo="/company-logo.svg"
+ * />
+ * ```
+ */
+
+import PersonCard from './PersonCard.astro'
+
+interface Person {
+  name: string
+  slug?: string
+  photo?: { url: string; alt?: string }
+  jobTitle?: string
+  company?: { name: string; slug?: string }
+}
+
+interface Props {
+  /** Заголовок с метрикой результата */
+  title: string
+  /** Текст цитаты */
+  quote: string
+  /** Персона (автор цитаты) */
+  person: Person
+  /** URL фонового изображения (справа) */
+  image: string
+  /** Alt-текст для изображения */
+  imageAlt?: string
+  /** URL логотипа компании (поверх изображения) */
+  logo?: string
+  /** Alt-текст логотипа */
+  logoAlt?: string
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  title,
+  quote,
+  person,
+  image,
+  imageAlt = 'Company',
+  logo,
+  logoAlt = 'Logo',
+  class: className = ''
+} = Astro.props
+
+// Автоопределение: если есть HTML теги — рендерим как HTML
+const hasHtml = /<[a-z][\s\S]*>/i.test(title)
+---
+
+<div class:list={['bg-[#f8f8f8] rounded-[40px] p-[52px]', className]}>
+  <div class="grid lg:grid-cols-2 gap-[60px] items-stretch">
+    <!-- Левая колонка: контент -->
+    <div class="flex flex-col justify-between gap-[60px]">
+      <!-- Заголовок с метрикой -->
+      {hasHtml ? (
+        <div class="text-[28px] font-medium leading-[1.3] tracking-tight text-gray-900" set:html={title} />
+      ) : (
+        <h3 class="text-[28px] font-medium leading-[1.3] tracking-tight text-gray-900">
+          {title}
+        </h3>
+      )}
+
+      <div class="flex flex-col gap-6">
+        <!-- Персона -->
+        <PersonCard person={person} variant="full" />
+
+        <!-- Цитата -->
+        <div class="flex gap-6 pr-1">
+          <!-- Иконки кавычек -->
+          <div class="flex shrink-0 text-gray-500" aria-hidden="true">
+            <svg class="w-[13px] h-[31px] opacity-40" viewBox="0 0 14 31" fill="none">
+              <path d="M13.1042 0.00012207H0.00012207V17.6042C0.00012207 24.6513 5.71298 30.3642 12.7601 30.3642V18.2601C9.75275 18.2601 7.27329 15.7807 7.27329 12.7733V12.2733H13.1042V0.00012207Z" fill="currentColor"/>
+            </svg>
+            <svg class="w-[13px] h-[31px] opacity-40" viewBox="0 0 14 31" fill="none">
+              <path d="M13.1042 0.00012207H0.00012207V17.6042C0.00012207 24.6513 5.71298 30.3642 12.7601 30.3642V18.2601C9.75275 18.2601 7.27329 15.7807 7.27329 12.7733V12.2733H13.1042V0.00012207Z" fill="currentColor"/>
+            </svg>
+            <svg class="w-[13px] h-[31px] opacity-10" viewBox="0 0 14 31" fill="none">
+              <path d="M13.1042 0.00012207H0.00012207V17.6042C0.00012207 24.6513 5.71298 30.3642 12.7601 30.3642V18.2601C9.75275 18.2601 7.27329 15.7807 7.27329 12.7733V12.2733H13.1042V0.00012207Z" fill="currentColor"/>
+            </svg>
+          </div>
+
+          <p class="text-base leading-[1.4] text-gray-900">
+            {quote}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Правая колонка: изображение -->
+    <div class="relative rounded-3xl overflow-hidden">
+      <img
+        src={image}
+        alt={imageAlt}
+        class="w-full aspect-square object-cover"
+        width="448"
+        height="448"
+      />
+
+      <!-- Логотип компании (поверх изображения) -->
+      {logo && (
+        <div class="absolute inset-0 flex items-center justify-center">
+          <img
+            src={logo}
+            alt={logoAlt}
+            class="max-w-[60%] max-h-[40%] object-contain"
+          />
+        </div>
+      )}
+    </div>
+  </div>
+</div>
