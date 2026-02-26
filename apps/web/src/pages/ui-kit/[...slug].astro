@@ -267,6 +267,14 @@ const sections = [
             </div>
 
             <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">inline — горизонтальная форма для hero-секций</p>
+              <p class="text-xs text-gray-400 mb-4"><code>{'<Form preset="lead" layout="inline" />'}</code></p>
+              <div class="border rounded-xl p-6 overflow-x-auto">
+                <Form preset="lead" layout="inline" />
+              </div>
+            </div>
+
+            <div>
               <p class="text-sm font-medium text-gray-400 mb-1">Пресеты</p>
               <div class="grid grid-cols-2 gap-6 max-w-2xl">
                 <div class="border rounded-xl p-5">
@@ -734,7 +742,7 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold mb-8">Hero Section</h1>
           <p class="text-gray-600 mb-10">
-            Главная hero-секция страницы с заголовком, описанием, формой (2 инпута + кнопка) и опциональным изображением справа.
+            Главная hero-секция страницы с заголовком, описанием, формой (компонент Form) и опциональным изображением справа.
           </p>
 
           <div class="space-y-12">
@@ -745,6 +753,16 @@ const sections = [
                 title="Закрывайте до 26% больше сделок на том же трафике"
                 description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
                 image="https://placehold.co/595x800/ededed/9ca3af?text=Image"
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С формой demo (имя, email, телефон, компания)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{'<HeroSection formPreset="demo" ... />'}</code></p>
+              <HeroSection
+                title="Запросите демо"
+                description="Покажем, как работает платформа."
+                formPreset="demo"
               />
             </div>
 

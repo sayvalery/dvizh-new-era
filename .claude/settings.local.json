@@ -26,7 +26,9 @@
       "Bash(git merge:*)",
       "Bash(cat:*)",
       "Bash(grep:*)",
-      "Bash(git show:*)"
+      "Bash(git show:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd.exe //c \"taskkill /F /PID 7396 && taskkill /F /PID 30752\")"
     ]
   }
 }
