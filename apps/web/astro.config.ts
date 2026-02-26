@@ -11,6 +11,7 @@ export default defineConfig({
   },
   vite: {
     server: {
+      allowedHosts: ['preview.dvizh.cc'],
       proxy: {
         '/api': 'http://localhost:3002',
         '/media': 'http://localhost:3002',
