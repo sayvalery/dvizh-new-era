@@ -1,0 +1,125 @@
+---
+/**
+ * SectionBlock — секция с меню слева и контентом справа
+ *
+ * @example
+ * ```astro
+ * <SectionBlock
+ *   title="Поможем перевыполнить план продаж на том же трафике"
+ *   sections={[
+ *     { title: "Цифровая ипотека", active: true, href: "#" },
+ *     { title: "Ипотечный калькулятор", href: "#" },
+ *     { title: "Финансовый скоринг", href: "#" },
+ *     { title: "Электронная регистрация", href: "#" }
+ *   ]}
+ *   buttons={[
+ *     { label: "Связаться с нами", href: "#" },
+ *     { label: "Запросить демо", href: "#" }
+ *   ]}
+ * />
+ * ```
+ */
+
+interface SectionItem {
+  title: string
+  active?: boolean
+  href?: string
+}
+
+interface Button {
+  label: string
+  href: string
+}
+
+interface Props {
+  /** Основной заголовок */
+  title: string
+  /** Список секций (отображается слева) */
+  sections?: SectionItem[]
+  /** Кнопки (отображаются внизу справа) */
+  buttons?: Button[]
+  /** Цвет активной секции (по умолчанию #FF4D00) */
+  activeColor?: string
+  /** Цвет неактивной секции (по умолчанию #858585) */
+  inactiveColor?: string
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  title,
+  sections = [],
+  buttons = [],
+  activeColor = 'text-[#FF4D00]',
+  inactiveColor = 'text-[#858585]',
+  class: className = ''
+} = Astro.props
+---
+
+<section class:list={['bg-white', className]}>
+  <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+    <div class="flex flex-col lg:flex-row gap-[168px] lg:min-h-[800px] py-16 lg:py-0 items-center lg:items-start">
+
+      <!-- Меню слева -->
+      {sections.length > 0 && (
+        <div class="flex flex-col gap-8">
+          {sections.map((section) => (
+            <div>
+              {section.href ? (
+                <a
+                  href={section.href}
+                  class:list={[
+                    'text-xs uppercase tracking-wide font-normal leading-snug transition-colors',
+                    section.active ? activeColor : inactiveColor
+                  ]}
+                >
+                  {section.title}
+                </a>
+              ) : (
+                <span
+                  class:list={[
+                    'text-xs uppercase tracking-wide font-normal leading-snug',
+                    section.active ? activeColor : inactiveColor
+                  ]}
+                >
+                  {section.title}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <!-- Контент справа -->
+      <div class="flex-1 bg-[#f8f8f8] rounded-[40px] p-10 lg:px-10 lg:py-10 flex flex-col justify-between gap-10 lg:gap-[168px]">
+        <!-- Заголовок -->
+        <h2 class="text-[40px] lg:text-[50px] font-medium leading-none tracking-tight text-[#32393E]">
+          {title}
+        </h2>
+
+        <!-- Контент/placeholder -->
+        <div class="flex items-center justify-center flex-1">
+          <div class="w-full h-[200px] border border-dashed border-[#858585] rounded-[24px]"></div>
+        </div>
+
+        <!-- Кнопки -->
+        {buttons.length > 0 && (
+          <div class="flex flex-col gap-5">
+            {buttons.map((button, index) => (
+              <a
+                href={button.href}
+                class:list={[
+                  'inline-flex items-center justify-center rounded-[40px] px-9 py-6 text-base font-semibold text-white transition-colors',
+                  index === 0 ? 'bg-[#FF4D00]' : 'bg-[#FF5F1A] opacity-50 hover:opacity-100'
+                ]}
+              >
+                {button.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+
+    </div>
+  </div>
+</section>

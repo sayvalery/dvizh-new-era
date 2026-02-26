@@ -21,6 +21,7 @@ import MeshGradient from '../../components/ui/MeshGradient.astro'
 import StatsSection from '../../components/ui/StatsSection.astro'
 import Timeline from '../../components/ui/Timeline.astro'
 import BlogCard from '../../components/ui/BlogCard.astro'
+import SectionBlock from '../../components/ui/SectionBlock.astro'
 import PropsTable from '../../components/ui/PropsTable.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
@@ -38,6 +39,7 @@ import meshGradientRaw from '../../components/ui/MeshGradient.astro?raw'
 import statsSectionRaw from '../../components/ui/StatsSection.astro?raw'
 import timelineRaw from '../../components/ui/Timeline.astro?raw'
 import blogCardRaw from '../../components/ui/BlogCard.astro?raw'
+import sectionBlockRaw from '../../components/ui/SectionBlock.astro?raw'
 
 interface PropMeta {
   name: string
@@ -113,6 +115,7 @@ const meshGradientMeta = parseSource(meshGradientRaw)
 const statsSectionMeta = parseSource(statsSectionRaw)
 const timelineMeta = parseSource(timelineRaw)
 const blogCardMeta = parseSource(blogCardRaw)
+const sectionBlockMeta = parseSource(sectionBlockRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -139,6 +142,7 @@ export function getStaticPaths() {
     { params: { slug: 'stats' }, props: { section: 'stats' } },
     { params: { slug: 'timeline' }, props: { section: 'timeline' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
+    { params: { slug: 'section-block' }, props: { section: 'section-block' } },
   ]
 }
 
@@ -166,6 +170,7 @@ const sections = [
   { slug: 'stats', label: 'Stats Section' },
   { slug: 'timeline', label: 'Timeline' },
   { slug: 'blogcard', label: 'Blog Card' },
+  { slug: 'section-block', label: 'Section Block' },
 ]
 ---
 
@@ -1452,6 +1457,7 @@ const sections = [
           </div>
         </div>
       )}
+<<<<<<< HEAD
 
       {section === 'timeline' && (
         <div>
@@ -1550,6 +1556,29 @@ const sections = [
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {section === 'section-block' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">Section Block</h1>
+          <p class="text-gray-600 mb-10">
+            Секция с меню слева и контентом справа. Серый фон с заголовком, placeholder для контента и кнопками.
+          </p>
+
+          <SectionBlock
+            title="Поможем перевыполнить план продаж на том же трафике"
+            sections={[
+              { title: "Цифровая ипотека", active: true, href: "#" },
+              { title: "Ипотечный калькулятор", href: "#" },
+              { title: "Финансовый скоринг", href: "#" },
+              { title: "Электронная регистрация", href: "#" }
+            ]}
+            buttons={[
+              { label: "Связаться с нами", href: "#" },
+              { label: "Запросить демо", href: "#" }
+            ]}
+          />
         </div>
       )}
     </main>
