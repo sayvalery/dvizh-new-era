@@ -36,7 +36,7 @@ export function getStaticPaths() {
     { params: { slug: 'features' }, props: { section: 'features' } },
     { params: { slug: 'stories' }, props: { section: 'stories' } },
     { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
-  { params: { slug: 'bento' }, props: { section: 'bento' } },
+    { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'hero' }, props: { section: 'hero' } },
     { params: { slug: 'stats' }, props: { section: 'stats' } },
   ]
@@ -258,7 +258,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-1">stacked (по умолчанию) — лейбл сверху</p>
-              <p class="text-xs text-gray-400 mb-4"><code>{'<Form preset="demo" />'}</code></p>
+              <p class="text-xs text-gray-400 mb-4"><code>{`<Form preset="demo" />`}</code></p>
               <div class="max-w-sm border rounded-xl p-6">
                 <Form preset="demo" />
               </div>
@@ -266,7 +266,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-1">labels-left — лейбл слева, инпут справа</p>
-              <p class="text-xs text-gray-400 mb-4"><code>{'<Form preset="demo" layout="labels-left" />'}</code></p>
+              <p class="text-xs text-gray-400 mb-4"><code>{`<Form preset="demo" layout="labels-left" />`}</code></p>
               <div class="max-w-lg border rounded-xl p-6">
                 <Form preset="demo" layout="labels-left" />
               </div>
@@ -274,7 +274,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-1">inline — горизонтальная форма для hero-секций</p>
-              <p class="text-xs text-gray-400 mb-4"><code>{'<Form preset="lead" layout="inline" />'}</code></p>
+              <p class="text-xs text-gray-400 mb-4"><code>{`<Form preset="lead" layout="inline" />`}</code></p>
               <div class="border rounded-xl p-6 overflow-x-auto">
                 <Form preset="lead" layout="inline" />
               </div>
@@ -282,7 +282,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-1">inline + subscribe — только email</p>
-              <p class="text-xs text-gray-400 mb-4"><code>{'<Form preset="subscribe" layout="inline" />'}</code></p>
+              <p class="text-xs text-gray-400 mb-4"><code>{`<Form preset="subscribe" layout="inline" />`}</code></p>
               <div class="border rounded-xl p-6 max-w-md overflow-x-auto">
                 <Form preset="subscribe" layout="inline" />
               </div>
@@ -290,7 +290,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-1">inline + research — имя, email, компания</p>
-              <p class="text-xs text-gray-400 mb-4"><code>{'<Form preset="research" layout="inline" />'}</code></p>
+              <p class="text-xs text-gray-400 mb-4"><code>{`<Form preset="research" layout="inline" />`}</code></p>
               <div class="border rounded-xl p-6 overflow-x-auto">
                 <Form preset="research" layout="inline" />
               </div>
@@ -422,7 +422,7 @@ const sections = [
           <div class="space-y-12">
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Тёмный вариант (как в Pencil)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<CTA title="Бонус от ДВИЖа" description="Скачайте пример идеального отчета ипотечного отдела" buttonText="Посмотреть демо" buttonHref="#"/>'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA title="Бонус от ДВИЖа" description="Скачайте пример идеального отчета ипотечного отдела" buttonText="Посмотреть демо" buttonHref="#"/>`}</code></p>
               <CTA
                 title="Бонус от ДВИЖа"
                 description="Скачайте пример идеального отчета ипотечного отдела"
@@ -433,7 +433,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Светлый вариант (Tailwind Plus)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<CTA variant="light" title="Ready to dive in?" description="Start your free trial today." buttonText="Get started" buttonHref="#"/>'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA variant="light" title="Ready to dive in?" description="Start your free trial today." buttonText="Get started" buttonHref="#"/>`}</code></p>
               <CTA
                 variant="light"
                 title="Ready to dive in?"
@@ -445,10 +445,23 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Без описания</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<CTA title="Готовы начать?" buttonText="Начать" buttonHref="#"/>'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA title="Готовы начать?" buttonText="Начать" buttonHref="#"/>`}</code></p>
               <CTA
                 title="Готовы начать?"
                 buttonText="Начать"
+                buttonHref="#"
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Split — серый фон слева, контент справа</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA variant="split" badge="Award winning" title="We're here to help" description="Lorem ipsum." buttonText="Get started" buttonHref="#" />`}</code></p>
+              <CTA
+                variant="split"
+                badge="Award winning support"
+                title="We're here to help"
+                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                buttonText="Visit the help center"
                 buttonHref="#"
               />
             </div>
@@ -592,7 +605,7 @@ const sections = [
           <div class="space-y-12">
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Основной вариант — с изображением</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<FeaturesGrid badge="..." title="..." description="..." features={[...]} image="..." />'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeaturesGrid badge="..." title="..." description="..." features={[...]} image="..." />`}</code></p>
               <div class="-mx-10">
                 <FeaturesGrid
                   badge="Для банков и девелоперов"
@@ -622,7 +635,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Без badge и описания</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<FeaturesGrid title="..." features={[...]} />'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeaturesGrid title="..." features={[...]} />`}</code></p>
               <div class="border rounded-xl p-6">
                 <FeaturesGrid
                   title="Минималистичный вариант"
@@ -661,7 +674,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Тёмная тема</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<FeaturesGrid variant="dark" ... />'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeaturesGrid variant="dark" ... />`}</code></p>
               <div class="-mx-10">
                 <FeaturesGrid
                   variant="dark"
@@ -688,7 +701,7 @@ const sections = [
           <div class="space-y-12">
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">С выделением части текста (HTML в title)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<SuccessStory title="...<span class=..."">...</span>..." ... />'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStory title="...<span class=..."">...</span>..." ... />`}</code></p>
               <SuccessStory
                 title="Помогли начать обрабатывать на <span class='text-indigo-600'>281%</span> заявок больше, чем в среднем на рынке"
                 quote="Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента."
@@ -706,7 +719,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Обычный текст без подсветки</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<SuccessStory title="..." quote="..." person={{...}} image="..." logo="..." />'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStory title="..." quote="..." person={{...}} image="..." logo="..." />`}</code></p>
               <SuccessStory
                 title="Сократили время обработки заявки с 3 дней до 4 часов"
                 quote="Интеграция прошла гладко. API оказался хорошо задокументированным, а поддержка всегда на связи."
@@ -732,7 +745,7 @@ const sections = [
           <div class="space-y-12">
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">3 карточки из Pencil</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<SuccessStoriesCarousel title="..." stories={[...]}'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStoriesCarousel title="..." stories={[...]}`}</code></p>
               <SuccessStoriesCarousel
                 title="70+ историй успеха на рынке девелопмента"
                 stories={[
@@ -809,7 +822,7 @@ const sections = [
           <div class="space-y-12">
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">С изображениями</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<BentoGrid items={[...]} />'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid items={[...]} />`}</code></p>
               <div class="-mx-10">
                 <BentoGrid
                   items={[
@@ -848,7 +861,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Без изображений</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<BentoGrid items={[...]} />'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid items={[...]} />`}</code></p>
               <BentoGrid
                 items={[
                   {
@@ -901,7 +914,7 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">С формой demo (имя, email, телефон, компания)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{'<HeroSection formPreset="demo" ... />'}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<HeroSection formPreset="demo" ... />`}</code></p>
               <HeroSection
                 title="Запросите демо"
                 description="Покажем, как работает платформа."

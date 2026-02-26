@@ -1,19 +1,29 @@
 ---
 /**
- * CTA — призыв к действию на основе Tailwind Plus "Simple justified on subtle brand"
+ * CTA — призыв к действию на основе Tailwind Plus
+ *
+ * Варианты:
+ *   dark    — тёмный фон с горизонтальной_layout
+ *   light   — светлый фон с горизонтальной_layout
+ *   split   — изображение слева на всю высоту, контент справа
  *
  * @example
  * ```astro
  * <CTA
- *   title="Бонус от ДВИЖа"
- *   description="Скачайте пример идеального отчета ипотечного отдела"
- *   buttonText="Посмотреть демо"
+ *   variant="split"
+ *   badge="Award winning support"
+ *   title="We're here to help"
+ *   description="Lorem ipsum dolor sit amet."
+ *   buttonText="Visit the help center"
  *   buttonHref="#"
+ *   image="/images/stories/example.jpg"
  * />
  * ```
  */
 
 interface Props {
+  /** Мелкий заголовок над основным (для split варианта) */
+  badge?: string
   /** Основной заголовок */
   title: string
   /** Описание под заголовком */
@@ -22,78 +32,119 @@ interface Props {
   buttonText: string
   /** Ссылка для кнопки */
   buttonHref: string
-  /** URL иконки/изображения слева (опционально) */
+  /** URL изображения (обязателен для split варианта) */
   image?: string
   /** Alt-текст для изображения */
   imageAlt?: string
-  /** Цвет фона: dark (по умолчанию) или light */
-  variant?: 'dark' | 'light'
+  /** Вариант оформления: dark (по умолчанию), light или split */
+  variant?: 'dark' | 'light' | 'split'
   /** Дополнительные CSS классы */
   class?: string
 }
 
 const {
+  badge,
   title,
   description,
   buttonText,
   buttonHref,
   image,
-  imageAlt = 'Icon',
+  imageAlt = 'Image',
   variant = 'dark',
   class: className = ''
 } = Astro.props
 
-// Tailwind Plus стили + адаптация под дизайн из Pencil
-const bgColor = variant === 'dark' ? 'bg-[#3a3a3a]' : 'bg-indigo-100'
-const titleColor = variant === 'dark' ? 'text-white' : 'text-gray-900'
-const descriptionColor = variant === 'dark' ? 'text-[#d3d3d3]' : 'text-gray-600'
-const buttonBg = variant === 'dark' ? 'bg-[#ff4d00] hover:bg-[#e64600]' : 'bg-indigo-600 hover:bg-indigo-500'
+// Split вариант — отдельная разметка
+const isSplit = variant === 'split'
 ---
 
-<section class:list={[bgColor, 'rounded-[31px]', className]}>
-  <div class="mx-auto max-w-7xl px-6 py-10 sm:py-16 lg:flex lg:items-center lg:justify-between lg:px-8 lg:py-10">
-    <div class="flex items-center gap-7 lg:gap-8">
-      <!-- Иконка / Изображение -->
-      {image ? (
-        <img
-          src={image}
-          alt={imageAlt}
-          class="w-[94px] h-[95px] object-contain"
-          width="94"
-          height="95"
-        />
-      ) : (
-        <div class="w-[94px] h-[95px] flex items-center justify-center rounded-xl bg-white/10">
-          <svg class="w-12 h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182-3.182h8.364a2.25 2.25 0 013.182 3.182L21.75 15.75M6.75 19.5l4.5-4.5m0-4.5l-4.5 4.5M21.75 9l-4.5 4.5M4.5 4.5L4.5 4.5" />
-          </svg>
-        </div>
-      )}
+{isSplit ? (
+  <section class:list={['relative bg-white rounded-[31px] overflow-hidden', className]}>
+    <div class="relative h-80 overflow-hidden bg-gray-200 md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2"></div>
 
-      <!-- Заголовок и описание -->
-      <div>
-        <h2 class:list={[titleColor, 'max-w-2xl text-2xl font-semibold tracking-tight sm:text-4xl lg:text-[40px]']}>
+    <div class="relative mx-auto max-w-7xl py-16 sm:py-24 lg:px-8 lg:py-24">
+      <div class="pl-6 pr-6 md:ml-auto md:w-2/3 md:pl-16 lg:w-1/2 lg:pl-24 lg:pr-0 xl:pl-32">
+        {badge && (
+          <p class="text-base/7 font-semibold text-[#ff4d00]">
+            {badge}
+          </p>
+        )}
+        <h2 class="mt-2 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
           {title}
         </h2>
         {description && (
-          <p class:list={[descriptionColor, 'mt-2 text-base lg:text-[18px] max-w-lg']}>
+          <p class="mt-6 text-base/7 text-gray-600">
             {description}
           </p>
         )}
+        <div class="mt-8">
+          <a
+            href={buttonHref}
+            class="inline-flex rounded-md bg-[#ff4d00] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#e64600] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00] transition-colors"
+          >
+            {buttonText}
+          </a>
+        </div>
       </div>
     </div>
+  </section>
+) : (
+  // Dark / Light варианты — горизонтальная_layout
+  <section class:list={[
+    variant === 'dark' ? 'bg-[#3a3a3a]' : 'bg-indigo-100',
+    'rounded-[31px]',
+    className
+  ]}>
+    <div class="mx-auto max-w-7xl px-6 py-10 sm:py-16 lg:flex lg:items-center lg:justify-between lg:px-8 lg:py-10">
+      <div class="flex items-center gap-7 lg:gap-8">
+        <!-- Иконка / Изображение -->
+        {image ? (
+          <img
+            src={image}
+            alt={imageAlt}
+            class="w-[94px] h-[95px] object-contain"
+            width="94"
+            height="95"
+          />
+        ) : (
+          <div class="w-[94px] h-[95px] flex items-center justify-center rounded-xl bg-white/10">
+            <svg class="w-12 h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182-3.182h8.364a2.25 2.25 0 013.182 3.182L21.75 15.75M6.75 19.5l4.5-4.5m0-4.5l-4.5 4.5M21.75 9l-4.5 4.5M4.5 4.5L4.5 4.5" />
+            </svg>
+          </div>
+        )}
 
-    <!-- Кнопка -->
-    <div class="mt-8 flex items-center gap-x-6 lg:mt-0 lg:shrink-0">
-      <a
-        href={buttonHref}
-        class:list={[
-          buttonBg,
-          'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
-        ]}
-      >
-        {buttonText}
-      </a>
+        <!-- Заголовок и описание -->
+        <div>
+          <h2 class:list={[
+            variant === 'dark' ? 'text-white' : 'text-gray-900',
+            'max-w-2xl text-2xl font-semibold tracking-tight sm:text-4xl lg:text-[40px]'
+          ]}>
+            {title}
+          </h2>
+          {description && (
+            <p class:list={[
+              variant === 'dark' ? 'text-[#d3d3d3]' : 'text-gray-600',
+              'mt-2 text-base lg:text-[18px] max-w-lg'
+            ]}>
+              {description}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <!-- Кнопка -->
+      <div class="mt-8 flex items-center gap-x-6 lg:mt-0 lg:shrink-0">
+        <a
+          href={buttonHref}
+          class:list={[
+            variant === 'dark' ? 'bg-[#ff4d00] hover:bg-[#e64600]' : 'bg-indigo-600 hover:bg-indigo-500',
+            'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+          ]}
+        >
+          {buttonText}
+        </a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+)}
