@@ -6,6 +6,9 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://dvizh.io',
   output: 'static',
   integrations: [tailwind(), sitemap()],
+  server: {
+    host: true, // expose on local network, not just localhost
+  },
   vite: {
     server: {
       proxy: {

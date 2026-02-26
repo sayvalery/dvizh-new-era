@@ -37,6 +37,19 @@ export default buildConfig({
       graphics: {
         Icon: '/src/graphics/Icon',
       },
+      afterNavLinks: ['/src/components/DeployButton'],
+    },
+    livePreview: {
+      url: ({ data, collectionConfig }) => {
+        const base = process.env.WEB_URL || 'http://localhost:4321'
+        const slug = collectionConfig?.slug
+        if (slug === 'blog-posts') return `${base}/blog/${data?.slug}`
+        if (slug === 'persons') return `${base}/person/${data?.slug}`
+        if (slug === 'companies') return `${base}/companies/${data?.slug}`
+        if (slug === 'glossaries') return `${base}/slovar-developera/${data?.slug}`
+        return `${base}/${data?.slug}`
+      },
+      collections: ['blog-posts', 'persons', 'companies', 'glossaries'],
     },
   },
   collections: [
