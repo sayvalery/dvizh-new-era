@@ -1,9 +1,11 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 ---
 
 <SiteLayout title="Цифровая ипотека — ДВИЖ">
+  <!-- Hero секция -->
   <div class="max-w-5xl mx-auto px-4 py-16">
     <h1 class="text-4xl font-bold mb-4">Цифровая ипотека</h1>
     <p class="text-xl text-gray-600 mb-12">Цифровизация ипотечного процесса для банков и девелоперов.</p>
@@ -11,10 +13,40 @@ import Form from '../components/ui/Form.astro'
     <div class="prose max-w-none mb-12">
       <p>Контент страницы наполняется командой дизайна.</p>
     </div>
+  </div>
 
-    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
-      <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
-      <Form preset="demo" />
+  <!-- Features Grid секция -->
+  <FeaturesGrid
+    badge="Для банков и девелоперов"
+    title="Полный цикл цифровой ипотеки"
+    description="Единая платформа для автоматизации всего процесса ипотечного кредитования — от заявки до регистрации."
+    features={[
+      {
+        icon: 'upload',
+        title: 'Быстрый старт',
+        description: 'Интеграция через API за 2 недели. Полная автоматизация сбора документов и скоринга.'
+      },
+      {
+        icon: 'lock',
+        title: 'Безопасность данных',
+        description: 'Соответствие требованиям ЦБ РФ и ФЗ-152. Шифрование и защита персональных данных.'
+      },
+      {
+        icon: 'database',
+        title: 'Единая база знаний',
+        description: 'Актуальные ставки банков, программы льготной ипотеки и калькулятор расчёта платежей.'
+      }
+    ]}
+    image="https://tailwindcss.com/plus-assets/img/component-images/project-app-screenshot.png"
+  />
+
+  <!-- Форма захвата -->
+  <div class="bg-gray-50 py-24">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
+        <Form preset="demo" />
+      </div>
     </div>
   </div>
 </SiteLayout>

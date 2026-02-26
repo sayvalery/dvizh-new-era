@@ -10,6 +10,7 @@ import VideoBlock from '../../components/blocks/VideoBlock.astro'
 import QuoteBlock from '../../components/blocks/QuoteBlock.astro'
 import FormBlock from '../../components/blocks/FormBlock.astro'
 import RichTextBlock from '../../components/blocks/RichTextBlock.astro'
+import FeaturesGrid from '../../components/ui/FeaturesGrid.astro'
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -25,6 +26,7 @@ export function getStaticPaths() {
     { params: { slug: 'cards' }, props: { section: 'cards' } },
     { params: { slug: 'drawer' }, props: { section: 'drawer' } },
     { params: { slug: 'blocks' }, props: { section: 'blocks' } },
+    { params: { slug: 'features' }, props: { section: 'features' } },
   ]
 }
 
@@ -41,6 +43,7 @@ const sections = [
   { slug: 'cards', label: 'Карточки' },
   { slug: 'drawer', label: 'Дровер' },
   { slug: 'blocks', label: 'Блоки статей' },
+  { slug: 'features', label: 'Features Grid' },
 ]
 ---
 
@@ -490,6 +493,85 @@ const sections = [
               }} />
             </div>
 
+          </div>
+        </div>
+      )}
+      {section === 'features' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">Features Grid</h1>
+          <p class="text-gray-600 mb-10">
+            Секция с заголовком, описанием, списком фичей с иконками и изображением.
+          </p>
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Основной вариант — с изображением</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{'<FeaturesGrid badge="..." title="..." description="..." features={[...]} image="..." />'}</code></p>
+              <div class="-mx-10">
+                <FeaturesGrid
+                  badge="Для банков и девелоперов"
+                  title="Полный цикл цифровой ипотеки"
+                  description="Единая платформа для автоматизации всего процесса ипотечного кредитования — от заявки до регистрации."
+                  features={[
+                    {
+                      icon: 'upload',
+                      title: 'Быстрый старт',
+                      description: 'Интеграция через API за 2 недели. Полная автоматизация сбора документов и скоринга.'
+                    },
+                    {
+                      icon: 'lock',
+                      title: 'Безопасность данных',
+                      description: 'Соответствие требованиям ЦБ РФ и ФЗ-152. Шифрование и защита персональных данных.'
+                    },
+                    {
+                      icon: 'database',
+                      title: 'Единая база знаний',
+                      description: 'Актуальные ставки банков, программы льготной ипотеки и калькулятор расчёта платежей.'
+                    }
+                  ]}
+                  image="https://tailwindcss.com/plus-assets/img/component-images/project-app-screenshot.png"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без badge и описания</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{'<FeaturesGrid title="..." features={[...]} />'}</code></p>
+              <div class="border rounded-xl p-6">
+                <FeaturesGrid
+                  title="Минималистичный вариант"
+                  features={[
+                    { icon: 'upload', title: 'Быстрая интеграция', description: 'API за 2 недели' },
+                    { icon: 'lock', title: 'Безопасность', description: 'ФЗ-152, стандарты ЦБ' },
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Доступные иконки</p>
+              <div class="flex gap-4">
+                <div class="flex items-center gap-2 p-3 border rounded-lg">
+                  <svg class="size-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M5.5 17a4.5 4.5 0 0 1-1.44-8.765 4.5 4.5 0 0 1 8.302-3.046 3.5 3.5 0 0 1 4.504 4.272A4 4 0 0 1 15 17H5.5Zm3.75-2.75a.75.75 0 0 0 1.5 0V9.66l1.95 2.1a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 1 0 1.1 1.02l1.95-2.1v4.59Z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-sm">upload</span>
+                </div>
+                <div class="flex items-center gap-2 p-3 border rounded-lg">
+                  <svg class="size-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-sm">lock</span>
+                </div>
+                <div class="flex items-center gap-2 p-3 border rounded-lg">
+                  <svg class="size-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M4.632 3.533A2 2 0 0 1 6.577 2h6.846a2 2 0 0 1 1.945 1.533l1.976 8.234A3.489 3.489 0 0 0 16 11.5H4c-.476 0-.93.095-1.344.267l1.976-8.234Z M4 13a2 2 0 1 0 0 4h12a2 2 0 1 0 0-4H4Zm11.24 2a.75.75 0 0 1 .75-.75H16a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75h-.01a.75.75 0 0 1-.75-.75V15Zm-2.25-.75a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 0 0 .75-.75V15a.75.75 0 0 0-.75-.75h-.01Z"/>
+                  </svg>
+                  <span class="text-sm">database</span>
+                </div>
+              </div>
+              <p class="text-xs text-gray-400 mt-3">Можно добавить свой SVG path в проп icon</p>
+            </div>
           </div>
         </div>
       )}

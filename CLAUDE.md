@@ -38,6 +38,7 @@ apps/web/src/components/
 - **Drawer.astro** — глобальная боковая панель для форм. Alpine.js, событие `open-drawer`
 - **Form.astro** — контактная форма с 4 пресетами (lead, subscribe, demo, research). Два лейаута: stacked, labels-left
 - **PersonCard.astro** — карточка персоны. Два варианта: full (44px), inline (24px)
+- **FeaturesGrid.astro** — сетка фичей с заголовком, описанием, списком с иконками и изображением
 
 ### blocks/
 - **BlockRenderer.astro** — маршрутизатор блоков по типу
