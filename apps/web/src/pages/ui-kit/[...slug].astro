@@ -783,6 +783,28 @@ const sections = [
                 imageAlt="Банк Стандарт"
               />
             </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Mini вариант — только заголовок и персона</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStory variant="mini" title="..." person={{...}} />`}</code></p>
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                <SuccessStory
+                  variant="mini"
+                  title="Процент одобрения заявок вырос с 80% до 89%"
+                  person={{ name: "Иван Иванов", jobTitle: "Директор по продажам" }}
+                />
+                <SuccessStory
+                  variant="mini"
+                  title="Сроки рассмотрения заявок на кредит сократились в 7-10 раз"
+                  person={{ name: "Мария Петрова", jobTitle: "Финансовый директор" }}
+                />
+                <SuccessStory
+                  variant="mini"
+                  title="Сократили расходы на регистрацию на 30%"
+                  person={{ name: "Алексей Сидоров", jobTitle: "Коммерческий директор" }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}

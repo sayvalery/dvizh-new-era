@@ -7,18 +7,18 @@
  *
  * @example
  * ```astro
+ * <!-- Full вариант -->
  * <SuccessStoriesCarousel
  *   title="70+ историй успеха на рынке девелопмента"
- *   :stories={[
- *     {
- *       title: "Помогли начать обрабатывать на 281% заявок больше",
- *       quote: "Спасибо ДВИЖ за прескоринг.",
- *       person: { name: "Иван Петров", jobTitle: "Директор, Компания" },
- *       image: "/bg.jpg",
- *       logo: "/logo.svg"
- *     },
- *     // ...
- *   ]}
+ *   variant="default"
+ *   :stories={[...]}
+ * />
+ *
+ * <!-- Mini вариант (3 карточки) -->
+ * <SuccessStoriesCarousel
+ *   title="70+ историй успеха на рынке девелопмента"
+ *   variant="mini"
+ *   :stories={[...]}
  * />
  * ```
  */
@@ -35,9 +35,9 @@ interface Person {
 
 interface StoryProps {
   title: string
-  quote: string
+  quote?: string
   person: Person
-  image: string
+  image?: string
   imageAlt?: string
   logo?: string
   logoAlt?: string
@@ -48,11 +48,24 @@ interface Props {
   title: string
   /** Массив карточек SuccessStory */
   stories: StoryProps[]
+  /** Вариант: default (полные карточки) или mini (только заголовок и персона) */
+  variant?: 'default' | 'mini'
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const { title, stories, class: className = '' } = Astro.props
+const { title, stories, variant = 'default', class: className = '' } = Astro.props
+
+const isMini = variant === 'mini'
+
+// Сетка для mini (3 карточки), карусель для default
+const gridClass = isMini
+  ? 'grid grid-cols-1 lg:grid-cols-3 gap-5'
+  : 'flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory scrollbar-hide cursor-grab select-none'
+
+const itemClass = isMini
+  ? ''
+  : 'snap-center shrink-0 w-full max-w-[80%] xl:max-w-[900px]'
 ---
 
 <section class:list={[className]} data-stories-carousel>
@@ -61,55 +74,57 @@ const { title, stories, class: className = '' } = Astro.props
     {title}
   </h2>
 
-  <!-- Карусель с CSS Scroll Snap -->
+  <!-- Сетка (mini) или Карусель (default) с CSS Scroll Snap -->
   <div
-    class="flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory scrollbar-hide cursor-grab select-none"
-    style="-webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth;"
+    class:list={[gridClass]}
+    style={isMini ? '' : '-webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth;'}
   >
     {stories.map((story) => (
-      <div class="snap-center shrink-0 w-full max-w-[80%] xl:max-w-[900px]">
-        <SuccessStory {...story} />
+      <div class={itemClass}>
+        <SuccessStory variant={variant} {...story} />
       </div>
     ))}
   </div>
 </section>
 
-<script>
-  // Simple drag-to-scroll for mouse users
-  document.querySelectorAll('[data-stories-carousel]').forEach(section => {
-    const container = section.querySelector('[class*="overflow-x-auto"]') as HTMLElement
-    if (!container) return
+{!isMini && (
+  <script>
+    // Simple drag-to-scroll for mouse users
+    document.querySelectorAll('[data-stories-carousel]').forEach(section => {
+      const container = section.querySelector('[class*="overflow-x-auto"]') as HTMLElement
+      if (!container) return
 
-    let isDown = false
-    let startX: number
-    let scrollLeft: number
+      let isDown = false
+      let startX: number
+      let scrollLeft: number
 
-    container.addEventListener('mousedown', (e: MouseEvent) => {
-      isDown = true
-      container.style.cursor = 'grabbing'
-      startX = e.pageX - container.offsetLeft
-      scrollLeft = container.scrollLeft
+      container.addEventListener('mousedown', (e: MouseEvent) => {
+        isDown = true
+        container.style.cursor = 'grabbing'
+        startX = e.pageX - container.offsetLeft
+        scrollLeft = container.scrollLeft
+      })
+
+      container.addEventListener('mouseleave', () => {
+        isDown = false
+        container.style.cursor = ''
+      })
+
+      container.addEventListener('mouseup', () => {
+        isDown = false
+        container.style.cursor = ''
+      })
+
+      container.addEventListener('mousemove', (e: MouseEvent) => {
+        if (!isDown) return
+        e.preventDefault()
+        const x = e.pageX - container.offsetLeft
+        const walk = x - startX
+        container.scrollLeft = scrollLeft - walk
+      })
     })
-
-    container.addEventListener('mouseleave', () => {
-      isDown = false
-      container.style.cursor = ''
-    })
-
-    container.addEventListener('mouseup', () => {
-      isDown = false
-      container.style.cursor = ''
-    })
-
-    container.addEventListener('mousemove', (e: MouseEvent) => {
-      if (!isDown) return
-      e.preventDefault()
-      const x = e.pageX - container.offsetLeft
-      const walk = x - startX
-      container.scrollLeft = scrollLeft - walk
-    })
-  })
-</script>
+  </script>
+)}
 
 <style>
   /* Скрыть скроллбар */
