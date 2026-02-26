@@ -22,9 +22,9 @@ IMAGE_MAP_FILE = SOURCE_DIR / "image-map.json"
 MAX_WORKERS = 10  # Количество параллельных загрузок
 TIMEOUT = 30  # Таймаут для загрузки в секундах
 
-# Паттерн для поиска URL изображений
+# Паттерн для поиска URL изображений (включая склеенные через запятую)
 IMAGE_URL_PATTERN = re.compile(
-    r'https://(?:cdn\.prod\.website-files\.com|uploads-ssl\.webflow\.com)/[^"\s]+\.(?:webp|png|jpg|jpeg|gif|svg)',
+    r'https://(?:cdn\.prod\.website-files\.com|uploads-ssl\.webflow\.com)/[^"\s,]+\.(?:webp|png|jpg|jpeg|gif|svg)(?:,https://(?:cdn\.prod\.website-files\.com|uploads-ssl\.webflow\.com)/[^"\s,]+\.(?:webp|png|jpg|jpeg|gif|svg))*',
     re.IGNORECASE
 )
 
@@ -43,7 +43,20 @@ def extract_image_urls_from_csv(csv_file):
             # Читаем весь файл как текст для поиска URL
             content = f.read()
             found_urls = IMAGE_URL_PATTERN.findall(content)
-            urls.update(found_urls)
+            
+            # Разделяем склеенные URL (через запятую)
+            for url in found_urls:
+                # Если в URL есть запятая и после нее другой URL, разделяем
+                if ',' in url and 'https://' in url.split(',', 1)[1]:
+                    # Это склеенные URL, разделяем их
+                    parts = url.split(',')
+                    for part in parts:
+                        part = part.strip()
+                        # Проверяем, что это валидный URL изображения
+                        if part.startswith('https://') and any(part.endswith(ext) for ext in ['.webp', '.png', '.jpg', '.jpeg', '.gif', '.svg']):
+                            urls.add(part)
+                else:
+                    urls.add(url)
     except Exception as e:
         print(f"⚠️  Ошибка при чтении {csv_file.name}: {e}")
     

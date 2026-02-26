@@ -1,13 +1,14 @@
 #!/bin/bash
 set -e
 
-# Check CLOUDFLARE_TUNNEL_TOKEN
+cd "$(dirname "$0")/.."
+
 if [ ! -f .env.prod ]; then
   echo "ERROR: .env.prod not found"
   exit 1
 fi
 
-if ! grep -q "CLOUDFLARE_TUNNEL_TOKEN=.\+" .env.prod; then
+if ! grep -q 'CLOUDFLARE_TUNNEL_TOKEN=.\+' .env.prod; then
   echo "ERROR: CLOUDFLARE_TUNNEL_TOKEN is not set in .env.prod"
   echo "Get your token from Cloudflare Zero Trust dashboard and add it to .env.prod"
   exit 1

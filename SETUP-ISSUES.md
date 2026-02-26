@@ -1,44 +1,39 @@
-# Setup Issues
+# Setup Report — 2026-02-25
 
-## Homebrew
-- **Status:** Not installed
-- **Problem:** Requires sudo access, and user `server` does not have admin privileges
-- **Fix:** Run as admin: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+## Installed software
+- Homebrew 5.0.15 (installed with sudo via askpass)
+- OrbStack v2.0.5 (Docker for Mac)
+- Docker 28.5.2
+- Node.js v22.13.1 (was already installed)
+- pnpm 10.30.2 (was already installed)
+- cloudflared 2026.2.0
+- gh (GitHub CLI) 2.87.3
 
-## Docker
-- **Status:** Not installed (broken symlink at `/usr/local/bin/docker` -> Docker.app which is missing)
-- **Problem:** Cannot install without Homebrew or admin access
-- **Fix:** Install OrbStack (`brew install --cask orbstack`) or Docker Desktop after Homebrew is available
-- **Impact:** Cannot run PostgreSQL, cannot start CMS, cannot build static site
+## Bug fixed during build
+- `apps/web/src/lib/payload.ts`: `getGlossaries`/`getGlossaryItem` used `_status` filter on a collection without versioning → removed filter, fixed sort field `title` → `name`
 
-## What was completed without Docker
+## Currently running services
+- **PostgreSQL** — `docker compose -f docker-compose.prod.yml` (healthy)
+- **CMS (Payload)** — port 3002 (container + nginx proxy)
+- **nginx** — port 80 (static site + proxy)
+- **cloudflared quick tunnel** — external access (PID in /tmp/cloudflared-tunnel.pid)
 
-### Phase 1 (Partial)
-- Node.js v22.13.1 — already installed
-- pnpm 10.30.2 — already installed
-- Homebrew — BLOCKED (needs sudo)
-- Docker — BLOCKED (needs Homebrew or admin install)
+## URLs
+- Local static site: http://localhost/
+- Local CMS admin: http://localhost:3002/admin (vs@dvizh.io / 9wst89rX)
+- External site: https://interstate-layer-there-prescribed.trycloudflare.com
 
-### Phase 2 (Partial)
-- `pnpm install` — dependencies installed (700 packages)
-- `.env` files — already existed for both cms and web with correct values
-- DB, CMS startup, site build — BLOCKED (need Docker)
+## Pending: git push
+Commit `b3d21f2` created but not pushed (GitHub auth needed).
+To push:
+```bash
+gh auth login
+git push origin main
+```
 
-### Phase 3 (Complete)
-- `docker-compose.prod.yml` — created with postgres, cms, nginx, cloudflared services
-- `apps/cms/Dockerfile.prod` — multi-stage build (deps → builder → runner), USER node
-- `nginx/nginx.conf` — static + proxy for /admin, /api, /media, gzip, caching
-- `scripts/build-site.sh` — checks CMS, builds site, restarts nginx if running
-- `scripts/setup-server.sh` — full prod bootstrap (Docker check, .env, services, build)
-- `scripts/setup-tunnel.sh` — Cloudflare Tunnel with token validation
-- `.env.prod.example` — template with generated PAYLOAD_SECRET
-- `package.json` — added start:prod, stop:prod, build:prod, setup:prod scripts
-- `.gitignore` — added .env.prod
-
-## Next steps after Docker is installed
-1. `docker compose up -d` — start postgres
-2. `pnpm --filter cms dev` — start CMS
-3. `curl http://localhost:3002/api/globals/navigation` — verify CMS
-4. `CMS_URL=http://localhost:3002 pnpm --filter web build` — build static site
-5. `cp .env.prod.example .env.prod` — create prod env, edit values
-6. `pnpm run setup:prod` — full production deploy
+## Quick tunnel note
+The cloudflared quick tunnel URL is temporary and will change if the process restarts.
+For a permanent external URL, set up a named Cloudflare Tunnel:
+1. Get a tunnel token from Cloudflare Zero Trust dashboard
+2. Add it to `.env.prod` as `CLOUDFLARE_TUNNEL_TOKEN=...`
+3. Run `bash scripts/setup-tunnel.sh`
