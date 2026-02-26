@@ -46,23 +46,7 @@ const gridClass = columns === 3
 
 // Скругления углов для карточек
 const getCardClass = (index: number) => {
-  const classes = ['w-full overflow-hidden rounded-lg bg-white shadow outline outline-1 outline-black/5']
-
-  if (columns === 3) {
-    // Скругляем внешние углы для 3 колонок
-    if (index === 0) classes.push('lg:rounded-tl-[2rem]', 'max-lg:rounded-t-[2rem]')
-    if (index === 2) classes.push('lg:rounded-tr-[2rem]', 'max-lg:rounded-tr-[2rem]')
-    if (index === items.length - 3) classes.push('lg:rounded-bl-[2rem]')
-    if (index === items.length - 1) classes.push('lg:rounded-br-[2rem]', 'max-lg:rounded-b-[2rem]')
-  } else {
-    // Скругляем внешние углы для 2 колонок
-    if (index === 0) classes.push('lg:rounded-tl-[2rem]', 'max-lg:rounded-t-[2rem]')
-    if (index === 1) classes.push('lg:rounded-tr-[2rem]')
-    if (index === items.length - 2) classes.push('lg:rounded-bl-[2rem]')
-    if (index === items.length - 1) classes.push('lg:rounded-br-[2rem]', 'max-lg:rounded-b-[2rem]')
-  }
-
-  return classes.join(' ')
+  return 'w-full overflow-hidden rounded-[40px] bg-[#F8F8F8]'
 }
 ---
 
