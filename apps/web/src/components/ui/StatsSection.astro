@@ -1,0 +1,64 @@
+---
+/**
+ * StatsSection — секция с метриками/преимуществами в виде сетки
+ *
+ * @example
+ * ```astro
+ * <StatsSection
+ *   items={[
+ *     { value: '44 million', label: 'Transactions every 24 hours' },
+ *     { value: '$119 trillion', label: 'Assets under holding' },
+ *     { value: '46,000', label: 'New users annually' },
+ *   ]}
+ * />
+ * ```
+ */
+
+interface StatItem {
+  /** Основное значение (цифра или текст) */
+  value: string
+  /** Описание/подпись */
+  label: string
+  /** Опциональная иконка (HTML) */
+  icon?: string
+}
+
+interface Props {
+  /** Массив метрик/преимуществ */
+  items: StatItem[]
+  /** Количество колонок на десктопе (2-4) */
+  cols?: 2 | 3 | 4
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const { items, cols = 4, class: className = '' } = Astro.props
+
+const gridCols = {
+  2: 'lg:grid-cols-2',
+  3: 'lg:grid-cols-3',
+  4: 'lg:grid-cols-4',
+}[cols]
+---
+
+<section class:list={['bg-white py-24 sm:py-32', className]}>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <dl class:list={['grid grid-cols-1 gap-x-8 gap-y-16 text-center', gridCols]}>
+      {items.map((item) => (
+        <div class="mx-auto flex max-w-xs flex-col gap-y-4">
+          {item.icon ? (
+            <div class="text-gray-400 mb-2" set:html={item.icon} />
+          ) : (
+            <div class="w-[200px] h-[200px] bg-gray-200 rounded-[20px] mx-auto mb-2" />
+          )}
+          {item.value && (
+            <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+              {item.value}
+            </dd>
+          )}
+          <dt class="text-base/7 text-gray-600">{item.label}</dt>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
