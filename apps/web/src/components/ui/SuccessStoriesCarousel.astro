@@ -60,7 +60,7 @@ const isMini = variant === 'mini'
 
 // Ширина карточки для snap
 const itemClass = isMini
-  ? 'snap-center shrink-0 w-[calc(33.333%-14px)]'
+  ? 'snap-center shrink-0 w-[42%]'
   : 'snap-center shrink-0 w-full max-w-[80%] xl:max-w-[900px]'
 ---
 
@@ -72,7 +72,7 @@ const itemClass = isMini
 
   <!-- Карусель с CSS Scroll Snap -->
   <div
-    class="flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory scrollbar-hide cursor-grab select-none"
+    class="flex overflow-x-auto gap-5 pb-4 pr-6 snap-x snap-mandatory scrollbar-hide cursor-grab select-none"
     style="-webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth;"
   >
     {stories.map((story) => (

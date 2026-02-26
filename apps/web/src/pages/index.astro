@@ -1,5 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
 import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
 ---
@@ -8,43 +9,13 @@ import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astr
   title="ДВИЖ — цифровые продукты для рынка недвижимости"
   description="Ипотека, регистрация, скоринг и другие решения для банков, девелоперов и агентств"
 >
-  <!-- Hero -->
-  <section class="max-w-7xl mx-auto px-4 py-24">
-    <h1 class="text-5xl font-bold tracking-tight mb-6">
-      Цифровые продукты<br />для рынка недвижимости
-    </h1>
-    <p class="text-xl text-gray-600 max-w-2xl mb-10">
-      Помогаем банкам, девелоперам и агентствам автоматизировать ипотеку,
-      регистрацию сделок и продажи недвижимости.
-    </p>
-    <button
-      x-data
-      @click="$dispatch('open-drawer', { preset: 'demo' })"
-      class="bg-black text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
-    >
-      Запросить демо
-    </button>
-  </section>
-
-  <!-- Продукты -->
-  <section class="max-w-7xl mx-auto px-4 py-16 border-t border-gray-100">
-    <h2 class="text-2xl font-bold mb-8">Продукты</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {[
-        { title: 'Электронная регистрация', href: '/elektronnaya-registraciya' },
-        { title: 'Ипотека', href: '/ipoteka' },
-        { title: 'Ипотечный калькулятор', href: '/ipotechnyy-kalkulyator' },
-        { title: 'QBR', href: '/qbr' },
-        { title: 'Личный кабинет', href: '/lichnyy-kabinet' },
-        { title: 'Витрина', href: '/vitrina' },
-        { title: 'Скоринг', href: '/scoring' },
-      ].map(p => (
-        <a href={p.href} class="p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
-          <h3 class="font-medium text-sm">{p.title}</h3>
-        </a>
-      ))}
-    </div>
-  </section>
+  <!-- Hero Section -->
+  <HeroSection
+    title="Лучшие отделы продаж
+застройщиков используют ДВИЖ"
+    description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
+    formPreset="lead"
+  />
 
   <!-- Девелоперы с ДВИЖ -->
   <section class="bg-white py-24 sm:py-32">
@@ -56,10 +27,10 @@ import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astr
     <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8 mt-16">
       <BentoGrid
         items={[
-          { title: "Закрывают до 26% больше сделок на том же трафике" },
-          { title: "Получают больше выручки на одного менеджера" },
-          { title: "Снизили количество отказов по ипотеке" },
-          { title: "Сократили расходы на электронную регистрацию" },
+          { title: "<span class='text-[#FF4D00]'>Закрывают до 26% больше сделок</span> на том же трафике" },
+          { title: "<span class='text-[#FF4D00]'>Получают больше выручки</span> на одного менеджера" },
+          { title: "<span class='text-[#FF4D00]'>Снизили количество отказов</span> по ипотеке" },
+          { title: "<span class='text-[#FF4D00]'>Сократили расходы</span> на электронную регистрацию" },
         ]}
       />
     </div>
@@ -74,15 +45,15 @@ import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astr
 на рынке девелопмента"
         stories={[
           {
-            title: "Процент одобрения заявок вырос с 80% до 89%",
+            title: "Процент одобрения заявок <span class='text-[#FF4D00]'>вырос с 80% до 89%</span>",
             person: { name: "Иван Иванов", jobTitle: "Директор по продажам" }
           },
           {
-            title: "Сроки рассмотрения заявок на кредит сократились в 7-10 раз",
+            title: "Сроки рассмотрения заявок на кредит <span class='text-[#FF4D00]'>сократились в 7-10 раз</span>",
             person: { name: "Мария Петрова", jobTitle: "Финансовый директор" }
           },
           {
-            title: "Сократили расходы на регистрацию на 30%",
+            title: "Сократили расходы на регистрацию <span class='text-[#FF4D00]'>на 30%</span>",
             person: { name: "Алексей Сидоров", jobTitle: "Коммерческий директор" }
           }
         ]}
