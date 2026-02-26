@@ -3,11 +3,51 @@ import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
 ---
 
-<SiteLayout title="Контакты">
-  <div class="max-w-3xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-8">Контакты</h1>
-    <div class="max-w-md">
-      <Form preset="lead" />
+<SiteLayout title="Контакты — ДВИЖ" description="Свяжитесь с командой ДВИЖ">
+  <div class="max-w-5xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-4">Контакты</h1>
+    <p class="text-xl text-gray-600 mb-12">Свяжитесь с нами любым удобным способом.</p>
+
+    <div class="grid md:grid-cols-2 gap-12">
+      <!-- Контактная информация -->
+      <div class="space-y-8">
+        <div>
+          <h2 class="font-semibold text-sm text-gray-400 uppercase tracking-wide mb-3">Телефон</h2>
+          <a href="tel:+74950321047" class="text-lg font-medium hover:text-brand transition-colors">
+            +7 495 032-10-47
+          </a>
+        </div>
+
+        <div>
+          <h2 class="font-semibold text-sm text-gray-400 uppercase tracking-wide mb-3">Email</h2>
+          <a href="mailto:make@dvizh.io" class="text-lg font-medium hover:text-brand transition-colors">
+            make@dvizh.io
+          </a>
+        </div>
+
+        <div>
+          <h2 class="font-semibold text-sm text-gray-400 uppercase tracking-wide mb-3">Telegram</h2>
+          <a href="https://t.me/dvizh4realty" class="text-lg font-medium hover:text-brand transition-colors" target="_blank" rel="noopener">
+            @dvizh4realty
+          </a>
+        </div>
+
+        <div>
+          <h2 class="font-semibold text-sm text-gray-400 uppercase tracking-wide mb-3">Адрес</h2>
+          <p class="text-gray-700">Новодмитровская 2к2, Москва, 127015</p>
+        </div>
+
+        <div class="pt-4 border-t border-gray-100">
+          <p class="text-sm text-gray-500">ООО «Цифровые продажи»</p>
+          <p class="text-sm text-gray-400 mt-1">ОГРН 1187746227020 · ИНН 7716899078</p>
+        </div>
+      </div>
+
+      <!-- Форма -->
+      <div class="bg-gray-50 rounded-xl p-8">
+        <h2 class="text-xl font-semibold mb-4">Написать нам</h2>
+        <Form preset="lead" />
+      </div>
     </div>
   </div>
 </SiteLayout>

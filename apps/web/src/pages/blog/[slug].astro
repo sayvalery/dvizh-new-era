@@ -23,7 +23,6 @@ const post = await getBlogPost(slug!)
 
 if (!post) return Astro.redirect('/404')
 
-const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
 const coverUrl = post.cover?.url ?? null
 
 // og:image: сначала кастомное из meta, потом обложка статьи
@@ -47,10 +46,10 @@ const jsonLd = {
   },
 }
 
-// Исправляем bodyHtml: картинки (относительные пути) и ссылки из Webflow
+// Исправляем bodyHtml: ссылки из Webflow
+// Относительные пути /api/media/ оставляем как есть — nginx проксирует на CMS в проде
 const bodyHtml = post.bodyHtml
   ? post.bodyHtml
-      .replaceAll('src="/api/media/', `src="${CMS_URL}/api/media/`)
       .replaceAll('href="https://dvizh.webflow.io/', 'href="/')
       .replaceAll('href="https://www.dvizh.io/', 'href="/')
   : null

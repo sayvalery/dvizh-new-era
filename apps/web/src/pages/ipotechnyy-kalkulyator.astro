@@ -1,20 +1,83 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
+import StatsSection from '../components/ui/StatsSection.astro'
+import CTA from '../components/ui/CTA.astro'
 ---
 
 <SiteLayout title="Ипотечный калькулятор — ДВИЖ">
-  <div class="max-w-5xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-4">Ипотечный калькулятор</h1>
-    <p class="text-xl text-gray-600 mb-12">Ипотечный калькулятор с интеграцией в сайт и CRM.</p>
+  <HeroSection
+    badge="Ипотечный калькулятор"
+    title="Ипотечный калькулятор"
+    description="Получайте больше заявок с помощью готового виджета"
+  />
 
-    <div class="prose max-w-none mb-12">
-      <p>Контент страницы наполняется командой дизайна.</p>
-    </div>
+  <StatsSection
+    cols={4}
+    items={[
+      { value: '80%', label: 'Заявок поступает в нерабочее время' },
+      { value: '50%', label: 'Клиентов хотят сами рассчитать платёж' },
+      { value: 'на 20%', label: 'Выше конверсия с калькулятором' },
+      { value: 'до 3 ч', label: 'От анкеты до ответа банка' },
+    ]}
+  />
 
-    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
-      <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
-      <Form preset="demo" />
+  <!-- Features Grid 1: ноль ошибок в ставках -->
+  <FeaturesGrid
+    badge="актуальные ставки"
+    title="Ноль ошибок в ставках"
+    description="Обновляем все ипотечные ставки от банков-партнёров. Клиенты видят только актуальные условия."
+    features={[
+      { icon: 'check', title: 'Автоматическое обновление', description: 'Ставки обновляются автоматически при изменении условий банков' },
+      { icon: 'building-bank', title: 'Все банки-партнёры', description: 'Актуальные программы от всех подключённых банков в одном виджете' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Features Grid 2: адаптация под себя -->
+  <FeaturesGrid
+    badge="настройка"
+    title="Адаптируйте под себя"
+    description="Встройте калькулятор на сайт через API. Настройте цвета под ваш бренд — виджет станет частью вашего сайта."
+    features={[
+      { icon: 'globe', title: 'API-интеграция', description: 'Гибкое API для встраивания калькулятора на любую страницу вашего сайта' },
+      { icon: 'arrow-path', title: 'Брендирование', description: 'Настройте цвета, шрифты и стиль виджета под фирменный стиль вашей компании' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Features Grid 3: повышение конверсии -->
+  <FeaturesGrid
+    badge="конверсия"
+    title="Повышайте конверсию"
+    description="Собирайте заявки на всех этапах: от расчёта платежа до подбора программы. Каждое взаимодействие — потенциальная сделка."
+    features={[
+      { icon: 'document', title: 'Заявки на каждом этапе', description: 'Формы захвата встроены в каждый шаг работы с калькулятором' },
+      { icon: 'database', title: 'Аналитика взаимодействий', description: 'Отслеживайте, на каком этапе клиенты оставляют заявки чаще всего' },
+      { icon: 'check', title: 'Круглосуточный приём', description: '80% заявок поступает в нерабочее время — калькулятор работает 24/7' },
+    ]}
+    variant="light"
+  />
+
+  <!-- CTA -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <CTA
+      title="Запросить демо"
+      description="Посмотрите, как калькулятор увеличивает количество заявок с вашего сайта"
+      buttonText="Запросить демо"
+      buttonHref="#form"
+    />
+  </div>
+
+  <!-- Форма захвата -->
+  <div id="form" class="bg-gray-50 py-24">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
+        <Form preset="demo" />
+      </div>
     </div>
   </div>
 </SiteLayout>

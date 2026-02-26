@@ -1,20 +1,100 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
+import StatsSection from '../components/ui/StatsSection.astro'
+import CTA from '../components/ui/CTA.astro'
 ---
 
 <SiteLayout title="Для агентств недвижимости — ДВИЖ">
-  <div class="max-w-5xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-4">Для агентств недвижимости</h1>
-    <p class="text-xl text-gray-600 mb-12">Платформа для риелторов и агентств недвижимости.</p>
+  <HeroSection
+    badge="Решение для агентств"
+    title="Улучшайте конверсии на всех этапах воронки"
+    description="Комплексное решение для агентств недвижимости. Цифровая ипотека, страхование, регистрация сделок и AI-инструменты на одной платформе."
+    formPreset="demo"
+  />
 
-    <div class="prose max-w-none mb-12">
-      <p>Контент страницы наполняется командой дизайна.</p>
-    </div>
+  <StatsSection
+    cols={3}
+    items={[
+      { value: '79+', label: 'Девелоперов и агентств на платформе' },
+      { value: '27%', label: 'Ипотечных сделок через ДВИЖ' },
+      { value: '95%', label: 'Одобрение ипотечных заявок' },
+      { value: '600К', label: 'Одобренных ипотек' },
+      { value: '816 млн р.', label: 'Доп. заработок ГК «Самолет»' },
+    ]}
+  />
 
-    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
-      <h2 class="text-xl font-semibold mb-4">Обсудить с нами</h2>
-      <Form preset="lead" />
+  <!-- Цифровая ипотека -->
+  <FeaturesGrid
+    badge="Цифровая ипотека"
+    title="Высокий процент одобрения"
+    description="Подача заявки в 40+ банков одновременно. Прескоринг, автозаполнение анкет и распознавание документов — все для максимальной конверсии."
+    features={[
+      { icon: 'building-bank', title: '40+ банков-партнеров', description: 'Одна заявка — предложения от ведущих банков с лучшими условиями' },
+      { icon: 'check', title: 'До 95% одобрения', description: 'Прескоринг ДВИЖ заранее выявляет проблемы и повышает вероятность одобрения' },
+      { icon: 'document', title: 'Автозаполнение анкет', description: 'Распознавание документов и заполнение через Госуслуги за секунды' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Страхование -->
+  <FeaturesGrid
+    badge="Страхование"
+    title="Полисы за 3 минуты"
+    description="Оформление страховых полисов для ипотечных сделок онлайн. Быстро, без бумаг и визитов в офис."
+    features={[
+      { icon: 'lock', title: 'Моментальное оформление', description: 'Страховой полис за 3 минуты — без визитов в офис и бумажной волокиты' },
+      { icon: 'check', title: 'Лучшие условия', description: 'Сравнение предложений от ведущих страховых компаний в одном окне' },
+      { icon: 'arrow-path', title: 'Автоматическое продление', description: 'Напоминания и автоматическое продление полисов для ваших клиентов' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Регистрация -->
+  <FeaturesGrid
+    badge="Регистрация сделок"
+    title="На 30% дешевле традиционных каналов"
+    description="Электронная регистрация ДДУ и договоров купли-продажи. Полный цикл — от подготовки документов до выписки из ЕГРН."
+    features={[
+      { icon: 'document', title: 'Электронная регистрация', description: 'Регистрация сделок онлайн без визитов в МФЦ и Росреестр' },
+      { icon: 'database', title: 'Экономия до 30%', description: 'Стоимость электронной регистрации значительно ниже традиционных каналов' },
+      { icon: 'globe', title: 'Прозрачный процесс', description: 'Отслеживание статуса регистрации в реальном времени для менеджера и клиента' },
+    ]}
+    variant="light"
+  />
+
+  <!-- ДВИЖ AI -->
+  <FeaturesGrid
+    badge="ДВИЖ AI"
+    title="Масштабирование продаж с помощью AI"
+    description="Искусственный интеллект ДВИЖ помогает агентствам масштабировать продажи без увеличения штата. Автоматизация рутины, умные рекомендации и прогнозы."
+    features={[
+      { icon: 'globe', title: 'Умные рекомендации', description: 'AI подбирает оптимальные банки и программы для каждого клиента' },
+      { icon: 'arrow-path', title: 'Автоматизация рутины', description: 'AI берет на себя проверку документов, заполнение форм и отслеживание статусов' },
+      { icon: 'check', title: 'Прогнозирование сделок', description: 'Прогнозы по вероятности одобрения и срокам закрытия сделки' },
+    ]}
+    variant="light"
+  />
+
+  <!-- CTA -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <CTA
+      title="Записаться на демо"
+      description="Покажем, как ДВИЖ поможет вашему агентству зарабатывать больше на каждой сделке"
+      buttonText="Записаться на демо"
+      buttonHref="#form"
+    />
+  </div>
+
+  <!-- Форма захвата -->
+  <div id="form" class="bg-gray-50 py-24">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Записаться на демо</h2>
+        <Form preset="demo" />
+      </div>
     </div>
   </div>
 </SiteLayout>

@@ -69,11 +69,11 @@ const {
 // Классы для фона и текстов в зависимости от темы
 const isDark = variant === 'dark'
 const bgClass = isDark ? 'bg-gray-900' : 'bg-white'
-const badgeClass = isDark ? 'text-indigo-400' : 'text-indigo-600'
+const badgeClass = isDark ? 'text-brand-400' : 'text-brand'
 const titleClass = isDark ? 'text-white' : 'text-gray-900'
 const descClass = isDark ? 'text-gray-300' : 'text-gray-700'
 const listClass = isDark ? 'text-gray-400' : 'text-gray-600'
-const iconClass = isDark ? 'text-indigo-400' : 'text-indigo-600'
+const iconClass = isDark ? 'text-brand-400' : 'text-brand'
 
 // Иконки SVG как inline path
 const icons = {
@@ -87,38 +87,7 @@ const icons = {
   'arrow-path': 'M12.5 2.25a.75.75 0 0 1-1.5 0V15m0 0a.75.75 0 0 1-1.5 0m1.5 0a.75.75 0 0 0 1.5 0M2.25 12h15.75m-3.5-6.75L18.5 12l-3.75 6.75'
 }
 
-const getImage = () => {
-  if (imageDark && imageLight) {
-    return `
-      <img
-        width="2432"
-        height="1442"
-        src={imageDark}
-        alt="Product screenshot"
-        class="hidden w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0 dark:block dark:ring-white/10"
-      />
-      <img
-        width="2432"
-        height="1442"
-        src={imageLight}
-        alt="Product screenshot"
-        class="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0 dark:hidden dark:ring-white/10"
-      />
-    `
-  }
-  if (image) {
-    return `
-      <img
-        width="2432"
-        height="1442"
-        src={image}
-        alt="Product screenshot"
-        class="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0 dark:ring-white/10"
-      />
-    `
-  }
-  return ''
-}
+const hasImage = !!(image || imageDark || imageLight)
 ---
 
 <section class:list={['overflow-hidden py-24 sm:py-32', bgClass, className]}>
@@ -159,7 +128,22 @@ const getImage = () => {
           </dl>
         </div>
       </div>
-      <div set:html={getImage()} />
+      {hasImage ? (
+        <div>
+          {image && (
+            <img
+              width="2432"
+              height="1442"
+              src={image}
+              alt="Product screenshot"
+              class="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0"
+              loading="lazy"
+            />
+          )}
+        </div>
+      ) : (
+        <div class="w-[48rem] max-w-none h-[400px] rounded-xl bg-gray-100 sm:w-[57rem] md:-ml-4 lg:-ml-0" />
+      )}
     </div>
   </div>
 </section>

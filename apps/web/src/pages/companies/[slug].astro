@@ -24,7 +24,6 @@ const [{ docs: persons }, { docs: posts }] = await Promise.all([
   getPostsByCompany(slug!),
 ])
 
-const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
 const logoUrl = company.logo?.url ?? null
 ---
 

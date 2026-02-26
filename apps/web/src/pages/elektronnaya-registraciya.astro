@@ -1,20 +1,109 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
+import StatsSection from '../components/ui/StatsSection.astro'
+import CTA from '../components/ui/CTA.astro'
 ---
 
-<SiteLayout title="Электронная регистрация — ДВИЖ">
-  <div class="max-w-5xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-4">Электронная регистрация</h1>
-    <p class="text-xl text-gray-600 mb-12">Цифровая регистрация сделок с недвижимостью без очередей и бумаг.</p>
+<SiteLayout title="Электронная регистрация сделок — ДВИЖ">
+  <HeroSection
+    badge="Электронная регистрация"
+    title="Электронная регистрация сделок"
+    description="Сократите затраты на регистрацию на 30%"
+  />
 
-    <div class="prose max-w-none mb-12">
-      <p>Контент страницы наполняется командой дизайна.</p>
-    </div>
+  <StatsSection
+    cols={3}
+    items={[
+      { value: 'на 30%', label: 'Сократили затраты на регистрацию' },
+      { value: 'до 15 мин', label: 'Подготовка пакета документов' },
+      { value: 'до 0', label: 'Ошибок в документах' },
+      { value: '99.9%', label: 'Uptime сервиса' },
+      { value: '1 000 ₽', label: 'Стоимость регистрации' },
+      { value: '200 ₽', label: 'Госпошлина' },
+    ]}
+  />
 
-    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
-      <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
-      <Form preset="demo" />
+  <!-- Features Grid 1: пакетные регистрации -->
+  <FeaturesGrid
+    badge="пакетные регистрации"
+    title="ДДУ, ДКП, ДУПТ, ДС за 15 минут"
+    description="Регистрируйте любые типы сделок пакетами. Экономьте время менеджеров и сокращайте сроки закрытия."
+    features={[
+      { icon: 'document', title: 'Все типы сделок', description: 'ДДУ, ДКП, ДУПТ, ДС — регистрация любого типа договора за 15 минут' },
+      { icon: 'arrow-path', title: 'Пакетная обработка', description: 'Отправляйте на регистрацию сразу несколько сделок одним пакетом' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Features Grid 2: фиксированные комиссии -->
+  <FeaturesGrid
+    badge="выгодные условия"
+    title="Фиксированные комиссии + бесплатная ЭЦП"
+    description="Прозрачное ценообразование без скрытых платежей. Электронная цифровая подпись для участников сделки — бесплатно."
+    features={[
+      { icon: 'check', title: 'Фиксированная стоимость', description: 'Никаких скрытых комиссий — фиксированная цена за каждую регистрацию' },
+      { icon: 'lock', title: 'Бесплатная ЭЦП', description: 'Выпуск электронной цифровой подписи для участников сделки без дополнительных затрат' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Features Grid 3: уведомления -->
+  <FeaturesGrid
+    badge="уведомления"
+    title="Гибкие уведомления"
+    description="Настройте уведомления о статусе регистрации для менеджеров и клиентов. Все участники сделки в курсе на каждом этапе."
+    features={[
+      { icon: 'globe', title: 'Уведомления в реальном времени', description: 'Мгновенные оповещения об изменении статуса регистрации' },
+      { icon: 'check', title: 'Настраиваемые каналы', description: 'Email, SMS и push-уведомления — выберите удобный способ оповещения' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Features Grid 4: 3 способа выпуска ЭЦП -->
+  <FeaturesGrid
+    badge="выпуск ЭЦП"
+    title="3 способа выпуска ЭЦП"
+    description="Выбирайте удобный способ получения электронной цифровой подписи для каждого участника сделки."
+    features={[
+      { icon: 'lock', title: 'Удалённый выпуск', description: 'Выпуск ЭЦП онлайн без посещения офиса' },
+      { icon: 'document', title: 'В офисе застройщика', description: 'Выпуск ЭЦП при личном визите клиента' },
+      { icon: 'building-bank', title: 'Через удостоверяющий центр', description: 'Выпуск квалифицированной ЭЦП через аккредитованный УЦ' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Features Grid 5: интеграции -->
+  <FeaturesGrid
+    badge="интеграции"
+    title="Интеграции с AmoCRM и Битрикс24"
+    description="Подключите электронную регистрацию к вашей CRM. Запускайте регистрацию прямо из карточки сделки."
+    features={[
+      { icon: 'database', title: 'AmoCRM', description: 'Запуск регистрации и отслеживание статуса прямо из карточки сделки в AmoCRM' },
+      { icon: 'building-bank', title: 'Битрикс24', description: 'Полная интеграция с Битрикс24 — регистрация сделок без переключения между системами' },
+    ]}
+    variant="light"
+  />
+
+  <!-- CTA -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <CTA
+      title="Запросить демо"
+      description="Посмотрите, как электронная регистрация ускорит ваши сделки"
+      buttonText="Запросить демо"
+      buttonHref="#form"
+    />
+  </div>
+
+  <!-- Форма захвата -->
+  <div id="form" class="bg-gray-50 py-24">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
+        <Form preset="demo" />
+      </div>
     </div>
   </div>
 </SiteLayout>

@@ -1,10 +1,79 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
+import StatsSection from '../components/ui/StatsSection.astro'
 ---
 
-<SiteLayout title="О нас">
-  <div class="max-w-3xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-8">О нас</h1>
-    <p class="text-gray-600">Контент страницы добавляется здесь.</p>
+<SiteLayout title="О компании — ДВИЖ" description="ДВИЖ — AI-решения для автоматизации продаж и маркетинга застройщиков">
+  <div class="max-w-5xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-4">О компании</h1>
+    <p class="text-xl text-gray-600 mb-12 max-w-3xl">
+      ДВИЖ — лидер в области AI-решений для автоматизации продаж и маркетинга застройщиков.
+      Каждая третья ипотека на первичном рынке России выдаётся с помощью ДВИЖ.
+    </p>
+  </div>
+
+  <StatsSection
+    cols={4}
+    items={[
+      { value: '79+', label: 'Крупнейших девелоперов и агентств — клиентов' },
+      { value: '27%', label: 'Ипотечных сделок на первичном рынке проходят через ДВИЖ' },
+      { value: '99,9%', label: 'Uptime платформы' },
+      { value: '2018', label: 'Год основания' },
+    ]}
+  />
+
+  <div class="max-w-5xl mx-auto px-4 py-16">
+    <!-- История -->
+    <h2 class="text-2xl font-bold mb-8">История развития</h2>
+    <div class="space-y-6 mb-16">
+      {[
+        { year: '2018', text: 'Появилась цифровая ипотека' },
+        { year: '2019', text: 'Разработали электронную анкету' },
+        { year: '2020', text: 'Переименовали в платформу ДВИЖ' },
+        { year: '2021', text: 'Добавили модуль электронной регистрации' },
+        { year: '2022', text: 'Разработали модуль бронирования и личный кабинет' },
+        { year: '2023', text: 'Создали модуль страхования и ДВИЖ AI' },
+        { year: '2024', text: 'Первая в России ипотечная сделка полностью онлайн' },
+      ].map(item => (
+        <div class="flex gap-6 items-baseline">
+          <span class="text-brand font-bold text-lg shrink-0">{item.year}</span>
+          <p class="text-gray-700">{item.text}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Основатели -->
+    <h2 class="text-2xl font-bold mb-8">Основатели</h2>
+    <div class="grid md:grid-cols-2 gap-6 mb-16">
+      <div class="p-6 border rounded-xl">
+        <div class="w-16 h-16 rounded-full bg-gray-100 mb-4" />
+        <h3 class="font-semibold text-lg">Роман Гуров</h3>
+        <p class="text-gray-500 text-sm">Сооснователь, CEO</p>
+      </div>
+      <div class="p-6 border rounded-xl">
+        <div class="w-16 h-16 rounded-full bg-gray-100 mb-4" />
+        <h3 class="font-semibold text-lg">Максим Ершов</h3>
+        <p class="text-gray-500 text-sm">Сооснователь, руководитель проекта ДВИЖ.брокер</p>
+      </div>
+    </div>
+
+    <!-- География -->
+    <h2 class="text-2xl font-bold mb-8">География присутствия</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {[
+        { city: 'Москва', area: '16 млн м²' },
+        { city: 'Санкт-Петербург', area: '6 млн м²' },
+        { city: 'Краснодар', area: '5 млн м²' },
+        { city: 'Тюмень', area: '1,6 млн м²' },
+        { city: 'Татарстан', area: '530 тыс м²' },
+        { city: 'Ростов', area: '463 тыс м²' },
+        { city: 'Свердловская обл.', area: '260 тыс м²' },
+      ].map(g => (
+        <div class="p-4 bg-gray-50 rounded-xl">
+          <p class="font-semibold text-sm">{g.city}</p>
+          <p class="text-gray-500 text-xs mt-1">{g.area}</p>
+        </div>
+      ))}
+    </div>
   </div>
 </SiteLayout>

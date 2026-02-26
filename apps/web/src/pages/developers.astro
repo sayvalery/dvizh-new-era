@@ -1,20 +1,151 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
+import StatsSection from '../components/ui/StatsSection.astro'
+import CTA from '../components/ui/CTA.astro'
 ---
 
 <SiteLayout title="Для девелоперов — ДВИЖ">
-  <div class="max-w-5xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-4">Для девелоперов</h1>
-    <p class="text-xl text-gray-600 mb-12">Инструменты для автоматизации продаж и оформления сделок.</p>
+  <HeroSection
+    badge="Платформа для застройщиков"
+    title="Закрывайте на 26% больше сделок даже на падающем рынке"
+    description="ДВИЖ объединяет застройщиков и банки в единую цифровую экосистему. Автоматизация ипотеки, регистрации и аналитики — все инструменты на одной платформе."
+    formPreset="demo"
+  />
 
-    <div class="prose max-w-none mb-12">
-      <p>Контент страницы наполняется командой дизайна.</p>
+  <StatsSection
+    cols={3}
+    items={[
+      { value: '1 500 000+', label: 'Заявок обработано на платформе' },
+      { value: '79', label: 'Застройщиков из ТОП-100' },
+      { value: '40+', label: 'Банков-партнеров' },
+      { value: 'до 95%', label: 'Одобрение ипотечных заявок' },
+      { value: '70+', label: 'Историй успеха' },
+      { value: '99.9%', label: 'Uptime платформы' },
+    ]}
+  />
+
+  <!-- Продукт 1: Регистрация сделок -->
+  <FeaturesGrid
+    badge="Регистрация сделок"
+    title="Электронная регистрация сделок"
+    description="Регистрация ДДУ и договоров купли-продажи онлайн. Без очередей в МФЦ, без бумаги — полностью цифровой процесс."
+    features={[
+      { icon: 'document', title: 'Полный цикл регистрации', description: 'От подготовки документов до получения выписки из ЕГРН в цифровом виде' },
+      { icon: 'check', title: 'На 30% дешевле', description: 'Стоимость электронной регистрации ниже, чем через традиционные каналы' },
+      { icon: 'arrow-path', title: 'Отслеживание статусов', description: 'Прозрачный процесс — клиент и менеджер видят статус регистрации в реальном времени' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Продукт 2: Цифровая ипотека -->
+  <FeaturesGrid
+    badge="Цифровая ипотека"
+    title="Ипотека в один клик"
+    description="Подача заявки сразу в 40+ банков. Прескоринг, распознавание документов и автоматическое заполнение анкет."
+    features={[
+      { icon: 'building-bank', title: '40+ банков-партнеров', description: 'Одна заявка — десятки предложений от ведущих банков страны' },
+      { icon: 'check', title: 'До 95% одобрения', description: 'Прескоринг ДВИЖ повышает вероятность одобрения ипотеки' },
+      { icon: 'lock', title: 'Безопасность данных', description: 'Защита персональных данных клиентов на каждом этапе' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Продукт 3: Ипотечный калькулятор -->
+  <FeaturesGrid
+    badge="Ипотечный калькулятор"
+    title="Встраиваемый ипотечный калькулятор"
+    description="Виджет калькулятора для сайта застройщика. Подбор программ, расчет платежей и конвертация посетителей в заявки."
+    features={[
+      { icon: 'globe', title: 'Виджет для сайта', description: 'Легко встраивается на сайт застройщика — несколько строк кода' },
+      { icon: 'database', title: 'Актуальные программы', description: 'Автоматическое обновление ипотечных программ и ставок от 40+ банков' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Продукт 4: Аналитика -->
+  <FeaturesGrid
+    badge="Аналитика"
+    title="Аналитика и отчетность"
+    description="Полная картина по ипотечным сделкам: конверсии, сроки, банки, менеджеры. Данные для принятия решений."
+    features={[
+      { icon: 'document', title: 'Детальные отчеты', description: 'Отчеты по конверсиям, срокам обработки, эффективности менеджеров и банков' },
+      { icon: 'check', title: 'QBR-отчеты', description: 'Квартальные бизнес-обзоры с рекомендациями по улучшению показателей' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Продукт 5: Личный кабинет -->
+  <FeaturesGrid
+    badge="Личный кабинет"
+    title="Личный кабинет для всех участников"
+    description="Единое пространство для менеджеров застройщика, банковских сотрудников и клиентов. Управление сделками в одном окне."
+    features={[
+      { icon: 'lock', title: 'Разграничение доступа', description: 'Гибкие роли и права для разных типов пользователей' },
+      { icon: 'arrow-path', title: 'Управление процессами', description: 'Контроль каждого этапа сделки от заявки до регистрации' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Продукт 6: Витрина -->
+  <FeaturesGrid
+    badge="Витрина"
+    title="Витрина объектов"
+    description="Каталог объектов застройщика с актуальными ценами, планировками и статусами. Интеграция с CRM."
+    features={[
+      { icon: 'globe', title: 'Онлайн-каталог', description: 'Актуальная информация по объектам: цены, планировки, доступность' },
+      { icon: 'database', title: 'Интеграция с CRM', description: 'Синхронизация данных с CRM застройщика в реальном времени' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Поддержка -->
+  <section class="bg-gray-50 py-24">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center mb-16">
+        <h2 class="text-base font-semibold text-[#ff4d00]">Поддержка</h2>
+        <p class="mt-2 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Команда поддержки на вашей стороне</p>
+        <p class="mt-6 text-lg text-gray-600">Каждому клиенту ДВИЖ доступна выделенная команда специалистов</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="bg-white rounded-xl p-8 text-center shadow-sm">
+          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Менеджер успеха</h3>
+          <p class="text-sm text-gray-600">Персональный менеджер для решения стратегических задач и роста показателей</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 text-center shadow-sm">
+          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Консультант поддержки</h3>
+          <p class="text-sm text-gray-600">Оперативная помощь по любым вопросам работы с платформой</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 text-center shadow-sm">
+          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Аналитик</h3>
+          <p class="text-sm text-gray-600">Подготовка отчетов, анализ данных и рекомендации по оптимизации</p>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
-      <h2 class="text-xl font-semibold mb-4">Обсудить с нами</h2>
-      <Form preset="lead" />
+  <!-- CTA -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <CTA
+      title="Записаться на демо"
+      description="Покажем, как ДВИЖ помогает застройщикам закрывать больше сделок"
+      buttonText="Записаться на демо"
+      buttonHref="#form"
+    />
+  </div>
+
+  <!-- Форма захвата -->
+  <div id="form" class="bg-gray-50 py-24">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Записаться на демо</h2>
+        <Form preset="demo" />
+      </div>
     </div>
   </div>
 </SiteLayout>

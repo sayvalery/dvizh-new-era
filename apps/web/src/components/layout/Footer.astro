@@ -1,32 +1,81 @@
 ---
-interface Props {
-  footer: any
-}
+/**
+ * Footer — единый футер сайта
+ *
+ * Данные захардкожены (не из CMS) для стабильности и единообразия
+ * между основным сайтом и блогом.
+ */
 
-const { footer } = Astro.props
-const columns = footer?.columns ?? []
+const currentYear = new Date().getFullYear()
+
+const columns = [
+  {
+    title: 'Продукты',
+    links: [
+      { label: 'Электронная регистрация', href: '/elektronnaya-registraciya' },
+      { label: 'Цифровая ипотека', href: '/ipoteka' },
+      { label: 'Ипотечный калькулятор', href: '/ipotechnyy-kalkulyator' },
+      { label: 'Аналитика (QBR)', href: '/qbr' },
+      { label: 'Личный кабинет', href: '/lichnyy-kabinet' },
+      { label: 'Витрина', href: '/vitrina' },
+      { label: 'Скоринг', href: '/scoring' },
+    ],
+  },
+  {
+    title: 'Решения',
+    links: [
+      { label: 'Для банков', href: '/banki' },
+      { label: 'Для девелоперов', href: '/developers' },
+      { label: 'Для агентств', href: '/agentstva-nedvizhimosti' },
+    ],
+  },
+  {
+    title: 'Компания',
+    links: [
+      { label: 'О нас', href: '/about' },
+      { label: 'Блог', href: '/blog' },
+      { label: 'Словарь девелопера', href: '/slovar-developera' },
+      { label: 'Контакты', href: '/contacts' },
+    ],
+  },
+  {
+    title: 'Контакты',
+    links: [
+      { label: '+7 495 032-10-47', href: 'tel:+74950321047' },
+      { label: 'make@dvizh.io', href: 'mailto:make@dvizh.io' },
+      { label: 'Telegram: @dvizh4realty', href: 'https://t.me/dvizh4realty' },
+    ],
+  },
+]
 ---
 
 <footer class="border-t border-gray-200 mt-16">
   <div class="max-w-7xl mx-auto px-4 py-12">
-    {columns.length > 0 && (
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-        {columns.map((col: any) => (
-          <div>
-            {col.title && <h3 class="font-semibold text-sm mb-3">{col.title}</h3>}
-            <ul class="space-y-2">
-              {col.links?.map((link: any) => (
-                <li>
-                  <a href={link.href} class="text-sm text-gray-600 hover:text-gray-900">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+      {columns.map((col) => (
+        <div>
+          <h3 class="font-semibold text-sm mb-3">{col.title}</h3>
+          <ul class="space-y-2">
+            {col.links.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-gray-600 hover:text-gray-900">
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="text-sm text-gray-500">
+        <p>© 2018–{currentYear} ООО «Цифровые продажи»</p>
+        <p class="mt-1">ОГРН 1187746227020 · ИНН 7716899078</p>
       </div>
-    )}
-    <p class="text-sm text-gray-500">{footer?.copyright ?? '© 2024 Dvizh'}</p>
+      <div class="text-sm text-gray-400">
+        <p>Новодмитровская 2к2, Москва, 127015</p>
+      </div>
+    </div>
   </div>
 </footer>

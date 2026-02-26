@@ -3,7 +3,6 @@ import SiteLayout from '../../layouts/SiteLayout.astro'
 import { getVideos } from '../../lib/payload'
 
 const { docs: videos } = await getVideos()
-const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
 
 const typeLabels: Record<string, string> = {
   webinar: 'Вебинар',

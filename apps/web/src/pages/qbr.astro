@@ -1,20 +1,107 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
+import StatsSection from '../components/ui/StatsSection.astro'
+import CTA from '../components/ui/CTA.astro'
 ---
 
-<SiteLayout title="QBR — Аналитика — ДВИЖ">
-  <div class="max-w-5xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-4">QBR</h1>
-    <p class="text-xl text-gray-600 mb-12">Аналитика и бизнес-отчёты для управления продажами.</p>
+<SiteLayout title="QBR — квартальный бизнес-обзор — ДВИЖ">
+  <HeroSection
+    badge="QBR"
+    title="QBR — квартальный бизнес-обзор"
+    description="Готовый отчёт ипотечного отдела, который помогает привлечь и закрыть больше клиентов"
+  />
 
-    <div class="prose max-w-none mb-12">
-      <p>Контент страницы наполняется командой дизайна.</p>
-    </div>
+  <StatsSection
+    cols={3}
+    items={[
+      { value: '3', label: 'Готовых отчёта в каждом QBR' },
+      { value: 'Отчёт 1', label: 'Аналитика по отделу ипотеки' },
+      { value: 'Отчёт 2', label: 'Аналитика по банкам' },
+      { value: 'Отчёт 3', label: 'Портрет клиента' },
+    ]}
+  />
 
-    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
-      <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
-      <Form preset="demo" />
+  <!-- Features Grid 1: управление нагрузкой -->
+  <FeaturesGrid
+    badge="управление командой"
+    title="Распределите нагрузку между менеджерами"
+    description="Анализируйте эффективность каждого менеджера и равномерно распределяйте заявки для максимальной конверсии."
+    features={[
+      { icon: 'check', title: 'Нагрузка по менеджерам', description: 'Видите, кто перегружен, а у кого есть ресурс для новых заявок' },
+      { icon: 'database', title: 'Метрики эффективности', description: 'Отслеживайте конверсию, скорость обработки и качество работы каждого сотрудника' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Features Grid 2: персонализация рекламы -->
+  <FeaturesGrid
+    badge="маркетинг"
+    title="Персонализируйте рекламу"
+    description="Используйте данные портрета клиента для точного таргетинга рекламных кампаний."
+    features={[
+      { icon: 'globe', title: 'Портрет клиента', description: 'Детальный анализ демографии, предпочтений и поведения ваших клиентов' },
+      { icon: 'arrow-path', title: 'Точный таргетинг', description: 'Настраивайте рекламу на основе реальных данных о вашей аудитории' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Features Grid 3: сопоставление с рынком -->
+  <FeaturesGrid
+    badge="аналитика"
+    title="Сопоставьте результаты с рынком"
+    description="Сравнивайте показатели вашего ипотечного отдела с рыночными бенчмарками и находите точки роста."
+    features={[
+      { icon: 'document', title: 'Рыночные бенчмарки', description: 'Сравнение ваших показателей со средними по рынку' },
+      { icon: 'check', title: 'Точки роста', description: 'Конкретные рекомендации по улучшению показателей на основе рыночных данных' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Features Grid 4: одобрение и банки -->
+  <FeaturesGrid
+    badge="работа с банками"
+    title="Увеличьте процент одобрения и выберите лучшие банки"
+    description="Анализируйте статистику одобрений по каждому банку. Направляйте заявки туда, где шанс одобрения выше."
+    features={[
+      { icon: 'building-bank', title: 'Аналитика по банкам', description: 'Процент одобрения, сроки рассмотрения и условия по каждому банку-партнёру' },
+      { icon: 'lock', title: 'Увеличение одобрений', description: 'Рекомендации по выбору банка для каждого типа клиента' },
+      { icon: 'arrow-path', title: 'Сокращение отказов', description: 'Выявляйте причины отказов и устраняйте их до отправки заявки' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Features Grid 5: рекомендации экспертов -->
+  <FeaturesGrid
+    badge="экспертиза"
+    title="Получите рекомендации экспертов"
+    description="К каждому QBR-отчёту прилагаются рекомендации экспертов ДВИЖ по улучшению показателей вашего ипотечного отдела."
+    features={[
+      { icon: 'document', title: 'Экспертный разбор', description: 'Детальный анализ ваших данных с комментариями специалистов ДВИЖ' },
+      { icon: 'check', title: 'План действий', description: 'Конкретные шаги по улучшению конверсии и сокращению отказов' },
+    ]}
+    variant="light"
+  />
+
+  <!-- CTA -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <CTA
+      title="Получить пример отчёта"
+      description="Посмотрите, как QBR поможет вашему ипотечному отделу работать эффективнее"
+      buttonText="Получить пример отчёта"
+      buttonHref="#form"
+    />
+  </div>
+
+  <!-- Форма захвата -->
+  <div id="form" class="bg-gray-50 py-24">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Получить пример отчёта</h2>
+        <Form preset="demo" />
+      </div>
     </div>
   </div>
 </SiteLayout>

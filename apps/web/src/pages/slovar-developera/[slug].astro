@@ -22,10 +22,8 @@ const item = await getGlossaryItem(slug!)
 
 if (!item) return Astro.redirect('/slovar-developera')
 
-const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
-const bodyHtml = item.bodyHtml
-  ? item.bodyHtml.replaceAll('src="/api/media/', `src="${CMS_URL}/api/media/`)
-  : null
+// Относительные пути /api/media/ оставляем — nginx проксирует на CMS в проде
+const bodyHtml = item.bodyHtml ?? null
 ---
 
 <BlogLayout

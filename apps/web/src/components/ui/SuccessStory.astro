@@ -104,13 +104,18 @@ const hasHtml = /<[a-z][\s\S]*>/i.test(title)
 
     <!-- Правая колонка: изображение -->
     <div class="relative rounded-3xl overflow-hidden h-[448px]">
-      <img
-        src={image}
-        alt={imageAlt}
-        class="w-full h-full object-cover"
-        width="448"
-        height="448"
-      />
+      {image ? (
+        <img
+          src={image}
+          alt={imageAlt}
+          class="w-full h-full object-cover"
+          width="448"
+          height="448"
+          loading="lazy"
+        />
+      ) : (
+        <div class="w-full h-full bg-gray-200" />
+      )}
 
       <!-- Логотип компании (поверх изображения) -->
       {logo && (

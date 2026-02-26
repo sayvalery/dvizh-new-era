@@ -41,7 +41,7 @@ const letters = Object.keys(grouped).sort()
         <ul class="space-y-2">
           {grouped[letter].map((item: any) => (
             <li>
-              <a href={`/slovar-developera/${item.slug}`} class="text-blue-700 hover:underline font-medium">
+              <a href={`/slovar-developera/${item.slug}`} class="text-brand-700 hover:underline font-medium">
                 {item.title}
               </a>
               {item.excerpt && (

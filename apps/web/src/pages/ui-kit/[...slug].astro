@@ -207,14 +207,29 @@ const sections = [
           <h1 class="text-3xl font-bold mb-6">Цвета</h1>
           <div class="space-y-6">
             <div>
+              <p class="text-sm font-medium mb-3">Бренд (Brand) — #ff4d00</p>
+              <div class="flex gap-3">
+                <div class="w-16 h-16 bg-brand-50 rounded-lg border" title="brand-50"></div>
+                <div class="w-16 h-16 bg-brand-100 rounded-lg" title="brand-100"></div>
+                <div class="w-16 h-16 bg-brand-200 rounded-lg" title="brand-200"></div>
+                <div class="w-16 h-16 bg-brand-300 rounded-lg" title="brand-300"></div>
+                <div class="w-16 h-16 bg-brand-400 rounded-lg" title="brand-400"></div>
+                <div class="w-16 h-16 bg-brand rounded-lg" title="brand-500 DEFAULT"></div>
+                <div class="w-16 h-16 bg-brand-600 rounded-lg" title="brand-600"></div>
+                <div class="w-16 h-16 bg-brand-700 rounded-lg" title="brand-700"></div>
+                <div class="w-16 h-16 bg-brand-800 rounded-lg" title="brand-800"></div>
+                <div class="w-16 h-16 bg-brand-900 rounded-lg" title="brand-900"></div>
+              </div>
+            </div>
+            <div>
               <p class="text-sm font-medium mb-3">Основные</p>
               <div class="flex gap-3">
-                <div class="w-16 h-16 bg-black rounded-lg"></div>
-                <div class="w-16 h-16 bg-white border rounded-lg"></div>
-                <div class="w-16 h-16 bg-gray-100 rounded-lg"></div>
-                <div class="w-16 h-16 bg-gray-200 rounded-lg"></div>
-                <div class="w-16 h-16 bg-gray-500 rounded-lg"></div>
-                <div class="w-16 h-16 bg-gray-900 rounded-lg"></div>
+                <div class="w-16 h-16 bg-black rounded-lg" title="black"></div>
+                <div class="w-16 h-16 bg-white border rounded-lg" title="white"></div>
+                <div class="w-16 h-16 bg-gray-100 rounded-lg" title="gray-100"></div>
+                <div class="w-16 h-16 bg-gray-200 rounded-lg" title="gray-200"></div>
+                <div class="w-16 h-16 bg-gray-500 rounded-lg" title="gray-500"></div>
+                <div class="w-16 h-16 bg-gray-900 rounded-lg" title="gray-900"></div>
               </div>
             </div>
           </div>
@@ -545,7 +560,7 @@ const sections = [
               </p>
               <div class="border rounded-xl px-6">
                 <ImageBlock block={{
-                  image: { url: 'https://placehold.co/800x400/f3f4f6/9ca3af?text=800+x+400' },
+                  image: { url: '' },
                   caption: 'Подпись к изображению',
                   alt: 'Демонстрационное изображение',
                 }} />
@@ -615,7 +630,7 @@ const sections = [
                       description: 'Актуальные ставки банков, программы льготной ипотеки и калькулятор расчёта платежей.'
                     }
                   ]}
-                  image="https://tailwindcss.com/plus-assets/img/component-images/project-app-screenshot.png"
+                  image=""
                 />
               </div>
             </div>
@@ -695,11 +710,11 @@ const sections = [
                 person={{
                   name: "Петрова Надежда",
                   jobTitle: "Директор по маркетингу, ЛСР",
-                  photo: { url: "https://i.pravatar.cc/150?img=47" }
+                  photo: { url: "" }
                 }}
-                image="https://placehold.co/448x448/f3f4f6/9ca3af?text=ЛСР"
+                image=""
                 imageAlt="ЛСР"
-                logo="https://placehold.co/200x60/ffffff/333333?text=LSR"
+                logo=""
                 logoAlt="ЛСР"
               />
             </div>
@@ -713,9 +728,9 @@ const sections = [
                 person={{
                   name: "Алексей Соколов",
                   jobTitle: "IT-директор, Банк «Стандарт»",
-                  photo: { url: "https://i.pravatar.cc/150?img=12" }
+                  photo: { url: "" }
                 }}
-                image="https://placehold.co/448x448/e5e7eb/6b7280?text=Банк"
+                image=""
                 imageAlt="Банк Стандарт"
               />
             </div>
@@ -742,11 +757,11 @@ const sections = [
                     person: {
                       name: "Петрова Надежда",
                       jobTitle: "Директор по маркетингу, ЛСР",
-                      photo: { url: "https://i.pravatar.cc/150?img=47" }
+                      photo: { url: "" }
                     },
-                    image: "https://placehold.co/448x448/d9d9d9/9ca3af?text=ЛСР",
+                    image: "",
                     imageAlt: "ЛСР",
-                    logo: "https://placehold.co/200x60/ffffff/333333?text=LSR",
+                    logo: "",
                     logoAlt: "ЛСР"
                   },
                   {
@@ -755,11 +770,11 @@ const sections = [
                     person: {
                       name: "Алексей Соколов",
                       jobTitle: "Коммерческий директор, Самолет плюс",
-                      photo: { url: "https://i.pravatar.cc/150?img=12" }
+                      photo: { url: "" }
                     },
-                    image: "https://placehold.co/448x448/d9d9d9/9ca3af?text=Самолет",
+                    image: "",
                     imageAlt: "Самолет плюс",
-                    logo: "https://placehold.co/200x60/ffffff/333333?text=Aircraft",
+                    logo: "",
                     logoAlt: "Самолет плюс"
                   },
                   {
@@ -768,11 +783,11 @@ const sections = [
                     person: {
                       name: "Мария Иванова",
                       jobTitle: "Руководитель отдела продаж",
-                      photo: { url: "https://i.pravatar.cc/150?img=32" }
+                      photo: { url: "" }
                     },
-                    image: "https://placehold.co/448x448/d9d9d9/9ca3af?text=Company",
+                    image: "",
                     imageAlt: "Компания",
-                    logo: "https://placehold.co/200x60/ffffff/333333?text=Logo",
+                    logo: "",
                     logoAlt: "Логотип"
                   }
                 ]}
@@ -791,7 +806,7 @@ const sections = [
                       name: "Иван Петров",
                       jobTitle: "IT-директор",
                     },
-                    image: "https://placehold.co/448x448/f3f4f6/9ca3af?text=Test",
+                    image: "",
                   }
                 ]}
               />
@@ -817,28 +832,28 @@ const sections = [
                       label: "Releases",
                       title: "Push to deploy",
                       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In gravida justo et nulla efficitur, maximus egestas sem pellentesque.",
-                      image: "https://tailwindcss.com/plus-assets/img/component-images/bento-02-releases.png",
+                      image: "",
                       span: "col-span-4"
                     },
                     {
                       label: "Integrations",
                       title: "Connect your favorite tools",
                       description: "Curabitur auctor, ex quis auctor venenatis, eros arcu rhoncus massa.",
-                      image: "https://tailwindcss.com/plus-assets/img/component-images/bento-02-integrations.png",
+                      image: "",
                       span: "col-span-2"
                     },
                     {
                       label: "Security",
                       title: "Advanced access control",
                       description: "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia.",
-                      image: "https://tailwindcss.com/plus-assets/img/component-images/bento-02-security.png",
+                      image: "",
                       span: "col-span-2"
                     },
                     {
                       label: "Performance",
                       title: "Lightning-fast builds",
                       description: "Sed congue eros non finibus molestie. Vestibulum euismod augue vel commodo vulputate.",
-                      image: "https://tailwindcss.com/plus-assets/img/component-images/bento-02-performance.png",
+                      image: "",
                       span: "col-span-4"
                     }
                   ]}
@@ -895,7 +910,7 @@ const sections = [
                 badge="Ипотечная платформа"
                 title="Закрывайте до 26% больше сделок на том же трафике"
                 description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
-                image="https://placehold.co/595x800/ededed/9ca3af?text=Image"
+                image=""
               />
             </div>
 

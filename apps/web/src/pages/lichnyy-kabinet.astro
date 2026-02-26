@@ -1,20 +1,98 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
+import StatsSection from '../components/ui/StatsSection.astro'
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
+import CTA from '../components/ui/CTA.astro'
 ---
 
-<SiteLayout title="Личный кабинет — ДВИЖ">
-  <div class="max-w-5xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-4">Личный кабинет</h1>
-    <p class="text-xl text-gray-600 mb-12">Личный кабинет клиента для ведения сделок и документов.</p>
+<SiteLayout title="Личный кабинет покупателя — ДВИЖ">
+  <HeroSection
+    badge="Личный кабинет покупателя"
+    title="Увеличивайте конверсию сайта в 2 раза"
+    description="Платформа, где клиент может посмотреть все квартиры застройщика, сравнить варианты, добавить планировки в избранное и оформить заявку на ипотеку"
+    formPreset="demo"
+  />
 
-    <div class="prose max-w-none mb-12">
-      <p>Контент страницы наполняется командой дизайна.</p>
+  <StatsSection
+    cols={2}
+    items={[
+      { value: '99.9%', label: 'Uptime платформы — стабильная работа без перебоев' },
+      { value: 'в 2 раза', label: 'Рост конверсии сайта застройщика' },
+    ]}
+  />
+
+  <!-- Фичи: основные возможности личного кабинета -->
+  <FeaturesGrid
+    badge="Возможности"
+    title="Все инструменты для покупателя в одном месте"
+    description="Личный кабинет объединяет онлайн и офлайн-продажи, давая полный портрет клиента и повышая конверсию на каждом этапе воронки."
+    features={[
+      { icon: 'check', title: 'Сравнение квартир', description: 'Покупатель может сравнить планировки, площади, этажи и цены прямо в кабинете' },
+      { icon: 'globe', title: 'Объединяем онлайн и офлайн-продажи', description: 'Все действия клиента на сайте и в офисе продаж — в единой системе' },
+      { icon: 'database', title: 'Полный портрет клиента', description: 'Застройщик видит всю историю взаимодействия: просмотры, избранное, заявки' },
+    ]}
+    variant="light"
+  />
+
+  <FeaturesGrid
+    badge="Удобство"
+    title="Все предложения — в одном месте"
+    description="Клиенту не нужно переключаться между вкладками и сайтами. Все квартиры застройщика доступны в личном кабинете."
+    features={[
+      { icon: 'building-bank', title: 'Все предложения в одном месте', description: 'Квартиры всех ЖК застройщика собраны в личном кабинете покупателя' },
+      { icon: 'document', title: 'Избранное', description: 'Покупатель сохраняет понравившиеся планировки и возвращается к ним в любой момент' },
+    ]}
+    variant="dark"
+  />
+
+  <!-- Поддержка -->
+  <section class="bg-white py-24 sm:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center mb-16">
+        <h2 class="text-base/7 font-semibold text-brand">Поддержка</h2>
+        <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+          Команда, которая поможет вам на каждом этапе
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <h3 class="text-lg font-semibold text-gray-900">Менеджер успеха</h3>
+          <p class="mt-2 text-sm text-gray-600">Персональный менеджер, который помогает внедрить продукт и достичь KPI</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <h3 class="text-lg font-semibold text-gray-900">Консультант поддержки</h3>
+          <p class="mt-2 text-sm text-gray-600">Оперативная техническая поддержка для решения любых вопросов</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <h3 class="text-lg font-semibold text-gray-900">Аналитик</h3>
+          <p class="mt-2 text-sm text-gray-600">Аналитик, который поможет разобраться в данных и увеличить конверсию</p>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
-      <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
-      <Form preset="demo" />
+  <!-- CTA -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <CTA
+      title="Запросить демо"
+      description="Узнайте, как личный кабинет покупателя увеличит конверсию вашего сайта"
+      buttonText="Запросить демо"
+      buttonHref="#form"
+    />
+  </div>
+
+  <!-- Форма захвата -->
+  <div id="form" class="bg-gray-50 py-24">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
+        <Form preset="demo" />
+      </div>
     </div>
   </div>
 </SiteLayout>

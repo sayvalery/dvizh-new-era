@@ -52,12 +52,14 @@ const getCardClass = (index: number) => {
   {items.map((item, index) => (
     <div class="flex p-px">
       <div class={getCardClass(index)}>
-        {item.image && (
+        {item.image ? (
           <img
             src={item.image}
             alt={item.imageAlt || item.title}
             class="h-80 w-full object-cover"
           />
+        ) : (
+          <div class="h-80 w-full bg-gray-100" />
         )}
         <div class="p-10">
           <p class="text-lg font-medium tracking-tight text-gray-900">{item.title}</p>

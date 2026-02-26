@@ -244,10 +244,3 @@ export async function getPostsByCompany(slug: string) {
   })
 }
 
-export async function getNavigation() {
-  return fetchFromCMS<any>('/globals/navigation', { depth: 1 })
-}
-
-export async function getFooter() {
-  return fetchFromCMS<any>('/globals/footer', { depth: 1 })
-}

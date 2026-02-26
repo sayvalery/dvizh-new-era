@@ -1,20 +1,72 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
+import StatsSection from '../components/ui/StatsSection.astro'
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
+import CTA from '../components/ui/CTA.astro'
 ---
 
-<SiteLayout title="Скоринг — ДВИЖ">
-  <div class="max-w-5xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-4">Скоринг</h1>
-    <p class="text-xl text-gray-600 mb-12">Автоматическая оценка кредитоспособности заёмщиков.</p>
+<SiteLayout title="Финансовый скоринг — ДВИЖ">
+  <HeroSection
+    badge="Финансовый скоринг"
+    title="Снизьте количество проблемных случаев с рассрочкой"
+    description="Не потеряйте миллионы из-за проблемных клиентов. Проверяйте платёжеспособность покупателей на банковском уровне до подписания договора"
+    formPreset="demo"
+    withForm={true}
+  />
 
-    <div class="prose max-w-none mb-12">
-      <p>Контент страницы наполняется командой дизайна.</p>
-    </div>
+  <StatsSection
+    cols={2}
+    items={[
+      { value: '25.8%', label: 'Клиентов с низким кредитным рейтингом — выявляем до заключения сделки' },
+      { value: '15+', label: 'Проверок при каждом скоринге — на уровне банковской проверки' },
+    ]}
+  />
 
-    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
-      <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
-      <Form preset="demo" />
+  <!-- Фичи: ключевые сценарии использования -->
+  <FeaturesGrid
+    badge="Задачи"
+    title="Защитите бизнес от финансовых рисков"
+    description="Скоринг от ДВИЖ помогает застройщикам снизить дефолты по рассрочке, упростить переход клиентов на ипотеку и реанимировать базу отказников."
+    features={[
+      { icon: 'lock', title: 'Снижение дефолтов по рассрочке', description: 'Проверяйте кредитную историю клиентов до оформления рассрочки и избегайте проблемных сделок' },
+      { icon: 'arrow-path', title: 'Упрощение переезда с рассрочки на ипотеку', description: 'Автоматически определяем клиентов, которых можно перевести с рассрочки на ипотечное кредитование' },
+      { icon: 'database', title: 'Реанимация базы отказников', description: 'Повторный скоринг ранее отклонённых клиентов — их кредитный рейтинг мог улучшиться' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Как это работает -->
+  <FeaturesGrid
+    badge="Как это работает"
+    title="Проверка на банковском уровне за секунды"
+    description="Автоматический скоринг по 15+ параметрам ежемесячно обновляет оценку клиентов и интегрируется прямо в вашу CRM."
+    features={[
+      { icon: 'check', title: 'Проверка на банковском уровне', description: '15+ проверок: кредитная история, долговая нагрузка, судебные дела, исполнительные листы и другие параметры' },
+      { icon: 'globe', title: 'Автоматический скоринг каждый месяц', description: 'Система ежемесячно пересчитывает рейтинг клиентов — вы узнаете об изменениях первыми' },
+      { icon: 'document', title: 'Виджет для CRM', description: 'Встраиваемый виджет показывает результат скоринга прямо в карточке клиента в вашей CRM-системе' },
+    ]}
+    variant="dark"
+  />
+
+  <!-- CTA -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <CTA
+      title="Заказать демо"
+      description="Посмотрите, как финансовый скоринг защитит ваш бизнес от проблемных сделок"
+      buttonText="Заказать демо"
+      buttonHref="#form"
+    />
+  </div>
+
+  <!-- Форма захвата -->
+  <div id="form" class="bg-gray-50 py-24">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Заказать демо</h2>
+        <Form preset="demo" />
+      </div>
     </div>
   </div>
 </SiteLayout>

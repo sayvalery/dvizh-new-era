@@ -44,10 +44,10 @@ const {
 } = Astro.props
 
 // Tailwind Plus стили + адаптация под дизайн из Pencil
-const bgColor = variant === 'dark' ? 'bg-[#3a3a3a]' : 'bg-indigo-100'
+const bgColor = variant === 'dark' ? 'bg-[#3a3a3a]' : 'bg-brand-100'
 const titleColor = variant === 'dark' ? 'text-white' : 'text-gray-900'
 const descriptionColor = variant === 'dark' ? 'text-[#d3d3d3]' : 'text-gray-600'
-const buttonBg = variant === 'dark' ? 'bg-[#ff4d00] hover:bg-[#e64600]' : 'bg-indigo-600 hover:bg-indigo-500'
+const buttonBg = variant === 'dark' ? 'bg-brand hover:bg-brand-600' : 'bg-brand hover:bg-brand-600'
 ---
 
 <section class:list={[bgColor, 'rounded-[31px]', className]}>

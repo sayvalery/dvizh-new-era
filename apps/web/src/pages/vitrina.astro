@@ -1,20 +1,73 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
+import StatsSection from '../components/ui/StatsSection.astro'
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
+import CTA from '../components/ui/CTA.astro'
 ---
 
-<SiteLayout title="Витрина — ДВИЖ">
-  <div class="max-w-5xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-4">Витрина</h1>
-    <p class="text-xl text-gray-600 mb-12">Витрина объектов недвижимости с интеграцией в сайт застройщика.</p>
+<SiteLayout title="Витрина от ДВИЖ — удобный инструмент для демонстрации недвижимости">
+  <HeroSection
+    badge="Витрина от ДВИЖ"
+    title="Удобный инструмент для демонстрации недвижимости"
+    description="Встраиваемый модуль для сайта застройщика с ипотечным калькулятором, фильтрами, бронированием и интеграцией с CRM"
+    formPreset="demo"
+  />
 
-    <div class="prose max-w-none mb-12">
-      <p>Контент страницы наполняется командой дизайна.</p>
-    </div>
+  <StatsSection
+    cols={3}
+    items={[
+      { value: 'в 2 раза', label: 'Выше конверсия сайта с витриной ДВИЖ' },
+      { value: '5 лет', label: 'За 5 лет ни один клиент не ушёл' },
+      { value: '100+', label: 'Топовых застройщиков используют витрину' },
+    ]}
+  />
 
-    <div class="bg-gray-50 rounded-xl p-8 max-w-md">
-      <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
-      <Form preset="demo" />
+  <!-- Фичи: калькулятор, бронирование, фильтры -->
+  <FeaturesGrid
+    badge="Функциональность"
+    title="Всё для выбора квартиры на сайте застройщика"
+    description="Витрина помогает покупателю выбрать квартиру, рассчитать ипотеку и забронировать прямо на сайте — без звонков и визитов в офис."
+    features={[
+      { icon: 'building-bank', title: 'Встроенный ипотечный калькулятор', description: 'Покупатель рассчитывает ипотеку прямо на странице квартиры с актуальными ставками банков' },
+      { icon: 'lock', title: 'Бронирование квартир', description: 'Онлайн-бронирование с фиксацией цены — клиент не уйдёт к конкуренту' },
+      { icon: 'database', title: 'Умные фильтры', description: 'Фильтрация по площади, этажу, цене, количеству комнат и другим параметрам' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Фичи: сравнение, избранное, CRM -->
+  <FeaturesGrid
+    badge="Интеграции"
+    title="Объединяем витрину с вашими системами"
+    description="Витрина работает не в изоляции — она интегрируется с CRM и автоматически заполняет анкеты, экономя время менеджеров."
+    features={[
+      { icon: 'check', title: 'Модуль сравнения', description: 'Покупатель сравнивает до 4 квартир по ключевым параметрам на одном экране' },
+      { icon: 'document', title: 'Избранное', description: 'Сохранение понравившихся вариантов для возврата к ним позже' },
+      { icon: 'arrow-path', title: 'Интеграция с CRM', description: 'Все заявки и действия покупателя автоматически попадают в CRM застройщика' },
+      { icon: 'globe', title: 'Автозаполнение анкеты', description: 'Данные клиента подтягиваются автоматически — заполнение анкеты занимает секунды' },
+    ]}
+    variant="dark"
+  />
+
+  <!-- CTA -->
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <CTA
+      title="Запросить демо"
+      description="Посмотрите, как витрина ДВИЖ работает на реальном сайте застройщика"
+      buttonText="Запросить демо"
+      buttonHref="#form"
+    />
+  </div>
+
+  <!-- Форма захвата -->
+  <div id="form" class="bg-gray-50 py-24">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
+        <Form preset="demo" />
+      </div>
     </div>
   </div>
 </SiteLayout>

@@ -1,10 +1,21 @@
 ---
-import BlogLayout from '../../layouts/BlogLayout.astro'
-import { getBlogPosts, getCategories } from '../../lib/payload'
+import BlogLayout from '../../../layouts/BlogLayout.astro'
+import { getBlogPosts, getCategories } from '../../../lib/payload'
+
+export async function getStaticPaths() {
+  const postsPerPage = 12
+  const result = await getBlogPosts({ limit: 200 })
+  const totalPages = Math.ceil(result.docs.length / postsPerPage)
+
+  return Array.from({ length: totalPages - 1 }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }))
+}
 
 const POSTS_PER_PAGE = 12
 
-// Получаем все посты для подсчёта и первую страницу
+const currentPage = Number(Astro.params.page)
+
 const allPostsResult = await getBlogPosts({ limit: 200 })
 const allPosts = allPostsResult.docs
 const { docs: categories } = await getCategories()
@@ -18,21 +29,22 @@ for (const post of allPosts) {
   }
 }
 
-// Первая страница
-const posts = allPosts.slice(0, POSTS_PER_PAGE)
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE)
-const hasNextPage = totalPages > 1
+const start = (currentPage - 1) * POSTS_PER_PAGE
+const posts = allPosts.slice(start, start + POSTS_PER_PAGE)
+const hasNextPage = currentPage < totalPages
+const hasPrevPage = currentPage > 1
 ---
 
-<BlogLayout title="Блог — ДВИЖ">
+<BlogLayout title={`Блог — Страница ${currentPage} — ДВИЖ`}>
   <div class="max-w-7xl mx-auto px-4 py-16">
     <h1 class="text-4xl font-bold mb-2">Блог</h1>
-    <p class="text-gray-400 text-sm mb-8">{allPosts.length} статей</p>
+    <p class="text-gray-400 text-sm mb-8">{allPosts.length} статей · Страница {currentPage} из {totalPages}</p>
 
     <!-- Фильтр по категориям -->
     {categories.length > 0 && (
       <div class="flex flex-wrap gap-2 mb-10">
-        <a href="/blog" class="px-3 py-1 rounded-full border border-brand text-brand text-sm">
+        <a href="/blog" class="px-3 py-1 rounded-full border text-sm hover:bg-gray-100">
           Все <span class="text-gray-400 ml-1">{allPosts.length}</span>
         </a>
         {categories.map((cat: any) => (
@@ -75,15 +87,24 @@ const hasNextPage = totalPages > 1
     )}
 
     <!-- Пагинация -->
-    {hasNextPage && (
-      <div class="flex justify-center mt-12">
+    <div class="flex justify-center items-center gap-4 mt-12">
+      {hasPrevPage && (
         <a
-          href="/blog/page/2"
+          href={currentPage === 2 ? '/blog' : `/blog/page/${currentPage - 1}`}
           class="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
         >
-          Загрузить ещё
+          ← Назад
         </a>
-      </div>
-    )}
+      )}
+      <span class="text-sm text-gray-400">{currentPage} / {totalPages}</span>
+      {hasNextPage && (
+        <a
+          href={`/blog/page/${currentPage + 1}`}
+          class="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+        >
+          Загрузить ещё →
+        </a>
+      )}
+    </div>
   </div>
 </BlogLayout>
