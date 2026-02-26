@@ -26,6 +26,27 @@ if (!post) return Astro.redirect('/404')
 const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
 const coverUrl = post.cover?.url ?? null
 
+// og:image: сначала кастомное из meta, потом обложка статьи
+const ogImage = post.meta?.image?.url ?? post.cover?.url ?? undefined
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  description: post.excerpt ?? post.meta?.description,
+  image: ogImage,
+  datePublished: post.publishedAt,
+  dateModified: post.updatedAt ?? post.publishedAt,
+  author: post.primaryAuthor
+    ? { '@type': 'Person', name: post.primaryAuthor.name, url: `${Astro.site}person/${post.primaryAuthor.slug}` }
+    : undefined,
+  publisher: {
+    '@type': 'Organization',
+    name: 'ДВИЖ',
+    url: Astro.site,
+  },
+}
+
 // Исправляем bodyHtml: картинки (относительные пути) и ссылки из Webflow
 const bodyHtml = post.bodyHtml
   ? post.bodyHtml
@@ -46,7 +67,9 @@ const coAuthors = (post.coAuthors ?? []).filter(
 <BlogLayout
   title={post.meta?.title ?? post.title}
   description={post.meta?.description ?? post.excerpt}
-  ogImage={post.meta?.image?.url ?? undefined}
+  ogImage={ogImage}
+  ogType="article"
+  jsonLd={jsonLd}
 >
   <article class="max-w-3xl mx-auto px-4 py-16">
     <!-- Хлебные крошки -->

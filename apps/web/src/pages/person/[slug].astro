@@ -25,6 +25,7 @@ const { docs: posts } = await getPostsByPerson(slug!)
 <BlogLayout
   title={`${person.name} — ДВИЖ`}
   description={person.description ?? person.jobTitle}
+  ogImage={person.photo?.url ?? undefined}
 >
   <div class="max-w-4xl mx-auto px-4 py-16">
 

@@ -25,4 +25,12 @@ postgres-data/
 
 # Migration
 source/images/
+source/image-map.json.backup
 scripts/migrate-log.json
+
+# Build artifacts
+*.tsbuildinfo
+
+# Archives & dumps
+*.zip
+*.sql

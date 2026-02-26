@@ -34,7 +34,7 @@ interface Props {
 
 const { person, variant = 'full' } = Astro.props
 const photoUrl = person.photo?.url ?? null
-const personHref = person.slug ? `/persons/${person.slug}` : null
+const personHref = person.slug ? `/person/${person.slug}` : null
 const companyHref = person.company?.slug ? `/companies/${person.company.slug}` : null
 ---
 

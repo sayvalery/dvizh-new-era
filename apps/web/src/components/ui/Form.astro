@@ -21,6 +21,8 @@
  * Открыть дровер с формой: @click="$dispatch('open-drawer', { preset: 'demo' })"
  */
 const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+// PUBLIC_CMS_URL — for client-side form submission (empty = same origin via nginx proxy)
+const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
 
 interface Props {
   preset: 'lead' | 'subscribe' | 'demo' | 'research'
@@ -59,7 +61,7 @@ const formFields = fields[preset] ?? ['name', 'email']
 <form
   class:list={[className]}
   data-preset={preset}
-  data-cms-url={CMS_URL}
+  data-cms-url={CLIENT_CMS_URL}
 >
   {layout === 'labels-left' ? (
     <div class="divide-y divide-gray-100">
