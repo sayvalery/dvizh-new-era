@@ -1,0 +1,102 @@
+---
+/**
+ * PageSection — секция с навигацией слева и контентом справа
+ *
+ * @example
+ * ```astro
+ * <PageSection
+ *   title="Поможем перевыполнить план продаж на том же трафике"
+ *   benefits={[
+ *     "До 96% одобрения",
+ *     "Единая анкета в 40+ банков"
+ *   ]}
+ *   sections={[
+ *     { title: "Цифровая ипотека", active: true },
+ *     { title: "Ипотечный калькулятор" }
+ *   ]}
+ * />
+ * ```
+ */
+
+interface SectionItem {
+  title: string
+  active?: boolean
+  href?: string
+}
+
+interface Props {
+  /** Основной заголовок */
+  title: string
+  /** Список преимуществ */
+  benefits?: string[]
+  /** Список секций (отображается слева) */
+  sections?: SectionItem[]
+  /** Цвет активной секции (text-[#FF4D00] по умолчанию) */
+  activeColor?: string
+  /** Цвет неактивной секции (text-gray-500 по умолчанию) */
+  inactiveColor?: string
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  title,
+  benefits = [],
+  sections = [],
+  activeColor = 'text-[#FF4D00]',
+  inactiveColor = 'text-[#858585]',
+  class: className = ''
+} = Astro.props
+---
+
+<div class:list={['flex flex-col md:flex-row gap-10 md:gap-42', className]}>
+  <!-- Список секций (слева) -->
+  {sections.length > 0 && (
+    <div class="flex flex-col gap-8">
+      {sections.map((section, index) => (
+        <div key={index}>
+          {section.href ? (
+            <a
+              href={section.href}
+              class:list={[
+                'text-sm font-normal leading-tight transition-colors',
+                section.active ? activeColor : inactiveColor
+              ]}
+            >
+              {section.title}
+            </a>
+          ) : (
+            <span
+              class:list={[
+                'text-sm font-normal leading-tight',
+                section.active ? activeColor : inactiveColor
+              ]}
+            >
+              {section.title}
+            </span>
+          )}
+        </div>
+      ))}
+    </div>
+  )}
+
+  <!-- Правая карточка с контентом -->
+  <div class="flex-1 bg-[#F8F8F8] rounded-[40px] p-[52px]">
+    <!-- Заголовок + преимущества -->
+    <div class="flex flex-col gap-30">
+      <h2 class="text-[50px] font-medium leading-none tracking-tight text-gray-900">
+        {title}
+      </h2>
+
+      {benefits.length > 0 && (
+        <ul class="flex flex-col gap-4">
+          {benefits.map((benefit, index) => (
+            <li key={index} class="text-base leading-[1.4] text-gray-900">
+              {benefit}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+</div>
