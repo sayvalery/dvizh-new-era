@@ -1,0 +1,100 @@
+---
+/**
+ * BentoGrid — сетка карточек разного размера (Bento layout)
+ *
+ * @example
+ * ```astro
+ * <BentoGrid
+ *   items={[
+ *     {
+ *       label: "Releases",
+ *       title: "Push to deploy",
+ *       description: "Lorem ipsum...",
+ *       image: "/releases.png",
+ *       span: "col-span-4"
+ *     },
+ *     { ... }
+ *   ]}
+ * />
+ * ```
+ */
+
+interface BentoItem {
+  /** Метка над заголовком */
+  label?: string
+  /** Заголовок карточки */
+  title: string
+  /** Описание */
+  description?: string
+  /** Изображение */
+  image?: string
+  /** Alt-текст изображения */
+  imageAlt?: string
+  /** Ширина колонки: col-span-2 или col-span-4 */
+  span?: 'col-span-2' | 'col-span-4'
+}
+
+interface Props {
+  /** Карточки сетки */
+  items: BentoItem[]
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  items,
+  class: className = ''
+} = Astro.props
+
+// Определяем скругления углов для карточек по позициям
+const getCardClass = (index: number, span: string) => {
+  const classes = ['w-full overflow-hidden rounded-lg bg-white shadow outline outline-1 outline-black/5']
+
+  if (span === 'col-span-4') {
+    // Широкие карточки — слева или справа
+    if (index === 0) {
+      classes.push('max-lg:rounded-t-[2rem]', 'lg:rounded-tl-[2rem]')
+    } else {
+      classes.push('max-lg:rounded-b-[2rem]', 'lg:rounded-br-[2rem]')
+    }
+  } else {
+    // Узкие карточки — справа
+    if (index === 1) {
+      classes.push('lg:rounded-tr-[2rem]')
+    } else {
+      classes.push('lg:rounded-bl-[2rem]')
+    }
+  }
+
+  return classes.join(' ')
+}
+---
+
+<div class:list={['grid grid-cols-1 gap-4 lg:grid-cols-6 lg:grid-rows-2', className]}>
+      {items.map((item, index) => (
+        <div class:list={['flex p-px', item.span || 'lg:col-span-2']}>
+          <div class={getCardClass(index, item.span || 'lg:col-span-2')}>
+            {item.image && (
+              <img
+                src={item.image}
+                alt={item.imageAlt || item.title}
+                class:list={[
+                  'h-80 object-cover',
+                  (item.span === 'col-span-4') ? 'object-left' : 'object-center'
+                ]}
+              />
+            )}
+            <div class="p-10">
+              {item.label && (
+                <h3 class="text-sm/4 font-semibold text-gray-500">{item.label}</h3>
+              )}
+              <p class="mt-2 text-lg font-medium tracking-tight text-gray-900">{item.title}</p>
+              {item.description && (
+                <p class="mt-2 max-w-lg text-sm/6 text-gray-600">{item.description}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+</div>
