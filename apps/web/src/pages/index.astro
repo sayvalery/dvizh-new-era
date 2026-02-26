@@ -1,5 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
+import BentoGrid from '../components/ui/BentoGrid.astro'
 ---
 
 <SiteLayout
@@ -41,6 +42,37 @@ import SiteLayout from '../layouts/SiteLayout.astro'
           <h3 class="font-medium text-sm">{p.title}</h3>
         </a>
       ))}
+    </div>
+  </section>
+
+  <!-- Девелоперы с ДВИЖ -->
+  <section class="bg-white py-24 sm:py-32">
+    <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+      <h2 class="text-5xl font-medium tracking-tight text-gray-900" style="letter-spacing: -0.06em">
+        Девелоперы с ДВИЖ
+      </h2>
+    </div>
+    <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8 mt-16">
+      <BentoGrid
+        items={[
+          {
+            title: "Закрывают до 26% больше сделок на том же трафике",
+            image: "https://tailwindcss.com/plus-assets/img/component-images/bento-02-releases.png"
+          },
+          {
+            title: "Получают больше выручки на одного менеджера",
+            image: "https://tailwindcss.com/plus-assets/img/component-images/bento-02-integrations.png"
+          },
+          {
+            title: "Снизили количество отказов по ипотеке",
+            image: "https://tailwindcss.com/plus-assets/img/component-images/bento-02-security.png"
+          },
+          {
+            title: "Сократили расходы на электронную регистрацию",
+            image: "https://tailwindcss.com/plus-assets/img/component-images/bento-02-performance.png"
+          }
+        ]}
+      />
     </div>
   </section>
 
