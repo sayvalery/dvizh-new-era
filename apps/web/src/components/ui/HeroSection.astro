@@ -1,0 +1,122 @@
+---
+/**
+ * HeroSection — главная hero-секция страницы с заголовком, описанием и формой
+ *
+ * @example
+ * ```astro
+ * <HeroSection
+ *   badge="Ипотечная платформа"
+ *   title="Закрывайте до 26% больше сделок на том же трафике"
+ *   description="Повышаем конверсии на каждом этапе работы с заявками."
+ * />
+ * ```
+ */
+
+interface Props {
+  /** Бейдж/надпись над заголовком (оранжевый) */
+  badge?: string
+  /** Основной заголовок */
+  title: string
+  /** Описание под заголовком */
+  description?: string
+  /** Показывать инпуты и кнопку */
+  withForm?: boolean
+  /** Placeholder для первого инпута */
+  input1Placeholder?: string
+  /** Placeholder для второго инпута */
+  input2Placeholder?: string
+  /** Текст на кнопке */
+  buttonText?: string
+  /** Действие при отправке формы */
+  formAction?: string
+  /** Изображение справа (URL) */
+  image?: string
+  /** Alt-текст для изображения */
+  imageAlt?: string
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  badge,
+  title,
+  description,
+  withForm = true,
+  input1Placeholder = 'Ваше имя',
+  input2Placeholder = 'Ваш e-mail',
+  buttonText = 'Посмотреть демо',
+  formAction = '/api/demo',
+  image,
+  imageAlt = 'Hero image',
+  class: className = ''
+} = Astro.props
+---
+
+<section class:list={['bg-white', className]}>
+  <div class="max-w-[1440px] mx-auto px-4">
+    <div class="grid lg:grid-cols-[726px_1fr] gap-8 items-center lg:min-h-[800px]">
+      <!-- Левая колонка: контент -->
+      <div class="flex flex-col justify-center gap-[52px] py-16 lg:py-0 order-2 lg:order-1">
+        <div class="flex flex-col gap-9">
+          <!-- Бейдж -->
+          {badge && (
+            <p class="text-[18px] text-[#ff4d00] font-normal">
+              {badge}
+            </p>
+          )}
+
+          <!-- Заголовок и описание -->
+          <div class="flex flex-col gap-8">
+            <h1 class="text-[56px] lg:text-[72px] font-medium leading-none tracking-tight text-[#1b2226]">
+              {title}
+            </h1>
+            {description && (
+              <p class="text-[20px] lg:text-[24px] text-[#858585] leading-[1.4] max-w-[602px]">
+                {description}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <!-- Форма: инпуты + кнопка -->
+        {withForm && (
+          <form action={formAction} method="POST" class="flex flex-col lg:flex-row gap-2 h-auto lg:h-16">
+            <input
+              type="text"
+              name="name"
+              placeholder={input1Placeholder}
+              class="flex-1 h-16 px-6 text-[18px] font-medium border border-[#c8c8c8] rounded-xl placeholder:text-gray-400 focus:outline-none focus:border-[#ff4d00]"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder={input2Placeholder}
+              class="flex-1 h-16 px-6 text-[18px] font-medium border border-[#c8c8c8] rounded-xl placeholder:text-gray-400 focus:outline-none focus:border-[#ff4d00]"
+              required
+            />
+            <button
+              type="submit"
+              class="h-16 px-9 text-[18px] font-bold text-white bg-[#ff4d00] rounded-xl hover:bg-[#e64600] transition-colors whitespace-nowrap"
+            >
+              {buttonText}
+            </button>
+          </form>
+        )}
+      </div>
+
+      <!-- Правая колонка: изображение -->
+      {image && (
+        <div class="relative h-[400px] lg:h-[800px] w-full bg-[#ededed] rounded-none overflow-hidden order-1 lg:order-2">
+          <img
+            src={image}
+            alt={imageAlt}
+            class="w-full h-full object-cover"
+            width="595"
+            height="800"
+          />
+        </div>
+      )}
+    </div>
+  </div>
+</section>

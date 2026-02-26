@@ -11,8 +11,10 @@ import QuoteBlock from '../../components/blocks/QuoteBlock.astro'
 import FormBlock from '../../components/blocks/FormBlock.astro'
 import RichTextBlock from '../../components/blocks/RichTextBlock.astro'
 import FeaturesGrid from '../../components/ui/FeaturesGrid.astro'
-import SuccessStory from '../../components/ui/SuccessStory.astro'
 import BentoGrid from '../../components/ui/BentoGrid.astro'
+import SuccessStory from '../../components/ui/SuccessStory.astro'
+import HeroSection from '../../components/ui/HeroSection.astro'
+import StatsSection from '../../components/ui/StatsSection.astro'
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -30,7 +32,9 @@ export function getStaticPaths() {
     { params: { slug: 'blocks' }, props: { section: 'blocks' } },
     { params: { slug: 'features' }, props: { section: 'features' } },
     { params: { slug: 'stories' }, props: { section: 'stories' } },
-    { params: { slug: 'bento' }, props: { section: 'bento' } },
+  { params: { slug: 'bento' }, props: { section: 'bento' } },
+    { params: { slug: 'hero' }, props: { section: 'hero' } },
+    { params: { slug: 'stats' }, props: { section: 'stats' } },
   ]
 }
 
@@ -50,6 +54,8 @@ const sections = [
   { slug: 'features', label: 'Features Grid' },
   { slug: 'stories', label: 'Success Story' },
   { slug: 'bento', label: 'Bento Grid' },
+  { slug: 'hero', label: 'Hero Section' },
+  { slug: 'stats', label: 'Stats Section' },
 ]
 ---
 
@@ -718,6 +724,79 @@ const sections = [
                     description: "Всегда на связи.",
                     span: "col-span-4"
                   }
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'hero' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">Hero Section</h1>
+          <p class="text-gray-600 mb-10">
+            Главная hero-секция страницы с заголовком, описанием, формой (2 инпута + кнопка) и опциональным изображением справа.
+          </p>
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант: бейдж + форма + изображение</p>
+              <HeroSection
+                badge="Ипотечная платформа"
+                title="Закрывайте до 26% больше сделок на том же трафике"
+                description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
+                image="https://placehold.co/595x800/ededed/9ca3af?text=Image"
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без бейджа и изображения</p>
+              <HeroSection
+                title="Цифровая ипотека"
+                description="Цифровизация ипотечного процесса для банков и девелоперов."
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без формы (withForm={false})</p>
+              <HeroSection
+                badge="Продукт"
+                title="Только заголовок и описание"
+                description="Вариант без формы захвата."
+                withForm={false}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'stats' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">Stats Section</h1>
+          <p class="text-gray-600 mb-10">
+            Секция с метриками или преимуществами в виде сетки. Базируется на компоненте из Tailwind Plus.
+          </p>
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С метриками (цифры)</p>
+              <StatsSection
+                cols={3}
+                items={[
+                  { value: '44 million', label: 'Transactions every 24 hours' },
+                  { value: '$119 trillion', label: 'Assets under holding' },
+                  { value: '46,000', label: 'New users annually' },
+                ]}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С преимуществами (текст)</p>
+              <StatsSection
+                cols={4}
+                items={[
+                  { label: 'Сократили количество отказов по ипотеке' },
+                  { label: 'Перестали терять сделки из-за клиентов с низким КР' },
+                  { label: 'Ускорили заполнение анкеты до 10 секунд' },
+                  { label: 'Стали закрывать больше сделок без роста штата' },
                 ]}
               />
             </div>

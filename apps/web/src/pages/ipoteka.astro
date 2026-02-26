@@ -2,42 +2,79 @@
 import SiteLayout from '../layouts/SiteLayout.astro'
 import Form from '../components/ui/Form.astro'
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
+import StatsSection from '../components/ui/StatsSection.astro'
 ---
 
 <SiteLayout title="Цифровая ипотека — ДВИЖ">
-  <!-- Hero секция -->
-  <div class="max-w-5xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-4">Цифровая ипотека</h1>
-    <p class="text-xl text-gray-600 mb-12">Цифровизация ипотечного процесса для банков и девелоперов.</p>
-
-    <div class="prose max-w-none mb-12">
-      <p>Контент страницы наполняется командой дизайна.</p>
-    </div>
-  </div>
-
-  <!-- Features Grid секция -->
-  <FeaturesGrid
-    badge="Для банков и девелоперов"
-    title="Полный цикл цифровой ипотеки"
-    description="Единая платформа для автоматизации всего процесса ипотечного кредитования — от заявки до регистрации."
-    features={[
-      {
-        icon: 'upload',
-        title: 'Быстрый старт',
-        description: 'Интеграция через API за 2 недели. Полная автоматизация сбора документов и скоринга.'
-      },
-      {
-        icon: 'lock',
-        title: 'Безопасность данных',
-        description: 'Соответствие требованиям ЦБ РФ и ФЗ-152. Шифрование и защита персональных данных.'
-      },
-      {
-        icon: 'database',
-        title: 'Единая база знаний',
-        description: 'Актуальные ставки банков, программы льготной ипотеки и калькулятор расчёта платежей.'
-      }
-    ]}
+  <HeroSection
+    badge="Ипотечная платформа"
+    title="Закрывайте до 26% больше сделок на том же трафике"
+    description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
     image="https://tailwindcss.com/plus-assets/img/component-images/project-app-screenshot.png"
+  />
+
+  <StatsSection
+    cols={4}
+    items={[
+      { label: 'Сократили количество отказов по ипотеке' },
+      { label: 'Перестали терять сделки из-за клиентов с низким КР' },
+      { label: 'Ускорили заполнение анкеты до 10 секунд' },
+      { label: 'Стали закрывать больше сделок без роста штата' },
+    ]}
+  />
+
+  <!-- Features Grid 1: подбор банков -->
+  <FeaturesGrid
+    badge="подбор банков"
+    title="Повышаем конверсию из первичной консультации до 20%"
+    description="Расчет досрочных погашений и рефинансирования. 40+ банков-партнеров и большой выбор ипотечных программ."
+    features={[
+      { icon: 'check', title: 'Расчет досрочных погашений', description: 'Автоматический расчет досрочных погашений и рефинансирования' },
+      { icon: 'building-bank', title: '40+ банков-партнеров', description: 'Большой выбор ипотечных программ от ведущих банков' },
+    ]}
+    image="https://placehold.co/637x625/d9d9d9/9ca3af?text=Image"
+    variant="light"
+  />
+
+  <!-- Features Grid 2: заполнение анкеты -->
+  <FeaturesGrid
+    badge="заполнение анкеты"
+    title="Сокращаем время на заполнение анкеты до 10 секунд"
+    description="Распознавание документов от паспорта до справки 2-НДФЛ. Заполнение анкеты через Госуслуги."
+    features={[
+      { icon: 'document', title: 'Распознавание документов', description: 'От паспорта до справки 2-НДФЛ' },
+      { icon: 'globe', title: 'Госуслуги', description: 'Заполнение анкеты через Госуслуги' },
+      { icon: 'arrow-path', title: 'Одна анкета в 40+ банков', description: 'Не нужно заполнять отдельно для каждого банка' },
+    ]}
+    image="https://placehold.co/637x625/d9d9d9/9ca3af?text=Image"
+    variant="light"
+  />
+
+  <!-- Features Grid 3: скоринг клиента -->
+  <FeaturesGrid
+    badge="скоринг клиента"
+    title="Проверяем ваших клиентов по банковским стандартам"
+    description="Долговая нагрузка и «красные флаги» клиента. Рекомендации по улучшению рейтинга клиента."
+    features={[
+      { icon: 'check', title: 'Долговая нагрузка и «красные флаги»', description: 'Анализ финансового состояния клиента по банковским стандартам' },
+      { icon: 'document', title: 'Рекомендации по улучшению рейтинга', description: 'Советы для повышения вероятности одобрения ипотеки' },
+    ]}
+    image="https://placehold.co/637x625/d9d9d9/9ca3af?text=Image"
+    variant="light"
+  />
+
+  <!-- Features Grid 4: отправка заявки -->
+  <FeaturesGrid
+    badge="отправка заявки"
+    title="Увеличиваем процент одобрения до 95%+"
+    description="Прогноз скорости и вероятности одобрения клиента в банках. Отправка заявки сразу в 5+ банков."
+    features={[
+      { icon: 'globe', title: 'Прогноз одобрения', description: 'Прогноз скорости и вероятности одобрения клиента в банках' },
+      { icon: 'arrow-path', title: 'Отправка в 5+ банков', description: 'Одновременная отправка заявки в несколько банков' },
+    ]}
+    image="https://placehold.co/637x625/d9d9d9/9ca3af?text=Image"
+    variant="light"
   />
 
   <!-- Форма захвата -->

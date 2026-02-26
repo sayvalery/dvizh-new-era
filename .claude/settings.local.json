@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git clone:*)",
+      "Bash(pnpm install:*)",
+      "Bash(docker compose:*)",
+      "Bash(pnpm --filter cms dev:*)",
+      "Bash(pnpm:*)",
+      "Bash(timeout:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(tasklist:*)",
+      "Bash(cmd.exe /c \"tasklist | findstr 25504\")",
+      "Bash(cmd.exe /c \"netstat -ano | findstr :3002\")",
+      "Bash(powershell.exe:*)",
+      "Bash(git pull:*)",
+      "Skill(frontend-check)",
+      "Bash(curl:*)",
+      "Bash(git stash:*)",
+      "Bash(git log:*)",
+      "Bash(git config:*)",
+      "Bash(git checkout:*)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git merge:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(git show:*)"
+    ]
+  }
+}
