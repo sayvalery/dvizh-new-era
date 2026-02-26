@@ -1,7 +1,7 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
-import { getCompanies, getCompany, getPersonsByCompany, getPostsByCompany } from '../../lib/payload'
+import { getCompanies, getCompany, getPersonsByCompany, getPostsByCompany, normalizeMediaUrl } from '../../lib/payload'
 
 export async function getStaticPaths() {
   const allCompanies: any[] = []
@@ -24,7 +24,7 @@ const [{ docs: persons }, { docs: posts }] = await Promise.all([
   getPostsByCompany(slug!),
 ])
 
-const logoUrl = company.logo?.url ?? null
+const logoUrl = normalizeMediaUrl(company.logo?.url)
 ---
 
 <BlogLayout
@@ -84,7 +84,7 @@ const logoUrl = company.logo?.url ?? null
         <h2 class="text-xl font-bold mb-6">Материалы</h2>
         <div class="space-y-4">
           {posts.map((post: any) => {
-            const coverUrl = post.cover?.url ?? null
+            const coverUrl = normalizeMediaUrl(post.cover?.url)
             return (
               <a
                 href={`/blog/${post.slug}`}

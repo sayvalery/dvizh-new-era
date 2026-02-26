@@ -1,7 +1,7 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
-import { getPersons, getPerson, getPostsByPerson } from '../../lib/payload'
+import { getPersons, getPerson, getPostsByPerson, normalizeMediaUrl } from '../../lib/payload'
 
 export async function getStaticPaths() {
   const allPersons: any[] = []
@@ -25,16 +25,16 @@ const { docs: posts } = await getPostsByPerson(slug!)
 <BlogLayout
   title={`${person.name} — ДВИЖ`}
   description={person.description ?? person.jobTitle}
-  ogImage={person.photo?.url ?? undefined}
+  ogImage={normalizeMediaUrl(person.photo?.url) ?? undefined}
 >
   <div class="max-w-4xl mx-auto px-4 py-16">
 
     <!-- Шапка персоны -->
     <div class="flex items-start gap-6 mb-12">
-      {person.photo?.url ? (
+      {normalizeMediaUrl(person.photo?.url) ? (
         <img
-          src={person.photo.url}
-          alt={person.photo.alt ?? person.name}
+          src={normalizeMediaUrl(person.photo?.url)!}
+          alt={person.photo?.alt ?? person.name}
           class="w-24 h-24 rounded-full object-cover shrink-0"
         />
       ) : (
@@ -67,7 +67,7 @@ const { docs: posts } = await getPostsByPerson(slug!)
         <h2 class="text-xl font-bold mb-6">Материалы</h2>
         <div class="space-y-4">
           {posts.map((post: any) => {
-            const coverUrl = post.cover?.url ?? null
+            const coverUrl = normalizeMediaUrl(post.cover?.url)
             return (
               <a
                 href={`/blog/${post.slug}`}

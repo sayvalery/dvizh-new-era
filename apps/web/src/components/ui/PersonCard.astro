@@ -32,8 +32,10 @@ interface Props {
   variant?: 'full' | 'inline'
 }
 
+import { normalizeMediaUrl } from '../../lib/payload'
+
 const { person, variant = 'full' } = Astro.props
-const photoUrl = person.photo?.url ?? null
+const photoUrl = normalizeMediaUrl(person.photo?.url)
 const personHref = person.slug ? `/person/${person.slug}` : null
 const companyHref = person.company?.slug ? `/companies/${person.company.slug}` : null
 ---

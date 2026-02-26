@@ -1,5 +1,39 @@
 const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
 
+/**
+ * Нормализует URL медиафайла из CMS:
+ * 1. Убирает абсолютный origin (http://192.168.18.87:3002) → оставляет только путь /api/media/...
+ * 2. Декодирует двойную URL-кодировку (%2520 → %20, %25D0 → %D0)
+ * В проде nginx проксирует /api/media/ на CMS, поэтому нужны только относительные пути.
+ */
+export function normalizeMediaUrl(url: string | null | undefined): string | null {
+  if (!url) return null
+  let normalized = url
+  // Убираем абсолютный origin CMS (любой http(s)://host:port)
+  normalized = normalized.replace(/^https?:\/\/[^/]+/, '')
+  // Декодируем многоуровневую URL-кодировку
+  while (normalized.includes('%25')) {
+    normalized = normalized.split('%25').join('%')
+  }
+  return normalized
+}
+
+/**
+ * Исправляет двойную URL-кодировку в HTML-контенте (bodyHtml из CMS).
+ * Также убирает абсолютные CMS URL из src/href атрибутов.
+ */
+export function normalizeBodyHtml(html: string | null | undefined): string | null {
+  if (!html) return null
+  let result = html
+  // Убираем абсолютные CMS URL из src и href атрибутов
+  result = result.replace(/(src|href)="https?:\/\/[^/]+\/api\//g, '$1="/api/')
+  // Декодируем многоуровневую URL-кодировку (%252520 → %2520 → %20)
+  while (result.includes('%25')) {
+    result = result.split('%25').join('%')
+  }
+  return result
+}
+
 type FetchOptions = {
   depth?: number
   limit?: number

@@ -1,7 +1,7 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro'
 import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
-import { getGlossaries, getGlossaryItem } from '../../lib/payload'
+import { getGlossaries, getGlossaryItem, normalizeBodyHtml } from '../../lib/payload'
 
 export async function getStaticPaths() {
   const allDocs: any[] = []
@@ -22,8 +22,8 @@ const item = await getGlossaryItem(slug!)
 
 if (!item) return Astro.redirect('/slovar-developera')
 
-// Относительные пути /api/media/ оставляем — nginx проксирует на CMS в проде
-const bodyHtml = item.bodyHtml ?? null
+// Нормализуем URL медиафайлов в HTML
+const bodyHtml = normalizeBodyHtml(item.bodyHtml)
 ---
 
 <BlogLayout

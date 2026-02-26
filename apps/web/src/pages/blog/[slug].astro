@@ -2,7 +2,7 @@
 import BlogLayout from '../../layouts/BlogLayout.astro'
 import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
-import { getBlogPosts, getBlogPost } from '../../lib/payload'
+import { getBlogPosts, getBlogPost, normalizeMediaUrl, normalizeBodyHtml } from '../../lib/payload'
 
 export async function getStaticPaths() {
   const allDocs: any[] = []
@@ -23,10 +23,10 @@ const post = await getBlogPost(slug!)
 
 if (!post) return Astro.redirect('/404')
 
-const coverUrl = post.cover?.url ?? null
+const coverUrl = normalizeMediaUrl(post.cover?.url)
 
 // og:image: сначала кастомное из meta, потом обложка статьи
-const ogImage = post.meta?.image?.url ?? post.cover?.url ?? undefined
+const ogImage = normalizeMediaUrl(post.meta?.image?.url) ?? normalizeMediaUrl(post.cover?.url) ?? undefined
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -46,13 +46,12 @@ const jsonLd = {
   },
 }
 
-// Исправляем bodyHtml: ссылки из Webflow
-// Относительные пути /api/media/ оставляем как есть — nginx проксирует на CMS в проде
-const bodyHtml = post.bodyHtml
-  ? post.bodyHtml
-      .replaceAll('href="https://dvizh.webflow.io/', 'href="/')
-      .replaceAll('href="https://www.dvizh.io/', 'href="/')
-  : null
+// Исправляем bodyHtml: ссылки из Webflow + нормализация медиа-URL
+const bodyHtml = normalizeBodyHtml(
+  post.bodyHtml
+    ?.replaceAll('href="https://dvizh.webflow.io/', 'href="/')
+    .replaceAll('href="https://www.dvizh.io/', 'href="/')
+)
 
 // Основной автор из relation, fallback на текстовое поле
 const primaryAuthor = post.primaryAuthor ?? null

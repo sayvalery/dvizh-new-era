@@ -13,10 +13,12 @@ interface Props {
   block: any
 }
 
+import { normalizeMediaUrl } from '../../lib/payload'
+
 const { block } = Astro.props
 const { image, caption, alt } = block
 
-const imageUrl = image?.url ?? null
+const imageUrl = normalizeMediaUrl(image?.url)
 const imageAlt = alt || image?.alt || caption || ''
 ---
 

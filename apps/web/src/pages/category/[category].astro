@@ -1,6 +1,6 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro'
-import { getCategories, getBlogPosts } from '../../lib/payload'
+import { getCategories, getBlogPosts, normalizeMediaUrl } from '../../lib/payload'
 
 export async function getStaticPaths() {
   const { docs: categories } = await getCategories()
@@ -35,7 +35,7 @@ const { docs: posts } = await getBlogPosts({
     ) : (
       <div class="grid md:grid-cols-3 gap-6">
         {posts.map((post: any) => {
-          const coverUrl = post.cover?.url ?? null
+          const coverUrl = normalizeMediaUrl(post.cover?.url)
           return (
             <a href={`/blog/${post.slug}`} class="group border rounded-xl overflow-hidden hover:shadow-md transition-shadow">
               {coverUrl ? (
