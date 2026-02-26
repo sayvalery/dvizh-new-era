@@ -67,7 +67,7 @@ const isMini = variant === 'mini'
 const hasHtml = /<[a-z][\s\S]*>/i.test(title)
 ---
 
-<div class:list={['bg-[#f8f8f8] rounded-[40px] p-[52px]', className, isMini && 'min-h-[470px]']}>
+<div class:list={['bg-[#f8f8f8] rounded-[40px] p-[52px]', className, isMini && 'h-[470px]']}>
   {isMini ? (
     <!-- Mini вариант: только заголовок и персона -->
     <div class="flex flex-col justify-between h-full">
