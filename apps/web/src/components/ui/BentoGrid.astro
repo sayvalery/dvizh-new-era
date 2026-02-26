@@ -54,17 +54,21 @@ const getCardClass = (index: number) => {
   {items.map((item, index) => (
     <div class="flex p-px">
       <div class={getCardClass(index)}>
-        {item.image ? (
-          <img
-            src={item.image}
-            alt={item.imageAlt || item.title}
-            class="h-80 w-full object-cover"
-          />
-        ) : (
-          <div class="h-80 w-full bg-gray-100" />
-        )}
-        <div class="p-10">
-          <p class="text-lg font-medium tracking-tight text-gray-900">{item.title}</p>
+        <div class="flex flex-col items-start gap-6 px-10 py-8">
+          {item.image ? (
+            <img
+              src={item.image}
+              alt={item.imageAlt || item.title}
+              class="h-[140px] w-[140px] shrink-0 rounded-lg object-cover"
+            />
+          ) : (
+            <div class="h-[140px] w-[140px] shrink-0 rounded-lg bg-gray-200" />
+          )}
+          {/<[a-z][\s\S]*>/i.test(item.title) ? (
+            <h3 class="text-xl font-medium tracking-tight text-gray-900" set:html={item.title} />
+          ) : (
+            <h3 class="text-xl font-medium tracking-tight text-gray-900">{item.title}</h3>
+          )}
         </div>
       </div>
     </div>
