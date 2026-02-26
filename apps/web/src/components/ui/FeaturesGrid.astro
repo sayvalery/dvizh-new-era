@@ -4,15 +4,22 @@
  *
  * @example
  * ```astro
+ * // Светлая тема (по умолчанию)
  * <FeaturesGrid
  *   badge="Deploy faster"
  *   title="A better workflow"
  *   description="Lorem ipsum dolor sit amet..."
- *   image="/screenshot.png"
  *   features={[
  *     { icon: "upload", title: "Push to deploy", description: "..." },
- *     { icon: "lock", title: "SSL certificates", description: "..." },
  *   ]}
+ *   image="/screenshot.png"
+ * />
+ *
+ * // Тёмная тема
+ * <FeaturesGrid
+ *   variant="dark"
+ *   title="Dark mode example"
+ *   features={[...]}
  * />
  * ```
  */
@@ -35,6 +42,8 @@ interface Props {
   description?: string
   /** Список фичей с иконками */
   features: Feature[]
+  /** Тема: light (белый фон) или dark (тёмный фон) */
+  variant?: 'light' | 'dark'
   /** Изображение справа (темная тема) */
   imageDark?: string
   /** Изображение справа (светлая тема) */
@@ -50,11 +59,21 @@ const {
   title,
   description,
   features,
+  variant = 'light',
   image,
   imageDark,
   imageLight,
   class: className = ''
 } = Astro.props
+
+// Классы для фона и текстов в зависимости от темы
+const isDark = variant === 'dark'
+const bgClass = isDark ? 'bg-gray-900' : 'bg-white'
+const badgeClass = isDark ? 'text-indigo-400' : 'text-indigo-600'
+const titleClass = isDark ? 'text-white' : 'text-gray-900'
+const descClass = isDark ? 'text-gray-300' : 'text-gray-700'
+const listClass = isDark ? 'text-gray-400' : 'text-gray-600'
+const iconClass = isDark ? 'text-indigo-400' : 'text-indigo-600'
 
 // Иконки SVG как inline path
 const icons = {
@@ -97,33 +116,33 @@ const getImage = () => {
 }
 ---
 
-<section class:list={['overflow-hidden bg-white py-24 sm:py-32 dark:bg-gray-900', className]}>
+<section class:list={['overflow-hidden py-24 sm:py-32', bgClass, className]}>
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
       <div class="lg:pr-8 lg:pt-4">
         <div class="lg:max-w-lg">
           {badge && (
-            <h2 class="text-base/7 font-semibold text-indigo-600 dark:text-indigo-400">
+            <h2 class:list={['text-base/7 font-semibold', badgeClass]}>
               {badge}
             </h2>
           )}
-          <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
+          <p class:list={['mt-2 text-pretty text-4xl font-semibold tracking-tight sm:text-5xl', titleClass]}>
             {title}
           </p>
           {description && (
-            <p class="mt-6 text-lg/8 text-gray-700 dark:text-gray-300">
+            <p class:list={['mt-6 text-lg/8', descClass]}>
               {description}
             </p>
           )}
-          <dl class="mt-10 max-w-xl space-y-8 text-base/7 text-gray-600 lg:max-w-none dark:text-gray-400">
+          <dl class:list={['mt-10 max-w-xl space-y-8 text-base/7 lg:max-w-none', listClass]}>
             {features.map((feature) => (
               <div class="relative pl-9">
-                <dt class="inline font-semibold text-gray-900 dark:text-white">
+                <dt class:list={['inline font-semibold', titleClass]}>
                   <svg
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     aria-hidden="true"
-                    class="absolute left-1 top-1 size-5 text-indigo-600 dark:text-indigo-400"
+                    class:list={['absolute left-1 top-1 size-5', iconClass]}
                   >
                     <path d={icons[feature.icon] || feature.icon} fill-rule="evenodd" clip-rule="evenodd" />
                   </svg>
