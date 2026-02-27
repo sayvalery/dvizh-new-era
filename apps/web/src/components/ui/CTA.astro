@@ -71,7 +71,7 @@ const resolvedPreset = drawerPreset ?? 'demo'
     <div class="relative mx-auto max-w-7xl py-16 sm:py-24 lg:px-8 lg:py-24">
       <div class="pl-6 pr-6 md:ml-auto md:w-2/3 md:pl-16 lg:w-1/2 lg:pl-24 lg:pr-0 xl:pl-32">
         {badge && (
-          <p class="text-base/7 font-semibold text-[#ff4d00]">
+          <p class="text-base/7 font-semibold text-brand">
             {badge}
           </p>
         )}
@@ -88,14 +88,14 @@ const resolvedPreset = drawerPreset ?? 'demo'
             <button
               x-data
               @click={`$dispatch('open-drawer', { preset: '${resolvedPreset}' })`}
-              class="inline-flex rounded-md bg-[#ff4d00] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#e64600] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00] transition-colors cursor-pointer"
+              class="inline-flex rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand transition-colors cursor-pointer"
             >
               {buttonText}
             </button>
           ) : (
             <a
               href={buttonHref}
-              class="inline-flex rounded-md bg-[#ff4d00] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#e64600] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00] transition-colors"
+              class="inline-flex rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand transition-colors"
             >
               {buttonText}
             </a>
@@ -156,7 +156,7 @@ const resolvedPreset = drawerPreset ?? 'demo'
             x-data
             @click={`$dispatch('open-drawer', { preset: '${resolvedPreset}' })`}
             class:list={[
-              variant === 'dark' ? 'bg-[#ff4d00] hover:bg-[#e64600]' : 'bg-indigo-600 hover:bg-indigo-500',
+              variant === 'dark' ? 'bg-brand hover:bg-brand-600' : 'bg-indigo-600 hover:bg-indigo-500',
               'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer'
             ]}
           >
@@ -166,7 +166,7 @@ const resolvedPreset = drawerPreset ?? 'demo'
           <a
             href={buttonHref}
             class:list={[
-              variant === 'dark' ? 'bg-[#ff4d00] hover:bg-[#e64600]' : 'bg-indigo-600 hover:bg-indigo-500',
+              variant === 'dark' ? 'bg-brand hover:bg-brand-600' : 'bg-indigo-600 hover:bg-indigo-500',
               'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
             ]}
           >

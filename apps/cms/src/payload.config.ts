@@ -20,8 +20,9 @@ import { Media } from './collections/Media'
 // Система
 import { Users } from './collections/Users'
 import { FormSubmissions } from './collections/FormSubmissions'
-import { Navigation } from './globals/Navigation'
-import { Footer } from './globals/Footer'
+// Navigation and Footer globals removed — hardcoded in frontend for stability
+// import { Navigation } from './globals/Navigation'
+// import { Footer } from './globals/Footer'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -69,10 +70,7 @@ export default buildConfig({
     Users,
     FormSubmissions,
   ],
-  globals: [
-    Navigation,
-    Footer,
-  ],
+  globals: [],
   editor: lexicalEditor({}),
   secret: process.env.PAYLOAD_SECRET || 'dev-secret-change-in-production',
   typescript: {
