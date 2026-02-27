@@ -86,5 +86,7 @@ export default buildConfig({
   sharp,
   cors: [
     process.env.WEB_URL || 'http://localhost:4321',
+    'https://dvizh.cc',
+    'https://www.dvizh.cc',
   ],
 })
