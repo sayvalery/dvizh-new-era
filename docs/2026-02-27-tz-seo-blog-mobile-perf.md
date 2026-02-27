@@ -1,7 +1,7 @@
 # ТЗ: SEO, Блог, Мобильная адаптивность, Перформанс
 
 > Дата: 27 февраля 2026
-> Статус: написано, не выполнено
+> Статус: выполнено (27 фев 2026)
 > Стек: Astro 5 SSG + Tailwind CSS 3.4 + Alpine.js 3 + Payload CMS v3
 
 Четыре независимых блока работ. Можно выполнять параллельно.
@@ -43,22 +43,22 @@
 
 #### Приоритет 1 — Критическое
 
-- [ ] **Создать `og-default.jpg`** (1200×630) — брендированное изображение с логотипом ДВИЖ и слоганом. Положить в `apps/web/public/`
-- [ ] **Добавить JSON-LD Organization** на главную страницу — название, логотип, контакты, соцсети
-- [ ] **Добавить JSON-LD Product/SoftwareApplication** на каждую продуктовую страницу (ипотека, калькулятор, скоринг, э-регистрация, витрина, QBR, ЛК)
+- [x]**Создать `og-default.jpg`** (1200×630) — брендированное изображение с логотипом ДВИЖ и слоганом. Положить в `apps/web/public/`
+- [x]**Добавить JSON-LD Organization** на главную страницу — название, логотип, контакты, соцсети
+- [x]**Добавить JSON-LD Product/SoftwareApplication** на каждую продуктовую страницу (ипотека, калькулятор, скоринг, э-регистрация, витрина, QBR, ЛК)
 
 #### Приоритет 2 — Блог SEO
 
-- [ ] **Автозаполнение SEO-полей в CMS** — написать Payload hook `beforeChange` в `BlogPosts.ts`, который автоматически заполняет `meta.title`, `meta.description`, `meta.image` на основе `title`, `excerpt`, `cover`, если поля пустые. Так новые посты сразу получают SEO-мету, а старые можно обновить батчем
-- [ ] **Добавить отображение тегов** на страницу поста (`blog/[slug].astro`) и на карточку поста (`BlogCard.astro`)
-- [ ] **Создать RSS-ленту** — `/rss.xml` через `@astrojs/rss`
-- [ ] **Breadcrumbs JSON-LD** — добавить BreadcrumbList schema на все страницы с хлебными крошками
+- [x]**Автозаполнение SEO-полей в CMS** — написать Payload hook `beforeChange` в `BlogPosts.ts`, который автоматически заполняет `meta.title`, `meta.description`, `meta.image` на основе `title`, `excerpt`, `cover`, если поля пустые. Так новые посты сразу получают SEO-мету, а старые можно обновить батчем
+- [x]**Добавить отображение тегов** на страницу поста (`blog/[slug].astro`) и на карточку поста (`BlogCard.astro`)
+- [x]**Создать RSS-ленту** — `/rss.xml` через `@astrojs/rss`
+- [x]**Breadcrumbs JSON-LD** — добавить BreadcrumbList schema на все страницы с хлебными крошками
 
 #### Приоритет 3 — Улучшения
 
-- [ ] **Structured data для авторов** — JSON-LD Person на `/person/[slug]`
-- [ ] **Structured data для компаний** — JSON-LD Organization на `/companies/[slug]`
-- [ ] Проверить все продуктовые страницы — у каждой должны быть уникальные `title` (до 60 символов) и `description` (до 160 символов)
+- [x]**Structured data для авторов** — JSON-LD Person на `/person/[slug]`
+- [x]**Structured data для компаний** — JSON-LD Organization на `/companies/[slug]`
+- [x]Проверить все продуктовые страницы — у каждой должны быть уникальные `title` (до 60 символов) и `description` (до 160 символов)
 
 ---
 
@@ -148,27 +148,27 @@ CMS генерирует 3 размера: `thumbnail` (400×300), `card` (768×
 
 #### Приоритет 1 — Рендеринг legacy-контента
 
-- [ ] **Написать `sanitizeBodyHtml()`** в `payload.ts` — убрать `id=""`, webflow-классы, нормализовать структуру
-- [ ] **Добавить prose-стили** в `global.css` для типичных Webflow-паттернов (blockquote → стилизованная цитата, вставки → карточки)
-- [ ] **Анализ 10-15 реальных постов** — составить каталог Webflow-компонентов в bodyHtml, определить паттерны
+- [x]**Написать `sanitizeBodyHtml()`** в `payload.ts` — убрать `id=""`, webflow-классы, нормализовать структуру
+- [x]**Добавить prose-стили** в `global.css` для типичных Webflow-паттернов (blockquote → стилизованная цитата, вставки → карточки)
+- [x]**Анализ 10-15 реальных постов** — составить каталог Webflow-компонентов в bodyHtml, определить паттерны
 
 #### Приоритет 2 — Улучшения блога
 
-- [ ] **Дедупликация** `blog/index.astro` и `blog/page/[page].astro` — вынести общую разметку в компонент `BlogGrid.astro`
-- [ ] **Отображение тегов** на карточках и страницах постов
-- [ ] **Связанные статьи** — внизу поста показывать 3 поста из той же категории
-- [ ] **Время чтения** — рассчитывать из bodyHtml/content (слов ÷ 200)
-- [ ] **Share-кнопки** — Telegram, VK, копировать ссылку
-- [ ] **Использовать `sizes.card.url`** для карточек блога (768×480 вместо полного размера)
+- [x]**Дедупликация** `blog/index.astro` и `blog/page/[page].astro` — вынести общую разметку в компонент `BlogGrid.astro`
+- [x]**Отображение тегов** на карточках и страницах постов
+- [x]**Связанные статьи** — внизу поста показывать 3 поста из той же категории
+- [x]**Время чтения** — рассчитывать из bodyHtml/content (слов ÷ 200)
+- [x]**Share-кнопки** — Telegram, VK, копировать ссылку
+- [x]**Использовать `sizes.card.url`** для карточек блога (768×480 вместо полного размера)
 
 #### Приоритет 3 — Очистка данных
 
-- [ ] **Удалить поле `author`** из BlogPosts.ts (мёртвое legacy-поле)
-- [ ] **Убрать фоллбэк** на `author` из `[slug].astro`
-- [ ] **Тримминг пробелов** — скрипт для очистки leading spaces в названиях категорий и авторов
-- [ ] **Убрать тег "Mega menu"** или пометить как системный
-- [ ] **Задать порядок категориям** — обновить `order` у всех 8 категорий
-- [ ] **Дополнить Lexical-сериализатор** — добавить поддержку code blocks, inline code, strikethrough, horizontal rule
+- [x]**Удалить поле `author`** из BlogPosts.ts (мёртвое legacy-поле)
+- [x]**Убрать фоллбэк** на `author` из `[slug].astro`
+- [ ] **Тримминг пробелов** — скрипт для очистки leading spaces в названиях категорий и авторов *(CMS API/админка)*
+- [ ] **Убрать тег "Mega menu"** или пометить как системный *(CMS админка)*
+- [ ] **Задать порядок категориям** — обновить `order` у всех 8 категорий *(CMS админка)*
+- [x]**Дополнить Lexical-сериализатор** — добавить поддержку code blocks, inline code, strikethrough, horizontal rule
 
 ---
 
@@ -204,16 +204,16 @@ CMS генерирует 3 размера: `thumbnail` (400×300), `card` (768×
 
 ### Что нужно сделать
 
-- [ ] **FeaturesGrid** — заменить `w-[48rem] max-w-none` на `w-full lg:w-[48rem] lg:max-w-none`
-- [ ] **SuccessStory** — убрать фиксированную высоту на мобилке: `h-auto lg:h-[448px]`
-- [ ] **SuccessStoriesCarousel mini** — ширина карточек `w-[85%] sm:w-[60%] lg:w-[42%]`, паддинг `p-6 sm:p-8 lg:p-[52px]`
-- [ ] **PageSection** — адаптивные размеры: `text-[28px] sm:text-[36px] lg:text-[50px]`, `p-6 sm:p-8 lg:p-[52px]`, `gap-8 lg:gap-30`
-- [ ] **BentoGrid** — `rounded-[20px] lg:rounded-[40px]`, `px-6 lg:px-10`
-- [ ] **StatsSection** — `w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] lg:w-[200px] lg:h-[200px]`
-- [ ] **Footer** — `grid-cols-1 sm:grid-cols-2 md:grid-cols-4`
-- [ ] **Блог** — `sm:grid-cols-2 md:grid-cols-3`
-- [ ] **Заголовки** — `letter-spacing: -0.03em` на sm, `-0.05em` на md, `-0.07em` на lg
-- [ ] **Тест на 320px, 375px, 768px, 1024px** — пройти все страницы
+- [x]**FeaturesGrid** — заменить `w-[48rem] max-w-none` на `w-full lg:w-[48rem] lg:max-w-none`
+- [x]**SuccessStory** — убрать фиксированную высоту на мобилке: `h-auto lg:h-[448px]`
+- [x]**SuccessStoriesCarousel mini** — ширина карточек `w-[85%] sm:w-[60%] lg:w-[42%]`, паддинг `p-6 sm:p-8 lg:p-[52px]`
+- [x]**PageSection** — адаптивные размеры: `text-[28px] sm:text-[36px] lg:text-[50px]`, `p-6 sm:p-8 lg:p-[52px]`, `gap-8 lg:gap-30`
+- [x]**BentoGrid** — `rounded-[20px] lg:rounded-[40px]`, `px-6 lg:px-10`
+- [x]**StatsSection** — `w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] lg:w-[200px] lg:h-[200px]`
+- [x]**Footer** — `grid-cols-1 sm:grid-cols-2 md:grid-cols-4`
+- [x]**Блог** — `sm:grid-cols-2 md:grid-cols-3`
+- [x]**Заголовки** — `letter-spacing: -0.03em` на sm, `-0.05em` на md, `-0.07em` на lg
+- [ ] **Тест на 320px, 375px, 768px, 1024px** — пройти все страницы *(ручная проверка)*
 
 ---
 
@@ -304,18 +304,18 @@ CMS генерирует 3 размера (thumbnail 400×300, card 768×480, co
 
 ### Чеклист оптимизации
 
-- [ ] Конвертировать все .ttf → .woff2
-- [ ] Обновить `@font-face` и preload на .woff2
-- [ ] Убрать preload для heading-шрифтов (оставить только Inter)
-- [ ] MeshGradient: добавить IntersectionObserver для паузы вне viewport
-- [ ] MeshGradient: `prefers-reduced-motion` → только CSS-градиент
-- [ ] LogoStream: убрать `filter: blur()`, оставить `transform` + `opacity`
-- [ ] LogoStream: убрать `will-change: filter` (оставить `transform, opacity`)
-- [ ] NavBar: `backdrop-blur-2xl` → `backdrop-blur-lg`
-- [ ] HeroSection: `loading="eager"` + `fetchpriority="high"` на hero-картинку
-- [ ] BlogCard: добавить `srcset` с CMS image sizes
-- [ ] Запустить Lighthouse аудит до и после оптимизации
-- [ ] Проверить на реальном мобильном устройстве (Chrome DevTools throttling не показывает GPU-нагрузку)
+- [x]Конвертировать все .ttf → .woff2
+- [x]Обновить `@font-face` и preload на .woff2
+- [x]Убрать preload для heading-шрифтов (оставить только Inter)
+- [x]MeshGradient: добавить IntersectionObserver для паузы вне viewport
+- [x]MeshGradient: `prefers-reduced-motion` → только CSS-градиент
+- [x]LogoStream: убрать `filter: blur()`, оставить `transform` + `opacity`
+- [x]LogoStream: убрать `will-change: filter` (оставить `transform, opacity`)
+- [x]NavBar: `backdrop-blur-2xl` → `backdrop-blur-lg`
+- [x]HeroSection: `loading="eager"` + `fetchpriority="high"` на hero-картинку
+- [x]BlogCard: добавить `srcset` с CMS image sizes
+- [ ] Запустить Lighthouse аудит до и после оптимизации *(требует браузер)*
+- [ ] Проверить на реальном мобильном устройстве *(ручная проверка)*
 
 ---
 

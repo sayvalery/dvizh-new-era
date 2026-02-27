@@ -52,6 +52,7 @@ const { docs: posts } = await getBlogPosts({
             cover={post.cover}
             category={post.category?.title}
             excerpt={post.excerpt}
+            tags={post.tags}
           />
         ))}
       </div>
