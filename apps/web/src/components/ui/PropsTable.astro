@@ -1,0 +1,58 @@
+---
+/**
+ * PropsTable — таблица пропсов компонента для UI Kit
+ *
+ * Dev-only компонент. Показывает таблицу пропсов: имя, тип, обязательность, дефолт, описание.
+ */
+
+interface PropMeta {
+  name: string
+  type: string
+  required: boolean
+  description: string
+  defaultValue?: string
+}
+
+interface Props {
+  props: PropMeta[]
+  class?: string
+}
+
+const { props, class: className = '' } = Astro.props
+---
+
+{props.length > 0 && (
+  <div class:list={['overflow-x-auto border border-gray-200 rounded-lg', className]}>
+    <table class="w-full text-sm text-left">
+      <thead class="bg-gray-50 border-b border-gray-200">
+        <tr>
+          <th class="px-3 py-2 font-medium text-gray-500 text-xs">Prop</th>
+          <th class="px-3 py-2 font-medium text-gray-500 text-xs">Тип</th>
+          <th class="px-3 py-2 font-medium text-gray-500 text-xs">Default</th>
+          <th class="px-3 py-2 font-medium text-gray-500 text-xs">Описание</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {props.map(p => (
+          <tr class="hover:bg-gray-50/50">
+            <td class="px-3 py-2 whitespace-nowrap">
+              <code class="text-xs bg-gray-100 px-1.5 py-0.5 rounded font-mono text-gray-800">{p.name}</code>
+              {p.required && <span class="ml-1 text-brand text-xs font-bold" title="обязательный">*</span>}
+            </td>
+            <td class="px-3 py-2">
+              <code class="text-xs font-mono text-violet-600 whitespace-nowrap">{p.type}</code>
+            </td>
+            <td class="px-3 py-2">
+              {p.defaultValue ? (
+                <code class="text-xs font-mono text-gray-500">{p.defaultValue}</code>
+              ) : (
+                <span class="text-gray-300 text-xs">—</span>
+              )}
+            </td>
+            <td class="px-3 py-2 text-gray-600 text-xs">{p.description}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
