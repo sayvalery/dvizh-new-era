@@ -39,7 +39,6 @@ const count = logos.length
       style={`
         animation-duration: ${duration}s;
         animation-delay: ${((-i * duration) / count).toFixed(2)}s;
-        --lane: ${((i % 3) - 1) * 25}px;
       `}
     >
       <img
@@ -61,7 +60,7 @@ const count = logos.length
 
   .logo-stream-item {
     position: absolute;
-    top: 55%;
+    top: 50%;
     left: 35%;
     display: flex;
     align-items: center;
@@ -80,51 +79,59 @@ const count = logos.length
   }
 
   /*
-   * Путь: большой слева-снизу → фокус по центру → маленький вправо-вверх
+   * Путь: большой слева-снизу → фокус в начале → долгий уход вправо-вверх
    *
-   * scale:  1.3 → 1.0 → 0.35
-   * X:     -60  →  0   → +200
-   * Y:     +40  →  lane → -140
-   * blur:  8    →  0    → 10
+   * Линейная интерполяция позиций. Фокус сдвинут к началу (~15%).
+   * Быстрый вход, долгий затухающий выход.
    */
   @keyframes stream-fly {
     0% {
-      transform: translate(-50%, -50%) translate(-60px, calc(40px + var(--lane, 0px))) scale(1.3);
+      transform: translate(-50%, -50%) translate(-100px, 200px) scale(1.50);
       opacity: 0;
-      filter: blur(8px);
+      filter: blur(6px);
     }
-    8% {
-      transform: translate(-50%, -50%) translate(-45px, calc(30px + var(--lane, 0px))) scale(1.2);
-      opacity: 0.3;
-      filter: blur(4px);
-    }
-    20% {
-      transform: translate(-50%, -50%) translate(-20px, calc(15px + var(--lane, 0px))) scale(1.08);
+    11% {
+      transform: translate(-50%, -50%) translate(-67px, 136px) scale(1.37);
       opacity: 0.8;
-      filter: blur(1px);
+      filter: blur(0);
     }
-    35% {
-      transform: translate(-50%, -50%) translate(10px, var(--lane, 0px)) scale(1);
+    22% {
+      transform: translate(-50%, -50%) translate(-34px, 72px) scale(1.24);
       opacity: 1;
       filter: blur(0);
     }
-    50% {
-      transform: translate(-50%, -50%) translate(50px, calc(-20px + var(--lane, 0px))) scale(0.85);
-      opacity: 0.9;
-      filter: blur(0);
+    33% {
+      transform: translate(-50%, -50%) translate(-1px, 9px) scale(1.10);
+      opacity: 0.7;
+      filter: blur(1px);
     }
-    65% {
-      transform: translate(-50%, -50%) translate(100px, calc(-60px + var(--lane, 0px))) scale(0.6);
+    44% {
+      transform: translate(-50%, -50%) translate(32px, -54px) scale(0.97);
       opacity: 0.4;
-      filter: blur(3px);
+      filter: blur(2px);
     }
-    78% {
-      transform: translate(-50%, -50%) translate(160px, calc(-110px + var(--lane, 0px))) scale(0.4);
-      opacity: 0.08;
-      filter: blur(7px);
+    55% {
+      transform: translate(-50%, -50%) translate(65px, -119px) scale(0.84);
+      opacity: 0.2;
+      filter: blur(4px);
     }
-    88%, 100% {
-      transform: translate(-50%, -50%) translate(200px, calc(-140px + var(--lane, 0px))) scale(0.35);
+    66% {
+      transform: translate(-50%, -50%) translate(98px, -183px) scale(0.71);
+      opacity: 0.1;
+      filter: blur(6px);
+    }
+    77% {
+      transform: translate(-50%, -50%) translate(131px, -247px) scale(0.58);
+      opacity: 0.03;
+      filter: blur(8px);
+    }
+    88% {
+      transform: translate(-50%, -50%) translate(164px, -310px) scale(0.44);
+      opacity: 0;
+      filter: blur(10px);
+    }
+    100% {
+      transform: translate(-50%, -50%) translate(200px, -380px) scale(0.30);
       opacity: 0;
       filter: blur(10px);
     }
