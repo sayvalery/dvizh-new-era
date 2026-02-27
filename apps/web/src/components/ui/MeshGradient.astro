@@ -62,13 +62,13 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, ${colors[0]} 0%, t
   } from '@paper-design/shaders'
 
   function initMeshGradients() {
-    document.querySelectorAll<HTMLElement>('.mesh-gradient-container').forEach((container) => {
+    document.querySelectorAll('.mesh-gradient-container').forEach((container) => {
       if (container.querySelector('canvas')) return
 
       const config = JSON.parse(container.dataset.meshConfig || '{}')
 
       const colors = (config.colors || ['#ff4d00', '#1b2226', '#ff8c42', '#2a1a4e'])
-        .map((c: string) => getShaderColorFromString(c))
+        .map((c) => getShaderColorFromString(c))
 
       new ShaderMount(
         container,
@@ -95,10 +95,7 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, ${colors[0]} 0%, t
     })
   }
 
-  // Init on page load
   initMeshGradients()
-
-  // Re-init on Astro page transitions
   document.addEventListener('astro:after-swap', initMeshGradients)
 </script>
 

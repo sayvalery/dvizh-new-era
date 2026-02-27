@@ -101,7 +101,7 @@ const hasImage = !!(image || imageDark || imageLight)
             </p>
           )}
           <h2 class:list={['mt-2 text-pretty text-4xl font-semibold sm:text-5xl', titleClass]}>
-            {title}
+            <Fragment set:html={title} />
           </h2>
           {description && (
             <p class:list={['mt-6 text-lg/8', descClass]}>
