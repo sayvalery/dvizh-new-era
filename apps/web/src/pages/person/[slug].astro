@@ -20,12 +20,24 @@ const person = await getPerson(slug!)
 if (!person) return Astro.redirect('/404')
 
 const { docs: posts } = await getPostsByPerson(slug!)
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: person.name,
+  ...(person.jobTitle ? { jobTitle: person.jobTitle } : {}),
+  ...(person.description ? { description: person.description } : {}),
+  ...(normalizeMediaUrl(person.photo?.url) ? { image: normalizeMediaUrl(person.photo?.url) } : {}),
+  url: Astro.url.href,
+  ...(person.company ? { worksFor: { '@type': 'Organization', name: person.company.name, url: `${Astro.site}companies/${person.company.slug}` } } : {}),
+}
 ---
 
 <BlogLayout
   title={`${person.name} — ДВИЖ`}
   description={person.description ?? person.jobTitle}
   ogImage={normalizeMediaUrl(person.photo?.url) ?? undefined}
+  jsonLd={jsonLd}
 >
   <div class="max-w-4xl mx-auto px-4 py-16">
 

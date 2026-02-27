@@ -6,7 +6,7 @@ interface Props {
   description?: string
   ogImage?: string
   ogType?: string
-  jsonLd?: object
+  jsonLd?: object | object[]
 }
 
 const { title, description, ogImage, ogType = 'website', jsonLd } = Astro.props
@@ -50,7 +50,10 @@ const resolvedOgImage = ogImage || defaultOgImage
     <meta name="twitter:image" content={resolvedOgImage} />
 
     <!-- JSON-LD -->
-    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {jsonLd && Array.isArray(jsonLd)
+      ? jsonLd.map((ld: object) => <script type="application/ld+json" set:html={JSON.stringify(ld)} />)
+      : jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    }
 
     <script>
       import Alpine from 'alpinejs'

@@ -12,6 +12,16 @@ export async function getStaticPaths() {
 }
 
 const { category } = Astro.props
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Блог', item: `${Astro.site}blog` },
+    { '@type': 'ListItem', position: 2, name: category.title },
+  ],
+}
+
 const { docs: posts } = await getBlogPosts({
   where: {
     _status: { equals: 'published' },
@@ -21,7 +31,7 @@ const { docs: posts } = await getBlogPosts({
 })
 ---
 
-<BlogLayout title={`${category.title} — Блог`}>
+<BlogLayout title={`${category.title} — Блог`} jsonLd={breadcrumbLd}>
   <div class="max-w-[1440px] mx-auto px-4 py-16">
     <nav class="text-sm text-gray-500 mb-4">
       <a href="/blog" class="hover:underline">Блог</a>

@@ -30,23 +30,36 @@ const coverUrl = normalizeMediaUrl(post.cover?.url)
 // og:image: сначала кастомное из meta, потом обложка статьи
 const ogImage = normalizeMediaUrl(post.meta?.image?.url) ?? normalizeMediaUrl(post.cover?.url) ?? undefined
 
-const jsonLd = {
+const breadcrumbLd = {
   '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: post.title,
-  description: post.excerpt ?? post.meta?.description,
-  image: ogImage,
-  datePublished: post.publishedAt,
-  dateModified: post.updatedAt ?? post.publishedAt,
-  author: post.primaryAuthor
-    ? { '@type': 'Person', name: post.primaryAuthor.name, url: `${Astro.site}person/${post.primaryAuthor.slug}` }
-    : undefined,
-  publisher: {
-    '@type': 'Organization',
-    name: 'ДВИЖ',
-    url: Astro.site,
-  },
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Блог', item: `${Astro.site}blog` },
+    ...(post.category?.title ? [{ '@type': 'ListItem', position: 2, name: post.category.title, item: `${Astro.site}category/${post.category.slug}` }] : []),
+    { '@type': 'ListItem', position: post.category ? 3 : 2, name: post.title },
+  ],
 }
+
+const jsonLd = [
+  breadcrumbLd,
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt ?? post.meta?.description,
+    image: ogImage,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt ?? post.publishedAt,
+    author: post.primaryAuthor
+      ? { '@type': 'Person', name: post.primaryAuthor.name, url: `${Astro.site}person/${post.primaryAuthor.slug}` }
+      : undefined,
+    publisher: {
+      '@type': 'Organization',
+      name: 'ДВИЖ',
+      url: Astro.site,
+    },
+  },
+]
 
 // Исправляем bodyHtml: ссылки из Webflow + нормализация медиа-URL + санитизация
 const bodyHtml = sanitizeBodyHtml(normalizeBodyHtml(
@@ -60,9 +73,8 @@ const textContent = post.bodyHtml?.replace(/<[^>]+>/g, '') ?? post.content?.map(
 const wordCount = textContent.split(/\s+/).filter(Boolean).length
 const readingTime = Math.max(1, Math.ceil(wordCount / 200))
 
-// Основной автор из relation, fallback на текстовое поле
+// Основной автор из relation
 const primaryAuthor = post.primaryAuthor ?? null
-const authorFallback = post.author ?? null
 // Соавторы без дублирования primaryAuthor
 const coAuthors = (post.coAuthors ?? []).filter(
   (a: any) => a.id !== primaryAuthor?.id
@@ -112,11 +124,9 @@ if (post.category?.slug) {
 
     <!-- Мета: автор + дата + время чтения -->
     <div class="flex flex-wrap items-center gap-4 mb-10">
-      {primaryAuthor ? (
+      {primaryAuthor && (
         <PersonCard person={primaryAuthor} variant="inline" />
-      ) : authorFallback ? (
-        <span class="text-sm text-gray-600">{authorFallback}</span>
-      ) : null}
+      )}
 
       {post.publishedAt && (
         <time datetime={post.publishedAt} class="text-sm text-gray-400">

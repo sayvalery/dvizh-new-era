@@ -1,0 +1,91 @@
+---
+/**
+ * BlogGrid — shared grid layout for blog listing pages.
+ * Extracts the duplicated category filter + post grid + pagination pattern.
+ */
+import BlogCard from './BlogCard.astro'
+
+interface Props {
+  posts: any[]
+  allPosts: any[]
+  categories: any[]
+  categoryCountMap: Record<string, number>
+  currentPage: number
+  totalPages: number
+  /** Currently active category slug (for highlighting) */
+  activeCategory?: string
+}
+
+const { posts, allPosts, categories, categoryCountMap, currentPage, totalPages, activeCategory } = Astro.props
+const hasNextPage = currentPage < totalPages
+const hasPrevPage = currentPage > 1
+---
+
+<!-- Фильтр по категориям -->
+{categories.length > 0 && (
+  <div class="flex flex-wrap gap-2 mb-10">
+    <a
+      href="/blog"
+      class:list={[
+        'px-3 py-1 rounded-full border text-sm',
+        !activeCategory ? 'border-brand text-brand' : 'hover:bg-gray-100',
+      ]}
+    >
+      Все <span class="text-gray-400 ml-1">{allPosts.length}</span>
+    </a>
+    {categories.map((cat: any) => (
+      <a
+        href={`/category/${cat.slug}`}
+        class:list={[
+          'px-3 py-1 rounded-full border text-sm',
+          activeCategory === cat.slug ? 'border-brand text-brand' : 'hover:bg-gray-100',
+        ]}
+      >
+        {cat.title}
+        <span class="text-gray-400 ml-1">{categoryCountMap[cat.slug] ?? 0}</span>
+      </a>
+    ))}
+  </div>
+)}
+
+<!-- Список постов -->
+{posts.length === 0 ? (
+  <p class="text-gray-500">Статьи скоро появятся.</p>
+) : (
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {posts.map((post: any) => (
+      <BlogCard
+        title={post.title}
+        slug={post.slug}
+        cover={post.cover}
+        category={post.category?.title}
+        excerpt={post.excerpt}
+      />
+    ))}
+  </div>
+)}
+
+<!-- Пагинация -->
+{totalPages > 1 && (
+  <div class="flex justify-center items-center gap-4 mt-12">
+    {hasPrevPage && (
+      <a
+        href={currentPage === 2 ? '/blog' : `/blog/page/${currentPage - 1}`}
+        class="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+      >
+        &larr; Назад
+      </a>
+    )}
+    {totalPages > 1 && (
+      <span class="text-sm text-gray-400">{currentPage} / {totalPages}</span>
+    )}
+    {hasNextPage && (
+      <a
+        href={`/blog/page/${currentPage + 1}`}
+        class="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+      >
+        Загрузить ещё &rarr;
+      </a>
+    )}
+  </div>
+)}

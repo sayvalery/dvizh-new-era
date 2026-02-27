@@ -13,6 +13,24 @@ export const BlogPosts: CollectionConfig = {
   access: {
     read: () => true,
   },
+  hooks: {
+    beforeChange: [
+      ({ data }) => {
+        // Auto-fill SEO meta from post fields if empty
+        if (!data.meta) data.meta = {}
+        if (!data.meta.title && data.title) {
+          data.meta.title = data.title.length > 60 ? data.title.slice(0, 57) + '...' : data.title
+        }
+        if (!data.meta.description && data.excerpt) {
+          data.meta.description = data.excerpt.length > 160 ? data.excerpt.slice(0, 157) + '...' : data.excerpt
+        }
+        if (!data.meta.image && data.cover) {
+          data.meta.image = typeof data.cover === 'string' ? data.cover : data.cover?.id ?? data.cover
+        }
+        return data
+      },
+    ],
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'status', 'publishedAt'],
