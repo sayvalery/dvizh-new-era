@@ -6,7 +6,7 @@
 [x-cloak] { display: none !important; }
 
 @layer base {
-  /* Styrene A — фирменный шрифт для заголовков */
+  /* Styrene A — фирменный шрифт для заголовков (block — не прыгает при загрузке) */
   @font-face {
     font-family: 'Styrene A';
     src: url('/fonts/styrene-a-medium.ttf') format('truetype');
@@ -48,15 +48,20 @@
     font-display: swap;
   }
 
-  html {
-    @apply antialiased;
-  }
+}
 
-  body {
-    font-family: 'Inter', system-ui, sans-serif;
-  }
+/* Типография вне @layer — обычная специфичность, не перебивается Tailwind utilities */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Styrene A', system-ui, sans-serif;
-  }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Styrene A', system-ui, sans-serif;
+  letter-spacing: -0.07em;
+  overflow-wrap: break-word;
 }

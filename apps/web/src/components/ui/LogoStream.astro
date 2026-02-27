@@ -1,0 +1,132 @@
+---
+/**
+ * LogoStream — поток логотипов с эффектом глубины (чистый CSS)
+ *
+ * Логотипы появляются крупными слева-снизу,
+ * пролетают через фокусную зону, уменьшаются и уходят далеко вправо-вверх.
+ *
+ * Ноль JavaScript. Ноль библиотек. Чистые CSS transforms + filter.
+ */
+
+interface Props {
+  /** Массив URL логотипов (SVG рекомендуется) */
+  logos: string[]
+  /** Длительность полного цикла в секундах */
+  duration?: number
+  /** Ширина логотипа в px */
+  logoWidth?: number
+  /** Высота логотипа в px */
+  logoHeight?: number
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  logos,
+  duration = 35,
+  logoWidth = 160,
+  logoHeight = 56,
+  class: className = ''
+} = Astro.props
+
+const count = logos.length
+---
+
+<div class:list={['logo-stream', className]}>
+  {logos.map((logo, i) => (
+    <div
+      class="logo-stream-item"
+      style={`
+        animation-duration: ${duration}s;
+        animation-delay: ${((-i * duration) / count).toFixed(2)}s;
+        --lane: ${((i % 3) - 1) * 25}px;
+      `}
+    >
+      <img
+        src={logo}
+        alt=""
+        style={`width: ${logoWidth}px; height: ${logoHeight}px;`}
+        loading="lazy"
+      />
+    </div>
+  ))}
+</div>
+
+<style>
+  .logo-stream {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .logo-stream-item {
+    position: absolute;
+    top: 55%;
+    left: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation-name: stream-fly;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform, opacity, filter;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .logo-stream-item img {
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  /*
+   * Путь: большой слева-снизу → фокус по центру → маленький вправо-вверх
+   *
+   * scale:  1.3 → 1.0 → 0.35
+   * X:     -60  →  0   → +200
+   * Y:     +40  →  lane → -140
+   * blur:  8    →  0    → 10
+   */
+  @keyframes stream-fly {
+    0% {
+      transform: translate(-50%, -50%) translate(-60px, calc(40px + var(--lane, 0px))) scale(1.3);
+      opacity: 0;
+      filter: blur(8px);
+    }
+    8% {
+      transform: translate(-50%, -50%) translate(-45px, calc(30px + var(--lane, 0px))) scale(1.2);
+      opacity: 0.3;
+      filter: blur(4px);
+    }
+    20% {
+      transform: translate(-50%, -50%) translate(-20px, calc(15px + var(--lane, 0px))) scale(1.08);
+      opacity: 0.8;
+      filter: blur(1px);
+    }
+    35% {
+      transform: translate(-50%, -50%) translate(10px, var(--lane, 0px)) scale(1);
+      opacity: 1;
+      filter: blur(0);
+    }
+    50% {
+      transform: translate(-50%, -50%) translate(50px, calc(-20px + var(--lane, 0px))) scale(0.85);
+      opacity: 0.9;
+      filter: blur(0);
+    }
+    65% {
+      transform: translate(-50%, -50%) translate(100px, calc(-60px + var(--lane, 0px))) scale(0.6);
+      opacity: 0.4;
+      filter: blur(3px);
+    }
+    78% {
+      transform: translate(-50%, -50%) translate(160px, calc(-110px + var(--lane, 0px))) scale(0.4);
+      opacity: 0.08;
+      filter: blur(7px);
+    }
+    88%, 100% {
+      transform: translate(-50%, -50%) translate(200px, calc(-140px + var(--lane, 0px))) scale(0.35);
+      opacity: 0;
+      filter: blur(10px);
+    }
+  }
+</style>

@@ -1,0 +1,124 @@
+---
+/**
+ * MeshGradient — анимированный mesh-градиент на WebGL (paper-design/shaders)
+ *
+ * Рендерит canvas с GPU-анимацией. Автоматически паузится когда не видно.
+ * Используется как фоновый элемент (position: absolute, inset: 0).
+ *
+ * @example
+ * ```astro
+ * <div class="relative">
+ *   <MeshGradient />
+ *   <div class="relative z-10">Контент поверх</div>
+ * </div>
+ * ```
+ */
+
+interface Props {
+  /** Массив CSS-цветов (hex, rgb, hsl). Максимум 10 */
+  colors?: string[]
+  /** Органическое искажение, 0–1 */
+  distortion?: number
+  /** Вихревое искажение, 0–1 */
+  swirl?: number
+  /** Скорость анимации (0 = пауза, 1 = нормально) */
+  speed?: number
+  /** Зернистость на границах, 0–1 */
+  grainMixer?: number
+  /** Зернистый оверлей, 0–1 */
+  grainOverlay?: number
+  /** CSS-класс контейнера */
+  class?: string
+}
+
+const {
+  colors = ['#ff4d00', '#1b2226', '#ff8c42', '#2a1a4e'],
+  distortion = 0.6,
+  swirl = 0.15,
+  speed = 0.4,
+  grainMixer = 0,
+  grainOverlay = 0,
+  class: className = ''
+} = Astro.props
+
+const configJson = JSON.stringify({ colors, distortion, swirl, speed, grainMixer, grainOverlay })
+
+// CSS fallback gradient from the same colors — renders instantly before WebGL loads
+const fallbackGradient = `radial-gradient(ellipse at 30% 50%, ${colors[0]} 0%, transparent 60%), radial-gradient(ellipse at 70% 30%, ${colors[1] || colors[0]} 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, ${colors[2] || colors[0]} 0%, transparent 60%), radial-gradient(ellipse at 80% 70%, ${colors[3] || colors[0]} 0%, transparent 50%)`
+---
+
+<div
+  class:list={['mesh-gradient-container', className]}
+  data-mesh-config={configJson}
+  style={`background: ${fallbackGradient};`}
+>
+</div>
+
+<script>
+  import {
+    ShaderMount,
+    meshGradientFragmentShader,
+    getShaderColorFromString,
+  } from '@paper-design/shaders'
+
+  function initMeshGradients() {
+    document.querySelectorAll<HTMLElement>('.mesh-gradient-container').forEach((container) => {
+      if (container.querySelector('canvas')) return
+
+      const config = JSON.parse(container.dataset.meshConfig || '{}')
+
+      const colors = (config.colors || ['#ff4d00', '#1b2226', '#ff8c42', '#2a1a4e'])
+        .map((c: string) => getShaderColorFromString(c))
+
+      new ShaderMount(
+        container,
+        meshGradientFragmentShader,
+        {
+          u_colors: colors,
+          u_colorsCount: colors.length,
+          u_distortion: config.distortion ?? 0.6,
+          u_swirl: config.swirl ?? 0.15,
+          u_grainMixer: config.grainMixer ?? 0,
+          u_grainOverlay: config.grainOverlay ?? 0,
+          u_scale: 1,
+          u_rotation: 0,
+          u_originX: 0.5,
+          u_originY: 0.5,
+          u_offsetX: 0,
+          u_offsetY: 0,
+          u_worldWidth: 0,
+          u_worldHeight: 0,
+        },
+        undefined,
+        config.speed ?? 0.4,
+      )
+    })
+  }
+
+  // Init on page load
+  initMeshGradients()
+
+  // Re-init on Astro page transitions
+  document.addEventListener('astro:after-swap', initMeshGradients)
+</script>
+
+<style>
+  .mesh-gradient-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .mesh-gradient-container :global(canvas) {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    opacity: 0;
+    animation: meshFadeIn 0.6s ease-out 0.1s forwards;
+  }
+
+  @keyframes meshFadeIn {
+    to { opacity: 1; }
+  }
+</style>

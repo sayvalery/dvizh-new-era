@@ -1,0 +1,141 @@
+---
+/**
+ * LogoDrum — 3D-барабан с логотипами (чистый CSS)
+ *
+ * Анимация: CSS 3D-цилиндр, вращается вокруг оси X «на зрителя».
+ * Каждый логотип проходит через «фокусную зону» — sharp и яркий,
+ * за пределами — уходит в blur и прозрачность (эффект глубины резкости).
+ *
+ * Ноль JavaScript. Ноль библиотек. Чистые CSS transforms + filter.
+ *
+ * @example
+ * ```astro
+ * <LogoDrum
+ *   logos={['/logo1.svg', '/logo2.svg', '/logo3.svg']}
+ *   duration={25}
+ * />
+ * ```
+ */
+
+interface Props {
+  /** Массив URL логотипов (SVG рекомендуется) */
+  logos: string[]
+  /** Длительность полного оборота в секундах */
+  duration?: number
+  /** Ширина логотипа */
+  logoWidth?: number
+  /** Высота логотипа */
+  logoHeight?: number
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  logos,
+  duration = 25,
+  logoWidth = 160,
+  logoHeight = 56,
+  class: className = ''
+} = Astro.props
+
+const count = logos.length
+const angleStep = 360 / count
+// Радиус цилиндра: достаточно места между логотипами (высота + отступ)
+const radius = Math.max(220, Math.round((count * (logoHeight + 20)) / (2 * Math.PI)))
+---
+
+<div class:list={['logo-drum', className]}>
+  <div class="logo-drum-rotor" style={`animation-duration: ${duration}s;`}>
+    {logos.map((logo, i) => (
+      <div
+        class="logo-drum-face"
+        style={`
+          transform: rotateX(${i * angleStep}deg) translateZ(${radius}px);
+          animation-duration: ${duration}s;
+          animation-delay: ${(((i - count) / count) * duration).toFixed(2)}s;
+        `}
+      >
+        <img
+          src={logo}
+          alt=""
+          class="logo-drum-img"
+          style={`width: ${logoWidth}px; height: ${logoHeight}px;`}
+          loading="lazy"
+        />
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .logo-drum {
+    perspective: 1200px;
+    perspective-origin: center 55%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-drum-rotor {
+    position: relative;
+    width: 200px;
+    height: 70px;
+    transform-style: preserve-3d;
+    animation-name: drum-spin;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes drum-spin {
+    from { transform: rotateX(0deg); }
+    to { transform: rotateX(-360deg); }
+  }
+
+  .logo-drum-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    animation-name: face-depth;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes face-depth {
+    0%, 8%, 92%, 100% {
+      filter: blur(0px);
+      opacity: 1;
+    }
+    18% {
+      filter: blur(3px);
+      opacity: 0.5;
+    }
+    26% {
+      filter: blur(10px);
+      opacity: 0.08;
+    }
+    28%, 72% {
+      filter: blur(14px);
+      opacity: 0;
+    }
+    74% {
+      filter: blur(10px);
+      opacity: 0.08;
+    }
+    82% {
+      filter: blur(3px);
+      opacity: 0.5;
+    }
+  }
+
+  .logo-drum-img {
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+    filter: brightness(0) invert(1);
+  }
+</style>

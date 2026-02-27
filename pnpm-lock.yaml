@@ -62,6 +62,9 @@ importers:
       '@astrojs/tailwind':
         specifier: ^5.0.0
         version: 5.1.5(astro@5.17.3(@types/node@20.19.33)(jiti@1.21.7)(rollup@4.59.0)(sass@1.77.4)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(tailwindcss@3.4.19(tsx@4.21.0)(yaml@2.8.2))
+      '@paper-design/shaders':
+        specifier: ^0.0.71
+        version: 0.0.71
       '@tailwindcss/typography':
         specifier: ^0.5.19
         version: 0.5.19(tailwindcss@3.4.19(tsx@4.21.0)(yaml@2.8.2))
@@ -1223,6 +1226,9 @@ packages:
 
   '@oslojs/encoding@1.1.0':
     resolution: {integrity: sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==}
+
+  '@paper-design/shaders@0.0.71':
+    resolution: {integrity: sha512-brCt05YxxyjBrhnE3l1wJJHcFXsM8aE4lmpd9TMQp+p0dMU3F+OWkJZL9m/RC1Tt7om5xr0Wg7d0HYm+b9NYZA==}
 
   '@payloadcms/db-postgres@3.77.0':
     resolution: {integrity: sha512-/UO5fWMrIZZ5FSlQsDu39I8GYMPcEFUUqQ7qdixJj1iqJPlikNW9vETJy5WNhBHEDYriGYO6KogFjOqbTHuizw==}
@@ -4800,6 +4806,8 @@ snapshots:
       fastq: 1.20.1
 
   '@oslojs/encoding@1.1.0': {}
+
+  '@paper-design/shaders@0.0.71': {}
 
   '@payloadcms/db-postgres@3.77.0(payload@3.77.0(graphql@16.13.0)(typescript@5.9.3))':
     dependencies:

@@ -1,0 +1,30 @@
+---
+/**
+ * Lab — экспериментальные страницы (только dev)
+ *
+ * Catch-all роут: в продакшне getStaticPaths возвращает [],
+ * поэтому lab-страницы не попадают в статическую сборку.
+ * Доступны только через dev-сервер: preview.dvizh.cc/lab/
+ */
+import LabIndex from '../../components/lab/LabIndex.astro'
+import LabProduct from '../../components/lab/LabProduct.astro'
+import LabAbout from '../../components/lab/LabAbout.astro'
+import LabHome from '../../components/lab/LabHome.astro'
+
+export function getStaticPaths() {
+  if (import.meta.env.PROD) return []
+  return [
+    { params: { slug: undefined }, props: { page: 'index' } },
+    { params: { slug: 'product' }, props: { page: 'product' } },
+    { params: { slug: 'about' }, props: { page: 'about' } },
+    { params: { slug: 'home' }, props: { page: 'home' } },
+  ]
+}
+
+const { page } = Astro.props
+---
+
+{page === 'index' && <LabIndex />}
+{page === 'product' && <LabProduct />}
+{page === 'about' && <LabAbout />}
+{page === 'home' && <LabHome />}

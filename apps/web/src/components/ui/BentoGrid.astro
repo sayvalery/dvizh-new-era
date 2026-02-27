@@ -65,9 +65,9 @@ const getCardClass = (index: number) => {
             <div class="h-[140px] w-[140px] shrink-0 rounded-[24px] border border-dashed border-[#858585]"></div>
           )}
           {/<[a-z][\s\S]*>/i.test(item.title) ? (
-            <h3 class="text-xl font-medium tracking-tight text-gray-900" set:html={item.title} />
+            <h3 class="text-xl font-medium text-gray-900" set:html={item.title} />
           ) : (
-            <h3 class="text-xl font-medium tracking-tight text-gray-900">{item.title}</h3>
+            <h3 class="text-xl font-medium text-gray-900">{item.title}</h3>
           )}
         </div>
       </div>
