@@ -11,7 +11,7 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://dvizh.io',
   output: 'static',
   prefetch: true,
-  integrations: [tailwind(), sitemap()],
+  integrations: [tailwind({ applyBaseStyles: false }), sitemap()],
   server: {
     host: true, // expose on local network, not just localhost
   },
