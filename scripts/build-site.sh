@@ -88,6 +88,18 @@ rollback() {
 
 log "=== Build $BUILD_ID started ==="
 
+# Reset status file for new build
+cat > "$STATUS_FILE" << EOF
+{
+  "build_id": "$BUILD_ID",
+  "status": "building",
+  "timestamp": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
+  "pages_count": 0,
+  "error": null,
+  "steps": {}
+}
+EOF
+
 # Step 1: CMS check
 update_status "building" "cms_check" "active"
 log "Checking CMS at $CMS_URL ..."
