@@ -8,17 +8,17 @@ import Timeline from '../components/ui/Timeline.astro'
   <div class="max-w-5xl mx-auto px-4 py-16">
     <h1 class="text-4xl font-bold mb-4">О компании</h1>
     <p class="text-xl text-gray-600 mb-12 max-w-3xl">
-      ДВИЖ — лидер в области AI-решений для автоматизации продаж и маркетинга застройщиков.
-      Каждая третья ипотека на первичном рынке России выдаётся с помощью ДВИЖ.
+      ДВИЖ — AI-платформа для автоматизации продаж и маркетинга застройщиков.
+      75 из 100 крупнейших застройщиков России используют ДВИЖ. Более 1,5 млн заявок обработано на платформе.
     </p>
   </div>
 
   <StatsSection
     cols={4}
     items={[
-      { value: '79+', label: 'Крупнейших девелоперов и агентств — клиентов' },
-      { value: '27%', label: 'Ипотечных сделок на первичном рынке проходят через ДВИЖ' },
-      { value: '99,9%', label: 'Uptime платформы' },
+      { value: '75', label: 'Из ТОП-100 крупнейших застройщиков — клиентов' },
+      { value: '1,5 млн+', label: 'Заявок обработано на платформе' },
+      { value: 'x2', label: 'Рост конверсии с продуктами ДВИЖ' },
       { value: '2018', label: 'Год основания' },
     ]}
   />
@@ -51,6 +51,19 @@ import Timeline from '../components/ui/Timeline.astro'
         <h3 class="font-semibold text-lg">Максим Ершов</h3>
         <p class="text-gray-500 text-sm">Сооснователь, руководитель проекта ДВИЖ.брокер</p>
       </div>
+    </div>
+
+    <!-- Ключевые клиенты -->
+    <h2 class="text-2xl font-bold mb-4">Ключевые клиенты</h2>
+    <p class="text-gray-600 mb-6">75 из 100 крупнейших застройщиков России используют ДВИЖ, в том числе:</p>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-16">
+      {[
+        'ГК ЛСР', 'ГК Самолет', 'ГК Точно', 'Гранель', 'Страна Девелопмент', 'GloraX'
+      ].map(name => (
+        <div class="p-4 bg-gray-50 rounded-xl text-center">
+          <p class="font-semibold text-sm">{name}</p>
+        </div>
+      ))}
     </div>
 
     <!-- География -->
