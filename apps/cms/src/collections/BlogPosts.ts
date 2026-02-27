@@ -92,8 +92,11 @@ export const BlogPosts: CollectionConfig = {
     {
       name: 'author',
       type: 'text',
-      label: 'Автор (текст)',
-      admin: { description: 'Устаревшее поле. Используй primaryAuthor.' },
+      label: 'Автор (текст) [deprecated]',
+      admin: {
+        description: 'Устаревшее поле. Используй primaryAuthor.',
+        hidden: true,
+      },
     },
     {
       name: 'primaryAuthor',
