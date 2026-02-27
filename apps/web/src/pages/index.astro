@@ -3,11 +3,12 @@ import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import LogoStream from '../components/ui/LogoStream.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
-import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import SectionBlock from '../components/ui/SectionBlock.astro'
 import GradientCTA from '../components/ui/GradientCTA.astro'
 import BlogCards from '../components/ui/BlogCards.astro'
+import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
+import ProductSection from '../components/ui/ProductSection.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import CTA from '../components/ui/CTA.astro'
 
@@ -59,6 +60,71 @@ const partnerLogos = [
       />
     </div>
   </section>
+
+  <!-- Stories Carousel (mini) -->
+  <div class="max-w-[1440px] mx-auto px-4 py-20">
+    <SuccessStoriesCarousel
+      title="70+ историй успеха на рынке девелопмента"
+      variant="mini"
+      stories={[
+        {
+          title: "Помогли начать обрабатывать <span class='text-brand'>на 281% заявок больше</span>, чем в среднем на рынке",
+          quote: "Раньше клиенты тонули в сборе справок и терялись. С ДВИЖем весь процесс занял минуты — конверсия из консультации в сделку выросла в разы.",
+          person: {
+            name: "Петрова Надежда",
+            jobTitle: "Директор по маркетингу, ЛСР",
+            photo: { url: "" }
+          },
+          image: "",
+          imageAlt: "ЛСР",
+          logo: "",
+          logoAlt: "ЛСР"
+        },
+        {
+          title: "Дополнительно продали <span class='text-brand'>96 квартир</span>",
+          quote: "Клиентов с низким КР раньше просто отсеивали. ДВИЖ показал, как с ними работать: подсказать, как закрыть кредитки, предложить другие программы. За год продали на 96 квартир больше.",
+          person: {
+            name: "Иванов Сергей",
+            jobTitle: "Руководитель отдела ипотеки",
+            photo: { url: "" }
+          },
+          image: "",
+          logo: ""
+        },
+        {
+          title: "Одобрение ипотеки <span class='text-brand'>за 15 минут</span>",
+          quote: "Раньше клиент ждал 2-3 дня. Теперь анкета уходит в 40+ банков одной кнопкой, клиент получает решение за 15 минут.",
+          person: {
+            name: "Сидорова Елена",
+            jobTitle: "Ипотечный брокер",
+            photo: { url: "" }
+          },
+          image: "",
+          logo: ""
+        }
+      ]}
+    />
+  </div>
+
+  <!-- Product Section -->
+  <ProductSection
+    sections={[
+      { number: "01", title: "Цифровая ипотека", active: true },
+      { number: "02", title: "Калькулятор" },
+      { number: "03", title: "Скоринг" },
+      { number: "04", title: "Регистрация" },
+    ]}
+    title="Поможем перевыполнить план продаж на том же трафике"
+    descriptions={[
+      "До 96% одобрения",
+      "Единая анкета в 40+ банков",
+      "Моментальное заполнение анкеты через Госуслуги",
+      "Готовые интеграции с CRM",
+      "Анализ работы менеджеров"
+    ]}
+    primaryButton={{ label: "Читать кейс", href: "#" }}
+    secondaryButton={{ label: "Подробнее о цифровой ипотеке", href: "#" }}
+  />
 
   <!-- Цифровая ипотека -->
   <FeaturesGrid
