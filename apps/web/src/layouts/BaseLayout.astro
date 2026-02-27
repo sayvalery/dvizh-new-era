@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from 'astro:transitions'
 import '../styles/global.css'
 
 interface Props {
@@ -50,10 +51,19 @@ const resolvedOgImage = ogImage || defaultOgImage
     <!-- JSON-LD -->
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 
+    <ViewTransitions />
+
     <script>
       import Alpine from 'alpinejs'
-      window.Alpine = Alpine
-      Alpine.start()
+
+      if (!window.Alpine) {
+        window.Alpine = Alpine
+        Alpine.start()
+      }
+
+      document.addEventListener('astro:after-swap', () => {
+        Alpine.initTree(document.body)
+      })
     </script>
   </head>
   <body class="min-h-screen flex flex-col">

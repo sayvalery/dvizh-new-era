@@ -10,6 +10,7 @@ const cmsProxy = process.env.VITE_PROXY_CMS || process.env.CMS_URL || 'http://lo
 export default defineConfig({
   site: process.env.SITE_URL || 'https://dvizh.io',
   output: 'static',
+  prefetch: true,
   integrations: [tailwind(), sitemap()],
   server: {
     host: true, // expose on local network, not just localhost
