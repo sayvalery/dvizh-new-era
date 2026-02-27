@@ -1,5 +1,4 @@
 ---
-import { ViewTransitions } from 'astro:transitions'
 import '../styles/global.css'
 
 interface Props {
@@ -30,6 +29,7 @@ const resolvedOgImage = ogImage || defaultOgImage
     <!-- Preload critical fonts -->
     <link rel="preload" href="/fonts/inter-variable.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="/fonts/styrene-a-bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/styrene-a-medium.ttf" as="font" type="font/ttf" crossorigin />
 
     <!-- Open Graph -->
     <meta property="og:site_name" content="ДВИЖ" />
@@ -51,19 +51,10 @@ const resolvedOgImage = ogImage || defaultOgImage
     <!-- JSON-LD -->
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 
-    <ViewTransitions />
-
     <script>
       import Alpine from 'alpinejs'
-
-      if (!window.Alpine) {
-        window.Alpine = Alpine
-        Alpine.start()
-      }
-
-      document.addEventListener('astro:after-swap', () => {
-        Alpine.initTree(document.body)
-      })
+      window.Alpine = Alpine
+      Alpine.start()
     </script>
   </head>
   <body class="min-h-screen flex flex-col">

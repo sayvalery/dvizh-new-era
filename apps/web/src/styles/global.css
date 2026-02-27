@@ -6,13 +6,13 @@
 [x-cloak] { display: none !important; }
 
 @layer base {
-  /* Styrene A — фирменный шрифт для заголовков */
+  /* Styrene A — фирменный шрифт для заголовков (block — не прыгает при загрузке) */
   @font-face {
     font-family: 'Styrene A';
     src: url('/fonts/styrene-a-medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
-    font-display: swap;
+    font-display: block;
   }
 
   @font-face {
@@ -20,7 +20,7 @@
     src: url('/fonts/styrene-a-bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
-    font-display: swap;
+    font-display: block;
   }
 
   @font-face {
@@ -28,7 +28,7 @@
     src: url('/fonts/styrene-a-black-italic.ttf') format('truetype');
     font-weight: 900;
     font-style: italic;
-    font-display: swap;
+    font-display: block;
   }
 
   /* Inter — основной шрифт для текста */
