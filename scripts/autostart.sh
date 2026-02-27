@@ -66,6 +66,12 @@ docker compose -f docker-compose.prod.yml --profile tunnel up -d cloudflared 2>&
 
 # Запускаем dev сервер (preview.dvizh.cc)
 if ! lsof -i :4321 > /dev/null 2>&1; then
+  # Резолвим IP контейнера CMS для Vite proxy (c-ares не поддерживает mDNS)
+  CMS_IP=$(dscacheutil -q host -a name cms.dvizh-new-era.orb.local 2>/dev/null | grep ip_address | head -1 | awk '{print $2}')
+  if [ -n "$CMS_IP" ]; then
+    export VITE_PROXY_CMS="http://${CMS_IP}:3002"
+    log "CMS proxy IP resolved: $CMS_IP"
+  fi
   log "Starting dev server on port 4321..."
   cd "$PROJECT_DIR" && nohup pnpm dev >> "$PROJECT_DIR/logs/dev-server.log" 2>&1 &
   log "Dev server started (PID: $!)"

@@ -18,6 +18,7 @@ import SuccessStory from '../../components/ui/SuccessStory.astro'
 import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 import HeroSection from '../../components/ui/HeroSection.astro'
 import StatsSection from '../../components/ui/StatsSection.astro'
+import Timeline from '../../components/ui/Timeline.astro'
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -41,6 +42,7 @@ export function getStaticPaths() {
     { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'hero' }, props: { section: 'hero' } },
     { params: { slug: 'stats' }, props: { section: 'stats' } },
+    { params: { slug: 'timeline' }, props: { section: 'timeline' } },
   ]
 }
 
@@ -65,6 +67,7 @@ const sections = [
   { slug: 'bento', label: 'Bento Grid' },
   { slug: 'hero', label: 'Hero Section' },
   { slug: 'stats', label: 'Stats Section' },
+  { slug: 'timeline', label: 'Timeline' },
 ]
 ---
 
@@ -1035,6 +1038,41 @@ const sections = [
                   { label: 'Перестали терять сделки из-за клиентов с низким КР' },
                   { label: 'Ускорили заполнение анкеты до 10 секунд' },
                   { label: 'Стали закрывать больше сделок без роста штата' },
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'timeline' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-8">Timeline</h1>
+          <p class="text-gray-600 mb-10">
+            Блок с хронологией/историей. Год отображается шрифтом Styrene A, разделители между элементами.
+          </p>
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С заголовком секции</p>
+              <Timeline
+                badge="История"
+                title="История развития"
+                items={[
+                  { year: '2018', title: 'Цифровая ипотека', description: 'Начали с идеи — сделать ипотеку цифровой.' },
+                  { year: '2020', title: 'Платформа ДВИЖ', description: 'Масштабировали продукт.' },
+                  { year: '2024', title: 'Полностью онлайн', description: 'Первая в России ипотечная сделка полностью онлайн.' },
+                ]}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без заголовка</p>
+              <Timeline
+                items={[
+                  { year: 'Q1', title: 'Запуск MVP' },
+                  { year: 'Q2', title: 'Первые клиенты', description: '10 девелоперов подключили платформу.' },
+                  { year: 'Q3', title: 'Масштабирование' },
                 ]}
               />
             </div>

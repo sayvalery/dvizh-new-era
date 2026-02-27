@@ -30,8 +30,10 @@ interface Props {
   description?: string
   /** Текст на кнопке */
   buttonText: string
-  /** Ссылка для кнопки */
-  buttonHref: string
+  /** Ссылка для кнопки (игнорируется если задан drawerPreset) */
+  buttonHref?: string
+  /** Пресет дровера: demo, lead, research, subscribe. Если задан — кнопка открывает дровер */
+  drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   /** URL изображения (обязателен для split варианта) */
   image?: string
   /** Alt-текст для изображения */
@@ -47,7 +49,8 @@ const {
   title,
   description,
   buttonText,
-  buttonHref,
+  buttonHref = '#',
+  drawerPreset,
   image,
   imageAlt = 'Image',
   variant = 'dark',
@@ -56,6 +59,9 @@ const {
 
 // Split вариант — отдельная разметка
 const isSplit = variant === 'split'
+// Если drawerPreset задан или href="#" — открываем дровер
+const useDrawer = drawerPreset || buttonHref === '#'
+const resolvedPreset = drawerPreset ?? 'demo'
 ---
 
 {isSplit ? (
@@ -78,12 +84,22 @@ const isSplit = variant === 'split'
           </p>
         )}
         <div class="mt-8">
-          <a
-            href={buttonHref}
-            class="inline-flex rounded-md bg-[#ff4d00] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#e64600] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00] transition-colors"
-          >
-            {buttonText}
-          </a>
+          {useDrawer ? (
+            <button
+              x-data
+              @click={`$dispatch('open-drawer', { preset: '${resolvedPreset}' })`}
+              class="inline-flex rounded-md bg-[#ff4d00] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#e64600] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00] transition-colors cursor-pointer"
+            >
+              {buttonText}
+            </button>
+          ) : (
+            <a
+              href={buttonHref}
+              class="inline-flex rounded-md bg-[#ff4d00] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#e64600] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00] transition-colors"
+            >
+              {buttonText}
+            </a>
+          )}
         </div>
       </div>
     </div>
@@ -135,15 +151,28 @@ const isSplit = variant === 'split'
 
       <!-- Кнопка -->
       <div class="mt-8 flex items-center gap-x-6 lg:mt-0 lg:shrink-0">
-        <a
-          href={buttonHref}
-          class:list={[
-            variant === 'dark' ? 'bg-[#ff4d00] hover:bg-[#e64600]' : 'bg-indigo-600 hover:bg-indigo-500',
-            'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
-          ]}
-        >
-          {buttonText}
-        </a>
+        {useDrawer ? (
+          <button
+            x-data
+            @click={`$dispatch('open-drawer', { preset: '${resolvedPreset}' })`}
+            class:list={[
+              variant === 'dark' ? 'bg-[#ff4d00] hover:bg-[#e64600]' : 'bg-indigo-600 hover:bg-indigo-500',
+              'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer'
+            ]}
+          >
+            {buttonText}
+          </button>
+        ) : (
+          <a
+            href={buttonHref}
+            class:list={[
+              variant === 'dark' ? 'bg-[#ff4d00] hover:bg-[#e64600]' : 'bg-indigo-600 hover:bg-indigo-500',
+              'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+            ]}
+          >
+            {buttonText}
+          </a>
+        )}
       </div>
     </div>
   </section>

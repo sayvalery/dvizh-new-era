@@ -1,6 +1,7 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
+import Timeline from '../components/ui/Timeline.astro'
 ---
 
 <SiteLayout title="О компании — ДВИЖ" description="ДВИЖ — AI-решения для автоматизации продаж и маркетинга застройщиков">
@@ -22,26 +23,21 @@ import StatsSection from '../components/ui/StatsSection.astro'
     ]}
   />
 
-  <div class="max-w-5xl mx-auto px-4 py-16">
-    <!-- История -->
-    <h2 class="text-2xl font-bold mb-8">История развития</h2>
-    <div class="space-y-6 mb-16">
-      {[
-        { year: '2018', text: 'Появилась цифровая ипотека' },
-        { year: '2019', text: 'Разработали электронную анкету' },
-        { year: '2020', text: 'Переименовали в платформу ДВИЖ' },
-        { year: '2021', text: 'Добавили модуль электронной регистрации' },
-        { year: '2022', text: 'Разработали модуль бронирования и личный кабинет' },
-        { year: '2023', text: 'Создали модуль страхования и ДВИЖ AI' },
-        { year: '2024', text: 'Первая в России ипотечная сделка полностью онлайн' },
-      ].map(item => (
-        <div class="flex gap-6 items-baseline">
-          <span class="text-brand font-bold text-lg shrink-0">{item.year}</span>
-          <p class="text-gray-700">{item.text}</p>
-        </div>
-      ))}
-    </div>
+  <Timeline
+    badge="История"
+    title="История развития"
+    items={[
+      { year: '2018', title: 'Цифровая ипотека', description: 'Появилась цифровая ипотека' },
+      { year: '2019', title: 'Электронная анкета', description: 'Разработали электронную анкету' },
+      { year: '2020', title: 'Платформа ДВИЖ', description: 'Переименовали в платформу ДВИЖ' },
+      { year: '2021', title: 'Электронная регистрация', description: 'Добавили модуль электронной регистрации' },
+      { year: '2022', title: 'Бронирование и ЛК', description: 'Разработали модуль бронирования и личный кабинет' },
+      { year: '2023', title: 'Страхование и AI', description: 'Создали модуль страхования и ДВИЖ AI' },
+      { year: '2024', title: 'Полностью онлайн', description: 'Первая в России ипотечная сделка полностью онлайн' },
+    ]}
+  />
 
+  <div class="max-w-5xl mx-auto px-4 py-16">
     <!-- Основатели -->
     <h2 class="text-2xl font-bold mb-8">Основатели</h2>
     <div class="grid md:grid-cols-2 gap-6 mb-16">

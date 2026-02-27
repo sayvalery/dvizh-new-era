@@ -7,7 +7,6 @@
  * Доступна только в dev-режиме: preview.dvizh.cc/lab/about
  */
 import SiteLayout from '../../layouts/SiteLayout.astro'
-import Form from '../../components/ui/Form.astro'
 
 const milestones = [
   { year: '2018', title: 'Цифровая ипотека', description: 'Начали с идеи — сделать ипотеку цифровой. Первая версия платформы для электронного взаимодействия банков и застройщиков.' },
@@ -64,7 +63,7 @@ const geography = [
       <p class="text-sm font-medium tracking-widest uppercase text-brand mb-8">
         О компании
       </p>
-      <h1 class="text-4xl lg:text-7xl font-medium leading-[1.1] tracking-tight text-gray-900 mb-8" style="font-family: 'Georgia', 'Times New Roman', serif;">
+      <h1 class="text-4xl lg:text-7xl font-medium leading-[1.1] tracking-tight text-gray-900 mb-8">
         Каждая третья ипотека на&nbsp;первичном рынке России — через&nbsp;ДВИЖ
       </h1>
       <p class="text-xl lg:text-2xl text-gray-400 leading-relaxed max-w-3xl mx-auto">
@@ -86,7 +85,7 @@ const geography = [
           { value: '2018', label: 'Год основания' },
         ].map(stat => (
           <div class="text-center lg:text-left">
-            <p class="text-4xl lg:text-6xl font-medium tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+            <p class="text-4xl lg:text-6xl font-medium tracking-tight text-gray-900 font-heading">
               {stat.value}
             </p>
             <p class="mt-3 text-sm text-gray-400">
@@ -108,7 +107,7 @@ const geography = [
           <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
             Миссия
           </p>
-          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900">
             Сделать покупку квартиры такой&nbsp;же простой, как&nbsp;покупку в&nbsp;интернет-магазине
           </h2>
         </div>
@@ -138,7 +137,7 @@ const geography = [
         <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
           История
         </p>
-        <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+        <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900">
           Семь лет роста
         </h2>
       </div>
@@ -151,7 +150,7 @@ const geography = [
             i < milestones.length - 1 ? 'pb-12 mb-12 border-b border-gray-200' : ''
           ]}>
             <div>
-              <span class="text-4xl lg:text-5xl font-medium text-gray-200" style="font-family: 'Georgia', 'Times New Roman', serif;">
+              <span class="text-4xl lg:text-5xl font-medium text-gray-200 font-heading">
                 {milestone.year}
               </span>
             </div>
@@ -176,7 +175,7 @@ const geography = [
     <div class="max-w-7xl mx-auto px-6">
       <!-- Split heading -->
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-20">
-        <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+        <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900">
           Принципы, которыми мы&nbsp;руководствуемся
         </h2>
         <p class="text-lg text-gray-500 leading-relaxed lg:pt-2">
@@ -213,7 +212,7 @@ const geography = [
           <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
             Основатели
           </p>
-          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900">
             Команда
           </h2>
         </div>
@@ -243,7 +242,7 @@ const geography = [
           <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
             География
           </p>
-          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900">
             От Москвы до&nbsp;Урала
           </h2>
           <p class="text-lg text-gray-500 leading-relaxed mt-6">
@@ -276,16 +275,16 @@ const geography = [
   <section class="py-24">
     <div class="max-w-7xl mx-auto px-6">
       <div class="bg-gray-900 rounded-3xl p-12 lg:p-20 text-center">
-        <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-white mb-6" style="font-family: 'Georgia', 'Times New Roman', serif;">
+        <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-white mb-6">
           Готовы автоматизировать продажи?
         </h2>
         <p class="text-lg text-gray-400 leading-relaxed max-w-2xl mx-auto mb-10">
           Присоединяйтесь к&nbsp;79+ девелоперам, которые уже используют ДВИЖ для ускорения сделок.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
-          <a href="#contact" class="inline-flex items-center px-8 py-4 bg-brand text-white font-semibold rounded-xl hover:bg-brand-600 transition-colors">
+          <button x-data @click="$dispatch('open-drawer', { preset: 'demo' })" class="inline-flex items-center px-8 py-4 bg-brand text-white font-semibold rounded-xl hover:bg-brand-600 transition-colors">
             Запросить демо
-          </a>
+          </button>
           <a href="/" class="inline-flex items-center px-8 py-4 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-gray-400 hover:text-white transition-colors">
             Узнать больше
           </a>
@@ -294,28 +293,5 @@ const geography = [
     </div>
   </section>
 
-  <!-- ============================================
-       Contact form (Linear-style minimal)
-       ============================================ -->
-  <section id="contact" class="py-24 border-t border-gray-100">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-24">
-        <div>
-          <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
-            Связаться с нами
-          </p>
-          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900 mb-6" style="font-family: 'Georgia', 'Times New Roman', serif;">
-            Расскажите о&nbsp;ваших задачах
-          </h2>
-          <p class="text-lg text-gray-500 leading-relaxed">
-            Мы подберём решение под ваши процессы и&nbsp;покажем, как платформа работает на&nbsp;реальных данных.
-          </p>
-        </div>
-        <div class="bg-gray-50 rounded-2xl p-8 lg:p-10">
-          <Form preset="demo" />
-        </div>
-      </div>
-    </div>
-  </section>
 
 </SiteLayout>
