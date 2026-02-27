@@ -5,6 +5,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
+import LogoGrid from '../components/ui/LogoGrid.astro'
 import CTA from '../components/ui/CTA.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
 import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
@@ -27,6 +28,21 @@ import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astr
       { label: 'Ускорили заполнение анкеты до 10 секунд' },
       { label: 'Стали закрывать больше сделок без роста штата' },
     ]}
+  />
+
+  <!-- Logo Grid -->
+  <LogoGrid
+    logos={[
+      { src: '/partners/lsr.svg', alt: 'ЛСР' },
+      { src: '/partners/ava.svg', alt: 'AVA' },
+      { src: '/partners/ganel.svg', alt: 'Ganel' },
+      { src: '/partners/strana.svg', alt: 'Strana' },
+      { src: '/partners/glorax.svg', alt: 'Glorax' },
+      { src: '/partners/a101.svg', alt: 'A101' },
+    ]}
+    ctaText="Нам доверяют более 70 застройщиков"
+    ctaLabel="Читать истории успеха →"
+    ctaLink="/cases"
   />
 
   <!-- Features Grid 1: подбор банков -->

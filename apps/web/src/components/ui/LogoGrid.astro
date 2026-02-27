@@ -1,0 +1,94 @@
+---
+/**
+ * LogoGrid — сетка логотипов клиентов/партнёров
+ *
+ * @example
+ * ```astro
+ * // Без заголовка
+ * <LogoGrid
+ *   logos={[
+ *     { src: "/partners/lsr.svg", alt: "ЛСР" },
+ *     { src: "/partners/ava.svg", alt: "AVA" },
+ *   ]}
+ * />
+ *
+ * // С заголовком
+ * <LogoGrid
+ *   title="Нам доверяют 70+ застройщиков"
+ *   logos={[...]}
+ * />
+ *
+ * // С плашкой CTA внизу
+ * <LogoGrid
+ *   logos={[...]}
+ *   ctaText="Over 2500 companies use our tools"
+ *   ctaLabel="Read our customer stories →"
+ *   ctaLink="#"
+ * />
+ * ```
+ */
+
+interface Logo {
+  /** URL логотипа */
+  src: string
+  /** Alt-текст */
+  alt: string
+}
+
+interface Props {
+  /** Массив логотипов */
+  logos: Logo[]
+  /** Заголовок над логотипами (опционально) */
+  title?: string
+  /** CSS класс для заголовка */
+  titleClass?: string
+  /** Текст в плашке внизу */
+  ctaText?: string
+  /** Текст ссылки в плашке */
+  ctaLabel?: string
+  /** Ссылка в плашке */
+  ctaLink?: string
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const { logos, title, titleClass = '', ctaText, ctaLabel, ctaLink, class: className = '' } = Astro.props
+const hasCta = ctaText && ctaLabel
+---
+
+<section class:list={['bg-white py-24 sm:py-32', className]}>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    {title && (
+      <h2 class:list={['text-center text-lg/8 font-semibold text-gray-900', titleClass]}>
+        {title}
+      </h2>
+    )}
+    <div class:list={[
+      'grid items-center gap-x-8 gap-y-12',
+      title ? 'mx-auto mt-10 max-w-lg grid-cols-4 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 sm:gap-y-14 lg:mx-0 lg:max-w-none lg:grid-cols-5' : 'mx-auto grid-cols-4 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 sm:gap-y-14 lg:mx-0 lg:max-w-none lg:grid-cols-5'
+    ]}>
+      {logos.map((logo) => (
+        <img
+          src={logo.src}
+          alt={logo.alt}
+          width="158"
+          height="48"
+          class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+          loading="lazy"
+        />
+      ))}
+    </div>
+
+    {hasCta && (
+      <div class="mt-16 flex justify-center">
+        <p class="relative rounded-full bg-gray-50 px-4 py-1.5 text-sm/6 text-gray-600 ring-1 ring-inset ring-gray-900/5">
+          <span class="hidden md:inline">{ctaText}.</span>
+          <a href={ctaLink || '#'} class="font-semibold text-brand hover:text-brand-600">
+            <span aria-hidden="true" class="absolute inset-0"></span>
+            {ctaLabel}
+          </a>
+        </p>
+      </div>
+    )}
+  </div>
+</section>

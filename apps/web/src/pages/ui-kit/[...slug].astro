@@ -4,6 +4,7 @@ import NavBar from '../../components/ui/NavBar.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
 import Form from '../../components/ui/Form.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
+import LogoGrid from '../../components/ui/LogoGrid.astro'
 import Drawer from '../../components/ui/Drawer.astro'
 import CTA from '../../components/ui/CTA.astro'
 import CTABlock from '../../components/blocks/CTABlock.astro'
@@ -28,6 +29,7 @@ import navBarRaw from '../../components/ui/NavBar.astro?raw'
 import personCardRaw from '../../components/ui/PersonCard.astro?raw'
 import formRaw from '../../components/ui/Form.astro?raw'
 import formClosingRaw from '../../components/ui/FormClosing.astro?raw'
+import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import ctaRaw from '../../components/ui/CTA.astro?raw'
 import featuresGridRaw from '../../components/ui/FeaturesGrid.astro?raw'
 import successStoryRaw from '../../components/ui/SuccessStory.astro?raw'
@@ -103,6 +105,7 @@ const navBarMeta = parseSource(navBarRaw)
 const personCardMeta = parseSource(personCardRaw)
 const formMeta = parseSource(formRaw)
 const formClosingMeta = parseSource(formClosingRaw)
+const logoGridMeta = parseSource(logoGridRaw)
 const ctaMeta = parseSource(ctaRaw)
 const featuresGridMeta = parseSource(featuresGridRaw)
 const successStoryMeta = parseSource(successStoryRaw)
@@ -126,6 +129,7 @@ export function getStaticPaths() {
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
     { params: { slug: 'forms' }, props: { section: 'forms' } },
     { params: { slug: 'form-closing' }, props: { section: 'form-closing' } },
+    { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
     { params: { slug: 'cards' }, props: { section: 'cards' } },
     { params: { slug: 'drawer' }, props: { section: 'drawer' } },
     { params: { slug: 'cta' }, props: { section: 'cta' } },
@@ -153,6 +157,7 @@ const sections = [
   { slug: 'buttons', label: 'Кнопки' },
   { slug: 'forms', label: 'Формы' },
   { slug: 'form-closing', label: 'Form Closing' },
+  { slug: 'logo-grid', label: 'Logo Grid' },
   { slug: 'cards', label: 'Карточки' },
   { slug: 'drawer', label: 'Дровер' },
   { slug: 'cta', label: 'CTA' },
@@ -527,6 +532,66 @@ const sections = [
                 title="Попробуйте ДВИЖ в деле"
                 description="Оставьте заявку и мы свяжемся с вами в ближайшее время."
                 submitLabel="Получить демо"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'logo-grid' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Logo Grid</h1>
+          <p class="text-gray-600 mb-4">
+            Сетка логотипов клиентов/партнёров. Адаптивная вёрстка с разным количеством колонок.
+          </p>
+          <PropsTable props={logoGridMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С заголовком</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid title="Нам доверяют 70+ застройщиков" logos={[...]} />`}</code></p>
+              <LogoGrid
+                title="Нам доверяют 70+ застройщиков"
+                logos={[
+                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
+                  { src: '/partners/ava.svg', alt: 'AVA' },
+                  { src: '/partners/ganel.svg', alt: 'Ganel' },
+                  { src: '/partners/strana.svg', alt: 'Strana' },
+                  { src: '/partners/glorax.svg', alt: 'Glorax' },
+                  { src: '/partners/a101.svg', alt: 'A101' },
+                ]}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без заголовка</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid logos={[...]} />`}</code></p>
+              <LogoGrid
+                logos={[
+                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
+                  { src: '/partners/ava.svg', alt: 'AVA' },
+                  { src: '/partners/ganel.svg', alt: 'Ganel' },
+                  { src: '/partners/strana.svg', alt: 'Strana' },
+                  { src: '/partners/glorax.svg', alt: 'Glorax' },
+                ]}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С плашкой CTA</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid logos={[...]} ctaText="Нам доверяют 70+ застройщиков" ctaLabel="Читать истории →" ctaLink="/cases" />`}</code></p>
+              <LogoGrid
+                logos={[
+                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
+                  { src: '/partners/ava.svg', alt: 'AVA' },
+                  { src: '/partners/ganel.svg', alt: 'Ganel' },
+                  { src: '/partners/strana.svg', alt: 'Strana' },
+                  { src: '/partners/glorax.svg', alt: 'Glorax' },
+                  { src: '/partners/a101.svg', alt: 'A101' },
+                ]}
+                ctaText="Нам доверяют более 70 застройщиков"
+                ctaLabel="Читать истории успеха →"
+                ctaLink="/cases"
               />
             </div>
           </div>
