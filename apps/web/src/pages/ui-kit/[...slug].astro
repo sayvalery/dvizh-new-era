@@ -26,6 +26,7 @@ import PropsTable from '../../components/ui/PropsTable.astro'
 import GradientCTA from '../../components/ui/GradientCTA.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
+import ProductSection from '../../components/ui/ProductSection.astro'
 import SectionNavigator from '../../components/ui/SectionNavigator.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
@@ -47,6 +48,7 @@ import sectionBlockRaw from '../../components/ui/SectionBlock.astro?raw'
 import gradientCTARaw from '../../components/ui/GradientCTA.astro?raw'
 import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
 import productCardRaw from '../../components/ui/ProductCard.astro?raw'
+import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
 import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
 
 interface PropMeta {
@@ -127,6 +129,7 @@ const sectionBlockMeta = parseSource(sectionBlockRaw)
 const gradientCTAMeta = parseSource(gradientCTARaw)
 const blogCardsMeta = parseSource(blogCardsRaw)
 const productCardMeta = parseSource(productCardRaw)
+const productSectionMeta = parseSource(productSectionRaw)
 const sectionNavigatorMeta = parseSource(sectionNavigatorRaw)
 
 // В продакшн-билде страница не генерируется
@@ -158,6 +161,7 @@ export function getStaticPaths() {
     { params: { slug: 'gradient-cta' }, props: { section: 'gradient-cta' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'product-card' }, props: { section: 'product-card' } },
+    { params: { slug: 'product-section' }, props: { section: 'product-section' } },
     { params: { slug: 'section-navigator' }, props: { section: 'section-navigator' } },
   ]
 }
@@ -190,6 +194,7 @@ const sections = [
   { slug: 'gradient-cta', label: 'Gradient CTA' },
   { slug: 'blog-cards', label: 'Blog Cards' },
   { slug: 'product-card', label: 'Product Card' },
+  { slug: 'product-section', label: 'Product Section' },
   { slug: 'section-navigator', label: 'Section Navigator' },
 ]
 ---
@@ -1683,29 +1688,92 @@ const sections = [
 
           <div class="space-y-12">
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — с описанием и двумя кнопками</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCard title="..." description="..." primaryButton={{...}} secondaryButton={{...}} />`}</code></p>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — 3 строки описания + 2 кнопки</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCard title="..." descriptions={[...]} primaryButton={{...}} secondaryButton={{...}} />`}</code></p>
               <ProductCard
                 title="Разворачивайте ипотечное дело с уверенностью"
-                description="Единая платформа для автоматизации всего процесса ипотечного кредитования — от заявки до регистрации сделки."
+                descriptions={[
+                  "Единая платформа для автоматизации",
+                  "всего процесса ипотечного кредитования",
+                  "от заявки до регистрации сделки"
+                ]}
                 primaryButton={{ label: "Начать", href: "#" }}
                 secondaryButton={{ label: "Узнать больше", href: "#" }}
               />
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С одной кнопкой</p>
+              <p class="text-sm font-medium text-gray-400 mb-4">5 строк описания</p>
               <ProductCard
                 title="Цифровая ипотека для банков"
-                description="Закрывайте до 26% больше сделок на том же трафике."
+                descriptions={[
+                  "До 96% одобрения заявок",
+                  "Единая анкета в 40+ банков",
+                  "Моментальное заполнение через Госуслуги",
+                  "Готовые интеграции с CRM",
+                  "Анализ работы менеджеров"
+                ]}
                 primaryButton={{ label: "Запросить демо", href: "#" }}
               />
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Минимальный — только заголовок</p>
+              <p class="text-sm font-medium text-gray-400 mb-4">1 строка описания</p>
               <ProductCard
                 title="Начните сегодня"
+                descriptions={["Закрывайте до 26% больше сделок на том же трафике."]}
+                primaryButton={{ label: "Get started", href: "#" }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'product-section' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Product Section</h1>
+          <p class="text-gray-600 mb-4">
+            Секция с меню продуктов слева и карточкой ProductCard справа. Адаптив: на lg+ — горизонтально, на md- — вертикально.
+          </p>
+          <PropsTable props={productSectionMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — 5 секций</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductSection sections={[...]} title="..." descriptions={[...]} />`}</code></p>
+              <ProductSection
+                sections={[
+                  { number: '01', title: 'Цифровая ипотека', active: true },
+                  { number: '02', title: 'Ипотечный калькулятор' },
+                  { number: '03', title: 'Финансовый скоринг' },
+                  { number: '04', title: 'Электронная регистрация' },
+                  { number: '05', title: 'Движ AI' }
+                ]}
+                title="Цифровая ипотека"
+                descriptions={[
+                  "До 96% одобрения заявок",
+                  "Единая анкета в 40+ банков",
+                  "Моментальное заполнение через Госуслуги"
+                ]}
+                primaryButton={{ label: "Запросить демо", href: "#" }}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 секции</p>
+              <ProductSection
+                sections={[
+                  { number: '01', title: 'Продукт 1', active: true },
+                  { number: '02', title: 'Продукт 2' },
+                  { number: '03', title: 'Продукт 3' }
+                ]}
+                title="Наш продукт"
+                descriptions={[
+                  "Единая платформа для автоматизации",
+                  "всего процесса работы с клиентами"
+                ]}
+                primaryButton={{ label: "Начать", href: "#" }}
+                secondaryButton={{ label: "Узнать больше", href: "#" }}
               />
             </div>
           </div>

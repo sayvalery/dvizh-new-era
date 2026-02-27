@@ -2,16 +2,19 @@
 /**
  * ProductCard — большая карточка продукта с фоновым паттерном
  *
- * Hero-секция продукта с заголовком, описанием и кнопками.
+ * Hero-секция продукта с заголовком, описанием (до 5 строк) и кнопками.
  * Фоновый паттерн SVG + градиентный блюр.
  *
  * @example
  * ```astro
  * <ProductCard
  *   title="Разворачивайте ипотечное дело с уверенностью"
- *   description="Единая платформа для автоматизации всего процесса ипотечного кредитования."
+ *   descriptions={[
+ *     "Единая платформа для автоматизации",
+ *     "всего процесса ипотечного кредитования",
+ *     "от заявки до регистрации сделки"
+ *   ]}
  *   primaryButton={{ label: "Начать", href: "#" }}
- *   secondaryButton={{ label: "Узнать больше", href: "#" }}
  * />
  * ```
  */
@@ -24,8 +27,8 @@ interface Button {
 interface Props {
   /** Заголовок */
   title: string
-  /** Описание */
-  description?: string
+  /** Описания (от 1 до 5 строк) */
+  descriptions?: string[]
   /** Основная кнопка (CTA) */
   primaryButton?: Button
   /** Вторичная кнопка (текстовая со стрелкой) */
@@ -36,7 +39,7 @@ interface Props {
 
 const {
   title,
-  description,
+  descriptions = [],
   primaryButton,
   secondaryButton,
   class: className = ''
@@ -91,11 +94,15 @@ const patternId = `pattern-${Math.random().toString(36).substr(2, 9)}`
         {title}
       </h1>
 
-      <!-- Описание -->
-      {description && (
-        <p class="mt-8 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
-          {description}
-        </p>
+      <!-- Описания -->
+      {descriptions.length > 0 && (
+        <div class="mt-8 space-y-1">
+          {descriptions.map((desc) => (
+            <p class="text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
+              {desc}
+            </p>
+          ))}
+        </div>
       )}
 
       <!-- Кнопки -->

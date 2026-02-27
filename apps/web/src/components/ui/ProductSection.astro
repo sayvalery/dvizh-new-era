@@ -1,0 +1,81 @@
+---
+/**
+ * ProductSection — секция с меню продуктов и карточкой
+ *
+ * Адтивная секция: на lg+ — меню слева, контент справа; на md- — вертикально.
+ */
+
+import ProductCard from './ProductCard.astro'
+
+interface SectionItem {
+  number: string
+  title: string
+  active?: boolean
+}
+
+interface Button {
+  label: string
+  href: string
+}
+
+interface Props {
+  sections: SectionItem[]
+  title?: string
+  descriptions?: string[]
+  primaryButton?: Button
+  secondaryButton?: Button
+  class?: string
+}
+
+const {
+  sections,
+  title = '',
+  descriptions = [],
+  primaryButton,
+  secondaryButton,
+  class: className = ''
+} = Astro.props
+
+const componentId = `product-section-${Math.random().toString(36).substr(2, 9)}`
+---
+
+<section class:list={['bg-white', className]}>
+  <div id={componentId} class="px-[50px] py-[50px]">
+    <div class="flex flex-col md:gap-[52px] lg:flex-row lg:gap-[120px]">
+      <!-- Меню секций (md-sm: сверху, lg+: слева) -->
+      <nav class="flex flex-col gap-6 lg:w-[220px] lg:flex-shrink-0">
+        {sections.map((section, index) => (
+          <button
+            class:list={[
+              'flex items-center gap-2 text-left transition-colors hover:opacity-70',
+              index === 0 ? 'text-brand' : 'text-[#858585]'
+            ]}
+          >
+            <span
+              class="font-normal text-sm leading-snug"
+              style="font-family: SF Pro, system-ui, sans-serif;"
+            >
+              {section.number}
+            </span>
+            <span
+              class="font-normal text-sm leading-snug"
+              style="font-family: SF Pro, system-ui, sans-serif;"
+            >
+              {section.title}
+            </span>
+          </button>
+        ))}
+      </nav>
+
+      <!-- Product Card (контент справа) -->
+      <div class="flex-1">
+        <ProductCard
+          title={title}
+          descriptions={descriptions}
+          primaryButton={primaryButton}
+          secondaryButton={secondaryButton}
+        />
+      </div>
+    </div>
+  </div>
+</section>
