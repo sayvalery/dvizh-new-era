@@ -68,7 +68,7 @@ const count = logos.length
     animation-name: stream-fly;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    will-change: transform, opacity, filter;
+    will-change: transform, opacity;
     pointer-events: none;
     user-select: none;
   }
@@ -88,52 +88,42 @@ const count = logos.length
     0% {
       transform: translate(-50%, -50%) translate(-100px, 200px) scale(1.50);
       opacity: 0;
-      filter: blur(6px);
     }
     11% {
       transform: translate(-50%, -50%) translate(-67px, 136px) scale(1.37);
       opacity: 0.8;
-      filter: blur(0);
     }
     22% {
       transform: translate(-50%, -50%) translate(-34px, 72px) scale(1.24);
       opacity: 1;
-      filter: blur(0);
     }
     33% {
       transform: translate(-50%, -50%) translate(-1px, 9px) scale(1.10);
       opacity: 0.7;
-      filter: blur(1px);
     }
     44% {
       transform: translate(-50%, -50%) translate(32px, -54px) scale(0.97);
       opacity: 0.4;
-      filter: blur(2px);
     }
     55% {
       transform: translate(-50%, -50%) translate(65px, -119px) scale(0.84);
       opacity: 0.2;
-      filter: blur(4px);
     }
     66% {
       transform: translate(-50%, -50%) translate(98px, -183px) scale(0.71);
       opacity: 0.1;
-      filter: blur(6px);
     }
     77% {
       transform: translate(-50%, -50%) translate(131px, -247px) scale(0.58);
       opacity: 0.03;
-      filter: blur(8px);
     }
     88% {
       transform: translate(-50%, -50%) translate(164px, -310px) scale(0.44);
       opacity: 0;
-      filter: blur(10px);
     }
     100% {
       transform: translate(-50%, -50%) translate(200px, -380px) scale(0.30);
       opacity: 0;
-      filter: blur(10px);
     }
   }
 </style>

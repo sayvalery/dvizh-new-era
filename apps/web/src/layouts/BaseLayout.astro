@@ -26,10 +26,11 @@ const resolvedOgImage = ogImage || defaultOgImage
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- Preload critical fonts -->
-    <link rel="preload" href="/fonts/inter-variable.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="/fonts/styrene-a-bold.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="/fonts/styrene-a-medium.ttf" as="font" type="font/ttf" crossorigin />
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="ДВИЖ — Блог" href="/rss.xml" />
+
+    <!-- Preload critical font (body text only — heading fonts load via @font-face) -->
+    <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- Open Graph -->
     <meta property="og:site_name" content="ДВИЖ" />

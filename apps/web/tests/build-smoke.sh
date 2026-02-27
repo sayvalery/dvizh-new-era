@@ -91,20 +91,34 @@ else
   echo "  ✅ Ссылок на localhost нет"
 fi
 
-# 5. Проверка sitemap
+# 5. Проверка sitemap и RSS
 echo ""
-echo "🗺️  Sitemap:"
+echo "🗺️  Sitemap & RSS:"
 if [ -f "$DIST_DIR/sitemap-index.xml" ]; then
   echo "  ✅ sitemap-index.xml найден"
 else
   echo "  ❌ sitemap-index.xml не найден"
   ERRORS=$((ERRORS + 1))
 fi
+if [ -f "$DIST_DIR/rss.xml" ]; then
+  echo "  ✅ rss.xml найден"
+else
+  echo "  ❌ rss.xml не найден"
+  ERRORS=$((ERRORS + 1))
+fi
+
+# 5b. Проверка OG-изображения
+if [ -f "$DIST_DIR/og-default.jpg" ]; then
+  echo "  ✅ og-default.jpg найден"
+else
+  echo "  ❌ og-default.jpg не найден"
+  ERRORS=$((ERRORS + 1))
+fi
 
 # 6. Проверка шрифтов
 echo ""
 echo "🔤 Шрифты:"
-FONTS=("styrene-a-bold.ttf" "styrene-a-medium.ttf" "inter-variable.ttf")
+FONTS=("styrene-a-bold.woff2" "styrene-a-medium.woff2" "inter-variable.woff2")
 for font in "${FONTS[@]}"; do
   if [ -f "$DIST_DIR/fonts/$font" ]; then
     local_size=$(wc -c < "$DIST_DIR/fonts/$font" | tr -d ' ')

@@ -4,7 +4,32 @@ import StatsSection from '../components/ui/StatsSection.astro'
 import Timeline from '../components/ui/Timeline.astro'
 ---
 
-<SiteLayout title="О компании — ДВИЖ" description="ДВИЖ — AI-решения для автоматизации продаж и маркетинга застройщиков">
+<SiteLayout title="О компании — ДВИЖ" description="ДВИЖ — AI-решения для автоматизации продаж и маркетинга застройщиков" jsonLd={{
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'ДВИЖ',
+  legalName: 'ООО «Цифровые продажи»',
+  url: 'https://dvizh.io',
+  logo: 'https://dvizh.io/og-default.jpg',
+  foundingDate: '2018',
+  founders: [
+    { '@type': 'Person', name: 'Роман Гуров', jobTitle: 'CEO' },
+    { '@type': 'Person', name: 'Максим Ершов' },
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Москва',
+    streetAddress: 'Новодмитровская 2к2',
+    postalCode: '127015',
+    addressCountry: 'RU',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+7-495-032-10-47',
+    email: 'make@dvizh.io',
+  },
+  sameAs: ['https://t.me/dvizh4realty'],
+}}>
   <div class="max-w-5xl mx-auto px-4 py-16">
     <h1 class="text-4xl font-bold mb-4">О компании</h1>
     <p class="text-xl text-gray-600 mb-12 max-w-3xl">

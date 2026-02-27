@@ -46,7 +46,7 @@ const gridClass = columns === 3
 
 // Скругления углов для карточек
 const getCardClass = (index: number) => {
-  return 'w-full overflow-hidden rounded-[40px] bg-[#F8F8F8]'
+  return 'w-full overflow-hidden rounded-[20px] lg:rounded-[40px] bg-[#F8F8F8]'
 }
 ---
 
@@ -54,7 +54,7 @@ const getCardClass = (index: number) => {
   {items.map((item, index) => (
     <div class="flex p-px">
       <div class={getCardClass(index)}>
-        <div class="flex flex-col items-start gap-6 px-10 py-8">
+        <div class="flex flex-col items-start gap-6 px-6 py-6 lg:px-10 lg:py-8">
           {item.image ? (
             <img
               src={item.image}

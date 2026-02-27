@@ -23,7 +23,7 @@ interface Props {
   /** Slug для ссылки /blog/{slug} */
   slug: string
   /** Обложка */
-  cover?: { url?: string; alt?: string }
+  cover?: { url?: string; alt?: string; sizes?: { card?: { url?: string }; thumbnail?: { url?: string } } }
   /** Название категории */
   category?: string
   /** Краткое описание */
@@ -34,18 +34,23 @@ interface Props {
 
 const { title, slug, cover, category, excerpt, class: className = '' } = Astro.props
 const coverUrl = normalizeMediaUrl(cover?.url ?? null)
+const cardUrl = normalizeMediaUrl(cover?.sizes?.card?.url ?? null)
+const thumbUrl = normalizeMediaUrl(cover?.sizes?.thumbnail?.url ?? null)
+const srcset = [thumbUrl && `${thumbUrl} 400w`, cardUrl && `${cardUrl} 768w`, coverUrl && `${coverUrl} 1200w`].filter(Boolean).join(', ')
 ---
 
 <a href={`/blog/${slug}`} class:list={['group border rounded-xl overflow-hidden hover:shadow-md transition-shadow', className]}>
   {coverUrl ? (
     <img
-      src={coverUrl}
+      src={cardUrl || coverUrl}
       alt={cover?.alt ?? title}
       class="w-full aspect-video object-cover"
       loading="lazy"
       decoding="async"
-      width="400"
-      height="225"
+      width="768"
+      height="480"
+      srcset={srcset || undefined}
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
     />
   ) : (
     <div class="w-full aspect-video bg-gray-100" />

@@ -2,7 +2,8 @@
 import BlogLayout from '../../layouts/BlogLayout.astro'
 import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
-import { getBlogPosts, getBlogPost, normalizeMediaUrl, normalizeBodyHtml } from '../../lib/payload'
+import BlogCard from '../../components/ui/BlogCard.astro'
+import { getBlogPosts, getBlogPost, normalizeMediaUrl, normalizeBodyHtml, sanitizeBodyHtml } from '../../lib/payload'
 
 export async function getStaticPaths() {
   const allDocs: any[] = []
@@ -20,6 +21,7 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params
 const post = await getBlogPost(slug!)
+
 
 if (!post) return Astro.redirect('/404')
 
@@ -46,12 +48,17 @@ const jsonLd = {
   },
 }
 
-// Исправляем bodyHtml: ссылки из Webflow + нормализация медиа-URL
-const bodyHtml = normalizeBodyHtml(
+// Исправляем bodyHtml: ссылки из Webflow + нормализация медиа-URL + санитизация
+const bodyHtml = sanitizeBodyHtml(normalizeBodyHtml(
   post.bodyHtml
     ?.replaceAll('href="https://dvizh.webflow.io/', 'href="/')
     .replaceAll('href="https://www.dvizh.io/', 'href="/')
-)
+))
+
+// Время чтения
+const textContent = post.bodyHtml?.replace(/<[^>]+>/g, '') ?? post.content?.map((b: any) => b.richText?.root?.children?.map((c: any) => c.text || '').join(' ')).join(' ') ?? ''
+const wordCount = textContent.split(/\s+/).filter(Boolean).length
+const readingTime = Math.max(1, Math.ceil(wordCount / 200))
 
 // Основной автор из relation, fallback на текстовое поле
 const primaryAuthor = post.primaryAuthor ?? null
@@ -60,6 +67,20 @@ const authorFallback = post.author ?? null
 const coAuthors = (post.coAuthors ?? []).filter(
   (a: any) => a.id !== primaryAuthor?.id
 )
+
+// Связанные посты из той же категории
+let relatedPosts: any[] = []
+if (post.category?.slug) {
+  const { docs } = await getBlogPosts({
+    where: {
+      _status: { equals: 'published' },
+      'category.slug': { equals: post.category.slug },
+      slug: { not_equals: post.slug },
+    },
+    limit: 3,
+  })
+  relatedPosts = docs
+}
 ---
 
 <BlogLayout
@@ -105,12 +126,25 @@ const coAuthors = (post.coAuthors ?? []).filter(
         </time>
       )}
 
+      <span class="text-sm text-gray-400">{readingTime} мин чтения</span>
+
       {post.category?.title && (
         <a href={`/category/${post.category.slug}`} class="text-sm text-gray-400 hover:text-gray-600">
           {post.category.title}
         </a>
       )}
     </div>
+
+    {/* Теги */}
+    {post.tags?.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-8">
+        {post.tags.map((tag: any) => (
+          <span class="px-2.5 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">
+            {tag.title || tag.name || tag}
+          </span>
+        ))}
+      </div>
+    )}
 
     {coverUrl && (
       <img
@@ -143,5 +177,51 @@ const coAuthors = (post.coAuthors ?? []).filter(
         </div>
       </div>
     )}
+    {/* Шаринг */}
+    <div class="mt-12 pt-8 border-t border-gray-200">
+      <p class="text-xs uppercase tracking-wide text-gray-400 mb-3">Поделиться</p>
+      <div class="flex gap-3">
+        <a
+          href={`https://t.me/share/url?url=${encodeURIComponent(Astro.url.href)}&text=${encodeURIComponent(post.title)}`}
+          target="_blank"
+          rel="noopener"
+          class="px-4 py-2 bg-gray-100 rounded-lg text-sm text-gray-700 hover:bg-gray-200 transition-colors"
+        >
+          Telegram
+        </a>
+        <a
+          href={`https://vk.com/share.php?url=${encodeURIComponent(Astro.url.href)}&title=${encodeURIComponent(post.title)}`}
+          target="_blank"
+          rel="noopener"
+          class="px-4 py-2 bg-gray-100 rounded-lg text-sm text-gray-700 hover:bg-gray-200 transition-colors"
+        >
+          VK
+        </a>
+        <button
+          onclick="navigator.clipboard.writeText(window.location.href); this.textContent = 'Скопировано!'; setTimeout(() => this.textContent = 'Копировать ссылку', 2000)"
+          class="px-4 py-2 bg-gray-100 rounded-lg text-sm text-gray-700 hover:bg-gray-200 transition-colors"
+        >
+          Копировать ссылку
+        </button>
+      </div>
+    </div>
   </article>
+
+  {/* Связанные статьи */}
+  {relatedPosts.length > 0 && (
+    <div class="max-w-[1440px] mx-auto px-4 pb-16">
+      <h2 class="text-2xl font-bold mb-6">Читайте также</h2>
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {relatedPosts.map((rp: any) => (
+          <BlogCard
+            title={rp.title}
+            slug={rp.slug}
+            cover={rp.cover}
+            category={rp.category?.title}
+            excerpt={rp.excerpt}
+          />
+        ))}
+      </div>
+    </div>
+  )}
 </BlogLayout>

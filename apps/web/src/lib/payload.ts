@@ -34,6 +34,28 @@ export function normalizeBodyHtml(html: string | null | undefined): string | nul
   return result
 }
 
+/**
+ * Очищает HTML из Webflow (bodyHtml):
+ * - Убирает пустые id="" атрибуты
+ * - Убирает Webflow-специфичные классы и атрибуты
+ * - Убирает inline style=""
+ * - Нормализует ссылки
+ */
+export function sanitizeBodyHtml(html: string | null | undefined): string | null {
+  if (!html) return null
+  let result = html
+  // Убираем пустые id=""
+  result = result.replace(/\s+id=""/g, '')
+  // Убираем Webflow data-* атрибуты
+  result = result.replace(/\s+data-rt-[a-z-]+="[^"]*"/g, '')
+  result = result.replace(/\s+data-w-[a-z-]+="[^"]*"/g, '')
+  // Убираем Webflow-классы (b-article-*, w-*)
+  result = result.replace(/\s+class="[^"]*(?:b-article|w-embed|w-richtext|w-inline-block)[^"]*"/g, '')
+  // Убираем inline styles
+  result = result.replace(/\s+style="[^"]*"/g, '')
+  return result
+}
+
 type FetchOptions = {
   depth?: number
   limit?: number

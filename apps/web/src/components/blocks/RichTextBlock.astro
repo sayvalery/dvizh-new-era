@@ -33,17 +33,30 @@ function serializeNode(node: any): string {
     let text = node.text ?? ''
     if (node.format & 1) text = `<strong>${text}</strong>`
     if (node.format & 2) text = `<em>${text}</em>`
+    if (node.format & 4) text = `<s>${text}</s>`
     if (node.format & 8) text = `<u>${text}</u>`
+    if (node.format & 16) text = `<code>${text}</code>`
     return text
   }
+  if (node.type === 'linebreak') return '<br/>'
   const children = (node.children ?? []).map(serializeNode).join('')
   switch (node.type) {
-    case 'paragraph': return `<p>${children}</p>`
+    case 'paragraph': {
+      const indent = node.indent ? ` style="padding-left: ${node.indent * 2}rem"` : ''
+      return `<p${indent}>${children}</p>`
+    }
     case 'heading': return `<h${node.tag}>${children}</h${node.tag}>`
     case 'list': return node.listType === 'bullet' ? `<ul>${children}</ul>` : `<ol>${children}</ol>`
     case 'listitem': return `<li>${children}</li>`
     case 'quote': return `<blockquote>${children}</blockquote>`
     case 'link': return `<a href="${node.fields?.url ?? '#'}">${children}</a>`
+    case 'horizontalrule': return '<hr/>'
+    case 'code': return `<pre><code>${children || node.text || ''}</code></pre>`
+    case 'upload': {
+      const url = node.value?.url || ''
+      const alt = node.value?.alt || ''
+      return url ? `<figure><img src="${url}" alt="${alt}" loading="lazy" /></figure>` : ''
+    }
     default: return children
   }
 }

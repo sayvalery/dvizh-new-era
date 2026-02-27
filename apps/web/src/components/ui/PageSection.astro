@@ -43,8 +43,8 @@ const {
   title,
   benefits = [],
   sections = [],
-  activeColor = 'text-[#FF4D00]',
-  inactiveColor = 'text-[#858585]',
+  activeColor = 'text-brand',
+  inactiveColor = 'text-gray-400',
   class: className = ''
 } = Astro.props
 ---
@@ -81,10 +81,10 @@ const {
   )}
 
   <!-- Правая карточка с контентом -->
-  <div class="flex-1 bg-[#F8F8F8] rounded-[40px] p-[52px]">
+  <div class="flex-1 bg-[#F8F8F8] rounded-[20px] lg:rounded-[40px] p-6 sm:p-8 lg:p-[52px]">
     <!-- Заголовок + преимущества -->
-    <div class="flex flex-col gap-30">
-      <h2 class="text-[50px] font-medium leading-none tracking-tight text-gray-900">
+    <div class="flex flex-col gap-8 lg:gap-30">
+      <h2 class="text-[28px] sm:text-[36px] lg:text-[50px] font-medium leading-none tracking-tight text-gray-900">
         {title}
       </h2>
 

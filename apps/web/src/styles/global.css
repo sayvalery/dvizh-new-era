@@ -9,7 +9,7 @@
   /* Styrene A — фирменный шрифт для заголовков (block — не прыгает при загрузке) */
   @font-face {
     font-family: 'Styrene A';
-    src: url('/fonts/styrene-a-medium.ttf') format('truetype');
+    src: url('/fonts/styrene-a-medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -17,7 +17,7 @@
 
   @font-face {
     font-family: 'Styrene A';
-    src: url('/fonts/styrene-a-bold.ttf') format('truetype');
+    src: url('/fonts/styrene-a-bold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -25,7 +25,7 @@
 
   @font-face {
     font-family: 'Styrene A';
-    src: url('/fonts/styrene-a-black-italic.ttf') format('truetype');
+    src: url('/fonts/styrene-a-black-italic.woff2') format('woff2');
     font-weight: 900;
     font-style: italic;
     font-display: swap;
@@ -34,7 +34,7 @@
   /* Inter — основной шрифт для текста */
   @font-face {
     font-family: 'Inter';
-    src: url('/fonts/inter-variable.ttf') format('truetype');
+    src: url('/fonts/inter-variable.woff2') format('woff2');
     font-weight: 100 900;
     font-style: normal;
     font-display: swap;
@@ -42,7 +42,7 @@
 
   @font-face {
     font-family: 'Inter';
-    src: url('/fonts/inter-italic-variable.ttf') format('truetype');
+    src: url('/fonts/inter-italic-variable.woff2') format('woff2');
     font-weight: 100 900;
     font-style: italic;
     font-display: swap;
@@ -62,6 +62,55 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Styrene A', system-ui, sans-serif;
-  letter-spacing: -0.07em;
+  letter-spacing: -0.03em;
   overflow-wrap: break-word;
+}
+
+@media (min-width: 768px) {
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.05em;
+  }
+}
+
+@media (min-width: 1024px) {
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.07em;
+  }
+}
+
+/* Prose enhancements for Webflow legacy content (bodyHtml) */
+.prose blockquote {
+  border-left: 3px solid #ff4d00;
+  padding-left: 1.25rem;
+  font-style: normal;
+  color: #374151;
+}
+
+.prose figure {
+  margin: 2rem 0;
+}
+
+.prose figure img {
+  border-radius: 0.75rem;
+}
+
+.prose figure figcaption {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+}
+
+.prose iframe {
+  width: 100%;
+  border-radius: 0.75rem;
+  aspect-ratio: 16 / 9;
+}
+
+.prose table {
+  font-size: 0.875rem;
+}
+
+.prose table th {
+  background-color: #f9fafb;
 }
