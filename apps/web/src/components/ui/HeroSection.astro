@@ -25,6 +25,8 @@ interface Props {
   withForm?: boolean
   /** Пресет формы: lead, demo, subscribe, research */
   formPreset?: 'lead' | 'demo' | 'subscribe' | 'research'
+  /** Текст кнопки формы */
+  formSubmitLabel?: string
   /** Изображение справа (URL) */
   image?: string
   /** Alt-текст для изображения */
@@ -39,6 +41,7 @@ const {
   description,
   withForm = true,
   formPreset = 'lead',
+  formSubmitLabel,
   image,
   imageAlt = 'Hero image',
   class: className = ''
@@ -73,7 +76,7 @@ const {
 
         <!-- Форма -->
         {withForm && (
-          <Form preset={formPreset} layout="inline" />
+          <Form preset={formPreset} layout="inline" submitLabel={formSubmitLabel} />
         )}
       </div>
 
