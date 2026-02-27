@@ -24,9 +24,9 @@ const navItems: NavItem[] = [
       {
         title: 'Решения',
         items: [
-          { label: 'Для банков', href: '/banki', description: 'Ипотечные и розничные банки' },
-          { label: 'Для девелоперов', href: '/developers', description: 'Автоматизация продаж и сделок' },
-          { label: 'Для агентств недвижимости', href: '/agentstva-nedvizhimosti', description: 'Платформа для риелторов' },
+          { label: 'Для банков', href: '/banki' },
+          { label: 'Для девелоперов', href: '/developers' },
+          { label: 'Для агентств недвижимости', href: '/agentstva-nedvizhimosti' },
         ],
       },
       {
@@ -60,7 +60,7 @@ try {
 ---
 
 <NavBar
-  logo={{ label: 'ДВИЖ', href: '/' }}
+  logo={{ label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg' }}
   items={navItems}
   blogPosts={blogPosts}
   secondaryLink={isDev ? { label: 'UI Kit', href: '/ui-kit' } : undefined}

@@ -186,7 +186,7 @@ const sections = [
     <main class="flex-1 px-10 py-8">
       {section === 'overview' && (
         <div>
-          <h1 class="text-3xl font-bold mb-2">UI Kit</h1>
+          <h1 class="text-3xl font-bold font-heading mb-2">UI Kit</h1>
           <p class="text-gray-600 mb-8">Компоненты и токены дизайн-системы ДВИЖ. Доступно только в dev-режиме.</p>
           <div class="grid grid-cols-2 gap-4 max-w-lg">
             {sections.slice(1).map(s => (
@@ -200,7 +200,7 @@ const sections = [
 
       {section === 'navigation' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Навигация</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Навигация</h1>
           <PropsTable props={navBarMeta.props} class="mb-8" />
 
           <div class="space-y-10">
@@ -208,18 +208,24 @@ const sections = [
               <p class="text-sm font-medium text-gray-400 mb-3">Основной сайт — с дропдаунами</p>
               <div class="-mx-10 border-y border-gray-200">
                 <NavBar
-                  logo={{ label: 'ДВИЖ', href: '#' }}
+                  logo={{ label: 'ДВИЖ', href: '#', image: '/logo-dvizh.svg' }}
                   items={[
-                    { label: 'Продукты', children: [
-                      { label: 'Электронная регистрация', href: '#', description: 'Цифровая регистрация сделок' },
-                      { label: 'Ипотека', href: '#', description: 'Ипотечный процесс' },
-                      { label: 'QBR', href: '#', description: 'Аналитика и отчёты' },
+                    { label: 'Продукты', sections: [
+                      { title: 'Продукты', items: [
+                        { label: 'Ипотека', href: '#', description: 'Ипотечный процесс от заявки до выдачи' },
+                        { label: 'Электронная регистрация', href: '#', description: 'Цифровая регистрация сделок' },
+                        { label: 'QBR', href: '#', description: 'Аналитика и отчёты' },
+                      ]},
+                      { title: 'Решения', items: [
+                        { label: 'Для банков', href: '#' },
+                        { label: 'Для девелоперов', href: '#' },
+                      ]},
+                      { title: 'Для кого', items: [
+                        { label: 'Департамент продаж', href: '#' },
+                        { label: 'Отдел ипотеки', href: '#' },
+                      ]},
                     ]},
-                    { label: 'Решения', children: [
-                      { label: 'Для банков', href: '#' },
-                      { label: 'Для девелоперов', href: '#' },
-                    ]},
-                    { label: 'Блог', href: '#' },
+                    { label: 'Блог', href: '#', badge: 'dot' },
                     { label: 'О нас', href: '#' },
                   ]}
                   cta={{ label: 'Запросить демо', preset: 'demo' }}
@@ -231,12 +237,10 @@ const sections = [
               <p class="text-sm font-medium text-gray-400 mb-3">Блог / ДВИЖ Инсайты — с вторичной ссылкой</p>
               <div class="-mx-10 border-y border-gray-200">
                 <NavBar
-                  logo={{ label: 'ДВИЖ Инсайты', href: '#' }}
+                  logo={{ label: 'ДВИЖ Инсайты', href: '#', image: '/logo-dvizh-insights.svg' }}
                   items={[
-                    { label: 'Кейсы', href: '#' },
-                    { label: 'Аналитика', href: '#' },
-                    { label: 'Маркетинг', href: '#' },
-                    { label: 'Правила девелопера', href: '#' },
+                    { label: 'Блог', href: '#' },
+                    { label: 'Словарь девелопера', href: '#' },
                   ]}
                   secondaryLink={{ label: '← dvizh.io', href: '#' }}
                 />
@@ -248,7 +252,7 @@ const sections = [
 
       {section === 'persons' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Персоны</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Персоны</h1>
           <PropsTable props={personCardMeta.props} class="mb-8" />
 
           <!-- Alpine Playground -->
@@ -345,11 +349,11 @@ const sections = [
 
       {section === 'typography' && (
         <div class="space-y-8">
-          <h1 class="text-3xl font-bold mb-6">Типографика</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Типографика</h1>
           <div class="space-y-4">
-            <div><span class="text-xs text-gray-400 block mb-1">text-5xl font-bold</span><p class="text-5xl font-bold">Заголовок H1</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-4xl font-bold</span><p class="text-4xl font-bold">Заголовок H2</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-3xl font-semibold</span><p class="text-3xl font-semibold">Заголовок H3</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-5xl font-bold font-heading</span><p class="text-5xl font-bold font-heading">Заголовок H1</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-4xl font-bold font-heading</span><p class="text-4xl font-bold font-heading">Заголовок H2</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-3xl font-semibold font-heading</span><p class="text-3xl font-semibold font-heading">Заголовок H3</p></div>
             <div><span class="text-xs text-gray-400 block mb-1">text-xl</span><p class="text-xl">Подзаголовок / лид-текст</p></div>
             <div><span class="text-xs text-gray-400 block mb-1">text-base</span><p class="text-base">Основной текст. Движ помогает банкам и девелоперам автоматизировать ипотечный процесс.</p></div>
             <div><span class="text-xs text-gray-400 block mb-1">text-sm text-gray-600</span><p class="text-sm text-gray-600">Вспомогательный текст, подписи, метаданные</p></div>
@@ -360,7 +364,7 @@ const sections = [
 
       {section === 'colors' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Цвета</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Цвета</h1>
           <div class="space-y-6">
             <div>
               <p class="text-sm font-medium mb-3">Бренд (Brand) — #ff4d00</p>
@@ -394,7 +398,7 @@ const sections = [
 
       {section === 'buttons' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Кнопки</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Кнопки</h1>
           <div class="space-y-8">
             <div>
               <p class="text-sm font-medium text-gray-400 mb-3">Primary</p>
@@ -424,7 +428,7 @@ const sections = [
 
       {section === 'forms' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Формы</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Формы</h1>
           <PropsTable props={formMeta.props} class="mb-8" />
           <div class="space-y-12">
 
@@ -492,7 +496,7 @@ const sections = [
 
       {section === 'form-closing' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Form Closing</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Form Closing</h1>
           <p class="text-gray-600 mb-4">
             Панель в конце страницы с формой. Тёмный фон с градиентом, заголовок, описание, изображение справа.
           </p>
@@ -526,7 +530,7 @@ const sections = [
 
       {section === 'cards' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Карточки</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Карточки</h1>
           <div class="grid grid-cols-2 gap-6 max-w-2xl">
             <div class="border rounded-xl p-6 hover:shadow-md transition-shadow">
               <h3 class="font-semibold mb-2">Карточка продукта</h3>
@@ -549,7 +553,7 @@ const sections = [
       )}
       {section === 'drawer' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">Дровер</h1>
+          <h1 class="text-3xl font-bold font-heading mb-8">Дровер</h1>
           <div class="space-y-10">
 
             <div>
@@ -620,7 +624,7 @@ const sections = [
       )}
       {section === 'cta' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">CTA</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">CTA</h1>
           <p class="text-gray-600 mb-4">
             Призыв к действию. Заголовок, описание и кнопка. Три варианта: dark, light, split.
           </p>
@@ -763,7 +767,7 @@ const sections = [
 
       {section === 'blocks' && (
         <div>
-          <h1 class="text-3xl font-bold mb-2">Блоки статей</h1>
+          <h1 class="text-3xl font-bold font-heading mb-2">Блоки статей</h1>
           <p class="text-gray-600 mb-1">
             Добавляются в статью через CMS → BlogPosts → content (поле Rich Text с блоками).
           </p>
@@ -889,7 +893,7 @@ const sections = [
       )}
       {section === 'features' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Features Grid</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Features Grid</h1>
           <p class="text-gray-600 mb-4">
             Секция с заголовком, описанием, списком фичей с иконками и изображением.
           </p>
@@ -986,7 +990,7 @@ const sections = [
       )}
       {section === 'stories' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Success Story</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Success Story</h1>
           <p class="text-gray-600 mb-4">
             Карточка истории успеха с метрикой, персоной и цитатой. Использует <code class="text-sm">PersonCard</code>.
           </p>
@@ -1031,7 +1035,7 @@ const sections = [
       )}
       {section === 'stories-carousel' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Stories Carousel</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Stories Carousel</h1>
           <p class="text-gray-600 mb-4">
             Горизонтальная карусель карточек SuccessStory с CSS Scroll Snap. Работает с тач-свайпом и скроллом.
           </p>
@@ -1109,7 +1113,7 @@ const sections = [
       )}
       {section === 'bento' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Bento Grid</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Bento Grid</h1>
           <p class="text-gray-600 mb-4">
             Сетка карточек разного размера (Bento layout). Карточки с span-4 занимают 2/3 ширины, span-2 — 1/3.
           </p>
@@ -1205,7 +1209,7 @@ const sections = [
       )}
       {section === 'hero' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Hero Section</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Hero Section</h1>
           <p class="text-gray-600 mb-4">
             Главная hero-секция страницы с заголовком, описанием, формой и опциональным изображением.
           </p>
@@ -1322,7 +1326,7 @@ const sections = [
       )}
       {section === 'stats' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Stats Section</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Stats Section</h1>
           <p class="text-gray-600 mb-4">
             Секция с метриками или преимуществами в виде сетки.
           </p>
@@ -1359,7 +1363,7 @@ const sections = [
 
       {section === 'timeline' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Timeline</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Timeline</h1>
           <p class="text-gray-600 mb-4">
             Блок с хронологией/историей. Год отображается шрифтом Styrene A, разделители между элементами.
           </p>
@@ -1395,7 +1399,7 @@ const sections = [
 
       {section === 'blogcard' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Blog Card</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Blog Card</h1>
           <p class="text-gray-600 mb-4">
             Карточка блог-поста. Используется в мега-меню навигации, на страницах блога и в категориях.
           </p>
