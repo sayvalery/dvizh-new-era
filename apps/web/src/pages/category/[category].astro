@@ -39,7 +39,7 @@ const { docs: posts } = await getBlogPosts({
           return (
             <a href={`/blog/${post.slug}`} class="group border rounded-xl overflow-hidden hover:shadow-md transition-shadow">
               {coverUrl ? (
-                <img src={coverUrl} alt={post.title} class="w-full aspect-video object-cover" loading="lazy" />
+                <img src={coverUrl} alt={post.title} class="w-full aspect-video object-cover" loading="lazy" decoding="async" width="400" height="225" />
               ) : (
                 <div class="w-full aspect-video bg-gray-100" />
               )}

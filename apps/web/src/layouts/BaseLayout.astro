@@ -26,6 +26,10 @@ const resolvedOgImage = ogImage || defaultOgImage
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonicalUrl} />
 
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="/fonts/inter-variable.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/styrene-a-bold.ttf" as="font" type="font/ttf" crossorigin />
+
     <!-- Open Graph -->
     <meta property="og:site_name" content="ДВИЖ" />
     <meta property="og:locale" content="ru_RU" />

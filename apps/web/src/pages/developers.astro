@@ -9,8 +9,8 @@ import CTA from '../components/ui/CTA.astro'
 <SiteLayout title="Для девелоперов — ДВИЖ">
   <HeroSection
     badge="Платформа для застройщиков"
-    title="Закрывайте на 26% больше сделок даже на падающем рынке"
-    description="ДВИЖ объединяет застройщиков и банки в единую цифровую экосистему. Автоматизация ипотеки, регистрации и аналитики — все инструменты на одной платформе."
+    title="Лучшие отделы продаж застройщиков используют ДВИЖ"
+    description="AI-платформа для автоматизации продаж и маркетинга. ДВИЖ объединяет застройщиков и банки в единую цифровую экосистему — ипотека, регистрация, аналитика и витрина на одной платформе."
     formPreset="demo"
   />
 
@@ -18,10 +18,10 @@ import CTA from '../components/ui/CTA.astro'
     cols={3}
     items={[
       { value: '1 500 000+', label: 'Заявок обработано на платформе' },
-      { value: '79', label: 'Застройщиков из ТОП-100' },
-      { value: '40+', label: 'Банков-партнеров' },
+      { value: '75', label: 'Из ТОП-100 крупнейших застройщиков' },
+      { value: 'x2', label: 'Рост конверсии с продуктами ДВИЖ' },
       { value: 'до 95%', label: 'Одобрение ипотечных заявок' },
-      { value: '70+', label: 'Историй успеха' },
+      { value: '40+', label: 'Банков-партнёров' },
       { value: '99.9%', label: 'Uptime платформы' },
     ]}
   />
@@ -100,6 +100,49 @@ import CTA from '../components/ui/CTA.astro'
     variant="light"
   />
 
+  <!-- Кейсы клиентов -->
+  <section class="bg-gray-50 py-24">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center mb-16">
+        <h2 class="text-base font-semibold text-brand">Кейсы клиентов</h2>
+        <p class="mt-2 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Результаты наших клиентов</p>
+        <p class="mt-6 text-lg text-gray-600">75 из 100 крупнейших застройщиков России уже работают с ДВИЖ</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">ГК ЛСР</h3>
+          <p class="text-3xl font-bold text-brand mb-2">+281%</p>
+          <p class="text-sm text-gray-600">Рост количества заявок после подключения платформы ДВИЖ</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">ГК Точно</h3>
+          <p class="text-3xl font-bold text-brand mb-2">1 116 → 3 500</p>
+          <p class="text-sm text-gray-600">Рост количества заявок на ипотеку в месяц</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">ГК Самолет</h3>
+          <p class="text-3xl font-bold text-brand mb-2">816 млн ₽</p>
+          <p class="text-sm text-gray-600">Дополнительный доход — 96 квартир продано через платформу</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Гранель</h3>
+          <p class="text-3xl font-bold text-brand mb-2">66.7% → 95%</p>
+          <p class="text-sm text-gray-600">Рост процента одобрения ипотечных заявок</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Страна Девелопмент</h3>
+          <p class="text-3xl font-bold text-brand mb-2">150 млн ₽/мес</p>
+          <p class="text-sm text-gray-600">Ежемесячный объём сделок через платформу</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">GloraX</h3>
+          <p class="text-3xl font-bold text-brand mb-2">−30%</p>
+          <p class="text-sm text-gray-600">Сокращение затрат на сопровождение сделок</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Поддержка -->
   <section class="bg-gray-50 py-24">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
@@ -132,7 +175,7 @@ import CTA from '../components/ui/CTA.astro'
   <div class="max-w-7xl mx-auto px-4 py-12">
     <CTA
       title="Записаться на демо"
-      description="Покажем, как ДВИЖ помогает застройщикам закрывать больше сделок"
+      description="75 из ТОП-100 застройщиков уже с нами. Покажем, как ДВИЖ увеличит ваши продажи"
       buttonText="Записаться на демо"
       buttonHref="#"
     />

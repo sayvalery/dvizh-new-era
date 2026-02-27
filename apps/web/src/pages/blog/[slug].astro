@@ -89,8 +89,8 @@ const coAuthors = (post.coAuthors ?? []).filter(
       <p class="text-xl text-gray-600 mb-6">{post.excerpt}</p>
     )}
 
-    <!-- Автор + дата -->
-    <div class="flex items-center gap-4 mb-10">
+    <!-- Мета: автор + дата + время чтения -->
+    <div class="flex flex-wrap items-center gap-4 mb-10">
       {primaryAuthor ? (
         <PersonCard person={primaryAuthor} variant="inline" />
       ) : authorFallback ? (
@@ -104,6 +104,12 @@ const coAuthors = (post.coAuthors ?? []).filter(
           })}
         </time>
       )}
+
+      {post.category?.title && (
+        <a href={`/category/${post.category.slug}`} class="text-sm text-gray-400 hover:text-gray-600">
+          {post.category.title}
+        </a>
+      )}
     </div>
 
     {coverUrl && (
@@ -111,6 +117,10 @@ const coAuthors = (post.coAuthors ?? []).filter(
         src={coverUrl}
         alt={post.cover?.alt ?? post.title}
         class="w-full rounded-xl mb-10 aspect-video object-cover"
+        width="768"
+        height="432"
+        loading="eager"
+        decoding="async"
       />
     )}
 
