@@ -17,6 +17,7 @@ import BentoGrid from '../../components/ui/BentoGrid.astro'
 import SuccessStory from '../../components/ui/SuccessStory.astro'
 import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 import HeroSection from '../../components/ui/HeroSection.astro'
+import MeshGradient from '../../components/ui/MeshGradient.astro'
 import StatsSection from '../../components/ui/StatsSection.astro'
 import Timeline from '../../components/ui/Timeline.astro'
 import BlogCard from '../../components/ui/BlogCard.astro'
@@ -33,6 +34,7 @@ import successStoryRaw from '../../components/ui/SuccessStory.astro?raw'
 import storiesCarouselRaw from '../../components/ui/SuccessStoriesCarousel.astro?raw'
 import bentoGridRaw from '../../components/ui/BentoGrid.astro?raw'
 import heroSectionRaw from '../../components/ui/HeroSection.astro?raw'
+import meshGradientRaw from '../../components/ui/MeshGradient.astro?raw'
 import statsSectionRaw from '../../components/ui/StatsSection.astro?raw'
 import timelineRaw from '../../components/ui/Timeline.astro?raw'
 import blogCardRaw from '../../components/ui/BlogCard.astro?raw'
@@ -107,6 +109,7 @@ const successStoryMeta = parseSource(successStoryRaw)
 const storiesCarouselMeta = parseSource(storiesCarouselRaw)
 const bentoGridMeta = parseSource(bentoGridRaw)
 const heroSectionMeta = parseSource(heroSectionRaw)
+const meshGradientMeta = parseSource(meshGradientRaw)
 const statsSectionMeta = parseSource(statsSectionRaw)
 const timelineMeta = parseSource(timelineRaw)
 const blogCardMeta = parseSource(blogCardRaw)
@@ -158,6 +161,7 @@ const sections = [
   { slug: 'stories-carousel', label: 'Stories Carousel' },
   { slug: 'bento', label: 'Bento Grid' },
   { slug: 'hero', label: 'Hero Section' },
+  { slug: 'mesh-gradient', label: 'Mesh Gradient' },
   { slug: 'stats', label: 'Stats Section' },
   { slug: 'timeline', label: 'Timeline' },
   { slug: 'blogcard', label: 'Blog Card' },
@@ -687,7 +691,7 @@ const sections = [
                         </svg>
                       </div>
                       <div>
-                        <h2 :class="variant === 'dark' ? 'text-white' : 'text-gray-900'" class="max-w-2xl text-2xl font-semibold tracking-tight sm:text-4xl" x-text="title"></h2>
+                        <h2 :class="variant === 'dark' ? 'text-white' : 'text-gray-900'" class="max-w-2xl text-2xl font-semibold sm:text-4xl" x-text="title"></h2>
                         <p x-show="description" :class="variant === 'dark' ? 'text-[#d3d3d3]' : 'text-gray-600'" class="mt-2 text-base max-w-lg" x-text="description"></p>
                       </div>
                     </div>
@@ -703,7 +707,7 @@ const sections = [
                   <div class="relative mx-auto max-w-7xl py-16 lg:px-8 lg:py-24">
                     <div class="pl-6 pr-6 md:ml-auto md:w-2/3 md:pl-16 lg:w-1/2 lg:pl-24 lg:pr-0 xl:pl-32">
                       <p x-show="badge" class="text-base/7 font-semibold text-brand" x-text="badge"></p>
-                      <h2 class="mt-2 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl" x-text="title"></h2>
+                      <h2 class="mt-2 text-3xl font-semibold text-gray-900 sm:text-4xl" x-text="title"></h2>
                       <p x-show="description" class="mt-6 text-base/7 text-gray-600" x-text="description"></p>
                       <div class="mt-8">
                         <button class="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-600 cursor-pointer" x-text="buttonText"></button>
@@ -1266,7 +1270,7 @@ const sections = [
                         <div class="flex flex-col gap-6">
                           <p x-show="badge" class="text-[18px] text-brand font-normal" x-text="badge"></p>
                           <div class="flex flex-col gap-5">
-                            <h1 class="text-4xl font-medium leading-none tracking-tight text-[#1b2226]" x-text="title"></h1>
+                            <h1 class="text-4xl font-medium leading-none text-[#1b2226]" x-text="title"></h1>
                             <p x-show="description" class="text-lg text-[#858585] leading-[1.4]" x-text="description"></p>
                           </div>
                         </div>
@@ -1320,6 +1324,36 @@ const sections = [
                 description="Вариант без формы захвата."
                 withForm={false}
               />
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'mesh-gradient' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Mesh Gradient</h1>
+          <p class="text-gray-600 mb-4">
+            Анимированный WebGL mesh-градиент (@paper-design/shaders). GPU-ускоренный, ~3-5KB. Автопауза когда не видно.
+          </p>
+          <PropsTable props={meshGradientMeta.props} class="mb-8" />
+
+          <div class="space-y-8">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Brand (default)</p>
+              <div class="relative h-64 rounded-xl overflow-hidden">
+                <MeshGradient />
+              </div>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Warm orange-yellow</p>
+              <div class="relative h-64 rounded-xl overflow-hidden">
+                <MeshGradient colors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']} speed={0.3} />
+              </div>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Slow, high distortion</p>
+              <div class="relative h-64 rounded-xl overflow-hidden">
+                <MeshGradient colors={['#ff4d00', '#ff8c42', '#1b2226', '#ffb347']} speed={0.15} distortion={0.9} swirl={0.4} />
+              </div>
             </div>
           </div>
         </div>

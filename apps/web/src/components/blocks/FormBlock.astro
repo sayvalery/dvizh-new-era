@@ -20,7 +20,7 @@ interface Props {
 const { block } = Astro.props
 ---
 
-<div class="my-8 p-6 bg-gray-50 rounded-xl">
+<div class="my-8 p-8 bg-gray-50/80 rounded-3xl">
   {block.title && <h3 class="text-lg font-semibold mb-2">{block.title}</h3>}
   {block.description && <p class="text-sm text-gray-600 mb-4">{block.description}</p>}
   <Form preset={block.preset} />

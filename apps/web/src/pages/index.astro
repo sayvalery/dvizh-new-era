@@ -1,16 +1,31 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
+import LogoDrum from '../components/ui/LogoDrum.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
 import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import CTA from '../components/ui/CTA.astro'
+
+const partnerLogos = [
+  '/partners/a101.svg',
+  '/partners/ava.svg',
+  '/partners/ganel.svg',
+  '/partners/glorax.svg',
+  '/partners/lsr.svg',
+  '/partners/strana.svg',
+  '/partners/a101.svg',
+  '/partners/ava.svg',
+  '/partners/ganel.svg',
+  '/partners/glorax.svg',
+]
 ---
 
 <SiteLayout
   title="ДВИЖ — цифровые продукты для рынка недвижимости"
   description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
+  transparentHeader
 >
   <!-- Hero -->
   <HeroSection
@@ -18,12 +33,18 @@ import CTA from '../components/ui/CTA.astro'
     description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
     formPreset="lead"
     formSubmitLabel="Получить демо"
-  />
+    withGradient
+    gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
+  >
+    <div slot="right" class="w-full h-[700px]">
+      <LogoDrum logos={partnerLogos} duration={30} logoWidth={150} logoHeight={48} />
+    </div>
+  </HeroSection>
 
   <!-- Девелоперы с ДВИЖ -->
   <section class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-[1440px] px-4">
-      <h2 class="text-5xl font-medium tracking-tight text-gray-900" style="letter-spacing: -0.06em">
+      <h2 class="text-5xl font-medium text-gray-900">
         Девелоперы с ДВИЖ
       </h2>
     </div>

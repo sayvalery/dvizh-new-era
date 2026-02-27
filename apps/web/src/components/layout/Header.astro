@@ -3,6 +3,12 @@ import NavBar from '../ui/NavBar.astro'
 import type { NavItem } from '../ui/NavBar.astro'
 import { getBlogPosts, normalizeMediaUrl } from '../../lib/payload'
 
+interface Props {
+  /** Прозрачный режим навигации (для страниц с цветным hero) */
+  transparent?: boolean
+}
+
+const { transparent = false } = Astro.props
 const isDev = import.meta.env.DEV
 
 const navItems: NavItem[] = [
@@ -60,9 +66,10 @@ try {
 ---
 
 <NavBar
-  logo={{ label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg' }}
+  logo={{ label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg', imageLight: '/logo-dvizh-white.svg' }}
   items={navItems}
   blogPosts={blogPosts}
   secondaryLink={{ label: '+7 495 032 10 47', href: 'tel:+74950321047' }}
   cta={{ label: 'Получить расчет', preset: 'demo' }}
+  transparent={transparent}
 />

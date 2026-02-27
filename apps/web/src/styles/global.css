@@ -12,7 +12,7 @@
     src: url('/fonts/styrene-a-medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
   }
 
   @font-face {
@@ -20,7 +20,7 @@
     src: url('/fonts/styrene-a-bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
   }
 
   @font-face {
@@ -28,7 +28,7 @@
     src: url('/fonts/styrene-a-black-italic.ttf') format('truetype');
     font-weight: 900;
     font-style: italic;
-    font-display: block;
+    font-display: swap;
   }
 
   /* Inter — основной шрифт для текста */
@@ -48,15 +48,20 @@
     font-display: swap;
   }
 
-  html {
-    @apply antialiased;
-  }
+}
 
-  body {
-    font-family: 'Inter', system-ui, sans-serif;
-  }
+/* Типография вне @layer — обычная специфичность, не перебивается Tailwind utilities */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Styrene A', system-ui, sans-serif;
-  }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Styrene A', system-ui, sans-serif;
+  letter-spacing: -0.07em;
+  overflow-wrap: break-word;
 }

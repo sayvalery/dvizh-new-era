@@ -8,11 +8,15 @@ interface Props {
   title?: string
   description?: string
   ogImage?: string
+  /** Прозрачный хедер поверх контента */
+  transparentHeader?: boolean
 }
+
+const { transparentHeader = false, ...baseProps } = Astro.props
 ---
 
-<BaseLayout {...Astro.props}>
-  <Header />
+<BaseLayout {...baseProps}>
+  <Header transparent={transparentHeader} />
   <main class="flex-1">
     <slot />
   </main>

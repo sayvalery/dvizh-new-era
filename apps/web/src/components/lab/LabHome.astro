@@ -1,0 +1,79 @@
+---
+/**
+ * Lab: Home — экспериментальная страница главной
+ * Копия hero-блока + переключалка анимаций логотипов справа
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import MeshGradient from '../ui/MeshGradient.astro'
+import LogoDrum from '../ui/LogoDrum.astro'
+import LogoStream from '../ui/LogoStream.astro'
+
+const partnerLogos = [
+  '/partners/a101.svg',
+  '/partners/ava.svg',
+  '/partners/ganel.svg',
+  '/partners/glorax.svg',
+  '/partners/lsr.svg',
+  '/partners/strana.svg',
+  '/logo-dvizh-white.svg',
+  '/partners/a101.svg',
+  '/partners/ava.svg',
+  '/partners/ganel.svg',
+]
+---
+
+<SiteLayout title="Lab: Home" transparentHeader>
+  <section class="relative overflow-hidden bg-brand" x-data="{ mode: 'stream' }">
+    <MeshGradient colors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']} />
+
+    <div class="relative z-10 max-w-[1440px] mx-auto px-4">
+      <div class="grid lg:grid-cols-[726px_1fr] gap-8 min-h-svh lg:max-h-[1100px]">
+
+        <!-- Левая колонка -->
+        <div class="flex flex-col justify-center gap-[52px] pt-24 pb-16 lg:pt-0 lg:pb-0">
+          <div class="flex flex-col gap-9">
+            <div class="flex flex-col gap-8">
+              <h1 class="text-[36px] sm:text-[48px] lg:text-[72px] font-bold leading-none text-white">
+                Лучшие отделы продаж застройщиков используют ДВИЖ
+              </h1>
+              <p class="text-[20px] lg:text-[24px] leading-[1.4] max-w-[602px] text-white/70">
+                Единая платформа для увеличения продаж
+              </p>
+            </div>
+          </div>
+
+          <!-- Переключалка -->
+          <div class="flex gap-2">
+            <button
+              @click="mode = 'drum'"
+              :class="mode === 'drum' ? 'bg-white text-gray-900' : 'bg-white/[0.12] text-white hover:bg-white/[0.18]'"
+              class="px-5 py-3 rounded-2xl text-[15px] font-medium transition-all duration-200"
+            >
+              Барабан
+            </button>
+            <button
+              @click="mode = 'stream'"
+              :class="mode === 'stream' ? 'bg-white text-gray-900' : 'bg-white/[0.12] text-white hover:bg-white/[0.18]'"
+              class="px-5 py-3 rounded-2xl text-[15px] font-medium transition-all duration-200"
+            >
+              Поток
+            </button>
+          </div>
+        </div>
+
+        <!-- Правая колонка: фиксированная высота, видимый контейнер -->
+        <div class="hidden lg:flex items-center justify-center min-h-[600px]">
+          <div class="w-full h-[600px] relative">
+            <div x-show="mode === 'drum'" x-cloak class="w-full h-full">
+              <LogoDrum logos={partnerLogos} duration={35} logoWidth={150} logoHeight={48} />
+            </div>
+            <div x-show="mode === 'stream'" class="w-full h-full">
+              <LogoStream logos={partnerLogos} duration={35} logoWidth={180} logoHeight={60} />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</SiteLayout>
