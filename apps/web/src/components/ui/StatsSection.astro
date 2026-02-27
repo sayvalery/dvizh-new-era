@@ -4,12 +4,19 @@
  *
  * @example
  * ```astro
+ * // Без заголовка — только карточки по центру
  * <StatsSection
  *   items={[
  *     { value: '44 million', label: 'Transactions every 24 hours' },
  *     { value: '$119 trillion', label: 'Assets under holding' },
  *     { value: '46,000', label: 'New users annually' },
  *   ]}
+ * />
+ *
+ * // С заголовком слева
+ * <StatsSection
+ *   title="Девелоперы с ДВИЖом"
+ *   items={[...]}
  * />
  * ```
  */
@@ -28,11 +35,13 @@ interface Props {
   items: StatItem[]
   /** Количество колонок на десктопе (2-4) */
   cols?: 2 | 3 | 4
+  /** Крупный заголовок слева (опционально) */
+  title?: string
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const { items, cols = 4, class: className = '' } = Astro.props
+const { items, cols = 4, title, class: className = '' } = Astro.props
 
 const gridCols = {
   2: 'lg:grid-cols-2',
@@ -43,6 +52,11 @@ const gridCols = {
 
 <section class:list={['bg-white py-24 sm:py-32', className]}>
   <div class="mx-auto max-w-[1440px] px-4">
+    {title && (
+      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-semibold font-heading text-gray-900 mb-16">
+        {title}
+      </h2>
+    )}
     <dl class:list={['grid grid-cols-1 gap-x-8 gap-y-16 text-center', gridCols]}>
       {items.map((item) => (
         <div class="mx-auto flex max-w-xs flex-col gap-y-4">
