@@ -22,8 +22,11 @@ import StatsSection from '../../components/ui/StatsSection.astro'
 import Timeline from '../../components/ui/Timeline.astro'
 import BlogCard from '../../components/ui/BlogCard.astro'
 import SectionBlock from '../../components/ui/SectionBlock.astro'
-<<<<<<< HEAD
 import PropsTable from '../../components/ui/PropsTable.astro'
+import GradientCTA from '../../components/ui/GradientCTA.astro'
+import BlogCards from '../../components/ui/BlogCards.astro'
+import ProductCard from '../../components/ui/ProductCard.astro'
+import SectionNavigator from '../../components/ui/SectionNavigator.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -41,6 +44,10 @@ import statsSectionRaw from '../../components/ui/StatsSection.astro?raw'
 import timelineRaw from '../../components/ui/Timeline.astro?raw'
 import blogCardRaw from '../../components/ui/BlogCard.astro?raw'
 import sectionBlockRaw from '../../components/ui/SectionBlock.astro?raw'
+import gradientCTARaw from '../../components/ui/GradientCTA.astro?raw'
+import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
+import productCardRaw from '../../components/ui/ProductCard.astro?raw'
+import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
 
 interface PropMeta {
   name: string
@@ -117,13 +124,10 @@ const statsSectionMeta = parseSource(statsSectionRaw)
 const timelineMeta = parseSource(timelineRaw)
 const blogCardMeta = parseSource(blogCardRaw)
 const sectionBlockMeta = parseSource(sectionBlockRaw)
-=======
-import GradientCTA from '../../components/ui/GradientCTA.astro'
-<<<<<<< HEAD
->>>>>>> 69d2ea8 (feat(ui): добавлен компонент GradientCTA)
-=======
-import BlogCards from '../../components/ui/BlogCards.astro'
->>>>>>> 58379e0 (feat(ui): добавлен компонент BlogCards)
+const gradientCTAMeta = parseSource(gradientCTARaw)
+const blogCardsMeta = parseSource(blogCardsRaw)
+const productCardMeta = parseSource(productCardRaw)
+const sectionNavigatorMeta = parseSource(sectionNavigatorRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -153,6 +157,8 @@ export function getStaticPaths() {
     { params: { slug: 'section-block' }, props: { section: 'section-block' } },
     { params: { slug: 'gradient-cta' }, props: { section: 'gradient-cta' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
+    { params: { slug: 'product-card' }, props: { section: 'product-card' } },
+    { params: { slug: 'section-navigator' }, props: { section: 'section-navigator' } },
   ]
 }
 
@@ -183,6 +189,8 @@ const sections = [
   { slug: 'section-block', label: 'Section Block' },
   { slug: 'gradient-cta', label: 'Gradient CTA' },
   { slug: 'blog-cards', label: 'Blog Cards' },
+  { slug: 'product-card', label: 'Product Card' },
+  { slug: 'section-navigator', label: 'Section Navigator' },
 ]
 ---
 
@@ -1469,7 +1477,6 @@ const sections = [
           </div>
         </div>
       )}
-<<<<<<< HEAD
 
       {section === 'timeline' && (
         <div>
@@ -1663,6 +1670,145 @@ const sections = [
               }
             ]}
           />
+        </div>
+      )}
+
+      {section === 'product-card' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Product Card</h1>
+          <p class="text-gray-600 mb-4">
+            Большая hero-карточка продукта с фоновым паттерном и градиентным блюром.
+          </p>
+          <PropsTable props={productCardMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — с описанием и двумя кнопками</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCard title="..." description="..." primaryButton={{...}} secondaryButton={{...}} />`}</code></p>
+              <ProductCard
+                title="Разворачивайте ипотечное дело с уверенностью"
+                description="Единая платформа для автоматизации всего процесса ипотечного кредитования — от заявки до регистрации сделки."
+                primaryButton={{ label: "Начать", href: "#" }}
+                secondaryButton={{ label: "Узнать больше", href: "#" }}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С одной кнопкой</p>
+              <ProductCard
+                title="Цифровая ипотека для банков"
+                description="Закрывайте до 26% больше сделок на том же трафике."
+                primaryButton={{ label: "Запросить демо", href: "#" }}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Минимальный — только заголовок</p>
+              <ProductCard
+                title="Начните сегодня"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'section-navigator' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Section Navigator</h1>
+          <p class="text-gray-600 mb-4">
+            Навигация по секциям с нумерованным меню. Слева — кнопки 01, 02, 03..., справа — контент.
+            На мобильной версии — горизонтальная прокрутка сверху.
+          </p>
+          <PropsTable props={sectionNavigatorMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Базовый пример — 3 секции</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<SectionNavigator sections={[...]} />`}</code></p>
+              <SectionNavigator
+                badge="Как это работает"
+                title="Три простых шага"
+                sections={[
+                  {
+                    number: '01',
+                    title: 'Подключение',
+                    content: '<h3 class="text-xl font-semibold mb-3">Интеграция за 2 недели</h3><p class="text-gray-600">Подключите платформу через API или используйте готовые виджеты. Наша команда поможет настроить интеграцию с вашей CRM.</p>',
+                  },
+                  {
+                    number: '02',
+                    title: 'Обработка',
+                    content: '<h3 class="text-xl font-semibold mb-3">Автоматический прескоринг</h3><p class="text-gray-600">Система автоматически анализирует заявки и определяет вероятность одобрения ипотеки в каждом банке.</p>',
+                  },
+                  {
+                    number: '03',
+                    title: 'Результат',
+                    content: '<h3 class="text-xl font-semibold mb-3">До 26% больше сделок</h3><p class="text-gray-600">Увеличьте конверсию на том же трафике. Средний рост закрытых сделок среди наших клиентов — 26%.</p>',
+                  },
+                ]}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">6 секций — как на fin.ai</p>
+              <SectionNavigator
+                sections={[
+                  {
+                    number: '01',
+                    title: 'Процесс',
+                    content: '<h3 class="text-xl font-semibold mb-3">Упрощённый рабочий процесс</h3><p class="text-gray-600 mb-4">Автоматизируйте рутинные задачи и сосредоточьтесь на важных клиентах.</p><ul class="list-disc list-inside text-gray-600 space-y-2"><li>Автоматический сбор документов</li><li>Прескоринг за 30 секунд</li><li>Единая анкета для всех банков</li></ul>',
+                  },
+                  {
+                    number: '02',
+                    title: 'Производительность',
+                    content: '<h3 class="text-xl font-semibold mb-3">Мгновенная обработка заявок</h3><p class="text-gray-600">Скорость обработки увеличена в 10 раз благодаря AI-алгоритмам.</p>',
+                  },
+                  {
+                    number: '03',
+                    title: 'Интеграции',
+                    content: '<h3 class="text-xl font-semibold mb-3">Готовые соединения</h3><p class="text-gray-600">Интегрируйтесь с 40+ банками и ведущими CRM-системами.</p>',
+                  },
+                  {
+                    number: '04',
+                    title: 'Технологии',
+                    content: '<h3 class="text-xl font-semibold mb-3">AI на службе бизнеса</h3><p class="text-gray-600">Нейросети анализируют вероятность одобрения и подбирают оптимальные программы.</p>',
+                  },
+                  {
+                    number: '05',
+                    title: 'Команда',
+                    content: '<h3 class="text-xl font-semibold mb-3">Экспертная поддержка</h3><p class="text-gray-600">Персональный менеджер поможет на каждом этапе внедрения.</p>',
+                  },
+                  {
+                    number: '06',
+                    title: 'Цены',
+                    content: '<h3 class="text-xl font-semibold mb-3">Прозрачное ценообразование</h3><p class="text-gray-600">Оплата за результат — фиксируем процент от закрытых сделок.</p>',
+                  },
+                ]}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С TypeScript интерфейсом</p>
+              <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><code>{`import SectionNavigator from '@/components/ui/SectionNavigator.astro'
+
+interface SectionItem {
+  number: string   // '01', '02', '03'...
+  title: string    // Заголовок кнопки
+  content: string  // HTML-контент
+}
+
+<SectionNavigator
+  badge="Как это работает"
+  title="Три простых шага"
+  sections={[
+    {
+      number: '01',
+      title: 'Подключение',
+      content: \`<h3>Заголовок</h3><p>Описание...</p>\`,
+    },
+  ]}
+/>`}</code></pre>
+            </div>
+          </div>
         </div>
       )}
     </main>
