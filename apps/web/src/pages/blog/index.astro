@@ -1,6 +1,7 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro'
-import { getBlogPosts, getCategories, normalizeMediaUrl } from '../../lib/payload'
+import BlogCard from '../../components/ui/BlogCard.astro'
+import { getBlogPosts, getCategories } from '../../lib/payload'
 
 const POSTS_PER_PAGE = 12
 
@@ -52,25 +53,15 @@ const hasNextPage = totalPages > 1
       <p class="text-gray-500">Статьи скоро появятся.</p>
     ) : (
       <div class="grid md:grid-cols-3 gap-6">
-        {posts.map((post: any) => {
-          const coverUrl = normalizeMediaUrl(post.cover?.url)
-          return (
-            <a href={`/blog/${post.slug}`} class="group border rounded-xl overflow-hidden hover:shadow-md transition-shadow">
-              {coverUrl ? (
-                <img src={coverUrl} alt={post.cover?.alt ?? post.title} class="w-full aspect-video object-cover" loading="lazy" decoding="async" width="400" height="225" />
-              ) : (
-                <div class="w-full aspect-video bg-gray-100" />
-              )}
-              <div class="p-5">
-                {post.category?.title && (
-                  <span class="text-xs text-gray-500 uppercase tracking-wide">{post.category.title}</span>
-                )}
-                <h2 class="font-semibold mt-1 group-hover:underline">{post.title}</h2>
-                {post.excerpt && <p class="text-sm text-gray-600 mt-2 line-clamp-2">{post.excerpt}</p>}
-              </div>
-            </a>
-          )
-        })}
+        {posts.map((post: any) => (
+          <BlogCard
+            title={post.title}
+            slug={post.slug}
+            cover={post.cover}
+            category={post.category?.title}
+            excerpt={post.excerpt}
+          />
+        ))}
       </div>
     )}
 

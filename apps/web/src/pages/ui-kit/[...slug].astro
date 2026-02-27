@@ -19,6 +19,7 @@ import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.a
 import HeroSection from '../../components/ui/HeroSection.astro'
 import StatsSection from '../../components/ui/StatsSection.astro'
 import Timeline from '../../components/ui/Timeline.astro'
+import BlogCard from '../../components/ui/BlogCard.astro'
 import PropsTable from '../../components/ui/PropsTable.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
@@ -34,6 +35,7 @@ import bentoGridRaw from '../../components/ui/BentoGrid.astro?raw'
 import heroSectionRaw from '../../components/ui/HeroSection.astro?raw'
 import statsSectionRaw from '../../components/ui/StatsSection.astro?raw'
 import timelineRaw from '../../components/ui/Timeline.astro?raw'
+import blogCardRaw from '../../components/ui/BlogCard.astro?raw'
 
 interface PropMeta {
   name: string
@@ -107,6 +109,7 @@ const bentoGridMeta = parseSource(bentoGridRaw)
 const heroSectionMeta = parseSource(heroSectionRaw)
 const statsSectionMeta = parseSource(statsSectionRaw)
 const timelineMeta = parseSource(timelineRaw)
+const blogCardMeta = parseSource(blogCardRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -131,6 +134,7 @@ export function getStaticPaths() {
     { params: { slug: 'hero' }, props: { section: 'hero' } },
     { params: { slug: 'stats' }, props: { section: 'stats' } },
     { params: { slug: 'timeline' }, props: { section: 'timeline' } },
+    { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
   ]
 }
 
@@ -156,6 +160,7 @@ const sections = [
   { slug: 'hero', label: 'Hero Section' },
   { slug: 'stats', label: 'Stats Section' },
   { slug: 'timeline', label: 'Timeline' },
+  { slug: 'blogcard', label: 'Blog Card' },
 ]
 ---
 
@@ -1383,6 +1388,70 @@ const sections = [
                   { year: 'Q3', title: 'Масштабирование' },
                 ]}
               />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'blogcard' && (
+        <div>
+          <h1 class="text-3xl font-bold mb-6">Blog Card</h1>
+          <p class="text-gray-600 mb-4">
+            Карточка блог-поста. Используется в мега-меню навигации, на страницах блога и в категориях.
+          </p>
+          <PropsTable props={blogCardMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — обложка, категория, описание</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard title="..." slug="..." cover={{ url: "...", alt: "..." }} category="..." excerpt="..." />`}</code></p>
+              <div class="max-w-sm">
+                <BlogCard
+                  title="Как автоматизировать ипотечный процесс"
+                  slug="kak-avtomatizirovat"
+                  cover={{ url: "/api/media/file/blog-cover.jpg", alt: "Обложка статьи" }}
+                  category="Ипотека"
+                  excerpt="Рассказываем, как ДВИЖ помогает застройщикам автоматизировать ипотечный процесс от заявки до выдачи."
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Минимальный — без обложки и категории</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard title="..." slug="..." excerpt="..." />`}</code></p>
+              <div class="max-w-sm">
+                <BlogCard
+                  title="Новые возможности платформы ДВИЖ"
+                  slug="novye-vozmozhnosti"
+                  excerpt="Обзор последних обновлений платформы."
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Сетка карточек — как на странице блога</p>
+              <div class="grid grid-cols-3 gap-6">
+                <BlogCard
+                  title="Электронная регистрация сделок"
+                  slug="elektronnaya-registratsiya"
+                  cover={{ url: "", alt: "" }}
+                  category="Продукты"
+                  excerpt="Как перевести регистрацию сделок в полностью цифровой формат."
+                />
+                <BlogCard
+                  title="Ипотечный калькулятор для сайта"
+                  slug="ipotechnyy-kalkulyator"
+                  cover={{ url: "", alt: "" }}
+                  category="Инструменты"
+                  excerpt="Встраиваемый виджет расчёта ипотеки для сайтов застройщиков."
+                />
+                <BlogCard
+                  title="Тренды ипотечного рынка 2025"
+                  slug="trendy-ipotechnogo-rynka"
+                  category="Аналитика"
+                  excerpt="Ключевые изменения на рынке ипотечного кредитования."
+                />
+              </div>
             </div>
           </div>
         </div>

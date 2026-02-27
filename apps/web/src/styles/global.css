@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent FOUC for Alpine.js controlled elements */
+[x-cloak] { display: none !important; }
+
 @layer base {
   /* Styrene A — фирменный шрифт для заголовков */
   @font-face {
