@@ -1,38 +1,68 @@
 ---
 import NavBar from '../ui/NavBar.astro'
 import type { NavItem } from '../ui/NavBar.astro'
+import { getBlogPosts, normalizeMediaUrl } from '../../lib/payload'
 
 const isDev = import.meta.env.DEV
 
 const navItems: NavItem[] = [
   {
     label: 'Продукты',
-    children: [
-      { label: 'Электронная регистрация', href: '/elektronnaya-registraciya', description: 'Цифровая регистрация сделок' },
-      { label: 'Ипотека', href: '/ipoteka', description: 'Ипотечный процесс от заявки до выдачи' },
-      { label: 'Ипотечный калькулятор', href: '/ipotechnyy-kalkulyator', description: 'Интеграция в сайт и CRM' },
-      { label: 'QBR', href: '/qbr', description: 'Аналитика и бизнес-отчёты' },
-      { label: 'Личный кабинет', href: '/lichnyy-kabinet', description: 'Кабинет клиента для ведения сделок' },
-      { label: 'Витрина', href: '/vitrina', description: 'Витрина объектов недвижимости' },
-      { label: 'Скоринг', href: '/scoring', description: 'Оценка кредитоспособности' },
+    sections: [
+      {
+        title: 'Продукты',
+        items: [
+          { label: 'Ипотека', href: '/ipoteka', description: 'Ипотечный процесс от заявки до выдачи' },
+          { label: 'Электронная регистрация', href: '/elektronnaya-registraciya', description: 'Цифровая регистрация сделок' },
+          { label: 'Скоринг', href: '/scoring', description: 'Оценка кредитоспособности' },
+          { label: 'Ипотечный калькулятор', href: '/ipotechnyy-kalkulyator', description: 'Интеграция в сайт и CRM' },
+          { label: 'Личный кабинет', href: '/lichnyy-kabinet', description: 'Кабинет клиента для ведения сделок' },
+          { label: 'Витрина', href: '/vitrina', description: 'Витрина объектов недвижимости' },
+          { label: 'Бизнес-ревью', href: '/qbr', description: 'Аналитика и бизнес-отчёты' },
+        ],
+      },
+      {
+        title: 'Решения',
+        items: [
+          { label: 'Для банков', href: '/banki' },
+          { label: 'Для девелоперов', href: '/developers' },
+          { label: 'Для агентств недвижимости', href: '/agentstva-nedvizhimosti' },
+        ],
+      },
+      {
+        title: 'Для кого',
+        items: [
+          { label: 'Департамент продаж', href: '/developers' },
+          { label: 'Отдел ипотеки', href: '/ipoteka' },
+          { label: 'Отдел оформления', href: '/elektronnaya-registraciya' },
+          { label: 'Команда маркетинга и аналитики', href: '/qbr' },
+        ],
+      },
     ],
   },
-  {
-    label: 'Решения',
-    children: [
-      { label: 'Для банков', href: '/banki', description: 'Ипотечные и розничные банки' },
-      { label: 'Для девелоперов', href: '/developers', description: 'Автоматизация продаж и сделок' },
-      { label: 'Для агентств недвижимости', href: '/agentstva-nedvizhimosti', description: 'Платформа для риелторов' },
-    ],
-  },
-  { label: 'Блог', href: '/blog' },
+  { label: 'Блог', href: '/blog', badge: 'dot' },
   { label: 'О нас', href: '/about' },
 ]
+
+// Fetch 2 latest blog posts for mega-menu
+let blogPosts: { title: string; slug: string; cover?: { url?: string; alt?: string }; category?: string }[] = []
+try {
+  const { docs } = await getBlogPosts({ limit: 2 })
+  blogPosts = docs.map((post: any) => ({
+    title: post.title,
+    slug: post.slug,
+    cover: post.cover ? { url: normalizeMediaUrl(post.cover.url) ?? undefined, alt: post.cover.alt } : undefined,
+    category: post.category?.title,
+  }))
+} catch {
+  // CMS unavailable during build — mega-menu works without blog cards
+}
 ---
 
 <NavBar
-  logo={{ label: 'ДВИЖ', href: '/' }}
+  logo={{ label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg' }}
   items={navItems}
-  secondaryLink={isDev ? { label: 'UI Kit', href: '/ui-kit' } : undefined}
-  cta={{ label: 'Запросить демо', preset: 'demo' }}
+  blogPosts={blogPosts}
+  secondaryLink={{ label: '+7 495 032 10 47', href: 'tel:+74950321047' }}
+  cta={{ label: 'Получить расчет', preset: 'demo' }}
 />

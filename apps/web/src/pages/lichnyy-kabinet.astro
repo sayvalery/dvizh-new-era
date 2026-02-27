@@ -1,6 +1,5 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import Form from '../components/ui/Form.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
@@ -11,7 +10,7 @@ import CTA from '../components/ui/CTA.astro'
   <HeroSection
     badge="Личный кабинет покупателя"
     title="Увеличивайте конверсию сайта в 2 раза"
-    description="Платформа, где клиент может посмотреть все квартиры застройщика, сравнить варианты, добавить планировки в избранное и оформить заявку на ипотеку"
+    description="В 2 раза выше конверсия. Платформа, где клиент может посмотреть все квартиры застройщика, сравнить варианты, добавить планировки в избранное и оформить заявку на ипотеку"
     formPreset="demo"
   />
 
@@ -49,7 +48,7 @@ import CTA from '../components/ui/CTA.astro'
 
   <!-- Поддержка -->
   <section class="bg-white py-24 sm:py-32">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-[1440px] px-4">
       <div class="mx-auto max-w-2xl text-center mb-16">
         <h2 class="text-base/7 font-semibold text-brand">Поддержка</h2>
         <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
@@ -58,17 +57,17 @@ import CTA from '../components/ui/CTA.astro'
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="text-center">
-          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center"><svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg></div>
           <h3 class="text-lg font-semibold text-gray-900">Менеджер успеха</h3>
           <p class="mt-2 text-sm text-gray-600">Персональный менеджер, который помогает внедрить продукт и достичь KPI</p>
         </div>
         <div class="text-center">
-          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center"><svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg></div>
           <h3 class="text-lg font-semibold text-gray-900">Консультант поддержки</h3>
           <p class="mt-2 text-sm text-gray-600">Оперативная техническая поддержка для решения любых вопросов</p>
         </div>
         <div class="text-center">
-          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center"><svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg></div>
           <h3 class="text-lg font-semibold text-gray-900">Аналитик</h3>
           <p class="mt-2 text-sm text-gray-600">Аналитик, который поможет разобраться в данных и увеличить конверсию</p>
         </div>
@@ -77,22 +76,12 @@ import CTA from '../components/ui/CTA.astro'
   </section>
 
   <!-- CTA -->
-  <div class="max-w-7xl mx-auto px-4 py-12">
+  <div class="max-w-[1440px] mx-auto px-4 py-12">
     <CTA
       title="Запросить демо"
       description="Узнайте, как личный кабинет покупателя увеличит конверсию вашего сайта"
       buttonText="Запросить демо"
-      buttonHref="#form"
+      buttonHref="#"
     />
-  </div>
-
-  <!-- Форма захвата -->
-  <div id="form" class="bg-gray-50 py-24">
-    <div class="max-w-5xl mx-auto px-4">
-      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
-        <h2 class="text-xl font-semibold mb-4">Запросить демо</h2>
-        <Form preset="demo" />
-      </div>
-    </div>
   </div>
 </SiteLayout>

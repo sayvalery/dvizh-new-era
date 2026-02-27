@@ -28,6 +28,10 @@ source/images/
 source/image-map.json.backup
 scripts/migrate-log.json
 
+# Logs
+logs/
+!logs/.gitkeep
+
 # Build artifacts
 *.tsbuildinfo
 

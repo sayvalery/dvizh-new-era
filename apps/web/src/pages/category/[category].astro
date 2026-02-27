@@ -1,6 +1,7 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro'
-import { getCategories, getBlogPosts, normalizeMediaUrl } from '../../lib/payload'
+import BlogCard from '../../components/ui/BlogCard.astro'
+import { getCategories, getBlogPosts } from '../../lib/payload'
 
 export async function getStaticPaths() {
   const { docs: categories } = await getCategories()
@@ -21,7 +22,7 @@ const { docs: posts } = await getBlogPosts({
 ---
 
 <BlogLayout title={`${category.title} — Блог`}>
-  <div class="max-w-7xl mx-auto px-4 py-16">
+  <div class="max-w-[1440px] mx-auto px-4 py-16">
     <nav class="text-sm text-gray-500 mb-4">
       <a href="/blog" class="hover:underline">Блог</a>
       <span class="mx-2">›</span>
@@ -34,22 +35,15 @@ const { docs: posts } = await getBlogPosts({
       <p class="text-gray-500">В этой категории пока нет статей.</p>
     ) : (
       <div class="grid md:grid-cols-3 gap-6">
-        {posts.map((post: any) => {
-          const coverUrl = normalizeMediaUrl(post.cover?.url)
-          return (
-            <a href={`/blog/${post.slug}`} class="group border rounded-xl overflow-hidden hover:shadow-md transition-shadow">
-              {coverUrl ? (
-                <img src={coverUrl} alt={post.title} class="w-full aspect-video object-cover" loading="lazy" />
-              ) : (
-                <div class="w-full aspect-video bg-gray-100" />
-              )}
-              <div class="p-5">
-                <h2 class="font-semibold group-hover:underline">{post.title}</h2>
-                {post.excerpt && <p class="text-sm text-gray-600 mt-2 line-clamp-2">{post.excerpt}</p>}
-              </div>
-            </a>
-          )
-        })}
+        {posts.map((post: any) => (
+          <BlogCard
+            title={post.title}
+            slug={post.slug}
+            cover={post.cover}
+            category={post.category?.title}
+            excerpt={post.excerpt}
+          />
+        ))}
       </div>
     )}
   </div>

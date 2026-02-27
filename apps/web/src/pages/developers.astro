@@ -1,6 +1,5 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import Form from '../components/ui/Form.astro'
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
@@ -10,8 +9,8 @@ import CTA from '../components/ui/CTA.astro'
 <SiteLayout title="Для девелоперов — ДВИЖ">
   <HeroSection
     badge="Платформа для застройщиков"
-    title="Закрывайте на 26% больше сделок даже на падающем рынке"
-    description="ДВИЖ объединяет застройщиков и банки в единую цифровую экосистему. Автоматизация ипотеки, регистрации и аналитики — все инструменты на одной платформе."
+    title="Лучшие отделы продаж застройщиков используют ДВИЖ"
+    description="AI-платформа для автоматизации продаж и маркетинга. ДВИЖ объединяет застройщиков и банки в единую цифровую экосистему — ипотека, регистрация, аналитика и витрина на одной платформе."
     formPreset="demo"
   />
 
@@ -19,10 +18,10 @@ import CTA from '../components/ui/CTA.astro'
     cols={3}
     items={[
       { value: '1 500 000+', label: 'Заявок обработано на платформе' },
-      { value: '79', label: 'Застройщиков из ТОП-100' },
-      { value: '40+', label: 'Банков-партнеров' },
+      { value: '75', label: 'Из ТОП-100 крупнейших застройщиков' },
+      { value: 'x2', label: 'Рост конверсии с продуктами ДВИЖ' },
       { value: 'до 95%', label: 'Одобрение ипотечных заявок' },
-      { value: '70+', label: 'Историй успеха' },
+      { value: '40+', label: 'Банков-партнёров' },
       { value: '99.9%', label: 'Uptime платформы' },
     ]}
   />
@@ -101,27 +100,70 @@ import CTA from '../components/ui/CTA.astro'
     variant="light"
   />
 
+  <!-- Кейсы клиентов -->
+  <section class="bg-gray-50 py-24">
+    <div class="mx-auto max-w-[1440px] px-4">
+      <div class="mx-auto max-w-2xl text-center mb-16">
+        <h2 class="text-base font-semibold text-brand">Кейсы клиентов</h2>
+        <p class="mt-2 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Результаты наших клиентов</p>
+        <p class="mt-6 text-lg text-gray-600">75 из 100 крупнейших застройщиков России уже работают с ДВИЖ</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">ГК ЛСР</h3>
+          <p class="text-3xl font-bold text-brand mb-2">+281%</p>
+          <p class="text-sm text-gray-600">Рост количества заявок после подключения платформы ДВИЖ</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">ГК Точно</h3>
+          <p class="text-3xl font-bold text-brand mb-2">1 116 → 3 500</p>
+          <p class="text-sm text-gray-600">Рост количества заявок на ипотеку в месяц</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">ГК Самолет</h3>
+          <p class="text-3xl font-bold text-brand mb-2">816 млн ₽</p>
+          <p class="text-sm text-gray-600">Дополнительный доход — 96 квартир продано через платформу</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Гранель</h3>
+          <p class="text-3xl font-bold text-brand mb-2">66.7% → 95%</p>
+          <p class="text-sm text-gray-600">Рост процента одобрения ипотечных заявок</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Страна Девелопмент</h3>
+          <p class="text-3xl font-bold text-brand mb-2">150 млн ₽/мес</p>
+          <p class="text-sm text-gray-600">Ежемесячный объём сделок через платформу</p>
+        </div>
+        <div class="bg-white rounded-xl p-8 shadow-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">GloraX</h3>
+          <p class="text-3xl font-bold text-brand mb-2">−30%</p>
+          <p class="text-sm text-gray-600">Сокращение затрат на сопровождение сделок</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Поддержка -->
   <section class="bg-gray-50 py-24">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-[1440px] px-4">
       <div class="mx-auto max-w-2xl text-center mb-16">
-        <h2 class="text-base font-semibold text-[#ff4d00]">Поддержка</h2>
+        <h2 class="text-base font-semibold text-brand">Поддержка</h2>
         <p class="mt-2 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Команда поддержки на вашей стороне</p>
         <p class="mt-6 text-lg text-gray-600">Каждому клиенту ДВИЖ доступна выделенная команда специалистов</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
         <div class="bg-white rounded-xl p-8 text-center shadow-sm">
-          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center"><svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg></div>
           <h3 class="text-lg font-semibold text-gray-900 mb-2">Менеджер успеха</h3>
           <p class="text-sm text-gray-600">Персональный менеджер для решения стратегических задач и роста показателей</p>
         </div>
         <div class="bg-white rounded-xl p-8 text-center shadow-sm">
-          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center"><svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg></div>
           <h3 class="text-lg font-semibold text-gray-900 mb-2">Консультант поддержки</h3>
           <p class="text-sm text-gray-600">Оперативная помощь по любым вопросам работы с платформой</p>
         </div>
         <div class="bg-white rounded-xl p-8 text-center shadow-sm">
-          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center"><svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg></div>
           <h3 class="text-lg font-semibold text-gray-900 mb-2">Аналитик</h3>
           <p class="text-sm text-gray-600">Подготовка отчетов, анализ данных и рекомендации по оптимизации</p>
         </div>
@@ -130,22 +172,12 @@ import CTA from '../components/ui/CTA.astro'
   </section>
 
   <!-- CTA -->
-  <div class="max-w-7xl mx-auto px-4 py-12">
+  <div class="max-w-[1440px] mx-auto px-4 py-12">
     <CTA
       title="Записаться на демо"
-      description="Покажем, как ДВИЖ помогает застройщикам закрывать больше сделок"
+      description="75 из ТОП-100 застройщиков уже с нами. Покажем, как ДВИЖ увеличит ваши продажи"
       buttonText="Записаться на демо"
-      buttonHref="#form"
+      buttonHref="#"
     />
-  </div>
-
-  <!-- Форма захвата -->
-  <div id="form" class="bg-gray-50 py-24">
-    <div class="max-w-5xl mx-auto px-4">
-      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
-        <h2 class="text-xl font-semibold mb-4">Записаться на демо</h2>
-        <Form preset="demo" />
-      </div>
-    </div>
   </div>
 </SiteLayout>

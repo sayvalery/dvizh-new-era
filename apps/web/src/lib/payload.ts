@@ -82,24 +82,36 @@ async function fetchFromCMS<T>(
   }
 
   const url = `${CMS_URL}/api${path}?${params.toString()}`
+  const maxRetries = 3
+  const timeoutMs = 5000
 
-  // Таймаут 2 секунды, чтобы не зависать, если CMS недоступен
-  const controller = new AbortController()
-  const timeoutId = setTimeout(() => controller.abort(), 2000)
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
 
-  try {
-    const res = await fetch(url, { signal: controller.signal })
-    clearTimeout(timeoutId)
+    try {
+      const res = await fetch(url, { signal: controller.signal })
+      clearTimeout(timeoutId)
 
-    if (!res.ok) {
-      throw new Error(`CMS fetch failed: ${res.status} ${url}`)
+      if (!res.ok) {
+        throw new Error(`CMS fetch failed: ${res.status} ${url}`)
+      }
+
+      return res.json() as Promise<T>
+    } catch (err) {
+      clearTimeout(timeoutId)
+
+      if (attempt === maxRetries) {
+        throw new Error(`CMS unavailable after ${maxRetries} attempts: ${url}`)
+      }
+
+      // Exponential backoff: 1s, 2s, 4s
+      const delay = Math.pow(2, attempt - 1) * 1000
+      await new Promise(resolve => setTimeout(resolve, delay))
     }
-
-    return res.json() as Promise<T>
-  } catch {
-    clearTimeout(timeoutId)
-    throw new Error(`CMS unavailable: ${url}`)
   }
+
+  throw new Error(`CMS unavailable: ${url}`)
 }
 
 // Только опубликованный контент

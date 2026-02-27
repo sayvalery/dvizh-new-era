@@ -101,7 +101,83 @@ else
   ERRORS=$((ERRORS + 1))
 fi
 
-# 6. Общий результат
+# 6. Проверка шрифтов
+echo ""
+echo "🔤 Шрифты:"
+FONTS=("styrene-a-bold.ttf" "styrene-a-medium.ttf" "inter-variable.ttf")
+for font in "${FONTS[@]}"; do
+  if [ -f "$DIST_DIR/fonts/$font" ]; then
+    local_size=$(wc -c < "$DIST_DIR/fonts/$font" | tr -d ' ')
+    echo "  ✅ $font ($local_size bytes)"
+  else
+    echo "  ❌ $font не найден"
+    ERRORS=$((ERRORS + 1))
+  fi
+done
+
+# 7. Проверка CSS на наличие font-face
+echo ""
+echo "🎨 CSS:"
+CSS_FILES=$(find "$DIST_DIR" -name "*.css" -type f 2>/dev/null)
+if [ -n "$CSS_FILES" ]; then
+  FONT_FACE_COUNT=$(grep -l "font-face" $CSS_FILES 2>/dev/null | wc -l | tr -d ' ')
+  if [ "$FONT_FACE_COUNT" -gt 0 ]; then
+    echo "  ✅ @font-face найден в CSS ($FONT_FACE_COUNT файлов)"
+  else
+    echo "  ❌ @font-face не найден в CSS"
+    ERRORS=$((ERRORS + 1))
+  fi
+else
+  echo "  ❌ CSS файлы не найдены"
+  ERRORS=$((ERRORS + 1))
+fi
+
+# 8. Проверка на hardcoded hex colors (должны использоваться Tailwind brand tokens)
+echo ""
+echo "🎨 Hardcoded hex colors в HTML:"
+# Проверяем только основные продуктовые и компонентные страницы, не CMS контент
+HARDCODED_HEX=$(grep -rl 'text-\[#ff4d00\]\|bg-\[#ff4d00\]\|text-\[#e64600\]\|bg-\[#e64600\]' "$DIST_DIR" --include="*.html" 2>/dev/null | wc -l || true)
+HARDCODED_HEX=$(echo "$HARDCODED_HEX" | tr -d '[:space:]')
+if [ "$HARDCODED_HEX" -gt 0 ]; then
+  echo "  ⚠️  $HARDCODED_HEX файлов с hardcoded hex brand colors (предпочтительно Tailwind brand tokens)"
+else
+  echo "  ✅ Hardcoded hex brand colors не найдены"
+fi
+
+# 9. Проверка количества страниц
+echo ""
+echo "📊 Общая статистика:"
+TOTAL_PAGES=$(find "$DIST_DIR" -name "index.html" -type f | wc -l | tr -d ' ')
+echo "  📄 Всего страниц: $TOTAL_PAGES"
+TOTAL_BLOG=$(find "$DIST_DIR/blog" -name "index.html" -type f 2>/dev/null | wc -l | tr -d ' ')
+echo "  📝 Блог: $TOTAL_BLOG страниц"
+TOTAL_GLOSSARY=$(find "$DIST_DIR/slovar-developera" -name "index.html" -type f 2>/dev/null | wc -l | tr -d ' ')
+echo "  📖 Глоссарий: $TOTAL_GLOSSARY страниц"
+
+# 10. Проверка внутренних ссылок (не ведут на 404)
+echo ""
+echo "🔗 Проверка ключевых ссылок:"
+check_link() {
+  local href="$1"
+  local target_file="$DIST_DIR${href}index.html"
+  if [ -f "$target_file" ]; then
+    echo "  ✅ $href"
+  else
+    echo "  ❌ $href → файл не найден"
+    ERRORS=$((ERRORS + 1))
+  fi
+}
+check_link "/blog/"
+check_link "/about/"
+check_link "/contacts/"
+check_link "/slovar-developera/"
+check_link "/elektronnaya-registraciya/"
+check_link "/ipoteka/"
+check_link "/banki/"
+check_link "/developers/"
+check_link "/agentstva-nedvizhimosti/"
+
+# 11. Общий результат
 echo ""
 echo "======================================="
 if [ "$ERRORS" -gt 0 ]; then

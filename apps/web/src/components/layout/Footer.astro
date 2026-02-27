@@ -50,7 +50,7 @@ const columns = [
 ---
 
 <footer class="border-t border-gray-200 mt-16">
-  <div class="max-w-7xl mx-auto px-4 py-12">
+  <div class="max-w-[1440px] mx-auto px-4 py-12">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
       {columns.map((col) => (
         <div>
@@ -68,13 +68,14 @@ const columns = [
       ))}
     </div>
 
-    <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
       <div class="text-sm text-gray-500">
         <p>© 2018–{currentYear} ООО «Цифровые продажи»</p>
-        <p class="mt-1">ОГРН 1187746227020 · ИНН 7716899078</p>
+        <p class="mt-1">ОГРН 1187746227020 · ИНН 7716899078 · КПП 772501001 · ОКПО 26023731</p>
       </div>
-      <div class="text-sm text-gray-400">
+      <div class="text-sm text-gray-400 text-right">
         <p>Новодмитровская 2к2, Москва, 127015</p>
+        <p class="mt-1"><a href="https://cdn.dvizh.io/policy.pdf" class="hover:text-gray-600" target="_blank" rel="noopener">Политика конфиденциальности</a></p>
       </div>
     </div>
   </div>

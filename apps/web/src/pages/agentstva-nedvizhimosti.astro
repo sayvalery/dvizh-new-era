@@ -1,6 +1,5 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import Form from '../components/ui/Form.astro'
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
@@ -11,18 +10,18 @@ import CTA from '../components/ui/CTA.astro'
   <HeroSection
     badge="Решение для агентств"
     title="Улучшайте конверсии на всех этапах воронки"
-    description="Комплексное решение для агентств недвижимости. Цифровая ипотека, страхование, регистрация сделок и AI-инструменты на одной платформе."
+    description="AI-платформа для автоматизации продаж и маркетинга. Цифровая ипотека, страхование, регистрация сделок и AI-инструменты — всё на одной платформе."
     formPreset="demo"
   />
 
   <StatsSection
     cols={3}
     items={[
-      { value: '79+', label: 'Девелоперов и агентств на платформе' },
-      { value: '27%', label: 'Ипотечных сделок через ДВИЖ' },
-      { value: '95%', label: 'Одобрение ипотечных заявок' },
-      { value: '600К', label: 'Одобренных ипотек' },
-      { value: '816 млн р.', label: 'Доп. заработок ГК «Самолет»' },
+      { value: '75', label: 'Из ТОП-100 крупнейших застройщиков на платформе' },
+      { value: 'x2', label: 'Рост конверсии с продуктами ДВИЖ' },
+      { value: 'до 95%', label: 'Одобрение ипотечных заявок' },
+      { value: '1,5 млн+', label: 'Заявок обработано на платформе' },
+      { value: '816 млн ₽', label: 'Доп. доход ГК «Самолет» — 96 квартир' },
     ]}
   />
 
@@ -69,7 +68,7 @@ import CTA from '../components/ui/CTA.astro'
   <FeaturesGrid
     badge="ДВИЖ AI"
     title="Масштабирование продаж с помощью AI"
-    description="Искусственный интеллект ДВИЖ помогает агентствам масштабировать продажи без увеличения штата. Автоматизация рутины, умные рекомендации и прогнозы."
+    description="AI-платформа ДВИЖ помогает агентствам масштабировать продажи без увеличения штата. Кейс GloraX: сокращение затрат на 30%. Автоматизация рутины, умные рекомендации и прогнозы."
     features={[
       { icon: 'globe', title: 'Умные рекомендации', description: 'AI подбирает оптимальные банки и программы для каждого клиента' },
       { icon: 'arrow-path', title: 'Автоматизация рутины', description: 'AI берет на себя проверку документов, заполнение форм и отслеживание статусов' },
@@ -79,22 +78,12 @@ import CTA from '../components/ui/CTA.astro'
   />
 
   <!-- CTA -->
-  <div class="max-w-7xl mx-auto px-4 py-12">
+  <div class="max-w-[1440px] mx-auto px-4 py-12">
     <CTA
       title="Записаться на демо"
       description="Покажем, как ДВИЖ поможет вашему агентству зарабатывать больше на каждой сделке"
       buttonText="Записаться на демо"
-      buttonHref="#form"
+      buttonHref="#"
     />
-  </div>
-
-  <!-- Форма захвата -->
-  <div id="form" class="bg-gray-50 py-24">
-    <div class="max-w-5xl mx-auto px-4">
-      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
-        <h2 class="text-xl font-semibold mb-4">Записаться на демо</h2>
-        <Form preset="demo" />
-      </div>
-    </div>
   </div>
 </SiteLayout>

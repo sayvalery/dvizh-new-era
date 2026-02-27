@@ -1,0 +1,86 @@
+---
+/**
+ * Timeline — блок с хронологией/историей
+ *
+ * Отображает список вех с годами и описаниями.
+ * Год отображается шрифтом Styrene A (font-heading), разделители между элементами.
+ *
+ * @example
+ * ```astro
+ * <Timeline
+ *   badge="История"
+ *   title="Семь лет роста"
+ *   items={[
+ *     { year: '2018', title: 'Цифровая ипотека', description: 'Начали с идеи...' },
+ *     { year: '2019', title: 'Электронная анкета', description: 'Разработали...' },
+ *   ]}
+ * />
+ * ```
+ */
+
+interface TimelineItem {
+  /** Год или дата */
+  year: string
+  /** Заголовок вехи */
+  title: string
+  /** Описание (необязательно) */
+  description?: string
+}
+
+interface Props {
+  /** Бейдж над заголовком секции */
+  badge?: string
+  /** Заголовок секции */
+  title?: string
+  /** Элементы таймлайна */
+  items: TimelineItem[]
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const { badge, title, items, class: className = '' } = Astro.props
+---
+
+<section class:list={['py-24', className]}>
+  <div class="max-w-[1440px] mx-auto px-4">
+    {(badge || title) && (
+      <div class="max-w-2xl mb-16">
+        {badge && (
+          <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
+            {badge}
+          </p>
+        )}
+        {title && (
+          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900">
+            {title}
+          </h2>
+        )}
+      </div>
+    )}
+
+    <div class="relative">
+      {items.map((item, i) => (
+        <div class:list={[
+          'grid lg:grid-cols-[200px_1fr] gap-6 lg:gap-16',
+          i < items.length - 1 ? 'pb-10 mb-10 border-b border-gray-200' : ''
+        ]}>
+          <div>
+            <span class="text-4xl lg:text-5xl font-medium text-gray-200 font-heading">
+              {item.year}
+            </span>
+          </div>
+          <div>
+            <h3 class="text-xl lg:text-2xl font-semibold text-gray-900 mb-2">
+              {item.title}
+            </h3>
+            {item.description && (
+              <p class="text-gray-500 leading-relaxed max-w-2xl">
+                {item.description}
+              </p>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

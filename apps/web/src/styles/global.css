@@ -2,9 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Базовые стили -- минимум, дизайн-токены добавим позже */
+/* Prevent FOUC for Alpine.js controlled elements */
+[x-cloak] { display: none !important; }
+
 @layer base {
+  /* Styrene A — фирменный шрифт для заголовков */
+  @font-face {
+    font-family: 'Styrene A';
+    src: url('/fonts/styrene-a-medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Styrene A';
+    src: url('/fonts/styrene-a-bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Styrene A';
+    src: url('/fonts/styrene-a-black-italic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  /* Inter — основной шрифт для текста */
+  @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/inter-variable.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/inter-italic-variable.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+  }
+
   html {
     @apply antialiased;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Styrene A', system-ui, sans-serif;
   }
 }

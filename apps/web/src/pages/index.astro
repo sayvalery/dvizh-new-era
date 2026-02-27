@@ -3,28 +3,31 @@ import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
 import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
+import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
+import FormClosing from '../components/ui/FormClosing.astro'
+import CTA from '../components/ui/CTA.astro'
 ---
 
 <SiteLayout
   title="ДВИЖ — цифровые продукты для рынка недвижимости"
-  description="Ипотека, регистрация, скоринг и другие решения для банков, девелоперов и агентств"
+  description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
 >
-  <!-- Hero Section -->
+  <!-- Hero -->
   <HeroSection
-    title="Лучшие отделы продаж
-застройщиков используют ДВИЖ"
+    title="Лучшие отделы продаж застройщиков используют ДВИЖ"
     description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
     formPreset="lead"
+    formSubmitLabel="Получить демо"
   />
 
   <!-- Девелоперы с ДВИЖ -->
   <section class="bg-white py-24 sm:py-32">
-    <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+    <div class="mx-auto max-w-[1440px] px-4">
       <h2 class="text-5xl font-medium tracking-tight text-gray-900" style="letter-spacing: -0.06em">
         Девелоперы с ДВИЖ
       </h2>
     </div>
-    <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8 mt-16">
+    <div class="mx-auto max-w-[1440px] px-4 mt-16">
       <BentoGrid
         items={[
           { title: "<span class='text-[#FF4D00]'>Закрывают до 26% больше сделок</span> на том же трафике" },
@@ -61,20 +64,146 @@ import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astr
     </div>
   </section>
 
-  <!-- Решения -->
-  <section class="max-w-7xl mx-auto px-4 py-16 border-t border-gray-100">
-    <h2 class="text-2xl font-bold mb-8">Решения</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {[
-        { title: 'Для банков', href: '/banki', description: 'Комплексные решения для ипотечных и розничных банков' },
-        { title: 'Для девелоперов', href: '/developers', description: 'Автоматизация продаж и оформления сделок' },
-        { title: 'Для агентств недвижимости', href: '/agentstva-nedvizhimosti', description: 'Платформа для риелторов и агентств' },
-      ].map(s => (
-        <a href={s.href} class="p-6 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
-          <h3 class="font-semibold mb-1">{s.title}</h3>
-          <p class="text-sm text-gray-600">{s.description}</p>
-        </a>
-      ))}
-    </div>
-  </section>
+  <!-- 70+ историй успеха -->
+  <div class="max-w-[1440px] mx-auto px-4 py-20">
+    <SuccessStoriesCarousel
+      title="70+ историй успеха на рынке девелопмента"
+      stories={[
+        {
+          title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
+          quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения.",
+          person: {
+            name: "Петрова Надежда",
+            jobTitle: "Директор по маркетингу, ЛСР",
+            photo: { url: "" }
+          },
+          image: "",
+          imageAlt: "ЛСР",
+          logo: "",
+          logoAlt: "ЛСР"
+        },
+        {
+          title: "Дополнительно продали 96 квартир",
+          quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения ипотеки.",
+          person: {
+            name: "Алексей Соколов",
+            jobTitle: "Коммерческий директор, Самолет плюс",
+            photo: { url: "" }
+          },
+          image: "",
+          imageAlt: "Самолет плюс",
+          logo: "",
+          logoAlt: "Самолет плюс"
+        },
+        {
+          title: "Увеличили объем закрытых сделок с 1116 до 3500 за год",
+          quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения ипотеки.",
+          person: {
+            name: "Мария Иванова",
+            jobTitle: "Руководитель отдела продаж",
+          },
+          image: "",
+          imageAlt: "Компания",
+          logo: "",
+          logoAlt: "Логотип"
+        },
+        {
+          title: "Сократили время обработки заявки с 3 дней до 4 часов",
+          quote: "Интеграция прошла гладко. API оказался хорошо задокументированным, а поддержка всегда на связи.",
+          person: {
+            name: "Дмитрий Козлов",
+            jobTitle: "IT-директор, Девелопер",
+            photo: { url: "" }
+          },
+          image: "",
+          imageAlt: "Девелопер",
+          logo: "",
+          logoAlt: "Девелопер"
+        }
+      ]}
+    />
+  </div>
+
+  <!-- Цифровая ипотека -->
+  <FeaturesGrid
+    badge="Цифровая ипотека"
+    title="Поможем перевыполнить план продаж на том же трафике"
+    features={[
+      { icon: 'check', title: 'До 96% одобрения', description: '' },
+      { icon: 'check', title: 'Единая анкета в 40+ банков', description: '' },
+      { icon: 'check', title: 'Моментальное заполнение анкеты через Госуслуги', description: '' },
+      { icon: 'check', title: 'Готовые интеграции с CRM', description: '' },
+      { icon: 'check', title: 'Анализ работы менеджеров', description: '' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Ипотечный калькулятор -->
+  <FeaturesGrid
+    badge="Ипотечный калькулятор"
+    title="Приведем больше лидов с сайта"
+    features={[
+      { icon: 'check', title: 'Расчет рассрочки и досрочного погашения', description: '' },
+      { icon: 'check', title: 'Автоматическое обновление ставок и программ', description: '' },
+      { icon: 'check', title: 'API для интеграции с вашим сайтом и личным кабинетом', description: '' },
+      { icon: 'check', title: 'Брендирование калькулятора под ваши цвета', description: '' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Финансовый скоринг -->
+  <FeaturesGrid
+    badge="Финансовый скоринг"
+    title="Сократим процент отказов по проблемным заемщикам"
+    features={[
+      { icon: 'check', title: 'Проверка заемщика по 15 источникам', description: '' },
+      { icon: 'check', title: 'Ежемесячный скоринг по ДДУ c рассрочкой', description: '' },
+      { icon: 'check', title: 'Рекомендации по улучшению кредитной истории', description: '' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Электронная регистрация сделок -->
+  <FeaturesGrid
+    badge="Электронная регистрация сделок"
+    title="Сократим стоимость регистрации в Росреестре"
+    features={[
+      { icon: 'check', title: 'Сквозное оформление сделки от ипотеки до регистрации', description: '' },
+      { icon: 'check', title: 'До 30% дешевле цены конкурентов', description: '' },
+      { icon: 'check', title: 'Все виды сделок', description: '' },
+    ]}
+    variant="light"
+  />
+
+  <!-- ДВИЖ AI -->
+  <FeaturesGrid
+    badge="ДВИЖ AI"
+    title="Нейросети на службе вашего бизнеса"
+    features={[
+      { icon: 'check', title: 'Расчет вероятности и скорости одобрения по банкам', description: '' },
+      { icon: 'check', title: 'Автоматический подбор ипотечной программы', description: '' },
+      { icon: 'check', title: 'Меньше отказов, больше сделок', description: '' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Не оставим вас одних -->
+  <div class="max-w-[1440px] mx-auto px-4 py-12">
+    <FormClosing
+      preset="lead"
+      title="Не оставим вас одних"
+      description="За каждым клиентом закреплен менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
+      submitLabel="Оставить заявку"
+    />
+  </div>
+
+  <!-- CTA: Как оценить отдел ипотеки -->
+  <div class="max-w-[1440px] mx-auto px-4 py-12">
+    <CTA
+      title="Как оценить отдел ипотеки"
+      description="Скачайте пример отчета и узнайте, какие метрики нужно контролировать"
+      buttonText="Получить отчет"
+      drawerPreset="research"
+    />
+  </div>
 </SiteLayout>

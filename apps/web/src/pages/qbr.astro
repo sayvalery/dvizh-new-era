@@ -1,6 +1,5 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import Form from '../components/ui/Form.astro'
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
@@ -86,22 +85,12 @@ import CTA from '../components/ui/CTA.astro'
   />
 
   <!-- CTA -->
-  <div class="max-w-7xl mx-auto px-4 py-12">
+  <div class="max-w-[1440px] mx-auto px-4 py-12">
     <CTA
       title="Получить пример отчёта"
       description="Посмотрите, как QBR поможет вашему ипотечному отделу работать эффективнее"
       buttonText="Получить пример отчёта"
-      buttonHref="#form"
+      buttonHref="#"
     />
-  </div>
-
-  <!-- Форма захвата -->
-  <div id="form" class="bg-gray-50 py-24">
-    <div class="max-w-5xl mx-auto px-4">
-      <div class="bg-white rounded-xl shadow-lg p-8 max-w-md">
-        <h2 class="text-xl font-semibold mb-4">Получить пример отчёта</h2>
-        <Form preset="demo" />
-      </div>
-    </div>
   </div>
 </SiteLayout>

@@ -18,6 +18,98 @@ import SuccessStory from '../../components/ui/SuccessStory.astro'
 import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 import HeroSection from '../../components/ui/HeroSection.astro'
 import StatsSection from '../../components/ui/StatsSection.astro'
+import Timeline from '../../components/ui/Timeline.astro'
+import BlogCard from '../../components/ui/BlogCard.astro'
+import PropsTable from '../../components/ui/PropsTable.astro'
+
+// --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
+import navBarRaw from '../../components/ui/NavBar.astro?raw'
+import personCardRaw from '../../components/ui/PersonCard.astro?raw'
+import formRaw from '../../components/ui/Form.astro?raw'
+import formClosingRaw from '../../components/ui/FormClosing.astro?raw'
+import ctaRaw from '../../components/ui/CTA.astro?raw'
+import featuresGridRaw from '../../components/ui/FeaturesGrid.astro?raw'
+import successStoryRaw from '../../components/ui/SuccessStory.astro?raw'
+import storiesCarouselRaw from '../../components/ui/SuccessStoriesCarousel.astro?raw'
+import bentoGridRaw from '../../components/ui/BentoGrid.astro?raw'
+import heroSectionRaw from '../../components/ui/HeroSection.astro?raw'
+import statsSectionRaw from '../../components/ui/StatsSection.astro?raw'
+import timelineRaw from '../../components/ui/Timeline.astro?raw'
+import blogCardRaw from '../../components/ui/BlogCard.astro?raw'
+
+interface PropMeta {
+  name: string
+  type: string
+  required: boolean
+  description: string
+  defaultValue?: string
+}
+
+function parseSource(source: string): { description: string; props: PropMeta[] } {
+  if (!source) return { description: '', props: [] }
+
+  // JSDoc описание (первый блок перед interface Props)
+  const jsdocMatch = source.match(/\/\*\*\s*\n([\s\S]*?)\*\//)
+  let description = ''
+  if (jsdocMatch) {
+    description = jsdocMatch[1]
+      .replace(/^\s*\*\s?/gm, '')
+      .split('\n@')[0]
+      .trim()
+  }
+
+  // interface Props { ... }
+  const propsMatch = source.match(/interface Props\s*\{([\s\S]*?)\n\}/)
+  if (!propsMatch) return { description, props: [] }
+
+  const props: PropMeta[] = []
+  const lines = propsMatch[1].split('\n')
+  let comment = ''
+
+  for (const line of lines) {
+    const cmt = line.match(/\/\*\*\s*(.*?)\s*\*\//)
+    if (cmt) { comment = cmt[1]; continue }
+    const prop = line.match(/^\s*(\w+)(\?)?\s*:\s*(.+)$/)
+    if (prop) {
+      props.push({
+        name: prop[1],
+        required: !prop[2],
+        type: prop[3].trim().replace(/;?\s*$/, ''),
+        description: comment,
+      })
+      comment = ''
+    }
+  }
+
+  // Дефолтные значения из деструктуризации
+  const destructMatch = source.match(/const\s*\{([\s\S]*?)\}\s*=\s*Astro\.props/)
+  if (destructMatch) {
+    const block = destructMatch[1]
+    const re = /(\w+)(?:\s*:\s*\w+)?\s*=\s*([^,}\n]+)/g
+    let m
+    while ((m = re.exec(block)) !== null) {
+      const p = props.find(x => x.name === m[1])
+      if (p) p.defaultValue = m[1] === 'class' ? "''" : m[2].trim()
+    }
+  }
+
+  return { description, props }
+}
+
+// Парсим все компоненты
+const navBarMeta = parseSource(navBarRaw)
+const personCardMeta = parseSource(personCardRaw)
+const formMeta = parseSource(formRaw)
+const formClosingMeta = parseSource(formClosingRaw)
+const ctaMeta = parseSource(ctaRaw)
+const featuresGridMeta = parseSource(featuresGridRaw)
+const successStoryMeta = parseSource(successStoryRaw)
+const storiesCarouselMeta = parseSource(storiesCarouselRaw)
+const bentoGridMeta = parseSource(bentoGridRaw)
+const heroSectionMeta = parseSource(heroSectionRaw)
+const statsSectionMeta = parseSource(statsSectionRaw)
+const timelineMeta = parseSource(timelineRaw)
+const blogCardMeta = parseSource(blogCardRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -41,6 +133,8 @@ export function getStaticPaths() {
     { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'hero' }, props: { section: 'hero' } },
     { params: { slug: 'stats' }, props: { section: 'stats' } },
+    { params: { slug: 'timeline' }, props: { section: 'timeline' } },
+    { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
   ]
 }
 
@@ -65,6 +159,8 @@ const sections = [
   { slug: 'bento', label: 'Bento Grid' },
   { slug: 'hero', label: 'Hero Section' },
   { slug: 'stats', label: 'Stats Section' },
+  { slug: 'timeline', label: 'Timeline' },
+  { slug: 'blogcard', label: 'Blog Card' },
 ]
 ---
 
@@ -90,7 +186,7 @@ const sections = [
     <main class="flex-1 px-10 py-8">
       {section === 'overview' && (
         <div>
-          <h1 class="text-3xl font-bold mb-2">UI Kit</h1>
+          <h1 class="text-3xl font-bold font-heading mb-2">UI Kit</h1>
           <p class="text-gray-600 mb-8">Компоненты и токены дизайн-системы ДВИЖ. Доступно только в dev-режиме.</p>
           <div class="grid grid-cols-2 gap-4 max-w-lg">
             {sections.slice(1).map(s => (
@@ -104,25 +200,32 @@ const sections = [
 
       {section === 'navigation' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Навигация</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Навигация</h1>
+          <PropsTable props={navBarMeta.props} class="mb-8" />
 
           <div class="space-y-10">
             <div>
               <p class="text-sm font-medium text-gray-400 mb-3">Основной сайт — с дропдаунами</p>
               <div class="-mx-10 border-y border-gray-200">
                 <NavBar
-                  logo={{ label: 'ДВИЖ', href: '#' }}
+                  logo={{ label: 'ДВИЖ', href: '#', image: '/logo-dvizh.svg' }}
                   items={[
-                    { label: 'Продукты', children: [
-                      { label: 'Электронная регистрация', href: '#', description: 'Цифровая регистрация сделок' },
-                      { label: 'Ипотека', href: '#', description: 'Ипотечный процесс' },
-                      { label: 'QBR', href: '#', description: 'Аналитика и отчёты' },
+                    { label: 'Продукты', sections: [
+                      { title: 'Продукты', items: [
+                        { label: 'Ипотека', href: '#', description: 'Ипотечный процесс от заявки до выдачи' },
+                        { label: 'Электронная регистрация', href: '#', description: 'Цифровая регистрация сделок' },
+                        { label: 'QBR', href: '#', description: 'Аналитика и отчёты' },
+                      ]},
+                      { title: 'Решения', items: [
+                        { label: 'Для банков', href: '#' },
+                        { label: 'Для девелоперов', href: '#' },
+                      ]},
+                      { title: 'Для кого', items: [
+                        { label: 'Департамент продаж', href: '#' },
+                        { label: 'Отдел ипотеки', href: '#' },
+                      ]},
                     ]},
-                    { label: 'Решения', children: [
-                      { label: 'Для банков', href: '#' },
-                      { label: 'Для девелоперов', href: '#' },
-                    ]},
-                    { label: 'Блог', href: '#' },
+                    { label: 'Блог', href: '#', badge: 'dot' },
                     { label: 'О нас', href: '#' },
                   ]}
                   cta={{ label: 'Запросить демо', preset: 'demo' }}
@@ -134,12 +237,10 @@ const sections = [
               <p class="text-sm font-medium text-gray-400 mb-3">Блог / ДВИЖ Инсайты — с вторичной ссылкой</p>
               <div class="-mx-10 border-y border-gray-200">
                 <NavBar
-                  logo={{ label: 'ДВИЖ Инсайты', href: '#' }}
+                  logo={{ label: 'ДВИЖ Инсайты', href: '#', image: '/logo-dvizh-insights.svg' }}
                   items={[
-                    { label: 'Кейсы', href: '#' },
-                    { label: 'Аналитика', href: '#' },
-                    { label: 'Маркетинг', href: '#' },
-                    { label: 'Правила девелопера', href: '#' },
+                    { label: 'Блог', href: '#' },
+                    { label: 'Словарь девелопера', href: '#' },
                   ]}
                   secondaryLink={{ label: '← dvizh.io', href: '#' }}
                 />
@@ -151,7 +252,63 @@ const sections = [
 
       {section === 'persons' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Персоны</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Персоны</h1>
+          <PropsTable props={personCardMeta.props} class="mb-8" />
+
+          <!-- Alpine Playground -->
+          <div class="mb-10">
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Playground</p>
+            <div
+              x-data="{
+                name: 'Иван Азизов',
+                jobTitle: 'CEO, ДВИЖ',
+                variant: 'full'
+              }"
+              class="grid lg:grid-cols-[260px_1fr] border rounded-xl overflow-hidden"
+            >
+              <!-- Controls -->
+              <div class="p-4 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-200 space-y-3">
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">variant</label>
+                  <select x-model="variant" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm bg-white">
+                    <option value="full">full</option>
+                    <option value="inline">inline</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">name</label>
+                  <input x-model="name" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
+                </div>
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">jobTitle</label>
+                  <input x-model="jobTitle" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
+                </div>
+              </div>
+
+              <!-- Preview -->
+              <div class="p-8 bg-white flex items-center justify-center min-h-[120px]">
+                <!-- Full variant -->
+                <div x-show="variant === 'full'" class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-full bg-gray-200 shrink-0 flex items-center justify-center">
+                    <span class="text-sm text-gray-500 font-medium" x-text="name[0]"></span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-gray-900 truncate" x-text="name"></p>
+                    <p x-show="jobTitle" class="text-xs text-gray-500 truncate" x-text="jobTitle"></p>
+                  </div>
+                </div>
+
+                <!-- Inline variant -->
+                <div x-show="variant === 'inline'" class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-gray-200 shrink-0 flex items-center justify-center">
+                    <span class="text-xs text-gray-500 font-medium" x-text="name[0]"></span>
+                  </div>
+                  <span class="text-sm text-gray-700" x-text="name"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="space-y-10">
 
             <div>
@@ -192,11 +349,11 @@ const sections = [
 
       {section === 'typography' && (
         <div class="space-y-8">
-          <h1 class="text-3xl font-bold mb-6">Типографика</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Типографика</h1>
           <div class="space-y-4">
-            <div><span class="text-xs text-gray-400 block mb-1">text-5xl font-bold</span><p class="text-5xl font-bold">Заголовок H1</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-4xl font-bold</span><p class="text-4xl font-bold">Заголовок H2</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-3xl font-semibold</span><p class="text-3xl font-semibold">Заголовок H3</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-5xl font-bold font-heading</span><p class="text-5xl font-bold font-heading">Заголовок H1</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-4xl font-bold font-heading</span><p class="text-4xl font-bold font-heading">Заголовок H2</p></div>
+            <div><span class="text-xs text-gray-400 block mb-1">text-3xl font-semibold font-heading</span><p class="text-3xl font-semibold font-heading">Заголовок H3</p></div>
             <div><span class="text-xs text-gray-400 block mb-1">text-xl</span><p class="text-xl">Подзаголовок / лид-текст</p></div>
             <div><span class="text-xs text-gray-400 block mb-1">text-base</span><p class="text-base">Основной текст. Движ помогает банкам и девелоперам автоматизировать ипотечный процесс.</p></div>
             <div><span class="text-xs text-gray-400 block mb-1">text-sm text-gray-600</span><p class="text-sm text-gray-600">Вспомогательный текст, подписи, метаданные</p></div>
@@ -207,7 +364,7 @@ const sections = [
 
       {section === 'colors' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Цвета</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Цвета</h1>
           <div class="space-y-6">
             <div>
               <p class="text-sm font-medium mb-3">Бренд (Brand) — #ff4d00</p>
@@ -241,7 +398,7 @@ const sections = [
 
       {section === 'buttons' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Кнопки</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Кнопки</h1>
           <div class="space-y-8">
             <div>
               <p class="text-sm font-medium text-gray-400 mb-3">Primary</p>
@@ -271,7 +428,8 @@ const sections = [
 
       {section === 'forms' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">Формы</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Формы</h1>
+          <PropsTable props={formMeta.props} class="mb-8" />
           <div class="space-y-12">
 
             <div>
@@ -338,10 +496,11 @@ const sections = [
 
       {section === 'form-closing' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">Form Closing</h1>
-          <p class="gray-600 mb-10">
+          <h1 class="text-3xl font-bold font-heading mb-6">Form Closing</h1>
+          <p class="text-gray-600 mb-4">
             Панель в конце страницы с формой. Тёмный фон с градиентом, заголовок, описание, изображение справа.
           </p>
+          <PropsTable props={formClosingMeta.props} class="mb-10" />
 
           <div class="space-y-12">
             <div>
@@ -371,7 +530,7 @@ const sections = [
 
       {section === 'cards' && (
         <div>
-          <h1 class="text-3xl font-bold mb-6">Карточки</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Карточки</h1>
           <div class="grid grid-cols-2 gap-6 max-w-2xl">
             <div class="border rounded-xl p-6 hover:shadow-md transition-shadow">
               <h3 class="font-semibold mb-2">Карточка продукта</h3>
@@ -394,7 +553,7 @@ const sections = [
       )}
       {section === 'drawer' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">Дровер</h1>
+          <h1 class="text-3xl font-bold font-heading mb-8">Дровер</h1>
           <div class="space-y-10">
 
             <div>
@@ -465,10 +624,96 @@ const sections = [
       )}
       {section === 'cta' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">CTA</h1>
-          <p class="text-gray-600 mb-10">
-            Призыв к действию на основе Tailwind Plus. Заголовок, описание и кнопка.
+          <h1 class="text-3xl font-bold font-heading mb-6">CTA</h1>
+          <p class="text-gray-600 mb-4">
+            Призыв к действию. Заголовок, описание и кнопка. Три варианта: dark, light, split.
           </p>
+<PropsTable props={ctaMeta.props} class="mb-8" />
+
+          <!-- Alpine Playground -->
+          <div class="mb-12">
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Playground</p>
+            <div
+              x-data="{
+                variant: 'dark',
+                title: 'Бонус от ДВИЖа',
+                description: 'Скачайте пример идеального отчета ипотечного отдела',
+                buttonText: 'Посмотреть демо',
+                badge: 'Award winning'
+              }"
+              class="grid lg:grid-cols-[260px_1fr] border rounded-xl overflow-hidden"
+            >
+              <!-- Controls -->
+              <div class="p-4 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-200 space-y-3">
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">variant</label>
+                  <select x-model="variant" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm bg-white">
+                    <option value="dark">dark</option>
+                    <option value="light">light</option>
+                    <option value="split">split</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">title</label>
+                  <input x-model="title" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
+                </div>
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">description</label>
+                  <textarea x-model="description" rows="2" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm"></textarea>
+                </div>
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">buttonText</label>
+                  <input x-model="buttonText" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
+                </div>
+                <div x-show="variant === 'split'" x-transition>
+                  <label class="text-xs text-gray-500 block mb-1">badge</label>
+                  <input x-model="badge" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
+                </div>
+              </div>
+
+              <!-- Preview -->
+              <div class="p-6 bg-white min-h-[200px] flex items-center">
+                <!-- Dark / Light -->
+                <section
+                  x-show="variant !== 'split'"
+                  :class="variant === 'dark' ? 'bg-[#3a3a3a]' : 'bg-indigo-100'"
+                  class="rounded-[31px] w-full"
+                >
+                  <div class="mx-auto max-w-7xl px-6 py-10 lg:flex lg:items-center lg:justify-between lg:px-8 lg:py-10">
+                    <div class="flex items-center gap-7">
+                      <div class="w-[94px] h-[95px] flex items-center justify-center rounded-xl bg-white/10 shrink-0">
+                        <svg class="w-12 h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h2 :class="variant === 'dark' ? 'text-white' : 'text-gray-900'" class="max-w-2xl text-2xl font-semibold tracking-tight sm:text-4xl" x-text="title"></h2>
+                        <p x-show="description" :class="variant === 'dark' ? 'text-[#d3d3d3]' : 'text-gray-600'" class="mt-2 text-base max-w-lg" x-text="description"></p>
+                      </div>
+                    </div>
+                    <div class="mt-8 flex items-center lg:mt-0 lg:shrink-0">
+                      <button :class="variant === 'dark' ? 'bg-brand hover:bg-brand-600' : 'bg-indigo-600 hover:bg-indigo-500'" class="rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors cursor-pointer" x-text="buttonText"></button>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Split -->
+                <section x-show="variant === 'split'" class="relative bg-white rounded-[31px] overflow-hidden w-full border">
+                  <div class="relative h-80 overflow-hidden bg-gray-200 md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2"></div>
+                  <div class="relative mx-auto max-w-7xl py-16 lg:px-8 lg:py-24">
+                    <div class="pl-6 pr-6 md:ml-auto md:w-2/3 md:pl-16 lg:w-1/2 lg:pl-24 lg:pr-0 xl:pl-32">
+                      <p x-show="badge" class="text-base/7 font-semibold text-brand" x-text="badge"></p>
+                      <h2 class="mt-2 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl" x-text="title"></h2>
+                      <p x-show="description" class="mt-6 text-base/7 text-gray-600" x-text="description"></p>
+                      <div class="mt-8">
+                        <button class="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-600 cursor-pointer" x-text="buttonText"></button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
 
           <div class="space-y-12">
             <div>
@@ -522,7 +767,7 @@ const sections = [
 
       {section === 'blocks' && (
         <div>
-          <h1 class="text-3xl font-bold mb-2">Блоки статей</h1>
+          <h1 class="text-3xl font-bold font-heading mb-2">Блоки статей</h1>
           <p class="text-gray-600 mb-1">
             Добавляются в статью через CMS → BlogPosts → content (поле Rich Text с блоками).
           </p>
@@ -648,10 +893,11 @@ const sections = [
       )}
       {section === 'features' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">Features Grid</h1>
-          <p class="text-gray-600 mb-10">
+          <h1 class="text-3xl font-bold font-heading mb-6">Features Grid</h1>
+          <p class="text-gray-600 mb-4">
             Секция с заголовком, описанием, списком фичей с иконками и изображением.
           </p>
+          <PropsTable props={featuresGridMeta.props} class="mb-10" />
 
           <div class="space-y-12">
             <div>
@@ -744,10 +990,11 @@ const sections = [
       )}
       {section === 'stories' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">Success Story</h1>
-          <p class="text-gray-600 mb-10">
+          <h1 class="text-3xl font-bold font-heading mb-6">Success Story</h1>
+          <p class="text-gray-600 mb-4">
             Карточка истории успеха с метрикой, персоной и цитатой. Использует <code class="text-sm">PersonCard</code>.
           </p>
+          <PropsTable props={successStoryMeta.props} class="mb-10" />
 
           <div class="space-y-12">
             <div>
@@ -798,10 +1045,11 @@ const sections = [
       )}
       {section === 'stories-carousel' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">Stories Carousel</h1>
-          <p class="text-gray-600 mb-10">
+          <h1 class="text-3xl font-bold font-heading mb-6">Stories Carousel</h1>
+          <p class="text-gray-600 mb-4">
             Горизонтальная карусель карточек SuccessStory с CSS Scroll Snap. Работает с тач-свайпом и скроллом.
           </p>
+          <PropsTable props={storiesCarouselMeta.props} class="mb-10" />
 
           <div class="space-y-12">
             <div>
@@ -907,10 +1155,11 @@ const sections = [
       )}
       {section === 'bento' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">Bento Grid</h1>
-          <p class="text-gray-600 mb-10">
+          <h1 class="text-3xl font-bold font-heading mb-6">Bento Grid</h1>
+          <p class="text-gray-600 mb-4">
             Сетка карточек разного размера (Bento layout). Карточки с span-4 занимают 2/3 ширины, span-2 — 1/3.
           </p>
+          <PropsTable props={bentoGridMeta.props} class="mb-10" />
 
           <div class="space-y-12">
             <div>
@@ -1002,10 +1251,79 @@ const sections = [
       )}
       {section === 'hero' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">Hero Section</h1>
-          <p class="text-gray-600 mb-10">
-            Главная hero-секция страницы с заголовком, описанием, формой (компонент Form) и опциональным изображением справа.
+          <h1 class="text-3xl font-bold font-heading mb-6">Hero Section</h1>
+          <p class="text-gray-600 mb-4">
+            Главная hero-секция страницы с заголовком, описанием, формой и опциональным изображением.
           </p>
+          <PropsTable props={heroSectionMeta.props} class="mb-8" />
+
+          <!-- Alpine Playground -->
+          <div class="mb-12">
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Playground</p>
+            <div
+              x-data="{
+                badge: 'Ипотечная платформа',
+                title: 'Закрывайте до 26% больше сделок',
+                description: 'Повышаем конверсии на каждом этапе работы с заявками.',
+                withForm: true,
+                formPreset: 'lead'
+              }"
+              class="grid lg:grid-cols-[260px_1fr] border rounded-xl overflow-hidden"
+            >
+              <!-- Controls -->
+              <div class="p-4 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-200 space-y-3">
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">badge</label>
+                  <input x-model="badge" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
+                </div>
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">title</label>
+                  <input x-model="title" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
+                </div>
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">description</label>
+                  <textarea x-model="description" rows="2" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm"></textarea>
+                </div>
+                <div class="flex items-center gap-2">
+                  <input x-model="withForm" type="checkbox" id="pg-hero-form" class="rounded border-gray-300" />
+                  <label for="pg-hero-form" class="text-xs text-gray-500">withForm</label>
+                </div>
+                <div x-show="withForm" x-transition>
+                  <label class="text-xs text-gray-500 block mb-1">formPreset</label>
+                  <select x-model="formPreset" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm bg-white">
+                    <option value="lead">lead</option>
+                    <option value="demo">demo</option>
+                    <option value="subscribe">subscribe</option>
+                    <option value="research">research</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Preview -->
+              <div class="bg-white overflow-hidden">
+                <section class="bg-white">
+                  <div class="max-w-[1440px] mx-auto px-4">
+                    <div class="grid lg:grid-cols-[1fr_1fr] gap-8 items-center min-h-[400px]">
+                      <div class="flex flex-col justify-center gap-8 py-10">
+                        <div class="flex flex-col gap-6">
+                          <p x-show="badge" class="text-[18px] text-brand font-normal" x-text="badge"></p>
+                          <div class="flex flex-col gap-5">
+                            <h1 class="text-4xl font-medium leading-none tracking-tight text-[#1b2226]" x-text="title"></h1>
+                            <p x-show="description" class="text-lg text-[#858585] leading-[1.4]" x-text="description"></p>
+                          </div>
+                        </div>
+                        <div x-show="withForm" class="flex items-center gap-3 bg-gray-100 rounded-lg p-3">
+                          <span class="text-xs text-gray-400">Форма</span>
+                          <code class="text-xs font-mono text-gray-600" x-text="'preset=' + formPreset"></code>
+                        </div>
+                      </div>
+                      <div class="h-[300px] bg-[#ededed] rounded-lg"></div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
 
           <div class="space-y-12">
             <div>
@@ -1050,10 +1368,11 @@ const sections = [
       )}
       {section === 'stats' && (
         <div>
-          <h1 class="text-3xl font-bold mb-8">Stats Section</h1>
-          <p class="text-gray-600 mb-10">
-            Секция с метриками или преимуществами в виде сетки. Базируется на компоненте из Tailwind Plus.
+          <h1 class="text-3xl font-bold font-heading mb-6">Stats Section</h1>
+          <p class="text-gray-600 mb-4">
+            Секция с метриками или преимуществами в виде сетки.
           </p>
+          <PropsTable props={statsSectionMeta.props} class="mb-10" />
 
           <div class="space-y-12">
             <div>
@@ -1079,6 +1398,106 @@ const sections = [
                   { label: 'Стали закрывать больше сделок без роста штата' },
                 ]}
               />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'timeline' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Timeline</h1>
+          <p class="text-gray-600 mb-4">
+            Блок с хронологией/историей. Год отображается шрифтом Styrene A, разделители между элементами.
+          </p>
+          <PropsTable props={timelineMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С заголовком секции</p>
+              <Timeline
+                badge="История"
+                title="История развития"
+                items={[
+                  { year: '2018', title: 'Цифровая ипотека', description: 'Начали с идеи — сделать ипотеку цифровой.' },
+                  { year: '2020', title: 'Платформа ДВИЖ', description: 'Масштабировали продукт.' },
+                  { year: '2024', title: 'Полностью онлайн', description: 'Первая в России ипотечная сделка полностью онлайн.' },
+                ]}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без заголовка</p>
+              <Timeline
+                items={[
+                  { year: 'Q1', title: 'Запуск MVP' },
+                  { year: 'Q2', title: 'Первые клиенты', description: '10 девелоперов подключили платформу.' },
+                  { year: 'Q3', title: 'Масштабирование' },
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'blogcard' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Blog Card</h1>
+          <p class="text-gray-600 mb-4">
+            Карточка блог-поста. Используется в мега-меню навигации, на страницах блога и в категориях.
+          </p>
+          <PropsTable props={blogCardMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — обложка, категория, описание</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard title="..." slug="..." cover={{ url: "...", alt: "..." }} category="..." excerpt="..." />`}</code></p>
+              <div class="max-w-sm">
+                <BlogCard
+                  title="Как автоматизировать ипотечный процесс"
+                  slug="kak-avtomatizirovat"
+                  cover={{ url: "/api/media/file/blog-cover.jpg", alt: "Обложка статьи" }}
+                  category="Ипотека"
+                  excerpt="Рассказываем, как ДВИЖ помогает застройщикам автоматизировать ипотечный процесс от заявки до выдачи."
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Минимальный — без обложки и категории</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard title="..." slug="..." excerpt="..." />`}</code></p>
+              <div class="max-w-sm">
+                <BlogCard
+                  title="Новые возможности платформы ДВИЖ"
+                  slug="novye-vozmozhnosti"
+                  excerpt="Обзор последних обновлений платформы."
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Сетка карточек — как на странице блога</p>
+              <div class="grid grid-cols-3 gap-6">
+                <BlogCard
+                  title="Электронная регистрация сделок"
+                  slug="elektronnaya-registratsiya"
+                  cover={{ url: "", alt: "" }}
+                  category="Продукты"
+                  excerpt="Как перевести регистрацию сделок в полностью цифровой формат."
+                />
+                <BlogCard
+                  title="Ипотечный калькулятор для сайта"
+                  slug="ipotechnyy-kalkulyator"
+                  cover={{ url: "", alt: "" }}
+                  category="Инструменты"
+                  excerpt="Встраиваемый виджет расчёта ипотеки для сайтов застройщиков."
+                />
+                <BlogCard
+                  title="Тренды ипотечного рынка 2025"
+                  slug="trendy-ipotechnogo-rynka"
+                  category="Аналитика"
+                  excerpt="Ключевые изменения на рынке ипотечного кредитования."
+                />
+              </div>
             </div>
           </div>
         </div>
