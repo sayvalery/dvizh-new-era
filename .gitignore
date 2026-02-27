@@ -30,6 +30,7 @@ scripts/migrate-log.json
 
 # Logs
 logs/
+!logs/.gitkeep
 
 # Build artifacts
 *.tsbuildinfo
