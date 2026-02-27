@@ -28,6 +28,9 @@ source/images/
 source/image-map.json.backup
 scripts/migrate-log.json
 
+# Logs
+logs/
+
 # Build artifacts
 *.tsbuildinfo
 

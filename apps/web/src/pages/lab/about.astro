@@ -1,0 +1,321 @@
+---
+/**
+ * Lab: About page — Linear-inspired editorial layout
+ * Адаптация паттернов Linear /readme и /method для страницы о компании ДВИЖ
+ * Narrative structure, split headings, large serif typography, generous spacing
+ *
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/about
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import Form from '../../components/ui/Form.astro'
+
+const milestones = [
+  { year: '2018', title: 'Цифровая ипотека', description: 'Начали с идеи — сделать ипотеку цифровой. Первая версия платформы для электронного взаимодействия банков и застройщиков.' },
+  { year: '2019', title: 'Электронная анкета', description: 'Разработали единую анкету, которая заполняется один раз и отправляется сразу в несколько банков.' },
+  { year: '2020', title: 'Платформа ДВИЖ', description: 'Масштабировали продукт. Переименовали в платформу ДВИЖ — единый сервис для всех этапов сделки.' },
+  { year: '2021', title: 'Электронная регистрация', description: 'Добавили модуль электронной регистрации сделок. Регистрация ДДУ, ДКП, ДУПТ за 15 минут.' },
+  { year: '2022', title: 'Бронирование и ЛК', description: 'Модуль онлайн-бронирования квартир и личный кабинет покупателя с отслеживанием статуса сделки.' },
+  { year: '2023', title: 'Страхование и AI', description: 'Модуль страхования и ДВИЖ AI — искусственный интеллект для автоматизации рутинных операций.' },
+  { year: '2024', title: 'Полностью онлайн', description: 'Первая в России ипотечная сделка, проведённая полностью онлайн — от заявки до регистрации.' },
+]
+
+const values = [
+  {
+    title: 'Скорость важнее идеала',
+    description: 'Быстрый запуск и итерации лучше долгой разработки. Мы выпускаем, измеряем, улучшаем.',
+    icon: `<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>`
+  },
+  {
+    title: 'Данные решают',
+    description: 'Каждое решение подкреплено данными. 27% ипотечных сделок на первичке проходят через нас — мы видим рынок.',
+    icon: `<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>`
+  },
+  {
+    title: 'Простота интерфейса',
+    description: 'Менеджер застройщика работает с десятками сделок в день. Каждый клик имеет значение. Мы убираем лишнее.',
+    icon: `<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>`
+  },
+  {
+    title: 'Надёжность как основа',
+    description: '99,9% uptime — не просто цифра. Когда на кону сделки на миллионы, платформа должна работать всегда.',
+    icon: `<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" /></svg>`
+  },
+]
+
+const geography = [
+  { city: 'Москва', area: '16 млн м²', accent: true },
+  { city: 'Санкт-Петербург', area: '6 млн м²', accent: false },
+  { city: 'Краснодар', area: '5 млн м²', accent: false },
+  { city: 'Тюмень', area: '1,6 млн м²', accent: false },
+  { city: 'Татарстан', area: '530 тыс м²', accent: false },
+  { city: 'Ростов', area: '463 тыс м²', accent: false },
+  { city: 'Свердловская обл.', area: '260 тыс м²', accent: false },
+]
+---
+
+<SiteLayout title="Lab: О компании — Linear Style">
+
+  <!-- ============================================
+       Hero: Large editorial opening (Linear /readme style)
+       Большой serif-заголовок по центру
+       ============================================ -->
+  <section class="pt-32 pb-16 lg:pt-40 lg:pb-24">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <p class="text-sm font-medium tracking-widest uppercase text-brand mb-8">
+        О компании
+      </p>
+      <h1 class="text-4xl lg:text-7xl font-medium leading-[1.1] tracking-tight text-gray-900 mb-8" style="font-family: 'Georgia', 'Times New Roman', serif;">
+        Каждая третья ипотека на&nbsp;первичном рынке России — через&nbsp;ДВИЖ
+      </h1>
+      <p class="text-xl lg:text-2xl text-gray-400 leading-relaxed max-w-3xl mx-auto">
+        AI-платформа для автоматизации продаж и&nbsp;маркетинга застройщиков
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Stats: large numbers row (Linear-style metrics)
+       ============================================ -->
+  <section class="py-20 border-t border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
+        {[
+          { value: '79+', label: 'Крупнейших девелоперов и агентств' },
+          { value: '27%', label: 'Ипотечных сделок на первичном рынке' },
+          { value: '99,9%', label: 'Uptime платформы' },
+          { value: '2018', label: 'Год основания' },
+        ].map(stat => (
+          <div class="text-center lg:text-left">
+            <p class="text-4xl lg:text-6xl font-medium tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+              {stat.value}
+            </p>
+            <p class="mt-3 text-sm text-gray-400">
+              {stat.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Mission: Split layout narrative block (Linear /method style)
+       ============================================ -->
+  <section class="py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-24">
+        <div>
+          <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
+            Миссия
+          </p>
+          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+            Сделать покупку квартиры такой&nbsp;же простой, как&nbsp;покупку в&nbsp;интернет-магазине
+          </h2>
+        </div>
+        <div class="lg:pt-4 space-y-6">
+          <p class="text-lg text-gray-500 leading-relaxed">
+            Покупка недвижимости — самая крупная покупка в&nbsp;жизни большинства людей. И&nbsp;одна из&nbsp;самых сложных. Десятки документов, визиты в&nbsp;банки, очереди в&nbsp;МФЦ, недели ожидания.
+          </p>
+          <p class="text-lg text-gray-500 leading-relaxed">
+            Мы&nbsp;убираем трение на&nbsp;каждом этапе. Электронная анкета вместо бумажных форм. Единая заявка в&nbsp;несколько банков. Регистрация сделки за&nbsp;15&nbsp;минут вместо нескольких дней. Всё — в&nbsp;одной платформе.
+          </p>
+          <p class="text-lg text-gray-500 leading-relaxed">
+            Наша цель — чтобы покупатель квартиры прошёл весь путь от&nbsp;заявки до&nbsp;ключей, ни разу не&nbsp;выходя из&nbsp;дома.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Timeline: History with serif year markers
+       (Linear changelog-inspired vertical timeline)
+       ============================================ -->
+  <section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Section header -->
+      <div class="max-w-2xl mb-20">
+        <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
+          История
+        </p>
+        <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+          Семь лет роста
+        </h2>
+      </div>
+
+      <!-- Timeline -->
+      <div class="relative">
+        {milestones.map((milestone, i) => (
+          <div class:list={[
+            'grid lg:grid-cols-[200px_1fr] gap-6 lg:gap-16',
+            i < milestones.length - 1 ? 'pb-12 mb-12 border-b border-gray-200' : ''
+          ]}>
+            <div>
+              <span class="text-4xl lg:text-5xl font-medium text-gray-200" style="font-family: 'Georgia', 'Times New Roman', serif;">
+                {milestone.year}
+              </span>
+            </div>
+            <div>
+              <h3 class="text-xl lg:text-2xl font-semibold text-gray-900 mb-3">
+                {milestone.title}
+              </h3>
+              <p class="text-gray-500 leading-relaxed max-w-2xl">
+                {milestone.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Values: 2x2 grid with icons (Linear feature cards)
+       ============================================ -->
+  <section class="py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Split heading -->
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-20">
+        <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+          Принципы, которыми мы&nbsp;руководствуемся
+        </h2>
+        <p class="text-lg text-gray-500 leading-relaxed lg:pt-2">
+          Не&nbsp;формальные ценности с&nbsp;плаката в&nbsp;офисе, а&nbsp;принципы, по&nbsp;которым мы&nbsp;принимаем решения каждый день.
+        </p>
+      </div>
+
+      <!-- Value cards -->
+      <div class="grid md:grid-cols-2 gap-6">
+        {values.map(value => (
+          <div class="bg-gray-50 rounded-2xl p-8 lg:p-10 border border-gray-100">
+            <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand flex items-center justify-center mb-6">
+              <Fragment set:html={value.icon} />
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              {value.title}
+            </h3>
+            <p class="text-gray-500 leading-relaxed">
+              {value.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Founders: minimal cards
+       ============================================ -->
+  <section class="py-24 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-24">
+        <div>
+          <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
+            Основатели
+          </p>
+          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+            Команда
+          </h2>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div class="p-8 bg-gray-50 rounded-2xl">
+            <div class="w-16 h-16 rounded-full bg-gray-200 mb-6" />
+            <h3 class="text-lg font-semibold text-gray-900">Роман Гуров</h3>
+            <p class="text-sm text-gray-400 mt-1">Сооснователь, CEO</p>
+          </div>
+          <div class="p-8 bg-gray-50 rounded-2xl">
+            <div class="w-16 h-16 rounded-full bg-gray-200 mb-6" />
+            <h3 class="text-lg font-semibold text-gray-900">Максим Ершов</h3>
+            <p class="text-sm text-gray-400 mt-1">Сооснователь, руководитель ДВИЖ.брокер</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Geography: Grid with accent (Linear customer-style)
+       ============================================ -->
+  <section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+        <div>
+          <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
+            География
+          </p>
+          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900" style="font-family: 'Georgia', 'Times New Roman', serif;">
+            От Москвы до&nbsp;Урала
+          </h2>
+          <p class="text-lg text-gray-500 leading-relaxed mt-6">
+            79+ крупнейших девелоперов и&nbsp;агентств используют платформу ДВИЖ в&nbsp;7&nbsp;регионах России.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          {geography.map(g => (
+            <div class:list={[
+              'p-6 rounded-2xl',
+              g.accent ? 'bg-gray-900 text-white' : 'bg-white border border-gray-100'
+            ]}>
+              <p class:list={['font-semibold', g.accent ? 'text-white' : 'text-gray-900']}>
+                {g.city}
+              </p>
+              <p class:list={['text-sm mt-1', g.accent ? 'text-gray-400' : 'text-gray-400']}>
+                {g.area}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CTA: Dark accent block (Linear-style)
+       ============================================ -->
+  <section class="py-24">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="bg-gray-900 rounded-3xl p-12 lg:p-20 text-center">
+        <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-white mb-6" style="font-family: 'Georgia', 'Times New Roman', serif;">
+          Готовы автоматизировать продажи?
+        </h2>
+        <p class="text-lg text-gray-400 leading-relaxed max-w-2xl mx-auto mb-10">
+          Присоединяйтесь к&nbsp;79+ девелоперам, которые уже используют ДВИЖ для ускорения сделок.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#contact" class="inline-flex items-center px-8 py-4 bg-brand text-white font-semibold rounded-xl hover:bg-brand-600 transition-colors">
+            Запросить демо
+          </a>
+          <a href="/" class="inline-flex items-center px-8 py-4 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-gray-400 hover:text-white transition-colors">
+            Узнать больше
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Contact form (Linear-style minimal)
+       ============================================ -->
+  <section id="contact" class="py-24 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-24">
+        <div>
+          <p class="text-sm font-medium tracking-widest uppercase text-brand mb-6">
+            Связаться с нами
+          </p>
+          <h2 class="text-3xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900 mb-6" style="font-family: 'Georgia', 'Times New Roman', serif;">
+            Расскажите о&nbsp;ваших задачах
+          </h2>
+          <p class="text-lg text-gray-500 leading-relaxed">
+            Мы подберём решение под ваши процессы и&nbsp;покажем, как платформа работает на&nbsp;реальных данных.
+          </p>
+        </div>
+        <div class="bg-gray-50 rounded-2xl p-8 lg:p-10">
+          <Form preset="demo" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+</SiteLayout>

@@ -29,9 +29,12 @@ echo "Postgres is ready."
 
 echo "Starting CMS..."
 docker compose -f docker-compose.prod.yml up -d cms
-echo "Waiting for CMS to start..."
+CMS_HOST="${CMS_HOST:-cms.dvizh-new-era.orb.local}"
+CMS_URL="http://${CMS_HOST}:3002"
+
+echo "Waiting for CMS to start at $CMS_URL ..."
 for i in $(seq 1 60); do
-  if curl -sf http://localhost:3002/api/globals/navigation > /dev/null 2>&1; then
+  if curl -sf "$CMS_URL/api/blog-posts?limit=1" > /dev/null 2>&1; then
     echo "CMS is ready."
     break
   fi
