@@ -14,7 +14,7 @@ while (true) {
 // Group by first letter
 const grouped: Record<string, any[]> = {}
 for (const item of allDocs) {
-  const letter = (item.title || '?')[0].toUpperCase()
+  const letter = (item.name || '?')[0].toUpperCase()
   ;(grouped[letter] ??= []).push(item)
 }
 const letters = Object.keys(grouped).sort()
@@ -42,10 +42,10 @@ const letters = Object.keys(grouped).sort()
           {grouped[letter].map((item: any) => (
             <li>
               <a href={`/slovar-developera/${item.slug}`} class="text-brand-700 hover:underline font-medium">
-                {item.title}
+                {item.name}
               </a>
-              {item.excerpt && (
-                <span class="text-gray-600 text-sm ml-2">— {item.excerpt}</span>
+              {item.description && (
+                <span class="text-gray-600 text-sm ml-2">— {item.description}</span>
               )}
             </li>
           ))}

@@ -14,18 +14,44 @@ interface BuildState {
   steps: Record<string, StepStatus>
 }
 
-const STEP_LABELS: Record<string, string> = {
-  cms_check: 'Проверка CMS',
-  build: 'Сборка страниц',
-  validate: 'Валидация',
-  deploy: 'Публикация',
+const STEP_ORDER = ['cms_check', 'build', 'validate', 'deploy']
+
+function formatStepLabel(key: string, status: StepStatus, state: BuildState): string {
+  switch (key) {
+    case 'cms_check':
+      return status === 'done' ? 'CMS в порядке' : 'Проверка CMS'
+    case 'build': {
+      const count = state.pages_count
+      if (status === 'done' && count && count > 0) return `Собрано ${count} страниц`
+      if (status === 'active' && count && count > 0) return `Сборка ${count} страниц`
+      return 'Сборка страниц'
+    }
+    case 'validate':
+      return status === 'done' ? 'Проверено' : 'Валидация'
+    case 'deploy':
+      return status === 'done' ? 'Опубликовано' : 'Публикация'
+    default: return key
+  }
 }
 
-const STEP_ORDER = ['cms_check', 'build', 'validate', 'deploy']
+const MONTHS = [
+  'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+  'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря',
+]
+
+function formatDate(iso: string): string {
+  const d = new Date(iso)
+  const day = d.getDate()
+  const month = MONTHS[d.getMonth()]
+  const hours = String(d.getHours()).padStart(2, '0')
+  const minutes = String(d.getMinutes()).padStart(2, '0')
+  return `${day} ${month}, ${hours}:${minutes}`
+}
 
 export default function DeployButton() {
   const [state, setState] = useState<BuildState>({ status: 'idle', steps: {} })
   const [deploying, setDeploying] = useState(false)
+  const [sessionStarted, setSessionStarted] = useState(false)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const fetchStatus = useCallback(async () => {
@@ -66,6 +92,7 @@ export default function DeployButton() {
   const handleDeploy = async () => {
     if (deploying) return
     setDeploying(true)
+    setSessionStarted(true)
     setState({ status: 'building', steps: {} })
 
     try {
@@ -92,10 +119,11 @@ export default function DeployButton() {
   }
 
   const isActive = deploying || state.status === 'building'
-  const showSteps = isActive || state.status === 'success' || state.status === 'failed'
+  const showSteps = sessionStarted && (isActive || state.status === 'success' || state.status === 'failed')
+  const showLastDate = !sessionStarted && state.timestamp
 
   return (
-    <div style={{ padding: '0 16px 16px' }}>
+    <div style={{ padding: '16px 0 12px', width: '100%', alignSelf: 'stretch' }}>
       <button
         type="button"
         onClick={handleDeploy}
@@ -116,65 +144,70 @@ export default function DeployButton() {
         {isActive ? 'Сборка...' : 'Опубликовать на сайт'}
       </button>
 
+      {showLastDate && (
+        <div style={{
+          marginTop: '6px',
+          fontSize: '11px',
+          color: '#999',
+          textAlign: 'center',
+        }}>
+          Опубликовано {formatDate(state.timestamp!)}
+        </div>
+      )}
+
       {showSteps && (
         <div style={{
-          marginTop: '8px',
-          padding: '10px 12px',
+          marginTop: '6px',
+          padding: '8px 10px',
           backgroundColor: '#fafafa',
           border: '1px solid #e5e5e5',
           borderRadius: '6px',
-          fontSize: '13px',
-          lineHeight: '1.8',
+          fontSize: '11px',
+          lineHeight: '1.9',
         }}>
           {STEP_ORDER.map(key => {
             const stepStatus = state.steps[key] || 'pending'
-            const label = STEP_LABELS[key]
+            const label = formatStepLabel(key, stepStatus, state)
             return (
               <div key={key} style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                gap: '6px',
                 color: stepStatus === 'pending' ? '#aaa' : '#333',
               }}>
                 <StepIcon status={stepStatus} />
                 <span>{label}</span>
-                {key === 'build' && state.pages_count != null && state.pages_count > 0 && stepStatus === 'done' && (
-                  <span style={{ color: '#999', marginLeft: 'auto', fontSize: '12px' }}>
-                    {state.pages_count} стр.
-                  </span>
-                )}
               </div>
             )
           })}
 
           {state.status === 'failed' && (
             <div style={{
-              marginTop: '8px',
-              paddingTop: '8px',
+              marginTop: '6px',
+              paddingTop: '6px',
               borderTop: '1px solid #e5e5e5',
-              fontSize: '12px',
+              fontSize: '11px',
               color: '#666',
               lineHeight: 1.5,
             }}>
               {state.error && (
-                <div style={{ marginBottom: '4px', color: '#999' }}>{state.error}</div>
+                <div style={{ marginBottom: '3px', color: '#999' }}>{state.error}</div>
               )}
-              <div>Сайт работает. На нём предыдущая опубликованная версия.</div>
-              <div>Обратитесь к разработчику, если проблема повторяется.</div>
+              <div>Сайт работает. На нём предыдущая версия.</div>
             </div>
           )}
 
           {state.status === 'success' && (
             <div style={{
-              marginTop: '8px',
-              paddingTop: '8px',
+              marginTop: '6px',
+              paddingTop: '6px',
               borderTop: '1px solid #e5e5e5',
-              fontSize: '12px',
+              fontSize: '11px',
               color: '#666',
             }}>
-              Опубликовано
+              Готово
               {state.timestamp && (
-                <span> — {new Date(state.timestamp).toLocaleString('ru-RU')}</span>
+                <span> {formatDate(state.timestamp)}</span>
               )}
             </div>
           )}
@@ -185,7 +218,7 @@ export default function DeployButton() {
 }
 
 function StepIcon({ status }: { status: StepStatus }) {
-  const size = 16
+  const size = 12
   const style: React.CSSProperties = {
     width: size,
     height: size,
@@ -223,7 +256,6 @@ function StepIcon({ status }: { status: StepStatus }) {
     )
   }
 
-  // pending
   return (
     <svg style={style} viewBox="0 0 16 16" fill="none">
       <circle cx="8" cy="8" r="7" stroke="#ddd" strokeWidth="1.5" />
