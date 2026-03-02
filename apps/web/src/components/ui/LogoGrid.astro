@@ -48,18 +48,27 @@ interface Props {
   ctaLabel?: string
   /** Ссылка в плашке */
   ctaLink?: string
+  /** Вариант оформления: light (белый фон) или dark (тёмный фон) */
+  variant?: 'light' | 'dark'
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const { logos, title, titleClass = '', ctaText, ctaLabel, ctaLink, class: className = '' } = Astro.props
+const { logos, title, titleClass = '', ctaText, ctaLabel, ctaLink, variant = 'light', class: className = '' } = Astro.props
+const isDark = variant === 'dark'
 const hasCta = ctaText && ctaLabel
+
+// Подмена путей к тёмным логотипам
+const darkLogos = isDark ? logos.map(logo => ({
+  ...logo,
+  src: logo.src.replace(/^\/partners\//, '/partners/dark/')
+})) : logos
 ---
 
-<section class:list={['bg-white py-24 sm:py-32', className]}>
+<section class="bg-white py-24 sm:py-32">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     {title && (
-      <h2 class:list={['text-center text-lg/8 font-semibold text-gray-900', titleClass]}>
+      <h2 class="text-center text-4xl font-bold font-heading text-gray-900">
         {title}
       </h2>
     )}
@@ -67,7 +76,7 @@ const hasCta = ctaText && ctaLabel
       'grid items-center gap-x-8 gap-y-12',
       title ? 'mx-auto mt-10 max-w-lg grid-cols-4 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 sm:gap-y-14 lg:mx-0 lg:max-w-none lg:grid-cols-5' : 'mx-auto grid-cols-4 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 sm:gap-y-14 lg:mx-0 lg:max-w-none lg:grid-cols-5'
     ]}>
-      {logos.map((logo) => (
+      {darkLogos.map((logo) => (
         <img
           src={logo.src}
           alt={logo.alt}

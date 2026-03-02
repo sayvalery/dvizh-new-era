@@ -4,6 +4,7 @@ import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
 import CTA from '../components/ui/CTA.astro'
+import LogoGrid from '../components/ui/LogoGrid.astro'
 ---
 
 <SiteLayout title="Для девелоперов — ДВИЖ" description="AI-платформа для автоматизации ипотечных продаж, электронной регистрации и аналитики. Используется 75 из ТОП-100 застройщиков.">
@@ -12,6 +13,19 @@ import CTA from '../components/ui/CTA.astro'
     title="Лучшие отделы продаж застройщиков используют ДВИЖ"
     description="AI-платформа для автоматизации продаж и маркетинга. ДВИЖ объединяет застройщиков и банки в единую цифровую экосистему — ипотека, регистрация, аналитика и витрина на одной платформе."
     formPreset="demo"
+  />
+
+  <LogoGrid
+    title="Заряжаем лучшие отделы продаж"
+    logos={[
+      { src: '/partners/lsr.svg', alt: 'ЛСР' },
+      { src: '/partners/ava.svg', alt: 'AVA' },
+      { src: '/partners/ganel.svg', alt: 'Ganel' },
+      { src: '/partners/strana.svg', alt: 'Strana' },
+      { src: '/partners/glorax.svg', alt: 'Glorax' },
+      { src: '/partners/a101.svg', alt: 'A101' },
+    ]}
+    variant="dark"
   />
 
   <StatsSection
