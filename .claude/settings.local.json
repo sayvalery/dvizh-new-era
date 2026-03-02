@@ -28,7 +28,8 @@
       "Bash(grep:*)",
       "Bash(git show:*)",
       "Bash(taskkill:*)",
-      "Bash(cmd.exe //c \"taskkill /F /PID 7396 && taskkill /F /PID 30752\")"
+      "Bash(cmd.exe //c \"taskkill /F /PID 7396 && taskkill /F /PID 30752\")",
+      "Bash(git clean:*)"
     ]
   }
 }
