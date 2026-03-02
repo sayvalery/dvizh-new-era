@@ -38,7 +38,6 @@ export const FormSubmissions: CollectionConfig = {
       name: 'email',
       type: 'email',
       label: 'Email',
-      required: true,
     },
     {
       name: 'phone',

@@ -67,7 +67,7 @@ const isMini = variant === 'mini'
 const hasHtml = /<[a-z][\s\S]*>/i.test(title)
 ---
 
-<div class:list={['bg-[#f8f8f8] rounded-[40px] p-[52px]', className, isMini && 'h-[470px]']}>
+<div class:list={['bg-[#f8f8f8] rounded-[20px] lg:rounded-[40px] p-6 sm:p-8 lg:p-[52px]', className, isMini && 'min-h-[300px] lg:h-[470px]']}>
   {isMini ? (
     <!-- Mini вариант: только заголовок и персона -->
     <div class="flex flex-col justify-between h-full">
@@ -85,7 +85,7 @@ const hasHtml = /<[a-z][\s\S]*>/i.test(title)
     </div>
   ) : (
     <!-- Полный вариант: заголовок, персона, цитата и изображение -->
-    <div class="grid lg:grid-cols-2 gap-[60px] h-[448px]">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-[60px] h-auto lg:h-[448px]">
       <!-- Левая колонка: контент -->
       <div class="flex flex-col">
         <!-- Заголовок с метрикой -->
@@ -127,7 +127,7 @@ const hasHtml = /<[a-z][\s\S]*>/i.test(title)
       </div>
 
       <!-- Правая колонка: изображение -->
-      <div class="relative rounded-3xl overflow-hidden h-[448px]">
+      <div class="relative rounded-3xl overflow-hidden h-[250px] sm:h-[350px] lg:h-[448px]">
         {image ? (
           <img
             src={image}

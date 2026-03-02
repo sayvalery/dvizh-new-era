@@ -23,29 +23,36 @@ interface Props {
   /** Slug для ссылки /blog/{slug} */
   slug: string
   /** Обложка */
-  cover?: { url?: string; alt?: string }
+  cover?: { url?: string; alt?: string; sizes?: { card?: { url?: string }; thumbnail?: { url?: string } } }
   /** Название категории */
   category?: string
   /** Краткое описание */
   excerpt?: string
+  /** Теги поста */
+  tags?: { title?: string; name?: string }[]
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const { title, slug, cover, category, excerpt, class: className = '' } = Astro.props
+const { title, slug, cover, category, excerpt, tags, class: className = '' } = Astro.props
 const coverUrl = normalizeMediaUrl(cover?.url ?? null)
+const cardUrl = normalizeMediaUrl(cover?.sizes?.card?.url ?? null)
+const thumbUrl = normalizeMediaUrl(cover?.sizes?.thumbnail?.url ?? null)
+const srcset = [thumbUrl && `${thumbUrl} 400w`, cardUrl && `${cardUrl} 768w`, coverUrl && `${coverUrl} 1200w`].filter(Boolean).join(', ')
 ---
 
 <a href={`/blog/${slug}`} class:list={['group border rounded-xl overflow-hidden hover:shadow-md transition-shadow', className]}>
   {coverUrl ? (
     <img
-      src={coverUrl}
+      src={cardUrl || coverUrl}
       alt={cover?.alt ?? title}
       class="w-full aspect-video object-cover"
       loading="lazy"
       decoding="async"
-      width="400"
-      height="225"
+      width="768"
+      height="480"
+      srcset={srcset || undefined}
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
     />
   ) : (
     <div class="w-full aspect-video bg-gray-100" />
@@ -56,5 +63,14 @@ const coverUrl = normalizeMediaUrl(cover?.url ?? null)
     )}
     <h2 class="font-semibold mt-1 group-hover:underline">{title}</h2>
     {excerpt && <p class="text-sm text-gray-600 mt-2 line-clamp-2">{excerpt}</p>}
+    {tags && tags.length > 0 && (
+      <div class="flex flex-wrap gap-1 mt-2">
+        {tags.slice(0, 3).map((tag: any) => (
+          <span class="px-1.5 py-0.5 bg-gray-100 text-gray-500 text-[10px] rounded">
+            {tag.title || tag.name}
+          </span>
+        ))}
+      </div>
+    )}
   </div>
 </a>

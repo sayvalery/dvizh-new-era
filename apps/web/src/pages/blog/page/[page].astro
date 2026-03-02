@@ -1,6 +1,6 @@
 ---
 import BlogLayout from '../../../layouts/BlogLayout.astro'
-import BlogCard from '../../../components/ui/BlogCard.astro'
+import BlogGrid from '../../../components/ui/BlogGrid.astro'
 import { getBlogPosts, getCategories } from '../../../lib/payload'
 
 export async function getStaticPaths() {
@@ -21,7 +21,6 @@ const allPostsResult = await getBlogPosts({ limit: 200 })
 const allPosts = allPostsResult.docs
 const { docs: categories } = await getCategories()
 
-// Считаем статьи по категориям
 const categoryCountMap: Record<string, number> = {}
 for (const post of allPosts) {
   const catSlug = post.category?.slug
@@ -33,8 +32,6 @@ for (const post of allPosts) {
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE)
 const start = (currentPage - 1) * POSTS_PER_PAGE
 const posts = allPosts.slice(start, start + POSTS_PER_PAGE)
-const hasNextPage = currentPage < totalPages
-const hasPrevPage = currentPage > 1
 ---
 
 <BlogLayout title={`Блог — Страница ${currentPage} — ДВИЖ`}>
@@ -42,60 +39,13 @@ const hasPrevPage = currentPage > 1
     <h1 class="text-4xl font-bold mb-2">Блог</h1>
     <p class="text-gray-400 text-sm mb-8">{allPosts.length} статей · Страница {currentPage} из {totalPages}</p>
 
-    <!-- Фильтр по категориям -->
-    {categories.length > 0 && (
-      <div class="flex flex-wrap gap-2 mb-10">
-        <a href="/blog" class="px-3 py-1 rounded-full border text-sm hover:bg-gray-100">
-          Все <span class="text-gray-400 ml-1">{allPosts.length}</span>
-        </a>
-        {categories.map((cat: any) => (
-          <a
-            href={`/category/${cat.slug}`}
-            class="px-3 py-1 rounded-full border text-sm hover:bg-gray-100"
-          >
-            {cat.title}
-            <span class="text-gray-400 ml-1">{categoryCountMap[cat.slug] ?? 0}</span>
-          </a>
-        ))}
-      </div>
-    )}
-
-    <!-- Список постов -->
-    {posts.length === 0 ? (
-      <p class="text-gray-500">Статьи скоро появятся.</p>
-    ) : (
-      <div class="grid md:grid-cols-3 gap-6">
-        {posts.map((post: any) => (
-          <BlogCard
-            title={post.title}
-            slug={post.slug}
-            cover={post.cover}
-            category={post.category?.title}
-            excerpt={post.excerpt}
-          />
-        ))}
-      </div>
-    )}
-
-    <!-- Пагинация -->
-    <div class="flex justify-center items-center gap-4 mt-12">
-      {hasPrevPage && (
-        <a
-          href={currentPage === 2 ? '/blog' : `/blog/page/${currentPage - 1}`}
-          class="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
-        >
-          ← Назад
-        </a>
-      )}
-      <span class="text-sm text-gray-400">{currentPage} / {totalPages}</span>
-      {hasNextPage && (
-        <a
-          href={`/blog/page/${currentPage + 1}`}
-          class="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
-        >
-          Загрузить ещё →
-        </a>
-      )}
-    </div>
+    <BlogGrid
+      posts={posts}
+      allPosts={allPosts}
+      categories={categories}
+      categoryCountMap={categoryCountMap}
+      currentPage={currentPage}
+      totalPages={totalPages}
+    />
   </div>
 </BlogLayout>

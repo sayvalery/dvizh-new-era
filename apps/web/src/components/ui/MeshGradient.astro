@@ -62,6 +62,9 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, ${colors[0]} 0%, t
   } from '@paper-design/shaders'
 
   function initMeshGradients() {
+    // Skip WebGL entirely for users who prefer reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     document.querySelectorAll('.mesh-gradient-container').forEach((container) => {
       if (container.querySelector('canvas')) return
 
@@ -70,7 +73,7 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, ${colors[0]} 0%, t
       const colors = (config.colors || ['#ff4d00', '#1b2226', '#ff8c42', '#2a1a4e'])
         .map((c) => getShaderColorFromString(c))
 
-      new ShaderMount(
+      const mount = new ShaderMount(
         container,
         meshGradientFragmentShader,
         {
@@ -92,6 +95,19 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, ${colors[0]} 0%, t
         undefined,
         config.speed ?? 0.4,
       )
+
+      // Pause shader when out of viewport to save GPU
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            mount.speed = config.speed ?? 0.4
+          } else {
+            mount.speed = 0
+          }
+        },
+        { threshold: 0 }
+      )
+      observer.observe(container)
     })
   }
 

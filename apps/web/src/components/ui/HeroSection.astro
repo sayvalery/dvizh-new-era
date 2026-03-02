@@ -103,6 +103,8 @@ const hasRightSlot = Astro.slots.has('right')
             class="w-full h-full object-cover"
             width="595"
             height="800"
+            loading="eager"
+            fetchpriority="high"
           />
         </div>
       ) : hasRightSlot ? (
