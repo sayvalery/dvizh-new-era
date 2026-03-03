@@ -52,7 +52,7 @@ import LogoGrid from '../components/ui/LogoGrid.astro'
 
   <!-- Продукт 5: Личный кабинет -->
   <FeaturesGrid
-    title="... и делать это быстрее конкурентов."
+    title="... и делать это быстрее конкурентов"
     features={[
       { icon: 'document', title: 'Актуальные статусы по сделке в CRM:', description: 'контроль каждого этапа в карточке клиента' },
       { icon: 'check', title: 'Одна анкета для всех этапов', description: 'от заявки до регистрации' },
@@ -69,6 +69,17 @@ import LogoGrid from '../components/ui/LogoGrid.astro'
     features={[
       { icon: 'globe', title: '', description: 'Покажем клиенту ежемесячный платеж и поможем выбрать квартиру под весь бюджет' },
       { icon: 'database', title: '', description: 'Рассчитаем ПДН клиента и поможем увеличить средний чек сделки' },
+    ]}
+    variant="light"
+  />
+
+  <!-- Продукт 7: Управление -->
+  <FeaturesGrid
+    title="Делаем работу менеджеров управляемой"
+    features={[
+      { icon: 'document', title: 'Контроль всех этапов через CRM:', description: 'покажем, как быстро менеджер взял сделку в работу' },
+      { icon: 'check', title: 'Отображаем статусы сделки в CRM:', description: 'покажем, в каком отделе потерялся клиент' },
+      { icon: 'arrow-path', title: 'Соберем актуальную статистику', description: 'по банкам и одобрениям, для контроля и принятия решений' },
     ]}
     variant="light"
   />
