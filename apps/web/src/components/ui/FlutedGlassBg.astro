@@ -1,0 +1,266 @@
+---
+/**
+ * FlutedGlassBg — анимированный фон: mesh gradient + fluted glass в одном WebGL-шейдере
+ *
+ * 0 зависимостей, один draw call, 0 текстур, ~3% GPU.
+ * Drop-in замена MeshGradient.astro — тот же API позиционирования (absolute, inset: 0).
+ * Автоматически паузится при выходе из viewport и при prefers-reduced-motion.
+ *
+ * @example
+ * ```astro
+ * <div class="relative">
+ *   <FlutedGlassBg />
+ *   <div class="relative z-10">Контент поверх</div>
+ * </div>
+ * ```
+ */
+
+interface Props {
+  /** CSS-класс контейнера */
+  class?: string
+}
+
+const { class: className = '' } = Astro.props
+
+// CSS fallback — бренд-градиент, рендерится мгновенно до загрузки WebGL
+const fallbackGradient = `radial-gradient(ellipse at 30% 50%, #ff4d00 0%, transparent 60%), radial-gradient(ellipse at 70% 30%, #1a0a00 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, #ff6b2c 0%, transparent 60%)`
+---
+
+<div
+  class:list={['fluted-glass-bg', className]}
+  style={`background: ${fallbackGradient};`}
+>
+  <canvas class="fluted-glass-canvas"></canvas>
+</div>
+
+<script>
+  function initFlutedGlass() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    document.querySelectorAll('.fluted-glass-bg').forEach((container) => {
+      const canvas = container.querySelector('.fluted-glass-canvas') as HTMLCanvasElement
+      if (!canvas || canvas.dataset.init) return
+      canvas.dataset.init = '1'
+
+      const gl = canvas.getContext('webgl', { alpha: false, antialias: false })
+      if (!gl) return
+
+      // --- Extension for fwidth/dFdx/dFdy ---
+      gl.getExtension('OES_standard_derivatives')
+
+      const VERT = `
+        attribute vec2 a_position;
+        void main() { gl_Position = vec4(a_position, 0.0, 1.0); }
+      `
+
+      const FRAG = `
+        #extension GL_OES_standard_derivatives : enable
+        precision mediump float;
+        uniform vec2 u_resolution;
+        uniform float u_time;
+
+        #define RIB_COUNT 30.0
+        #define RIB_STRENGTH 0.020
+        #define RIB_SPEED 0.6
+        #define DIST_POWER 6.0
+        #define GRAD_SPEED 0.325
+        #define GRAD_DISTORT 0.50
+        #define GRAIN 0.53
+        #define SHADOWS 0.09
+
+        float hash21(vec2 p) {
+          p = fract(p * vec2(0.3183099, 0.3678794)) + 0.1;
+          p += dot(p, p + 19.19);
+          return fract(p.x * p.y);
+        }
+
+        float valueNoise(vec2 st) {
+          vec2 i = floor(st);
+          vec2 f = fract(st);
+          vec2 u = f * f * (3.0 - 2.0 * f);
+          float a = hash21(i);
+          float b = hash21(i + vec2(1.0, 0.0));
+          float c = hash21(i + vec2(0.0, 1.0));
+          float d = hash21(i + vec2(1.0, 1.0));
+          return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+        }
+
+        vec3 getColor(int i) {
+          if (i == 0) return vec3(1.0, 0.30, 0.0);
+          if (i == 1) return vec3(1.0, 0.42, 0.17);
+          if (i == 2) return vec3(0.88, 0.21, 0.0);
+          if (i == 3) return vec3(1.0, 0.70, 0.28);
+          return vec3(0.12, 0.04, 0.0);
+        }
+
+        vec2 getSpotPos(int idx, float t) {
+          float a = float(idx) * 0.37;
+          float bx = 0.6 + fract(float(idx) / 3.0) * 0.9;
+          float cy = 0.8 + fract(float(idx + 1) / 4.0);
+          return 0.5 + 0.5 * vec2(sin(t * bx + a), cos(t * cy + a * 1.5));
+        }
+
+        vec3 meshGradient(vec2 uv, float t) {
+          float radius = smoothstep(0.0, 1.0, length(uv - 0.5));
+          float center = 1.0 - radius;
+          vec2 duv = uv;
+
+          duv.x += GRAD_DISTORT * center
+            * sin(t + 0.4 * smoothstep(0.0, 1.0, duv.y))
+            * cos(0.2 * t + 2.4 * smoothstep(0.0, 1.0, duv.y));
+          duv.y += GRAD_DISTORT * center
+            * cos(t + 2.0 * smoothstep(0.0, 1.0, duv.x));
+          duv.x += GRAD_DISTORT * center * 0.5
+            * sin(t + 0.8 * smoothstep(0.0, 1.0, duv.y))
+            * cos(0.2 * t + 4.8 * smoothstep(0.0, 1.0, duv.y));
+          duv.y += GRAD_DISTORT * center * 0.5
+            * cos(t + 4.0 * smoothstep(0.0, 1.0, duv.x));
+
+          vec3 color = vec3(0.0);
+          float totalWeight = 0.0;
+          for (int i = 0; i < 5; i++) {
+            vec2 pos = getSpotPos(i, t);
+            float d = max(length(duv - pos), 0.001);
+            float dp = exp(DIST_POWER * log(d));
+            float w = 1.0 / (dp + 0.001);
+            color += getColor(i) * w;
+            totalWeight += w;
+          }
+          return color / totalWeight;
+        }
+
+        float smoothFract(float x) {
+          float f = fract(x);
+          float fw = fwidth(x);
+          float edge = abs(f - 0.5) - 0.5;
+          float band = smoothstep(-fw, fw, edge);
+          return mix(f, 1.0 - f, band);
+        }
+
+        void main() {
+          vec2 uv = gl_FragCoord.xy / u_resolution;
+          uv.y = 1.0 - uv.y;
+
+          float t = u_time * GRAD_SPEED;
+
+          float patternX = uv.x * RIB_COUNT + u_time * RIB_SPEED;
+          float sf = smoothFract(patternX);
+
+          float safeBase = max(1.5 * sf, 0.001);
+          float displacement = -exp(3.0 * log(safeBase)) * RIB_STRENGTH;
+
+          float ribDist = abs(sf - 0.5) * 2.0;
+          float shadow = 1.0 - SHADOWS * ribDist * ribDist;
+
+          vec3 color = meshGradient(uv + vec2(displacement, 0.0), t);
+          color *= shadow;
+
+          vec2 grainUV = gl_FragCoord.xy * 0.8;
+          float n1 = valueNoise(grainUV + vec2(u_time * 3.7, 0.0));
+          float n2 = valueNoise(grainUV * 1.1 + vec2(0.0, u_time * 2.3));
+          float grainVal = mix(n1, n2, 0.5);
+          grainVal = grainVal * grainVal * 1.3;
+          float gv = grainVal * 2.0 - 1.0;
+          vec3 grainColor = vec3(step(0.0, gv));
+          float grainMix = GRAIN * abs(gv);
+          grainMix = grainMix * sqrt(grainMix);
+          color = mix(color, grainColor, 0.35 * grainMix);
+
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `
+
+      // --- Compile ---
+      function compileShader(type: number, src: string): WebGLShader | null {
+        const s = gl.createShader(type)
+        if (!s) return null
+        gl.shaderSource(s, src)
+        gl.compileShader(s)
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+          console.error('FlutedGlassBg shader error:', gl.getShaderInfoLog(s))
+          return null
+        }
+        return s
+      }
+
+      const vs = compileShader(gl.VERTEX_SHADER, VERT)
+      const fs = compileShader(gl.FRAGMENT_SHADER, FRAG)
+      if (!vs || !fs) return
+
+      const program = gl.createProgram()!
+      gl.attachShader(program, vs)
+      gl.attachShader(program, fs)
+      gl.linkProgram(program)
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error('FlutedGlassBg link error:', gl.getProgramInfoLog(program))
+        return
+      }
+      gl.useProgram(program)
+
+      // --- Fullscreen quad ---
+      const buf = gl.createBuffer()
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW)
+      const aPos = gl.getAttribLocation(program, 'a_position')
+      gl.enableVertexAttribArray(aPos)
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0)
+
+      const uRes = gl.getUniformLocation(program, 'u_resolution')
+      const uTime = gl.getUniformLocation(program, 'u_time')
+
+      // --- Resize ---
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio, 2)
+        canvas.width = canvas.clientWidth * dpr
+        canvas.height = canvas.clientHeight * dpr
+        gl.viewport(0, 0, canvas.width, canvas.height)
+      }
+      resize()
+      window.addEventListener('resize', resize)
+
+      // --- Visibility control ---
+      let running = true
+      const observer = new IntersectionObserver(
+        ([entry]) => { running = entry.isIntersecting },
+        { threshold: 0 }
+      )
+      observer.observe(container)
+
+      // --- Render loop ---
+      const t0 = performance.now()
+      function render() {
+        if (running) {
+          gl.uniform2f(uRes, canvas.width, canvas.height)
+          gl.uniform1f(uTime, (performance.now() - t0) / 1000)
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+        }
+        requestAnimationFrame(render)
+      }
+      requestAnimationFrame(render)
+    })
+  }
+
+  initFlutedGlass()
+  document.addEventListener('astro:after-swap', initFlutedGlass)
+</script>
+
+<style>
+  .fluted-glass-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .fluted-glass-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    animation: flutedFadeIn 0.6s ease-out 0.1s forwards;
+  }
+
+  @keyframes flutedFadeIn {
+    to { opacity: 1; }
+  }
+</style>

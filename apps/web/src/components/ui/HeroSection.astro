@@ -13,7 +13,7 @@
  */
 
 import Form from './Form.astro'
-import MeshGradient from './MeshGradient.astro'
+import FlutedGlassBg from './FlutedGlassBg.astro'
 
 interface Props {
   /** Бейдж/надпись над заголовком (оранжевый) */
@@ -58,9 +58,9 @@ const hasRightSlot = Astro.slots.has('right')
 ---
 
 <section class:list={['relative overflow-hidden', withGradient ? 'bg-brand' : 'bg-white', className]}>
-  {/* Mesh-градиент фоном */}
+  {/* Fluted glass gradient background */}
   {withGradient && (
-    <MeshGradient colors={gradientColors} />
+    <FlutedGlassBg />
   )}
 
   <div class="relative z-10 max-w-[1440px] mx-auto px-4">
