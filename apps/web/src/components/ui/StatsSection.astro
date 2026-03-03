@@ -23,9 +23,11 @@
 
 interface StatItem {
   /** Основное значение (цифра или текст) */
-  value: string
+  value?: string
   /** Описание/подпись */
   label: string
+  /** Текст под карточкой (показывается под цифрой/значением) */
+  sublabel?: string
   /** Опциональная иконка (HTML) */
   icon?: string
 }
@@ -71,6 +73,9 @@ const gridCols = {
             </dd>
           )}
           <dt class="text-base/7 text-gray-600">{item.label}</dt>
+          {item.sublabel && (
+            <div class="text-base/7 text-gray-500 mt-2">{item.sublabel}</div>
+          )}
         </div>
       ))}
     </dl>
