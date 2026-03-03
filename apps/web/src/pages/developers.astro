@@ -5,6 +5,7 @@ import HeroSection from '../components/ui/HeroSection.astro'
 import StatsSection from '../components/ui/StatsSection.astro'
 import CTA from '../components/ui/CTA.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
+import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
 ---
 
 <SiteLayout title="Для девелоперов — ДВИЖ" description="AI-платформа для автоматизации ипотечных продаж, электронной регистрации и аналитики. Используется 75 из ТОП-100 застройщиков.">
@@ -94,6 +95,19 @@ import LogoGrid from '../components/ui/LogoGrid.astro'
     ]}
     variant="light"
   />
+
+  <SuccessStoriesCarousel
+    title="Истории успеха"
+    variant="default"
+    :successStories={[  ]}
+      { title: 'ГК ЛСР', quote: 'Благодаря платформе ДВИЖ мы выросли на 281%', person: { name: 'Александр Петров', jobTitle: 'Генеральный директор' } },
+      { title: 'ГК Точно', quote: 'Количество ипотечных заявок выросло с 1 116 до 3 500 в месяц', person: { name: 'Михаил Сидоров', jobTitle: 'Коммерческий директор' } },
+      { title: 'ГК Самолет', quote: '96 квартир продали через платформу, принеся 816 млн ₽ дополнительного дохода', person: { name: 'Елена Николаева', jobTitle: 'Руководитель отдела продаж' } },
+      { title: 'Гранель', quote: 'Процент одобрения ипотечных заявок вырос с 66.7% до 95%', person: { name: 'Дмитрий Козлов', jobTitle: 'Начальник отдела ипотеки' } },
+      { title: 'Страна Девелопмент', quote: '150 млн ₽ сделок ежемесячно через платформу', person: { name: 'Ольга Иванова', jobTitle: 'Директор по продажам' } },
+    ]}
+  />
+
 
   <!-- Кейсы клиентов -->
   <section class="bg-gray-50 py-24">
