@@ -8,19 +8,25 @@ import SiteLayout from '../../layouts/SiteLayout.astro'
 const pages = [
   {
     title: 'Fluted Glass',
-    description: 'Ванильный WebGL-шейдер рифлёного стекла — sine UV displacement, хроматическая аберрация, 0 зависимостей, 60fps',
+    description: 'Mesh gradient + рифлёное стекло в одном WebGL-шейдере — 0 зависимостей, ~3% GPU, 60fps',
     href: '/lab/fluted-glass',
     style: 'WebGL / Shader',
   },
   {
+    title: 'Logo Animations',
+    description: 'CSS-анимации логотипов — 3D-барабан (цилиндр) и поток с эффектом глубины, 0 JS',
+    href: '/lab/logo-animations',
+    style: 'CSS / Animation',
+  },
+  {
     title: 'Product Page',
-    description: 'Электронная регистрация — Linear-inspired split-layout, serif headings, generous spacing',
+    description: 'Электронная регистрация — split-layout, serif headings, generous spacing',
     href: '/lab/product',
     style: 'Product / SaaS landing',
   },
   {
     title: 'About Page',
-    description: 'О компании — Linear /readme editorial style, narrative structure, timeline',
+    description: 'О компании — editorial style, narrative structure, timeline',
     href: '/lab/about',
     style: 'Editorial / Narrative',
   },
@@ -56,13 +62,6 @@ const pages = [
         ))}
       </div>
 
-      <div class="mt-16 p-6 bg-brand-50 rounded-xl border border-brand-100">
-        <p class="text-sm text-brand-700">
-          <strong>Ключевые паттерны Linear.app:</strong> Split-layout заголовки (heading left, description right),
-          serif display typography (Georgia), generous spacing (py-24/py-32), карточки с subtle borders,
-          тёмные accent-блоки для CTA, numbered steps, large metrics display.
-        </p>
-      </div>
     </div>
   </section>
 </SiteLayout>

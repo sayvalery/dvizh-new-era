@@ -11,6 +11,7 @@ import LabProduct from '../../components/lab/LabProduct.astro'
 import LabAbout from '../../components/lab/LabAbout.astro'
 import LabHome from '../../components/lab/LabHome.astro'
 import LabFlutedGlass from '../../components/lab/LabFlutedGlass.astro'
+import LabLogoAnimations from '../../components/lab/LabLogoAnimations.astro'
 
 export function getStaticPaths() {
   if (import.meta.env.PROD) return []
@@ -20,6 +21,7 @@ export function getStaticPaths() {
     { params: { slug: 'about' }, props: { page: 'about' } },
     { params: { slug: 'home' }, props: { page: 'home' } },
     { params: { slug: 'fluted-glass' }, props: { page: 'fluted-glass' } },
+    { params: { slug: 'logo-animations' }, props: { page: 'logo-animations' } },
   ]
 }
 
@@ -31,3 +33,4 @@ const { page } = Astro.props
 {page === 'about' && <LabAbout />}
 {page === 'home' && <LabHome />}
 {page === 'fluted-glass' && <LabFlutedGlass />}
+{page === 'logo-animations' && <LabLogoAnimations />}
