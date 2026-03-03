@@ -2040,9 +2040,7 @@ interface SectionItem {
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Базовый пример — 2 плана</p>
               <DvizhAdvantages
-                badge="Преимущества"
                 title="Почему выбирают ДВИЖ"
-                description="Выберите решение, которое подходит вашему бизнесу"
                 plans={[
                   {
                     id: 'plan-basic',
@@ -2056,7 +2054,7 @@ interface SectionItem {
                       { label: 'Email-поддержка' },
                       { label: 'Интеграция с 5 банками' },
                     ],
-                    buttonText: 'Начать',
+                    buttonHref: '#',
                   },
                   {
                     id: 'plan-pro',
@@ -2073,7 +2071,7 @@ interface SectionItem {
                       { label: 'Кастомные интеграции' },
                       { label: 'Маркетинговые автоматизации' },
                     ],
-                    buttonText: 'Связаться',
+                    buttonHref: '#',
                   },
                 ]}
               />

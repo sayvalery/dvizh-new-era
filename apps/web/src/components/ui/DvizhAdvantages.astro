@@ -5,7 +5,6 @@
  * @example
  * ```astro
  * <DvizhAdvantages
- *   badge="Преимущества"
  *   title="Почему выбирают ДВИЖ"
  *   description="Выберите решение, которое подходит вашему бизнесу"
  *   plans={[...]}
@@ -25,17 +24,12 @@ interface Plan {
   description: string
   features: PlanFeature[]
   isDark?: boolean
-  buttonText?: string
   buttonHref?: string
 }
 
 interface Props {
-  /** Маленькая метка над заголовком */
-  badge?: string
   /** Основной заголовок */
   title: string
-  /** Описание под заголовком */
-  description?: string
   /** Массив планов */
   plans: Plan[]
   /** Дополнительные CSS классы */
@@ -43,9 +37,7 @@ interface Props {
 }
 
 const {
-  badge,
   title,
-  description,
   plans = [],
   class: className = ''
 } = Astro.props
@@ -61,15 +53,8 @@ const checkIcon = 'M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.
 
   <!-- Заголовок -->
   <div class="mx-auto max-w-4xl text-center">
-    {badge && (
-      <h2 class="text-base/7 font-semibold text-brand">{badge}</h2>
-    )}
     <p class="mt-2 text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-6xl">{title}</p>
   </div>
-
-  {description && (
-    <p class="mx-auto mt-6 max-w-2xl text-pretty text-center text-lg font-medium text-gray-600 sm:text-xl/8">{description}</p>
-  )}
 
   <!-- Планы -->
   <div class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
@@ -106,7 +91,7 @@ const checkIcon = 'M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.
             ))}
           </ul>
           <a href={plan.buttonHref || '#'} aria-describedby={plan.id} class={buttonClass}>
-            {plan.buttonText || 'Начать'}
+            {plan.buttonText}
           </a>
         </div>
       )
