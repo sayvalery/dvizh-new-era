@@ -120,7 +120,7 @@ const hasImage = !!(image || imageDark || imageLight)
                   >
                     <path d={icons[feature.icon] || feature.icon} fill-rule="evenodd" clip-rule="evenodd" />
                   </svg>
-                  {feature.title}
+                  <Fragment set:html={feature.title} />
                 </dt>
                 <dd class="inline">{feature.description}</dd>
               </div>
