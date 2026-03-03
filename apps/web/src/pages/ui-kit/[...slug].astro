@@ -29,6 +29,7 @@ import BlogCards from '../../components/ui/BlogCards.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
 import SectionNavigator from '../../components/ui/SectionNavigator.astro'
+import DvizhAdvantages from '../../components/ui/DvizhAdvantages.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -50,6 +51,9 @@ import sectionBlockRaw from '../../components/ui/SectionBlock.astro?raw'
 import gradientCTARaw from '../../components/ui/GradientCTA.astro?raw'
 import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
 import productCardRaw from '../../components/ui/ProductCard.astro?raw'
+import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
+import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
+import dvizhAdvantagesRaw from '../../components/ui/DvizhAdvantages.astro?raw'
 import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
 import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
 
@@ -134,6 +138,7 @@ const blogCardsMeta = parseSource(blogCardsRaw)
 const productCardMeta = parseSource(productCardRaw)
 const productSectionMeta = parseSource(productSectionRaw)
 const sectionNavigatorMeta = parseSource(sectionNavigatorRaw)
+const dvizhAdvantagesMeta = parseSource(dvizhAdvantagesRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -167,6 +172,7 @@ export function getStaticPaths() {
     { params: { slug: 'product-card' }, props: { section: 'product-card' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
     { params: { slug: 'section-navigator' }, props: { section: 'section-navigator' } },
+    { params: { slug: 'dvizh-advantages' }, props: { section: 'dvizh-advantages' } },
   ]
 }
 
@@ -201,6 +207,7 @@ const sections = [
   { slug: 'product-card', label: 'Product Card' },
   { slug: 'product-section', label: 'Product Section' },
   { slug: 'section-navigator', label: 'Section Navigator' },
+  { slug: 'dvizh-advantages', label: 'Dvizh Advantages' },
 ]
 ---
 
@@ -2014,6 +2021,127 @@ interface SectionItem {
       number: '01',
       title: 'Подключение',
       content: \`<h3>Заголовок</h3><p>Описание...</p>\`,
+    },
+  ]}
+/>`}</code></pre>
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'dvizh-advantages' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-8">Dvizh Advantages</h1>
+          <p class="text-gray-600 mb-10">
+            Секция преимуществ/планов с двумя карточками. Декоративный градиентный фон.
+          </p>
+          <PropsTable props={dvizhAdvantagesMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Базовый пример — 2 плана</p>
+              <DvizhAdvantages
+                badge="Преимущества"
+                title="Почему выбирают ДВИЖ"
+                description="Выберите решение, которое подходит вашему бизнесу"
+                plans={[
+                  {
+                    id: 'plan-basic',
+                    name: 'Базовый',
+                    price: 'от 29 000 ₽',
+                    period: '/месяц',
+                    description: 'Подходит для небольших команд',
+                    features: [
+                      { label: 'До 1 000 заявок' },
+                      { label: 'Базовая аналитика' },
+                      { label: 'Email-поддержка' },
+                      { label: 'Интеграция с 5 банками' },
+                    ],
+                    buttonText: 'Начать',
+                  },
+                  {
+                    id: 'plan-pro',
+                    name: 'Профессионал',
+                    price: 'от 99 000 ₽',
+                    period: '/месяц',
+                    description: 'Для крупных компаний',
+                    isDark: true,
+                    features: [
+                      { label: 'Безлимитные заявки' },
+                      { label: 'Безлимитные подписчики' },
+                      { label: 'AI-прогнозирование' },
+                      { label: 'Персональный менеджер' },
+                      { label: 'Кастомные интеграции' },
+                      { label: 'Маркетинговые автоматизации' },
+                    ],
+                    buttonText: 'Связаться',
+                  },
+                ]}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С TypeScript интерфейсом</p>
+              <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><code>{`import DvizhAdvantages from '@/components/ui/DvizhAdvantages.astro'
+
+interface PlanFeature {
+  label: string
+}
+
+interface Plan {
+  id: string
+  name: string
+  price: string
+  period: string
+  description: string
+  features: PlanFeature[]
+  isDark?: boolean
+  buttonText?: string
+  buttonHref?: string
+}
+
+interface Props {
+  badge?: string
+  title: string
+  description?: string
+  plans: Plan[]
+  class?: string
+}
+
+<DvizhAdvantages
+  badge="Преимущества"
+  title="Почему выбирают ДВИЖ"
+  description="Выберите решение, которое подходит вашему бизнесу"
+  plans={[
+    {
+      id: 'plan-basic',
+      name: 'Базовый',
+      price: 'от 29 000 ₽',
+      period: '/месяц',
+      description: 'Подходит для небольших команд',
+      features: [
+        { label: 'До 1 000 заявок' },
+        { label: 'Базовая аналитика' },
+        { label: 'Email-поддержка' },
+        { label: 'Интеграция с 5 банками' },
+      ],
+      buttonText: 'Начать',
+    },
+    {
+      id: 'plan-pro',
+      name: 'Профессионал',
+      price: 'от 99 000 ₽',
+      period: '/месяц',
+      description: 'Для крупных компаний',
+      isDark: true,
+      features: [
+        { label: 'Безлимитные заявки' },
+        { label: 'Безлимитные подписчики' },
+        { label: 'AI-прогнозирование' },
+        { label: 'Персональный менеджер' },
+        { label: 'Кастомные интеграции' },
+        { label: 'Маркетинговые автоматизации' },
+      ],
+      buttonText: 'Связаться',
     },
   ]}
 />`}</code></pre>
