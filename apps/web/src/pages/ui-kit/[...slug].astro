@@ -1378,16 +1378,26 @@ const sections = [
             <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Playground</p>
             <div
               x-data="{
+                layout: 'default',
                 badge: 'Ипотечная платформа',
                 title: 'Закрывайте до 26% больше сделок',
                 description: 'Повышаем конверсии на каждом этапе работы с заявками.',
                 withForm: true,
-                formPreset: 'lead'
+                formPreset: 'lead',
+                demoLabel: 'Посмотреть демо',
+                kpLabel: 'Получить КП'
               }"
               class="grid lg:grid-cols-[260px_1fr] border rounded-xl overflow-hidden"
             >
               <!-- Controls -->
               <div class="p-4 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-200 space-y-3">
+                <div>
+                  <label class="text-xs text-gray-500 block mb-1">layout</label>
+                  <select x-model="layout" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm bg-white">
+                    <option value="default">default</option>
+                    <option value="split">split</option>
+                  </select>
+                </div>
                 <div>
                   <label class="text-xs text-gray-500 block mb-1">badge</label>
                   <input x-model="badge" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
@@ -1400,24 +1410,55 @@ const sections = [
                   <label class="text-xs text-gray-500 block mb-1">description</label>
                   <textarea x-model="description" rows="2" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm"></textarea>
                 </div>
-                <div class="flex items-center gap-2">
-                  <input x-model="withForm" type="checkbox" id="pg-hero-form" class="rounded border-gray-300" />
-                  <label for="pg-hero-form" class="text-xs text-gray-500">withForm</label>
+                <div x-show="layout === 'default'">
+                  <div class="flex items-center gap-2">
+                    <input x-model="withForm" type="checkbox" id="pg-hero-form" class="rounded border-gray-300" />
+                    <label for="pg-hero-form" class="text-xs text-gray-500">withForm</label>
+                  </div>
+                  <div x-show="withForm" x-transition>
+                    <label class="text-xs text-gray-500 block mb-1">formPreset</label>
+                    <select x-model="formPreset" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm bg-white">
+                      <option value="lead">lead</option>
+                      <option value="demo">demo</option>
+                      <option value="subscribe">subscribe</option>
+                      <option value="research">research</option>
+                    </select>
+                  </div>
                 </div>
-                <div x-show="withForm" x-transition>
-                  <label class="text-xs text-gray-500 block mb-1">formPreset</label>
-                  <select x-model="formPreset" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm bg-white">
-                    <option value="lead">lead</option>
-                    <option value="demo">demo</option>
-                    <option value="subscribe">subscribe</option>
-                    <option value="research">research</option>
-                  </select>
+                <div x-show="layout === 'split'">
+                  <div>
+                    <label class="text-xs text-gray-500 block mb-1">demoLabel</label>
+                    <input x-model="demoLabel" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
+                  </div>
+                  <div>
+                    <label class="text-xs text-gray-500 block mb-1">kpLabel</label>
+                    <input x-model="kpLabel" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
+                  </div>
                 </div>
               </div>
 
               <!-- Preview -->
               <div class="bg-white overflow-hidden">
-                <section class="bg-white">
+                <!-- Split layout preview -->
+                <section x-show="layout === 'split'" class="bg-white">
+                  <div class="max-w-[1440px] mx-auto px-4">
+                    <div class="grid lg:grid-cols-2 gap-8 items-center py-16">
+                      <div class="flex flex-col gap-6 order-2 lg:order-1">
+                        <p x-show="badge" class="text-[18px] text-brand font-normal" x-text="badge"></p>
+                        <h1 class="text-4xl font-bold leading-none text-[#1b2226]" x-text="title"></h1>
+                      </div>
+                      <div class="flex flex-col gap-6 order-1 lg:order-2">
+                        <p x-show="description" class="text-lg text-[#858585] leading-[1.4]" x-text="description"></p>
+                        <div class="flex gap-3">
+                          <div class="px-4 py-2 rounded-lg bg-brand text-white text-sm" x-text="demoLabel"></div>
+                          <div class="px-4 py-2 rounded-lg bg-gray-100 text-[#1b2226] text-sm" x-text="kpLabel"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <!-- Default layout preview -->
+                <section x-show="layout === 'default'" class="bg-white">
                   <div class="max-w-[1440px] mx-auto px-4">
                     <div class="grid lg:grid-cols-[1fr_1fr] gap-8 items-center min-h-[400px]">
                       <div class="flex flex-col justify-center gap-8 py-10">
@@ -1477,6 +1518,26 @@ const sections = [
                 title="Только заголовок и описание"
                 description="Вариант без формы захвата."
                 withForm={false}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Split layout (Linear-style)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<HeroSection layout="split" />`}</code></p>
+              <HeroSection
+                layout="split"
+                badge="Электронная регистрация"
+                title="Регистрация сделок за 15 минут"
+                description="Сократите затраты на регистрацию на 30%. Электронная подпись бесплатно."
+                demoLabel="Посмотреть демо"
+                kpLabel="Получить КП"
+                stats={[
+                  { value: 'на 30%', label: 'Сокращение затрат на регистрацию' },
+                  { value: '15 мин', label: 'Подготовка пакета документов' },
+                  { value: '0', label: 'Ошибок в документах' },
+                  { value: '99.9%', label: 'Uptime сервиса' },
+                ]}
+                statsCols={4}
               />
             </div>
           </div>

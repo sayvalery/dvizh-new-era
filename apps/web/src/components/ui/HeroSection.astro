@@ -14,8 +14,20 @@
 
 import Form from './Form.astro'
 import MeshGradient from './MeshGradient.astro'
+import StatsSection from './StatsSection.astro'
+
+interface StatItem {
+  /** Основное значение (цифра или текст) */
+  value: string
+  /** Описание/подпись */
+  label: string
+  /** Опциональная иконка (HTML) */
+  icon?: string
+}
 
 interface Props {
+  /** Лейаут: default (с формой), split (Linear-style с кнопками) */
+  layout?: 'default' | 'split'
   /** Бейдж/надпись над заголовком (оранжевый) */
   badge?: string
   /** Основной заголовок */
@@ -28,6 +40,10 @@ interface Props {
   formPreset?: 'lead' | 'demo' | 'subscribe' | 'research'
   /** Текст кнопки формы */
   formSubmitLabel?: string
+  /** Текст кнопки «Посмотреть демо» (split layout) */
+  demoLabel?: string
+  /** Текст кнопки «Получить КП» (split layout) */
+  kpLabel?: string
   /** Изображение справа (URL) */
   image?: string
   /** Alt-текст для изображения */
@@ -36,25 +52,35 @@ interface Props {
   withGradient?: boolean
   /** Цвета градиента (CSS hex/rgb/hsl) */
   gradientColors?: string[]
+  /** Статистика для отображения после HeroSection (split layout) */
+  stats?: StatItem[]
+  /** Количество колонок статистики (2-4) */
+  statsCols?: 2 | 3 | 4
   /** Дополнительные CSS классы */
   class?: string
 }
 
 const {
+  layout = 'default',
   badge,
   title,
   description,
   withForm = true,
   formPreset = 'lead',
   formSubmitLabel,
+  demoLabel = 'Посмотреть демо',
+  kpLabel = 'Получить КП',
   image,
   imageAlt = 'Hero image',
   withGradient = false,
   gradientColors,
+  stats,
+  statsCols = 4,
   class: className = ''
 } = Astro.props
 
 const hasRightSlot = Astro.slots.has('right')
+const isSplit = layout === 'split'
 ---
 
 <section class:list={['relative overflow-hidden', withGradient ? 'bg-brand' : 'bg-white', className]}>
@@ -64,54 +90,97 @@ const hasRightSlot = Astro.slots.has('right')
   )}
 
   <div class="relative z-10 max-w-[1440px] mx-auto px-4">
-    <div class:list={['grid lg:grid-cols-[726px_1fr] gap-8 items-center', withGradient ? 'min-h-svh lg:max-h-[1100px]' : 'lg:min-h-[800px]']}>
-      <!-- Левая колонка: контент -->
-      <div class:list={['flex flex-col justify-center gap-[52px] order-2 lg:order-1', withGradient ? 'pt-24 pb-16 lg:pt-0 lg:pb-0' : 'py-16 lg:py-0']}>
-        <div class="flex flex-col gap-9">
-          <!-- Бейдж -->
+    {isSplit ? (
+      <!-- Split layout (Linear-style) -->
+      <div class="grid lg:grid-cols-2 gap-16 items-center py-24 lg:py-32">
+        <!-- Левая колонка: бейдж и заголовок -->
+        <div class="flex flex-col gap-9 order-2 lg:order-1">
           {badge && (
-            <p class:list={['text-[18px] font-normal', withGradient ? 'text-brand-300' : 'text-brand']}>
+            <p class="text-[18px] font-normal text-brand">
               {badge}
             </p>
           )}
+          <h1 class="text-[36px] sm:text-[48px] lg:text-[72px] font-bold leading-none text-[#1b2226]">
+            {title}
+          </h1>
+        </div>
 
-          <!-- Заголовок и описание -->
-          <div class="flex flex-col gap-8">
-            <h1 class:list={['text-[36px] sm:text-[48px] lg:text-[72px] font-bold leading-none', withGradient ? 'text-white' : 'text-[#1b2226]']}>
-              {title}
-            </h1>
-            {description && (
-              <p class:list={['text-[20px] lg:text-[24px] leading-[1.4] max-w-[602px]', withGradient ? 'text-white/70' : 'text-[#858585]']}>
-                {description}
+        <!-- Правая колонка: описание и кнопки -->
+        <div class="flex flex-col gap-8 order-1 lg:order-2">
+          {description && (
+            <p class="text-[20px] lg:text-[24px] leading-[1.4] text-[#858585]">
+              {description}
+            </p>
+          )}
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <button class="px-7 py-3.5 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand/90 active:scale-[0.98] transition-all duration-200">
+              {demoLabel}
+            </button>
+            <button class="px-7 py-3.5 rounded-2xl bg-black/[0.04] text-[#1b2226] text-[15px] font-medium hover:bg-black/[0.08] active:scale-[0.98] transition-all duration-200">
+              {kpLabel}
+            </button>
+          </div>
+
+          <slot name="actions" />
+        </div>
+      </div>
+    ) : (
+      <!-- Default layout -->
+      <div class:list={['grid lg:grid-cols-[726px_1fr] gap-8 items-center', withGradient ? 'min-h-svh lg:max-h-[1100px]' : 'lg:min-h-[800px]']}>
+        <!-- Левая колонка: контент -->
+        <div class:list={['flex flex-col justify-center gap-[52px] order-2 lg:order-1', withGradient ? 'pt-24 pb-16 lg:pt-0 lg:pb-0' : 'py-16 lg:py-0']}>
+          <div class="flex flex-col gap-9">
+            <!-- Бейдж -->
+            {badge && (
+              <p class:list={['text-[18px] font-normal', withGradient ? 'text-brand-300' : 'text-brand']}>
+                {badge}
               </p>
             )}
+
+            <!-- Заголовок и описание -->
+            <div class="flex flex-col gap-8">
+              <h1 class:list={['text-[36px] sm:text-[48px] lg:text-[72px] font-bold leading-none', withGradient ? 'text-white' : 'text-[#1b2226]']}>
+                {title}
+              </h1>
+              {description && (
+                <p class:list={['text-[20px] lg:text-[24px] leading-[1.4] max-w-[602px]', withGradient ? 'text-white/70' : 'text-[#858585]']}>
+                  {description}
+                </p>
+              )}
+            </div>
           </div>
+
+          <!-- Форма -->
+          {withForm && (
+            <Form preset={formPreset} layout="inline" variant={withGradient ? 'dark' : 'light'} submitLabel={formSubmitLabel} />
+          )}
         </div>
 
-        <!-- Форма -->
-        {withForm && (
-          <Form preset={formPreset} layout="inline" variant={withGradient ? 'dark' : 'light'} submitLabel={formSubmitLabel} />
-        )}
+        <!-- Правая колонка -->
+        {image ? (
+          <div class="relative h-[400px] lg:h-[800px] w-full bg-[#ededed] rounded-none overflow-hidden order-1 lg:order-2">
+            <img
+              src={image}
+              alt={imageAlt}
+              class="w-full h-full object-cover"
+              width="595"
+              height="800"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+        ) : hasRightSlot ? (
+          <div class="hidden lg:flex items-center justify-center order-1 lg:order-2">
+            <slot name="right" />
+          </div>
+        ) : null}
       </div>
-
-      <!-- Правая колонка -->
-      {image ? (
-        <div class="relative h-[400px] lg:h-[800px] w-full bg-[#ededed] rounded-none overflow-hidden order-1 lg:order-2">
-          <img
-            src={image}
-            alt={imageAlt}
-            class="w-full h-full object-cover"
-            width="595"
-            height="800"
-            loading="eager"
-            fetchpriority="high"
-          />
-        </div>
-      ) : hasRightSlot ? (
-        <div class="hidden lg:flex items-center justify-center order-1 lg:order-2">
-          <slot name="right" />
-        </div>
-      ) : null}
-    </div>
+    )}
   </div>
+
+  <!-- StatsSection для split layout -->
+  {isSplit && stats && stats.length > 0 && (
+    <StatsSection items={stats} cols={statsCols} />
+  )}
 </section>

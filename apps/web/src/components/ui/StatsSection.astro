@@ -62,10 +62,8 @@ const gridCols = {
     <dl class:list={['grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-16 text-center', gridCols]}>
       {items.map((item) => (
         <div class="mx-auto flex max-w-xs flex-col gap-y-4">
-          {item.icon ? (
+          {item.icon && (
             <div class="text-gray-400 mb-2" set:html={item.icon} />
-          ) : (
-            <div class="w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] lg:w-[200px] lg:h-[200px] bg-gray-200 rounded-[20px] mx-auto mb-2" />
           )}
           {item.value && (
             <dd class="order-first text-3xl font-semibold text-gray-900 sm:text-5xl">
