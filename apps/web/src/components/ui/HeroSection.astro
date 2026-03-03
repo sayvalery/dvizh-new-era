@@ -13,7 +13,7 @@
  */
 
 import Form from './Form.astro'
-import MeshGradient from './MeshGradient.astro'
+import FlutedGlassBg from './FlutedGlassBg.astro'
 import StatsSection from './StatsSection.astro'
 
 interface StatItem {
@@ -84,9 +84,9 @@ const isSplit = layout === 'split'
 ---
 
 <section class:list={['relative overflow-hidden', withGradient ? 'bg-brand' : 'bg-white', className]}>
-  {/* Mesh-градиент фоном */}
+  {/* Fluted glass gradient background */}
   {withGradient && (
-    <MeshGradient colors={gradientColors} />
+    <FlutedGlassBg />
   )}
 
   <div class="relative z-10 max-w-[1440px] mx-auto px-4">

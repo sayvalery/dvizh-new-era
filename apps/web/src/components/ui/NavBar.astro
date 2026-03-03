@@ -84,6 +84,10 @@ const megaSections = megaItem?.sections ?? []
   :class="hidden && !mobileOpen && !megaOpen ? '-translate-y-full' : 'translate-y-0'"
   class="transition-transform duration-300"
 >
+  <!-- Gradient blur backdrop for transparent mode: two layers -->
+  <div x-show="clear" x-transition.opacity.duration.300ms class="nav-blur-fade"></div>
+  <div x-show="clear" x-transition.opacity.duration.300ms class="nav-blur-fade nav-blur-strong"></div>
+
   <!-- Hover zone: keeps mega menu open while cursor is inside header area -->
   <div
     @mouseenter="if (megaOpen) clearTimeout(hoverTimeout)"
@@ -395,3 +399,34 @@ const megaSections = megaItem?.sections ?? []
     </div>
   </div>
 </header>
+
+<style>
+  .nav-blur-fade {
+    position: absolute;
+    inset: 0;
+    bottom: -20px;
+    z-index: -1;
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  }
+
+  .nav-blur-strong {
+    bottom: 50%;
+    -webkit-backdrop-filter: blur(32px);
+    backdrop-filter: blur(32px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-blur-fade {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 100%);
+    }
+    .nav-blur-strong {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+</style>

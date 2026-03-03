@@ -1,0 +1,361 @@
+---
+/**
+ * Lab: Fluted Glass — mesh gradient + fluted glass в одном WebGL-шейдере
+ *
+ * Всё на GPU, один draw call, 0 текстур, 0 зависимостей.
+ * Mesh gradient: inverse-distance weighted blending (как Paper Design)
+ * Fluted glass: smoothFract + prism distortion + grain
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+---
+
+<SiteLayout title="Lab: Fluted Glass" transparentHeader>
+  <section class="relative w-full h-svh overflow-hidden bg-gray-950">
+    <canvas id="fluted-canvas" class="absolute inset-0 w-full h-full"></canvas>
+
+    <!-- Контент поверх -->
+    <div class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
+      <p class="text-sm font-medium tracking-widest uppercase text-white/50 mb-6">Experiment</p>
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-bold leading-none text-white font-heading max-w-4xl">
+        Fluted Glass
+      </h1>
+      <p class="text-lg sm:text-xl text-white/60 mt-6 max-w-xl">
+        Mesh gradient + рифлёное стекло. Один шейдер, 0 зависимостей, 60fps.
+      </p>
+
+      <!-- Контролы -->
+      <div
+        class="mt-10 flex flex-col gap-4 items-center w-full max-w-3xl"
+        x-data="{
+          open: false,
+          ribCount: 30,
+          ribStrength: 0.020,
+          ribSpeed: 1.2,
+          distPower: 6.0,
+          gradSpeed: 0.65,
+          gradDistort: 0.50,
+          grain: 0.53,
+          shadows: 0.09,
+          aberration: 0.000
+        }"
+        x-effect="
+          window.__fp = {
+            ribCount, ribStrength, ribSpeed,
+            distPower, gradSpeed, gradDistort,
+            grain, shadows, aberration
+          }
+        "
+      >
+        <button
+          @click="open = !open"
+          class="bg-white/[0.08] backdrop-blur-sm rounded-2xl px-6 py-3 text-sm font-medium text-white/70 hover:text-white hover:bg-white/[0.12] transition-all"
+        >
+          <span x-text="open ? 'Скрыть настройки ▲' : 'Настройки ▼'"></span>
+        </button>
+
+        <div x-show="open" x-cloak x-transition class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
+          <!-- Стекло -->
+          <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+            <label class="text-white/50 text-xs w-20 shrink-0">Рёбра</label>
+            <input type="range" min="5" max="80" step="1" x-model.number="ribCount" class="flex-1 accent-brand" />
+            <span class="text-white text-xs w-6 text-right" x-text="ribCount"></span>
+          </div>
+          <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+            <label class="text-white/50 text-xs w-20 shrink-0">Сила</label>
+            <input type="range" min="0.002" max="0.06" step="0.001" x-model.number="ribStrength" class="flex-1 accent-brand" />
+            <span class="text-white text-xs w-10 text-right" x-text="ribStrength.toFixed(3)"></span>
+          </div>
+          <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+            <label class="text-white/50 text-xs w-20 shrink-0">Скор. рёбер</label>
+            <input type="range" min="0" max="2" step="0.05" x-model.number="ribSpeed" class="flex-1 accent-brand" />
+            <span class="text-white text-xs w-6 text-right" x-text="ribSpeed.toFixed(1)"></span>
+          </div>
+          <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+            <label class="text-white/50 text-xs w-20 shrink-0">Dist power</label>
+            <input type="range" min="1.5" max="6" step="0.1" x-model.number="distPower" class="flex-1 accent-brand" />
+            <span class="text-white text-xs w-6 text-right" x-text="distPower.toFixed(1)"></span>
+          </div>
+          <!-- Градиент -->
+          <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+            <label class="text-white/50 text-xs w-20 shrink-0">Скор. град.</label>
+            <input type="range" min="0.05" max="1" step="0.01" x-model.number="gradSpeed" class="flex-1 accent-brand" />
+            <span class="text-white text-xs w-8 text-right" x-text="gradSpeed.toFixed(2)"></span>
+          </div>
+          <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+            <label class="text-white/50 text-xs w-20 shrink-0">Искажение</label>
+            <input type="range" min="0" max="0.5" step="0.01" x-model.number="gradDistort" class="flex-1 accent-brand" />
+            <span class="text-white text-xs w-8 text-right" x-text="gradDistort.toFixed(2)"></span>
+          </div>
+          <!-- Эффекты -->
+          <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+            <label class="text-white/50 text-xs w-20 shrink-0">Зернистость</label>
+            <input type="range" min="0" max="1" step="0.01" x-model.number="grain" class="flex-1 accent-brand" />
+            <span class="text-white text-xs w-8 text-right" x-text="grain.toFixed(2)"></span>
+          </div>
+          <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+            <label class="text-white/50 text-xs w-20 shrink-0">Тени рёбер</label>
+            <input type="range" min="0" max="0.3" step="0.01" x-model.number="shadows" class="flex-1 accent-brand" />
+            <span class="text-white text-xs w-8 text-right" x-text="shadows.toFixed(2)"></span>
+          </div>
+          <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+            <label class="text-white/50 text-xs w-20 shrink-0">Аберрация</label>
+            <input type="range" min="0" max="0.06" step="0.002" x-model.number="aberration" class="flex-1 accent-brand" />
+            <span class="text-white text-xs w-8 text-right" x-text="aberration.toFixed(3)"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</SiteLayout>
+
+<script>
+  const canvas = document.getElementById('fluted-canvas') as HTMLCanvasElement
+  if (!canvas) throw new Error('Canvas not found')
+
+  const gl = canvas.getContext('webgl', { alpha: false, antialias: false })
+  if (!gl) throw new Error('WebGL not supported')
+
+  // --- Vertex shader ---
+  const VERT = `
+    attribute vec2 a_position;
+    void main() { gl_Position = vec4(a_position, 0.0, 1.0); }
+  `
+
+  // --- Fragment shader: mesh gradient + fluted glass + grain ---
+  const FRAG = `
+    #extension GL_OES_standard_derivatives : enable
+    precision mediump float;
+    uniform vec2 u_resolution;
+    uniform float u_time;
+
+    // Glass params
+    uniform float u_ribCount;
+    uniform float u_ribStrength;
+    uniform float u_ribSpeed;
+    uniform float u_distPower;
+    uniform float u_shadows;
+    uniform float u_aberration;
+
+    // Gradient params
+    uniform float u_gradSpeed;
+    uniform float u_gradDistort;
+
+    // Effects
+    uniform float u_grain;
+
+    #define PI 3.14159265
+
+    // --- Value noise ---
+    float hash21(vec2 p) {
+      p = fract(p * vec2(0.3183099, 0.3678794)) + 0.1;
+      p += dot(p, p + 19.19);
+      return fract(p.x * p.y);
+    }
+
+    float valueNoise(vec2 st) {
+      vec2 i = floor(st);
+      vec2 f = fract(st);
+      vec2 u = f * f * (3.0 - 2.0 * f);
+      float a = hash21(i);
+      float b = hash21(i + vec2(1.0, 0.0));
+      float c = hash21(i + vec2(0.0, 1.0));
+      float d = hash21(i + vec2(1.0, 1.0));
+      return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+    }
+
+    // --- Color + position for each spot (unrolled, no arrays) ---
+    vec3 getColor(int i) {
+      if (i == 0) return vec3(1.0, 0.30, 0.0);     // brand orange
+      if (i == 1) return vec3(1.0, 0.42, 0.17);    // lighter orange
+      if (i == 2) return vec3(0.88, 0.21, 0.0);    // deep red-orange
+      if (i == 3) return vec3(1.0, 0.70, 0.28);    // amber
+      return vec3(0.12, 0.04, 0.0);                 // near black
+    }
+
+    vec2 getSpotPos(int idx, float t) {
+      float a = float(idx) * 0.37;
+      float bx = 0.6 + fract(float(idx) / 3.0) * 0.9;
+      float cy = 0.8 + fract(float(idx + 1) / 4.0);
+      return 0.5 + 0.5 * vec2(sin(t * bx + a), cos(t * cy + a * 1.5));
+    }
+
+    // --- Mesh gradient via inverse-distance weighting ---
+    vec3 meshGradient(vec2 uv, float t) {
+      // Center-weighted organic UV distortion
+      float radius = smoothstep(0.0, 1.0, length(uv - 0.5));
+      float center = 1.0 - radius;
+      vec2 duv = uv;
+
+      duv.x += u_gradDistort * center
+        * sin(t + 0.4 * smoothstep(0.0, 1.0, duv.y))
+        * cos(0.2 * t + 2.4 * smoothstep(0.0, 1.0, duv.y));
+      duv.y += u_gradDistort * center
+        * cos(t + 2.0 * smoothstep(0.0, 1.0, duv.x));
+
+      duv.x += u_gradDistort * center * 0.5
+        * sin(t + 0.8 * smoothstep(0.0, 1.0, duv.y))
+        * cos(0.2 * t + 4.8 * smoothstep(0.0, 1.0, duv.y));
+      duv.y += u_gradDistort * center * 0.5
+        * cos(t + 4.0 * smoothstep(0.0, 1.0, duv.x));
+
+      // Inverse distance blending (unrolled)
+      vec3 color = vec3(0.0);
+      float totalWeight = 0.0;
+
+      for (int i = 0; i < 5; i++) {
+        vec2 pos = getSpotPos(i, t);
+        float d = length(duv - pos);
+        d = max(d, 0.001); // prevent pow(0, x)
+        float dp = exp(u_distPower * log(d)); // safe pow
+        float w = 1.0 / (dp + 0.001);
+        color += getColor(i) * w;
+        totalWeight += w;
+      }
+      return color / totalWeight;
+    }
+
+    // --- smoothFract (anti-aliased triangle wave) ---
+    float smoothFract(float x) {
+      float f = fract(x);
+      float fw = fwidth(x);
+      float edge = abs(f - 0.5) - 0.5;
+      float band = smoothstep(-fw, fw, edge);
+      return mix(f, 1.0 - f, band);
+    }
+
+    void main() {
+      vec2 uv = gl_FragCoord.xy / u_resolution;
+      uv.y = 1.0 - uv.y;
+
+      float t = u_time * u_gradSpeed;
+
+      // --- 1. Fluted glass UV displacement ---
+      float patternX = uv.x * u_ribCount + u_time * u_ribSpeed;
+      float sf = smoothFract(patternX);
+
+      // Prism distortion: cubic curve (safe pow via exp/log)
+      float safeBase = max(1.5 * sf, 0.001);
+      float displacement = -exp(3.0 * log(safeBase)) * u_ribStrength;
+
+      // Rib shadow/highlight
+      float ribDist = abs(sf - 0.5) * 2.0;
+      float shadow = 1.0 - u_shadows * ribDist * ribDist;
+
+      // --- 2. Sample mesh gradient with displacement ---
+      vec3 color;
+      float abr = u_aberration;
+      if (abr > 0.001) {
+        float r = meshGradient(uv + vec2(displacement * (1.0 + abr), 0.0), t).r;
+        float g = meshGradient(uv + vec2(displacement, 0.0), t).g;
+        float b = meshGradient(uv + vec2(displacement * (1.0 - abr), 0.0), t).b;
+        color = vec3(r, g, b);
+      } else {
+        color = meshGradient(uv + vec2(displacement, 0.0), t);
+      }
+
+      // Apply rib shadows
+      color *= shadow;
+
+      // --- 3. Grain overlay ---
+      vec2 grainUV = gl_FragCoord.xy * 0.8;
+      float n1 = valueNoise(grainUV + vec2(u_time * 3.7, 0.0));
+      float n2 = valueNoise(grainUV * 1.1 + vec2(0.0, u_time * 2.3));
+      float grainVal = mix(n1, n2, 0.5);
+      grainVal = grainVal * grainVal * 1.3; // safe contrast boost (no pow)
+      float gv = grainVal * 2.0 - 1.0;
+      vec3 grainColor = vec3(step(0.0, gv));
+      float grainMix = u_grain * abs(gv);
+      grainMix = grainMix * sqrt(grainMix); // approx pow(x, 0.8)
+      color = mix(color, grainColor, 0.35 * grainMix);
+
+      gl_FragColor = vec4(color, 1.0);
+    }
+  `
+
+  // --- OES_standard_derivatives for dFdx/dFdy ---
+  gl.getExtension('OES_standard_derivatives')
+
+  // --- Compile ---
+  function createShader(g: WebGLRenderingContext, type: number, src: string): WebGLShader {
+    const s = g.createShader(type)!
+    g.shaderSource(s, src)
+    g.compileShader(s)
+    if (!g.getShaderParameter(s, g.COMPILE_STATUS)) {
+      console.error(g.getShaderInfoLog(s))
+      throw new Error('Shader compile error')
+    }
+    return s
+  }
+
+  const program = gl.createProgram()!
+  gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, VERT))
+  gl.attachShader(program, createShader(gl, gl.FRAGMENT_SHADER, FRAG))
+  gl.linkProgram(program)
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(program))
+    throw new Error('Program link error')
+  }
+  gl.useProgram(program)
+
+  // --- Fullscreen quad ---
+  const buf = gl.createBuffer()
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW)
+  const aPos = gl.getAttribLocation(program, 'a_position')
+  gl.enableVertexAttribArray(aPos)
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0)
+
+  // --- Uniform locations ---
+  const loc = (name: string) => gl.getUniformLocation(program, name)
+  const uRes = loc('u_resolution')
+  const uTime = loc('u_time')
+  const uRibCount = loc('u_ribCount')
+  const uRibStrength = loc('u_ribStrength')
+  const uRibSpeed = loc('u_ribSpeed')
+  const uDistPower = loc('u_distPower')
+  const uShadows = loc('u_shadows')
+  const uAberration = loc('u_aberration')
+  const uGradSpeed = loc('u_gradSpeed')
+  const uGradDistort = loc('u_gradDistort')
+  const uGrain = loc('u_grain')
+
+  // --- Resize ---
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio, 2)
+    canvas.width = canvas.clientWidth * dpr
+    canvas.height = canvas.clientHeight * dpr
+    gl.viewport(0, 0, canvas.width, canvas.height)
+  }
+  resize()
+  window.addEventListener('resize', resize)
+
+  // --- Render ---
+  const t0 = performance.now()
+
+  function render() {
+    const p = (window as any).__fp || {
+      ribCount: 30, ribStrength: 0.020, ribSpeed: 1.2,
+      distPower: 6.0, gradSpeed: 0.65, gradDistort: 0.50,
+      grain: 0.53, shadows: 0.09, aberration: 0.000
+    }
+
+    const t = (performance.now() - t0) / 1000
+
+    gl.uniform2f(uRes, canvas.width, canvas.height)
+    gl.uniform1f(uTime, t)
+    gl.uniform1f(uRibCount, p.ribCount)
+    gl.uniform1f(uRibStrength, p.ribStrength)
+    gl.uniform1f(uRibSpeed, p.ribSpeed)
+    gl.uniform1f(uDistPower, p.distPower)
+    gl.uniform1f(uShadows, p.shadows)
+    gl.uniform1f(uAberration, p.aberration)
+    gl.uniform1f(uGradSpeed, p.gradSpeed)
+    gl.uniform1f(uGradDistort, p.gradDistort)
+    gl.uniform1f(uGrain, p.grain)
+
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+    requestAnimationFrame(render)
+  }
+
+  requestAnimationFrame(render)
+</script>
