@@ -6,14 +6,26 @@ import StatsSection from '../components/ui/StatsSection.astro'
 import CTA from '../components/ui/CTA.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
+import DvizhAdvantages from '../components/ui/DvizhAdvantages.astro'
+import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
 <SiteLayout title="Для девелоперов — ДВИЖ" description="AI-платформа для автоматизации ипотечных продаж, электронной регистрации и аналитики. Используется 75 из ТОП-100 застройщиков.">
   <HeroSection
+    layout="split"
     badge="Платформа для застройщиков"
-    title="Лучшие отделы продаж застройщиков используют ДВИЖ"
-    description="AI-платформа для автоматизации продаж и маркетинга. ДВИЖ объединяет застройщиков и банки в единую цифровую экосистему — ипотека, регистрация, аналитика и витрина на одной платформе."
+    title="Ускоряем цикл сделки и забираем на себя всю рутину"
+    description="Платформа для выполнения планов продаж"
     formPreset="demo"
+  />
+
+  <StatsSection
+    cols={3}
+    items={[
+      { value: '26%', label: 'к сделкам на том же трафике' },
+      { value: '1 500 000+', label: 'сделок на рынке недвижимости прошло через ДВИЖ' },
+      { value: '79', label: 'застройщиков из ТОП-100 ЕРЗ – наши партнёры' },
+    ]}
   />
 
   <LogoGrid
@@ -143,6 +155,32 @@ import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astr
       ]}
     />
   </div>
+
+  <DvizhAdvantages
+    title="Почему выбирают ДВИЖ"
+    plans={[
+      {
+        name: 'Без ДВИЖа',
+        features: [
+          { label: 'Среднее одобрение меньше 60%' },
+          { label: 'Много продуктов, ошибки при переносе данных' },
+          { label: 'Менеджер теряет заявки и не выполняет KPI по продажам' },
+        ],
+      },
+      {
+        name: 'С ДВИЖом',
+        period: '/месяц',
+        isDark: true,
+        features: [
+          { label: 'Процент одобрения до 95%' },
+          { label: 'Весь процесс в одном окне: от заявки до регистрации в Росреестре. Без ошибок и переплат' },
+          { label: 'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейки с коллегами' },
+        ],
+      },
+    ]}
+  />
+
+  <FormClosing />
 
   <!-- Кейсы клиентов -->
   <section class="bg-gray-50 py-24">
