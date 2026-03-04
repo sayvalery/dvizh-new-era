@@ -17,8 +17,11 @@ LOG_FILE="logs/deploy.log"
 STATUS_FILE="logs/build-status.json"
 BUILD_ID="$(date '+%Y%m%d-%H%M%S')"
 
-# Remote deploy config
-REMOTE_HOST="${REMOTE_HOST:-root@130.49.149.211}"
+# Remote deploy config (load from .env.deploy)
+if [ -f ".env.deploy" ]; then
+  set -a; source .env.deploy; set +a
+fi
+REMOTE_HOST="${REMOTE_HOST:?REMOTE_HOST not set. Create .env.deploy with REMOTE_HOST=user@ip}"
 REMOTE_DEPLOYS="/var/www/dvizh/deploys"
 REMOTE_CURRENT="/var/www/dvizh/current"
 KEEP_DEPLOYS=5  # keep last N builds on remote
