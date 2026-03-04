@@ -30,7 +30,12 @@
       "Bash(taskkill:*)",
       "Bash(cmd.exe //c \"taskkill /F /PID 7396 && taskkill /F /PID 30752\")",
       "Bash(git clean:*)",
-      "Bash(git merge-base:*)"
+      "Bash(git merge-base:*)",
+      "Bash(git branch:*)",
+      "Bash(git fetch:*)",
+      "Bash(git rebase:*)",
+      "Bash(git diff:*)",
+      "Bash(git remote:*)"
     ]
   }
 }
