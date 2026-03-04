@@ -14,10 +14,12 @@ interface BuildState {
   steps: Record<string, StepStatus>
 }
 
-const STEP_ORDER = ['cms_check', 'build', 'validate', 'deploy']
+const STEP_ORDER = ['git_sync', 'cms_check', 'build', 'validate', 'deploy']
 
 function formatStepLabel(key: string, status: StepStatus, state: BuildState): string {
   switch (key) {
+    case 'git_sync':
+      return status === 'done' ? 'Ветка dev синхронизирована' : 'Синхронизация dev'
     case 'cms_check':
       return status === 'done' ? 'CMS в порядке' : 'Проверка CMS'
     case 'build': {

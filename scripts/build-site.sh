@@ -1,12 +1,14 @@
 #!/bin/bash
-# Safe build pipeline with versioned remote deploy.
-# Builds locally, validates, rsync to VPS, keeps last N versions for rollback.
+# Safe build pipeline: dev branch → build → validate → deploy to VPS.
+# Always builds from the `dev` branch (git pull before build).
+# Keeps last N versions on remote for rollback.
 # Old site stays live if anything fails.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
 # --- Config ---
+SOURCE_BRANCH="dev"
 CMS_HOST="${CMS_HOST:-cms.dvizh-new-era.orb.local}"
 CMS_URL="http://${CMS_HOST}:3002"
 DIST_DIR="apps/web/dist"
@@ -105,6 +107,36 @@ cat > "$STATUS_FILE" << EOF
   "steps": {}
 }
 EOF
+
+# Step 0: Sync dev branch
+update_status "building" "git_sync" "active"
+log "Syncing $SOURCE_BRANCH branch..."
+
+CURRENT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
+
+if [ "$CURRENT_BRANCH" != "$SOURCE_BRANCH" ]; then
+  log "Switching from '$CURRENT_BRANCH' to '$SOURCE_BRANCH'"
+  if ! git checkout "$SOURCE_BRANCH" 2>&1 | tee -a "$LOG_FILE"; then
+    log "FAILED: Cannot switch to $SOURCE_BRANCH"
+    update_status "failed" "git_sync" "failed" "Cannot switch to $SOURCE_BRANCH branch"
+    notify "ERROR" "Build $BUILD_ID failed: cannot checkout $SOURCE_BRANCH"
+    exit 1
+  fi
+fi
+
+# Check for uncommitted changes
+if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+  log "WARNING: Uncommitted changes detected, building current state"
+fi
+
+# Pull latest from remote
+if ! git pull origin "$SOURCE_BRANCH" --ff-only 2>&1 | tee -a "$LOG_FILE"; then
+  log "WARNING: git pull failed (possible divergence), building current state"
+fi
+
+GIT_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+log "Building from $SOURCE_BRANCH @ $GIT_SHA"
+update_status "building" "git_sync" "done"
 
 # Step 1: CMS check
 update_status "building" "cms_check" "active"
@@ -217,8 +249,8 @@ if docker compose -f docker-compose.prod.yml ps --status running nginx 2>/dev/nu
 fi
 
 update_status "success" "deploy" "done" "" "$NEW_COUNT"
-log "=== Build $BUILD_ID SUCCESS: $NEW_COUNT pages deployed to remote ==="
-notify "INFO" "Build $BUILD_ID success: $NEW_COUNT pages deployed to $REMOTE_HOST"
+log "=== Build $BUILD_ID SUCCESS: $NEW_COUNT pages from $SOURCE_BRANCH@$GIT_SHA deployed ==="
+notify "INFO" "Build $BUILD_ID success: $NEW_COUNT pages ($SOURCE_BRANCH@$GIT_SHA) deployed to $REMOTE_HOST"
 
 echo ""
-echo "Build $BUILD_ID complete: $NEW_COUNT pages deployed to remote"
+echo "Build $BUILD_ID complete: $NEW_COUNT pages ($SOURCE_BRANCH@$GIT_SHA) deployed"
