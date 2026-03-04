@@ -255,15 +255,5 @@ update_status "success" "deploy" "done" "" "$NEW_COUNT"
 log "=== Build $BUILD_ID SUCCESS: $NEW_COUNT pages from $SOURCE_BRANCH@$GIT_SHA deployed ==="
 notify "INFO" "Build $BUILD_ID success: $NEW_COUNT pages ($SOURCE_BRANCH@$GIT_SHA) deployed to $REMOTE_HOST"
 
-# Step 5: Update main branch (production record)
-# Uses dev:main push — no branch switching, no checkout risks.
-# If main has diverged (non-fast-forward), push is safely rejected.
-log "Updating main branch to match deployed state..."
-if git push origin "$SOURCE_BRANCH":main 2>&1 | tee -a "$LOG_FILE"; then
-  log "Main branch updated (production = $GIT_SHA)"
-else
-  log "WARNING: Could not update main branch — manual sync may be needed"
-fi
-
 echo ""
 echo "Build $BUILD_ID complete: $NEW_COUNT pages ($SOURCE_BRANCH@$GIT_SHA) deployed"
