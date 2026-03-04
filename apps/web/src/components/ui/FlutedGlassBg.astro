@@ -8,27 +8,70 @@
  *
  * @example
  * ```astro
- * <div class="relative">
- *   <FlutedGlassBg />
- *   <div class="relative z-10">Контент поверх</div>
- * </div>
+ * <!-- Дефолтные цвета (бренд-оранжевый) -->
+ * <FlutedGlassBg />
+ *
+ * <!-- Кастомные цвета -->
+ * <FlutedGlassBg colors={['#ffbc99', '#ff4d00', '#ff8855', '#ffd4bb', '#f8f0eb']} />
+ *
+ * <!-- С кастомной скоростью (0.5 = вдвое медленнее) -->
+ * <FlutedGlassBg speed={0.5} />
  * ```
  */
 
 interface Props {
+  /** 5 hex-цветов градиента (от яркого к фону). Дефолт: бренд-оранжевый */
+  colors?: string[]
+  /** Множитель скорости (1.0 = дефолт, 0.5 = вдвое медленнее) */
+  speed?: number
+  /** Интенсивность зерна (0-1, дефолт 0.53) */
+  grain?: number
+  /** Интенсивность теней на рёбрах (0-1, дефолт 0.09) */
+  shadows?: number
   /** CSS-класс контейнера */
   class?: string
 }
 
-const { class: className = '' } = Astro.props
+// Дефолтная палитра — бренд-оранжевый
+const DEFAULT_COLORS = ['#ff4d00', '#ff6b2c', '#e03500', '#ffb347', '#1f0a00']
 
-// CSS fallback — бренд-градиент, рендерится мгновенно до загрузки WebGL
-const fallbackGradient = `radial-gradient(ellipse at 30% 50%, #ff4d00 0%, transparent 60%), radial-gradient(ellipse at 70% 30%, #1a0a00 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, #ff6b2c 0%, transparent 60%)`
+const {
+  colors: rawColors = DEFAULT_COLORS,
+  speed = 1.0,
+  grain = 0.53,
+  shadows = 0.09,
+  class: className = ''
+} = Astro.props
+
+// Нормализуем до 5 цветов (повторяем или обрезаем)
+const hexColors = Array.from({ length: 5 }, (_, i) => rawColors[i % rawColors.length])
+
+// Hex → [r, g, b] (0-1)
+function hexToRgb(hex: string): [number, number, number] {
+  const h = hex.replace('#', '')
+  return [
+    parseInt(h.slice(0, 2), 16) / 255,
+    parseInt(h.slice(2, 4), 16) / 255,
+    parseInt(h.slice(4, 6), 16) / 255,
+  ]
+}
+
+const rgbColors = hexColors.map(hexToRgb)
+
+// JSON для data-атрибута
+const colorsJson = JSON.stringify(rgbColors)
+
+// CSS fallback — из первых 3 цветов
+const fallbackGradient = `radial-gradient(ellipse at 30% 50%, ${hexColors[0]} 0%, transparent 60%), radial-gradient(ellipse at 70% 30%, ${hexColors[4]} 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, ${hexColors[1]} 0%, transparent 60%)`
 ---
 
 <div
   class:list={['fluted-glass-bg', className]}
   style={`background: ${fallbackGradient};`}
+  data-colors={colorsJson}
+  data-speed={speed}
+  data-grain={grain}
+  data-shadows={shadows}
 >
   <canvas class="fluted-glass-canvas"></canvas>
 </div>
@@ -45,6 +88,14 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, #ff4d00 0%, transp
       const gl = canvas.getContext('webgl', { alpha: false, antialias: false })
       if (!gl) return
 
+      // --- Read config from data attributes ---
+      const defaultColors = [[1,0.3,0],[1,0.42,0.17],[0.88,0.21,0],[1,0.7,0.28],[0.12,0.04,0]]
+      let colors: number[][] = defaultColors
+      try { colors = JSON.parse(container.dataset.colors || '') } catch { /* use defaults */ }
+      const speedMul = parseFloat(container.dataset.speed || '1')
+      const grainVal = parseFloat(container.dataset.grain || '0.53')
+      const shadowsVal = parseFloat(container.dataset.shadows || '0.09')
+
       // --- Extension for fwidth/dFdx/dFdy ---
       gl.getExtension('OES_standard_derivatives')
 
@@ -53,6 +104,8 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, #ff4d00 0%, transp
         void main() { gl_Position = vec4(a_position, 0.0, 1.0); }
       `
 
+      // Build GLSL with injected colors and speed
+      const c = colors
       const FRAG = `
         #extension GL_OES_standard_derivatives : enable
         precision mediump float;
@@ -61,12 +114,12 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, #ff4d00 0%, transp
 
         #define RIB_COUNT 30.0
         #define RIB_STRENGTH 0.020
-        #define RIB_SPEED 0.6
+        #define RIB_SPEED ${(0.6 * speedMul).toFixed(4)}
         #define DIST_POWER 6.0
-        #define GRAD_SPEED 0.325
+        #define GRAD_SPEED ${(0.325 * speedMul).toFixed(4)}
         #define GRAD_DISTORT 0.50
-        #define GRAIN 0.53
-        #define SHADOWS 0.09
+        #define GRAIN ${grainVal.toFixed(4)}
+        #define SHADOWS ${shadowsVal.toFixed(4)}
 
         float hash21(vec2 p) {
           p = fract(p * vec2(0.3183099, 0.3678794)) + 0.1;
@@ -86,11 +139,11 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, #ff4d00 0%, transp
         }
 
         vec3 getColor(int i) {
-          if (i == 0) return vec3(1.0, 0.30, 0.0);
-          if (i == 1) return vec3(1.0, 0.42, 0.17);
-          if (i == 2) return vec3(0.88, 0.21, 0.0);
-          if (i == 3) return vec3(1.0, 0.70, 0.28);
-          return vec3(0.12, 0.04, 0.0);
+          if (i == 0) return vec3(${c[0][0].toFixed(3)}, ${c[0][1].toFixed(3)}, ${c[0][2].toFixed(3)});
+          if (i == 1) return vec3(${c[1][0].toFixed(3)}, ${c[1][1].toFixed(3)}, ${c[1][2].toFixed(3)});
+          if (i == 2) return vec3(${c[2][0].toFixed(3)}, ${c[2][1].toFixed(3)}, ${c[2][2].toFixed(3)});
+          if (i == 3) return vec3(${c[3][0].toFixed(3)}, ${c[3][1].toFixed(3)}, ${c[3][2].toFixed(3)});
+          return vec3(${c[4][0].toFixed(3)}, ${c[4][1].toFixed(3)}, ${c[4][2].toFixed(3)});
         }
 
         vec2 getSpotPos(int idx, float t) {

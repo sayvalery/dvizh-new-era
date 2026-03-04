@@ -1,6 +1,6 @@
 #!/bin/bash
-# Safe build pipeline with blue-green deploy.
-# Backs up current dist, builds, validates, rolls back on failure.
+# Safe build pipeline with versioned remote deploy.
+# Builds locally, validates, rsync to VPS, keeps last N versions for rollback.
 # Old site stays live if anything fails.
 set -euo pipefail
 
@@ -14,6 +14,12 @@ PREV_DIR="apps/web/dist-prev"
 LOG_FILE="logs/deploy.log"
 STATUS_FILE="logs/build-status.json"
 BUILD_ID="$(date '+%Y%m%d-%H%M%S')"
+
+# Remote deploy config
+REMOTE_HOST="${REMOTE_HOST:-root@130.49.149.211}"
+REMOTE_DEPLOYS="/var/www/dvizh/deploys"
+REMOTE_CURRENT="/var/www/dvizh/current"
+KEEP_DEPLOYS=5  # keep last N builds on remote
 
 # --- Helpers ---
 mkdir -p logs
@@ -167,23 +173,52 @@ NEW_COUNT=$(find "$DIST_DIR" -name "index.html" -type f | wc -l | tr -d ' ')
 update_status "building" "validate" "done" "" "$NEW_COUNT"
 log "Validation passed: $NEW_COUNT pages"
 
-# Step 4: Deploy (reload nginx to pick up new files)
+# Step 4: Deploy to remote VPS
 update_status "building" "deploy" "active" "" "$NEW_COUNT"
-log "Deploying..."
+log "Deploying to remote ($REMOTE_HOST)..."
 
-# Clean up backup (no longer needed)
+# Clean up local backup (no longer needed)
 rm -rf "$PREV_DIR"
 
-# Reload nginx if running
+# Create remote deploy directory
+if ! ssh "$REMOTE_HOST" "mkdir -p $REMOTE_DEPLOYS/$BUILD_ID" 2>&1 | tee -a "$LOG_FILE"; then
+  log "FAILED: Cannot create remote deploy directory"
+  update_status "failed" "deploy" "failed" "SSH connection failed"
+  notify "ERROR" "Build $BUILD_ID failed: cannot connect to remote"
+  exit 1
+fi
+
+# Rsync dist to remote
+log "Syncing $NEW_COUNT pages to remote..."
+if ! rsync -az --delete "$DIST_DIR/" "$REMOTE_HOST:$REMOTE_DEPLOYS/$BUILD_ID/" 2>&1 | tee -a "$LOG_FILE"; then
+  log "FAILED: rsync failed"
+  update_status "failed" "deploy" "failed" "rsync failed"
+  notify "ERROR" "Build $BUILD_ID failed: rsync error"
+  ssh "$REMOTE_HOST" "rm -rf $REMOTE_DEPLOYS/$BUILD_ID" 2>/dev/null
+  exit 1
+fi
+
+# Switch symlink + reload nginx + cleanup old deploys (atomic)
+if ! ssh "$REMOTE_HOST" "ln -sfn $REMOTE_DEPLOYS/$BUILD_ID $REMOTE_CURRENT && nginx -s reload && echo 'Symlink switched to $BUILD_ID'" 2>&1 | tee -a "$LOG_FILE"; then
+  log "FAILED: symlink switch failed"
+  update_status "failed" "deploy" "failed" "Symlink switch failed"
+  notify "ERROR" "Build $BUILD_ID failed: symlink switch error"
+  exit 1
+fi
+
+# Cleanup: keep only last N deploys on remote
+ssh "$REMOTE_HOST" "cd $REMOTE_DEPLOYS && ls -1t | tail -n +$((KEEP_DEPLOYS + 1)) | xargs -r rm -rf" 2>/dev/null
+log "Remote cleanup: keeping last $KEEP_DEPLOYS deploys"
+
+# Also reload local nginx if running (for dvizh.cc local access)
 if docker compose -f docker-compose.prod.yml ps --status running nginx 2>/dev/null | grep -q nginx; then
-  docker compose -f docker-compose.prod.yml exec nginx nginx -s reload 2>/dev/null || \
-    docker compose -f docker-compose.prod.yml restart nginx
-  log "Nginx reloaded"
+  docker compose -f docker-compose.prod.yml exec nginx nginx -s reload 2>/dev/null || true
+  log "Local nginx reloaded"
 fi
 
 update_status "success" "deploy" "done" "" "$NEW_COUNT"
-log "=== Build $BUILD_ID SUCCESS: $NEW_COUNT pages deployed ==="
-notify "INFO" "Build $BUILD_ID success: $NEW_COUNT pages deployed"
+log "=== Build $BUILD_ID SUCCESS: $NEW_COUNT pages deployed to remote ==="
+notify "INFO" "Build $BUILD_ID success: $NEW_COUNT pages deployed to $REMOTE_HOST"
 
 echo ""
-echo "Build $BUILD_ID complete: $NEW_COUNT pages deployed"
+echo "Build $BUILD_ID complete: $NEW_COUNT pages deployed to remote"

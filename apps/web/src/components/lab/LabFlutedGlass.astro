@@ -106,6 +106,90 @@ import SiteLayout from '../../layouts/SiteLayout.astro'
       </div>
     </div>
   </section>
+
+  <!-- Секция 2: Стекло + произвольный контент -->
+  <section class="relative w-full h-svh overflow-hidden bg-gray-950 border-t border-white/5" id="tg-section">
+    <canvas id="tg-canvas" class="absolute inset-0 w-full h-full"></canvas>
+
+    <div
+      class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center"
+      x-data="{
+        mode: 'gradient',
+        ribCount: 25,
+        ribStrength: 0.025,
+        ribSpeed: 0.6,
+        grain: 0.40,
+        shadows: 0.12
+      }"
+      x-effect="window.__tg = { mode, ribCount, ribStrength, ribSpeed, grain, shadows }"
+    >
+      <p class="text-sm font-medium tracking-widest uppercase text-white/50 mb-4">Experiment #2</p>
+      <h2 class="text-4xl sm:text-6xl font-bold text-white font-heading">Стекло + контент</h2>
+      <p class="text-base text-white/50 mt-3 max-w-md">
+        Любой контент под рифлёным стеклом — градиент или ваша картинка
+      </p>
+
+      <!-- Mode switcher -->
+      <div class="mt-8 flex gap-2">
+        <button
+          @click="mode = 'gradient'"
+          :class="mode === 'gradient' ? 'bg-brand text-white' : 'bg-white/[0.08] text-white/60 hover:bg-white/[0.12]'"
+          class="rounded-xl px-5 py-2.5 text-sm font-medium transition-all"
+        >Градиент</button>
+        <button
+          @click="mode = 'image'"
+          :class="mode === 'image' ? 'bg-brand text-white' : 'bg-white/[0.08] text-white/60 hover:bg-white/[0.12]'"
+          class="rounded-xl px-5 py-2.5 text-sm font-medium transition-all"
+        >Картинка</button>
+      </div>
+
+      <!-- File upload (image mode) -->
+      <div x-show="mode === 'image'" x-transition class="mt-4 flex flex-col items-center gap-2">
+        <label class="cursor-pointer bg-white/[0.08] hover:bg-white/[0.12] backdrop-blur-sm rounded-xl px-5 py-2.5 text-sm text-white/70 transition-all">
+          Загрузить своё изображение
+          <input type="file" accept="image/*" class="hidden" id="tg-upload" @change="
+            const file = $event.target.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              window.dispatchEvent(new CustomEvent('tg-load-image', { detail: e.target.result }));
+            };
+            reader.readAsDataURL(file);
+          " />
+        </label>
+        <span class="text-xs text-white/30">По умолчанию — демо-градиент</span>
+      </div>
+
+      <!-- Glass controls -->
+      <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3 w-full max-w-2xl">
+        <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+          <label class="text-white/50 text-xs w-16 shrink-0">Рёбра</label>
+          <input type="range" min="5" max="60" step="1" x-model.number="ribCount" class="flex-1 accent-brand" />
+          <span class="text-white text-xs w-6 text-right" x-text="ribCount"></span>
+        </div>
+        <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+          <label class="text-white/50 text-xs w-16 shrink-0">Сила</label>
+          <input type="range" min="0.002" max="0.06" step="0.001" x-model.number="ribStrength" class="flex-1 accent-brand" />
+          <span class="text-white text-xs w-10 text-right" x-text="ribStrength.toFixed(3)"></span>
+        </div>
+        <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+          <label class="text-white/50 text-xs w-16 shrink-0">Скорость</label>
+          <input type="range" min="0" max="2" step="0.05" x-model.number="ribSpeed" class="flex-1 accent-brand" />
+          <span class="text-white text-xs w-6 text-right" x-text="ribSpeed.toFixed(1)"></span>
+        </div>
+        <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+          <label class="text-white/50 text-xs w-16 shrink-0">Зерно</label>
+          <input type="range" min="0" max="1" step="0.01" x-model.number="grain" class="flex-1 accent-brand" />
+          <span class="text-white text-xs w-8 text-right" x-text="grain.toFixed(2)"></span>
+        </div>
+        <div class="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-2">
+          <label class="text-white/50 text-xs w-16 shrink-0">Тени</label>
+          <input type="range" min="0" max="0.3" step="0.01" x-model.number="shadows" class="flex-1 accent-brand" />
+          <span class="text-white text-xs w-8 text-right" x-text="shadows.toFixed(2)"></span>
+        </div>
+      </div>
+    </div>
+  </section>
 </SiteLayout>
 
 <script>
@@ -358,4 +442,299 @@ import SiteLayout from '../../layouts/SiteLayout.astro'
   }
 
   requestAnimationFrame(render)
+</script>
+
+<script>
+  // === Секция 2: Стекло + текстура/градиент ===
+  {
+    const canvas = document.getElementById('tg-canvas') as HTMLCanvasElement
+    if (!canvas) throw new Error('tg-canvas not found')
+
+    const gl = canvas.getContext('webgl', { alpha: false, antialias: false })
+    if (!gl) throw new Error('WebGL not supported')
+
+    gl.getExtension('OES_standard_derivatives')
+
+    const VERT = `
+      attribute vec2 a_position;
+      void main() { gl_Position = vec4(a_position, 0.0, 1.0); }
+    `
+
+    const FRAG = `
+      #extension GL_OES_standard_derivatives : enable
+      precision mediump float;
+      uniform vec2 u_resolution;
+      uniform float u_time;
+
+      // Source mode: 0.0 = gradient, 1.0 = texture
+      uniform float u_useTexture;
+      uniform sampler2D u_texture;
+      uniform float u_textureAspect;
+
+      // Glass params
+      uniform float u_ribCount;
+      uniform float u_ribStrength;
+      uniform float u_ribSpeed;
+      uniform float u_grain;
+      uniform float u_shadows;
+
+      #define DIST_POWER 6.0
+      #define GRAD_SPEED 0.65
+      #define GRAD_DISTORT 0.50
+
+      float hash21(vec2 p) {
+        p = fract(p * vec2(0.3183099, 0.3678794)) + 0.1;
+        p += dot(p, p + 19.19);
+        return fract(p.x * p.y);
+      }
+
+      float valueNoise(vec2 st) {
+        vec2 i = floor(st);
+        vec2 f = fract(st);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        float a = hash21(i);
+        float b = hash21(i + vec2(1.0, 0.0));
+        float c = hash21(i + vec2(0.0, 1.0));
+        float d = hash21(i + vec2(1.0, 1.0));
+        return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+      }
+
+      vec3 getColor(int i) {
+        if (i == 0) return vec3(1.0, 0.30, 0.0);
+        if (i == 1) return vec3(1.0, 0.42, 0.17);
+        if (i == 2) return vec3(0.88, 0.21, 0.0);
+        if (i == 3) return vec3(1.0, 0.70, 0.28);
+        return vec3(0.12, 0.04, 0.0);
+      }
+
+      vec2 getSpotPos(int idx, float t) {
+        float a = float(idx) * 0.37;
+        float bx = 0.6 + fract(float(idx) / 3.0) * 0.9;
+        float cy = 0.8 + fract(float(idx + 1) / 4.0);
+        return 0.5 + 0.5 * vec2(sin(t * bx + a), cos(t * cy + a * 1.5));
+      }
+
+      vec3 meshGradient(vec2 uv, float t) {
+        float radius = smoothstep(0.0, 1.0, length(uv - 0.5));
+        float center = 1.0 - radius;
+        vec2 duv = uv;
+        duv.x += GRAD_DISTORT * center * sin(t + 0.4 * smoothstep(0.0, 1.0, duv.y)) * cos(0.2 * t + 2.4 * smoothstep(0.0, 1.0, duv.y));
+        duv.y += GRAD_DISTORT * center * cos(t + 2.0 * smoothstep(0.0, 1.0, duv.x));
+        duv.x += GRAD_DISTORT * center * 0.5 * sin(t + 0.8 * smoothstep(0.0, 1.0, duv.y)) * cos(0.2 * t + 4.8 * smoothstep(0.0, 1.0, duv.y));
+        duv.y += GRAD_DISTORT * center * 0.5 * cos(t + 4.0 * smoothstep(0.0, 1.0, duv.x));
+
+        vec3 color = vec3(0.0);
+        float totalWeight = 0.0;
+        for (int i = 0; i < 5; i++) {
+          vec2 pos = getSpotPos(i, t);
+          float d = max(length(duv - pos), 0.001);
+          float dp = exp(DIST_POWER * log(d));
+          float w = 1.0 / (dp + 0.001);
+          color += getColor(i) * w;
+          totalWeight += w;
+        }
+        return color / totalWeight;
+      }
+
+      vec2 coverUV(vec2 uv, vec2 res, float texAspect) {
+        float canvasAspect = res.x / res.y;
+        vec2 scale = vec2(1.0);
+        if (canvasAspect > texAspect) {
+          scale.y = texAspect / canvasAspect;
+        } else {
+          scale.x = canvasAspect / texAspect;
+        }
+        return (uv - 0.5) / scale + 0.5;
+      }
+
+      float smoothFract(float x) {
+        float f = fract(x);
+        float fw = fwidth(x);
+        float edge = abs(f - 0.5) - 0.5;
+        float band = smoothstep(-fw, fw, edge);
+        return mix(f, 1.0 - f, band);
+      }
+
+      void main() {
+        vec2 uv = gl_FragCoord.xy / u_resolution;
+        uv.y = 1.0 - uv.y;
+
+        float t = u_time * GRAD_SPEED;
+
+        // Glass displacement
+        float patternX = uv.x * u_ribCount + u_time * u_ribSpeed;
+        float sf = smoothFract(patternX);
+        float safeBase = max(1.5 * sf, 0.001);
+        float displacement = -exp(3.0 * log(safeBase)) * u_ribStrength;
+        float ribDist = abs(sf - 0.5) * 2.0;
+        float shadow = 1.0 - u_shadows * ribDist * ribDist;
+
+        // Source color: gradient or texture
+        vec2 sampleUV = uv + vec2(displacement, 0.0);
+        vec3 color;
+        if (u_useTexture > 0.5) {
+          vec2 texUV = coverUV(sampleUV, u_resolution, u_textureAspect);
+          texUV = clamp(texUV, 0.0, 1.0);
+          color = texture2D(u_texture, texUV).rgb;
+        } else {
+          color = meshGradient(sampleUV, t);
+        }
+
+        color *= shadow;
+
+        // Grain
+        vec2 grainUV = gl_FragCoord.xy * 0.8;
+        float n1 = valueNoise(grainUV + vec2(u_time * 3.7, 0.0));
+        float n2 = valueNoise(grainUV * 1.1 + vec2(0.0, u_time * 2.3));
+        float grainVal = mix(n1, n2, 0.5);
+        grainVal = grainVal * grainVal * 1.3;
+        float gv = grainVal * 2.0 - 1.0;
+        vec3 grainColor = vec3(step(0.0, gv));
+        float grainMix = u_grain * abs(gv);
+        grainMix = grainMix * sqrt(grainMix);
+        color = mix(color, grainColor, 0.35 * grainMix);
+
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `
+
+    // Compile
+    function mkShader(type: number, src: string): WebGLShader {
+      const s = gl.createShader(type)!
+      gl.shaderSource(s, src)
+      gl.compileShader(s)
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(s))
+        throw new Error('Shader compile error')
+      }
+      return s
+    }
+
+    const prog = gl.createProgram()!
+    gl.attachShader(prog, mkShader(gl.VERTEX_SHADER, VERT))
+    gl.attachShader(prog, mkShader(gl.FRAGMENT_SHADER, FRAG))
+    gl.linkProgram(prog)
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.error(gl.getProgramInfoLog(prog))
+      throw new Error('Program link error')
+    }
+    gl.useProgram(prog)
+
+    // Fullscreen quad
+    const buf = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW)
+    const aPos = gl.getAttribLocation(prog, 'a_position')
+    gl.enableVertexAttribArray(aPos)
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0)
+
+    // Uniforms
+    const loc = (n: string) => gl.getUniformLocation(prog, n)
+    const uRes = loc('u_resolution')
+    const uTime = loc('u_time')
+    const uUseTexture = loc('u_useTexture')
+    const uTexture = loc('u_texture')
+    const uTextureAspect = loc('u_textureAspect')
+    const uRibCount = loc('u_ribCount')
+    const uRibStrength = loc('u_ribStrength')
+    const uRibSpeed = loc('u_ribSpeed')
+    const uGrain = loc('u_grain')
+    const uShadows = loc('u_shadows')
+
+    // Texture setup
+    const texture = gl.createTexture()!
+    gl.bindTexture(gl.TEXTURE_2D, texture)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+
+    // Default demo texture: colorful gradient
+    let texAspect = 1.0
+    {
+      const sz = 512
+      const tc = document.createElement('canvas')
+      tc.width = sz; tc.height = sz
+      const ctx = tc.getContext('2d')!
+      const g1 = ctx.createLinearGradient(0, 0, sz, sz)
+      g1.addColorStop(0, '#ff0066')
+      g1.addColorStop(0.25, '#ff8800')
+      g1.addColorStop(0.5, '#00cc88')
+      g1.addColorStop(0.75, '#0066ff')
+      g1.addColorStop(1, '#cc00ff')
+      ctx.fillStyle = g1
+      ctx.fillRect(0, 0, sz, sz)
+      const g2 = ctx.createRadialGradient(sz * 0.3, sz * 0.4, 0, sz * 0.3, sz * 0.4, sz * 0.5)
+      g2.addColorStop(0, 'rgba(255,255,255,0.4)')
+      g2.addColorStop(1, 'rgba(0,0,0,0)')
+      ctx.fillStyle = g2
+      ctx.fillRect(0, 0, sz, sz)
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tc)
+      texAspect = 1.0
+    }
+
+    // Load user image
+    function loadImage(src: string) {
+      const img = new Image()
+      img.onload = () => {
+        gl.bindTexture(gl.TEXTURE_2D, texture)
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img)
+        texAspect = img.width / img.height
+      }
+      img.src = src
+    }
+
+    window.addEventListener('tg-load-image', ((e: CustomEvent) => {
+      loadImage(e.detail)
+    }) as EventListener)
+
+    // Resize
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio, 2)
+      canvas.width = canvas.clientWidth * dpr
+      canvas.height = canvas.clientHeight * dpr
+      gl.viewport(0, 0, canvas.width, canvas.height)
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    // Visibility
+    let running = true
+    const observer = new IntersectionObserver(
+      ([entry]) => { running = entry.isIntersecting },
+      { threshold: 0 }
+    )
+    observer.observe(canvas)
+
+    // Render
+    const t0 = performance.now()
+    function render() {
+      if (running) {
+        const p = (window as any).__tg || {
+          mode: 'gradient', ribCount: 25, ribStrength: 0.025,
+          ribSpeed: 0.6, grain: 0.40, shadows: 0.12
+        }
+
+        const t = (performance.now() - t0) / 1000
+
+        gl.uniform2f(uRes, canvas.width, canvas.height)
+        gl.uniform1f(uTime, t)
+        gl.uniform1f(uUseTexture, p.mode === 'image' ? 1.0 : 0.0)
+        gl.uniform1f(uTextureAspect, texAspect)
+        gl.uniform1i(uTexture, 0)
+        gl.uniform1f(uRibCount, p.ribCount)
+        gl.uniform1f(uRibStrength, p.ribStrength)
+        gl.uniform1f(uRibSpeed, p.ribSpeed)
+        gl.uniform1f(uGrain, p.grain)
+        gl.uniform1f(uShadows, p.shadows)
+
+        gl.activeTexture(gl.TEXTURE0)
+        gl.bindTexture(gl.TEXTURE_2D, texture)
+
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+      }
+      requestAnimationFrame(render)
+    }
+    requestAnimationFrame(render)
+  }
 </script>

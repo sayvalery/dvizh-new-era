@@ -110,33 +110,20 @@ for (let i = 0; i < totalSlots; i++) {
   }
 
   @keyframes face-depth {
-    0%, 6% {
-      filter: blur(0px);
+    0%, 8% {
       opacity: 1;
     }
-    10% {
-      filter: blur(2px);
-      opacity: 0.4;
+    14% {
+      opacity: 0.3;
     }
-    16% {
-      filter: blur(6px);
-      opacity: 0.08;
-    }
-    22%, 78% {
-      filter: blur(16px);
+    20%, 80% {
       opacity: 0;
       visibility: hidden;
     }
-    84% {
-      filter: blur(6px);
-      opacity: 0.08;
+    86% {
+      opacity: 0.3;
     }
-    90% {
-      filter: blur(2px);
-      opacity: 0.4;
-    }
-    94%, 100% {
-      filter: blur(0px);
+    92%, 100% {
       opacity: 1;
     }
   }
