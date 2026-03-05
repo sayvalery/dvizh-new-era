@@ -46,17 +46,17 @@ const componentId = `bento-three-new-${Math.random().toString(36).substr(2, 9)}`
   <div id={componentId} class="px-[50px] py-[48px] sm:py-[64px]">
     <div class="flex flex-col gap-12 sm:gap-16">
       <!-- Адаптивный заголовок -->
-      <h2 class="text-center text-pretty text-4xl font-bold sm:text-5xl lg:text-[48px] tracking-tight" style="color: #32393e">
+      <h2 class="text-left text-pretty text-4xl font-bold sm:text-5xl lg:text-[48px] tracking-tight" style="color: #32393e">
         <span class="hidden lg:inline">{title.lg}</span>
         <span class="hidden sm:inline lg:hidden">{title.md}</span>
         <span class="inline sm:hidden">{title.sm}</span>
       </h2>
 
       <!-- Bento grid -->
-      <div class="flex flex-row gap-[24px]">
+      <div class="flex flex-col lg:flex-row gap-[24px]">
         <!-- Большая карточка -->
         <div
-          class="flex-1 rounded-[32px] bg-[#ececec] p-8 sm:h-[260px] lg:h-[600px]"
+          class="w-full lg:flex-1 rounded-[32px] bg-[#ececec] p-8 sm:h-[260px] lg:h-[600px]"
         >
           <div class="flex h-full items-end justify-start">
             <div class="flex flex-col gap-0.5 text-left">
@@ -70,12 +70,12 @@ const componentId = `bento-three-new-${Math.random().toString(36).substr(2, 9)}`
           </div>
         </div>
 
-        <!-- Маленькие карточки (вертикально) -->
-        <div class="flex-1 flex flex-col gap-[24px] sm:h-[260px] lg:h-[600px]">
+        <!-- Маленькие карточки (lg: вертикально, md/sm: горизонтально) -->
+        <div class="w-full lg:flex-1 flex flex-row lg:flex-col gap-[24px]">
           {smallCards.map((card, index) => (
             <div
               key={index}
-              class="flex-1 rounded-[32px] bg-[#ececec] p-8 sm:p-8 lg:p-8"
+              class="flex-1 rounded-[32px] bg-[#ececec] p-8 sm:h-[260px] lg:h-[600px]"
             >
               <div class="flex h-full items-end justify-start">
                 <div class="flex flex-col gap-0.5 text-left">
