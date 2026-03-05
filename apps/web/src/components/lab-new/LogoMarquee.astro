@@ -1,0 +1,57 @@
+---
+/**
+ * Lab New: LogoMarquee — бегущая строка с логотипами
+ */
+interface Logo {
+  /** Имя логотипа (для alt) */
+  name: string
+  /** URL логотипа */
+  src: string
+}
+
+const { logos = [] }: { logos?: Logo[] } = Astro.props
+
+// Если логотипов нет, используем тестовые placeholder-ы
+const displayLogos = logos.length > 0
+  ? logos
+  : Array(7).fill(0).map((_, i) => ({
+      name: `Logo ${i + 1}`,
+      src: '/images/cards/card-1.jpg'
+    }))
+---
+
+<div class="w-full overflow-hidden group">
+  <div class="flex animate-marquee group-hover:paused">
+    {/* Дублируем для бесшовной прокрутки */}
+    {[...displayLogos, ...displayLogos, ...displayLogos].map((logo) => (
+      <div class="flex-shrink-0 px-12 py-6">
+        <img
+          src={logo.src}
+          alt={logo.name}
+          class="h-8 w-auto grayscale opacity-50 transition-all duration-300 hover:grayscale-0 hover:opacity-100"
+          width={120}
+          height={32}
+        />
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.333%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
+  .group-hover\:paused:hover {
+    animation-play-state: paused;
+  }
+</style>

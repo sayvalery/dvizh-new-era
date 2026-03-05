@@ -1,0 +1,13 @@
+---
+/**
+ * Lab New: HeroBadge — бейдж над h1 с градиентной рамкой
+ */
+const { text = "Ипотечная платформа" } = Astro.props
+---
+
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gradient-to-r from-[#ff4d00]/40 to-gray-300/40 bg-white/10">
+  <div class="w-2.5 h-2.5 rounded-full bg-brand" />
+  <span class="text-sm font-medium text-gray-900">
+    {text}
+  </span>
+</div>

@@ -1,0 +1,17 @@
+---
+/**
+ * Lab New: Card — карточка
+ */
+const { title = "Заголовок", description = "Описание карточки" } = Astro.props
+---
+
+<div class="overflow-hidden bg-[#d9d9d9]/[0.18] rounded-2xl backdrop-blur-sm border border-white/20">
+  <div class="h-80 p-8 flex flex-col justify-between">
+    <h3 class="text-[24px] font-medium text-gray-900 font-sans tracking-normal whitespace-pre-line">
+      {title}
+    </h3>
+    <p class="text-base font-medium text-gray-600/70 font-sans tracking-normal">
+      {description}
+    </p>
+  </div>
+</div>

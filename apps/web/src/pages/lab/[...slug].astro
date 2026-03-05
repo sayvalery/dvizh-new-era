@@ -17,6 +17,7 @@ export function getStaticPaths() {
   if (import.meta.env.PROD) return []
   return [
     { params: { slug: undefined }, props: { page: 'index' } },
+    { params: { slug: 'glass' }, props: { page: 'glass' } },
     { params: { slug: 'product' }, props: { page: 'product' } },
     { params: { slug: 'about' }, props: { page: 'about' } },
     { params: { slug: 'home' }, props: { page: 'home' } },
