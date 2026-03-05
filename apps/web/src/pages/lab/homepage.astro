@@ -1,0 +1,184 @@
+---
+/**
+ * Lab: Homepage page — полная главная страница
+ *
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/homepage
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import HeroSection from '../../components/ui/HeroSection.astro'
+import LogoDrum from '../../components/ui/LogoDrum.astro'
+import BentoGrid from '../../components/ui/BentoGrid.astro'
+import FeaturesGrid from '../../components/ui/FeaturesGrid.astro'
+import SectionBlock from '../../components/ui/SectionBlock.astro'
+import GradientCTA from '../../components/ui/GradientCTA.astro'
+import BlogCards from '../../components/ui/BlogCards.astro'
+import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
+import ProductSection from '../../components/ui/ProductSection.astro'
+import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+import CTA from '../../components/ui/CTA.astro'
+
+const partnerLogos = [
+  '/partners/a101.svg',
+  '/partners/ava.svg',
+  '/partners/ganel.svg',
+  '/partners/glorax.svg',
+  '/partners/lsr.svg',
+  '/partners/strana.svg',
+  '/logo-dvizh-white.svg',
+]
+---
+
+<SiteLayout
+  title="Lab: Homepage — ДВИЖ"
+  description="Лаборатория дизайна: главная страница сайта ДВИЖ"
+  transparentHeader
+>
+  <!-- Hero -->
+  <HeroSection
+    title={"Лучшие отделы\u00A0продаж застройщиков используют ДВИЖ"}
+    description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
+    formPreset="lead"
+    formSubmitLabel="Получить демо"
+    withGradient
+    gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
+  >
+    <div slot="right" class="w-full h-[700px]">
+      <LogoDrum logos={partnerLogos} duration={55} />
+    </div>
+  </HeroSection>
+
+  <!-- Девелоперы с ДВИЖ -->
+  <section class="bg-white py-24 sm:py-32">
+    <div class="mx-auto max-w-[1440px] px-4">
+      <h2 class="text-5xl font-medium text-gray-900">
+        Девелоперы с ДВИЖ
+      </h2>
+    </div>
+    <div class="mx-auto max-w-[1440px] px-4 mt-16">
+      <BentoGrid
+        items={[
+          { title: "<span class='text-[#FF4D00]'>Закрывают до 26% больше сделок</span> на том же трафике" },
+          { title: "<span class='text-[#FF4D00]'>Получают больше выручки</span> на одного менеджера" },
+          { title: "<span class='text-[#FF4D00]'>Снизили количество отказов</span> по ипотеке" },
+          { title: "<span class='text-[#FF4D00]'>Сократили расходы</span> на электронную регистрацию" },
+        ]}
+      />
+    </div>
+  </section>
+
+  <!-- Stories Carousel (mini) -->
+  <div class="max-w-[1440px] mx-auto px-4 py-20">
+    <SuccessStoriesCarousel
+      title="70+ историй успеха на рынке девелопмента"
+      variant="mini"
+      stories={[
+        {
+          title: "Помогли начать обрабатывать <span class='text-brand'>на 281% заявок больше</span>, чем в среднем на рынке",
+          quote: "Раньше клиенты тонули в сборе справок и терялись. С ДВИЖем весь процесс занял минуты — конверсия из консультации в сделку выросла в разы.",
+          person: {
+            name: "Петрова Надежда",
+            jobTitle: "Директор по маркетингу, ЛСР",
+            photo: { url: "" }
+          },
+          image: "",
+          imageAlt: "ЛСР",
+          logo: "",
+          logoAlt: "ЛСР"
+        },
+        {
+          title: "Дополнительно продали <span class='text-brand'>96 квартир</span>",
+          quote: "Клиентов с низким КР раньше просто отсеивали. ДВИЖ показал, как с ними работать: подсказать, как закрыть кредитки, предложить другие программы. За год продали на 96 квартир больше.",
+          person: {
+            name: "Иванов Сергей",
+            jobTitle: "Руководитель отдела ипотеки",
+            photo: { url: "" }
+          },
+          image: "",
+          logo: ""
+        },
+        {
+          title: "Одобрение ипотеки <span class='text-brand'>за 15 минут</span>",
+          quote: "Раньше клиент ждал 2-3 дня. Теперь анкета уходит в 40+ банков одной кнопкой, клиент получает решение за 15 минут.",
+          person: {
+            name: "Сидорова Елена",
+            jobTitle: "Ипотечный брокер",
+            photo: { url: "" }
+          },
+          image: "",
+          logo: ""
+        }
+      ]}
+    />
+  </div>
+
+  <!-- Product Section -->
+  <ProductSection
+    sections={[
+      { number: "01", title: "Цифровая ипотека", active: true },
+      { number: "02", title: "Калькулятор" },
+      { number: "03", title: "Скоринг" },
+      { number: "04", title: "Регистрация" },
+    ]}
+    title="Поможем выполнить план продаж на том же трафике"
+    descriptions={[
+      "До 96% одобрения",
+      "Единая анкета в 40+ банков",
+      "Моментальное заполнение анкеты через Госуслуги",
+      "Готовые интеграции с CRM",
+      "Анализ работы менеджеров"
+    ]}
+    primaryButton={{ label: "Читать кейс", href: "#" }}
+    secondaryButton={{ label: "Подробнее о цифровой ипотеке", href: "#" }}
+  />
+
+  <!-- ProductSectionNew Demo -->
+  <ProductSectionNew
+    sections={[
+      { number: "01", title: "Новый компонент", active: true },
+      { number: "02", title: "С изображениями" },
+    ]}
+    title={{
+      lg: "Заголовок для больших экранов (lg+)",
+      md: "Заголовок для средних экранов (md)",
+      sm: "Заголовок для мобильных (sm)"
+    }}
+    descriptions={[
+      "Это демонстрация нового компонента ProductSectionNew",
+      "С адаптивными заголовками и изображениями в правом блоке"
+    ]}
+    primaryButton={{ label: "Начать", href: "#" }}
+    secondaryButton={{ label: "Подробнее", href: "#" }}
+    rightContent={{
+      images: [
+        {
+          src: "/partners/dvizh.svg",
+          alt: "Логотип ДВИЖ",
+          width: 400,
+          height: 200
+        }
+      ],
+      description: "Пример изображения в правом блоке"
+    }}
+  />
+
+  <!-- Не оставим вас одних -->
+  <div class="max-w-[1440px] mx-auto px-4 py-12">
+    <FormClosing
+      preset="lead"
+      title="Не оставим вас одних"
+      description="За каждым клиентом закреплен менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
+      submitLabel="Оставить заявку"
+    />
+  </div>
+
+  <!-- CTA: Как оценить отдел ипотеки -->
+  <div class="max-w-[1440px] mx-auto px-4 py-12">
+    <CTA
+      title="Как оценить отдел ипотеки"
+      description="Скачайте пример отчета и узнайте, какие метрики нужно контролировать"
+      buttonText="Получить отчет"
+      drawerPreset="research"
+    />
+  </div>
+</SiteLayout>

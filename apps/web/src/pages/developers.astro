@@ -38,8 +38,33 @@ import FormClosing from '../components/ui/FormClosing.astro'
       { src: '/partners/glorax.svg', alt: 'Glorax' },
       { src: '/partners/a101.svg', alt: 'A101' },
     ]}
-    variant="dark"
   />
+
+  <DvizhAdvantages
+    title="Почему выбирают ДВИЖ"
+    plans={[
+      {
+        name: 'Без ДВИЖа',
+        features: [
+          { label: 'Среднее одобрение меньше 60%' },
+          { label: 'Много продуктов, ошибки при переносе данных' },
+          { label: 'Менеджер теряет заявки и не выполняет KPI по продажам' },
+        ],
+      },
+      {
+        name: 'С ДВИЖом',
+        period: '/месяц',
+        isDark: true,
+        features: [
+          { label: 'Процент одобрения до 95%' },
+          { label: 'Весь процесс в одном окне: от заявки до регистрации в Росреестре. Без ошибок и переплат' },
+          { label: 'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейки с коллегами' },
+        ],
+      },
+    ]}
+  />
+
+  <FormClosing />
 
   <StatsSection
     title="Девелоперы с ДВИЖом"

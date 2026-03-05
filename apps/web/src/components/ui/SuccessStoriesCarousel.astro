@@ -1,28 +1,4 @@
 ---
-/**
- * SuccessStoriesCarousel — горизонтальная карусель карточек SuccessStory
- *
- * Использует CSS Scroll Snap для нативной прокрутки с эффектом «липания» к слайдам.
- * Работает с тач-свайпом на мобильных и скроллом на десктопе.
- *
- * @example
- * ```astro
- * <!-- Full вариант -->
- * <SuccessStoriesCarousel
- *   title="70+ историй успеха на рынке девелопмента"
- *   variant="default"
- *   :stories={[...]}
- * />
- *
- * <!-- Mini вариант (3 карточки) -->
- * <SuccessStoriesCarousel
- *   title="70+ историй успеха на рынке девелопмента"
- *   variant="mini"
- *   :stories={[...]}
- * />
- * ```
- */
-
 import SuccessStory from './SuccessStory.astro'
 
 interface Person {
@@ -54,29 +30,22 @@ interface Props {
   class?: string
 }
 
-const { title, stories = [], variant = 'default', class: className = '' } = Astro.props
-
-// Отладка: проверяем, передается ли prop stories
-console.log('SuccessStoriesCarousel props:', { title, stories, variant })
-
-// Используем локальный массив с данными для историй успеха
-const successStories = [
-
-  { title: 'ГК ЛСР', quote: 'Благодаря платформе ДВИЖ мы выросли на 281%', person: { name: 'Александр Петров', jobTitle: 'Генеральный директор' } },
-  { title: 'ГК Точно', quote: 'Количество ипотечных заявок выросло с 1 116 до 3 500 в месяц', person: { name: 'Михаил Сидоров', jobTitle: 'Коммерческий директор' } },
-  { title: 'ГК Самолет', quote: '96 квартир продали через платформу, принеся 816 млн ₽ дополнительного дохода', person: { name: 'Елена Николаева', jobTitle: 'Руководитель отдела продаж' } },
-  { title: 'Гранель', quote: 'Процент одобрения ипотечных заявок вырос с 66.7% до 95%', person: { name: 'Дмитрий Козлов', jobTitle: 'Начальник отдела ипотеки' } },
-  { title: 'Страна Девелопмент', quote: '150 млн ₽ сделок ежемесячно через платформу', person: { name: 'Ольга Иванова', jobTitle: 'Директор по продажам' } },
-  { title: 'GloraX', quote: 'Сокращение затрат на сопровождение сделок', person: { name: 'Александр Петров', jobTitle: 'Директор' } },
-]
+const { title, stories, variant = 'default', class: className = '' } = Astro.props
 
 const isMini = variant === 'mini'
 
 // Ширина карточки для snap
 const itemClass = isMini
-  ? 'snap-center shrink-0 w-[85%] sm:w-[60%] lg:w-[42%]'
-  : 'snap-center shrink-0 w-full max-w-[90%] sm:max-w-[80%] xl:max-w-[900px]'
+  ? 'snap-center shrink-0 w-[42%]'
+  : 'snap-center shrink-0 w-full max-w-[80%] xl:max-w-[900px]'
 ---
+
+<!--
+SuccessStoriesCarousel — горизонтальная карусель карточек SuccessStory
+
+Использует CSS Scroll Snap для нативной прокрутки с эффектом «липания» к слайдам.
+Работает с тач-свайпом на мобильных и скроллом на десктопе.
+-->
 
 <section class:list={[className]} data-stories-carousel>
   <!-- Заголовок -->
@@ -89,7 +58,7 @@ const itemClass = isMini
     class="flex overflow-x-auto gap-5 pb-4 pr-6 snap-x snap-mandatory scrollbar-hide cursor-grab select-none"
     style="-webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth;"
   >
-    {stories?.map((story) => (
+    {stories.map((story) => (
       <div class={itemClass}>
         <SuccessStory variant={variant} {...story} />
       </div>
