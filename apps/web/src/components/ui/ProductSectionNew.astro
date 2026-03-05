@@ -77,15 +77,15 @@ const componentId = `product-section-new-${Math.random().toString(36).substr(2, 
   <div id={componentId} class="px-[50px] py-[50px]">
     <div class="flex flex-col gap-6 md:gap-[52px] lg:flex-row lg:gap-[120px]">
       <!-- Меню секций (md-sm: сверху горизонтально с scroll, lg+: слева вертикально) -->
-      <nav class="flex gap-6 overflow-x-auto scrollbar-hide lg:flex-col lg:w-[220px] lg:flex-shrink-0 lg:overflow-visible">
+      <nav class="flex justify-start gap-6 overflow-x-auto scrollbar-hide lg:flex-col lg:w-[220px] lg:flex-shrink-0 lg:overflow-visible">
         {sections.map((section, index) => (
           <button
             class:list={[
-              'flex-shrink-0 transition-colors hover:opacity-70',
+              'flex-shrink-0 transition-colors hover:opacity-70 text-left',
               index === 0 ? 'text-brand' : 'text-[#858585]'
             ]}
           >
-            <span class="text-base font-medium">
+            <span class="text-base font-medium text-left">
               {section.title}
             </span>
           </button>
