@@ -15,6 +15,7 @@ import BlogCards from '../../components/ui/BlogCards.astro'
 import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
 import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
+import BentoThreeNew from '../../components/ui/BentoThreeNew.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
 import CTA from '../../components/ui/CTA.astro'
 
@@ -162,23 +163,28 @@ const partnerLogos = [
     }}
   />
 
-  <!-- Не оставим вас одних -->
-  <div class="max-w-[1440px] mx-auto px-4 py-12">
-    <FormClosing
-      preset="lead"
-      title="Не оставим вас одних"
-      description="За каждым клиентом закреплен менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
-      submitLabel="Оставить заявку"
-    />
-  </div>
-
-  <!-- CTA: Как оценить отдел ипотеки -->
-  <div class="max-w-[1440px] mx-auto px-4 py-12">
-    <CTA
-      title="Как оценить отдел ипотеки"
-      description="Скачайте пример отчета и узнайте, какие метрики нужно контролировать"
-      buttonText="Получить отчет"
-      drawerPreset="research"
-    />
+  <!-- BentoThreeNew Demo -->
+  <div class="mt-[50px]">
+    <BentoThreeNew
+      title={{
+        lg: "Закрывайте до 26% больше сделок на таком же трафике",
+        md: "Закрывайте до 26% больше сделок на таком же трафике",
+        sm: "Закрывайте до 26% больше сделок на таком же трафике"
+      }}
+      bigCard={{
+        title: "Получайте больше выручки",
+        description: "на одного менеджера"
+      }}
+      smallCards={[
+        {
+          title: "Снизили колчество отказов",
+          description: "на одного менеджера"
+        },
+        {
+          title: "Сократили расходы",
+          description: "на электронную регистрацию"
+        }
+      ]}
+  />
   </div>
 </SiteLayout>
