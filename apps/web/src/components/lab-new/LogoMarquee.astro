@@ -21,14 +21,14 @@ const displayLogos = logos.length > 0
 ---
 
 <div class="w-full overflow-hidden group">
-  <div class="flex animate-marquee group-hover:paused">
-    {/* Дублируем для бесшовной прокрутки */}
-    {[...displayLogos, ...displayLogos, ...displayLogos].map((logo) => (
+  <div class="flex animate-marquee will-change-transform group-hover:paused">
+    {/* Дублируем для бесшовной прокрутки - 4 копии для точного цикла */}
+    {[...displayLogos, ...displayLogos, ...displayLogos, ...displayLogos].map((logo) => (
       <div class="flex-shrink-0 px-12 py-6">
         <img
           src={logo.src}
           alt={logo.name}
-          class="h-8 w-auto grayscale opacity-50 transition-all duration-300 hover:grayscale-0 hover:opacity-100"
+          class="h-8 w-auto max-w-[120px] filter brightness-0 opacity-40 transition-all duration-300 hover:opacity-100 hover:filter-none"
           width={120}
           height={32}
         />
@@ -43,7 +43,7 @@ const displayLogos = logos.length > 0
       transform: translateX(0);
     }
     100% {
-      transform: translateX(-33.333%);
+      transform: translateX(-25%);
     }
   }
 
@@ -53,5 +53,9 @@ const displayLogos = logos.length > 0
 
   .group-hover\:paused:hover {
     animation-play-state: paused;
+  }
+
+  .will-change-transform {
+    will-change: transform;
   }
 </style>

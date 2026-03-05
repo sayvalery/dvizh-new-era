@@ -27,22 +27,86 @@ const alignClass = isLightBg ? 'justify-end' : 'justify-start'
 const textColor = inverted ? (isLightBg ? 'text-gray-900' : 'text-white') : (isLightBg ? 'text-gray-900' : 'text-white')
 // Стиль для фона: цвет или изображение
 const backgroundStyle = image
-  ? `background-image: url('${image}'); background-size: cover; background-position: ${imagePosition};`
+  ? `background-color: ${color}`
   : `background-color: ${color}`
 ---
 
 <div
-  class="relative overflow-hidden rounded-[18px] h-[414px] w-full"
+  class="feature-card-hover relative overflow-hidden rounded-[18px] h-[414px] w-full transition-all duration-400 ease-out"
   style={backgroundStyle}
 >
-  <div class={`relative h-full flex flex-col p-6 ${alignClass}`}>
-    <div class={`relative z-10 flex flex-col gap-1 text-left ${textColor}`}>
-      <h3 class="text-[17.6px] font-semibold">
+  {image && (
+    <div class="feature-card-bg-image absolute inset-0" style={`background-image: url('${image}'); background-size: cover; background-position: ${imagePosition};`} />
+  )}
+  <div class={`feature-card-bg relative h-full flex flex-col p-6 ${alignClass}`}>
+    <div class={`feature-card-content relative z-10 flex flex-col gap-1 text-left transition-all duration-400 ease-out ${textColor}`}>
+      <h3 class="feature-card-title text-[17.6px] font-semibold transition-all duration-400 ease-out">
         {title}
       </h3>
-      <p class="text-[17.6px] opacity-90">
+      <p class="feature-card-desc text-[17.6px] opacity-90 transition-all duration-400 ease-out">
         {subtitle}
       </p>
     </div>
   </div>
 </div>
+
+<style>
+  .feature-card-hover {
+    position: relative;
+  }
+
+  .feature-card-hover:hover {
+    transform: translateY(-8px);
+  }
+
+  .feature-card-hover:hover::after {
+    opacity: 1;
+  }
+
+  .feature-card-hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0.7rem;
+    pointer-events: none;
+    opacity: 0;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+      inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+    transition: opacity 0.4s ease-out;
+  }
+
+  .feature-card-bg-image {
+    transform: scale(1);
+    transition: transform 0.4s ease-out;
+  }
+
+  .feature-card-hover:hover .feature-card-bg-image {
+    transform: scale(1.03);
+  }
+
+  .feature-card-bg {
+    transform: scale(1);
+    transition: transform 0.4s ease-out;
+  }
+
+  .feature-card-hover:hover .feature-card-bg {
+    transform: scale(1.01);
+  }
+
+  .feature-card-title {
+    transform: translateY(0);
+  }
+
+  .feature-card-hover:hover .feature-card-title {
+    transform: translateY(-0.5px);
+  }
+
+  .feature-card-desc {
+    opacity: 0.9;
+  }
+
+  .feature-card-hover:hover .feature-card-desc {
+    opacity: 1;
+  }
+</style>
