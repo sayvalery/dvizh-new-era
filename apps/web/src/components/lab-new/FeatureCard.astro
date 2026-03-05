@@ -1,0 +1,40 @@
+---
+/**
+ * Lab New: FeatureCard — карточка с цветным фоном, заголовком и подзаголовком
+ */
+interface Props {
+  /** Заголовок */
+  title: string
+  /** Подзаголовок */
+  subtitle: string
+  /** Цвет фона */
+  color?: string
+  /** Инверсия цвета */
+  inverted?: boolean
+}
+
+const { title, subtitle, color = "#202b32", inverted = false } = Astro.props
+
+// Определяем светлый фон или тёмный
+const isLightBg = color === '#f2f2f2' || color === '#F2F2F2'
+// На светлых карточках текст снизу, на тёмных — сверху
+const alignClass = isLightBg ? 'justify-end' : 'justify-start'
+// Цвет текста: на светлом фоне тёмный, на тёмном — белый
+const textColor = inverted ? (isLightBg ? 'text-gray-900' : 'text-white') : (isLightBg ? 'text-gray-900' : 'text-white')
+---
+
+<div
+  class="relative overflow-hidden rounded-[18px] h-[414px] w-full"
+  style={`background-color: ${color}`}
+>
+  <div class={`relative h-full flex flex-col p-6 ${alignClass}`}>
+    <div class={`relative z-10 flex flex-col gap-1 text-left ${textColor}`}>
+      <h3 class="text-[17.6px] font-semibold">
+        {title}
+      </h3>
+      <p class="text-[17.6px] opacity-90">
+        {subtitle}
+      </p>
+    </div>
+  </div>
+</div>

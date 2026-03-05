@@ -1,0 +1,154 @@
+---
+/**
+ * Lab: New Components — шоурум компонентов с обновлённым стилем
+ *
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/new-components
+ *
+ * Здесь собираем новые компоненты перед добавлением в основной UI Kit.
+ * Компоненты хранятся в components/lab-new/, не трогаем components/ui/
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import Card from '../../components/lab-new/Card.astro'
+import HeroBadge from '../../components/lab-new/HeroBadge.astro'
+import LogoMarquee from '../../components/lab-new/LogoMarquee.astro'
+import HeroWithBadge from '../../components/lab-new/HeroWithBadge.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+import FeatureCard from '../../components/lab-new/FeatureCard.astro'
+import CTA from '../../components/ui/CTA.astro'
+---
+
+<SiteLayout title="Lab: New Components">
+  <section class="py-24 bg-gray-50">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="mb-16">
+        <p class="text-sm font-medium tracking-widest uppercase text-brand mb-4">Lab</p>
+        <h1 class="text-4xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900 mb-4">
+          Новые компоненты
+        </h1>
+        <p class="text-lg text-gray-400 max-w-2xl">
+          Компоненты с обновлённым стилем. Хранятся отдельно в <code class="bg-gray-200 px-2 py-0.5 rounded text-sm">components/lab-new/</code>, не затрагивая текущий UI Kit.
+        </p>
+      </div>
+
+      <!-- Сюда будем добавлять новые компоненты -->
+
+      <div class="space-y-20">
+        <!-- Card -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">Card</h2>
+            <p class="text-gray-400 mt-1">Карточка с glassmorphism эффектом</p>
+          </div>
+
+          <!-- Демо -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card
+              title="Сократили количество отказов по ипотеке"
+              description="какие-то цифры или показатели"
+            />
+            <Card
+              title="Перестали терять сделки из-за клиентов с низким КР"
+              description="какие-то цифры или показатели"
+            />
+            <Card
+              title="Ускорили заполнение анкеты до 10 секунд"
+              description="какие-то цифры или показатели"
+            />
+            <Card
+              title="Стали закрывать больше сделок без роста штата"
+              description="какие-то цифры или показатели"
+            />
+          </div>
+        </section>
+
+        <!-- Hero с бейджем и бегущей строкой -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">Hero с бейджем и бегущей строкой</h2>
+            <p class="text-gray-400 mt-1">Кастомный компонент с бейджем над H1 и бегущей строкой</p>
+          </div>
+
+          <!-- Демо -->
+          <div class="rounded-2xl border border-gray-100 overflow-hidden">
+            <HeroWithBadge
+              badge="Ипотечная платформа"
+              title="Закрывайте до 26% больше сделок на том же трафике"
+              description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
+              submitLabel="Отправить"
+            />
+          </div>
+        </section>
+
+        <!-- FeatureCard -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">FeatureCard</h2>
+            <p class="text-gray-400 mt-1">Карточка с цветным фоном, заголовком и подзаголовком</p>
+          </div>
+
+          <!-- Заголовок над карточками -->
+          <div class="text-center mb-10">
+            <h3 class="text-[42.5px] font-bold text-gray-900 tracking-tight">
+              70+ историй успеха на рынке девелопмента
+            </h3>
+          </div>
+
+          <!-- Демо -->
+          <div class="flex flex-wrap justify-center gap-10">
+            <FeatureCard
+              title="Готовые интеграции"
+              subtitle="с популярными системами"
+              color="#202b32"
+            />
+            <FeatureCard
+              title="57 секунд"
+              subtitle="среднее время ответа в поддержке"
+              color="#F2F2F2"
+            />
+            <FeatureCard
+              title="Все ключевые показатели"
+              subtitle="ипотечного отдела"
+              color="#F2F2F2"
+            />
+          </div>
+        </section>
+
+        <!-- CTA с заголовком и подзаголовком -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">CTA из UI Kit</h2>
+            <p class="text-gray-400 mt-1">Призыв к действию с заголовком, подзаголовком и кнопкой</p>
+          </div>
+
+          <!-- Демо -->
+          <CTA
+            title="Бонус от ДВИЖа"
+            description="Скачайте пример идеального отчета ипотечного отдела"
+            buttonText="Посмотреть демо"
+            buttonHref="#"
+          />
+        </section>
+
+        <!-- FormClosing (кастомный светлый) -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">FormClosing — кастомный светлый</h2>
+            <p class="text-gray-400 mt-1">FormClosing с пропами: bgColor, showGradient, privacyText, formVariant</p>
+          </div>
+
+          <!-- Демо -->
+          <FormClosing
+            title="Не оставим вас одних"
+            description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
+            preset="lead"
+            submitLabel="Отправить заявку"
+            bgColor="bg-gray-100"
+            showGradient={false}
+            privacyText="Нажимая кнопку «Отправить заявку», вы даёте согласие на обработку ваших персональных данных"
+          />
+        </section>
+      </div>
+
+    </div>
+  </section>
+</SiteLayout>

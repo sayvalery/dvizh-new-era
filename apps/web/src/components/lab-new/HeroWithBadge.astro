@@ -1,0 +1,67 @@
+---
+/**
+ * Lab New: HeroWithBadge — Hero секция с бейджем и бегущей строкой
+ *
+ * Кастомный компонент, собирающий Hero из UI Kit элементов.
+ */
+import Form from '../ui/Form.astro'
+import HeroBadge from './HeroBadge.astro'
+import LogoMarquee from './LogoMarquee.astro'
+
+interface Props {
+  /** Текст бейджа */
+  badge?: string
+  /** Заголовок */
+  title: string
+  /** Описание */
+  description?: string
+  /** Текст кнопки формы */
+  submitLabel?: string
+}
+
+const {
+  badge,
+  title,
+  description,
+  submitLabel = 'Отправить'
+} = Astro.props
+---
+
+<section class="relative overflow-hidden bg-white">
+  <div class="relative z-10 max-w-[1440px] mx-auto px-4">
+    <div class="grid lg:grid-cols-[726px_1fr] gap-8 items-center lg:min-h-[800px]">
+      <!-- Левая колонка: контент -->
+      <div class="flex flex-col justify-center gap-[52px] py-16 lg:py-0 order-2 lg:order-1">
+        <div class="flex flex-col items-start gap-9">
+          <!-- Бейдж -->
+          {badge && (
+            <HeroBadge text={badge} />
+          )}
+
+          <!-- Заголовок и описание -->
+          <div class="flex flex-col gap-8">
+            <h1 class="text-[36px] sm:text-[48px] lg:text-[72px] font-bold leading-none text-[#1b2226]">
+              {title}
+            </h1>
+            {description && (
+              <p class="text-[20px] lg:text-[24px] leading-[1.4] max-w-[602px] text-[#858585]">
+                {description}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <!-- Форма -->
+        <Form preset="lead" layout="inline" variant="light" submitLabel={submitLabel} />
+      </div>
+
+      <!-- Правая колонка -->
+      <div class="hidden lg:flex items-center justify-center order-1 lg:order-2">
+        <div class="w-full h-[800px] bg-[#ededed] rounded-none" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Бегущая строка с логотипами -->
+  <LogoMarquee />
+</section>

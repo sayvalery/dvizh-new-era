@@ -1,0 +1,109 @@
+---
+/**
+ * Lab: Ипотека (новые компоненты)
+ *
+ * Страница с новыми компонентами из lab-new/
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import Card from '../../components/lab-new/Card.astro'
+import HeroWithBadge from '../../components/lab-new/HeroWithBadge.astro'
+import FeatureCard from '../../components/lab-new/FeatureCard.astro'
+import CTA from '../../components/ui/CTA.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+---
+
+<SiteLayout title="Lab: Ипотека (новые компоненты)">
+  <!-- Hero с бейджем -->
+  <HeroWithBadge
+    badge="Ипотечная платформа"
+    title="Закрывайте до 26% больше сделок на том же трафике"
+    description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
+    submitLabel="Отправить"
+  />
+
+  <!-- Card -->
+  <section class="pt-32 pb-20 bg-white">
+    <div class="max-w-[1440px] mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card
+          title="Сократили количество
+отказов по ипотеке"
+          description="какие-то цифры или показатели"
+        />
+        <Card
+          title="Перестали терять сделки
+из-за клиентов с низким КР"
+          description="какие-то цифры или показатели"
+        />
+        <Card
+          title="Ускорили заполнение
+анкеты до 10 секунд"
+          description="какие-то цифры или показатели"
+        />
+        <Card
+          title="Стали закрывать больше
+сделок без роста штата"
+          description="какие-то цифры или показатели"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Cards -->
+  <section class="py-20 bg-white">
+    <div class="max-w-[1440px] mx-auto px-4">
+      <div class="mb-12">
+        <h2 class="text-[42.5px] font-semibold text-gray-900 tracking-tight leading-none">
+          70+ историй успеха<br>на рынке девелопмента
+        </h2>
+        <p class="mt-4 text-base text-gray-600">
+          Текст про преимущества и всякое такое
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <FeatureCard
+          title="Готовые интеграции"
+          subtitle="с популярными системами"
+          color="#202b32"
+        />
+        <FeatureCard
+          title="57 секунд"
+          subtitle="среднее время ответа в поддержке"
+          color="#F2F2F2"
+        />
+        <FeatureCard
+          title="Все ключевые показатели"
+          subtitle="ипотечного отдела"
+          color="#F2F2F2"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-[1440px] mx-auto px-4">
+      <CTA
+        title="Бонус от ДВИЖа"
+        description="Скачайте пример идеального отчета ипотечного отдела"
+        buttonText="Посмотреть демо"
+        buttonHref="#"
+      />
+    </div>
+  </section>
+
+  <!-- Form Closing -->
+  <section class="py-20 bg-white">
+    <div class="max-w-[1440px] mx-auto px-4">
+      <FormClosing
+        title="Не оставим вас одних"
+        description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
+        preset="lead"
+        submitLabel="Отправить заявку"
+        bgColor="bg-gray-100"
+        showGradient={false}
+        privacyText="Нажимая кнопку «Отправить заявку», вы даёте согласие на обработку ваших персональных данных"
+      />
+    </div>
+  </section>
+</SiteLayout>

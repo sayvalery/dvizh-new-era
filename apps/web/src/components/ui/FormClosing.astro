@@ -30,6 +30,20 @@ interface Props {
   imageAlt?: string
   /** Текст на кнопке отправки */
   submitLabel?: string
+  /** Цвет фона (hex или Tailwind класс) */
+  bgColor?: string
+  /** Начальный цвет градиентного круга */
+  gradientStart?: string
+  /** Конечный цвет градиентного круга */
+  gradientEnd?: string
+  /** Показывать градиентный круг */
+  showGradient?: boolean
+  /** Цвет текста заголовка и описания */
+  textColor?: string
+  /** Вариант формы (light/dark) */
+  formVariant?: 'light' | 'dark'
+  /** Текст о персональных данных */
+  privacyText?: string
   /** Дополнительные CSS классы */
   class?: string
 }
@@ -41,37 +55,64 @@ const {
   image,
   imageAlt = 'Image',
   submitLabel,
+  bgColor,
+  gradientStart = '#7775D6',
+  gradientEnd = '#E935C1',
+  showGradient = true,
+  textColor = 'text-white',
+  formVariant,
+  privacyText,
   class: className = ''
 } = Astro.props
+
+// Если bgColor задан как класс (не hex), определяем является ли фон светлым
+const isLightBg = bgColor && !bgColor.startsWith('#') && (bgColor.includes('gray-50') || bgColor.includes('gray-100') || bgColor.includes('gray-200') || bgColor.includes('gray-300'))
+const formVariantResolved = formVariant ?? (isLightBg ? 'light' : 'dark')
+const textColorResolved = textColor === 'text-white' && isLightBg ? 'text-gray-900' : textColor
+const descriptionColor = isLightBg ? 'text-gray-600' : 'text-gray-300'
+const privacyColor = isLightBg ? 'text-gray-400' : 'text-gray-400'
+
+// Генерируем уникальный ID для градиента (для поддержки нескольких экземпляров)
+const gradientId = `gradient-circle-closing-${Math.random().toString(36).slice(2)}`
 ---
 
-<section class:list={['relative isolate overflow-hidden bg-gray-900 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0', className]}>
+<section
+  class:list={['relative isolate overflow-hidden px-6 pt-[5rem] pb-2 shadow-2xl sm:rounded-3xl sm:px-16 sm:pt-[5rem] sm:pb-2 md:pt-[5rem] md:pb-2 lg:flex lg:gap-x-20 lg:px-24 lg:pt-[5rem] lg:pb-2', bgColor || 'bg-gray-900', className]}
+  style={bgColor?.startsWith('#') || bgColor?.startsWith('rgb') ? `background-color: ${bgColor}` : ''}
+>
   <!-- Градиентный круг -->
-  <svg viewBox="0 0 1024 1024" aria-hidden="true" class="absolute left-1/2 top-1/2 -z-10 size-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0">
-    <circle r="512" cx="512" cy="512" fill="url(#gradient-circle-closing)" fill-opacity="0.7" />
-    <defs>
-      <radialGradient id="gradient-circle-closing">
-        <stop stop-color="#7775D6" />
-        <stop offset="1" stop-color="#E935C1" />
-      </radialGradient>
-    </defs>
-  </svg>
+  {showGradient && (
+    <svg viewBox="0 0 1024 1024" aria-hidden="true" class="absolute left-1/2 top-1/2 -z-10 size-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0">
+      <circle r="512" cx="512" cy="512 fill={`url(#${gradientId})`} fill-opacity="0.7" />
+      <defs>
+        <radialGradient id={gradientId}>
+          <stop stop-color={gradientStart} />
+          <stop offset="1" stop-color={gradientEnd} />
+        </radialGradient>
+      </defs>
+    </svg>
+  )}
 
-  <div class="mx-auto max-w-xl text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
-    <h2 class="text-balance text-3xl font-semibold text-white sm:text-4xl">
+  <div class="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left">
+    <h2 class={`text-balance text-3xl font-semibold sm:text-4xl ${textColorResolved}`}>
       {title}
     </h2>
     {description && (
-      <p class="mt-6 text-pretty text-lg/8 text-gray-300">
+      <p class={`mt-6 text-pretty text-lg/8 ${descriptionColor}`}>
         {description}
       </p>
     )}
     <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-      <Form preset={preset} layout="inline" variant="dark" submitLabel={submitLabel} />
+      <Form preset={preset} layout="inline" variant={formVariantResolved} submitLabel={submitLabel} />
     </div>
+    {privacyText && (
+      <p class={`mt-4 text-sm ${privacyColor}`}>
+        {privacyText}
+      </p>
+    )}
   </div>
 
-  <div class="relative mt-16 h-80 lg:mt-8">
+  <div class="relative mt-8 h-80">
     {image ? (
       <img
         src={image}
