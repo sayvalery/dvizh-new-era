@@ -11,9 +11,13 @@ interface Props {
   color?: string
   /** Инверсия цвета */
   inverted?: boolean
+  /** Фоновое изображение */
+  image?: string
+  /** Позиция фонового изображения (center, right, left, top, bottom, или комбинация) */
+  imagePosition?: 'center' | 'right' | 'left' | 'top' | 'bottom' | 'top right' | 'top left' | 'right top' | 'bottom right' | 'right bottom' | 'bottom left' | 'left bottom'
 }
 
-const { title, subtitle, color = "#202b32", inverted = false } = Astro.props
+const { title, subtitle, color = "#202b32", inverted = false, image = "", imagePosition = "center" } = Astro.props
 
 // Определяем светлый фон или тёмный
 const isLightBg = color === '#f2f2f2' || color === '#F2F2F2'
@@ -21,11 +25,15 @@ const isLightBg = color === '#f2f2f2' || color === '#F2F2F2'
 const alignClass = isLightBg ? 'justify-end' : 'justify-start'
 // Цвет текста: на светлом фоне тёмный, на тёмном — белый
 const textColor = inverted ? (isLightBg ? 'text-gray-900' : 'text-white') : (isLightBg ? 'text-gray-900' : 'text-white')
+// Стиль для фона: цвет или изображение
+const backgroundStyle = image
+  ? `background-image: url('${image}'); background-size: cover; background-position: ${imagePosition};`
+  : `background-color: ${color}`
 ---
 
 <div
   class="relative overflow-hidden rounded-[18px] h-[414px] w-full"
-  style={`background-color: ${color}`}
+  style={backgroundStyle}
 >
   <div class={`relative h-full flex flex-col p-6 ${alignClass}`}>
     <div class={`relative z-10 flex flex-col gap-1 text-left ${textColor}`}>
