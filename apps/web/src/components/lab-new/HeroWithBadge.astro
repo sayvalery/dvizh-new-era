@@ -17,13 +17,16 @@ interface Props {
   description?: string
   /** Текст кнопки формы */
   submitLabel?: string
+  /** Логотипы для бегущей строки */
+  logos?: { name: string; src: string }[]
 }
 
 const {
   badge,
   title,
   description,
-  submitLabel = 'Отправить'
+  submitLabel = 'Отправить',
+  logos
 } = Astro.props
 ---
 
@@ -57,11 +60,11 @@ const {
 
       <!-- Правая колонка -->
       <div class="hidden lg:flex items-center justify-center order-1 lg:order-2">
-        <div class="w-full h-[800px] bg-[#ededed] rounded-none" />
+        <div class="w-full h-[800px] rounded-none" />
       </div>
     </div>
   </div>
 
   <!-- Бегущая строка с логотипами -->
-  <LogoMarquee />
+  <LogoMarquee logos={logos} />
 </section>
