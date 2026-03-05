@@ -56,6 +56,16 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Утилита для скрытия скроллбара при сохранении touch-скролла */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Inter', system-ui, sans-serif;
 }

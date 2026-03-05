@@ -14,6 +14,7 @@ import GradientCTA from '../../components/ui/GradientCTA.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
+import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
 import CTA from '../../components/ui/CTA.astro'
 
@@ -131,67 +132,34 @@ const partnerLogos = [
     secondaryButton={{ label: "Подробнее о цифровой ипотеке", href: "#" }}
   />
 
-  <!-- Цифровая ипотека -->
-  <FeaturesGrid
-    badge="Цифровая ипотека"
-    title="Поможем выполнить план продаж на том же трафике"
-    features={[
-      { icon: 'check', title: 'До 96% одобрения', description: '' },
-      { icon: 'check', title: 'Единая анкета в 40+ банков', description: '' },
-      { icon: 'check', title: 'Моментальное заполнение анкеты через Госуслуги', description: '' },
-      { icon: 'check', title: 'Готовые интеграции с CRM', description: '' },
-      { icon: 'check', title: 'Анализ работы менеджеров', description: '' },
+  <!-- ProductSectionNew Demo -->
+  <ProductSectionNew
+    sections={[
+      { number: "01", title: "Новый компонент", active: true },
+      { number: "02", title: "С изображениями" },
     ]}
-    variant="light"
-  />
-
-  <!-- Ипотечный калькулятор -->
-  <FeaturesGrid
-    badge="Ипотечный калькулятор"
-    title="Приведем больше лидов с сайта"
-    features={[
-      { icon: 'check', title: 'Расчет рассрочки и досрочного погашения', description: '' },
-      { icon: 'check', title: 'Автоматическое обновление ставок и программ', description: '' },
-      { icon: 'check', title: 'API для интеграции с вашим сайтом и личным кабинетом', description: '' },
-      { icon: 'check', title: 'Брендирование калькулятора под ваши цвета', description: '' },
+    title={{
+      lg: "Заголовок для больших экранов (lg+)",
+      md: "Заголовок для средних экранов (md)",
+      sm: "Заголовок для мобильных (sm)"
+    }}
+    descriptions={[
+      "Это демонстрация нового компонента ProductSectionNew",
+      "С адаптивными заголовками и изображениями в правом блоке"
     ]}
-    variant="light"
-  />
-
-  <!-- Финансовый скоринг -->
-  <FeaturesGrid
-    badge="Финансовый скоринг"
-    title="Сократим процент отказов по проблемным заемщикам"
-    features={[
-      { icon: 'check', title: 'Проверка заемщика по 15 источникам', description: '' },
-      { icon: 'check', title: 'Ежемесячный скоринг по ДДУ c рассрочкой', description: '' },
-      { icon: 'check', title: 'Рекомендации по улучшению кредитной истории', description: '' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Электронная регистрация сделок -->
-  <FeaturesGrid
-    badge="Электронная регистрация сделок"
-    title="Сократим стоимость регистрации в Росреестре"
-    features={[
-      { icon: 'check', title: 'Сквозное оформление сделки от ипотеки до регистрации', description: '' },
-      { icon: 'check', title: 'До 30% дешевле цены конкурентов', description: '' },
-      { icon: 'check', title: 'Все виды сделок', description: '' },
-    ]}
-    variant="light"
-  />
-
-  <!-- ДВИЖ AI -->
-  <FeaturesGrid
-    badge="ДВИЖ AI"
-    title="Нейросети на службе вашего бизнеса"
-    features={[
-      { icon: 'check', title: 'Расчет вероятности и скорости одобрения по банкам', description: '' },
-      { icon: 'check', title: 'Автоматический подбор ипотечной программы', description: '' },
-      { icon: 'check', title: 'Меньше отказов, больше сделок', description: '' },
-    ]}
-    variant="light"
+    primaryButton={{ label: "Начать", href: "#" }}
+    secondaryButton={{ label: "Подробнее", href: "#" }}
+    rightContent={{
+      images: [
+        {
+          src: "/partners/dvizh.svg",
+          alt: "Логотип ДВИЖ",
+          width: 400,
+          height: 200
+        }
+      ],
+      description: "Пример изображения в правом блоке"
+    }}
   />
 
   <!-- Не оставим вас одних -->
