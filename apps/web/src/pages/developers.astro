@@ -1,290 +1,291 @@
 ---
-import SiteLayout from '../layouts/SiteLayout.astro'
-import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
-import HeroSection from '../components/ui/HeroSection.astro'
-import StatsSection from '../components/ui/StatsSection.astro'
-import CTA from '../components/ui/CTA.astro'
-import LogoGrid from '../components/ui/LogoGrid.astro'
-import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
-import DvizhAdvantages from '../components/ui/DvizhAdvantages.astro'
-import FormClosing from '../components/ui/FormClosing.astro'
+/**
+ * Lab: Продажи (новые компоненты)
+ *
+ * Страница с новыми компонентами из lab-new/
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import Card from '../../components/lab-new/Card.astro'
+import HeroSection from '../../components/ui/HeroSection.astro'
+import LogoMarquee from '../../components/lab-new/LogoMarquee.astro'
+import FeatureCard from '../../components/lab-new/FeatureCard.astro'
+import CTA from '../../components/ui/CTA.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
+import StoryCard from '../../components/ui/StoryCard.astro'
 ---
 
-<SiteLayout title="Для девелоперов — ДВИЖ" description="AI-платформа для автоматизации ипотечных продаж, электронной регистрации и аналитики. Используется 75 из ТОП-100 застройщиков.">
+<SiteLayout title="Lab: Продажи (новые компоненты)">
+  <!-- Hero split layout (Linear-style) -->
   <HeroSection
     layout="split"
-    badge="Платформа для застройщиков"
+    badge="Платформа для выполнения планов продаж"
     title="Ускоряем цикл сделки и забираем на себя всю рутину"
-    description="Платформа для выполнения планов продаж"
-    formPreset="demo"
-  />
-
-  <StatsSection
-    cols={3}
-    items={[
-      { value: '26%', label: 'к сделкам на том же трафике' },
+    description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
+    demoLabel="Посмотреть демо"
+    kpLabel="Получить КП"
+    stats={[
+      { value: '26% больше', label: 'сделок на том же трафике' },
       { value: '1 500 000+', label: 'сделок на рынке недвижимости прошло через ДВИЖ' },
-      { value: '79', label: 'застройщиков из ТОП-100 ЕРЗ – наши партнёры' },
+      { value: '79', label: 'застройщиков из ТОП-100 ЕРЗ наши партнеры' },
     ]}
+    statsCols={3}
   />
 
-  <LogoGrid
-    title="Заряжаем лучшие отделы продаж"
+  <!-- Бегущая строка с логотипами -->
+  <LogoMarquee
     logos={[
-      { src: '/partners/lsr.svg', alt: 'ЛСР' },
-      { src: '/partners/ava.svg', alt: 'AVA' },
-      { src: '/partners/ganel.svg', alt: 'Ganel' },
-      { src: '/partners/strana.svg', alt: 'Strana' },
-      { src: '/partners/glorax.svg', alt: 'Glorax' },
-      { src: '/partners/a101.svg', alt: 'A101' },
+      { name: 'ЛСР', src: '/partners/lsr.svg' },
+      { name: 'А101', src: '/partners/a101.svg' },
+      { name: 'AVA', src: '/partners/ava.svg' },
+      { name: 'Глоракс', src: '/partners/glorax.svg' },
+      { name: 'Гранель', src: '/partners/ganel.svg' },
+      { name: 'Страна', src: '/partners/strana.svg' },
     ]}
   />
 
-  <DvizhAdvantages
-    title="Почему выбирают ДВИЖ"
-    plans={[
-      {
-        name: 'Без ДВИЖа',
-        features: [
-          { label: 'Среднее одобрение меньше 60%' },
-          { label: 'Много продуктов, ошибки при переносе данных' },
-          { label: 'Менеджер теряет заявки и не выполняет KPI по продажам' },
-        ],
-      },
-      {
-        name: 'С ДВИЖом',
-        period: '/месяц',
-        isDark: true,
-        features: [
-          { label: 'Процент одобрения до 95%' },
-          { label: 'Весь процесс в одном окне: от заявки до регистрации в Росреестре. Без ошибок и переплат' },
-          { label: 'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейки с коллегами' },
-        ],
-      },
-    ]}
-  />
-
-  <FormClosing />
-
-  <StatsSection
-    title="Девелоперы с ДВИЖом"
-    cols={4}
-    items={[
-      { label: 'наполнить воронку качественными лидами' },
-      { label: 'закрыть клиентов быстрее, чем конкуренты' },
-      { label: 'увеличить средний чек и допродажи' },
-      { label: 'увидеть результат работы каждого сотрудника' },
-    ]}
-  />
-
-  <!-- Повышаем качество лидов -->
-  <FeaturesGrid
-    title="Повышаем качество лидов"
-    features={[
-      { icon: 'document', title: 'Форма на сайт для проверки кредитного рейтинга:', description: 'приведем надежных клиентов' },
-      { icon: 'check', title: 'Скоринг по банковским стандартам:', description: 'расскажем все о платежеспособности покупателей' },
-      { icon: 'arrow-path', title: 'Ипотечный калькулятор для сайта:', description: 'приведем клиентов с нужным уровнем дохода' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Продукт 4: Аналитика -->
-  <FeaturesGrid
-    title="Помогаем закрывать даже сложных клиентов..."
-    features={[
-      { icon: 'document', title: 'Финансовый скоринг', description: 'покажет, как улучшить портрет клиента до отправки заявки в банк' },
-      { icon: 'check', title: '+40 банков-партнеров', description: 'помогут подобрать ипотечную программу для каждого' },
-      { icon: 'arrow-path', title: 'ДВИЖ AI', description: 'рассчитает вероятность одобрения клиента в каждом банке и подберет лучшие варианты' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Продукт 5: Личный кабинет -->
-  <FeaturesGrid
-    title="... и делать это быстрее конкурентов"
-    features={[
-      { icon: 'document', title: 'Актуальные статусы по сделке в CRM:', description: 'контроль каждого этапа в карточке клиента' },
-      { icon: 'check', title: 'Одна анкета для всех этапов', description: 'от заявки до регистрации' },
-      { icon: 'arrow-path', title: 'Регистрация всех видов сделок', description: 'и подписание любых документов в рамках 1 платформы' },
-      { icon: 'lock', title: 'Пакетное распознавание документов:', description: 'никакого ручного ввода данных' },
-      { icon: 'globe', title: '', description: 'Заполнение анкеты через Госуслуги за 30 секунд' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Продукт 6: Витрина -->
-  <FeaturesGrid
-    title="Раскрываем финансовый потенциал клиентов"
-    features={[
-      { icon: 'globe', title: '', description: 'Покажем клиенту ежемесячный платеж и поможем выбрать квартиру под весь бюджет' },
-      { icon: 'database', title: '', description: 'Рассчитаем ПДН клиента и поможем увеличить средний чек сделки' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Продукт 7: Управление -->
-  <FeaturesGrid
-    title="Делаем работу менеджеров управляемой"
-    features={[
-      { icon: 'document', title: 'Контроль всех этапов через CRM:', description: 'покажем, как быстро менеджер взял сделку в работу' },
-      { icon: 'check', title: 'Отображаем статусы сделки в CRM:', description: 'покажем, в каком отделе потерялся клиент' },
-      { icon: 'arrow-path', title: 'Соберем актуальную статистику', description: 'по банкам и одобрениям, для контроля и принятия решений' },
-    ]}
-    variant="light"
-  />
-
-  <div class="max-w-[1440px] mx-auto px-4 pb-32">
-    <SuccessStoriesCarousel
-      title="Истории успеха"
-      variant="mini"
-      stories={[
-        {
-          title: "Помогли начать обрабатывать <span class='text-brand'>на 281% заявок больше</span>, чем в среднем на рынке",
-          quote: "Раньше клиенты тонули в сборе справок и терялись. С ДВИЖем весь процесс занял минуты — конверсия из консультации в сделку выросла в разы.",
-          person: {
-            name: "Петрова Надежда",
-            jobTitle: "Директор по маркетингу, ЛСР",
-            photo: { url: "" }
-          },
-          image: "",
-          imageAlt: "ЛСР",
-          logo: "",
-          logoAlt: "ЛСР"
-        },
-        {
-          title: "Дополнительно продали <span class='text-brand'>96 квартир</span>",
-          quote: "Клиентов с низким КР раньше просто отсеивали. ДВИЖ показал, как с ними работать: подсказать, как закрыть кредитки, предложить другие программы. За год продали на 96 квартир больше.",
-          person: {
-            name: "Иванов Сергей",
-            jobTitle: "Руководитель ипотечного отдела, ГК Самолет",
-            photo: { url: "" }
-          },
-          image: "",
-          imageAlt: "Самолет",
-          logo: "",
-          logoAlt: "Самолет"
-        },
-        {
-          title: "<span class='text-brand'>Увеличили объем закрытых сделок</span> с 1116 до 3500 за год",
-          quote: "Менеджеры физически не успевали обрабатывать заявки. Автоматизировали подбор банков и отправку — теперь один менеджер ведет в три раза больше клиентов.",
-          person: {
-            name: "Мария Иванова",
-            jobTitle: "Руководитель отдела продаж, Glorax",
-            photo: { url: "" }
-          },
-          image: "",
-          imageAlt: "Glorax",
-          logo: "",
-          logoAlt: "Glorax"
-        },
-      ]}
-    />
-  </div>
-
-  <DvizhAdvantages
-    title="Почему выбирают ДВИЖ"
-    plans={[
-      {
-        name: 'Без ДВИЖа',
-        features: [
-          { label: 'Среднее одобрение меньше 60%' },
-          { label: 'Много продуктов, ошибки при переносе данных' },
-          { label: 'Менеджер теряет заявки и не выполняет KPI по продажам' },
-        ],
-      },
-      {
-        name: 'С ДВИЖом',
-        period: '/месяц',
-        isDark: true,
-        features: [
-          { label: 'Процент одобрения до 95%' },
-          { label: 'Весь процесс в одном окне: от заявки до регистрации в Росреестре. Без ошибок и переплат' },
-          { label: 'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейки с коллегами' },
-        ],
-      },
-    ]}
-  />
-
-  <FormClosing />
-
-  <!-- Кейсы клиентов -->
-  <section class="bg-gray-50 py-24">
-    <div class="mx-auto max-w-[1440px] px-4">
-      <div class="mx-auto max-w-2xl text-center mb-16">
-        <h2 class="text-base font-semibold text-brand">Кейсы клиентов</h2>
-        <p class="mt-2 text-4xl font-semibold text-gray-900 sm:text-5xl">Результаты наших клиентов</p>
-        <p class="mt-6 text-lg text-gray-600">75 из 100 крупнейших застройщиков России уже работают с ДВИЖ</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-white rounded-xl p-8 shadow-sm">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">ГК ЛСР</h3>
-          <p class="text-3xl font-bold text-brand mb-2">+281%</p>
-          <p class="text-sm text-gray-600">Рост количества заявок после подключения платформы ДВИЖ</p>
-        </div>
-        <div class="bg-white rounded-xl p-8 shadow-sm">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">ГК Точно</h3>
-          <p class="text-3xl font-bold text-brand mb-2">1 116 → 3 500</p>
-          <p class="text-sm text-gray-600">Рост количества заявок на ипотеку в месяц</p>
-        </div>
-        <div class="bg-white rounded-xl p-8 shadow-sm">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">ГК Самолет</h3>
-          <p class="text-3xl font-bold text-brand mb-2">816 млн ₽</p>
-          <p class="text-sm text-gray-600">Дополнительный доход — 96 квартир продано через платформу</p>
-        </div>
-        <div class="bg-white rounded-xl p-8 shadow-sm">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Гранель</h3>
-          <p class="text-3xl font-bold text-brand mb-2">66.7% → 95%</p>
-          <p class="text-sm text-gray-600">Рост процента одобрения ипотечных заявок</p>
-        </div>
-        <div class="bg-white rounded-xl p-8 shadow-sm">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Страна Девелопмент</h3>
-          <p class="text-3xl font-bold text-brand mb-2">150 млн ₽/мес</p>
-          <p class="text-sm text-gray-600">Ежемесячный объём сделок через платформу</p>
-        </div>
-        <div class="bg-white rounded-xl p-8 shadow-sm">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">GloraX</h3>
-          <p class="text-3xl font-bold text-brand mb-2">−30%</p>
-          <p class="text-sm text-gray-600">Сокращение затрат на сопровождение сделок</p>
-        </div>
+  <!-- Card -->
+  <section class="pt-32 pb-20 bg-white">
+    <div class="max-w-[1440px] mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card
+          title="Наполнить воронку
+качественными лидами"
+          description="какие-то цифры или показатели"
+          image="https://admin.dvizh.cc/api/media/file/1.jpg"
+        />
+        <Card
+          title="Закрыть клиентов
+быстрее, чем конкуренты"
+          description="какие-то цифры или показатели"
+          image="https://admin.dvizh.cc/api/media/file/3.jpg"
+        />
+        <Card
+          title="Увеличить средний чек
+и допродажи"
+          description="какие-то цифры или показатели"
+          image="https://admin.dvizh.cc/api/media/file/2.jpg"
+        />
+        <Card
+          title="Увидеть результат работы
+каждого сотрудника"
+          description="какие-то цифры или показатели"
+          image="https://admin.dvizh.cc/api/media/file/4.jpg"
+        />
       </div>
     </div>
   </section>
 
-  <!-- Поддержка -->
-  <section class="bg-gray-50 py-24">
-    <div class="mx-auto max-w-[1440px] px-4">
-      <div class="mx-auto max-w-2xl text-center mb-16">
-        <h2 class="text-base font-semibold text-brand">Поддержка</h2>
-        <p class="mt-2 text-4xl font-semibold text-gray-900 sm:text-5xl">Команда поддержки на вашей стороне</p>
-        <p class="mt-6 text-lg text-gray-600">Каждому клиенту ДВИЖ доступна выделенная команда специалистов</p>
+  <!-- ProductSectionNew -->
+  <div class="max-w-[1440px] mx-auto px-4 mt-[50px]">
+    <ProductSectionNew
+    sections={[
+      { number: "01", title: "Качественные лиды", active: true },
+      { number: "02", title: "Работа с клиентами" },
+      { number: "03", title: "Быстрые заявки" },
+      { number: "04", title: "Апсейл клиентов" },
+      { number: "05", title: "Контроль работы" },
+    ]}
+    title={{
+      lg: "Заголовок для больших экранов (lg+)",
+      md: "Заголовок для средних экранов (md)",
+      sm: "Заголовок для мобильных (sm)"
+    }}
+    descriptions={[
+      "Это демонстрация нового компонента ProductSectionNew",
+      "С адаптивными заголовками и изображениями в правом блоке"
+    ]}
+    primaryButton={{ label: "Начать", href: "#" }}
+    secondaryButton={{ label: "Подробнее", href: "#" }}
+    rightContent={[
+      {
+        images: [
+          {
+            src: "https://admin.dvizh.cc/api/media/file/product-section-2v2.jpg",
+            alt: "Цифровая ипотека",
+            width: 600,
+            height: 400
+          }
+        ],
+        title: "Повышаем качество лидов",
+        description: [
+          "Форма на сайт для проверки кредитного рейтинга: приведем надежных клиентов",
+          "Скоринг по банковским стандартам: расскажем все о платежеспособности покупателей",
+          "Ипотечный калькулятор для сайта: приведем клиентов с нужным уровнем дохода"
+        ]
+      },
+      {
+        images: [
+          {
+            src: "https://admin.dvizh.cc/api/media/file/sales-section-1.jpg",
+            alt: "Ипотечный калькулятор",
+            width: 600,
+            height: 400
+          }
+        ],
+        title: "Помогаем закрывать даже сложных клиентов",
+        description: [
+          "Финансовый скоринг покажет, как улучшить портрет клиента до отправки заявки в банк",
+          "40+ банков-партнеров помогут подобрать ипотечную программу для каждого",
+          "ДВИЖ AI рассчитает вероятность одобрения клиента в каждом банке и подберет лучшие варианты"
+        ]
+      },
+      {
+        images: [
+          {
+            src: "https://admin.dvizh.cc/api/media/file/sales-section-2.jpg",
+            alt: "Финансовый скоринг",
+            width: 600,
+            height: 400
+          }
+        ],
+        title: "... и делать это быстрее конкурентов",
+        description: [
+          "Актуальные статусы по сделке в CRM: контроль каждого этапа в карточке клиента",
+          "Одна анкета для всех этапов: от заявки до регистрации",
+          "Регистрация всех видов сделок и подписание любых документов в рамках 1 платформы",
+          "Пакетное распознавание документов: никакого ручного ввода данных",
+          "Заполнение анкеты через Госуслуги за 30 секунд"
+        ]
+      },
+      {
+        images: [
+          {
+            src: "https://admin.dvizh.cc/api/media/file/sales-section-3.jpg",
+            alt: "Электронная регистрация",
+            width: 600,
+            height: 400
+          }
+        ],
+        title: "Раскрываем финансовый потенциал клиентов",
+        description: [
+          "Покажем клиенту ежемесячный платеж и поможем выбрать квартиру под весь бюджет",
+          "Рассчитаем ПДН* клиента и поможем увеличить средний чек сделки"
+        ]
+      },
+      {
+        images: [
+          {
+            src: "https://admin.dvizh.cc/api/media/file/sales-section-4.jpg",
+            alt: "Движ AI",
+            width: 600,
+            height: 400
+          }
+        ],
+        title: "Делаем работу менеджеров управляемой",
+        description: [
+          "Контроль всех этапов через CRM: покажем, как быстро менеджер взял сделку в работу",
+          "Отображаем статусы сделки в CRM: покажем, в каком отделе потерялся клиент",
+          "Соберем актуальную статистику по банкам и одобрениям, для контроля и принятия решений"
+        ]
+      }
+    ]}
+    />
+  </div>
+
+  <!-- Feature Cards -->
+  <section class="py-20 bg-white">
+    <div class="max-w-[1440px] mx-auto px-4">
+      <div class="mb-12">
+        <h2 class="text-[42.5px] font-semibold text-gray-900 tracking-tight leading-none">
+          Делаем все для ваших крутых результатов
+        </h2>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-        <div class="bg-white rounded-xl p-8 text-center shadow-sm">
-          <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center"><svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg></div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Менеджер успеха</h3>
-          <p class="text-sm text-gray-600">Персональный менеджер для решения стратегических задач и роста показателей</p>
-        </div>
-        <div class="bg-white rounded-xl p-8 text-center shadow-sm">
-          <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center"><svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg></div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Консультант поддержки</h3>
-          <p class="text-sm text-gray-600">Оперативная помощь по любым вопросам работы с платформой</p>
-        </div>
-        <div class="bg-white rounded-xl p-8 text-center shadow-sm">
-          <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center"><svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg></div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Аналитик</h3>
-          <p class="text-sm text-gray-600">Подготовка отчетов, анализ данных и рекомендации по оптимизации</p>
-        </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <FeatureCard
+          title="Контроль всех этапов через CRM"
+          subtitle="покажем, как быстро менеджер взял сделку в работу"
+          color="#202b32"
+          image="https://admin.dvizh.cc/api/media/file/5-new.jpg"
+          imagePosition="right bottom"
+        />
+        <FeatureCard
+          title="Отображаем статусы сделки в CRM"
+          subtitle="покажем, в каком отделе потерялся клиент"
+          color="#F2F2F2"
+          image="https://admin.dvizh.cc/api/media/file/6-new.jpg"
+        />
+        <FeatureCard
+          title="Соберем актуальную статистику"
+          subtitle="по банкам и одобрениям, для контроля и принятия решений"
+          color="#F2F2F2"
+          image="https://admin.dvizh.cc/api/media/file/7-new.jpg"
+        />
       </div>
     </div>
   </section>
 
   <!-- CTA -->
-  <div class="max-w-[1440px] mx-auto px-4 py-12">
-    <CTA
-      title="Записаться на демо"
-      description="75 из ТОП-100 застройщиков уже с нами. Покажем, как ДВИЖ увеличит ваши продажи"
-      buttonText="Записаться на демо"
-      buttonHref="#"
-    />
-  </div>
+  <section class="py-20">
+    <div class="max-w-[1440px] mx-auto px-4">
+      <CTA
+        title="Бонус от ДВИЖа"
+        description="Скачайте пример идеального отчета ипотечного отдела"
+        buttonText="Посмотреть демо"
+        buttonHref="#"
+      />
+    </div>
+  </section>
+
+  <!-- StoryCard -->
+  <section class="py-20 bg-white">
+    <div class="max-w-[1440px] mx-auto px-4">
+      <div class="mb-12">
+        <h2 class="text-[42.5px] font-semibold text-gray-900 tracking-tight leading-none">
+          Не верите нам, спросите наших клиентов
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">
+        <StoryCard
+          backgroundImage="https://admin.dvizh.cc/api/media/file/samolet-bg.jpg"
+          title="Помогли начать обрабатывать на 98% больше заявок"
+          person={{
+            name: "Светлана Корнелюк",
+            jobTitle: "Директор отдела продаж",
+            photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+          }}
+        >
+          <img src="/partners/a101.svg" alt="A101" class="h-6 object-contain" slot="logo" />
+        </StoryCard>
+        <StoryCard
+          backgroundImage="https://admin.dvizh.cc/api/media/file/lsr-bg.jpg"
+          title="Дополнительно продали 96 квартир"
+          person={{
+            name: "Иван Петров",
+            jobTitle: "Руководитель отдела ипотеки",
+            photo: { url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" }
+          }}
+        >
+          <img src="/partners/lsr.svg" alt="LSR" class="h-6 object-contain" slot="logo" />
+        </StoryCard>
+        <StoryCard
+          backgroundImage="https://admin.dvizh.cc/api/media/file/glorax-bg.jpg"
+          title="Одобрение ипотеки за 15 минут"
+          person={{
+            name: "Мария Сидорова",
+            jobTitle: "Ипотечный брокер",
+            photo: { url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop" }
+          }}
+        >
+          <img src="/partners/glorax.svg" alt="Глоракс" class="h-6 object-contain" slot="logo" />
+        </StoryCard>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form Closing -->
+  <section class="py-20 bg-white">
+    <div class="max-w-[1440px] mx-auto px-4">
+      <FormClosing
+        title="Не оставим вас одних"
+        description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
+        preset="lead"
+        submitLabel="Отправить заявку"
+        bgColor="bg-gray-100"
+        bgImage="https://admin.dvizh.cc/api/media/file/form-image.jpg"
+        showGradient={false}
+        privacyText="Нажимая кнопку «Отправить заявку», вы даёте согласие на обработку ваших персональных данных"
+      />
+    </div>
+  </section>
 </SiteLayout>
