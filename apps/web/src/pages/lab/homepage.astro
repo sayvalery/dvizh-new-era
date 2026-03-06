@@ -17,6 +17,7 @@ import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
 import BentoThreeNew from '../../components/ui/BentoThreeNew.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
 import CTA from '../../components/ui/CTA.astro'
+import StoryCard from '../../components/ui/StoryCard.astro'
 
 const partnerLogos = [
   '/partners/a101.svg',
@@ -106,5 +107,23 @@ const partnerLogos = [
         }
       ]}
   />
+  </div>
+
+  <!-- StoryCard Demo -->
+  <div class="mt-[50px]">
+    <h2 class="text-2xl font-bold mb-6">StoryCard Component Demo</h2>
+    <div class="max-w-[464px]">
+      <StoryCard
+        backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
+        title="Помогли начать обрабатывать на 98% больше заявок"
+        person={{
+          name: "Светлана Корнелюк",
+          jobTitle: "Директор отдела продаж",
+          photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+        }}
+      >
+        <div class="h-6 w-32 bg-white/50 rounded" slot="logo" />
+      </StoryCard>
+    </div>
   </div>
 </SiteLayout>

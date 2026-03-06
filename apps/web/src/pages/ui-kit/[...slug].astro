@@ -30,6 +30,7 @@ import ProductCard from '../../components/ui/ProductCard.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
 import SectionNavigator from '../../components/ui/SectionNavigator.astro'
 import DvizhAdvantages from '../../components/ui/DvizhAdvantages.astro'
+import StoryCard from '../../components/ui/StoryCard.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -54,8 +55,7 @@ import productCardRaw from '../../components/ui/ProductCard.astro?raw'
 import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
 import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
 import dvizhAdvantagesRaw from '../../components/ui/DvizhAdvantages.astro?raw'
-import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
-import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
+import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 
 interface PropMeta {
   name: string
@@ -139,6 +139,7 @@ const productCardMeta = parseSource(productCardRaw)
 const productSectionMeta = parseSource(productSectionRaw)
 const sectionNavigatorMeta = parseSource(sectionNavigatorRaw)
 const dvizhAdvantagesMeta = parseSource(dvizhAdvantagesRaw)
+const storyCardMeta = parseSource(storyCardRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -654,21 +655,70 @@ const sections = [
       {section === 'cards' && (
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Карточки</h1>
-          <div class="grid grid-cols-2 gap-6 max-w-2xl">
-            <div class="border rounded-xl p-6 hover:shadow-md transition-shadow">
-              <h3 class="font-semibold mb-2">Карточка продукта</h3>
-              <p class="text-sm text-gray-600">Описание продукта в одну-две строки.</p>
+          <div class="space-y-12">
+            {/* StoryCard */}
+            <div>
+              <h2 class="text-xl font-semibold mb-4">StoryCard — карточка истории успеха</h2>
+              <p class="text-gray-600 mb-4">Карточка с фоновым изображением, слотом для логотипа и встроенной информацией о персоне.</p>
+              <PropsTable props={storyCardMeta.props} class="mb-6" />
+              <div class="max-w-[464px]">
+                <StoryCard
+                  backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
+                  title="Помогли начать обрабатывать на 98% больше заявок"
+                  person={{
+                    name: "Светлана Корнелюк",
+                    jobTitle: "Директор отдела продаж",
+                    photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+                  }}
+                >
+                  <div class="h-6 w-32 bg-white/50 rounded" slot="logo" />
+                </StoryCard>
+              </div>
             </div>
-            <div class="bg-gray-50 rounded-xl p-6">
-              <h3 class="font-semibold mb-2">Карточка на фоне</h3>
-              <p class="text-sm text-gray-600">Вариант с серым фоном.</p>
+
+            {/* PersonCard */}
+            <div>
+              <h2 class="text-xl font-semibold mb-4">PersonCard — карточка персоны</h2>
+              <p class="text-gray-600 mb-6">Карточка с фото, именем и должностью. Используется для авторов статей и участников.</p>
+              <div class="space-y-4 max-w-sm">
+                <PersonCard
+                  person={{
+                    name: "Алексей Петров",
+                    jobTitle: "Маркетолог",
+                    company: { name: "ДВИЖ" },
+                    photo: { url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" }
+                  }}
+                />
+                <PersonCard
+                  person={{
+                    name: "Мария Иванова",
+                    jobTitle: "Продакт-менеджер"
+                  }}
+                  variant="inline"
+                />
+              </div>
             </div>
-            <div class="border rounded-xl overflow-hidden hover:shadow-md transition-shadow col-span-2">
-              <div class="bg-gray-100 h-40 w-full"></div>
-              <div class="p-5">
-                <span class="text-xs text-gray-400 uppercase tracking-wide">Категория</span>
-                <h3 class="font-semibold mt-1">Карточка статьи с обложкой</h3>
-                <p class="text-sm text-gray-600 mt-1 line-clamp-2">Описание статьи в две строки. Ещё немного текста для примера.</p>
+
+            {/* ProductCard */}
+            <div>
+              <h2 class="text-xl font-semibold mb-4">ProductCard — карточка продукта</h2>
+              <div class="grid grid-cols-2 gap-6 max-w-2xl">
+                <div class="border rounded-xl p-6 hover:shadow-md transition-shadow">
+                  <h3 class="font-semibold mb-2">Карточка продукта</h3>
+                  <p class="text-sm text-gray-600">Описание продукта в одну-две строки.</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-6">
+                  <h3 class="font-semibold mb-2">Карточка на фоне</h3>
+                  <p class="text-sm text-gray-600">Вариант с серым фоном.</p>
+                </div>
+                <div class="border rounded-xl overflow-hidden hover:shadow-md transition-shadow col-span-2">
+                  <div class="bg-gray-100 h-40 w-full"></div>
+                  <div class="p-5">
+                    <span class="text-xs text-gray-400 uppercase tracking-wide">Категория</span>
+                    <h3 class="font-semibold mt-1">Карточка статьи с обложкой</h3>
+                    <p class="text-sm text-gray-600 mt-1 line-clamp-2">Описание статьи в две строки. Ещё немного текста для примера.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
