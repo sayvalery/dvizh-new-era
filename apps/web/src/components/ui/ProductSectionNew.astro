@@ -89,7 +89,7 @@ const sectionsCount = rightContents.length
       <!-- Меню секций (sticky на lg+) -->
       <nav
         id={`${componentId}-nav`}
-        class="flex justify-start gap-6 overflow-x-auto scrollbar-hide md:overflow-x-auto md:scrollbar-hide lg:sticky lg:top-[50px] lg:flex-col lg:w-[220px] lg:flex-shrink-0 lg:overflow-visible lg:h-fit lg:self-start lg:py-4"
+        class="flex justify-start gap-6 overflow-x-auto scrollbar-hide md:overflow-x-auto md:scrollbar-hide lg:sticky lg:top-[100px] lg:flex-col lg:w-[220px] lg:flex-shrink-0 lg:overflow-visible lg:h-fit lg:self-start lg:py-4 lg:-ml-[30px]"
       >
         {sections.map((section, index) => (
           <button
@@ -163,7 +163,7 @@ const sectionsCount = rightContents.length
                     {primaryButton && (
                       <a
                         href={primaryButton.href}
-                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-gray-900 text-white text-[15px] font-medium hover:bg-gray-800 hover:scale-[1.03] hover:shadow-xl hover:shadow-black/20 active:scale-[0.98] transition-all duration-300 ease-out"
+                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-gray-900 text-white text-[15px] font-medium hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-out"
                       >
                         {primaryButton.label}
                       </a>
@@ -171,7 +171,7 @@ const sectionsCount = rightContents.length
                     {secondaryButton && (
                       <a
                         href={secondaryButton.href}
-                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-black/[0.04] text-[#1b2226] text-[15px] font-medium hover:bg-black/[0.08] hover:scale-[1.03] hover:shadow-xl active:scale-[0.98] transition-all duration-300 ease-out"
+                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-black/[0.04] text-[#1b2226] text-[15px] font-medium hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-out"
                       >
                         {secondaryButton.label}
                       </a>
