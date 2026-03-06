@@ -52,7 +52,7 @@ const { backgroundImage, title, person } = Astro.props
   ]}
   style={backgroundImage ? `background-image: url(${backgroundImage})` : ''}
 >
-  <div class="p-8 flex flex-col h-full gap-6">
+  <div class="p-8 flex flex-col h-full">
     <!-- Слот для логотипа -->
     <div class="shrink-0">
       <slot name="logo" />
