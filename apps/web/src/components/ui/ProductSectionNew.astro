@@ -43,6 +43,8 @@ interface RightContent {
   images?: ImageProps[]
   title?: string
   description?: string | string[]
+  primaryButton?: Button
+  secondaryButton?: Button
 }
 
 interface AdaptiveTitle {
@@ -158,26 +160,30 @@ const sectionsCount = rightContents.length
                   </div>
                 )}
 
-                {(primaryButton || secondaryButton) && (
-                  <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                    {primaryButton && (
-                      <a
-                        href={primaryButton.href}
-                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-gray-900 text-white text-[15px] font-medium hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-out"
-                      >
-                        {primaryButton.label}
-                      </a>
-                    )}
-                    {secondaryButton && (
-                      <a
-                        href={secondaryButton.href}
-                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-black/[0.04] text-[#1b2226] text-[15px] font-medium hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-out"
-                      >
-                        {secondaryButton.label}
-                      </a>
-                    )}
-                  </div>
-                )}
+                {(() => {
+                  const pb = content.primaryButton ?? primaryButton
+                  const sb = content.secondaryButton ?? secondaryButton
+                  return (pb || sb) ? (
+                    <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                      {pb && (
+                        <a
+                          href={pb.href}
+                          class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-gray-900 text-white text-[15px] font-medium hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-out"
+                        >
+                          {pb.label}
+                        </a>
+                      )}
+                      {sb && (
+                        <a
+                          href={sb.href}
+                          class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-black/[0.04] text-[#1b2226] text-[15px] font-medium hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-out"
+                        >
+                          {sb.label}
+                        </a>
+                      )}
+                    </div>
+                  ) : null
+                })()}
               </div>
             </div>
           ))}
@@ -270,8 +276,8 @@ const sectionsCount = rightContents.length
           }
         })
       }, {
-        threshold: 0.3,
-        rootMargin: '-100px 0px -70% 0px'
+        threshold: 0,
+        rootMargin: '-100px 0px -60% 0px'
       })
 
       // Glass observer — срабатывает раньше навигации
