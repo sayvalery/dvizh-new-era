@@ -89,7 +89,7 @@ const { logo, items = [], blogPosts = [], secondaryLink, cta, transparent = fals
   <div class="max-w-[1440px] mx-auto px-4 py-3">
     <nav
       class="flex items-center justify-between -mx-2 px-4 h-14 rounded-2xl transition-all duration-200"
-      :class="clear ? '' : 'bg-white shadow-sm ring-1 ring-gray-200/60'"
+      :class="clear ? '' : 'bg-white'"
     >
       <!-- Лого -->
       <div class="flex items-center gap-6">
@@ -178,11 +178,11 @@ const { logo, items = [], blogPosts = [], secondaryLink, cta, transparent = fals
                     </div>
                   ) : (
                     /* SIMPLE — компактный список */
-                    <div class="w-56 overflow-hidden rounded-xl bg-white p-2 shadow-lg ring-1 ring-gray-900/5">
+                    <div class="w-64 overflow-hidden rounded-xl bg-white p-2 shadow-lg ring-1 ring-gray-900/5">
                       {item.children.map(child => (
                         <a
                           href={child.href}
-                          class="block rounded-lg px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
+                          class="block rounded-lg px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors whitespace-nowrap"
                         >
                           {child.label}
                         </a>
