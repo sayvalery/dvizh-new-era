@@ -13,7 +13,6 @@ import LabHome from '../../components/lab/LabHome.astro'
 import LabFlutedGlass from '../../components/lab/LabFlutedGlass.astro'
 import LabLogoAnimations from '../../components/lab/LabLogoAnimations.astro'
 import LabHomepage from './homepage.astro'
-import LabSales from './sales.astro'
 import LabIpotekaNew from './ipoteka-new.astro'
 
 export function getStaticPaths() {
@@ -27,7 +26,6 @@ export function getStaticPaths() {
     { params: { slug: 'fluted-glass' }, props: { page: 'fluted-glass' } },
     { params: { slug: 'logo-animations' }, props: { page: 'logo-animations' } },
     { params: { slug: 'homepage' }, props: { page: 'homepage' } },
-    { params: { slug: 'sales' }, props: { page: 'sales' } },
     { params: { slug: 'ipoteka-new' }, props: { page: 'ipoteka-new' } },
   ]
 }
@@ -42,5 +40,4 @@ const { page } = Astro.props
 {page === 'fluted-glass' && <LabFlutedGlass />}
 {page === 'logo-animations' && <LabLogoAnimations />}
 {page === 'homepage' && <LabHomepage />}
-{page === 'sales' && <LabSales />}
 {page === 'ipoteka-new' && <LabIpotekaNew />}
