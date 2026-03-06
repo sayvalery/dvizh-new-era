@@ -32,6 +32,10 @@ interface Props {
   submitLabel?: string
   /** Цвет фона (hex или Tailwind класс) */
   bgColor?: string
+  /** Фоновое изображение всей формы */
+  bgImage?: string
+  /** Позиция фонового изображения */
+  bgImagePosition?: 'center' | 'right' | 'left' | 'top' | 'bottom' | 'top right' | 'top left' | 'right top' | 'bottom right' | 'right bottom' | 'bottom left' | 'left bottom'
   /** Начальный цвет градиентного круга */
   gradientStart?: string
   /** Конечный цвет градиентного круга */
@@ -56,6 +60,8 @@ const {
   imageAlt = 'Image',
   submitLabel,
   bgColor,
+  bgImage,
+  bgImagePosition = 'center',
   gradientStart = '#7775D6',
   gradientEnd = '#E935C1',
   showGradient = true,
@@ -72,13 +78,20 @@ const textColorResolved = textColor === 'text-white' && isLightBg ? 'text-gray-9
 const descriptionColor = isLightBg ? 'text-gray-600' : 'text-gray-300'
 const privacyColor = isLightBg ? 'text-gray-400' : 'text-gray-400'
 
+// Стиль для фона: цвет, изображение или комбинация
+const backgroundStyle = bgImage
+  ? `background-image: url('${bgImage}'); background-size: cover; background-position: ${bgImagePosition}; ${bgColor ? `background-color: ${bgColor};` : ''}`
+  : bgColor?.startsWith('#') || bgColor?.startsWith('rgb')
+    ? `background-color: ${bgColor}`
+    : ''
+
 // Генерируем уникальный ID для градиента (для поддержки нескольких экземпляров)
 const gradientId = `gradient-circle-closing-${Math.random().toString(36).slice(2)}`
 ---
 
 <section
-  class:list={['relative isolate overflow-hidden px-6 pt-[5rem] pb-2 shadow-2xl sm:rounded-3xl sm:px-16 sm:pt-[5rem] sm:pb-2 md:pt-[5rem] md:pb-2 lg:flex lg:gap-x-20 lg:px-24 lg:pt-[5rem] lg:pb-2', bgColor || 'bg-gray-900', className]}
-  style={bgColor?.startsWith('#') || bgColor?.startsWith('rgb') ? `background-color: ${bgColor}` : ''}
+  class:list={['relative isolate overflow-hidden px-6 pt-[5rem] pb-2 sm:rounded-3xl sm:px-16 sm:pt-[5rem] sm:pb-2 md:pt-[5rem] md:pb-2 lg:flex lg:gap-x-20 lg:px-24 lg:pt-[5rem] lg:pb-2', (!bgImage && (bgColor || 'bg-gray-900')), className]}
+  style={backgroundStyle}
 >
   <!-- Градиентный круг -->
   {showGradient && (

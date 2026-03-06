@@ -19,6 +19,14 @@ import FormClosing from '../../components/ui/FormClosing.astro'
     title="Закрывайте до 26% больше сделок на том же трафике"
     description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
     submitLabel="Отправить"
+    logos={[
+      { name: 'ЛСР', src: '/partners/lsr.svg' },
+      { name: 'А101', src: '/partners/a101.svg' },
+      { name: 'AVA', src: '/partners/ava.svg' },
+      { name: 'Глоракс', src: '/partners/glorax.svg' },
+      { name: 'Гранель', src: '/partners/ganel.svg' },
+      { name: 'Страна', src: '/partners/strana.svg' },
+    ]}
   />
 
   <!-- Card -->
@@ -29,21 +37,25 @@ import FormClosing from '../../components/ui/FormClosing.astro'
           title="Сократили количество
 отказов по ипотеке"
           description="какие-то цифры или показатели"
+          image="https://admin.dvizh.cc/api/media/file/1.jpg"
         />
         <Card
           title="Перестали терять сделки
 из-за клиентов с низким КР"
           description="какие-то цифры или показатели"
+          image="https://admin.dvizh.cc/api/media/file/3.jpg"
         />
         <Card
           title="Ускорили заполнение
 анкеты до 10 секунд"
           description="какие-то цифры или показатели"
+          image="https://admin.dvizh.cc/api/media/file/2.jpg"
         />
         <Card
           title="Стали закрывать больше
 сделок без роста штата"
           description="какие-то цифры или показатели"
+          image="https://admin.dvizh.cc/api/media/file/4.jpg"
         />
       </div>
     </div>
@@ -65,16 +77,20 @@ import FormClosing from '../../components/ui/FormClosing.astro'
           title="Готовые интеграции"
           subtitle="с популярными системами"
           color="#202b32"
+          image="https://admin.dvizh.cc/api/media/file/5-new.jpg"
+          imagePosition="right bottom"
         />
         <FeatureCard
           title="57 секунд"
           subtitle="среднее время ответа в поддержке"
           color="#F2F2F2"
+          image="https://admin.dvizh.cc/api/media/file/6-new.jpg"
         />
         <FeatureCard
           title="Все ключевые показатели"
           subtitle="ипотечного отдела"
           color="#F2F2F2"
+          image="https://admin.dvizh.cc/api/media/file/7-new.jpg"
         />
       </div>
     </div>
@@ -101,6 +117,7 @@ import FormClosing from '../../components/ui/FormClosing.astro'
         preset="lead"
         submitLabel="Отправить заявку"
         bgColor="bg-gray-100"
+        bgImage="https://admin.dvizh.cc/api/media/file/form-image.jpg"
         showGradient={false}
         privacyText="Нажимая кнопку «Отправить заявку», вы даёте согласие на обработку ваших персональных данных"
       />

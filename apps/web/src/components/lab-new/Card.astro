@@ -2,16 +2,88 @@
 /**
  * Lab New: Card — карточка
  */
-const { title = "Заголовок", description = "Описание карточки" } = Astro.props
+const { title = "Заголовок", description = "Описание карточки", image = "" } = Astro.props
 ---
 
-<div class="overflow-hidden bg-[#d9d9d9]/[0.18] rounded-2xl backdrop-blur-sm border border-white/20">
-  <div class="h-80 p-8 flex flex-col justify-between">
-    <h3 class="text-[24px] font-medium text-gray-900 font-sans tracking-normal whitespace-pre-line">
+<div
+  class="card-hover overflow-hidden rounded-2xl border border-white/20 transition-all duration-400 ease-out"
+  style={image ? `background-color: #d9d9d9299` : `background-color: #d9d9d9299`}
+>
+  {image && (
+    <div class="card-bg-image absolute inset-0" style={`background-image: url('${image}'); background-size: cover; background-position: center;`} />
+  )}
+  <div class="card-bg h-80 p-8 flex flex-col justify-between transition-all duration-400 ease-out relative z-10">
+    <h3 class="card-title text-[24px] font-medium text-gray-900 font-sans tracking-normal whitespace-pre-line transition-all duration-400 ease-out">
       {title}
     </h3>
-    <p class="text-base font-medium text-gray-600/70 font-sans tracking-normal">
+    <p class="card-desc text-base font-medium text-gray-600/70 font-sans tracking-normal transition-all duration-400 ease-out">
       {description}
     </p>
   </div>
 </div>
+
+<style>
+  .card-hover {
+    position: relative;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 2px 8px rgba(217, 217, 217, 0.4),
+      0 8px 24px rgba(217, 217, 217, 0.2),
+      0 16px 48px rgba(217, 217, 217, 0.1);
+  }
+
+  .card-hover:hover::after {
+    opacity: 1;
+  }
+
+  .card-hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    pointer-events: none;
+    opacity: 0;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+      inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+    transition: opacity 0.4s ease-out;
+  }
+
+  .card-bg-image {
+    transform: scale(1);
+    transition: transform 0.4s ease-out;
+  }
+
+  .card-hover:hover .card-bg-image {
+    transform: scale(1.05);
+  }
+
+  .card-bg {
+    transform: scale(1);
+    transition: transform 0.4s ease-out;
+  }
+
+  .card-hover:hover .card-bg {
+    transform: scale(1.01);
+  }
+
+  .card-title {
+    transform: translateY(0);
+  }
+
+  .card-hover:hover .card-title {
+    transform: translateY(-0.5px);
+    color: #111;
+  }
+
+  .card-desc {
+    opacity: 0.7;
+  }
+
+  .card-hover:hover .card-desc {
+    opacity: 0.85;
+  }
+</style>

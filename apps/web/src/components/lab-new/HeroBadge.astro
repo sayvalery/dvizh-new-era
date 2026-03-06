@@ -5,9 +5,40 @@
 const { text = "Ипотечная платформа" } = Astro.props
 ---
 
-<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gradient-to-r from-[#ff4d00]/40 to-gray-300/40 bg-white/10">
-  <div class="w-2.5 h-2.5 rounded-full bg-brand" />
+<div class="hero-badge inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full">
+  <img src="https://admin.dvizh.cc/api/media/file/FeatureIcon.svg" alt="" class="w-3.5 h-3.5" />
   <span class="text-sm font-medium text-gray-900">
     {text}
   </span>
 </div>
+
+<style>
+  .hero-badge {
+    position: relative;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .hero-badge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    padding: 1px;
+    background: linear-gradient(90deg, #ff4d00, #dedede, #ff4d00);
+    background-size: 300% 100%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: gradient-flow 4s linear infinite;
+  }
+
+  @keyframes gradient-flow {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 300% 50%;
+    }
+  }
+</style>
