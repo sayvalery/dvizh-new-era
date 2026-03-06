@@ -69,6 +69,7 @@ const {
   class:list={['clear-glass-bg', className]}
   style="position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1"
   data-ribs={ribs}
+  data-ribs-mobile={ribsMobile ?? ribs}
   data-strength={strength}
   data-speed={speed}
   data-grain={grain}
@@ -96,7 +97,10 @@ const {
       if (!gl) return
 
       // --- Config from data attributes ---
-      const ribCount = parseFloat(container.dataset.ribs || '8')
+      const isMobile = window.innerWidth < 768
+      const ribCount = parseFloat(
+        (isMobile ? container.dataset.ribsMobile : container.dataset.ribs) || container.dataset.ribs || '8'
+      )
       const ribStrength = parseFloat(container.dataset.strength || '0.007')
       const speedVal = parseFloat(container.dataset.speed || '0.6')
       const grainVal = parseFloat(container.dataset.grain || '0')
