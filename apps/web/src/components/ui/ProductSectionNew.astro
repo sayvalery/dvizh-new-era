@@ -115,7 +115,7 @@ const sectionsCount = rightContents.length
               class="flex flex-col gap-6 scroll-mt-[120px]"
             >
               {content.images && content.images.length > 0 && (
-                <div data-glass-target class="relative overflow-hidden rounded-[32px] bg-[#ececec] h-[300px] md:h-[300px] lg:h-[400px] flex items-center justify-center">
+                <div data-glass-target class="relative overflow-hidden rounded-[32px] bg-[#ececec] h-[400px] md:h-[400px] lg:h-[500px] flex items-center justify-center">
                   {content.images.map((image) => (
                     <img
                       src={image.src}
@@ -163,7 +163,7 @@ const sectionsCount = rightContents.length
                     {primaryButton && (
                       <a
                         href={primaryButton.href}
-                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand hover:scale-[1.03] hover:opacity-90 active:scale-[0.98] transition-all duration-300 ease-out"
+                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-gray-900 text-white text-[15px] font-medium hover:bg-gray-800 hover:scale-[1.03] hover:shadow-xl hover:shadow-black/20 active:scale-[0.98] transition-all duration-300 ease-out"
                       >
                         {primaryButton.label}
                       </a>
@@ -171,7 +171,7 @@ const sectionsCount = rightContents.length
                     {secondaryButton && (
                       <a
                         href={secondaryButton.href}
-                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-black/[0.04] text-[#1b2226] text-[15px] font-medium hover:bg-black/[0.08] hover:scale-[1.03] hover:opacity-90 active:scale-[0.98] transition-all duration-300 ease-out"
+                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-black/[0.04] text-[#1b2226] text-[15px] font-medium hover:bg-black/[0.08] hover:scale-[1.03] hover:shadow-xl active:scale-[0.98] transition-all duration-300 ease-out"
                       >
                         {secondaryButton.label}
                       </a>
@@ -266,7 +266,6 @@ const sectionsCount = rightContents.length
                   btn.classList.add('text-[#858585]')
                 }
               })
-
             }
           }
         })
@@ -275,7 +274,7 @@ const sectionsCount = rightContents.length
         rootMargin: '-100px 0px -70% 0px'
       })
 
-      // Glass observer — срабатывает раньше (более щедрый rootMargin)
+      // Glass observer — срабатывает раньше навигации
       const glassObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {

@@ -32,6 +32,7 @@ import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
 import SectionNavigator from '../../components/ui/SectionNavigator.astro'
 import DvizhAdvantages from '../../components/ui/DvizhAdvantages.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
+import ComparisonSection from '../../components/ui/ComparisonSection.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -58,6 +59,7 @@ import productSectionNewRaw from '../../components/ui/ProductSectionNew.astro?ra
 import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
 import dvizhAdvantagesRaw from '../../components/ui/DvizhAdvantages.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
+import comparisonSectionRaw from '../../components/ui/ComparisonSection.astro?raw'
 
 interface PropMeta {
   name: string
@@ -143,6 +145,7 @@ const productSectionNewMeta = parseSource(productSectionNewRaw)
 const sectionNavigatorMeta = parseSource(sectionNavigatorRaw)
 const dvizhAdvantagesMeta = parseSource(dvizhAdvantagesRaw)
 const storyCardMeta = parseSource(storyCardRaw)
+const comparisonSectionMeta = parseSource(comparisonSectionRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -214,6 +217,7 @@ const sections = [
   { slug: 'product-section-new', label: 'Product Section New' },
   { slug: 'section-navigator', label: 'Section Navigator' },
   { slug: 'dvizh-advantages', label: 'Dvizh Advantages' },
+  { slug: 'comparison-section', label: 'Comparison Section' },
 ]
 ---
 
@@ -2366,6 +2370,61 @@ interface Props {
       ],
       buttonText: 'Связаться',
     },
+  ]}
+/>`}</code></pre>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'comparison-section' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Comparison Section</h1>
+          <p class="text-gray-600 mb-8">Секция сравнения «до/после» — заголовок слева, две карточки (светлая и тёмная) справа. Вписывается в контейнер 1440px.</p>
+
+          <PropsTable props={comparisonSectionMeta.props} class="mb-10" />
+
+          <div class="space-y-10">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Пример</p>
+              <div class="-mx-10 border-y border-gray-200">
+                <ComparisonSection
+                  title="Одно решение для всей сделки вместо кучи заплаток"
+                  leftTitle="Без ДВИЖа"
+                  leftItems={[
+                    'Данные клиента теряются, сделка застревает между отделами',
+                    'Менеджер тратит время на нецелевых клиентов и не выполняет KPI',
+                    'Нет потенциала для апсейла клиентов',
+                    'Менеджер узнаёт о финансовых проблемах клиента после отказа в банке',
+                    'Море цифр и ни одного ответа: почему сделка не закрылась за полгода',
+                  ]}
+                  rightTitle="С ДВИЖом"
+                  rightItems={[
+                    'Вся сделка в одном окне: без ошибок и потерянных часов',
+                    'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейки',
+                    'Средний чек и допродажи постоянно растут',
+                    'Менеджер знает о платёжеспособности клиентов больше, чем они сами',
+                    'Вклад каждого сотрудника виден как под микроскопом',
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Использование</p>
+              <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><code>{`import ComparisonSection from '@/components/ui/ComparisonSection.astro'
+
+<ComparisonSection
+  title="Одно решение для всей сделки вместо кучи заплаток"
+  leftTitle="Без ДВИЖа"
+  leftItems={[
+    'Данные клиента теряются...',
+    'Менеджер тратит время...',
+  ]}
+  rightTitle="С ДВИЖом"
+  rightItems={[
+    'Вся сделка в одном окне...',
+    'Менеджер успевает в 2 раза больше...',
   ]}
 />`}</code></pre>
             </div>
