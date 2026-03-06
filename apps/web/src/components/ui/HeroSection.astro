@@ -15,6 +15,7 @@
 import Form from './Form.astro'
 import FlutedGlassBg from './FlutedGlassBg.astro'
 import StatsSection from './StatsSection.astro'
+import HeroBadge from '../lab-new/HeroBadge.astro'
 
 interface StatItem {
   /** Основное значение (цифра или текст) */
@@ -96,9 +97,7 @@ const isSplit = layout === 'split'
         <!-- Левая колонка: бейдж и заголовок -->
         <div class="flex flex-col gap-9 order-2 lg:order-1">
           {badge && (
-            <p class="text-[18px] font-normal text-brand">
-              {badge}
-            </p>
+            <HeroBadge text={badge} />
           )}
           <h1 class="text-[36px] sm:text-[48px] lg:text-[72px] font-bold leading-none text-[#1b2226]">
             {title}

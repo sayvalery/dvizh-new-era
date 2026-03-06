@@ -1,0 +1,150 @@
+---
+/**
+ * Lab: Glassmorphism — эксперименты с эффектом стекла
+ *
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/glass
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+---
+
+<SiteLayout title="Lab: Glassmorphism">
+  <!-- Фон для демонстрации эффекта -->
+  <section class="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+    <!-- Декоративные элементы на фоне -->
+    <div class="absolute top-20 left-20 w-64 h-64 bg-white/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 right-20 w-96 h-96 bg-yellow-400/20 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-400/10 rounded-full blur-2xl"></div>
+
+    <div class="relative max-w-7xl mx-auto px-6 py-24">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl lg:text-6xl font-medium text-white mb-6">
+          Glassmorphism
+        </h1>
+        <p class="text-xl text-white/80">
+          Экспериментальные варианты эффекта стекла
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Вариант 1: Лёгкий -->
+        <div class="backdrop-blur-sm bg-white/10 border border-white/20 rounded-2xl p-8 shadow-lg">
+          <span class="text-white/60 text-sm mb-2 block">Вариант 1: Лёгкий</span>
+          <h3 class="text-xl font-semibold text-white mb-4">
+            backdrop-blur-sm / bg-white/10
+          </h3>
+          <p class="text-white/80 leading-relaxed">
+            Минимальное размытие, лёгкая прозрачность. Подходит для подсказок и маленьких элементов.
+          </p>
+        </div>
+
+        <!-- Вариант 2: Средний -->
+        <div class="backdrop-blur-md bg-white/15 border border-white/20 rounded-2xl p-8 shadow-xl">
+          <span class="text-white/60 text-sm mb-2 block">Вариант 2: Средний</span>
+          <h3 class="text-xl font-semibold text-white mb-4">
+            backdrop-blur-md / bg-white/15
+          </h3>
+          <p class="text-white/80 leading-relaxed">
+            Золотая середина. Хорошая читаемость при эффекте стекла.
+          </p>
+        </div>
+
+        <!-- Вариант 3: Сильный -->
+        <div class="backdrop-blur-lg bg-white/20 border border-white/30 rounded-2xl p-8 shadow-2xl">
+          <span class="text-white/60 text-sm mb-2 block">Вариант 3: Сильный</span>
+          <h3 class="text-xl font-semibold text-white mb-4">
+            backdrop-blur-lg / bg-white/20
+          </h3>
+          <p class="text-white/80 leading-relaxed">
+            Максимальное размытие. Фон почти не читается под элементом.
+          </p>
+        </div>
+
+        <!-- Кнопка с glassmorphism -->
+        <div class="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-8 shadow-xl">
+          <span class="text-white/60 text-sm mb-2 block">Кнопка</span>
+          <h3 class="text-xl font-semibold text-white mb-4">
+            Glass button
+          </h3>
+          <button class="w-full backdrop-blur-md bg-white/20 border border-white/30 text-white font-semibold py-3 px-6 rounded-xl hover:bg-white/30 transition-all hover:scale-105">
+            Кнопка со стеклом
+          </button>
+        </div>
+
+        <!-- Карточка с иконкой -->
+        <div class="backdrop-blur-md bg-white/15 border border-white/20 rounded-2xl p-8 shadow-xl">
+          <span class="text-white/60 text-sm mb-2 block">Карточка</span>
+          <div class="w-12 h-12 rounded-xl bg-white/20 text-white flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-3">
+            Функция
+          </h3>
+          <p class="text-white/80 leading-relaxed">
+            Карточка с иконкой и описанием.
+          </p>
+        </div>
+
+        <!-- Тёмный вариант -->
+        <div class="backdrop-blur-md bg-black/20 border border-white/10 rounded-2xl p-8 shadow-xl">
+          <span class="text-white/60 text-sm mb-2 block">Тёмный</span>
+          <h3 class="text-xl font-semibold text-white mb-4">
+            bg-black/20
+          </h3>
+          <p class="text-white/80 leading-relaxed">
+            Тёмная основа вместо белой для другой эстетики.
+          </p>
+        </div>
+      </div>
+
+      <!-- Демонстрация на светлом фоне -->
+      <div class="mt-24 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="text-center mb-8 md:col-span-3 lg:col-span-3">
+          <h2 class="text-2xl font-semibold text-white mb-2">
+            На градиентном фоне
+          </h2>
+          <p class="text-white/60">
+            Второй блок с другим градиентом
+          </p>
+        </div>
+
+        <!-- На градиентном фоне 1 -->
+        <div class="relative bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl p-1">
+          <div class="backdrop-blur-md bg-white/20 border border-white/30 rounded-xl p-8 h-full">
+            <h3 class="text-xl font-semibold text-white mb-3">
+              Cyan → Blue
+            </h3>
+            <p class="text-white/90 leading-relaxed">
+              Стекло поверх тёплого градиента.
+            </p>
+          </div>
+        </div>
+
+        <!-- На градиентном фоне 2 -->
+        <div class="relative bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl p-1">
+          <div class="backdrop-blur-md bg-white/20 border border-white/30 rounded-xl p-8 h-full">
+            <h3 class="text-xl font-semibold text-white mb-3">
+              Orange → Red
+            </h3>
+            <p class="text-white/90 leading-relaxed">
+              Стекло поверх тёплого градиента.
+            </p>
+          </div>
+        </div>
+
+        <!-- На градиентном фоне 3 -->
+        <div class="relative bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl p-1">
+          <div class="backdrop-blur-md bg-white/20 border border-white/30 rounded-xl p-8 h-full">
+            <h3 class="text-xl font-semibold text-white mb-3">
+              Emerald → Teal
+            </h3>
+            <p class="text-white/90 leading-relaxed">
+              Стекло поверх зелёного градиента.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</SiteLayout>
