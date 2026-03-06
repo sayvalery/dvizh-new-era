@@ -66,7 +66,7 @@ const { logo, items = [], blogPosts = [], secondaryLink, cta, transparent = fals
     openNav(id) { clearTimeout(this.hoverTimer); this.openMenu = id; },
     startClose(id) { this.hoverTimer = setTimeout(() => { if (this.openMenu === id) this.openMenu = null; }, 200); },
     cancelClose() { clearTimeout(this.hoverTimer); },
-    get clear() { return ${transparent} && !this.openMenu && !this.mobileOpen && this.lastY < 450 },
+    get clear() { return ${transparent} && !this.mobileOpen && this.lastY < 450 },
     onScroll() {
       const y = window.scrollY;
       if (y < 100) { this.hidden = false }
