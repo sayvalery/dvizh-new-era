@@ -11,6 +11,7 @@ import CTA from '../components/ui/CTA.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import ProductSectionNew from '../components/ui/ProductSectionNew.astro'
 import StoryCard from '../components/ui/StoryCard.astro'
+import ComparisonSection from '../components/ui/ComparisonSection.astro'
 ---
 
 <SiteLayout title="Для девелоперов">
@@ -93,8 +94,8 @@ import StoryCard from '../components/ui/StoryCard.astro'
       "Это демонстрация нового компонента ProductSectionNew",
       "С адаптивными заголовками и изображениями в правом блоке"
     ]}
-    primaryButton={{ label: "Начать", href: "#" }}
-    secondaryButton={{ label: "Подробнее", href: "#" }}
+    primaryButton={{ label: "Читать кейс", href: "#" }}
+    secondaryButton={{ label: "Подробнее о модуле", href: "#" }}
     rightContent={[
       {
         images: [
@@ -181,6 +182,27 @@ import StoryCard from '../components/ui/StoryCard.astro'
     />
   </div>
 
+  <!-- Advantages -->
+  <ComparisonSection
+    title="Одно решение для всей сделки вместо кучи заплаток"
+    leftTitle="Без ДВИЖа"
+    leftItems={[
+      'Данные клиента теряются, сделка застревает между отделами',
+      'Менеджер тратит время на нецелевых клиентов и не выполняет KPI',
+      'Нет потенциала для апсейла клиентов',
+      'Менеджер узнаёт о финансовых проблемах клиента после отказа в банке',
+      'Море цифр и ни одного ответа на вопрос: почему сделка так и не закрылась за полгода',
+    ]}
+    rightTitle="С ДВИЖом"
+    rightItems={[
+      'Вся сделка в одном окне: без ошибок и потерянных часов',
+      'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейки',
+      'Средний чек и допродажи постоянно растут',
+      'Менеджер знает о платёжеспособности клиентов больше, чем они сами',
+      'Вклад каждого сотрудника виден как под микроскопом',
+    ]}
+  />
+
   <!-- Feature Cards -->
   <section class="py-20 bg-white">
     <div class="max-w-[1440px] mx-auto px-4">
@@ -221,6 +243,8 @@ import StoryCard from '../components/ui/StoryCard.astro'
         description="Скачайте пример идеального отчета ипотечного отдела"
         buttonText="Посмотреть демо"
         buttonHref="#"
+        image="https://admin.dvizh.cc/api/media/file/orthographic-front-view-3d-ui-icon-of-a-present--a%20(1).png"
+        imageAlt="Подарок"
       />
     </div>
   </section>
