@@ -19,6 +19,7 @@
  * />
  * ```
  */
+import ClearGlassBg from './ClearGlassBg.astro'
 
 interface SectionItem {
   number: string
@@ -114,7 +115,7 @@ const sectionsCount = rightContents.length
               class="flex flex-col gap-6 scroll-mt-[120px]"
             >
               {content.images && content.images.length > 0 && (
-                <div class="rounded-[32px] bg-[#ececec] h-[300px] md:h-[300px] lg:h-[400px] flex items-center justify-center">
+                <div data-glass-target class="relative overflow-hidden rounded-[32px] bg-[#ececec] h-[300px] md:h-[300px] lg:h-[400px] flex items-center justify-center">
                   {content.images.map((image) => (
                     <img
                       src={image.src}
@@ -125,6 +126,7 @@ const sectionsCount = rightContents.length
                       loading="lazy"
                     />
                   ))}
+                  <ClearGlassBg trigger="event" />
                 </div>
               )}
 
@@ -216,6 +218,12 @@ const sectionsCount = rightContents.length
         }
       })
 
+      // Activate glass on first section
+      requestAnimationFrame(() => {
+        const gt = document.querySelector(`#${componentId}-section-0 [data-glass-target]`)
+        if (gt) gt.dispatchEvent(new CustomEvent('clear-glass', { detail: { active: true } }))
+      })
+
       // Обработчик кликов по меню
       buttons.forEach(button => {
         button.addEventListener('click', (e) => {
@@ -258,6 +266,7 @@ const sectionsCount = rightContents.length
                   btn.classList.add('text-[#858585]')
                 }
               })
+
             }
           }
         })
@@ -266,11 +275,33 @@ const sectionsCount = rightContents.length
         rootMargin: '-100px 0px -70% 0px'
       })
 
+      // Glass observer — срабатывает раньше (более щедрый rootMargin)
+      const glassObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id
+            const indexMatch = sectionId.match(new RegExp(`${componentId}-section-(\\d+)`))
+            const index = indexMatch ? parseInt(indexMatch[1]) : -1
+            if (index !== -1) {
+              for (let i = 0; i < sectionsCount; i++) {
+                const sec = document.getElementById(`${componentId}-section-${i}`)
+                const gt = sec?.querySelector('[data-glass-target]')
+                if (gt) gt.dispatchEvent(new CustomEvent('clear-glass', { detail: { active: i === index } }))
+              }
+            }
+          }
+        })
+      }, {
+        threshold: 0.15,
+        rootMargin: '-20px 0px -40% 0px'
+      })
+
       // Наблюдаем за секциями
       for (let i = 0; i < sectionsCount; i++) {
         const sectionEl = document.getElementById(`${componentId}-section-${i}`)
         if (sectionEl) {
           observer.observe(sectionEl)
+          glassObserver.observe(sectionEl)
           console.log('[ProductSectionNew] Observing section:', sectionEl.id)
         }
       }
