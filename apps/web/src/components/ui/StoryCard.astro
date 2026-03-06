@@ -47,14 +47,14 @@ const { backgroundImage, title, person } = Astro.props
 
 <div
   class:list={[
-    'rounded-[32px] overflow-hidden relative min-h-[478px] flex flex-col',
+    'w-full rounded-[18px] overflow-hidden relative h-[480px] flex flex-col',
     backgroundImage ? 'bg-cover bg-center' : 'bg-gray-300'
   ]}
   style={backgroundImage ? `background-image: url(${backgroundImage})` : ''}
 >
-  <div class="p-8 flex flex-col h-full">
+  <div class="p-8 flex flex-col h-full relative">
     <!-- Слот для логотипа -->
-    <div class="shrink-0">
+    <div class="absolute top-8 left-8 right-8 flex items-start">
       <slot name="logo" />
     </div>
 

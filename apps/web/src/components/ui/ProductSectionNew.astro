@@ -41,7 +41,8 @@ interface ImageProps {
 
 interface RightContent {
   images?: ImageProps[]
-  description?: string
+  title?: string
+  description?: string | string[]
 }
 
 interface AdaptiveTitle {
@@ -56,7 +57,7 @@ interface Props {
   descriptions?: string[]
   primaryButton?: Button
   secondaryButton?: Button
-  rightContent: RightContent
+  rightContent: RightContent | RightContent[]
   class?: string
 }
 
@@ -70,14 +71,17 @@ const {
   class: className = ''
 } = Astro.props
 
+// Поддержка как единого rightContent, так и массива
+const rightContents = Array.isArray(rightContent) ? rightContent : [rightContent]
+
 const componentId = `product-section-new-${Math.random().toString(36).substr(2, 9)}`
 ---
 
 <section class:list={['bg-white', className]}>
   <div id={componentId} class="px-[50px] py-[50px]">
     <div class="flex flex-col gap-6 md:gap-[52px] lg:flex-row lg:gap-[120px]">
-      <!-- Меню секций (sm: scroll, md-lg: wrap, lg+: колонка) -->
-      <nav class="flex justify-start gap-6 overflow-x-auto scrollbar-hide md:flex-wrap lg:flex-col lg:w-[220px] lg:flex-shrink-0 lg:overflow-visible">
+      <!-- Меню секций (sm: scroll, md+: scroll, lg+: колонка) -->
+      <nav class="flex justify-start gap-6 overflow-x-auto scrollbar-hide md:overflow-x-auto md:scrollbar-hide lg:flex-col lg:w-[220px] lg:flex-shrink-0 lg:overflow-visible">
         {sections.map((section, index) => (
           <button
             class:list={[
@@ -92,67 +96,72 @@ const componentId = `product-section-new-${Math.random().toString(36).substr(2, 
         ))}
       </nav>
 
-      <!-- Контент + Right block -->
+      <!-- Контент + Right blocks -->
       <div class="flex-1 flex flex-col md:flex-col lg:flex-col lg:gap-6">
-        <!-- Right block (всегда сверху) -->
-        {rightContent.images && rightContent.images.length > 0 && (
-          <div class="order-1 mb-6 md:mb-6 lg:mb-6 lg:h-full">
-            <div class="rounded-[32px] bg-[#ececec] h-[300px] md:h-[300px] lg:h-full flex items-center justify-center">
-              {rightContent.images.map((image) => (
-                <img
-                  src={image.src}
-                  alt={image.alt || ''}
-                  width={image.width}
-                  height={image.height}
-                  class="w-full h-full object-contain rounded-[32px]"
-                  loading="lazy"
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        <!-- Left content (всегда снизу) -->
-        <div class="order-2 md:order-2 lg:order-2 flex-1 lg:min-w-[420px] lg:max-w-[590px]">
-          <!-- Адаптивный заголовок -->
-          <h1 class="text-pretty text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-gray-900">
-            <span class="hidden lg:inline">{title.lg}</span>
-            <span class="hidden md:inline lg:hidden">{title.md}</span>
-            <span class="inline md:hidden">{title.sm}</span>
-          </h1>
-
-          <!-- Описания -->
-          {descriptions.length > 0 && (
-            <div class="mt-6 space-y-1">
-              {descriptions.map((desc) => (
-                <p class="text-pretty text-base font-medium text-gray-500 sm:text-lg/8">
-                  {desc}
-                </p>
-              ))}
-            </div>
-          )}
-
-          <!-- Кнопки -->
-          {(primaryButton || secondaryButton) && (
-            <div class="mt-8 flex items-center gap-x-6">
-              {primaryButton && (
-                <a
-                  href={primaryButton.href}
-                  class="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-                >
-                  {primaryButton.label}
-                </a>
+        <!-- Right blocks (всегда сверху) -->
+        <div class="order-1 mb-6 md:mb-6 lg:mb-6 lg:h-full flex flex-col gap-24">
+          {rightContents.map((content) => (
+            <div class="flex flex-col gap-6">
+              {content.images && content.images.length > 0 && (
+                <div class="rounded-[32px] bg-[#ececec] h-[300px] md:h-[300px] lg:h-full flex items-center justify-center">
+                  {content.images.map((image) => (
+                    <img
+                      src={image.src}
+                      alt={image.alt || ''}
+                      width={image.width}
+                      height={image.height}
+                      class="w-full h-full object-contain rounded-[32px]"
+                      loading="lazy"
+                    />
+                  ))}
+                </div>
               )}
-              {secondaryButton && (
-                <a
-                  href={secondaryButton.href}
-                  class="text-sm/6 font-semibold text-gray-900"
-                >
-                  {secondaryButton.label} <span aria-hidden="true">→</span>
-                </a>
-              )}
+
+              <!-- Left content для каждого блока -->
+              <div class="flex-1">
+                <h1 class="text-pretty text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-gray-900">
+                  {content.title || title.lg}
+                </h1>
+
+                {content.description && (
+                  <div class="mt-8 space-y-2">
+                    {Array.isArray(content.description) ? (
+                      content.description.map((desc) => (
+                        <p class="text-base font-medium text-gray-500">
+                          {desc}
+                        </p>
+                      ))
+                    ) : (
+                      <p class="text-base font-medium text-gray-500">
+                        {content.description}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {(primaryButton || secondaryButton) && (
+                  <div class="mt-8 flex items-center gap-x-6">
+                    {primaryButton && (
+                      <a
+                        href={primaryButton.href}
+                        class="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-600"
+                      >
+                        {primaryButton.label}
+                      </a>
+                    )}
+                    {secondaryButton && (
+                      <a
+                        href={secondaryButton.href}
+                        class="text-sm/6 font-semibold text-gray-900"
+                      >
+                        {secondaryButton.label} <span aria-hidden="true">→</span>
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
-          )}
+          ))}
         </div>
       </div>
     </div>
