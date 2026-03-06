@@ -1,12 +1,13 @@
 ---
 /**
- * Lab: Ипотека (новые компоненты)
+ * Lab: Продажи (новые компоненты)
  *
  * Страница с новыми компонентами из lab-new/
  */
 import SiteLayout from '../../layouts/SiteLayout.astro'
 import Card from '../../components/lab-new/Card.astro'
-import HeroWithBadge from '../../components/lab-new/HeroWithBadge.astro'
+import HeroSection from '../../components/ui/HeroSection.astro'
+import LogoMarquee from '../../components/lab-new/LogoMarquee.astro'
 import FeatureCard from '../../components/lab-new/FeatureCard.astro'
 import CTA from '../../components/ui/CTA.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
@@ -14,13 +15,25 @@ import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
 ---
 
-<SiteLayout title="Lab: Ипотека (новые компоненты)">
-  <!-- Hero с бейджем -->
-  <HeroWithBadge
-    badge="Ипотечная платформа"
-    title="Закрывайте до 26% больше сделок на том же трафике"
+<SiteLayout title="Lab: Продажи (новые компоненты)">
+  <!-- Hero split layout (Linear-style) -->
+  <HeroSection
+    layout="split"
+    badge="Платформа для выполнения планов продаж"
+    title="Ускоряем цикл сделки и забираем на себя всю рутину"
     description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
-    submitLabel="Отправить"
+    demoLabel="Посмотреть демо"
+    kpLabel="Получить КП"
+    stats={[
+      { value: '26% больше', label: 'сделок на том же трафике' },
+      { value: '1 500 000+', label: 'сделок на рынке недвижимости прошло через ДВИЖ' },
+      { value: '79', label: 'застройщиков из ТОП-100 ЕРЗ наши партнеры' },
+    ]}
+    statsCols={3}
+  />
+
+  <!-- Бегущая строка с логотипами -->
+  <LogoMarquee
     logos={[
       { name: 'ЛСР', src: '/partners/lsr.svg' },
       { name: 'А101', src: '/partners/a101.svg' },
@@ -36,26 +49,26 @@ import StoryCard from '../../components/ui/StoryCard.astro'
     <div class="max-w-[1440px] mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card
-          title="Сократили количество
-отказов по ипотеке"
+          title="Наполнить воронку
+качественными лидами"
           description="какие-то цифры или показатели"
           image="https://admin.dvizh.cc/api/media/file/1.jpg"
         />
         <Card
-          title="Перестали терять сделки
-из-за клиентов с низким КР"
+          title="Закрыть клиентов
+быстрее, чем конкуренты"
           description="какие-то цифры или показатели"
           image="https://admin.dvizh.cc/api/media/file/3.jpg"
         />
         <Card
-          title="Ускорили заполнение
-анкеты до 10 секунд"
+          title="Увеличить средний чек
+и допродажи"
           description="какие-то цифры или показатели"
           image="https://admin.dvizh.cc/api/media/file/2.jpg"
         />
         <Card
-          title="Стали закрывать больше
-сделок без роста штата"
+          title="Увидеть результат работы
+каждого сотрудника"
           description="какие-то цифры или показатели"
           image="https://admin.dvizh.cc/api/media/file/4.jpg"
         />
@@ -67,10 +80,11 @@ import StoryCard from '../../components/ui/StoryCard.astro'
   <div class="max-w-[1440px] mx-auto px-4 mt-[50px]">
     <ProductSectionNew
     sections={[
-      { number: "01", title: "Подбор банков", active: true },
-      { number: "02", title: "Заполнение анкеты" },
-      { number: "03", title: "Скоринг клиента" },
-      { number: "04", title: "Отправка заявки" },
+      { number: "01", title: "Качественные лиды", active: true },
+      { number: "02", title: "Работа с клиентами" },
+      { number: "03", title: "Быстрые заявки" },
+      { number: "04", title: "Апсейл клиентов" },
+      { number: "05", title: "Контроль работы" },
     ]}
     title={{
       lg: "Заголовок для больших экранов (lg+)",
@@ -93,10 +107,11 @@ import StoryCard from '../../components/ui/StoryCard.astro'
             height: 400
           }
         ],
-        title: "Повышаем конверсию из первичной консультации до 20%",
+        title: "Повышаем качество лидов",
         description: [
-          "Расчет досрочных погашений и рефинансирования",
-          "40+ банков-партнеров и большой выбор ипотечных программ"
+          "Форма на сайт для проверки кредитного рейтинга: приведем надежных клиентов",
+          "Скоринг по банковским стандартам: расскажем все о платежеспособности покупателей",
+          "Ипотечный калькулятор для сайта: приведем клиентов с нужным уровнем дохода"
         ]
       },
       {
@@ -108,11 +123,11 @@ import StoryCard from '../../components/ui/StoryCard.astro'
             height: 400
           }
         ],
-        title: "Сокращаем время на заполнение анкеты до 10 секунд",
+        title: "Помогаем закрывать даже сложных клиентов",
         description: [
-          "Распознавание документов от паспорта до справки 2-НДФЛ",
-          "Заполнение анкеты через Госуслуги",
-          "Одна анкета в 40+ банков"
+          "Финансовый скоринг покажет, как улучшить портрет клиента до отправки заявки в банк",
+          "40+ банков-партнеров помогут подобрать ипотечную программу для каждого",
+          "ДВИЖ AI рассчитает вероятность одобрения клиента в каждом банке и подберет лучшие варианты"
         ]
       },
       {
@@ -124,10 +139,13 @@ import StoryCard from '../../components/ui/StoryCard.astro'
             height: 400
           }
         ],
-        title: "Проверяем ваших клиентов по банковским стандартам",
+        title: "... и делать это быстрее конкурентов",
         description: [
-          "Долговая нагрузка и «красные флаги» клиента",
-          "Рекомендации по улучшению рейтинга клиента"
+          "Актуальные статусы по сделке в CRM: контроль каждого этапа в карточке клиента",
+          "Одна анкета для всех этапов: от заявки до регистрации",
+          "Регистрация всех видов сделок и подписание любых документов в рамках 1 платформы",
+          "Пакетное распознавание документов: никакого ручного ввода данных",
+          "Заполнение анкеты через Госуслуги за 30 секунд"
         ]
       },
       {
@@ -139,10 +157,26 @@ import StoryCard from '../../components/ui/StoryCard.astro'
             height: 400
           }
         ],
-        title: "Увеличиваем процент одобрения до 95%+",
+        title: "Раскрываем финансовый потенциал клиентов",
         description: [
-          "Прогноз скорости и вероятности одобрения клиента в банках",
-          "Отправка заявки сразу в 5+ банков"
+          "Покажем клиенту ежемесячный платеж и поможем выбрать квартиру под весь бюджет",
+          "Рассчитаем ПДН* клиента и поможем увеличить средний чек сделки"
+        ]
+      },
+      {
+        images: [
+          {
+            src: "https://admin.dvizh.cc/api/media/file/product-section-5.jpg",
+            alt: "Движ AI",
+            width: 600,
+            height: 400
+          }
+        ],
+        title: "Делаем работу менеджеров управляемой",
+        description: [
+          "Контроль всех этапов через CRM: покажем, как быстро менеджер взял сделку в работу",
+          "Отображаем статусы сделки в CRM: покажем, в каком отделе потерялся клиент",
+          "Соберем актуальную статистику по банкам и одобрениям, для контроля и принятия решений"
         ]
       }
     ]}
@@ -159,21 +193,21 @@ import StoryCard from '../../components/ui/StoryCard.astro'
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <FeatureCard
-          title="Готовые интеграции"
-          subtitle="с популярными системами"
+          title="Контроль всех этапов через CRM"
+          subtitle="покажем, как быстро менеджер взял сделку в работу"
           color="#202b32"
           image="https://admin.dvizh.cc/api/media/file/5-new.jpg"
           imagePosition="right bottom"
         />
         <FeatureCard
-          title="57 секунд"
-          subtitle="среднее время ответа в поддержке"
+          title="Отображаем статусы сделки в CRM"
+          subtitle="покажем, в каком отделе потерялся клиент"
           color="#F2F2F2"
           image="https://admin.dvizh.cc/api/media/file/6-new.jpg"
         />
         <FeatureCard
-          title="Все ключевые показатели"
-          subtitle="ипотечного отдела"
+          title="Соберем актуальную статистику"
+          subtitle="по банкам и одобрениям, для контроля и принятия решений"
           color="#F2F2F2"
           image="https://admin.dvizh.cc/api/media/file/7-new.jpg"
         />
@@ -198,7 +232,7 @@ import StoryCard from '../../components/ui/StoryCard.astro'
     <div class="max-w-[1440px] mx-auto px-4">
       <div class="mb-12">
         <h2 class="text-[42.5px] font-semibold text-gray-900 tracking-tight leading-none">
-          70+ историй успеха<br>на рынке девелопмента
+          Не верите нам, спросите наших клиентов
         </h2>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">

@@ -85,10 +85,11 @@ const componentId = `product-section-new-${Math.random().toString(36).substr(2, 
         {sections.map((section, index) => (
           <button
             class:list={[
-              'flex-shrink-0 transition-colors hover:opacity-70 text-left',
+              'flex-shrink-0 transition-colors hover:opacity-70 text-left items-center gap-3',
               index === 0 ? 'text-brand' : 'text-[#858585]'
             ]}
           >
+            <span class="w-3.5 h-3.5 rounded-full bg-gray-200"></span>
             <span class="text-base font-medium text-left">
               {section.title}
             </span>
@@ -127,24 +128,30 @@ const componentId = `product-section-new-${Math.random().toString(36).substr(2, 
                   <div class="mt-8 space-y-2">
                     {Array.isArray(content.description) ? (
                       content.description.map((desc) => (
-                        <p class="text-base font-medium text-gray-500">
-                          {desc}
-                        </p>
+                        <div class="flex items-center gap-3">
+                          <span class="w-2 h-2 rounded-full bg-[#D9D9D9] flex-shrink-0"></span>
+                          <p class="text-base font-medium text-gray-500">
+                            {desc}
+                          </p>
+                        </div>
                       ))
                     ) : (
-                      <p class="text-base font-medium text-gray-500">
-                        {content.description}
-                      </p>
+                      <div class="flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-[#D9D9D9] flex-shrink-0"></span>
+                        <p class="text-base font-medium text-gray-500">
+                          {content.description}
+                        </p>
+                      </div>
                     )}
                   </div>
                 )}
 
                 {(primaryButton || secondaryButton) && (
-                  <div class="mt-8 flex items-center gap-x-6">
+                  <div class="mt-8 flex flex-col sm:flex-row gap-4">
                     {primaryButton && (
                       <a
                         href={primaryButton.href}
-                        class="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-600"
+                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand hover:scale-[1.03] hover:shadow-xl hover:shadow-brand/25 active:scale-[0.98] transition-all duration-300 ease-out"
                       >
                         {primaryButton.label}
                       </a>
@@ -152,9 +159,9 @@ const componentId = `product-section-new-${Math.random().toString(36).substr(2, 
                     {secondaryButton && (
                       <a
                         href={secondaryButton.href}
-                        class="text-sm/6 font-semibold text-gray-900"
+                        class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-black/[0.04] text-[#1b2226] text-[15px] font-medium hover:bg-black/[0.08] hover:scale-[1.03] hover:shadow-xl active:scale-[0.98] transition-all duration-300 ease-out"
                       >
-                        {secondaryButton.label} <span aria-hidden="true">→</span>
+                        {secondaryButton.label}
                       </a>
                     )}
                   </div>

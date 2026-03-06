@@ -21,14 +21,14 @@ const displayLogos = logos.length > 0
 ---
 
 <div class="w-full overflow-hidden group">
-  <div class="flex animate-marquee will-change-transform group-hover:paused">
+  <div class="flex animate-marquee will-change-transform">
     {/* Дублируем для бесшовной прокрутки - 4 копии для точного цикла */}
     {[...displayLogos, ...displayLogos, ...displayLogos, ...displayLogos].map((logo) => (
       <div class="flex-shrink-0 px-12 py-6">
         <img
           src={logo.src}
           alt={logo.name}
-          class="h-8 w-auto max-w-[120px] filter brightness-0 opacity-40 transition-all duration-300 hover:opacity-100 hover:filter-none"
+          class="h-8 w-auto max-w-[120px] filter brightness-0 opacity-40"
           width={120}
           height={32}
         />
