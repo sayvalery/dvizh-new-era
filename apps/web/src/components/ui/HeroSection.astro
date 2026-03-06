@@ -87,7 +87,7 @@ const isSplit = layout === 'split'
 <section class:list={['relative overflow-hidden', withGradient ? 'bg-brand' : 'bg-white', className]}>
   {/* Fluted glass gradient background */}
   {withGradient && (
-    <FlutedGlassBg />
+    <FlutedGlassBg ribs={30} ribsMobile={10} />
   )}
 
   <div class="relative z-10 max-w-[1440px] mx-auto px-4">
