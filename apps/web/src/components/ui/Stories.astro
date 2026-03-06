@@ -1,0 +1,127 @@
+---
+/**
+ * Stories — секция с карточками историй успеха
+ *
+ * Адаптивная секция с заголовком и сеткой карточек.
+ * Каждая карточка имеет Story блок (с фоновым изображением) и PersonCard.
+ *
+ * @example
+ * ```astro
+ * <Stories
+ *   title="70+ историй успеха на рынке девелопмента"
+ *   stories={[
+ *     {
+ *       title: "Помогли начать обрабатывать на 281% заявок больше",
+ *       person: {
+ *         name: "Петрова Надежда",
+ *         jobTitle: "Директор по маркетингу, ЛСР"
+ *       },
+ *       backgroundImage: "/bg.jpg"
+ *     }
+ *   ]}
+ * />
+ * ```
+ */
+
+import PersonCard from './PersonCard.astro'
+
+interface Person {
+  name: string
+  slug?: string
+  photo?: { url: string; alt?: string }
+  jobTitle?: string
+  company?: { name: string; slug?: string }
+}
+
+interface StoryProps {
+  /** Заголовок истории */
+  title: string
+  /** Персона (автор истории) */
+  person: Person
+  /** URL фонового изображения Story блока */
+  backgroundImage?: string
+  /** Alt-текст для фонового изображения */
+  backgroundImageAlt?: string
+}
+
+interface AdaptiveTitle {
+  lg: string
+  md: string
+  sm: string
+}
+
+interface Props {
+  /** Заголовок секции (адаптивный) */
+  title: AdaptiveTitle | string
+  /** Массив карточек Story */
+  stories: StoryProps[]
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  title,
+  stories = [],
+  class: className = ''
+} = Astro.props
+
+const componentId = `stories-${Math.random().toString(36).substr(2, 9)}`
+
+// Проверяем, адаптивный ли заголовок
+const isAdaptiveTitle = typeof title === 'object' && 'lg' in title
+---
+
+<section class:list={['bg-white', className]}>
+  <div id={componentId} class="px-[50px] py-[48px] sm:py-[64px]">
+    <div class="flex flex-col gap-16">
+      <!-- Адаптивный заголовок -->
+      <h2 class="text-left text-pretty text-[36px] font-bold sm:text-[48px] tracking-tight" style="color: #32393e">
+        {isAdaptiveTitle ? (
+          <>
+            <span class="hidden sm:inline">{title.md}</span>
+            <span class="inline sm:hidden">{title.sm}</span>
+          </>
+        ) : (
+          title
+        )}
+      </h2>
+
+      <!-- Cards (lg: gap-24, md/sm: gap-40) -->
+      <div class="flex flex-col gap-6 sm:gap-10 lg:gap-6">
+        {stories.map((story) => (
+          <div class="flex flex-col gap-6">
+            <!-- Story блок с фоновым изображением -->
+            <div
+              class="rounded-[32px] p-8 relative overflow-hidden"
+              style="background-color: #b9b9b9;"
+            >
+              <!-- Фоновое изображение (если есть) -->
+              {story.backgroundImage && (
+                <div class="absolute inset-0 z-0">
+                  <img
+                    src={story.backgroundImage}
+                    alt={story.backgroundImageAlt || 'Story background'}
+                    class="w-full h-full object-cover"
+                    width="800"
+                    height="400"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+
+              <!-- Контент Story -->
+              <div class="relative z-10 flex flex-col gap-[120px]">
+                <h3 class="text-2xl font-semibold text-gray-900">
+                  {story.title}
+                </h3>
+              </div>
+            </div>
+
+            <!-- PersonCard -->
+            <PersonCard person={story.person} variant="full" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
