@@ -1,0 +1,88 @@
+---
+/**
+ * StoryCard — карточка истории успеха
+ *
+ * Используется для демонстрации кейсов и отзывов.
+ *
+ * Props:
+ *   backgroundImage — URL фонового изображения карточки
+ *   title — основной заголовок карточки
+ *   person — объект персоны (имя, должность, фото)
+ *
+ * Slots:
+ *   logo — слот для логотипа компании (сверху над заголовком)
+ *
+ * Пример:
+ *   <StoryCard
+ *     backgroundImage="/images/story-bg.jpg"
+ *     title="Помогли начать обрабатывать на 98% больше заявок"
+ *     person={{
+ *       name: "Светлана Корнелюк",
+ *       jobTitle: "Директор отдела продаж",
+ *       photo: { url: "/photos/photo.jpg" }
+ *     }}
+ *   >
+ *     <img src="/logos/logo.svg" alt="Логотип" slot="logo" />
+ *   </StoryCard>
+ */
+
+import PersonCard from './PersonCard.astro'
+
+interface Person {
+  name: string
+  slug?: string
+  photo?: { url: string; alt?: string }
+  jobTitle?: string
+  company?: { name: string; slug?: string }
+}
+
+interface Props {
+  backgroundImage?: string
+  title: string
+  person: Person
+}
+
+const { backgroundImage, title, person } = Astro.props
+---
+
+<div
+  class:list={[
+    'w-full rounded-[18px] overflow-hidden relative h-[480px] flex flex-col',
+    backgroundImage ? 'bg-cover bg-center' : 'bg-gray-300'
+  ]}
+  style={backgroundImage ? `background-image: url(${backgroundImage})` : ''}
+>
+  <div class="p-8 flex flex-col h-full relative">
+    <!-- Слот для логотипа -->
+    <div class="absolute top-8 left-8 right-8 flex items-start">
+      <slot name="logo" />
+    </div>
+
+    <!-- Нижняя часть с заголовком и PersonCard -->
+    <div class="mt-auto flex flex-col gap-12">
+      <h3 class="text-white text-[36px] font-bold leading-tight font-heading tracking-[-0.47px]">
+        {title}
+      </h3>
+
+      <div class="flex items-center gap-3">
+        {person.photo?.url ? (
+          <img
+            src={person.photo.url}
+            alt={person.photo.alt ?? person.name}
+            class="w-[42px] h-[42px] rounded-full object-cover shrink-0"
+          />
+        ) : (
+          <div class="w-[42px] h-[42px] rounded-full bg-white/20 flex items-center justify-center shrink-0">
+            <span class="text-base text-white font-medium">{person.name[0]}</span>
+          </div>
+        )}
+        <div>
+          <p class="font-semibold text-sm leading-tight text-white">{person.name}</p>
+          {person.jobTitle && (
+            <p class="text-sm text-white/80 leading-tight mt-0.5">{person.jobTitle}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
