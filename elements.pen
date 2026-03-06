@@ -1,0 +1,2400 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "QQIV0",
+      "x": -215,
+      "y": 30,
+      "name": "CardSection",
+      "clip": true,
+      "width": 1419,
+      "height": 819,
+      "fill": "#FFFFFF",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "jqtnN",
+          "x": 58,
+          "y": 79,
+          "name": "1",
+          "clip": true,
+          "width": 640,
+          "fill": "#d9d9d92e",
+          "cornerRadius": 24,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 204,
+          "children": [
+            {
+              "type": "frame",
+              "id": "xisAc",
+              "name": "Link",
+              "width": "fill_container",
+              "height": 327,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                0,
+                32
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Yzzeo",
+                  "name": "Component 2",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  },
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Rm97N",
+                      "name": "Container",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        32,
+                        0
+                      ],
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "ZJSdY",
+                          "name": "Ellipse 27",
+                          "enabled": false,
+                          "rotation": -139.7606901243996,
+                          "geometry": "M458.38873 197.8084c-280.08697-47.92447-238.67895 94.11668-366.22655 94.11668-127.54759 0-85.53624-165.33347-85.53624-210.37326 0-45.03979 103.39774-81.55176 230.94533-81.55176 127.5476 0 285.52205 203.23445 220.81746 197.80834z",
+                          "fill": "#ff8800ff",
+                          "width": 473.3819885253906,
+                          "height": 291.9250183105469,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1.5437756776809692
+                          },
+                          "effect": {
+                            "type": "blur",
+                            "radius": 188.8250026702881
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "56dAg",
+                          "name": "Section Title",
+                          "fill": "#32393eff",
+                          "textGrowth": "fixed-width",
+                          "width": 505,
+                          "content": "Сократили количество\nотказов по ипотеке",
+                          "lineHeight": 1.3333333333333333,
+                          "textAlignVertical": "middle",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "yLDxV",
+                          "name": "Section Description",
+                          "opacity": 0.699999988079071,
+                          "fill": "#32393eff",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "какие-то цифры или показатели",
+                          "lineHeight": 1.5,
+                          "textAlignVertical": "middle",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.5
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "dmOrI",
+          "x": 714,
+          "y": 79,
+          "name": "2",
+          "width": 640,
+          "height": 327,
+          "fill": "#d9d9d92e",
+          "cornerRadius": 24,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 204,
+          "padding": [
+            0,
+            32
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "9wWFm",
+              "name": "Component 2",
+              "width": "fill_container",
+              "height": "fill_container",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "jpIdX",
+                  "name": "Container",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": [
+                    32,
+                    0
+                  ],
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qkkeG",
+                      "name": "Section Title",
+                      "fill": "#32393eff",
+                      "textGrowth": "fixed-width",
+                      "width": 322,
+                      "content": "Перестали терять сделки из-за клиентов с низким КР ",
+                      "lineHeight": 1.3333333333333333,
+                      "textAlignVertical": "middle",
+                      "fontFamily": "Inter",
+                      "fontSize": 24,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "0jFWw",
+                      "name": "Section Description",
+                      "opacity": 0.699999988079071,
+                      "fill": "#32393eff",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "какие-то цифры или показатели",
+                      "lineHeight": 1.5,
+                      "textAlignVertical": "middle",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.5
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "MVfg4",
+          "x": 58,
+          "y": 422,
+          "name": "3",
+          "clip": true,
+          "width": 640,
+          "fill": "#d9d9d92e",
+          "cornerRadius": 24,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Y1IdQ",
+              "name": "Link",
+              "width": "fill_container",
+              "height": 327,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                0,
+                32
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "LI3bx",
+                  "name": "Component 2",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  },
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "SDSqg",
+                      "name": "Container",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        32,
+                        0
+                      ],
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "5iM8k",
+                          "name": "Section Title",
+                          "fill": "#32393eff",
+                          "textGrowth": "fixed-width",
+                          "width": 299,
+                          "content": "Ускорили заполнение анкеты до 10 секунд",
+                          "lineHeight": 1.3333333333333333,
+                          "textAlignVertical": "middle",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "B4ZDr",
+                          "name": "Section Description",
+                          "opacity": 0.699999988079071,
+                          "fill": "#32393eff",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "какие-то цифры или показатели",
+                          "lineHeight": 1.5,
+                          "textAlignVertical": "middle",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.5
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "UX96T",
+          "x": 714,
+          "y": 422,
+          "name": "4",
+          "clip": true,
+          "width": 640,
+          "fill": "#d9d9d92e",
+          "cornerRadius": 24,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "bgKdf",
+              "name": "Link",
+              "width": "fill_container",
+              "height": 327,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                0,
+                32
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "CpJ0u",
+                  "name": "Component 2",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  },
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "i7UpQ",
+                      "name": "Container",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      },
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        32,
+                        0
+                      ],
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "AVJ9r",
+                          "name": "Section Title",
+                          "fill": "#32393eff",
+                          "textGrowth": "fixed-width",
+                          "width": 491,
+                          "content": "Стали закрывать больше\nсделок без роста штата",
+                          "lineHeight": 1.3333333333333333,
+                          "textAlignVertical": "middle",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "oYvSY",
+                          "name": "Section Description",
+                          "opacity": 0.699999988079071,
+                          "fill": "#32393eff",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "какие-то цифры или показатели",
+                          "lineHeight": 1.5,
+                          "textAlignVertical": "middle",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.5
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "vYJ8m",
+      "x": 1409.7037561819097,
+      "y": 30.329662637972433,
+      "name": "Frame 2147228009",
+      "width": 1446,
+      "height": 746,
+      "fill": "#f5f4f4ff",
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "nnBsP",
+          "x": 82.974609375,
+          "y": 479,
+          "name": "Frame 2147227997",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "gap": 8,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Go10x",
+              "name": "Frame 2147227940",
+              "width": 288,
+              "fill": "#ebebebff",
+              "cornerRadius": 19,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "gap": 10,
+              "padding": [
+                20,
+                24
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ToE0P",
+                  "name": "Ваше имя",
+                  "opacity": 0.20000000298023224,
+                  "fill": "#525252ff",
+                  "content": "Ваше имя",
+                  "lineHeight": 1.399999976158142,
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.4699999988079071
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HKfYH",
+              "name": "Frame 2147227941",
+              "width": 288,
+              "fill": "#ebebebff",
+              "cornerRadius": 19,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "gap": 10,
+              "padding": [
+                20,
+                24
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "P9Hnd",
+                  "name": "Телефон",
+                  "opacity": 0.20000000298023224,
+                  "fill": "#525252ff",
+                  "content": "Телефон",
+                  "lineHeight": 1.399999976158142,
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.4699999988079071
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kFeSj",
+              "name": "Frame 2147227942",
+              "fill": "#ff4d00ff",
+              "cornerRadius": 19,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "gap": 10,
+              "padding": [
+                20,
+                64
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "XNsaX",
+                  "name": "Отправить",
+                  "fill": "#ffffffff",
+                  "content": "Отправить",
+                  "lineHeight": 1.399999976158142,
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.4699999988079071
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "8ECmN",
+          "x": 82.974609375,
+          "y": 46,
+          "name": "Frame 2147227943",
+          "width": 744.91015625,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 24,
+          "children": [
+            {
+              "type": "frame",
+              "id": "IkEur",
+              "name": "Frame 2147227944",
+              "width": "fill_container",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hPC6C",
+                  "name": "Закрывайте до 26% больше сделок на том же трафике",
+                  "fill": "#1a1a1aff",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Закрывайте до 26% больше сделок на том же трафике",
+                  "lineHeight": 1,
+                  "fontFamily": "Styrene A LC",
+                  "fontSize": 64,
+                  "fontWeight": "500",
+                  "letterSpacing": -0.4699999988079071
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "uqNh2",
+              "name": "Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке",
+              "fill": "#1a1a1aff",
+              "textGrowth": "fixed-width",
+              "width": 689.8623046875,
+              "content": "Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке",
+              "lineHeight": 1.399999976158142,
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "normal",
+              "letterSpacing": -0.4699999988079071
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "18AX7",
+          "x": 957.1220703125,
+          "y": 266.3046875,
+          "name": "наш фончик (сделать не таким ярким)",
+          "opacity": 0.20000000298023224,
+          "fill": "#121212ff",
+          "content": "наш фончик (сделать не таким ярким)",
+          "lineHeight": 1.2000000476837158,
+          "textAlign": "center",
+          "fontFamily": "Inter",
+          "fontSize": 27.009071350097656,
+          "fontWeight": "500",
+          "letterSpacing": -0.2644638419151306
+        },
+        {
+          "type": "frame",
+          "id": "QcXsx",
+          "x": 0.0078125,
+          "y": 623,
+          "name": "Frame 2147227998",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "group",
+              "id": "186zb",
+              "name": "1",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "lXJY0",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Rectangle 14",
+                  "fill": {
+                    "type": "color",
+                    "color": "#fcfcfcff",
+                    "enabled": false
+                  },
+                  "width": 206.5618438720703,
+                  "height": 77.19932556152344,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.7098345756530762,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "Fvq94",
+                  "x": 47.9248046875,
+                  "y": 26.29931640625,
+                  "name": "client-logo-big",
+                  "width": 105.74217987060547,
+                  "height": 24.600433349609375,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.09919529408216476,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "eXEzP",
+                      "x": 0,
+                      "y": 2.473564237356186,
+                      "name": "glorax",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "S8K7L",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Vector",
+                          "geometry": "M120.865 23.28l7.124 0-13.619-12-0.269 1.5 17.71901-12.27-6.88401 0-13.32 12.48 9.249 10.29z m-28.914 0l6.615 0 15.415-14.43-8.381-8.31-6.8844 0 12.4814 9.84 0-1.41-19.246 14.31z m-8.8299 0.51c3.6517 0 7.1537-2.4 7.9918-6.78l0.0898 0 0 6.27 3.5619 0 0-16.56-3.5619 0 0 6-0.0898 0c-0.8081-4.44-4.3102-6.51-7.902-6.51-4.6694 0-8.351 3.51-8.351 8.7 0 5.16 3.6816 8.88 8.2612 8.88z m1.0476-3.84c-3.6517 0-5.8966-2.22-5.8966-5.04 0-2.82 2.2449-4.8 5.8966-4.8 4.0408 0 6.9143 2.37 6.9143 4.74 0 2.4-2.8435 5.1-6.9143 5.1z m-23.1973 3.33l3.5619 0 0-8.01c0-2.85 3.981-6 9.1892-4.83l0-4.23c-5.5075-0.33-8.1715 3.54-9.0694 7.11l-0.0898 0 0-6.6-3.5619 0 0 16.56-0.03 0z m-13.4095-3.39c-4.0408 0-6.2857-2.19-6.2857-5.01 0-2.82 2.2449-4.77 6.2857-4.77 4.0109 0 6.3456 1.95 6.3456 4.77 0 2.85-2.3347 5.01-6.3456 5.01z m0 3.9c5.6871 0 9.7578-3.78 9.7578-8.91 0-5.19-4.1007-8.67-9.7578-8.67-5.6871 0-9.698 3.48-9.698 8.67 0 5.16 4.0109 8.91 9.698 8.91z m-16.9116-0.48l3.5619 0 0-22.8-3.5619 0 0 22.8z m-16.6122 0.48c5.4775 0 9.3986-2.04 11.7633-3.75l0-8.88-11.8232 0 0 4.23 11.464 0 0 0.27c-1.1973 1.5-4.9987 3.78-10.8653 3.78-5.95649-0.03-10.68574-2.37-10.68574-7.41 0-5.19 5.0585-7.65 10.14694-7.65 5.0884 0 7.6925 2.43 8.5905 5.22l3.8313-1.26c-1.5266-5.58-6.6449-8.34-12.4817-8.34-6.64487 0-13.9782 3.66-13.9782 12 0 7.59 6.22585 11.79 14.0381 11.79z",
+                          "fill": "#878787ff",
+                          "width": 105.74217987060547,
+                          "height": 19.653308868408203,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.6125313639640808
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "5p6Gw",
+              "name": "2",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "ZhJE5",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Rectangle 14",
+                  "fill": {
+                    "type": "color",
+                    "color": "#fcfcfcff",
+                    "enabled": false
+                  },
+                  "width": 206.5618438720703,
+                  "height": 77.19932556152344,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.7098345756530762,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "NWhXr",
+                  "x": 41.8095703125,
+                  "y": 24.57131576538086,
+                  "name": "client-logo-big",
+                  "width": 123.6484375,
+                  "height": 28.766239166259766,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.11599290370941162,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "cRDGo",
+                      "x": 2.688353642821312,
+                      "y": 7.343131005764008,
+                      "name": "Group 335875",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "lYpg9",
+                          "x": 0,
+                          "y": 0,
+                          "name": "title",
+                          "geometry": "M5.13 10.625c-2.833 0-5.13-2.378-5.13-5.313 0-2.934 2.297-5.312 5.13-5.312l29.496 0 0 4.375-28.855 0c-0.354 0-0.641 0.42-0.641 0.937 0 0.518 0.287 0.938 0.641 0.938l28.855 0 0 4.375-29.496 0z m76.305-5.313c0 2.935-2.297 5.313-5.13 5.313l-23.084 0 0-4.375 22.443 0c0.354 0 0.641-0.42 0.641-0.938 0-0.517-0.287-0.937-0.64-0.937l-24.368 0 0 6.25-4.489 0 0-10.625 29.496 0c2.833 0 5.13 2.378 5.13 5.313l0.001-0.001z m6.412 5.313c-2.833 0-5.13-2.378-5.13-5.313 0-2.934 2.297-5.312 5.13-5.312l29.497 0 0 10.625-4.489 0 0-6.25-24.367 0c-0.354 0-0.64 0.42-0.64 0.937 0 0.518 0.286 0.938 0.64 0.938l22.443 0 0 4.375-23.084 0z m45.52699-5.313c0 2.935 2.29702 5.313 5.13001 5.313l23.084 0 0-4.375-22.443 0c-0.354 0-0.641-0.42-0.641-0.938 0-0.517 0.287-0.937 0.641-0.937l24.366 0 0 6.25 4.489 0 0-10.625-29.496 0c-2.83299 0-5.13001 2.378-5.13001 5.313l0-0.001z m-90.41199-0.937l2.565 0 0-4.375-9.619 0 0 4.375 2.565 0 0 6.25 4.489 0 0-6.25z m80.794 6.25l0-3.125 3.847 0 0 3.125 4.489 0 0-10.625-4.489 0 0 3.125-3.847 0 0-3.125-4.489 0 0 10.625 4.489 0z",
+                          "fillRule": "evenodd",
+                          "fill": "#878787ff",
+                          "width": 118.27172088623047,
+                          "height": 7.479981899261475,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.5662252306938171
+                          }
+                        },
+                        {
+                          "type": "group",
+                          "id": "6lWUQ",
+                          "x": 78.54647172987461,
+                          "y": 10.119988977909088,
+                          "name": "Group 335874",
+                          "children": [
+                            {
+                              "type": "path",
+                              "id": "WEAAR",
+                              "x": 0,
+                              "y": 0,
+                              "name": "Vector",
+                              "geometry": "M0.675 4.541l0 1.084-0.675 0 0-1.699 0.522 0c0.347-0.11 0.521-0.663 0.521-1.659l0-2.188 3.275 0 0 3.847 0.729 0 0 1.699-0.662 0 0-1.084-3.71 0z m0.696-0.615l2.279 0 0-3.231-1.939 0 0 1.547c0 0.749-0.113 1.309-0.34 1.684z m4.818-3.847l3.275 0 0 0.615-2.607 0 0 1.282 2.266 0 0 0.615-2.266 0 0 1.335 2.641 0 0 0.615-3.309 0 0-4.462z m6.822 4.462l-2.279 0 0-4.462 2.152 0c0.379 0 0.693 0.113 0.942 0.337 0.254 0.225 0.381 0.507 0.381 0.846 0 0.38-0.16 0.688-0.481 0.926 0.214 0.106 0.38101 0.255 0.502 0.45 0.124 0.193 0.187 0.407 0.187 0.64 0 0.357-0.134 0.66-0.401 0.906-0.268 0.238-0.602 0.357-1.003 0.357z m0-2.003l-1.611 0 0 1.388 1.611 0c0.09366 0.00306 0.18698-0.01291 0.27429-0.04694 0.08732-0.03403 0.16682-0.08542 0.23372-0.15106 0.06747-0.06345 0.12078-0.14043 0.15644-0.2259 0.03567-0.08547 0.05289-0.17751 0.05055-0.2701 0.00221-0.09242-0.01508-0.18427-0.05075-0.26956-0.03567-0.08529-0.0889-0.16211-0.15624-0.22544-0.06681-0.06582-0.14628-0.11739-0.2336-0.15159-0.08732-0.03421-0.18067-0.05033-0.27441-0.04741z m-0.127-1.844l-1.484 0 0 1.23 1.484 0c0.083 0.00503 0.16614-0.00727 0.24413-0.03613 0.07799-0.02886 0.14912-0.07364 0.20885-0.13149 0.05973-0.05785 0.10676-0.1275 0.1381-0.20453 0.03134-0.07702 0.0463-0.15973 0.04393-0.24285 0.0024-0.08125-0.0124-0.1621-0.04342-0.23723-0.03102-0.07514-0.07756-0.14287-0.13658-0.19877-0.05982-0.05903-0.13097-0.10532-0.20918-0.13608-0.0782-0.03077-0.16183-0.04536-0.24583-0.04292z m2.821-0.615l3.275 0 0 0.615-2.606 0 0 1.282 2.26601 0 0 0.615-2.26601 0 0 1.335 2.64 0 0 0.615-3.309 0 0-4.462z m4.34901 4.462l-0.17401 0 0-0.615 0.17401 0c0.13206 0.00721 0.26167-0.03767 0.36099-0.125 0.227-0.207 0.341-0.725 0.341-1.554l0-2.168 3.25499 0 0 4.462-0.668 0 0-3.847-1.91899 0 0 1.553c0 1.53-0.456 2.294-1.36999 2.294z m5.26199-2.227c0-0.662 0.223-1.212 0.668-1.653 0.446-0.44 1.00099-0.661 1.66499-0.661 0.664 0 1.218 0.22 1.66401 0.661 0.45 0.445 0.675 0.996 0.675 1.653 0 0.652-0.225 1.2-0.675 1.645-0.446 0.441-1 0.661-1.66401 0.661-0.664 0-1.21899-0.22-1.66499-0.66-0.445-0.441-0.668-0.99-0.668-1.646z m0.688 0c0 0.475 0.156 0.874 0.46801 1.196 0.316 0.317 0.70899 0.476 1.17698 0.476 0.463 0 0.85301-0.159 1.16901-0.476 0.15538-0.15749 0.2775-0.34461 0.3591-0.55025 0.0816-0.20563 0.12102-0.42558 0.11591-0.64675 0-0.476-0.15801-0.874-0.47501-1.196-0.1504-0.15757-0.33209-0.28194-0.53342-0.36512-0.20132-0.08318-0.41783-0.12333-0.63559-0.11788-0.473 0-0.86499 0.161-1.17698 0.483-0.312 0.313-0.468 0.712-0.46801 1.197z m5.949-1.62l0 3.847-0.668 0 0-4.462 3.87001 0 0 4.462-0.668 0 0-3.847-2.53401 0z m5.333 3.847l-0.668 0 0-4.462 0.668 0 1.75099 3.047 1.752-3.047 0.66802 0 0 4.462-0.66802 0 0-3.2-1.53099 2.658-0.44099 0-1.53101-2.664 0 3.206z m5.63001-4.462l3.276 0 0 0.615-2.60701 0 0 1.282 2.26601 0 0 0.615-2.26601 0 0 1.335 2.64 0 0 0.615-3.30899 0 0-4.462z m5.211 4.462l-0.668 0 0-4.462 0.668 0 0 1.897 2.53399 0 0-1.897 0.668 0 0 4.462-0.668 0 0-1.95-2.53399 0 0 1.95z m6.00099-3.847l-1.631 0 0-0.615 3.931 0 0 0.615-1.631 0 0 3.847-0.669 0 0-3.847z",
+                              "fill": "#c0c0c0ff",
+                              "width": 39.7252197265625,
+                              "height": 3.959990978240967,
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 0.5662252306938171
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "jssWc",
+              "name": "3",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "XspwK",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Rectangle 14",
+                  "fill": {
+                    "type": "color",
+                    "color": "#fcfcfcff",
+                    "enabled": false
+                  },
+                  "width": 206.5618438720703,
+                  "height": 77.19932556152344,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.7098345756530762,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "ofOTQ",
+                  "x": 51.774169921875,
+                  "y": 26.889747619628906,
+                  "name": "client-logo-big",
+                  "width": 103.72265625,
+                  "height": 24.130599975585938,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.09730080515146255,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "VTat6",
+                      "x": 13.85415206849575,
+                      "y": 2.5635056644678116,
+                      "name": "Group 335878",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "JtWgV",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Vector",
+                          "geometry": "M0 30l13.182-29.955 5.09 0 13.184 29.955-6.956 0-2.454-5.577-12.728 0-2.454 5.577-6.864 0z m15.727-20.15l-3.909 8.95 7.864 0-3.955-8.95z m40.955-9.805l-13.5 29.955-4.682 0-14.227-29.955 7.409 0 9.227 19.79 8.591-19.79 7.182 0z m-7.272 29.955l13.18-29.955 5.092 0 13.182 29.955-6.91 0-2.454-5.577-12.773 0-2.454 5.577-6.863 0z m15.68-20.15l-3.908 8.95 7.864 0-3.956-8.95z m22.137-9.175l-0.227 1.034-0.136 0.045c-0.455-0.27-0.864-0.495-1.228-0.585-0.363-0.09-0.772-0.18-1.181-0.18-2.046 0-3.046 1.26-3.046 3.734 0 1.214 0.22701 2.069 0.727 2.653 0.455 0.54 1.228 0.855 2.182 0.855 0.273 0 0.54601-0.045 0.773-0.09 0.273-0.045 0.59-0.135 1.045-0.27l0.046-1.034 0-1.35 1.045-0.09-0.045 1.26 0.045 1.934c-0.59 0.18-1.13599 0.315-1.636 0.405-0.455 0.09-0.91 0.134-1.364 0.134-1.318 0-2.363-0.36-3-1.124-0.682-0.765-1-1.844-1-3.238 0-1.53 0.364-2.699 1.137-3.509 0.772-0.809 1.818-1.214 3.226-1.214 0.954 0 1.819 0.225 2.637 0.63z m8.091 8.095l0 0.136c-0.3344 0.13721-0.68599 0.22805-1.045 0.27l-0.137-0.09c-0.73727-1.07454-1.4198-2.18562-2.045-3.329l-1.636 0 0 3.283-1.137 0 0.091-2.698-0.09-6.207 2.772 0c0.864 0 1.545 0.225 2.045 0.675 0.5 0.45 0.728 1.079 0.728 1.889 0 0.63-0.182 1.17-0.5 1.664-0.319 0.495-0.77299 0.854-1.364 1.124 0.636 0.945 1.41 2.069 2.318 3.283z m-4.908-4.001l1.682 0.045c1.045-0.315 1.59-0.99 1.59-2.07 0-0.584-0.136-0.989-0.454-1.259-0.318-0.27-0.773-0.45-1.409-0.45l-1.364 0.045-0.045 3.689z m12.59-3.599c0.682 0.764 1 1.843 1 3.238 0 1.529-0.364 2.698-1.045 3.508-0.682 0.81-1.72799 1.214-3 1.214-1.228 0-2.137-0.404-2.819-1.169-0.681-0.765-1-1.889-1-3.328 0-1.485 0.364-2.609 1.046-3.419 0.682-0.81 1.682-1.214 3-1.214 1.227 0.045 2.182 0.405 2.818 1.17z m-5.727 3.373c0 1.26 0.227 2.204 0.681 2.833 0.455 0.63 1.137 0.9 2.046 0.9 1.864 0 2.818-1.215 2.818-3.643 0-1.26-0.227-2.16-0.682-2.789-0.454-0.585-1.136-0.9-2.045-0.9-1.86399 0-2.818 1.215-2.818 3.599z m14.909 0.135l0 0.99c0 1.079-0.273 1.933-0.864 2.563-0.591 0.63-1.45399 0.9-2.545 0.9-1.04599 0-1.864-0.27-2.455-0.855-0.545-0.585-0.818-1.394-0.818-2.474l0-5.667 1.091 0-0.046 5.532c0 0.855 0.18201 1.484 0.546 1.89 0.364 0.404 0.954 0.629 1.727 0.629 0.773 0 1.318-0.18 1.727-0.585 0.41-0.405 0.591-0.99 0.591-1.799l-0.045-5.667 1.136 0-0.045 4.543z m7.091-3.868c0.5 0.45 0.727 1.08 0.727 1.934 0 0.99-0.31799 1.754-0.909 2.338-0.591 0.585-1.409 0.855-2.455 0.855l-1.045 0 0 0.36 0.045 2.788-1.136 0 0.091-2.698-0.091-6.207 2.773 0c0.863-0.045 1.545 0.18 2 0.63z m-0.864 3.508c0.318-0.36 0.455-0.855 0.455-1.484 0-1.17-0.637-1.755-1.864-1.8l-1.364 0.045-0.045 3.914 1.454 0.044c0.591-0.134 1.046-0.359 1.364-0.719z",
+                          "fill": "#878787ff",
+                          "width": 76.01436614990234,
+                          "height": 19.003591537475586,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.5128119587898254
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "J1ZCF",
+              "name": "4",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "yXQ9x",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Rectangle 14",
+                  "fill": {
+                    "type": "color",
+                    "color": "#fcfcfcff",
+                    "enabled": false
+                  },
+                  "width": 206.5618438720703,
+                  "height": 77.19932556152344,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.7098345756530762,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "35lQq",
+                  "x": 56.789306640625,
+                  "y": 28.055191040039062,
+                  "name": "client-logo-big",
+                  "width": 93.69921875,
+                  "height": 21.79869270324707,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.08789795637130737,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "aF72V",
+                      "x": 1.9803729802370071,
+                      "y": 4.97506495565176,
+                      "name": "Logo",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "0s7vk",
+                          "x": 25.588891193270683,
+                          "y": 0.23785316199064255,
+                          "name": "Vector",
+                          "geometry": "M0 0l45.39999 0 36.60001 96.9 36.30002-96.9 43.79999 0 0 129.2-29.10001 0 0-98.8-37.89999 98.8-29.9 0-37.89999-98.2 0 98.2-27.20001 0 0-129.2-0.10001 0z",
+                          "fill": "#878787ff",
+                          "width": 14.279935836791992,
+                          "height": 11.381664276123047,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.5309969782829285
+                          }
+                        },
+                        {
+                          "type": "path",
+                          "id": "qez6Y",
+                          "x": 54.236787006258965,
+                          "y": 0.23785316199064255,
+                          "name": "Vector",
+                          "geometry": "M26.90002 0l100.09998 0 0 129.2-31 0 0-102-40.79999 0c-0.3 18.1-0.79999 42.50001-1.29999 56.1-1.1 33.9-11 45.9-40 45.9l-13.90002 0 0-27.2 7.70001 0c13.1 0 17.30001-5.89999 18.20001-24.29999 0.7-19.8 1-59 1-77.70001z",
+                          "fill": "#878787ff",
+                          "width": 11.187859535217285,
+                          "height": 11.381664276123047,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.5309969782829285
+                          }
+                        },
+                        {
+                          "type": "path",
+                          "id": "WHrs0",
+                          "x": 79.36988560855389,
+                          "y": 0.23785316199064255,
+                          "name": "Vector",
+                          "geometry": "M0 0l117.69995 0 0 27.2-43.5 0 0 102-30.69995 0 0-102-43.5 0 0-27.2z",
+                          "fill": "#878787ff",
+                          "width": 10.368586540222168,
+                          "height": 11.381664276123047,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.5309969782829285
+                          }
+                        },
+                        {
+                          "type": "path",
+                          "id": "s4VjA",
+                          "x": 12.58633916079998,
+                          "y": 0,
+                          "name": "Vector",
+                          "geometry": "M67.39999 0l-11.09999 0c-26.6 0-46.80001 16.2-51.40001 40.3l28.30001 4.5c3.9-11.5 12.8-19.3 24-19.8 2.1-0.1 4.29999-0.1 6.39999 0 16.7 0.6 24.3 8.6 24.3 28.4-31.7 0-53.3-1.5-69.3 9-13 8.6-18.59999 18.1-18.59999 33.1 0 21.8 16.9 39 44.2 39l3.8 0c19.3 0 34.89999-7.5 41.2-16.6l0 13.9 28.5 0 0-77.8c0.1-30-16-54-50.30001-54z m-17.39999 109.3c-12.1-0.30001-19.10001-7.4-19.10001-16.2 0-7.3 3.3-11 7.7-13.5 4.6-2.7 10.6-3.6 19.8-3.9 8.9-0.3 16.1-0.7 30-0.7 0 22-13.89999 33.1-31.09999 34.3-2.4 0.09999-4.8 0.09999-7.3 0z",
+                          "fill": "#878787ff",
+                          "width": 10.368632316589355,
+                          "height": 11.848559379577637,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.5309969782829285
+                          }
+                        },
+                        {
+                          "type": "path",
+                          "id": "obc1t",
+                          "x": 67.49931065738201,
+                          "y": 0.061675239354372025,
+                          "name": "Vector",
+                          "geometry": "M127.55003 75.3l0-12.09999c0-41.7-26.20001-63.2-60-63.20001l-6.60004 0c-36.4 0-59.59999 24.8-60.79999 59.8-0.2 5.1-0.2 7.3 0 14.3 0.8 34.79999 25.30003 58.29999 57.90003 59.19999 6 0.19999 5.19999 0.19999 10.79998 0 28.4-0.80001 49.89999-17.19998 56.29999-38.59998l-27.5-4.80001c-6.7 13.4-19.49998 18.6-29.79999 19.1-2.3 0.1-4.6 0.1-7 0-16.1-0.7-30.40003-13.2-30.40002-31.5l0-2 97.10004-0.2z m-67.10004-51c2.5-0.2 5.10001-0.2 7.70001 0 13.5 0.7 27.70003 9.5 29.10004 26.9l-66.5 0c1.5-15.6 13.99995-26 29.69995-26.9z",
+                          "fill": "#878787ff",
+                          "width": 11.236312866210938,
+                          "height": 11.756061553955078,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.5309969782829285
+                          }
+                        },
+                        {
+                          "type": "path",
+                          "id": "8tRTj",
+                          "x": 41.978554889559746,
+                          "y": 0.061675239354372025,
+                          "name": "Vector",
+                          "geometry": "M130.64996 55.2c-0.69999-31.3-25.89994-55.2-59.19994-55.2l-12.10004 0c-33.3 0-58.49998 24-59.19998 55.4-0.2 8.7-0.2 13.8 0 22.5 0.7 31.4 25.89998 55.39999 59.19998 55.39999l12.10004 0c33.3 0 58.49995-23.89999 59.19994-55.39999 0.10001-8.8 0.10001-14 0-22.7z m-30.49999 21.00001c-0.4 18.29999-13.6 30.7-31.5 31.59999-2.2 0.2-4.39998 0.2-6.59997 0-18-0.9-31.1-13.3-31.50001-31.59999-0.2-7.6-0.2-11.9 0-19.50001 0.4-18.1 13.5-30.5 31.50001-31.4 2.2-0.2 4.39998-0.2 6.59997 0 17.9 0.9 31.2 13.3 31.5 31.6 0.2 7.6 0.2 11.8 0 19.3z",
+                          "fill": "#878787ff",
+                          "width": 11.516007423400879,
+                          "height": 11.742846488952637,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.5309969782829285
+                          }
+                        },
+                        {
+                          "type": "path",
+                          "id": "HS3QB",
+                          "x": 0,
+                          "y": 0.061675239354372025,
+                          "name": "Vector",
+                          "geometry": "M94.875 85.6c-3.6 12-13.20001 20.2-26.20001 22-3.5 0.5-6.99999 0.5-10.39999 0-16.1-2.2-27.4-14.3-27.8-31.3-0.2-7.6-0.2-11.9 0-19.5 0.4-17.1 12.3-29.6 28.7-31.4 2.7-0.3 5.3-0.3 7.99999 0 13.8 1.5 24.1 9.8 27.90001 22.3l30-5.8c-6.5-24.5-28.7-41.9-57.1-41.9l-8.6 0c-33.4 0-58.6 23.9-59.3 55.3-0.1 8.7-0.1 13.8 0 22.5 0.7 31.4 25.9 55.4 59.2 55.4l8.6 0c29 0 51.39999-18.09999 57.3-43.49999l-30.3-4.10001z",
+                          "fill": "#878787ff",
+                          "width": 11.027088165283203,
+                          "height": 11.734037399291992,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.5309969782829285
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "uq85T",
+              "name": "5",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "LSD0Q",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Rectangle 14",
+                  "fill": {
+                    "type": "color",
+                    "color": "#fcfcfcff",
+                    "enabled": false
+                  },
+                  "width": 206.5618438720703,
+                  "height": 77.19932556152344,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.7098345756530762,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "IksC1",
+                  "x": 45.236328125,
+                  "y": 25.450634002685547,
+                  "name": "client-logo-big",
+                  "width": 116.08789825439453,
+                  "height": 27.007314682006836,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.10890046507120132,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mX38e",
+                      "x": 0.9427099823951721,
+                      "y": 7.775568008422852,
+                      "name": "ganel new 2",
+                      "clip": true,
+                      "width": 114.11457824707031,
+                      "height": 12.44886302947998,
+                      "fill": {
+                        "type": "color",
+                        "color": "#ffffffff",
+                        "enabled": false
+                      },
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.5187026262283325
+                      },
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "8TaL6",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Vector",
+                          "geometry": "M0 13.182l0 13.1776 2.59084 0 2.59084 0 0-10.863 0-10.86314 13.08672 0 13.0867 0-0.0353-2.28189-0.0354-2.28189-15.6422-0.03266-15.6422-0.03265 0 13.17763z m33.8105 0.0005l0 13.1771 2.6556 0 2.6556 0 0-5.3914 0-5.3914 9.8776-0.0464c9.7037-0.0455 9.8958-0.0513 10.9139-0.3293 1.613-0.4403 2.8148-1.0896 3.8862-2.0996 1.5618-1.4722 2.2761-3.14178 2.2855-5.34165 0.009-2.0879-0.6551-3.66813-2.1602-5.14152-1.425-1.39485-3.2291-2.18998-5.6274-2.48013-0.6807-0.08228-5.5407-0.1328-12.7923-0.1328l-11.6945 0 0 13.1771z m38.0195-13.0164c-0.0316 0.08845-2.036 6.01815-4.454 13.1771l-4.3964 13.0164 2.829 0 2.8292 0 0.1805-0.6106c0.0992-0.3359 0.8468-2.7655 1.6614-5.3993l1.4809-4.7887 11.1082 0 11.1082-0.0002 0 5.3994 0 5.3994 2.5909 0 2.5908 0 0-13.1771 0-13.1771-13.7355 0c-10.8714 0-13.7476 0.03355-13.7932 0.1607z m30.335-0.07495c-0.047 0.04705-0.086 5.97675-0.086 13.17715l0 13.0913 2.656 0 2.655 0 0-5.3994 0-5.3994 10.752 0 10.752 0 0 5.3994 0 5.3994 2.59199 0 2.59101 0-0.03299-13.1449-0.03301-13.14502-2.558-0.03484-2.559-0.03484 0 5.46638 0 5.46642-10.752 0-10.752 0 0-5.46372 0-5.46368-2.569 0c-1.413 0-2.608 0.03857-2.656 0.08575z m34.848-0.00052c-0.048 0.04731-0.08701 5.97727-0.08701 13.17767l0 13.0913 15.28602 0 15.28599 0 0-2.2497 0-2.2498-12.631 0-12.63 0 0-3.149 0-3.149 12.59801-0.0328 12.59799-0.0327 0.035-2.2819 0.036-2.2819-12.634 0-12.633 0 0-2.55318c0-1.40436 0.037-2.8217 0.082-3.14965l0.08299-0.59651 12.55101 0 12.551 0-0.036-2.28189-0.035-2.28189-15.16699-0.03266c-8.34101-0.018-15.20501 0.00617-15.25301 0.05361z m38.862-0.00013c-0.047 0.04744-0.088 3.88038-0.089 8.51757-0.002 6.74583-0.038 8.60163-0.18399 9.28363-0.532 2.4912-2.028 3.6814-4.91901 3.9142l-1.11299 0.0896 0 2.2513 0 2.2514 1.39299-0.0766c4.813-0.2648 8.196-2.8193 9.576-7.2302l0.36-1.1523 0.04199-6.6528 0.04201-6.65284 7.831 0 7.831 0 0 10.86314 0 10.863 2.59099 0 2.59201 0-0.033-13.1449-0.03301-13.14502-12.89999-0.03278c-7.095-0.018-12.939 0.00617-12.987 0.0536z m28.672 13.0893l0 13.1798 11.77701 0c12.83399 0 12.74299 0.0047 14.66999-0.738 3.011-1.1602 4.806-3.5086 4.989-6.5254 0.137-2.2627-0.552-4.0258-2.212-5.6621-1.142-1.1255-1.999-1.6196-3.704-2.1349-0.96899-0.2926-1.002-0.2938-10.589-0.3354l-9.61701-0.0418-0.03399-5.42618-0.034-5.42614-2.623-0.03484-2.623-0.03471 0 13.17967z m-145.6772-8.2531c0.8502 0.38079 1.379 0.86365 1.7038 1.5558 0.6539 1.39382 0.2347 2.90244-1.0469 3.7666-0.9948 0.6709-1.2031 0.6837-11.17 0.6837l-9.235 0 0-3.15431 0-3.15441 9.6185 0.03689c8.899 0.03407 9.6567 0.05387 10.1296 0.26573z m35.3072 2.85642l0 3.14968-10.372 0c-9.8162 0-10.36871-0.0121-10.3083-0.225 0.0352-0.1238 0.4249-1.4977 0.8661-3.05324 0.4411-1.55554 0.8278-2.87159 0.8593-2.92468 0.0314-0.05309 4.30901-0.09642 9.506-0.09642l9.4489 0 0 3.14966z m134.724 8.11238c2.101 0.9747 2.53101 3.646 0.813 5.056-0.959 0.7868-0.865 0.7801-10.81201 0.7801l-9.04399 0 0-3.0887 0-3.0886 9.23 0.0353c9.071 0.0349 9.24 0.0401 9.813 0.3059z",
+                          "fillRule": "evenodd",
+                          "fill": "#878787ff",
+                          "width": 114.11456298828125,
+                          "height": 12.171390533447266,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.5187026262283325
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "QvszU",
+              "name": "6",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "sFGGS",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Rectangle 14",
+                  "fill": {
+                    "type": "color",
+                    "color": "#fcfcfcff",
+                    "enabled": false
+                  },
+                  "width": 206.5618438720703,
+                  "height": 77.19932556152344,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.7098345756530762,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "bUTUT",
+                  "x": 33.35993957519531,
+                  "y": 22.605064392089844,
+                  "name": "client-logo-big",
+                  "width": 140.552734375,
+                  "height": 32.69894790649414,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.13185060024261475,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "k8KPD",
+                      "x": 24.26146811246872,
+                      "y": 1.09735569357872,
+                      "name": "Logo",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "qGj8o",
+                          "x": 35.67449647188187,
+                          "y": 2.5850978195667267,
+                          "name": "Vector",
+                          "geometry": "M25.472 11.127c-0.30059 0.3324-0.6675 0.59811-1.07709 0.78-0.40959 0.18189-0.85275 0.27591-1.30091 0.276-0.84404-0.01488-1.64848-0.36061-2.24012-0.96277-0.59164-0.60215-0.92314-1.41256-0.92314-2.25673 0-0.84417 0.33151-1.65458 0.92314-2.25673 0.59163-0.60215 1.39608-0.94789 2.24012-0.96277 0.694 0 1.336 0.223 1.863 0.597l1.755-2.468c-1.0558-0.75384-2.3207-1.15904-3.618-1.159-1.6576 0-3.24732 0.65848-4.41942 1.83058-1.1721 1.1721-1.83058 2.76181-1.83058 4.41942 0 1.6576 0.65848 3.24731 1.83058 4.41942 1.1721 1.1721 2.76182 1.83058 4.41942 1.83058 1.53307-0.00119 3.01194-0.56725 4.154-1.59l-1.776-2.497z m-14.211-8.042l-1.748 2.462c0.87828 0.08765 1.68915 0.50992 2.2645 1.17928 0.57535 0.66936 0.87104 1.53445 0.82578 2.41594-0.04526 0.88148-0.42802 1.71174-1.0689 2.31865-0.64088 0.60691-1.49074 0.9439-2.37338 0.94113l0-12.402-2.911 0 0 2.714c-0.82076 0-1.63348 0.16166-2.39177 0.47575-0.75829 0.31409-1.44728 0.77446-2.02765 1.35483-0.58037 0.58037-1.04074 1.26936-1.35483 2.02765-0.31409 0.75829-0.47575 1.57101-0.47575 2.39177 0 0.82076 0.16166 1.63349 0.47575 2.39177 0.31409 0.75829 0.77446 1.44728 1.35483 2.02765 0.58037 0.58037 1.26936 1.04074 2.02765 1.35483 0.75828 0.31409 1.57101 0.47575 2.39177 0.47575l0 2.813 2.911 0 0-2.814c1.47309 0.00248 2.89962-0.51594 4.02741-1.46361 1.12779-0.94767 1.88421-2.26357 2.13555-3.71507 0.25133-1.45149-0.01862-2.94511-0.76212-4.2168-0.7435-1.27169-1.91268-2.23957-3.30084-2.73252z m-8.45 5.879c0-0.45131 0.08891-0.89819 0.26165-1.31513 0.17274-0.41694 0.42592-0.79577 0.74508-1.11484 0.31917-0.31908 0.69807-0.57215 1.11506-0.74477 0.41699-0.17262 0.8639-0.26139 1.31521-0.26126l0 6.872c-0.45126 0.00013-0.89812-0.08865-1.31506-0.26128-0.41693-0.17263-0.79577-0.42572-1.11485-0.74481-0.31909-0.31909-0.57218-0.69792-0.74481-1.11485-0.17263-0.41693-0.26141-0.8638-0.26128-1.31506l-0.001 0z m29.413 5.999l-3.181 0 0-12 3.18 0 0.001 12z m0.403-6l4.303-6 3.31 0-4.338 5.914 4.56599 6.086-3.35599 0-4.485-6z",
+                          "fill": "#878787ff",
+                          "width": 56.35533142089844,
+                          "height": 25.33405113220215,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1.0340447425842285
+                          }
+                        },
+                        {
+                          "type": "group",
+                          "id": "l4dUr",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Group 335979",
+                          "children": [
+                            {
+                              "type": "path",
+                              "id": "LPKx5",
+                              "x": 11.891494750976562,
+                              "y": 0.5170003771781921,
+                              "name": "Vector",
+                              "geometry": "M0.001 5.979l12.527 0c-0.62125-1.39355-1.52347-2.64387-2.65019-3.67268-1.12672-1.02881-2.45368-1.81397-3.89781-2.30632l-5.98 5.979 0.001 0z",
+                              "fill": "#878787ff",
+                              "width": 17.57872772216797,
+                              "height": 8.272343635559082,
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1.0340447425842285
+                              }
+                            },
+                            {
+                              "type": "path",
+                              "id": "SX30y",
+                              "x": 0,
+                              "y": 0,
+                              "name": "Vector",
+                              "geometry": "M21.785 8.33l-15.27 0c-0.17439 0.0003-0.34493-0.05122-0.48998-0.14803-0.14505-0.0968-0.25807-0.23451-0.32472-0.39566-0.06665-0.16115-0.08391-0.33846-0.0496-0.50944 0.03431-0.17098 0.11864-0.32791 0.2423-0.45087l6.717-6.716c-0.51285-0.07229-1.03008-0.10904-1.548-0.11-6.11 0-11.062 4.952-11.062 11.062 0 0.817 0.092 1.613 0.26 2.382l15.433 0c0.17439-0.0003 0.34493 0.05122 0.48998 0.14803 0.14505 0.0968 0.25807 0.23451 0.32472 0.39566 0.06664 0.16115 0.08391 0.33847 0.0496 0.50944-0.03431 0.17098-0.11864 0.32791-0.2423 0.45087l-7.032 7.032c0.58 0.094 1.172 0.145 1.777 0.145 6.11 0 11.062-4.952 11.062-11.061 0.004-0.945-0.115-1.86-0.337-2.734z",
+                              "fill": "#878787ff",
+                              "width": 31.02128791809082,
+                              "height": 30.504261016845703,
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1.0340447425842285
+                              }
+                            },
+                            {
+                              "type": "path",
+                              "id": "ctTVJ",
+                              "x": 1.0340014696121216,
+                              "y": 21.197898864746094,
+                              "name": "Vector",
+                              "geometry": "M12.762 0l-12.762 0c0.5843 1.44066 1.46489 2.74242 2.58466 3.82084 1.11977 1.07843 2.45372 1.90945 3.91534 2.43916l6.262-6.26z",
+                              "fill": "#878787ff",
+                              "width": 18.09575080871582,
+                              "height": 8.272343635559082,
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1.0340447425842285
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "Oyh4W",
+              "name": "7",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "0PR1g",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Rectangle 14",
+                  "fill": {
+                    "type": "color",
+                    "color": "#fcfcfcff",
+                    "enabled": false
+                  },
+                  "width": 206.5618438720703,
+                  "height": 77.19932556152344,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.7098345756530762,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "3frHQ",
+                  "x": 40.44921875,
+                  "y": 24.560222625732422,
+                  "name": "client-logo-big",
+                  "width": 120.693359375,
+                  "height": 28.07875633239746,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.11322078853845596,
+                    "fill": {
+                      "type": "color",
+                      "color": "#e3e3e3ff",
+                      "enabled": false
+                    }
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "group",
+                      "id": "TPI1X",
+                      "x": 20.83346277475357,
+                      "y": 1.525222733616829,
+                      "name": "Logo",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "qTcDB",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Vector",
+                          "geometry": "M159.35001 112.44l1.27999 0 0-112.44-119.62 0-41.01 50.08 0 112.44 119.62 0 41.01-50.08-1.29 0 0.01001 0z m-72.96001 24.54l-16.84 0 0-52.14-17.06 0c-0.27 17.55-1.73 26.97001-3.17 32.14-2.01 7.22-4.56 10.26-7.39 13.38-3.2 3.52-9.64 6.94-17.22 6.94l-3.12 0 0-14.29c0 0 4.39-0.02 8.5-4.63 5.48-6.14 5.58-16.1 5.75-21.98 0.17-5.88 0.49-15.39 0.49-15.39 0 0 0.14-11.11 0.14-12.4l49.91 0 0 68.37 0.01 0z",
+                          "fill": "#878787ff",
+                          "width": 24.688594818115234,
+                          "height": 25.028305053710938,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.18191683292388916
+                          }
+                        },
+                        {
+                          "type": "path",
+                          "id": "lfoJ4",
+                          "x": 27.168934762477875,
+                          "y": 0.0000038035213947296143,
+                          "name": "Vector",
+                          "geometry": "M159.35001 112.44l1.27999 0 0-112.44-119.62 0-41.01 50.08 0 112.44 119.62 0 41.01-50.08-1.29 0 0.01001 0z m-113.02001 4.72c3.32 3.77 7.88999 5.66 13.70999 5.66 4.64 0 8.55-1.23 11.74001-3.69 1.45-1.11 2.68-2.43 3.66-3.92l12.62 12.19c-1.05 1.27-2.23001 2.48-3.51001 3.63-6.44 5.75-14.60999 8.61999-24.51 8.61999-10.8 0-19.52999-3.46-26.17999-10.39-6.64-6.91999-9.97-15.50999-9.97-25.75999 0-10.25 3.33-18.99 9.97-26.02 6.65-7.03 15.37999-10.54 26.17999-10.54 9.62 0 17.65999 2.82 24.09999 8.46 1.49 1.31 2.83 2.69 4.03 4.15l-12.71998 12.16c-1.07-1.71-2.42999-3.2-4.09-4.46-3.11-2.39-6.96-3.55-11.53-3.48-5.75 0.07-10.26 1.97001-13.55 5.71-3.29 3.74-4.42 8.34-4.42 13.81 0 5.47 1.15 10.10001 4.47 13.87z",
+                          "fill": "#878787ff",
+                          "width": 24.688594818115234,
+                          "height": 25.028305053710938,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 0.18191683292388916
+                          }
+                        },
+                        {
+                          "type": "group",
+                          "id": "IB9tl",
+                          "x": 54.337832391262054,
+                          "y": 0.0000038035213947296143,
+                          "name": "Group",
+                          "children": [
+                            {
+                              "type": "path",
+                              "id": "lN5po",
+                              "x": 7.203575134277344,
+                              "y": 13.06555461883545,
+                              "name": "Vector",
+                              "geometry": "M14.54999 0.01l-14.54999 0 0 20.31001 14.54999 0c5.39 0 8.88-5.86 8.88-10.30001 0-4.44-3.12-10.02-8.88-10.02l0 0.01z",
+                              "fill": "#878787ff",
+                              "width": 3.6011555194854736,
+                              "height": 3.12930965423584,
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 0.18191683292388916
+                              }
+                            },
+                            {
+                              "type": "path",
+                              "id": "tPAI1",
+                              "x": 0,
+                              "y": 0,
+                              "name": "Vector",
+                              "geometry": "M159.34998 112.44l1.28002 0 0-112.44-119.62002 0-41.00998 50.08 0 112.44 119.62 0 41.01-50.08-1.29003 0 0.01001 0z m-79.12998 0.75c-4.73 4.63-11.42999 7.75-19.08999 7.75l-14.27002 0 0 17.19-18.07001 0 0-69.37 29.41 0c9.83 0 16.25002 1.35 22.49002 7.49 3.53 3.48 6.51999 10.04 6.51999 17.01 0 6.97-2.25999 15.31-6.98999 19.94l0-0.01z",
+                              "fill": "#878787ff",
+                              "width": 24.688594818115234,
+                              "height": 25.028305053710938,
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 0.18191683292388916
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "buH67",
+      "x": -1947,
+      "y": 81,
+      "name": "Frame 2147228017",
+      "width": 1325.003173828125,
+      "stroke": {
+        "align": "inside",
+        "thickness": 0.8999999761581421
+      },
+      "layout": "vertical",
+      "gap": 24,
+      "children": [
+        {
+          "type": "frame",
+          "id": "85CnV",
+          "name": "Content Block",
+          "width": "fill_container",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1.1424999237060547
+          },
+          "gap": 28.799999237060547,
+          "children": [
+            {
+              "type": "frame",
+              "id": "RRQt0",
+              "name": "Frame 2147227970",
+              "clip": true,
+              "width": "fill_container",
+              "height": 414,
+              "fill": "#202b32ff",
+              "cornerRadius": [
+                18,
+                14.399999618530273,
+                18,
+                18
+              ],
+              "stroke": {
+                "align": "outside",
+                "thickness": 1.0800000429153442
+              },
+              "effect": [
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "enabled": false,
+                  "color": "#00000052",
+                  "offset": {
+                    "x": 0,
+                    "y": 7.199999809265137
+                  },
+                  "blur": 25.19999933242798
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "#ffffff0a",
+                  "spread": 0.8999999761581421
+                }
+              ],
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Y164g",
+                  "x": 40.12890625,
+                  "y": 29.64501953125,
+                  "name": "Готовые интеграции",
+                  "fill": "#ffffffff",
+                  "content": "Готовые интеграции",
+                  "lineHeight": 1.399999976158142,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "600",
+                  "letterSpacing": -0.19761328399181366
+                },
+                {
+                  "type": "text",
+                  "id": "ObhWJ",
+                  "x": 40.12890625,
+                  "y": 55.993408203125,
+                  "name": "с популярными системами",
+                  "fill": "#ffffffff",
+                  "content": "с популярными системами",
+                  "lineHeight": 1.2999999523162842,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.5159901976585388
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "N1hoy",
+              "name": "Frame 2147227971",
+              "clip": true,
+              "width": "fill_container",
+              "height": 414,
+              "fill": "#f2f2f2ff",
+              "cornerRadius": [
+                18,
+                14.399999618530273,
+                18,
+                18
+              ],
+              "stroke": {
+                "align": "outside",
+                "thickness": 1.0800000429153442
+              },
+              "effect": [
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "enabled": false,
+                  "color": "#00000052",
+                  "offset": {
+                    "x": 0,
+                    "y": 7.199999809265137
+                  },
+                  "blur": 25.19999933242798
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "#ffffff0a",
+                  "spread": 0.8999999761581421
+                }
+              ],
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "p2Yvq",
+                  "x": 24.570215225219727,
+                  "y": 334.2699890136719,
+                  "name": "57 секунд",
+                  "fill": "#222222ff",
+                  "content": "57 секунд",
+                  "lineHeight": 1.399999976158142,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "600",
+                  "letterSpacing": -0.19761328399181366
+                },
+                {
+                  "type": "text",
+                  "id": "9mas9",
+                  "x": 24.570215225219727,
+                  "y": 360.6184997558594,
+                  "name": "среднее время ответа в поддержке",
+                  "fill": "#222222ff",
+                  "content": "среднее время ответа в поддержке",
+                  "lineHeight": 1.2999999523162842,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.5159901976585388
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "N8DOi",
+              "name": "Frame 2147227972",
+              "clip": true,
+              "width": "fill_container",
+              "height": 414,
+              "fill": "#f2f1f1ff",
+              "cornerRadius": [
+                18,
+                14.399999618530273,
+                18,
+                18
+              ],
+              "stroke": {
+                "align": "outside",
+                "thickness": 1.0800000429153442
+              },
+              "effect": [
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "enabled": false,
+                  "color": "#00000052",
+                  "offset": {
+                    "x": 0,
+                    "y": 7.199999809265137
+                  },
+                  "blur": 25.19999933242798
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "#ffffff0a",
+                  "spread": 0.8999999761581421
+                }
+              ],
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pwFVG",
+                  "x": 24.5693359375,
+                  "y": 334.27001953125,
+                  "name": "Все ключевые показатели",
+                  "fill": "#222222ff",
+                  "content": "Все ключевые показатели",
+                  "lineHeight": 1.399999976158142,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "600",
+                  "letterSpacing": -0.19761328399181366
+                },
+                {
+                  "type": "text",
+                  "id": "7jgue",
+                  "x": 24.5693359375,
+                  "y": 360.6185302734375,
+                  "name": "ипотечного отдела",
+                  "fill": "#222222ff",
+                  "content": "ипотечного отдела",
+                  "lineHeight": 1.2999999523162842,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.5159901976585388
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "FrdXw",
+      "x": -1947,
+      "y": -397,
+      "name": "Frame 2147227992",
+      "width": 1325,
+      "fill": "#f3f2f1ff",
+      "cornerRadius": 32,
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "gap": 64,
+      "padding": 32,
+      "children": [
+        {
+          "type": "rectangle",
+          "cornerRadius": 23,
+          "id": "0Wkia",
+          "name": "Custom Colors (2 colors)",
+          "enabled": false,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "stretch"
+          },
+          "width": 1472,
+          "height": 287,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "frame",
+          "id": "ws97r",
+          "name": "Frame 2147227981",
+          "clip": true,
+          "width": "fill_container",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 48,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Hl3Iw",
+              "name": "Frame 2147227978",
+              "width": 568,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "oFnw4",
+                  "name": "Title",
+                  "fill": "#222222ff",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Не оставим вас одних",
+                  "lineHeight": 1,
+                  "fontFamily": "Styrene A LC",
+                  "fontSize": 36,
+                  "fontWeight": "700",
+                  "letterSpacing": -0.4699999988079071
+                },
+                {
+                  "type": "text",
+                  "id": "iyfys",
+                  "name": "Title",
+                  "fill": "#222222ff",
+                  "textGrowth": "fixed-width",
+                  "width": 567.9716796875,
+                  "content": "За каждым клиентом закреплен менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд",
+                  "lineHeight": 1.399999976158142,
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.4699999988079071
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MG6qA",
+              "name": "Container",
+              "width": "fill_container",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "LpFSg",
+                  "name": "Container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1.171513557434082
+                  },
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "klCXb",
+                      "name": "Frame 2147227982",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      },
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "iXCsm",
+                          "name": "Инпут",
+                          "width": 260,
+                          "height": 52,
+                          "fill": {
+                            "type": "color",
+                            "color": "#f1f1f1ff",
+                            "enabled": false
+                          },
+                          "cornerRadius": 12,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1.171513557434082,
+                            "fill": "#cdcdcdff"
+                          },
+                          "gap": 11.71513557434082,
+                          "padding": [
+                            21.087244033813477,
+                            23.43027114868164
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "J8mgH",
+                              "name": "Ваше имя",
+                              "fill": "#cdcdcdff",
+                              "content": "Ваше имя",
+                              "lineHeight": 1.2000000476837158,
+                              "fontFamily": "Inter",
+                              "fontSize": 17.572704315185547,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "EznyP",
+                          "name": "Инпут",
+                          "width": 260,
+                          "height": 52,
+                          "fill": {
+                            "type": "color",
+                            "color": "#f1f1f1ff",
+                            "enabled": false
+                          },
+                          "cornerRadius": 12,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1.171513557434082,
+                            "fill": "#cdcdcdff"
+                          },
+                          "gap": 11.71513557434082,
+                          "padding": [
+                            21.087244033813477,
+                            23.43027114868164
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "mo1xa",
+                              "name": "Ваш e-mail",
+                              "fill": "#cdcdcdff",
+                              "content": "Ваш e-mail",
+                              "lineHeight": 1.2000000476837158,
+                              "fontFamily": "Inter",
+                              "fontSize": 17.572704315185547,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "AMLFX",
+                      "name": "Button",
+                      "width": 256,
+                      "fill": "#ff4d00ff",
+                      "cornerRadius": 16,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      },
+                      "gap": 12,
+                      "padding": [
+                        15,
+                        20
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "P8yzq",
+                          "name": "24 px | Outline / fake_icon",
+                          "enabled": false,
+                          "width": 24,
+                          "height": 24,
+                          "cornerRadius": 8,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1.5
+                          },
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "id": "i6H7b",
+                              "x": 0,
+                              "y": 0,
+                              "name": "Bounding box",
+                              "fill": "#d9d9d9ff",
+                              "width": 24,
+                              "height": 24,
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1
+                              }
+                            },
+                            {
+                              "type": "path",
+                              "id": "4RFoT",
+                              "x": 3.25,
+                              "y": 3.25,
+                              "name": "Vector",
+                              "geometry": "M4.75 1.5c-0.44205 0-0.8617 0.08784-1.24386 0.24632-0.38262 0.15867-0.82142-0.02288-0.98009-0.40551-0.15867-0.38262 0.02288-0.82142 0.40551-0.98008 0.5611-0.23268 1.17576-0.36073 1.81844-0.36073l2 0c0.41421 0 0.75 0.33579 0.75 0.75 0 0.41421-0.33579 0.75-0.75 0.75l-2 0z m5.25-0.75c0-0.41421 0.33579-0.75 0.75-0.75l2 0c0.64268 0 1.25734 0.12805 1.81844 0.36073 0.38262 0.15867 0.56417 0.59747 0.40551 0.98008-0.15867 0.38262-0.59746 0.56417-0.98009 0.40551-0.38216-0.15848-0.80181-0.24632-1.24386-0.24632l-2 0c-0.41421 0-0.75-0.33579-0.75-0.75z m-8.65919 1.77605c0.38262 0.15867 0.56417 0.59747 0.40551 0.98009-0.15848 0.38216-0.24632 0.80181-0.24632 1.24386l0 2c0 0.41421-0.33579 0.75-0.75 0.75-0.41421 0-0.75-0.33579-0.75-0.75l0-2c0-0.64268 0.12805-1.25734 0.36073-1.81844 0.15867-0.38262 0.59747-0.56417 0.98008-0.40551z m14.81838 0c0.38262-0.15867 0.82142 0.02288 0.98008 0.40551 0.23268 0.5611 0.36073 1.17576 0.36073 1.81844l0 2c0 0.41421-0.33579 0.75-0.75 0.75-0.41421 0-0.75-0.33579-0.75-0.75l0-2c0-0.44205-0.08784-0.8617-0.24632-1.24386-0.15867-0.38262 0.02288-0.82142 0.40551-0.98009z m-15.40919 7.47395c0.41421 0 0.75 0.33579 0.75 0.75l0 2c0 0.44205 0.08784 0.8617 0.24632 1.24386 0.15867 0.38262-0.02288 0.82142-0.40551 0.98009-0.38262 0.15867-0.82142-0.02289-0.98008-0.40551-0.23268-0.5611-0.36073-1.17576-0.36073-1.81844l0-2c0-0.41421 0.33579-0.75 0.75-0.75z m16 0c0.41421 0 0.75 0.33579 0.75 0.75l0 2c0 0.64268-0.12805 1.25734-0.36073 1.81844-0.15867 0.38262-0.59747 0.56417-0.98008 0.40551-0.38262-0.15867-0.56417-0.59746-0.40551-0.98009 0.15848-0.38216 0.24632-0.80181 0.24632-1.24386l0-2c0-0.41421 0.33579-0.75 0.75-0.75z m-14.22395 6.15919c0.15867-0.38262 0.59747-0.56417 0.98009-0.40551 0.38216 0.15848 0.80181 0.24632 1.24386 0.24632l2 0c0.41421 0 0.75 0.33579 0.75 0.75 0 0.41421-0.33579 0.75-0.75 0.75l-2 0c-0.64268 0-1.25734-0.12805-1.81844-0.36073-0.38262-0.15867-0.56417-0.59747-0.40551-0.98008z m12.4479 0c0.15867 0.38262-0.02289 0.82142-0.40551 0.98008-0.5611 0.23268-1.17576 0.36073-1.81844 0.36073l-2 0c-0.41421 0-0.75-0.33579-0.75-0.75 0-0.41421 0.33579-0.75 0.75-0.75l2 0c0.44205 0 0.8617-0.08784 1.24386-0.24632 0.38262-0.15867 0.82142 0.02288 0.98009 0.40551z",
+                              "fillRule": "evenodd",
+                              "fill": "#32393eff",
+                              "width": 17.5,
+                              "height": 17.5,
+                              "stroke": {
+                                "align": "center",
+                                "thickness": 1.5,
+                                "cap": "round"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "V4wxO",
+                          "name": "Оставить заявку",
+                          "fill": "#ffffffff",
+                          "content": "Оставить заявку",
+                          "lineHeight": 1.399999976158142,
+                          "textAlign": "center",
+                          "textAlignVertical": "middle",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hZW65",
+                          "name": "24 px | Outline / fake_icon",
+                          "enabled": false,
+                          "width": 24,
+                          "height": 24,
+                          "cornerRadius": 8,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1.5
+                          },
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "id": "pfiKV",
+                              "x": 0,
+                              "y": 0,
+                              "name": "Bounding box",
+                              "fill": "#d9d9d9ff",
+                              "width": 24,
+                              "height": 24,
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1
+                              }
+                            },
+                            {
+                              "type": "path",
+                              "id": "zdWN0",
+                              "x": 3.25,
+                              "y": 3.25,
+                              "name": "Vector",
+                              "geometry": "M4.75 1.5c-0.44205 0-0.8617 0.08784-1.24386 0.24632-0.38262 0.15867-0.82142-0.02288-0.98009-0.40551-0.15867-0.38262 0.02288-0.82142 0.40551-0.98008 0.5611-0.23268 1.17576-0.36073 1.81844-0.36073l2 0c0.41421 0 0.75 0.33579 0.75 0.75 0 0.41421-0.33579 0.75-0.75 0.75l-2 0z m5.25-0.75c0-0.41421 0.33579-0.75 0.75-0.75l2 0c0.64268 0 1.25734 0.12805 1.81844 0.36073 0.38262 0.15867 0.56417 0.59747 0.40551 0.98008-0.15867 0.38262-0.59746 0.56417-0.98009 0.40551-0.38216-0.15848-0.80181-0.24632-1.24386-0.24632l-2 0c-0.41421 0-0.75-0.33579-0.75-0.75z m-8.65919 1.77605c0.38262 0.15867 0.56417 0.59747 0.40551 0.98009-0.15848 0.38216-0.24632 0.80181-0.24632 1.24386l0 2c0 0.41421-0.33579 0.75-0.75 0.75-0.41421 0-0.75-0.33579-0.75-0.75l0-2c0-0.64268 0.12805-1.25734 0.36073-1.81844 0.15867-0.38262 0.59747-0.56417 0.98008-0.40551z m14.81838 0c0.38262-0.15867 0.82142 0.02288 0.98008 0.40551 0.23268 0.5611 0.36073 1.17576 0.36073 1.81844l0 2c0 0.41421-0.33579 0.75-0.75 0.75-0.41421 0-0.75-0.33579-0.75-0.75l0-2c0-0.44205-0.08784-0.8617-0.24632-1.24386-0.15867-0.38262 0.02288-0.82142 0.40551-0.98009z m-15.40919 7.47395c0.41421 0 0.75 0.33579 0.75 0.75l0 2c0 0.44205 0.08784 0.8617 0.24632 1.24386 0.15867 0.38262-0.02288 0.82142-0.40551 0.98009-0.38262 0.15867-0.82142-0.02289-0.98008-0.40551-0.23268-0.5611-0.36073-1.17576-0.36073-1.81844l0-2c0-0.41421 0.33579-0.75 0.75-0.75z m16 0c0.41421 0 0.75 0.33579 0.75 0.75l0 2c0 0.64268-0.12805 1.25734-0.36073 1.81844-0.15867 0.38262-0.59747 0.56417-0.98008 0.40551-0.38262-0.15867-0.56417-0.59746-0.40551-0.98009 0.15848-0.38216 0.24632-0.80181 0.24632-1.24386l0-2c0-0.41421 0.33579-0.75 0.75-0.75z m-14.22395 6.15919c0.15867-0.38262 0.59747-0.56417 0.98009-0.40551 0.38216 0.15848 0.80181 0.24632 1.24386 0.24632l2 0c0.41421 0 0.75 0.33579 0.75 0.75 0 0.41421-0.33579 0.75-0.75 0.75l-2 0c-0.64268 0-1.25734-0.12805-1.81844-0.36073-0.38262-0.15867-0.56417-0.59747-0.40551-0.98008z m12.4479 0c0.15867 0.38262-0.02289 0.82142-0.40551 0.98008-0.5611 0.23268-1.17576 0.36073-1.81844 0.36073l-2 0c-0.41421 0-0.75-0.33579-0.75-0.75 0-0.41421 0.33579-0.75 0.75-0.75l2 0c0.44205 0 0.8617-0.08784 1.24386-0.24632 0.38262-0.15867 0.82142 0.02288 0.98009 0.40551z",
+                              "fillRule": "evenodd",
+                              "fill": "#32393eff",
+                              "width": 17.5,
+                              "height": 17.5,
+                              "stroke": {
+                                "align": "center",
+                                "thickness": 1.5,
+                                "cap": "round"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kmLYb",
+                          "name": "RoundBadge",
+                          "enabled": false,
+                          "clip": true,
+                          "width": 8,
+                          "height": 8,
+                          "fill": "#5593f7ff",
+                          "cornerRadius": 20,
+                          "stroke": {
+                            "align": "outside",
+                            "thickness": 2,
+                            "fill": "#ffffffff"
+                          },
+                          "layout": "vertical",
+                          "justifyContent": "center",
+                          "alignItems": "center"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "FSqJO",
+                  "name": "Нажимая кнопку «Оставить заявку», вы даёте согласие на обработку ваших персональных данных",
+                  "fill": "#bdbdbdff",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Нажимая кнопку «Оставить заявку», вы даёте согласие на обработку ваших персональных данных",
+                  "lineHeight": 1.2000000476837158,
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.42
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "GRDOT",
+      "x": -1978,
+      "y": 730,
+      "name": "Frame 2147228017",
+      "width": 1325.003173828125,
+      "stroke": {
+        "align": "inside",
+        "thickness": 0.8999999761581421
+      },
+      "layout": "vertical",
+      "gap": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "9kqRB",
+          "name": "Frame 2147228005",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 24,
+          "children": [
+            {
+              "type": "text",
+              "id": "5MSaD",
+              "name": "70+ историй успеха на рынке девелопмента",
+              "fill": "#32393eff",
+              "textGrowth": "fixed-width",
+              "width": 549.3740234375,
+              "content": "70+ историй успеха на рынке девелопмента",
+              "lineHeight": 1.0099999904632568,
+              "fontFamily": "Styrene A LC",
+              "fontSize": 42.54457092285156,
+              "fontWeight": "500",
+              "letterSpacing": -0.8863452076911926
+            },
+            {
+              "type": "text",
+              "id": "UNyyx",
+              "name": "Description",
+              "fill": "#808898ff",
+              "textGrowth": "fixed-width",
+              "width": 488.40179443359375,
+              "content": "Текст про преимущества и всякое такое",
+              "lineHeight": 1.1305598020553589,
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal",
+              "letterSpacing": -0.2720000076293945
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Qk8aS",
+          "name": "Content Block",
+          "width": "fill_container",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1.1424999237060547
+          },
+          "gap": 28.799999237060547,
+          "children": [
+            {
+              "type": "frame",
+              "id": "nZL1d",
+              "name": "Frame 2147227970",
+              "clip": true,
+              "width": "fill_container",
+              "height": 414,
+              "fill": "#202b32ff",
+              "cornerRadius": [
+                18,
+                14.399999618530273,
+                18,
+                18
+              ],
+              "stroke": {
+                "align": "outside",
+                "thickness": 1.0800000429153442
+              },
+              "effect": [
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "enabled": false,
+                  "color": "#00000052",
+                  "offset": {
+                    "x": 0,
+                    "y": 7.199999809265137
+                  },
+                  "blur": 25.19999933242798
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "#ffffff0a",
+                  "spread": 0.8999999761581421
+                }
+              ],
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "sejJ3",
+                  "x": 40.12890625,
+                  "y": 29.64501953125,
+                  "name": "Готовые интеграции",
+                  "fill": "#ffffffff",
+                  "content": "Готовые интеграции",
+                  "lineHeight": 1.399999976158142,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "600",
+                  "letterSpacing": -0.19761328399181366
+                },
+                {
+                  "type": "text",
+                  "id": "VKbqD",
+                  "x": 40.12890625,
+                  "y": 55.993408203125,
+                  "name": "с популярными системами",
+                  "fill": "#ffffffff",
+                  "content": "с популярными системами",
+                  "lineHeight": 1.2999999523162842,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.5159901976585388
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "oaEHp",
+              "name": "Frame 2147227971",
+              "clip": true,
+              "width": "fill_container",
+              "height": 414,
+              "fill": "#f2f2f2ff",
+              "cornerRadius": [
+                18,
+                14.399999618530273,
+                18,
+                18
+              ],
+              "stroke": {
+                "align": "outside",
+                "thickness": 1.0800000429153442
+              },
+              "effect": [
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "enabled": false,
+                  "color": "#00000052",
+                  "offset": {
+                    "x": 0,
+                    "y": 7.199999809265137
+                  },
+                  "blur": 25.19999933242798
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "#ffffff0a",
+                  "spread": 0.8999999761581421
+                }
+              ],
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Nos59",
+                  "x": 24.570215225219727,
+                  "y": 334.2699890136719,
+                  "name": "57 секунд",
+                  "fill": "#222222ff",
+                  "content": "57 секунд",
+                  "lineHeight": 1.399999976158142,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "600",
+                  "letterSpacing": -0.19761328399181366
+                },
+                {
+                  "type": "text",
+                  "id": "6x818",
+                  "x": 24.570215225219727,
+                  "y": 360.6184997558594,
+                  "name": "среднее время ответа в поддержке",
+                  "fill": "#222222ff",
+                  "content": "среднее время ответа в поддержке",
+                  "lineHeight": 1.2999999523162842,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.5159901976585388
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pIPG3",
+              "name": "Frame 2147227972",
+              "clip": true,
+              "width": "fill_container",
+              "height": 414,
+              "fill": "#f2f2f2ff",
+              "cornerRadius": [
+                18,
+                14.399999618530273,
+                18,
+                18
+              ],
+              "stroke": {
+                "align": "outside",
+                "thickness": 1.0800000429153442
+              },
+              "effect": [
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "enabled": false,
+                  "color": "#00000052",
+                  "offset": {
+                    "x": 0,
+                    "y": 7.199999809265137
+                  },
+                  "blur": 25.19999933242798
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "#ffffff0a",
+                  "spread": 0.8999999761581421
+                }
+              ],
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "G6A3s",
+                  "x": 24.5693359375,
+                  "y": 334.27001953125,
+                  "name": "Все ключевые показатели",
+                  "fill": "#222222ff",
+                  "content": "Все ключевые показатели",
+                  "lineHeight": 1.399999976158142,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "600",
+                  "letterSpacing": -0.19761328399181366
+                },
+                {
+                  "type": "text",
+                  "id": "Bcdhy",
+                  "x": 24.5693359375,
+                  "y": 360.6185302734375,
+                  "name": "ипотечного отдела",
+                  "fill": "#222222ff",
+                  "content": "ипотечного отдела",
+                  "lineHeight": 1.2999999523162842,
+                  "fontFamily": "Inter",
+                  "fontSize": 17.565624237060547,
+                  "fontWeight": "normal",
+                  "letterSpacing": -0.5159901976585388
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "gIxxs",
+      "x": 1456,
+      "y": -107,
+      "name": "Answer Text Container",
+      "height": 38.30451583862305,
+      "fill": [
+        {
+          "type": "color",
+          "color": "#11111314",
+          "enabled": false
+        },
+        "#ffffff0a"
+      ],
+      "cornerRadius": 83.27069854736328,
+      "stroke": {
+        "align": "inside",
+        "thickness": 0.8327069282531738,
+        "fill": {
+          "type": "gradient",
+          "gradientType": "linear",
+          "enabled": true,
+          "rotation": -90.95390710610755,
+          "size": {
+            "height": 0.7681082349844989
+          },
+          "colors": [
+            {
+              "color": "#ff4d00ff",
+              "position": 0
+            },
+            {
+              "color": "#dededeff",
+              "position": 1
+            }
+          ],
+          "center": {
+            "x": 0.4369878966332141,
+            "y": 0.41825079615638566
+          }
+        }
+      },
+      "gap": 6.661655426025391,
+      "padding": [
+        9.992483139038086,
+        13.323310852050781
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "cJnjL",
+          "name": "Feature Icon",
+          "width": 13.323309898376465,
+          "height": 13.323309898376465,
+          "fill": {
+            "type": "color",
+            "color": "#ffffffff",
+            "enabled": false
+          },
+          "stroke": {
+            "align": "inside",
+            "thickness": 0.832706868648529
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "m2Riv",
+              "x": 0.5551379323005676,
+              "y": 0.5551379323005676,
+              "name": "Solid",
+              "geometry": "M4.5 1c0-0.55228-0.44772-1-1-1-0.55228 0-1 0.44772-1 1l0 1.5-1.5 0c-0.55228 0-1 0.44772-1 1 0 0.55228 0.44772 1 1 1l1.5 0 0 1.5c0 0.55228 0.44772 1 1 1 0.55228 0 1-0.44772 1-1l0-1.5 1.5 0c0.55228 0 1-0.44772 1-1 0-0.55228-0.44772-1-1-1l-1.5 0 0-1.5z m0 15c0-0.55228-0.44772-1-1-1-0.55228 0-1 0.44772-1 1l0 1.5-1.5 0c-0.55228 0-1 0.44772-1 1 0 0.55228 0.44772 1 1 1l1.5 0 0 1.5c0 0.55228 0.44772 1 1 1 0.55228 0 1-0.44772 1-1l0-1.5 1.5 0c0.55228 0 1-0.44772 1-1 0-0.55228-0.44772-1-1-1l-1.5 0 0-1.5z m8.43334-14.35898c-0.14854-0.38619-0.51957-0.64102-0.93334-0.64102-0.41377 0-0.78481 0.25483-0.93335 0.64102l-1.73417 4.50886c-0.3004 0.78104-0.3948 1.00612-0.52393 1.18771-0.12956 0.18221-0.28876 0.3414-0.47096 0.47096-0.18159 0.12912-0.40666 0.22352-1.18771 0.52393l-4.50886 1.73417c-0.38619 0.14854-0.64102 0.51957-0.64102 0.93335 0 0.41377 0.25483 0.78481 0.64102 0.93335l4.50886 1.73417c0.78104 0.3004 1.00612 0.3948 1.18771 0.52393 0.18221 0.12956 0.3414 0.28876 0.47096 0.47096 0.12912 0.18159 0.22352 0.40666 0.52393 1.18771l1.73418 4.50886c0.14854 0.38619 0.51957 0.64102 0.93334 0.64102 0.41377 0 0.78481-0.25483 0.93335-0.64102l1.73417-4.50886c0.3004-0.78104 0.3948-1.00611 0.52393-1.18771 0.12956-0.18221 0.28876-0.3414 0.47096-0.47096 0.18159-0.12912 0.40666-0.22352 1.18771-0.52393l4.50886-1.73417c0.38619-0.14854 0.64102-0.51957 0.64102-0.93335 0-0.41377-0.25483-0.78481-0.64102-0.93335l-4.50886-1.73417c-0.78104-0.3004-1.00612-0.3948-1.18771-0.52393-0.18221-0.12956-0.3414-0.28876-0.47096-0.47096-0.12912-0.18159-0.22352-0.40666-0.52393-1.18771l-1.73418-4.50886z",
+              "fill": "#ff4d00ff",
+              "width": 12.213033676147461,
+              "height": 12.213033676147461,
+              "stroke": {
+                "align": "center",
+                "thickness": 1.665413737297058,
+                "join": "round",
+                "cap": "round"
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "KxubR",
+          "name": "Answer Title",
+          "fill": "#1a1a1aff",
+          "content": "Ипотечная платформа",
+          "lineHeight": 1.1054364879870506,
+          "textAlign": "center",
+          "fontFamily": "Inter",
+          "fontSize": 16.572235107421875,
+          "fontWeight": "500",
+          "letterSpacing": -0.24858352661132813
+        }
+      ]
+    }
+  ]
+}

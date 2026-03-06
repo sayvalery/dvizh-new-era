@@ -76,8 +76,8 @@ const componentId = `product-section-new-${Math.random().toString(36).substr(2, 
 <section class:list={['bg-white', className]}>
   <div id={componentId} class="px-[50px] py-[50px]">
     <div class="flex flex-col gap-6 md:gap-[52px] lg:flex-row lg:gap-[120px]">
-      <!-- Меню секций (md-sm: сверху горизонтально с scroll, lg+: слева вертикально) -->
-      <nav class="flex justify-start gap-6 overflow-x-auto scrollbar-hide lg:flex-col lg:w-[220px] lg:flex-shrink-0 lg:overflow-visible">
+      <!-- Меню секций (sm: scroll, md-lg: wrap, lg+: колонка) -->
+      <nav class="flex justify-start gap-6 overflow-x-auto scrollbar-hide md:flex-wrap lg:flex-col lg:w-[220px] lg:flex-shrink-0 lg:overflow-visible">
         {sections.map((section, index) => (
           <button
             class:list={[
@@ -93,10 +93,10 @@ const componentId = `product-section-new-${Math.random().toString(36).substr(2, 
       </nav>
 
       <!-- Контент + Right block -->
-      <div class="flex-1 flex flex-col md:flex-col lg:flex-row lg:gap-6">
-        <!-- Right block (md-sm: сверху контента, lg+: справа) -->
+      <div class="flex-1 flex flex-col md:flex-col lg:flex-col lg:gap-6">
+        <!-- Right block (всегда сверху) -->
         {rightContent.images && rightContent.images.length > 0 && (
-          <div class="order-1 mb-6 md:mb-6 lg:order-2 lg:mb-0 lg:h-full">
+          <div class="order-1 mb-6 md:mb-6 lg:mb-6 lg:h-full">
             <div class="rounded-[32px] bg-[#ececec] h-[300px] md:h-[300px] lg:h-full flex items-center justify-center">
               {rightContent.images.map((image) => (
                 <img
@@ -112,8 +112,8 @@ const componentId = `product-section-new-${Math.random().toString(36).substr(2, 
           </div>
         )}
 
-        <!-- Left content (md-sm: снизу, lg+: слева) -->
-        <div class="order-2 md:order-2 lg:order-1 flex-1 lg:min-w-[420px] lg:max-w-[590px]">
+        <!-- Left content (всегда снизу) -->
+        <div class="order-2 md:order-2 lg:order-2 flex-1 lg:min-w-[420px] lg:max-w-[590px]">
           <!-- Адаптивный заголовок -->
           <h1 class="text-pretty text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-gray-900">
             <span class="hidden lg:inline">{title.lg}</span>
