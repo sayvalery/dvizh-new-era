@@ -107,18 +107,24 @@ const isSplit = layout === 'split'
           </h1>
 
           <!-- Правая колонка: описание и кнопки -->
-          <div class="flex flex-col gap-8">
+          <div class="flex flex-col gap-8 pt-4">
             {description && (
               <p class="text-[20px] lg:text-[24px] leading-[1.4] text-[#858585]">
                 {description}
               </p>
             )}
 
-            <div class="flex flex-col sm:flex-row gap-4">
-              <button class="px-7 py-3.5 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand/90 active:scale-[0.98] transition-all duration-200">
+            <div class="flex flex-col sm:flex-row gap-4" x-data>
+              <button
+                class="px-7 py-3.5 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand/90 active:scale-[0.98] transition-all duration-200"
+                @click="$dispatch('open-drawer', { preset: 'demo' })"
+              >
                 {demoLabel}
               </button>
-              <button class="px-7 py-3.5 rounded-2xl bg-black/[0.04] text-[#1b2226] text-[15px] font-medium hover:bg-black/[0.08] active:scale-[0.98] transition-all duration-200">
+              <button
+                class="px-7 py-3.5 rounded-2xl bg-black/[0.04] text-[#1b2226] text-[15px] font-medium hover:bg-black/[0.08] active:scale-[0.98] transition-all duration-200"
+                @click="$dispatch('open-drawer', { preset: 'lead' })"
+              >
                 {kpLabel}
               </button>
             </div>
