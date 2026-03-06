@@ -34,6 +34,8 @@
 interface Props {
   /** Количество рёбер (дефолт: 8) */
   ribs?: number
+  /** Количество рёбер на мобильных (<768px). Если не задан — то же что ribs */
+  ribsMobile?: number
   /** Сила искажения (дефолт: 0.007) */
   strength?: number
   /** Скорость движения рёбер (дефолт: 0.6) */
@@ -52,6 +54,7 @@ interface Props {
 
 const {
   ribs = 4,
+  ribsMobile,
   strength = 0.005,
   speed = 0.3,
   grain = 0,

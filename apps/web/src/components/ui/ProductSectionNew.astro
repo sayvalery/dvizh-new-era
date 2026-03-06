@@ -166,12 +166,22 @@ const sectionsCount = rightContents.length
                   return (pb || sb) ? (
                     <div class="mt-8 flex flex-col sm:flex-row gap-4">
                       {pb && (
-                        <a
-                          href={pb.href}
-                          class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-gray-900 text-white text-[15px] font-medium hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-out"
-                        >
-                          {pb.label}
-                        </a>
+                        pb.href === '#' ? (
+                          <button
+                            x-data
+                            x-on:click="$dispatch('open-drawer', { preset: 'demo' })"
+                            class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-gray-900 text-white text-[15px] font-medium hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-out cursor-pointer"
+                          >
+                            {pb.label}
+                          </button>
+                        ) : (
+                          <a
+                            href={pb.href}
+                            class="whitespace-nowrap px-7 py-3.5 rounded-2xl bg-gray-900 text-white text-[15px] font-medium hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 ease-out"
+                          >
+                            {pb.label}
+                          </a>
+                        )
                       )}
                       {sb && (
                         <a
