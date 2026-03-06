@@ -37,25 +37,3 @@ const displayLogos = logos.length > 0
   </div>
 </div>
 
-<style>
-  @keyframes marquee {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-25%);
-    }
-  }
-
-  .animate-marquee {
-    animation: marquee 30s linear infinite;
-  }
-
-  .group-hover\:paused:hover {
-    animation-play-state: paused;
-  }
-
-  .will-change-transform {
-    will-change: transform;
-  }
-</style>
