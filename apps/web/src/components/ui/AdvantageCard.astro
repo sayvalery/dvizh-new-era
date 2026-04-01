@@ -1,9 +1,10 @@
 ---
 /**
- * AdvantageCard — карточка преимущества с hover-эффектом
+ * AdvantageCard — карточка преимущества с hover-эффектом и модальным окном
  *
- * Дефолт: белый фон, тонкий бордер.
- * Hover: оранжевый радиальный градиент + stat-число меняет цвет на brand.
+ * Дефолт: фон #F9F7F5.
+ * Hover: оранжевый радиальный градиент + stat и иконка меняют цвет на brand.
+ * Клик: открывает модальное окно 50vw × 80vh с кнопками закрыть и раскрыть.
  *
  * @example
  * ```astro
@@ -29,32 +30,98 @@ interface Props {
 const { title, stat, label, class: className = '' } = Astro.props
 ---
 
-<div class:list={[
-  'group relative overflow-hidden rounded-3xl bg-[#F9F7F5] p-10 transition-all duration-300 min-h-[320px]',
-  className
-]}>
-  <!-- Hover gradient -->
-  <div class="pointer-events-none absolute inset-0 rounded-3xl bg-[radial-gradient(ellipse_at_20%_0%,theme(colors.brand.DEFAULT/25%),transparent_65%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
+<div x-data="{ open: false, expanded: false }">
 
-  <!-- Content -->
-  <div class="relative flex h-full flex-col gap-16">
-    <!-- Top: title + dots icon -->
-    <div class="flex flex-1 items-start justify-between gap-4">
-      <p class="font-sans text-[32px] font-medium leading-none tracking-[-1px] text-gray-900">{title}</p>
-      <!-- Arrow icon -->
-      <svg class="shrink-0 text-gray-300 transition-colors duration-300 group-hover:text-brand" width="20" height="20" viewBox="20 4 28 28" fill="currentColor" aria-hidden="true">
-        <rect x="25.3254" y="4.09396" width="6.4" height="6.4" transform="rotate(45 25.3254 4.09396)"/>
-        <rect x="34.3764" y="4.09396" width="6.4" height="6.4" transform="rotate(45 34.3764 4.09396)"/>
-        <rect x="43.4274" y="4.09396" width="6.4" height="6.4" transform="rotate(45 43.4274 4.09396)"/>
-        <rect x="43.4274" y="13.1449" width="6.4" height="6.4" transform="rotate(45 43.4274 13.1449)"/>
-        <rect x="43.4274" y="22.1959" width="6.4" height="6.4" transform="rotate(45 43.4274 22.1959)"/>
-      </svg>
-    </div>
+  <!-- Карточка -->
+  <div
+    class:list={[
+      'group relative flex flex-col overflow-hidden rounded-3xl bg-[#F9F7F5] p-10 transition-all duration-300 min-h-[320px] cursor-pointer',
+      className
+    ]}
+    @click="open = true"
+  >
+    <!-- Hover gradient -->
+    <div class="pointer-events-none absolute inset-0 rounded-3xl bg-[radial-gradient(ellipse_at_20%_0%,theme(colors.brand.DEFAULT/25%),transparent_65%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
 
-    <!-- Bottom: stat + label -->
-    <div>
-      <p class="font-heading text-[64px] font-normal leading-none tracking-[-1.2px] text-gray-900 transition-colors duration-300 group-hover:text-brand group-hover:font-bold group-hover:italic">{stat}</p>
-      <p class="font-sans text-[18px] font-normal leading-[130%] tracking-[-0.5px] text-gray-400">{label}</p>
+    <!-- Content -->
+    <div class="relative flex flex-1 flex-col gap-16">
+      <!-- Top: title + arrow icon -->
+      <div class="flex flex-1 items-start justify-between gap-4">
+        <p class="font-sans text-[32px] font-medium leading-none tracking-[-1px] text-gray-900">{title}</p>
+        <svg class="shrink-0 text-gray-300 transition-colors duration-300 group-hover:text-brand" width="20" height="20" viewBox="20 4 28 28" fill="currentColor" aria-hidden="true">
+          <rect x="25.3254" y="4.09396" width="6.4" height="6.4" transform="rotate(45 25.3254 4.09396)"/>
+          <rect x="34.3764" y="4.09396" width="6.4" height="6.4" transform="rotate(45 34.3764 4.09396)"/>
+          <rect x="43.4274" y="4.09396" width="6.4" height="6.4" transform="rotate(45 43.4274 4.09396)"/>
+          <rect x="43.4274" y="13.1449" width="6.4" height="6.4" transform="rotate(45 43.4274 13.1449)"/>
+          <rect x="43.4274" y="22.1959" width="6.4" height="6.4" transform="rotate(45 43.4274 22.1959)"/>
+        </svg>
+      </div>
+
+      <!-- Bottom: stat + label -->
+      <div>
+        <p class="font-heading text-[64px] font-normal leading-none tracking-[-1.2px] text-gray-900 transition-colors duration-300 group-hover:text-brand group-hover:font-bold group-hover:italic">{stat}</p>
+        <p class="font-sans text-[18px] font-normal leading-[130%] tracking-[-0.5px] text-gray-400">{label}</p>
+      </div>
     </div>
   </div>
+
+  <!-- Модальное окно -->
+  <div
+    x-show="open"
+    x-transition:enter="transition duration-200 ease-out"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition duration-150 ease-in"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+    @click="open = false"
+    @keydown.escape.window="open = false"
+    x-cloak
+  >
+    <!-- Панель + кнопки -->
+    <div class="flex items-start gap-6" @click.stop>
+
+      <!-- Белая панель -->
+      <div
+        class="overflow-auto bg-white transition-all duration-300"
+        :class="expanded ? 'w-screen h-screen rounded-none' : 'w-[50vw] h-[80vh] rounded-3xl'"
+      >
+        <div class="p-10">
+          <p class="font-sans text-[32px] font-medium leading-none tracking-[-1px] text-gray-900">{title}</p>
+          <div class="mt-16">
+            <p class="font-heading text-[64px] font-normal leading-none tracking-[-1.2px] text-gray-900">{stat}</p>
+            <p class="mt-1 font-sans text-[18px] leading-[130%] tracking-[-0.5px] text-gray-400">{label}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Кнопки справа -->
+      <div class="flex flex-col gap-4">
+        <!-- Закрыть -->
+        <button
+          @click.stop="open = false"
+          class="flex h-12 w-12 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+          aria-label="Закрыть"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 3l10 10M13 3L3 13"/>
+          </svg>
+        </button>
+        <!-- Раскрыть / свернуть -->
+        <button
+          @click.stop="expanded = !expanded"
+          class="flex h-12 w-12 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+          :aria-label="expanded ? 'Свернуть' : 'Раскрыть'"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 6l3-3 3 3"/>
+            <path d="M5 10l3 3 3-3"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
 </div>
