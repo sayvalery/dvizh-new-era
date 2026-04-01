@@ -1,0 +1,60 @@
+---
+/**
+ * AdvantageCard — карточка преимущества с hover-эффектом
+ *
+ * Дефолт: белый фон, тонкий бордер.
+ * Hover: оранжевый радиальный градиент + stat-число меняет цвет на brand.
+ *
+ * @example
+ * ```astro
+ * <AdvantageCard
+ *   title="Закрывают до 26% больше сделок на том же трафике"
+ *   stat="+26%"
+ *   label="Сделок на том же трафике"
+ * />
+ * ```
+ */
+
+interface Props {
+  /** Заголовок карточки */
+  title: string
+  /** Крупное числовое значение */
+  stat: string
+  /** Подпись под числом */
+  label: string
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const { title, stat, label, class: className = '' } = Astro.props
+---
+
+<div class:list={[
+  'group relative overflow-hidden rounded-3xl bg-white p-10 ring-1 ring-gray-200 transition-all duration-300 min-h-[320px]',
+  className
+]}>
+  <!-- Hover gradient -->
+  <div class="pointer-events-none absolute inset-0 rounded-3xl bg-[radial-gradient(ellipse_at_20%_0%,theme(colors.brand.DEFAULT/25%),transparent_65%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
+
+  <!-- Content -->
+  <div class="relative flex h-full flex-col gap-16">
+    <!-- Top: title + dots icon -->
+    <div class="flex flex-1 items-start justify-between gap-4">
+      <p class="font-sans text-[32px] font-medium leading-none tracking-[-1px] text-gray-900">{title}</p>
+      <!-- Arrow icon -->
+      <svg class="shrink-0 text-gray-300 transition-colors duration-300 group-hover:text-brand" width="20" height="20" viewBox="20 4 28 28" fill="currentColor" aria-hidden="true">
+        <rect x="25.3254" y="4.09396" width="6.4" height="6.4" transform="rotate(45 25.3254 4.09396)"/>
+        <rect x="34.3764" y="4.09396" width="6.4" height="6.4" transform="rotate(45 34.3764 4.09396)"/>
+        <rect x="43.4274" y="4.09396" width="6.4" height="6.4" transform="rotate(45 43.4274 4.09396)"/>
+        <rect x="43.4274" y="13.1449" width="6.4" height="6.4" transform="rotate(45 43.4274 13.1449)"/>
+        <rect x="43.4274" y="22.1959" width="6.4" height="6.4" transform="rotate(45 43.4274 22.1959)"/>
+      </svg>
+    </div>
+
+    <!-- Bottom: stat + label -->
+    <div>
+      <p class="font-heading text-5xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-brand">{stat}</p>
+      <p class="mt-1 text-sm text-gray-400">{label}</p>
+    </div>
+  </div>
+</div>

@@ -31,6 +31,7 @@ import ProductSection from '../../components/ui/ProductSection.astro'
 import SectionNavigator from '../../components/ui/SectionNavigator.astro'
 import DvizhAdvantages from '../../components/ui/DvizhAdvantages.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
+import AdvantageCard from '../../components/ui/AdvantageCard.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -56,6 +57,7 @@ import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
 import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
 import dvizhAdvantagesRaw from '../../components/ui/DvizhAdvantages.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
+import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
 
 interface PropMeta {
   name: string
@@ -140,6 +142,7 @@ const productSectionMeta = parseSource(productSectionRaw)
 const sectionNavigatorMeta = parseSource(sectionNavigatorRaw)
 const dvizhAdvantagesMeta = parseSource(dvizhAdvantagesRaw)
 const storyCardMeta = parseSource(storyCardRaw)
+const advantageCardMeta = parseSource(advantageCardRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -656,6 +659,30 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Карточки</h1>
           <div class="space-y-12">
+            {/* AdvantageCard */}
+            <div>
+              <h2 class="text-xl font-semibold mb-4">AdvantageCard — карточка преимущества</h2>
+              <p class="text-gray-600 mb-4">Карточка с заголовком, крупным числовым показателем и подписью. На ховере появляется оранжевый градиентный фон, stat-число меняет цвет на brand.</p>
+              <PropsTable props={advantageCardMeta.props} class="mb-6" />
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <AdvantageCard
+                  title="Закрывают до 26% больше сделок на том же трафике"
+                  stat="+26%"
+                  label="Сделок на том же трафике"
+                />
+                <AdvantageCard
+                  title="Сокращают время обработки заявки в 3 раза"
+                  stat="×3"
+                  label="Быстрее обрабатывают заявки"
+                />
+                <AdvantageCard
+                  title="Повышают конверсию ипотечных заявок"
+                  stat="+18%"
+                  label="Конверсия в выданные кредиты"
+                />
+              </div>
+            </div>
+
             {/* StoryCard */}
             <div>
               <h2 class="text-xl font-semibold mb-4">StoryCard — карточка истории успеха</h2>
