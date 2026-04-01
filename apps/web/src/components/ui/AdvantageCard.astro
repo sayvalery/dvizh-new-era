@@ -40,8 +40,8 @@ const { title, stat, label, class: className = '' } = Astro.props
     ]}
     @click="open = true"
   >
-    <!-- Hover gradient -->
-    <div class="pointer-events-none absolute inset-0 rounded-3xl bg-[radial-gradient(ellipse_at_20%_0%,theme(colors.brand.DEFAULT/25%),transparent_65%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
+    <!-- Hover background -->
+    <div class="pointer-events-none absolute inset-0 bg-[url('/Pattern.png')] bg-cover bg-left-top opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
 
     <!-- Content -->
     <div class="relative flex flex-1 flex-col gap-16">
