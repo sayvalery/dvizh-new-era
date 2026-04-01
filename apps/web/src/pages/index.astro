@@ -3,6 +3,7 @@ import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import LogoDrum from '../components/ui/LogoDrum.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
+import AdvantageCard from '../components/ui/AdvantageCard.astro'
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import SectionBlock from '../components/ui/SectionBlock.astro'
 import GradientCTA from '../components/ui/GradientCTA.astro'
@@ -45,19 +46,29 @@ const partnerLogos = [
   <!-- Девелоперы с ДВИЖ -->
   <section class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-[1440px] px-4">
-      <h2 class="text-5xl font-medium text-gray-900">
-        Девелоперы с ДВИЖ
-      </h2>
-    </div>
-    <div class="mx-auto max-w-[1440px] px-4 mt-16">
-      <BentoGrid
-        items={[
-          { title: "<span class='text-[#FF4D00]'>Закрывают до 26% больше сделок</span> на том же трафике" },
-          { title: "<span class='text-[#FF4D00]'>Получают больше выручки</span> на одного менеджера" },
-          { title: "<span class='text-[#FF4D00]'>Снизили количество отказов</span> по ипотеке" },
-          { title: "<span class='text-[#FF4D00]'>Сократили расходы</span> на электронную регистрацию" },
-        ]}
-      />
+      <h2 class="text-[64px] font-medium leading-none tracking-[-2px]">Девелоперы с ДВИЖ</h2>
+      <div class="mt-16 grid grid-cols-2 gap-6">
+        <AdvantageCard
+          title="Закрывают до 26% больше сделок на том же трафике"
+          stat="+26%"
+          label="Сделок на том же трафике"
+        />
+        <AdvantageCard
+          title="Снизили количество отказов по ипотеке"
+          stat="90%"
+          label="Одобрений при объёме выше рынка"
+        />
+        <AdvantageCard
+          title="Получают больше выручки на одного менеджера"
+          stat="+281%"
+          label="Заявок на одного менеджера"
+        />
+        <AdvantageCard
+          title="Сократили расходы на электронную регистрацию"
+          stat="-30%"
+          label="Затрат на регистрацию"
+        />
+      </div>
     </div>
   </section>
 
