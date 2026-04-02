@@ -48,10 +48,13 @@ const {
 
 <div
   x-data="{ open: false, expanded: false, scrolled: false }"
-  x-effect="if (!open) scrolled = false"
+  x-effect="
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (!open) scrolled = false;
+  "
+  @blur.window="if (open) scrolled = true"
   @wheel.window.passive="if (open) scrolled = true"
   @touchmove.window.passive="if (open) scrolled = true"
-  @scroll.window.passive="if (open) scrolled = true"
 >
 
   <!-- Карточка -->
@@ -127,21 +130,6 @@ const {
           </slot>
         </div>
 
-        <!-- Island появляется после первого скролла -->
-        <div
-          x-show="scrolled"
-          x-transition:enter="transition duration-300 ease-out"
-          x-transition:enter-start="opacity-0 translate-y-2"
-          x-transition:enter-end="opacity-100 translate-y-0"
-          class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
-          x-cloak
-        >
-          <Island
-            label={islandLabel}
-            buttonText={islandButtonText}
-            drawerPreset={islandDrawerPreset}
-          />
-        </div>
       </div>
 
       <!-- Кнопки справа (круглые) -->
@@ -187,6 +175,25 @@ const {
       </div>
 
     </div>
+  </div>
+
+  <!-- Island фиксированный к вьюпорту, появляется после первого скролла в модалке -->
+  <div
+    x-show="open && scrolled"
+    x-transition:enter="transition duration-300 ease-out"
+    x-transition:enter-start="opacity-0 translate-y-2"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition duration-200 ease-in"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 translate-y-2"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60]"
+    x-cloak
+  >
+    <Island
+      label={islandLabel}
+      buttonText={islandButtonText}
+      drawerPreset={islandDrawerPreset}
+    />
   </div>
 
 </div>
