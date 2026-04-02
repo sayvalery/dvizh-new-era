@@ -23,11 +23,13 @@ interface Props {
   stat: string
   /** Подпись под числом */
   label: string
+  /** URL для кнопки "раскрыть" (открывает в новой вкладке) */
+  expandHref?: string
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const { title, stat, label, class: className = '' } = Astro.props
+const { title, stat, label, expandHref, class: className = '' } = Astro.props
 ---
 
 <div x-data="{ open: false, expanded: false }">
@@ -115,17 +117,34 @@ const { title, stat, label, class: className = '' } = Astro.props
             <path d="M3 3l10 10M13 3L3 13"/>
           </svg>
         </button>
-        <!-- Раскрыть / свернуть -->
-        <button
-          @click.stop="expanded = !expanded"
-          class="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
-          :aria-label="expanded ? 'Свернуть' : 'Раскрыть'"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M5 6l3-3 3 3"/>
-            <path d="M5 10l3 3 3-3"/>
-          </svg>
-        </button>
+        <!-- Раскрыть / открыть в новой вкладке -->
+        {expandHref ? (
+          <a
+            href={expandHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            @click.stop
+            class="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+            aria-label="Открыть статью"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 3H3v10h10V9"/>
+              <path d="M10 2h4v4"/>
+              <path d="M13 3l-6 6"/>
+            </svg>
+          </a>
+        ) : (
+          <button
+            @click.stop="expanded = !expanded"
+            class="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+            :aria-label="expanded ? 'Свернуть' : 'Раскрыть'"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 6l3-3 3 3"/>
+              <path d="M5 10l3 3 3-3"/>
+            </svg>
+          </button>
+        )}
       </div>
 
     </div>
