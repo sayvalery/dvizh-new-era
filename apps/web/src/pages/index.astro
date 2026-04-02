@@ -12,6 +12,7 @@ import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astr
 import ProductSection from '../components/ui/ProductSection.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import CTA from '../components/ui/CTA.astro'
+import Island from '../components/ui/Island.astro'
 
 const partnerLogos = [
   '/partners/a101.svg',
@@ -42,6 +43,36 @@ const partnerLogos = [
       <LogoDrum logos={partnerLogos} duration={55} />
     </div>
   </HeroSection>
+
+  <!-- Sentinel для Island (появляется после скролла Hero) -->
+  <div id="hero-sentinel"></div>
+
+  <!-- Island — фиксированный CTA внизу страницы -->
+  <div
+    x-data="{ visible: false }"
+    x-init="
+      const sentinel = document.getElementById('hero-sentinel');
+      if (sentinel) {
+        const obs = new IntersectionObserver(([e]) => { visible = !e.isIntersecting }, { threshold: 0 });
+        obs.observe(sentinel);
+      }
+    "
+    x-show="visible"
+    x-transition:enter="transition duration-300 ease-out"
+    x-transition:enter-start="opacity-0 translate-y-4"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition duration-200 ease-in"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 translate-y-4"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40"
+    x-cloak
+  >
+    <Island
+      label="Пора делать ДВИЖ"
+      buttonText="Оставить заявку"
+      drawerPreset="lead"
+    />
+  </div>
 
   <!-- Девелоперы с ДВИЖ -->
   <section class="bg-white py-24 sm:py-32">
