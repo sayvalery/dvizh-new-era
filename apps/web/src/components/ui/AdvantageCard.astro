@@ -52,9 +52,6 @@ const {
     document.body.style.overflow = open ? 'hidden' : '';
     if (!open) scrolled = false;
   "
-  @blur.window="if (open) scrolled = true"
-  @wheel.window.passive="if (open) scrolled = true"
-  @touchmove.window.passive="if (open) scrolled = true"
 >
 
   <!-- Карточка -->
