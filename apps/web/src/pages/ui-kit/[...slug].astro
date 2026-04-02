@@ -32,6 +32,7 @@ import SectionNavigator from '../../components/ui/SectionNavigator.astro'
 import DvizhAdvantages from '../../components/ui/DvizhAdvantages.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
 import AdvantageCard from '../../components/ui/AdvantageCard.astro'
+import Island from '../../components/ui/Island.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -58,6 +59,7 @@ import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
 import dvizhAdvantagesRaw from '../../components/ui/DvizhAdvantages.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
+import islandRaw from '../../components/ui/Island.astro?raw'
 
 interface PropMeta {
   name: string
@@ -143,6 +145,7 @@ const sectionNavigatorMeta = parseSource(sectionNavigatorRaw)
 const dvizhAdvantagesMeta = parseSource(dvizhAdvantagesRaw)
 const storyCardMeta = parseSource(storyCardRaw)
 const advantageCardMeta = parseSource(advantageCardRaw)
+const islandMeta = parseSource(islandRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -177,6 +180,7 @@ export function getStaticPaths() {
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
     { params: { slug: 'section-navigator' }, props: { section: 'section-navigator' } },
     { params: { slug: 'dvizh-advantages' }, props: { section: 'dvizh-advantages' } },
+    { params: { slug: 'island' }, props: { section: 'island' } },
   ]
 }
 
@@ -212,6 +216,7 @@ const sections = [
   { slug: 'product-section', label: 'Product Section' },
   { slug: 'section-navigator', label: 'Section Navigator' },
   { slug: 'dvizh-advantages', label: 'Dvizh Advantages' },
+  { slug: 'island', label: 'Island' },
 ]
 ---
 
@@ -2222,6 +2227,31 @@ interface Props {
     },
   ]}
 />`}</code></pre>
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'island' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Island</h1>
+          <p class="text-gray-600 mb-8">Компактный pill-баннер с CTA-кнопкой. Тёмный фон, текст слева, оранжевая кнопка со стрелкой справа.</p>
+          <PropsTable props={islandMeta.props} class="mb-8" />
+          <div class="space-y-6">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С drawer</p>
+              <Island
+                label="Пора делать ДВИЖ"
+                buttonText="Оставить заявку"
+                drawerPreset="lead"
+              />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Со ссылкой</p>
+              <Island
+                label="Пора делать ДВИЖ"
+                buttonText="Узнать больше"
+                buttonHref="/about"
+              />
             </div>
           </div>
         </div>
