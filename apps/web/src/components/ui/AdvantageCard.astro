@@ -1,4 +1,6 @@
 ---
+import Island from './Island.astro'
+
 /**
  * AdvantageCard — карточка преимущества с hover-эффектом и модальным окном
  *
@@ -25,11 +27,23 @@ interface Props {
   label: string
   /** URL для кнопки "раскрыть" (открывает в новой вкладке) */
   expandHref?: string
+  /** Текст слева в Island внутри модалки */
+  islandLabel?: string
+  /** Текст кнопки Island внутри модалки */
+  islandButtonText?: string
+  /** Пресет дровера для кнопки Island */
+  islandDrawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const { title, stat, label, expandHref, class: className = '' } = Astro.props
+const {
+  title, stat, label, expandHref,
+  islandLabel = 'Пора делать ДВИЖ',
+  islandButtonText = 'Оставить заявку',
+  islandDrawerPreset = 'lead',
+  class: className = ''
+} = Astro.props
 ---
 
 <div x-data="{ open: false, expanded: false }">
@@ -91,7 +105,7 @@ const { title, stat, label, expandHref, class: className = '' } = Astro.props
     >
       <!-- Белая панель -->
       <div
-        class="overflow-hidden bg-white transition-all duration-300"
+        class="relative overflow-hidden bg-white transition-all duration-300"
         :class="expanded ? 'w-screen h-screen rounded-none' : 'w-[50vw] h-[90vh] rounded-t-[40px]'"
       >
         <slot name="modal-body">
@@ -103,6 +117,15 @@ const { title, stat, label, expandHref, class: className = '' } = Astro.props
             </div>
           </div>
         </slot>
+
+        <!-- Island фиксированный снизу модалки -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
+          <Island
+            label={islandLabel}
+            buttonText={islandButtonText}
+            drawerPreset={islandDrawerPreset}
+          />
+        </div>
       </div>
 
       <!-- Кнопки справа (круглые) -->
