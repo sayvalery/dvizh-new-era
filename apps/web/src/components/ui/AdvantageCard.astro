@@ -62,7 +62,7 @@ const { title, stat, label, class: className = '' } = Astro.props
 
       <!-- Bottom: stat + label -->
       <div>
-        <p class="font-heading text-[64px] font-normal leading-none tracking-[-1.2px] text-gray-900 transition-colors duration-300 group-hover:text-brand group-hover:font-bold group-hover:italic">{stat}</p>
+        <p class="font-heading text-[64px] font-bold leading-none tracking-[-1.2px] text-gray-900/40 transition-colors duration-300 group-hover:text-brand group-hover:italic">{stat}</p>
         <p class="font-sans text-[18px] font-normal leading-[130%] tracking-[-0.5px] text-gray-400">{label}</p>
       </div>
     </div>
@@ -77,34 +77,38 @@ const { title, stat, label, class: className = '' } = Astro.props
     x-transition:leave="transition duration-150 ease-in"
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+    class="fixed inset-0 z-50 bg-black/40"
     @click="open = false"
     @keydown.escape.window="open = false"
     x-cloak
   >
-    <!-- Панель + кнопки -->
-    <div class="flex items-start gap-6" @click.stop>
-
+    <!-- Панель + кнопки, прибиты к низу по центру -->
+    <div
+      class="fixed bottom-0 left-1/2 -translate-x-1/2 flex items-start gap-6"
+      @click.stop
+    >
       <!-- Белая панель -->
       <div
-        class="overflow-auto bg-white transition-all duration-300"
-        :class="expanded ? 'w-screen h-screen rounded-none' : 'w-[50vw] h-[80vh] rounded-3xl'"
+        class="overflow-hidden bg-white transition-all duration-300"
+        :class="expanded ? 'w-screen h-screen rounded-none' : 'w-[50vw] h-[90vh] rounded-t-3xl'"
       >
-        <div class="p-10">
-          <p class="font-sans text-[32px] font-medium leading-none tracking-[-1px] text-gray-900">{title}</p>
-          <div class="mt-16">
-            <p class="font-heading text-[64px] font-normal leading-none tracking-[-1.2px] text-gray-900">{stat}</p>
-            <p class="mt-1 font-sans text-[18px] leading-[130%] tracking-[-0.5px] text-gray-400">{label}</p>
+        <slot name="modal-body">
+          <div class="p-10">
+            <p class="font-sans text-[32px] font-medium leading-none tracking-[-1px] text-gray-900">{title}</p>
+            <div class="mt-16">
+              <p class="font-heading text-[64px] font-bold leading-none tracking-[-1.2px] text-gray-900">{stat}</p>
+              <p class="mt-1 font-sans text-[18px] leading-[130%] tracking-[-0.5px] text-gray-400">{label}</p>
+            </div>
           </div>
-        </div>
+        </slot>
       </div>
 
-      <!-- Кнопки справа -->
-      <div class="flex flex-col gap-4">
+      <!-- Кнопки справа (круглые) -->
+      <div class="flex flex-col gap-4 pt-1">
         <!-- Закрыть -->
         <button
           @click.stop="open = false"
-          class="flex h-12 w-12 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+          class="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
           aria-label="Закрыть"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
@@ -114,7 +118,7 @@ const { title, stat, label, class: className = '' } = Astro.props
         <!-- Раскрыть / свернуть -->
         <button
           @click.stop="expanded = !expanded"
-          class="flex h-12 w-12 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+          class="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
           :aria-label="expanded ? 'Свернуть' : 'Раскрыть'"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
