@@ -46,7 +46,13 @@ const {
 } = Astro.props
 ---
 
-<div x-data="{ open: false, expanded: false, scrolled: false }" x-effect="if (!open) scrolled = false">
+<div
+  x-data="{ open: false, expanded: false, scrolled: false }"
+  x-effect="if (!open) scrolled = false"
+  @wheel.window.passive="if (open) scrolled = true"
+  @touchmove.window.passive="if (open) scrolled = true"
+  @scroll.window.passive="if (open) scrolled = true"
+>
 
   <!-- Карточка -->
   <div
@@ -105,7 +111,7 @@ const {
     >
       <!-- Белая панель -->
       <div
-        class="relative flex flex-col bg-white transition-all duration-300"
+        class="relative flex flex-col overflow-hidden bg-white transition-all duration-300"
         :class="expanded ? 'w-screen h-screen rounded-none' : 'w-[50vw] h-[90vh] rounded-t-[40px]'"
       >
         <!-- Скроллируемая область контента -->
