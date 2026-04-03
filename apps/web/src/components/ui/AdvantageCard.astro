@@ -47,11 +47,10 @@ const {
 ---
 
 <div
-  x-data="{ open: false, expanded: false, scrolled: false, _t: null }"
+  x-data="{ open: false, expanded: false, scrolled: false }"
   x-effect="
     document.body.style.overflow = open ? 'hidden' : '';
-    if (open) { _t = setTimeout(() => { scrolled = true }, 2000) }
-    else { clearTimeout(_t); scrolled = false }
+    if (!open) scrolled = false;
   "
 >
 
@@ -115,7 +114,7 @@ const {
         :class="expanded ? 'w-screen h-screen rounded-none' : 'w-[50vw] h-[90vh] rounded-t-[40px]'"
       >
         <!-- Скроллируемая область контента -->
-        <div class="overflow-hidden flex-1">
+        <div class="overflow-y-auto flex-1" @scroll="scrolled = true">
           <slot name="modal-body">
             <div class="p-10">
               <p class="font-sans text-[32px] font-medium leading-none tracking-[-1px] text-gray-900">{title}</p>
