@@ -13,20 +13,23 @@ import ProductSection from '../components/ui/ProductSection.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import CTA from '../components/ui/CTA.astro'
 import Island from '../components/ui/Island.astro'
-import { getBlogPost, normalizeBodyHtml, normalizeMediaUrl, sanitizeBodyHtml } from '../lib/payload'
+import BlockRenderer from '../components/blocks/BlockRenderer.astro'
+import { getBlogPost, normalizeBodyHtml, sanitizeBodyHtml } from '../lib/payload'
 
 // Фетч статьи: CMS → fallback dvizh.io
-async function fetchArticleHtml(slug: string): Promise<{ title: string | null, html: string | null }> {
+async function fetchArticle(slug: string): Promise<{ post: any | null, html: string | null, title: string | null }> {
   // 1. Пробуем CMS
   try {
     const post = await getBlogPost(slug)
-    if (post?.bodyHtml) {
-      const html = sanitizeBodyHtml(normalizeBodyHtml(
-        post.bodyHtml
-          .replaceAll('href="https://dvizh.webflow.io/', 'href="/')
-          .replaceAll('href="https://www.dvizh.io/', 'href="/')
-      ))
-      return { title: post.title ?? null, html }
+    if (post) {
+      const html = post.bodyHtml
+        ? sanitizeBodyHtml(normalizeBodyHtml(
+            post.bodyHtml
+              .replaceAll('href="https://dvizh.webflow.io/', 'href="/')
+              .replaceAll('href="https://www.dvizh.io/', 'href="/')
+          ))
+        : null
+      return { post, html, title: post.title ?? null }
     }
   } catch {}
 
@@ -41,8 +44,7 @@ async function fetchArticleHtml(slug: string): Promise<{ title: string | null, h
       const tagName = raw.slice(tagStart + 1).match(/^[a-zA-Z]+/)?.[0] ?? 'section'
       const openRe = new RegExp(`<${tagName}[\\s>]`, 'gi')
       const closeRe = new RegExp(`</${tagName}>`, 'gi')
-      let depth = 1, i = innerStart
-      let html: string | null = null
+      let depth = 1, i = innerStart, html: string | null = null
       while (depth > 0 && i < raw.length) {
         openRe.lastIndex = i; closeRe.lastIndex = i
         const nextOpen = openRe.exec(raw)
@@ -53,18 +55,18 @@ async function fetchArticleHtml(slug: string): Promise<{ title: string | null, h
       }
       const titleMatch = raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)
       const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '').trim() : null
-      return { title, html }
+      return { post: null, html, title }
     }
   } catch {}
 
-  return { title: null, html: null }
+  return { post: null, html: null, title: null }
 }
 
 const [ayaks, granel, lidov, ereg] = await Promise.all([
-  fetchArticleHtml('case-ayaks-dvizh'),
-  fetchArticleHtml('granel-rost-procenta-odobreniya'),
-  fetchArticleHtml('kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti'),
-  fetchArticleHtml('alfavit-polzy-zastroyshchika-elektronnaya-registraciya'),
+  fetchArticle('case-ayaks-dvizh'),
+  fetchArticle('granel-rost-procenta-odobreniya'),
+  fetchArticle('kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti'),
+  fetchArticle('alfavit-polzy-zastroyshchika-elektronnaya-registraciya'),
 ])
 
 const partnerLogos = [
@@ -138,10 +140,13 @@ const partnerLogos = [
           label="Сделок на\u00A0том же трафике"
           expandHref="https://www.dvizh.io/blog/case-ayaks-dvizh"
         >
-          {ayaks.html && (
+          {(ayaks.post || ayaks.html) && (
             <article slot="modal-body" class="max-w-3xl mx-auto px-8 py-12">
               {ayaks.title && <h1 class="text-4xl font-bold mb-4">{ayaks.title}</h1>}
-              <div class="prose prose-lg max-w-none mt-8" set:html={ayaks.html} />
+              {ayaks.post?.content?.length > 0
+                ? <BlockRenderer blocks={ayaks.post.content} />
+                : ayaks.html && <div class="prose prose-lg max-w-none mt-8" set:html={ayaks.html} />
+              }
             </article>
           )}
         </AdvantageCard>
@@ -151,10 +156,13 @@ const partnerLogos = [
           label="Одобрений при\u00A0объёме выше рынка"
           expandHref="https://www.dvizh.io/blog/granel-rost-procenta-odobreniya"
         >
-          {granel.html && (
+          {(granel.post || granel.html) && (
             <article slot="modal-body" class="max-w-3xl mx-auto px-8 py-12">
               {granel.title && <h1 class="text-4xl font-bold mb-4">{granel.title}</h1>}
-              <div class="prose prose-lg max-w-none mt-8" set:html={granel.html} />
+              {granel.post?.content?.length > 0
+                ? <BlockRenderer blocks={granel.post.content} />
+                : granel.html && <div class="prose prose-lg max-w-none mt-8" set:html={granel.html} />
+              }
             </article>
           )}
         </AdvantageCard>
@@ -164,10 +172,13 @@ const partnerLogos = [
           label="Заявок на\u00A0одного менеджера"
           expandHref="https://www.dvizh.io/blog/kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti"
         >
-          {lidov.html && (
+          {(lidov.post || lidov.html) && (
             <article slot="modal-body" class="max-w-3xl mx-auto px-8 py-12">
               {lidov.title && <h1 class="text-4xl font-bold mb-4">{lidov.title}</h1>}
-              <div class="prose prose-lg max-w-none mt-8" set:html={lidov.html} />
+              {lidov.post?.content?.length > 0
+                ? <BlockRenderer blocks={lidov.post.content} />
+                : lidov.html && <div class="prose prose-lg max-w-none mt-8" set:html={lidov.html} />
+              }
             </article>
           )}
         </AdvantageCard>
@@ -177,10 +188,13 @@ const partnerLogos = [
           label="Затрат на\u00A0регистрацию"
           expandHref="https://www.dvizh.io/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya"
         >
-          {ereg.html && (
+          {(ereg.post || ereg.html) && (
             <article slot="modal-body" class="max-w-3xl mx-auto px-8 py-12">
               {ereg.title && <h1 class="text-4xl font-bold mb-4">{ereg.title}</h1>}
-              <div class="prose prose-lg max-w-none mt-8" set:html={ereg.html} />
+              {ereg.post?.content?.length > 0
+                ? <BlockRenderer blocks={ereg.post.content} />
+                : ereg.html && <div class="prose prose-lg max-w-none mt-8" set:html={ereg.html} />
+              }
             </article>
           )}
         </AdvantageCard>
