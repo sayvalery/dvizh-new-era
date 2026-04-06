@@ -58,7 +58,7 @@ const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
     <p class="mb-4 font-sans text-sm font-medium text-gray-900">Попробуйте ДВИЖ в деле</p>
     <form @submit.prevent="submit1($event)">
       <div class="hidden"><input name="_honeypot" tabindex="-1" autocomplete="off" /></div>
-      <div class="flex gap-3">
+      <div class="flex flex-col gap-3 sm:flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row">
         <input
           name="name" type="text" required placeholder="Ваше имя"
           class="flex-1 bg-black/[0.04] rounded-2xl px-4 py-3 text-[15px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all"
@@ -70,7 +70,7 @@ const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
         <button
           type="submit"
           :disabled="loading"
-          class="whitespace-nowrap px-6 py-3 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand-600 active:scale-[0.98] transition-all disabled:opacity-50"
+          class="whitespace-nowrap px-6 py-3 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand-600 active:scale-[0.98] transition-all disabled:opacity-50 md:col-span-2 lg:col-span-1"
         >
           Получить демо
         </button>
@@ -99,7 +99,7 @@ const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
     <p class="mb-4 text-[13px] text-gray-400">А пока можете уточнить ваш email и компанию, которую представляете</p>
     <form @submit.prevent="submit2($event)">
       <div class="hidden"><input name="_honeypot" tabindex="-1" autocomplete="off" /></div>
-      <div class="flex gap-3">
+      <div class="flex flex-col gap-3 sm:flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row">
         <input
           name="email" type="email" placeholder="Email"
           class="flex-1 bg-black/[0.04] rounded-2xl px-4 py-3 text-[15px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all"
@@ -111,7 +111,7 @@ const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
         <button
           type="submit"
           :disabled="loading"
-          class="whitespace-nowrap px-6 py-3 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand-600 active:scale-[0.98] transition-all disabled:opacity-50"
+          class="whitespace-nowrap px-6 py-3 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand-600 active:scale-[0.98] transition-all disabled:opacity-50 md:col-span-2 lg:col-span-1"
         >
           Отправить
         </button>
