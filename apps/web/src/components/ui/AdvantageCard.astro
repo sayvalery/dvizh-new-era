@@ -93,7 +93,7 @@ const { title, stat, label, expandHref, class: className = '' } = Astro.props
   >
     <!-- Панель, прибита к низу по центру -->
     <div
-      class="fixed bottom-0 left-1/2 -translate-x-1/2 w-screen md:w-[540px] lg:w-[50vw]"
+      class="fixed bottom-0 left-1/2 -translate-x-1/2 w-screen md:w-[540px] lg:w-[50vw] lg:min-w-[600px]"
       @click.stop
     >
       <!-- Белая панель -->
@@ -123,23 +123,23 @@ const { title, stat, label, expandHref, class: className = '' } = Astro.props
             </div>
           </slot>
         </div>
+
+        <!-- Inline-форма внутри панели, появляется после первого скролла -->
+        <div
+          x-show="scrolled"
+          x-transition:enter="transition duration-300 ease-out"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition duration-200 ease-in"
+          x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 translate-y-2"
+          class="shrink-0 bg-white border-t border-gray-100 px-8 py-6"
+          x-cloak
+        >
+          <ModalInlineForm />
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- Inline-форма, фиксированная к низу модалки, появляется после первого скролла -->
-  <div
-    x-show="open && scrolled"
-    x-transition:enter="transition duration-300 ease-out"
-    x-transition:enter-start="opacity-0 translate-y-2"
-    x-transition:enter-end="opacity-100 translate-y-0"
-    x-transition:leave="transition duration-200 ease-in"
-    x-transition:leave-start="opacity-100 translate-y-0"
-    x-transition:leave-end="opacity-0 translate-y-2"
-    class="fixed bottom-0 left-1/2 -translate-x-1/2 z-[60] w-screen md:w-[540px] lg:w-[50vw] bg-white border-t border-gray-100 px-8 py-6"
-    x-cloak
-  >
-    <ModalInlineForm />
   </div>
 
 </div>
