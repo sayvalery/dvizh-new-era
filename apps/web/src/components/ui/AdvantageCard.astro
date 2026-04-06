@@ -1,5 +1,5 @@
 ---
-import Island from './Island.astro'
+import ModalInlineForm from './ModalInlineForm.astro'
 
 /**
  * AdvantageCard — карточка преимущества с hover-эффектом и модальным окном
@@ -27,23 +27,11 @@ interface Props {
   label: string
   /** URL для кнопки "раскрыть" (открывает в новой вкладке) */
   expandHref?: string
-  /** Текст слева в Island внутри модалки */
-  islandLabel?: string
-  /** Текст кнопки Island внутри модалки */
-  islandButtonText?: string
-  /** Пресет дровера для кнопки Island */
-  islandDrawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const {
-  title, stat, label, expandHref,
-  islandLabel = 'Пора делать ДВИЖ',
-  islandButtonText = 'Оставить заявку',
-  islandDrawerPreset = 'lead',
-  class: className = ''
-} = Astro.props
+const { title, stat, label, expandHref, class: className = '' } = Astro.props
 ---
 
 <div
@@ -103,16 +91,26 @@ const {
     @keydown.escape.window="open = false"
     x-cloak
   >
-    <!-- Панель + кнопки, прибиты к низу по центру -->
+    <!-- Панель, прибита к низу по центру -->
     <div
-      class="fixed bottom-0 left-1/2 -translate-x-1/2 flex items-start gap-6"
+      class="fixed bottom-0 left-1/2 -translate-x-1/2 w-screen md:w-[540px] lg:w-[50vw]"
       @click.stop
     >
       <!-- Белая панель -->
       <div
-        class="relative flex flex-col overflow-hidden bg-white transition-all duration-300"
-        :class="expanded ? 'w-screen h-screen rounded-none' : 'w-[50vw] h-[90vh] rounded-t-[40px]'"
+        class="relative flex flex-col overflow-hidden bg-white h-[90vh] rounded-t-[32px]"
       >
+        <!-- Кнопка закрыть — правый верхний угол -->
+        <button
+          @click.stop="open = false"
+          class="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+          aria-label="Закрыть"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 3l10 10M13 3L3 13"/>
+          </svg>
+        </button>
+
         <!-- Скроллируемая область контента -->
         <div class="overflow-y-auto flex-1" @scroll="scrolled = true">
           <slot name="modal-body">
@@ -125,55 +123,11 @@ const {
             </div>
           </slot>
         </div>
-
       </div>
-
-      <!-- Кнопки справа (круглые) -->
-      <div class="flex flex-col gap-4 pt-1">
-        <!-- Закрыть -->
-        <button
-          @click.stop="open = false"
-          class="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
-          aria-label="Закрыть"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
-            <path d="M3 3l10 10M13 3L3 13"/>
-          </svg>
-        </button>
-        <!-- Раскрыть / открыть в новой вкладке -->
-        {expandHref ? (
-          <a
-            href={expandHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            @click.stop
-            class="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
-            aria-label="Открыть статью"
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M7 3H3v10h10V9"/>
-              <path d="M10 2h4v4"/>
-              <path d="M13 3l-6 6"/>
-            </svg>
-          </a>
-        ) : (
-          <button
-            @click.stop="expanded = !expanded"
-            class="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
-            :aria-label="expanded ? 'Свернуть' : 'Раскрыть'"
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 6l3-3 3 3"/>
-              <path d="M5 10l3 3 3-3"/>
-            </svg>
-          </button>
-        )}
-      </div>
-
     </div>
   </div>
 
-  <!-- Island фиксированный к вьюпорту, появляется после первого скролла в модалке -->
+  <!-- Inline-форма, фиксированная к низу модалки, появляется после первого скролла -->
   <div
     x-show="open && scrolled"
     x-transition:enter="transition duration-300 ease-out"
@@ -182,14 +136,10 @@ const {
     x-transition:leave="transition duration-200 ease-in"
     x-transition:leave-start="opacity-100 translate-y-0"
     x-transition:leave-end="opacity-0 translate-y-2"
-    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60]"
+    class="fixed bottom-0 left-1/2 -translate-x-1/2 z-[60] w-screen md:w-[540px] lg:w-[50vw] bg-white border-t border-gray-100 px-8 py-6"
     x-cloak
   >
-    <Island
-      label={islandLabel}
-      buttonText={islandButtonText}
-      drawerPreset={islandDrawerPreset}
-    />
+    <ModalInlineForm />
   </div>
 
 </div>
