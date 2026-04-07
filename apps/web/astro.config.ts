@@ -19,8 +19,8 @@ export default defineConfig({
     server: {
       allowedHosts: ['preview.dvizh.cc'],
       proxy: {
-        '/api': cmsProxy,
-        '/media': cmsProxy,
+        '/api': { target: cmsProxy, changeOrigin: true, secure: false },
+        '/media': { target: cmsProxy, changeOrigin: true, secure: false },
       },
     },
   },
