@@ -55,7 +55,7 @@ const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
 >
   <!-- Шаг 1: имя + телефон -->
   <div x-show="!submitted">
-    <p class="mb-4 font-heading text-[24px] font-medium leading-[120%] tracking-[-2px] text-gray-900">Попробуйте ДВИЖ в деле</p>
+    <p class="mb-4 text-h4 text-gray-900">Попробуйте ДВИЖ в деле</p>
     <form @submit.prevent="submit1($event)">
       <div class="hidden"><input name="_honeypot" tabindex="-1" autocomplete="off" /></div>
       <div class="flex flex-col gap-3 sm:flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row">
@@ -78,7 +78,7 @@ const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
       <div class="mt-3 flex items-start gap-2">
         <label class="flex items-start gap-2 cursor-pointer">
           <input type="checkbox" required class="mt-0.5 shrink-0 accent-brand" />
-          <span class="text-[11px] text-gray-400 leading-[140%]">
+          <span class="text-footnote text-gray-400">
             Нажимая кнопку «Получить демо», вы даёте согласие на обработку ваших персональных данных и подтверждаете, что ознакомлены с <a href="/privacy" class="underline hover:text-gray-600">Политикой обработки персональных данных</a>
           </span>
         </label>

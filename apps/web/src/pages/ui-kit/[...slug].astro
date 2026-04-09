@@ -33,6 +33,7 @@ import DvizhAdvantages from '../../components/ui/DvizhAdvantages.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
 import AdvantageCard from '../../components/ui/AdvantageCard.astro'
 import Island from '../../components/ui/Island.astro'
+import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -181,6 +182,7 @@ export function getStaticPaths() {
     { params: { slug: 'section-navigator' }, props: { section: 'section-navigator' } },
     { params: { slug: 'dvizh-advantages' }, props: { section: 'dvizh-advantages' } },
     { params: { slug: 'island' }, props: { section: 'island' } },
+    { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
   ]
 }
 
@@ -217,6 +219,7 @@ const sections = [
   { slug: 'section-navigator', label: 'Section Navigator' },
   { slug: 'dvizh-advantages', label: 'Dvizh Advantages' },
   { slug: 'island', label: 'Island' },
+  { slug: 'modal-inline-form', label: 'Modal Inline Form' },
 ]
 ---
 
@@ -404,16 +407,73 @@ const sections = [
       )}
 
       {section === 'typography' && (
-        <div class="space-y-8">
+        <div class="space-y-12">
           <h1 class="text-3xl font-bold font-heading mb-6">Типографика</h1>
-          <div class="space-y-4">
-            <div><span class="text-xs text-gray-400 block mb-1">text-5xl font-bold font-heading</span><p class="text-5xl font-bold font-heading">Заголовок H1</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-4xl font-bold font-heading</span><p class="text-4xl font-bold font-heading">Заголовок H2</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-3xl font-semibold font-heading</span><p class="text-3xl font-semibold font-heading">Заголовок H3</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-xl</span><p class="text-xl">Подзаголовок / лид-текст</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-base</span><p class="text-base">Основной текст. Движ помогает банкам и девелоперам автоматизировать ипотечный процесс.</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-sm text-gray-600</span><p class="text-sm text-gray-600">Вспомогательный текст, подписи, метаданные</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-xs uppercase tracking-wide</span><p class="text-xs uppercase tracking-wide text-gray-400">Метка / Теги</p></div>
+
+          <!-- Заголовки -->
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-6">Заголовки — Styrene A</p>
+            <div class="space-y-8">
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h1 — Styrene Bold 64, lh 100%, ls -1px</span>
+                <p class="text-h1">H1 Bold 64</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h1-italic — Styrene Bold Italic 64, lh 100%, ls -1px</span>
+                <p class="text-h1-italic">H1 Bold Italic 64</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h2 — Styrene Medium 48, lh 100%, ls -2px</span>
+                <p class="text-h2">H2 Medium 48</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h3 — Styrene Medium 32, lh 100%, ls -1px</span>
+                <p class="text-h3">H3 Medium 32</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h4 — Styrene Medium 24, lh 120%, ls -2px</span>
+                <p class="text-h4">H4 Medium 24</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h5 — Styrene Bold 18, lh 120%, ls -2px</span>
+                <p class="text-h5">H5 Bold 18</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h6 — Styrene Bold 16, lh 120%, ls -2px</span>
+                <p class="text-h6">H6 Bold 16</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Тело текста -->
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-6">Тело текста — Inter</p>
+            <div class="space-y-8">
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-medium-32 — Inter Medium 32, lh 100%, ls -1px</span>
+                <p class="text-medium-32">Medium 32</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-body-lg — Inter Regular 18, lh 140%, ls -0.5px</span>
+                <p class="text-body-lg">Body 18. ДВИЖ помогает застройщикам автоматизировать продажи и ипотеку.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-body-lg-italic — Inter Regular Italic 18, lh 140%, ls -0.5px</span>
+                <p class="text-body-lg-italic">Body Italic 18. ДВИЖ помогает застройщикам автоматизировать продажи и ипотеку.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-subhead — Inter Regular 16, lh 140%, ls -0.5px</span>
+                <p class="text-subhead">Subhead 16. Вспомогательный текст и подзаголовки.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-footnote — Inter Regular 14, lh 140%, ls -0.5px</span>
+                <p class="text-footnote">Footnote 14. Мелкие подписи, метаданные, примечания.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-side-menu — Inter SemiBold 12, lh 140%, ls 1px, uppercase</span>
+                <p class="text-side-menu">Side Menu 12</p>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -2252,6 +2312,20 @@ interface Props {
                 buttonText="Узнать больше"
                 buttonHref="/about"
               />
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'modal-inline-form' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Modal Inline Form</h1>
+          <p class="text-gray-600 mb-8">Двухшаговая форма для модалок. Появляется снизу после первого скролла. Шаг 1: имя + телефон. Шаг 2 (после отправки): email + компания.</p>
+          <div class="space-y-8">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Шаг 1 (дефолт)</p>
+              <div class="border border-gray-100 rounded-2xl p-8 bg-white">
+                <ModalInlineForm />
+              </div>
             </div>
           </div>
         </div>
