@@ -110,7 +110,7 @@ h1, h2, h3, h4, h5, h6 {
   /* Заголовки — Styrene A */
   .text-h1 {
     font-family: 'Styrene A', system-ui, sans-serif;
-    font-size: 64px;
+    font-size: 28px;
     font-weight: 700;
     line-height: 100%;
     letter-spacing: -1px;
@@ -118,27 +118,59 @@ h1, h2, h3, h4, h5, h6 {
 
   .text-h1-italic {
     font-family: 'Styrene A', system-ui, sans-serif;
-    font-size: 64px;
+    font-size: 28px;
     font-weight: 700;
     font-style: italic;
     line-height: 100%;
     letter-spacing: -1px;
   }
 
+  @media (min-width: 480px) {
+    .text-h1, .text-h1-italic { font-size: 28px; }
+  }
+
+  @media (min-width: 640px) {
+    .text-h1, .text-h1-italic { font-size: 42px; }
+  }
+
+  @media (min-width: 768px) {
+    .text-h1, .text-h1-italic { font-size: 42px; }
+  }
+
+  @media (min-width: 1024px) {
+    .text-h1, .text-h1-italic { font-size: 64px; }
+  }
+
   .text-h2 {
     font-family: 'Styrene A', system-ui, sans-serif;
-    font-size: 48px;
+    font-size: 24px;
     font-weight: 500;
     line-height: 100%;
     letter-spacing: -2px;
   }
 
+  @media (min-width: 768px) {
+    .text-h2 { font-size: 32px; }
+  }
+
+  @media (min-width: 1024px) {
+    .text-h2 { font-size: 48px; }
+  }
+
   .text-h3 {
     font-family: 'Styrene A', system-ui, sans-serif;
-    font-size: 32px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 100%;
     letter-spacing: -1px;
+  }
+
+  @media (min-width: 640px) {
+    .text-h3 { font-size: 24px; }
+  }
+
+  @media (min-width: 1024px) {
+    .text-h3 { font-size: 32px; }
   }
 
   .text-h4 {
@@ -168,7 +200,7 @@ h1, h2, h3, h4, h5, h6 {
   /* Тело текста — Inter */
   .text-body-lg {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 140%;
     letter-spacing: -0.5px;
@@ -176,11 +208,15 @@ h1, h2, h3, h4, h5, h6 {
 
   .text-body-lg-italic {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     font-style: italic;
     line-height: 140%;
     letter-spacing: -0.5px;
+  }
+
+  @media (min-width: 640px) {
+    .text-body-lg, .text-body-lg-italic { font-size: 18px; }
   }
 
   .text-subhead {
@@ -211,10 +247,18 @@ h1, h2, h3, h4, h5, h6 {
   /* Смешанный Inter Medium (не heading) */
   .text-medium-32 {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 32px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 100%;
     letter-spacing: -1px;
+  }
+
+  @media (min-width: 640px) {
+    .text-medium-32 { font-size: 24px; }
+  }
+
+  @media (min-width: 1024px) {
+    .text-medium-32 { font-size: 32px; }
   }
 
 }
