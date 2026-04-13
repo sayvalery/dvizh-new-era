@@ -47,7 +47,7 @@ const { backgroundImage, title, person } = Astro.props
 
 <div
   class:list={[
-    'w-full rounded-[18px] overflow-hidden relative h-[480px] flex flex-col',
+    'w-full rounded-[18px] overflow-hidden relative aspect-[4/3] md:aspect-square flex flex-col',
     backgroundImage ? 'bg-cover bg-center' : 'bg-gray-300'
   ]}
   style={backgroundImage ? `background-image: url(${backgroundImage})` : ''}
