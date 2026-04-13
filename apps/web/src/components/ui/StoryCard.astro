@@ -54,12 +54,12 @@ const { backgroundImage, title, person } = Astro.props
 >
   <div class="p-4 lg:p-8 flex flex-col h-full relative">
     <!-- Слот для логотипа -->
-    <div class="absolute top-8 left-8 right-8 flex items-start">
+    <div class="absolute top-4 left-4 right-4 lg:top-8 lg:left-8 lg:right-8 flex items-start">
       <slot name="logo" />
     </div>
 
     <!-- Нижняя часть с заголовком и PersonCard -->
-    <div class="mt-auto flex flex-col gap-12">
+    <div class="mt-auto flex flex-col gap-4 lg:gap-8">
       <h3 class="text-h3 text-white">
         {title}
       </h3>
