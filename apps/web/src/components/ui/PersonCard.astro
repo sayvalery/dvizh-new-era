@@ -89,12 +89,12 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
     )}
     <div>
       {personHref ? (
-        <a href={personHref} class="font-semibold text-sm leading-tight hover:underline">{person.name}</a>
+        <a href={personHref} class="text-h6 hover:underline">{person.name}</a>
       ) : (
-        <p class="font-semibold text-sm leading-tight">{person.name}</p>
+        <p class="text-h6">{person.name}</p>
       )}
       {person.jobTitle && (
-        <p class="text-sm text-gray-500 leading-tight mt-0.5">
+        <p class="text-subhead text-gray-500 mt-0.5">
           {person.jobTitle}
           {person.company && (
             <>
