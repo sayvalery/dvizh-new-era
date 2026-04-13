@@ -30,11 +30,13 @@ interface Person {
 interface Props {
   person: Person
   variant?: 'full' | 'inline'
+  theme?: 'light' | 'dark'
 }
 
 import { normalizeMediaUrl } from '../../lib/payload'
 
-const { person, variant = 'full' } = Astro.props
+const { person, variant = 'full', theme = 'light' } = Astro.props
+const isDark = theme === 'dark'
 const photoUrl = normalizeMediaUrl(person.photo?.url)
 const personHref = person.slug ? `/person/${person.slug}` : null
 const companyHref = person.company?.slug ? `/companies/${person.company.slug}` : null
@@ -50,7 +52,7 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
           <span class="text-xs text-gray-500 font-medium">{person.name[0]}</span>
         </div>
       )}
-      <span class="text-sm text-gray-700">{person.name}</span>
+      <span class:list={['text-h6', isDark ? 'text-white' : 'text-gray-900']}>{person.name}</span>
     </a>
   ) : (
     <div class="flex items-center gap-2">
@@ -61,7 +63,7 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
           <span class="text-xs text-gray-500 font-medium">{person.name[0]}</span>
         </div>
       )}
-      <span class="text-sm text-gray-700">{person.name}</span>
+      <span class:list={['text-h6', isDark ? 'text-white' : 'text-gray-900']}>{person.name}</span>
     </div>
   )
 ) : (
@@ -89,12 +91,12 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
     )}
     <div>
       {personHref ? (
-        <a href={personHref} class="text-h6 hover:underline">{person.name}</a>
+        <a href={personHref} class:list={['text-h6 hover:underline', isDark ? 'text-white' : 'text-gray-900']}>{person.name}</a>
       ) : (
-        <p class="text-h6">{person.name}</p>
+        <p class:list={['text-h6', isDark ? 'text-white' : 'text-gray-900']}>{person.name}</p>
       )}
       {person.jobTitle && (
-        <p class="text-subhead text-gray-500 mt-0.5">
+        <p class:list={['text-subhead mt-0.5', isDark ? 'text-white/70' : 'text-gray-500']}>
           {person.jobTitle}
           {person.company && (
             <>

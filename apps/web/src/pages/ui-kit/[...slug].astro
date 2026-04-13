@@ -382,8 +382,9 @@ const sections = [
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Inline — аватар + имя (без подзаголовка)</p>
               <div class="flex flex-wrap gap-4">
-                <PersonCard person={{ name: 'Иван Азизов', jobTitle: 'CEO' }} variant="inline" />
-                <PersonCard person={{ name: 'Анна Смирнова' }} variant="inline" />
+                <PersonCard person={{ name: 'Иван Азизов', jobTitle: 'CEO', photo: { url: 'https://i.pravatar.cc/40?img=11' } }} variant="inline" />
+                <PersonCard person={{ name: 'Анна Смирнова', photo: { url: 'https://i.pravatar.cc/40?img=5' } }} variant="inline" />
+                <PersonCard person={{ name: 'Без фото' }} variant="inline" />
               </div>
             </div>
 
@@ -391,7 +392,7 @@ const sections = [
               <p class="text-sm font-medium text-gray-400 mb-4">В контексте статьи — inline в шапке, full внизу</p>
               <div class="border rounded-xl p-6 max-w-lg space-y-4">
                 <div class="flex items-center gap-4">
-                  <PersonCard person={{ name: 'Иван Азизов' }} variant="inline" />
+                  <PersonCard person={{ name: 'Иван Азизов', photo: { url: 'https://i.pravatar.cc/40?img=11' } }} variant="inline" />
                   <span class="text-sm text-gray-400">12 января 2025</span>
                 </div>
                 <p class="text-sm text-gray-600">Текст статьи…</p>

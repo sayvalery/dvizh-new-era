@@ -52,7 +52,7 @@ const { backgroundImage, title, person } = Astro.props
   ]}
   style={backgroundImage ? `background-image: url(${backgroundImage})` : ''}
 >
-  <div class="p-8 flex flex-col h-full relative">
+  <div class="p-4 lg:p-8 flex flex-col h-full relative">
     <!-- Слот для логотипа -->
     <div class="absolute top-8 left-8 right-8 flex items-start">
       <slot name="logo" />
@@ -60,29 +60,11 @@ const { backgroundImage, title, person } = Astro.props
 
     <!-- Нижняя часть с заголовком и PersonCard -->
     <div class="mt-auto flex flex-col gap-12">
-      <h3 class="text-white text-[36px] font-bold leading-tight font-heading tracking-[-0.47px]">
+      <h3 class="text-h3 text-white">
         {title}
       </h3>
 
-      <div class="flex items-center gap-3">
-        {person.photo?.url ? (
-          <img
-            src={person.photo.url}
-            alt={person.photo.alt ?? person.name}
-            class="w-[42px] h-[42px] rounded-full object-cover shrink-0"
-          />
-        ) : (
-          <div class="w-[42px] h-[42px] rounded-full bg-white/20 flex items-center justify-center shrink-0">
-            <span class="text-base text-white font-medium">{person.name[0]}</span>
-          </div>
-        )}
-        <div>
-          <p class="font-semibold text-sm leading-tight text-white">{person.name}</p>
-          {person.jobTitle && (
-            <p class="text-sm text-white/80 leading-tight mt-0.5">{person.jobTitle}</p>
-          )}
-        </div>
-      </div>
+      <PersonCard person={person} theme="dark" />
     </div>
   </div>
 </div>
