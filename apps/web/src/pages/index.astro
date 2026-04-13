@@ -63,11 +63,14 @@ async function fetchArticle(slug: string): Promise<{ post: any | null, html: str
   return { post: null, html: null, title: null }
 }
 
-const [ayaks, granel, lidov, ereg] = await Promise.all([
+const [ayaks, granel, lidov, ereg, lsr, tochno, samolet] = await Promise.all([
   fetchArticle('case-ayaks-dvizh'),
   fetchArticle('granel-rost-procenta-odobreniya'),
   fetchArticle('kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti'),
   fetchArticle('alfavit-polzy-zastroyshchika-elektronnaya-registraciya'),
+  fetchArticle('keys-lsr-dvizh'),
+  fetchArticle('keys-gk-tochno-i-dvizha'),
+  fetchArticle('samolet-ai-u-developera'),
 ])
 
 const partnerLogos = [
@@ -219,6 +222,15 @@ const partnerLogos = [
           <div slot="logo" class="w-[126px] h-[40px] flex items-center justify-center bg-white/30 rounded-[40px]">
             <img src="/client_logos/lsr.png" alt="ЛСР" class="h-5 w-auto" />
           </div>
+          {(lsr.post || lsr.html) && (
+            <article slot="modal-body" class="px-8 py-12">
+              {lsr.title && <h1 class="text-4xl font-bold mb-4">{lsr.title}</h1>}
+              {lsr.post?.content?.length > 0
+                ? <BlockRenderer blocks={lsr.post.content} />
+                : lsr.html && <div class="prose prose-lg max-w-none mt-8" set:html={lsr.html} />
+              }
+            </article>
+          )}
         </StoryCard>
       </div>
       <div class="snap-start shrink-0 w-[65vw] md:w-[40vw]">
@@ -229,6 +241,15 @@ const partnerLogos = [
           <div slot="logo" class="w-[126px] h-[40px] flex items-center justify-center bg-white/30 rounded-[40px]">
             <img src="/client_logos/tochno.svg" alt="Точно" class="h-3 w-auto" />
           </div>
+          {(tochno.post || tochno.html) && (
+            <article slot="modal-body" class="px-8 py-12">
+              {tochno.title && <h1 class="text-4xl font-bold mb-4">{tochno.title}</h1>}
+              {tochno.post?.content?.length > 0
+                ? <BlockRenderer blocks={tochno.post.content} />
+                : tochno.html && <div class="prose prose-lg max-w-none mt-8" set:html={tochno.html} />
+              }
+            </article>
+          )}
         </StoryCard>
       </div>
       <div class="snap-start shrink-0 w-[65vw] md:w-[40vw]">
@@ -239,6 +260,15 @@ const partnerLogos = [
           <div slot="logo" class="w-[126px] h-[40px] flex items-center justify-center bg-white/30 rounded-[40px]">
             <img src="/client_logos/samolet.svg" alt="Самолёт" class="h-3 w-auto" />
           </div>
+          {(samolet.post || samolet.html) && (
+            <article slot="modal-body" class="px-8 py-12">
+              {samolet.title && <h1 class="text-4xl font-bold mb-4">{samolet.title}</h1>}
+              {samolet.post?.content?.length > 0
+                ? <BlockRenderer blocks={samolet.post.content} />
+                : samolet.html && <div class="prose prose-lg max-w-none mt-8" set:html={samolet.html} />
+              }
+            </article>
+          )}
         </StoryCard>
       </div>
     </div>

@@ -11,6 +11,7 @@
  *
  * Slots:
  *   logo — слот для логотипа компании (сверху над заголовком)
+ *   modal-body — содержимое модалки (статья)
  *
  * Пример:
  *   <StoryCard
@@ -27,6 +28,7 @@
  */
 
 import PersonCard from './PersonCard.astro'
+import ModalInlineForm from './ModalInlineForm.astro'
 
 interface Person {
   name: string
@@ -43,28 +45,98 @@ interface Props {
 }
 
 const { backgroundImage, title, person } = Astro.props
+
+const hasModal = Astro.slots.has('modal-body')
 ---
 
 <div
-  class:list={[
-    'w-full rounded-[18px] overflow-hidden relative aspect-[4/3] md:aspect-square flex flex-col',
-    backgroundImage ? 'bg-cover bg-center' : 'bg-gray-300'
-  ]}
-  style={backgroundImage ? `background-image: url(${backgroundImage})` : ''}
+  x-data="{ open: false, scrolled: false }"
+  x-effect="
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (!open) scrolled = false;
+  "
 >
-  <div class="p-4 lg:p-8 flex flex-col h-full relative">
-    <!-- Слот для логотипа -->
-    <div class="absolute top-4 left-4 right-4 lg:top-8 lg:left-8 lg:right-8 flex items-start">
-      <slot name="logo" />
-    </div>
+  <!-- Карточка -->
+  <div
+    class:list={[
+      'w-full rounded-[18px] overflow-hidden relative aspect-[4/3] md:aspect-square flex flex-col',
+      backgroundImage ? 'bg-cover bg-center' : 'bg-gray-300',
+      hasModal ? 'cursor-pointer' : ''
+    ]}
+    style={backgroundImage ? `background-image: url(${backgroundImage})` : ''}
+    @click={hasModal ? 'open = true' : ''}
+  >
+    <div class="p-4 lg:p-8 flex flex-col h-full relative">
+      <!-- Слот для логотипа -->
+      <div class="absolute top-4 left-4 right-4 lg:top-8 lg:left-8 lg:right-8 flex items-start">
+        <slot name="logo" />
+      </div>
 
-    <!-- Нижняя часть с заголовком и PersonCard -->
-    <div class="mt-auto flex flex-col gap-4 lg:gap-8">
-      <h3 class="text-h3 text-white">
-        {title}
-      </h3>
+      <!-- Нижняя часть с заголовком и PersonCard -->
+      <div class="mt-auto flex flex-col gap-4 lg:gap-8">
+        <h3 class="text-h3 text-white">
+          {title}
+        </h3>
 
-      <PersonCard person={person} theme="dark" />
+        <PersonCard person={person} theme="dark" />
+      </div>
     </div>
   </div>
+
+  <!-- Модальное окно -->
+  {hasModal && (
+    <div
+      x-show="open"
+      x-transition:enter="transition duration-200 ease-out"
+      x-transition:enter-start="opacity-0"
+      x-transition:enter-end="opacity-100"
+      x-transition:leave="transition duration-150 ease-in"
+      x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0"
+      class="fixed inset-0 z-50 bg-black/40"
+      @click="open = false"
+      @keydown.escape.window="open = false"
+      x-cloak
+    >
+      <!-- Панель -->
+      <div
+        class="fixed bottom-0 left-1/2 -translate-x-1/2 w-screen md:w-[540px] lg:w-[50vw] lg:min-w-[600px]"
+        @click.stop
+      >
+        <!-- Белая панель -->
+        <div class="relative flex flex-col overflow-hidden bg-white h-[90vh] rounded-t-[32px]">
+          <!-- Кнопка закрыть -->
+          <button
+            @click.stop="open = false"
+            class="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+            aria-label="Закрыть"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+              <path d="M3 3l10 10M13 3L3 13"/>
+            </svg>
+          </button>
+
+          <!-- Скроллируемая область -->
+          <div class="overflow-y-auto flex-1" @scroll="scrolled = true">
+            <slot name="modal-body" />
+          </div>
+
+          <!-- Inline-форма -->
+          <div
+            x-show="scrolled"
+            x-transition:enter="transition duration-300 ease-out"
+            x-transition:enter-start="opacity-0 translate-y-2"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition duration-200 ease-in"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 translate-y-2"
+            class="shrink-0 bg-white border-t border-gray-100 px-8 py-6"
+            x-cloak
+          >
+            <ModalInlineForm />
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
 </div>
