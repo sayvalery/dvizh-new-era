@@ -34,6 +34,7 @@ import StoryCard from '../../components/ui/StoryCard.astro'
 import AdvantageCard from '../../components/ui/AdvantageCard.astro'
 import Island from '../../components/ui/Island.astro'
 import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
+import SideMenu from '../../components/ui/SideMenu.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -183,6 +184,7 @@ export function getStaticPaths() {
     { params: { slug: 'dvizh-advantages' }, props: { section: 'dvizh-advantages' } },
     { params: { slug: 'island' }, props: { section: 'island' } },
     { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
+    { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
   ]
 }
 
@@ -220,6 +222,7 @@ const sections = [
   { slug: 'dvizh-advantages', label: 'Dvizh Advantages' },
   { slug: 'island', label: 'Island' },
   { slug: 'modal-inline-form', label: 'Modal Inline Form' },
+  { slug: 'side-menu', label: 'Side Menu' },
 ]
 ---
 
@@ -2327,6 +2330,32 @@ interface Props {
               <div class="border border-gray-100 rounded-2xl p-8 bg-white">
                 <ModalInlineForm />
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'side-menu' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Side Menu</h1>
+          <p class="text-gray-600 mb-8">Вертикальное боковое меню с нумерацией. Активный пункт выделяется оранжевым, переключается кликом.</p>
+          <div class="space-y-8">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">5 пунктов</p>
+              <SideMenu items={[
+                { number: '01', title: 'Цифровая ипотека', active: true },
+                { number: '02', title: 'Ипотечный калькулятор' },
+                { number: '03', title: 'Финансовый скоринг' },
+                { number: '04', title: 'Электронная регистрация' },
+                { number: '05', title: 'ДВИЖ AI' },
+              ]} />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 пункта</p>
+              <SideMenu items={[
+                { number: '01', title: 'Для девелоперов', active: true },
+                { number: '02', title: 'Для банков' },
+                { number: '03', title: 'Для агентств' },
+              ]} />
             </div>
           </div>
         </div>

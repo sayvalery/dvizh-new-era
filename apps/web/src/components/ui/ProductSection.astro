@@ -6,6 +6,7 @@
  */
 
 import ProductCard from './ProductCard.astro'
+import SideMenu from './SideMenu.astro'
 
 interface SectionItem {
   number: string
@@ -43,23 +44,7 @@ const componentId = `product-section-${Math.random().toString(36).substr(2, 9)}`
   <div id={componentId} class="px-[50px] py-[50px]">
     <div class="flex flex-col md:gap-[52px] lg:flex-row lg:gap-[120px]">
       <!-- Меню секций (md-sm: сверху, lg+: слева) -->
-      <nav class="flex flex-col gap-6 lg:w-[220px] lg:flex-shrink-0">
-        {sections.map((section, index) => (
-          <button
-            class:list={[
-              'flex items-center gap-2 text-left transition-colors hover:opacity-70',
-              index === 0 ? 'text-brand' : 'text-[#858585]'
-            ]}
-          >
-            <span class="text-xs uppercase tracking-wide">
-              {section.number}
-            </span>
-            <span class="text-xs uppercase tracking-wide">
-              {section.title}
-            </span>
-          </button>
-        ))}
-      </nav>
+      <SideMenu items={sections} class="lg:w-[220px] lg:flex-shrink-0" />
 
       <!-- Product Card (контент справа) -->
       <div class="flex-1">
