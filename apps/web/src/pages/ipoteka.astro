@@ -64,86 +64,53 @@ import StoryCard from '../components/ui/StoryCard.astro'
   <!-- ProductSectionNew -->
   <div class="max-w-[1440px] mx-auto px-4 mt-[50px]">
     <ProductSectionNew
-    sections={[
-      { number: "01", title: "Подбор банков", active: true },
-      { number: "02", title: "Заполнение анкеты" },
-      { number: "03", title: "Скоринг клиента" },
-      { number: "04", title: "Отправка заявки" },
-    ]}
-    title={{
-      lg: "Заголовок для больших экранов (lg+)",
-      md: "Заголовок для средних экранов (md)",
-      sm: "Заголовок для мобильных (sm)"
-    }}
-    descriptions={[
-      "Это демонстрация нового компонента ProductSectionNew",
-      "С адаптивными заголовками и изображениями в правом блоке"
-    ]}
-    primaryButton={{ label: "Читать кейс", href: "#" }}
-    secondaryButton={{ label: "Подробнее о модуле", href: "#" }}
-    rightContent={[
-      {
-        images: [
-          {
-            src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg",
-            alt: "Цифровая ипотека",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Повышаем конверсию из первичной консультации до 20%",
-        description: [
-          "Расчет досрочных погашений и рефинансирования",
-          "40+ банков-партнеров и большой выбор ипотечных программ"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "https://admin.dvizh.cc/api/media/file/product-section-2v2.jpg",
-            alt: "Ипотечный калькулятор",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Сокращаем время на заполнение анкеты до 10 секунд",
-        description: [
-          "Распознавание документов от паспорта до справки 2-НДФЛ",
-          "Заполнение анкеты через Госуслуги",
-          "Одна анкета в 40+ банков"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "https://admin.dvizh.cc/api/media/file/product-section-3.jpg",
-            alt: "Финансовый скоринг",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Проверяем ваших клиентов по банковским стандартам",
-        description: [
-          "Долговая нагрузка и «красные флаги» клиента",
-          "Рекомендации по улучшению рейтинга клиента"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "https://admin.dvizh.cc/api/media/file/product-section-4.jpg",
-            alt: "Электронная регистрация",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Увеличиваем процент одобрения до 95%+",
-        description: [
-          "Прогноз скорости и вероятности одобрения клиента в банках",
-          "Отправка заявки сразу в 5+ банков"
-        ]
-      }
-    ]}
+      sections={[
+        {
+          number: "01",
+          title: "Подбор банков",
+          cardTitle: "Повышаем конверсию из первичной консультации до 20%",
+          items: [
+            "Расчет досрочных погашений и рефинансирования",
+            "40+ банков-партнеров и большой выбор ипотечных программ"
+          ],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg", alt: "Цифровая ипотека" }
+        },
+        {
+          number: "02",
+          title: "Заполнение анкеты",
+          cardTitle: "Сокращаем время на заполнение анкеты до 10 секунд",
+          items: [
+            "Распознавание документов от паспорта до справки 2-НДФЛ",
+            "Заполнение анкеты через Госуслуги",
+            "Одна анкета в 40+ банков"
+          ],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-2v2.jpg", alt: "Ипотечный калькулятор" }
+        },
+        {
+          number: "03",
+          title: "Скоринг клиента",
+          cardTitle: "Проверяем ваших клиентов по банковским стандартам",
+          items: [
+            "Долговая нагрузка и красные флаги клиента",
+            "Рекомендации по улучшению рейтинга клиента"
+          ],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-3.jpg", alt: "Финансовый скоринг" }
+        },
+        {
+          number: "04",
+          title: "Отправка заявки",
+          cardTitle: "Увеличиваем процент одобрения до 95%+",
+          items: [
+            "Прогноз скорости и вероятности одобрения клиента в банках",
+            "Отправка заявки сразу в 5+ банков"
+          ],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-4.jpg", alt: "Электронная регистрация" }
+        }
+      ]}
     />
   </div>
 

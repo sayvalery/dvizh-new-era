@@ -9,7 +9,6 @@ import SectionBlock from '../components/ui/SectionBlock.astro'
 import GradientCTA from '../components/ui/GradientCTA.astro'
 import BlogCards from '../components/ui/BlogCards.astro'
 import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
-import StoryCard from '../components/ui/StoryCard.astro'
 import ProductSection from '../components/ui/ProductSection.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import CTA from '../components/ui/CTA.astro'
@@ -207,72 +206,25 @@ const partnerLogos = [
   </section>
 
   <!-- Stories Carousel -->
-  <div class="max-w-[1440px] mx-auto px-4 py-20">
-    <h2 class="text-h2 text-[#1b2226] mb-8 sm:mb-12">70+ историй успеха на рынке девелопмента</h2>
-    <div
-      class="flex items-start overflow-x-auto gap-5 pb-4 snap-x snap-mandatory scrollbar-hide cursor-grab select-none"
-      style="-webkit-overflow-scrolling: touch; scroll-behavior: smooth;"
-      data-drag-scroll
-    >
-      <div class="snap-start shrink-0 w-[65vw] md:w-[40vw]">
-        <StoryCard
-          title={"Помогли начать обрабатывать на\u00A0281% заявок больше, чем\u00A0в\u00A0среднем на\u00A0рынке"}
-          person={{ name: "Петрова Надежда", jobTitle: "Директор по маркетингу, ЛСР" }}
-        >
-          <div slot="logo" class="w-[126px] h-[40px] flex items-center justify-center bg-white/30 rounded-[40px]">
-            <img src="/client_logos/lsr.png" alt="ЛСР" class="h-5 w-auto" />
-          </div>
-          {(lsr.post || lsr.html) && (
-            <article slot="modal-body" class="px-8 py-12">
-              {lsr.title && <h1 class="text-4xl font-bold mb-4">{lsr.title}</h1>}
-              {lsr.post?.content?.length > 0
-                ? <BlockRenderer blocks={lsr.post.content} />
-                : lsr.html && <div class="prose prose-lg max-w-none mt-8" set:html={lsr.html} />
-              }
-            </article>
-          )}
-        </StoryCard>
-      </div>
-      <div class="snap-start shrink-0 w-[65vw] md:w-[40vw]">
-        <StoryCard
-          title={"Увеличили объём закрытых сделок с\u00A01165 до\u00A03500 за\u00A0год"}
-          person={{ name: "Светлана Корнелюк", jobTitle: "Директор отдела продаж" }}
-        >
-          <div slot="logo" class="w-[126px] h-[40px] flex items-center justify-center bg-white/30 rounded-[40px]">
-            <img src="/client_logos/tochno.svg" alt="Точно" class="h-3 w-auto" />
-          </div>
-          {(tochno.post || tochno.html) && (
-            <article slot="modal-body" class="px-8 py-12">
-              {tochno.title && <h1 class="text-4xl font-bold mb-4">{tochno.title}</h1>}
-              {tochno.post?.content?.length > 0
-                ? <BlockRenderer blocks={tochno.post.content} />
-                : tochno.html && <div class="prose prose-lg max-w-none mt-8" set:html={tochno.html} />
-              }
-            </article>
-          )}
-        </StoryCard>
-      </div>
-      <div class="snap-start shrink-0 w-[65vw] md:w-[40vw]">
-        <StoryCard
-          title={"Дополнительно продали 96\u00A0квартир"}
-          person={{ name: "Иванов Сергей", jobTitle: "Руководитель отдела ипотеки" }}
-        >
-          <div slot="logo" class="w-[126px] h-[40px] flex items-center justify-center bg-white/30 rounded-[40px]">
-            <img src="/client_logos/samolet.svg" alt="Самолёт" class="h-3 w-auto" />
-          </div>
-          {(samolet.post || samolet.html) && (
-            <article slot="modal-body" class="px-8 py-12">
-              {samolet.title && <h1 class="text-4xl font-bold mb-4">{samolet.title}</h1>}
-              {samolet.post?.content?.length > 0
-                ? <BlockRenderer blocks={samolet.post.content} />
-                : samolet.html && <div class="prose prose-lg max-w-none mt-8" set:html={samolet.html} />
-              }
-            </article>
-          )}
-        </StoryCard>
-      </div>
-    </div>
-  </div>
+  <SuccessStoriesCarousel
+    title="70+ историй успеха на рынке девелопмента"
+    variant="mini"
+    class="max-w-[1440px] mx-auto py-20"
+    stories={[
+      {
+        title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
+        person: { name: "Петрова Надежда", jobTitle: "Директор по маркетингу, ЛСР" }
+      },
+      {
+        title: "Увеличили объём закрытых сделок с 1165 до 3500 за год",
+        person: { name: "Светлана Корнелюк", jobTitle: "Директор отдела продаж" }
+      },
+      {
+        title: "Дополнительно продали 96 квартир",
+        person: { name: "Иванов Сергей", jobTitle: "Руководитель отдела ипотеки" }
+      }
+    ]}
+  />
 
   <!-- Product Section -->
   <ProductSection

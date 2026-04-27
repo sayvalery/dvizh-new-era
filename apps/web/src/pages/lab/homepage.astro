@@ -12,7 +12,6 @@ import FeaturesGrid from '../../components/ui/FeaturesGrid.astro'
 import SectionBlock from '../../components/ui/SectionBlock.astro'
 import GradientCTA from '../../components/ui/GradientCTA.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
-import ProductSection from '../../components/ui/ProductSection.astro'
 import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
 import BentoThreeNew from '../../components/ui/BentoThreeNew.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
@@ -114,109 +113,48 @@ const blogArticles = [
   <!-- ProductSectionNew Demo -->
   <div class="max-w-[1440px] mx-auto px-4 mt-[50px]">
     <ProductSectionNew
-    sections={[
-      { number: "01", title: "Цифровая ипотека", active: true },
-      { number: "02", title: "Ипотечный калькулятор" },
-      { number: "03", title: "Финансовый скоринг" },
-      { number: "04", title: "Электронная регистрация" },
-      { number: "05", title: "Движ AI" },
-    ]}
-    title={{
-      lg: "Заголовок для больших экранов (lg+)",
-      md: "Заголовок для средних экранов (md)",
-      sm: "Заголовок для мобильных (sm)"
-    }}
-    descriptions={[
-      "Это демонстрация нового компонента ProductSectionNew",
-      "С адаптивными заголовками и изображениями в правом блоке"
-    ]}
-    primaryButton={{ label: "Начать", href: "#" }}
-    secondaryButton={{ label: "Подробнее", href: "#" }}
-    rightContent={[
-      {
-        images: [
-          {
-            src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg",
-            alt: "Цифровая ипотека",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Поможем перевыполнить план продаж на том же трафике",
-        description: [
-          "До 96% одобрения",
-          "Единая анкета в 40 банков",
-          "Моментальное заполнение анкеты через Госуслуги",
-          "Готовые интеграции с CRM",
-          "Анализ работы менеджеров"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "https://admin.dvizh.cc/api/media/file/product-section-2v2.jpg",
-            alt: "Ипотечный калькулятор",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Приведем больше лидов с сайта",
-        description: [
-          "Расчет рассрочки и досрочного погашения",
-          "Автоматическое обновление ставок и программ",
-          "API для интеграции с вашим сайтом и личным кабинетом",
-          "Брендирование калькулятора под ваши цвета"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "https://admin.dvizh.cc/api/media/file/product-section-3.jpg",
-            alt: "Финансовый скоринг",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Сократим процент отказов по проблемным заемщикам",
-        description: [
-          "Проверка заемщика по 15 источникам",
-          "Ежемесячный скоринг по ДДУ c рассрочкой",
-          "Рекомендации по улучшению кредитной истории"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "https://admin.dvizh.cc/api/media/file/product-section-4.jpg",
-            alt: "Электронная регистрация",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Сократим стоимость регистрации в Росреестре",
-        description: [
-          "Сквозное оформление сделки от ипотеки до регистрации",
-          "До 30% дешевле цены конкурентов",
-          "Все виды сделок"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "https://admin.dvizh.cc/api/media/file/product-section-5.jpg",
-            alt: "Движ AI",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Нейросети на службе вашего бизнеса",
-        description: [
-          "Расчет вероятности скорости одобрения по банкам",
-          "Автоматический подбор ипотечной программы",
-          "Меньше отказов, больше сделок"
-        ]
-      }
-    ]}
+      sections={[
+        {
+          number: "01",
+          title: "Цифровая ипотека",
+          cardTitle: "Поможем перевыполнить план продаж на том же трафике",
+          items: ["До 96% одобрения", "Единая анкета в 40+ банков", "Моментальное заполнение через Госуслуги", "Готовые интеграции с CRM"],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg", alt: "Цифровая ипотека" }
+        },
+        {
+          number: "02",
+          title: "Ипотечный калькулятор",
+          cardTitle: "Приведем больше лидов с сайта",
+          items: ["Расчет рассрочки и досрочного погашения", "Автоматическое обновление ставок"],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-2v2.jpg", alt: "Ипотечный калькулятор" }
+        },
+        {
+          number: "03",
+          title: "Финансовый скоринг",
+          cardTitle: "Сократим процент отказов по проблемным заемщикам",
+          items: ["Проверка заемщика по 15 источникам", "Ежемесячный скоринг по ДДУ c рассрочкой"],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-3.jpg", alt: "Финансовый скоринг" }
+        },
+        {
+          number: "04",
+          title: "Электронная регистрация",
+          cardTitle: "Сократим стоимость регистрации в Росреестре",
+          items: ["Сквозное оформление сделки от ипотеки до регистрации", "До 30% дешевле цены конкурентов"],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-4.jpg", alt: "Электронная регистрация" }
+        },
+        {
+          number: "05",
+          title: "Движ AI",
+          cardTitle: "Нейросети на службе вашего бизнеса",
+          items: ["Расчет вероятности одобрения по банкам", "Меньше отказов, больше сделок"],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-5.jpg", alt: "Движ AI" }
+        }
+      ]}
     />
   </div>
 

@@ -45,6 +45,8 @@ interface Props {
   logoAlt?: string
   /** Вариант: default (с изображением и цитатой) или mini (только заголовок и персона) */
   variant?: 'default' | 'mini'
+  /** Фон карточки: CSS-цвет (#hex, rgb, ...) или URL картинки (/path или https://...) */
+  background?: string
   /** Дополнительные CSS классы */
   class?: string
 }
@@ -58,6 +60,7 @@ const {
   logo,
   logoAlt = 'Logo',
   variant = 'default',
+  background,
   class: className = ''
 } = Astro.props
 
@@ -65,9 +68,19 @@ const isMini = variant === 'mini'
 
 // Автоопределение: если есть HTML теги — рендерим как HTML
 const hasHtml = /<[a-z][\s\S]*>/i.test(title)
+
+// Фон: если передан URL — используем как background-image, иначе как background-color
+const bgStyle = background
+  ? /^(\/|https?:|data:)/.test(background)
+    ? `background-image: url(${background}); background-size: cover; background-position: center;`
+    : `background-color: ${background};`
+  : ''
 ---
 
-<div class:list={['bg-[#f8f8f8] rounded-[20px] lg:rounded-[40px] p-6 sm:p-8 lg:p-[52px]', className, isMini && 'min-h-[300px] lg:h-[500px]']}>
+<div
+  class:list={[!background && 'bg-[#f8f8f8]', 'rounded-[20px] lg:rounded-[40px] p-6 sm:p-8 lg:p-[52px]', className, isMini && 'min-h-[300px] lg:h-[500px]']}
+  style={bgStyle || undefined}
+>
   {isMini ? (
     <!-- Mini вариант: только заголовок и персона -->
     <div class="flex flex-col justify-between h-full">

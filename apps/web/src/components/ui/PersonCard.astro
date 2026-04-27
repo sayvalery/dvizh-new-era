@@ -3,16 +3,21 @@
  * PersonCard — карточка персоны
  *
  * Варианты:
- *   full   (по умолчанию) — аватар 44px + имя + должность + компания. Для раздела авторов.
- *   inline                — аватар 24px + имя. Для строки метаданных статьи.
+ *   full      (по умолчанию) — аватар 44px + имя + должность + компания. Для раздела авторов.
+ *   inline                   — аватар 24px + имя. Для строки метаданных статьи.
+ *   with-logo                — логотип клиента + разделитель + имя + должность. Для цитат кейсов.
  *
  * Примеры:
- *   <PersonCard person={primaryAuthor} variant="inline" />   // в шапке статьи
- *   <PersonCard person={author} variant="full" />            // в блоке авторов внизу
+ *   <PersonCard person={primaryAuthor} variant="inline" />            // в шапке статьи
+ *   <PersonCard person={author} variant="full" />                     // в блоке авторов внизу
+ *   <PersonCard person={speaker} variant="with-logo" logoUrl="..." /> // в карточке цитаты кейса
  *
  * person.slug  → кликабельная ссылка на /persons/[slug]
  * person.company.slug → ссылка на /companies/[slug]
  * person.photo.url    → абсолютный URL (Payload serverURL уже включён, не добавлять CMS_URL)
+ *
+ * logoUrl / logoAlt — только для варианта with-logo.
+ *   Если logoUrl не передан — отображается серая заглушка.
  */
 interface Company {
   name: string
@@ -29,20 +34,52 @@ interface Person {
 
 interface Props {
   person: Person
-  variant?: 'full' | 'inline'
+  variant?: 'full' | 'inline' | 'with-logo'
   theme?: 'light' | 'dark'
+  /** URL логотипа компании (только для variant="with-logo") */
+  logoUrl?: string
+  /** Alt-текст логотипа (только для variant="with-logo") */
+  logoAlt?: string
 }
 
 import { normalizeMediaUrl } from '../../lib/payload'
 
-const { person, variant = 'full', theme = 'light' } = Astro.props
+const { person, variant = 'full', theme = 'light', logoUrl, logoAlt } = Astro.props
 const isDark = theme === 'dark'
 const photoUrl = normalizeMediaUrl(person.photo?.url)
 const personHref = person.slug ? `/person/${person.slug}` : null
 const companyHref = person.company?.slug ? `/companies/${person.company.slug}` : null
 ---
 
-{variant === 'inline' ? (
+{variant === 'with-logo' ? (
+  <div class="flex items-center gap-4 w-full">
+
+    {/* Логотип клиента / заглушка */}
+    <div class="w-[60px] h-[46px] shrink-0 flex items-center justify-center overflow-hidden">
+      {logoUrl ? (
+        <img src={logoUrl} alt={logoAlt ?? ''} class="max-w-full max-h-full object-contain" />
+      ) : (
+        <div class="w-full h-full bg-gray-200 rounded"></div>
+      )}
+    </div>
+
+    {/* Вертикальный разделитель */}
+    <div class="w-px self-stretch bg-gray-300/60 shrink-0"></div>
+
+    {/* Имя и должность */}
+    <div class="flex-1 min-w-0">
+      <p class:list={['text-h6', isDark ? 'text-white' : 'text-gray-900']}>
+        {person.name}
+      </p>
+      {person.jobTitle && (
+        <p class:list={['text-subhead mt-0.5', isDark ? 'text-white/70' : 'text-gray-500']}>
+          {person.jobTitle}
+        </p>
+      )}
+    </div>
+
+  </div>
+) : variant === 'inline' ? (
   personHref ? (
     <a href={personHref} class="flex items-center gap-2 hover:opacity-80 transition-opacity">
       {photoUrl ? (

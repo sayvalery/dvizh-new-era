@@ -1,25 +1,20 @@
 ---
 /**
- * ProductCard — большая карточка продукта с анимированным фоном
+ * ProductCard — карточка продукта
  *
- * Hero-секция продукта с заголовком, описанием (до 5 строк) и кнопками.
- * Фон: FlutedGlassBg с тёплой персиково-оранжевой палитрой.
+ * Структура: заголовок → список пунктов со значком-квадратом → кнопка → изображение.
+ * Блок отзыва (review) будет добавлен позже как отдельный пропс.
  *
  * @example
  * ```astro
  * <ProductCard
- *   title="Разворачивайте ипотечное дело с уверенностью"
- *   descriptions={[
- *     "Единая платформа для автоматизации",
- *     "всего процесса ипотечного кредитования",
- *     "от заявки до регистрации сделки"
- *   ]}
- *   primaryButton={{ label: "Начать", href: "#" }}
+ *   title="Поможем перевыполнить план продаж на том же трафике"
+ *   items={['До 96% одобрения', 'Единая анкета в 40+ банков']}
+ *   button={{ label: 'Подробнее', href: '/ipoteka' }}
+ *   image={{ src: '/api/media/file/ipoteka.jpg', alt: 'Цифровая ипотека' }}
  * />
  * ```
  */
-
-import FlutedGlassBg from './FlutedGlassBg.astro'
 
 interface Button {
   label: string
@@ -27,75 +22,70 @@ interface Button {
 }
 
 interface Props {
-  /** Заголовок */
+  /** Заголовок карточки */
   title: string
-  /** Описания (от 1 до 5 строк) */
-  descriptions?: string[]
-  /** Основная кнопка (CTA) */
-  primaryButton?: Button
-  /** Вторичная кнопка (текстовая со стрелкой) */
-  secondaryButton?: Button
+  /** Список пунктов — значок-квадрат + текст, количество произвольное */
+  items?: string[]
+  /** Кнопка CTA */
+  button?: Button
+  /** Изображение. Если не передано — нейтральный placeholder */
+  image?: { src: string; alt?: string }
   /** Дополнительные CSS классы */
   class?: string
 }
 
 const {
   title,
-  descriptions = [],
-  primaryButton,
-  secondaryButton,
+  items = [],
+  button,
+  image,
   class: className = ''
 } = Astro.props
 ---
 
-<div class:list={['relative isolate overflow-hidden rounded-[40px]', className]}>
-  <!-- Анимированный фон -->
-  <FlutedGlassBg
-    colors={['#fde8db', '#fcd5c0', '#fae0d0', '#fef3ed', '#f7f0ec']}
-    speed={0.7}
-    grain={0.15}
-    shadows={0.03}
-  />
+<div class:list={['rounded-[32px] bg-stone-100 overflow-hidden', className]}>
 
-  <div class="relative z-10 p-10 w-fit">
-    <div>
-      <!-- Заголовок -->
-      <h1 class="text-pretty text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900">
-        {title}
-      </h1>
+  <!-- Текстовая часть -->
+  <div class="p-8 lg:p-10">
 
-      <!-- Описания -->
-      {descriptions.length > 0 && (
-        <div class="mt-8 space-y-1">
-          {descriptions.map((desc) => (
-            <p class="text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
-              {desc}
-            </p>
-          ))}
-        </div>
-      )}
+    <!-- Заголовок -->
+    <h2 class="text-h2 text-gray-900">{title}</h2>
 
-      <!-- Кнопки -->
-      {(primaryButton || secondaryButton) && (
-        <div class="mt-10 flex items-center gap-x-6">
-          {primaryButton && (
-            <a
-              href={primaryButton.href}
-              class="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-            >
-              {primaryButton.label}
-            </a>
-          )}
-          {secondaryButton && (
-            <a
-              href={secondaryButton.href}
-              class="text-sm/6 font-semibold text-gray-900"
-            >
-              {secondaryButton.label} <span aria-hidden="true">→</span>
-            </a>
-          )}
-        </div>
-      )}
-    </div>
+    <!-- Список пунктов -->
+    {items.length > 0 && (
+      <ul class="mt-6 space-y-3">
+        {items.map(item => (
+          <li class="flex items-center gap-3">
+            <span class="w-2 h-2 rounded-[2px] bg-gray-300 shrink-0" aria-hidden="true" />
+            <span class="text-body-lg text-gray-500">{item}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <!-- Кнопка -->
+    {button && (
+      <div class="mt-8">
+        <a
+          href={button.href}
+          class="inline-flex items-center rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-700"
+        >
+          {button.label}
+        </a>
+      </div>
+    )}
   </div>
+
+  <!-- Изображение -->
+  <div class="mx-6 mb-6 lg:mx-8 lg:mb-8 overflow-hidden rounded-[24px] bg-stone-200 aspect-video">
+    {image && (
+      <img
+        src={image.src}
+        alt={image.alt ?? ''}
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    )}
+  </div>
+
 </div>
