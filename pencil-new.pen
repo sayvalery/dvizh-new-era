@@ -1,0 +1,1783 @@
+{
+  "version": "2.10",
+  "children": [
+    {
+      "type": "frame",
+      "id": "UpAQl",
+      "x": 75,
+      "y": -624,
+      "name": "Advantage card / default",
+      "reusable": true,
+      "clip": true,
+      "width": 708,
+      "height": 420,
+      "fill": "#f9f7f5ff",
+      "cornerRadius": 24,
+      "stroke": {
+        "align": "inside",
+        "thickness": 0.5,
+        "fill": {
+          "type": "color",
+          "color": "#ddddddff",
+          "enabled": false
+        }
+      },
+      "layout": "vertical",
+      "gap": 64,
+      "padding": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "RFJvL",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Frame 2147228488",
+          "enabled": false,
+          "clip": true,
+          "width": 708,
+          "height": 420,
+          "fill": "#ffffffff",
+          "cornerRadius": 24,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "zcCBU",
+              "x": 1490.11328125,
+              "y": -196,
+              "name": "Vector",
+              "opacity": 0.699999988079071,
+              "rotation": 25.57568251752929,
+              "flipX": true,
+              "flipY": true,
+              "geometry": "M910.14563 0l-443.99725 22.40116 441.18353 131.91168-907.33191 159.60379 607.52051 15.12307 926.94569-174.72686-624.32057-154.31284z",
+              "fill": "#fe824dff",
+              "width": 1534.4661865234375,
+              "height": 423.6076354980469,
+              "stroke": {
+                "align": "inside",
+                "thickness": 0.21383647620677948
+              },
+              "effect": {
+                "type": "blur",
+                "radius": 67.46249866485596
+              }
+            },
+            {
+              "type": "frame",
+              "id": "CNPCo",
+              "x": 0,
+              "y": -370,
+              "name": "Frame 2087326005",
+              "rotation": 3.1805546814635168e-15,
+              "width": 708,
+              "height": 939,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1.633946418762207
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "cTOgL",
+                  "name": "Frame 69",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "feysA",
+                  "name": "Frame 68",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "xHULb",
+                  "name": "Frame 44",
+                  "rotation": -90.00002179570969,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "uyeGy",
+                  "name": "Frame 63",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "YurtS",
+                  "name": "Frame 64",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "t6zDz",
+                  "name": "Frame 65",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "VwaE6",
+                  "name": "Frame 67",
+                  "rotation": -90.00002179570969,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "uITrf",
+                  "name": "Frame 66",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "tVjYV",
+              "x": -2415,
+              "y": -1336,
+              "name": "Group 1321317384",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "d9aVa",
+                  "x": 3123,
+                  "y": 0,
+                  "name": "dvizh-export (3) 2",
+                  "flipX": true,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "",
+                    "mode": "fill"
+                  },
+                  "width": 3123,
+                  "height": 1756,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  }
+                },
+                {
+                  "type": "rectangle",
+                  "id": "FlIG9",
+                  "x": 3123,
+                  "y": 1200,
+                  "name": "dvizh-export (3) 3",
+                  "flipX": true,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "",
+                    "mode": "fill"
+                  },
+                  "width": 989,
+                  "height": 556,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "RNu00",
+          "name": "Frame 2147228479",
+          "height": "fill_container",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "gap": 32,
+          "children": [
+            {
+              "type": "text",
+              "id": "1rXlo",
+              "name": "Section Title",
+              "fill": "#1c1c1eff",
+              "textGrowth": "fixed-width",
+              "width": 549,
+              "content": "Закрывают до 26% больше сделок на том же трафике",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "500",
+              "letterSpacing": -1
+            },
+            {
+              "type": "frame",
+              "id": "3Hl8F",
+              "name": "Frame 2147228403",
+              "opacity": 0.4000000059604645,
+              "clip": true,
+              "width": 48,
+              "height": 48,
+              "fill": {
+                "type": "color",
+                "color": "#e2bfbfff",
+                "enabled": false
+              },
+              "stroke": {
+                "align": "inside",
+                "thickness": 0.8000000715255737
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "group",
+                  "id": "S4c9b",
+                  "x": 34.37643271045454,
+                  "y": -4.9570708274969775,
+                  "name": "Group 1321317375",
+                  "rotation": -45,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "jmgeE",
+                      "x": 12.800029373180209,
+                      "y": 0.00003662108775870365,
+                      "name": "Rectangle 14750",
+                      "fill": "#000000ff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "Kated",
+                      "x": 0.000015168961880362986,
+                      "y": 12.800051116950272,
+                      "name": "Rectangle 14752",
+                      "fill": "#000000ff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "azYZZ",
+                      "x": 6.400022125255404,
+                      "y": 6.400043869025467,
+                      "name": "Rectangle 14753",
+                      "fill": "#000000ff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "8k7CL",
+                      "x": 19.200036621105014,
+                      "y": 6.400043869025467,
+                      "name": "Rectangle 14751",
+                      "fill": "#000000ff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "fY6s8",
+                      "x": 25.600043869029818,
+                      "y": 12.800051116950272,
+                      "name": "Rectangle 14754",
+                      "fill": "#000000ff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "1dPyQ",
+          "name": "Frame 2147228477",
+          "width": "fill_container",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 12,
+          "justifyContent": "end",
+          "children": [
+            {
+              "type": "text",
+              "id": "FLRdw",
+              "name": "Section Title",
+              "opacity": 0.3400000035762787,
+              "fill": "#000000ff",
+              "content": "+26%",
+              "lineHeight": 1,
+              "fontFamily": "Styrene A Web",
+              "fontSize": 64,
+              "fontWeight": "normal",
+              "letterSpacing": -1.2000000476837158
+            },
+            {
+              "type": "text",
+              "id": "RNKU6",
+              "name": "Section Title",
+              "opacity": 0.4000000059604645,
+              "fill": "#000000ff",
+              "content": "Сделок на том же трафике",
+              "lineHeight": 1.2999999523162842,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal",
+              "letterSpacing": -0.4699999988079071
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "6FXc2",
+      "x": 936,
+      "y": -624,
+      "name": "Advantage card / hover",
+      "reusable": true,
+      "clip": true,
+      "width": 708,
+      "height": 420,
+      "fill": "#f9f7f5ff",
+      "cornerRadius": 24,
+      "stroke": {
+        "align": "inside",
+        "thickness": 0.5,
+        "fill": {
+          "type": "color",
+          "color": "#ddddddff",
+          "enabled": false
+        }
+      },
+      "layout": "vertical",
+      "gap": 64,
+      "padding": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "Vmlfc",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Frame 2147228488",
+          "clip": true,
+          "width": 708,
+          "height": 420,
+          "fill": "#ffffffff",
+          "cornerRadius": 24,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "rceMu",
+              "x": 1490.11328125,
+              "y": -196,
+              "name": "Vector",
+              "opacity": 0.699999988079071,
+              "rotation": 25.57568251752929,
+              "flipX": true,
+              "flipY": true,
+              "geometry": "M910.14563 0l-443.99725 22.40116 441.18353 131.91168-907.33191 159.60379 607.52051 15.12307 926.94569-174.72686-624.32057-154.31284z",
+              "fill": "#fe824dff",
+              "width": 1534.4661865234375,
+              "height": 423.6076354980469,
+              "stroke": {
+                "align": "inside",
+                "thickness": 0.21383647620677948
+              },
+              "effect": {
+                "type": "blur",
+                "radius": 67.46249866485596
+              }
+            },
+            {
+              "type": "frame",
+              "id": "S4A8L",
+              "x": 0,
+              "y": -370,
+              "name": "Frame 2087326005",
+              "rotation": 3.1805546814635168e-15,
+              "width": 708,
+              "height": 939,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1.633946418762207
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "HXBY7",
+                  "name": "Frame 69",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "r941h",
+                  "name": "Frame 68",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "iYkIl",
+                  "name": "Frame 44",
+                  "rotation": -90.00002179570969,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "XLXS4",
+                  "name": "Frame 63",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "HMIiG",
+                  "name": "Frame 64",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "iCU95",
+                  "name": "Frame 65",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "8R501",
+                  "name": "Frame 67",
+                  "rotation": -90.00002179570969,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "SqGNB",
+                  "name": "Frame 66",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "E5WSH",
+              "x": -2415,
+              "y": -1336,
+              "name": "Group 1321317384",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "BGCxu",
+                  "x": 3123,
+                  "y": 0,
+                  "name": "dvizh-export (3) 2",
+                  "flipX": true,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "",
+                    "mode": "fill"
+                  },
+                  "width": 3123,
+                  "height": 1756,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  }
+                },
+                {
+                  "type": "rectangle",
+                  "id": "5GIdF",
+                  "x": 3123,
+                  "y": 1200,
+                  "name": "dvizh-export (3) 3",
+                  "flipX": true,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "",
+                    "mode": "fill"
+                  },
+                  "width": 989,
+                  "height": 556,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TRYHK",
+          "name": "Frame 2147228479",
+          "height": "fill_container",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "gap": 32,
+          "children": [
+            {
+              "type": "text",
+              "id": "I0aqi",
+              "name": "Section Title",
+              "fill": "#1c1c1eff",
+              "textGrowth": "fixed-width",
+              "width": 548,
+              "content": "Закрывают до 26% больше сделок на том же трафике",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "500",
+              "letterSpacing": -1
+            },
+            {
+              "type": "frame",
+              "id": "CyPKa",
+              "name": "Frame 2147228403",
+              "clip": true,
+              "width": 48,
+              "height": 48,
+              "fill": {
+                "type": "color",
+                "color": "#e2bfbfff",
+                "enabled": false
+              },
+              "stroke": {
+                "align": "inside",
+                "thickness": 0.8000000715255737
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "group",
+                  "id": "3jEc2",
+                  "x": 34.37649374561079,
+                  "y": -4.956801405278384,
+                  "name": "Group 1321317375",
+                  "rotation": -45,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "W22zb",
+                      "x": 12.79996833802113,
+                      "y": 0.00006190267856709397,
+                      "name": "Rectangle 14750",
+                      "fill": "#fe824dff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "g0LUN",
+                      "x": -0.00004586619718338625,
+                      "y": 12.800075912479656,
+                      "name": "Rectangle 14752",
+                      "fill": "#fe824dff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "zpTFD",
+                      "x": 6.399961090096326,
+                      "y": 6.400069141392009,
+                      "name": "Rectangle 14753",
+                      "fill": "#fe824dff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "afGe2",
+                      "x": 19.199975585945936,
+                      "y": 6.400069141392009,
+                      "name": "Rectangle 14751",
+                      "fill": "#fe824dff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "O3bXC",
+                      "x": 25.599982833870627,
+                      "y": 12.80007591247977,
+                      "name": "Rectangle 14754",
+                      "fill": "#fe824dff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "hYH64",
+          "name": "Frame 2147228477",
+          "width": "fill_container",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 12,
+          "justifyContent": "end",
+          "children": [
+            {
+              "type": "text",
+              "id": "lJUAl",
+              "name": "Section Title",
+              "fill": "#fe824dff",
+              "content": "+26%",
+              "lineHeight": 1,
+              "fontFamily": "Styrene A Web",
+              "fontSize": 64,
+              "fontWeight": "normal",
+              "letterSpacing": -1.2000000476837158
+            },
+            {
+              "type": "text",
+              "id": "50UXH",
+              "name": "Section Title",
+              "opacity": 0.4000000059604645,
+              "fill": "#000000ff",
+              "content": "Сделок на том же трафике",
+              "lineHeight": 1.2999999523162842,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal",
+              "letterSpacing": -0.4699999988079071
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "MGk4O",
+      "x": 436,
+      "y": 3,
+      "name": "Modal",
+      "width": 900,
+      "height": 800,
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "gap": 24,
+      "children": [
+        {
+          "type": "frame",
+          "id": "KMjMs",
+          "name": "Frame 2147228549",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "#ffffffff",
+          "cornerRadius": 32,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 10
+        },
+        {
+          "type": "frame",
+          "id": "RE5sW",
+          "name": "Frame 2147228552",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 16,
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "UgTTq",
+              "name": "Frame 2147228550",
+              "fill": "#ffffffff",
+              "cornerRadius": 32,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "gap": 10,
+              "padding": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "group",
+                  "id": "06dmL",
+                  "name": "close",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "qH43B",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Bounding box",
+                      "fill": "#d9d9d9ff",
+                      "width": 24,
+                      "height": 24,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "Ohn4Q",
+                      "x": 5,
+                      "y": 5,
+                      "name": "close",
+                      "geometry": "M1.4 14l-1.4-1.4 5.6-5.6-5.6-5.6 1.4-1.4 5.6 5.6 5.6-5.6 1.4 1.4-5.6 5.6 5.6 5.6-1.4 1.4-5.6-5.6-5.6 5.6z",
+                      "fill": "#1c1b1fff",
+                      "width": 14,
+                      "height": 14,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.02500000037252903
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bIce4",
+              "name": "Frame 2147228551",
+              "fill": "#ffffffff",
+              "cornerRadius": 32,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "gap": 10,
+              "padding": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "group",
+                  "id": "LJr07",
+                  "name": "expand_all",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "A3aWt",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Bounding box",
+                      "fill": "#d9d9d9ff",
+                      "width": 24,
+                      "height": 24,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "srJ30",
+                      "x": 6,
+                      "y": 1.9999998807907104,
+                      "name": "expand_all",
+                      "geometry": "M6 20l-6-6 1.425-1.425 4.575 4.575 4.575-4.575 1.425 1.425-6 6z m-4.55-12.6l-1.45-1.4 6-6 6 6-1.45 1.4-4.55-4.55-4.55 4.55z",
+                      "fill": "#1c1b1fff",
+                      "width": 12,
+                      "height": 20,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.02500000037252903
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "kQ7fq",
+      "x": 1996,
+      "y": -601,
+      "name": "Advantage card / hover",
+      "clip": true,
+      "width": 708,
+      "height": 420,
+      "fill": "#f9f7f5ff",
+      "cornerRadius": 24,
+      "stroke": {
+        "align": "inside",
+        "thickness": 0.5,
+        "fill": {
+          "type": "color",
+          "color": "#ddddddff",
+          "enabled": false
+        }
+      },
+      "layout": "vertical",
+      "gap": 64,
+      "padding": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "OflEL",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "Frame 2147228488",
+          "clip": true,
+          "width": 708,
+          "height": 420,
+          "fill": "#ffffffff",
+          "cornerRadius": 24,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "UseL4",
+              "x": 1490.11328125,
+              "y": -196,
+              "name": "Vector",
+              "opacity": 0.699999988079071,
+              "rotation": 25.57568251752929,
+              "flipX": true,
+              "flipY": true,
+              "geometry": "M910.14563 0l-443.99725 22.40116 441.18353 131.91168-907.33191 159.60379 607.52051 15.12307 926.94569-174.72686-624.32057-154.31284z",
+              "fill": "#fe824dff",
+              "width": 1534.4661865234375,
+              "height": 423.6076354980469,
+              "stroke": {
+                "align": "inside",
+                "thickness": 0.21383647620677948
+              },
+              "effect": {
+                "type": "blur",
+                "radius": 67.46249866485596
+              }
+            },
+            {
+              "type": "frame",
+              "id": "lTF6G",
+              "x": 0,
+              "y": -370,
+              "name": "Frame 2087326005",
+              "rotation": 3.1805546814635168e-15,
+              "width": 708,
+              "height": 939,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1.633946418762207
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "6US6e",
+                  "name": "Frame 69",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "4U9P7",
+                  "name": "Frame 68",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "B0aIW",
+                  "name": "Frame 44",
+                  "rotation": -90.00002179570969,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "FfahJ",
+                  "name": "Frame 63",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "o1HuR",
+                  "name": "Frame 64",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "w9BS9",
+                  "name": "Frame 65",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "1AYXL",
+                  "name": "Frame 67",
+                  "rotation": -90.00002179570969,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "3sWSE",
+                  "name": "Frame 66",
+                  "rotation": -90.00002217659625,
+                  "flipY": true,
+                  "clip": true,
+                  "width": 939.0000610351562,
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "color",
+                    "color": "#ffffff03",
+                    "enabled": false
+                  },
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.3172794580459595
+                  },
+                  "layout": "none"
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "6Y6dV",
+              "x": -2415,
+              "y": -1336,
+              "name": "Group 1321317384",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "wTXqc",
+                  "x": 3123,
+                  "y": 0,
+                  "name": "dvizh-export (3) 2",
+                  "flipX": true,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "",
+                    "mode": "fill"
+                  },
+                  "width": 3123,
+                  "height": 1756,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  }
+                },
+                {
+                  "type": "rectangle",
+                  "id": "KrATU",
+                  "x": 3123,
+                  "y": 1200,
+                  "name": "dvizh-export (3) 3",
+                  "flipX": true,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "",
+                    "mode": "fill"
+                  },
+                  "width": 989,
+                  "height": 556,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "m5Fq4",
+          "name": "Frame 2147228479",
+          "height": "fill_container",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "gap": 32,
+          "children": [
+            {
+              "type": "text",
+              "id": "8XlJk",
+              "name": "Section Title",
+              "fill": "#1c1c1eff",
+              "textGrowth": "fixed-width",
+              "width": 548,
+              "content": "Закрывают до 26% больше сделок на том же трафике",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "500",
+              "letterSpacing": -1
+            },
+            {
+              "type": "frame",
+              "id": "9j91Q",
+              "name": "Frame 2147228403",
+              "clip": true,
+              "width": 48,
+              "height": 48,
+              "fill": {
+                "type": "color",
+                "color": "#e2bfbfff",
+                "enabled": false
+              },
+              "stroke": {
+                "align": "inside",
+                "thickness": 0.8000000715255737
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "group",
+                  "id": "JTLZ5",
+                  "x": 34.37649374561079,
+                  "y": -4.956801405278384,
+                  "name": "Group 1321317375",
+                  "rotation": -45,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "FOoo8",
+                      "x": 12.79996833802113,
+                      "y": 0.00006190267856709397,
+                      "name": "Rectangle 14750",
+                      "fill": "#fe824dff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "fX0Yj",
+                      "x": -0.00004586619718338625,
+                      "y": 12.800075912479656,
+                      "name": "Rectangle 14752",
+                      "fill": "#fe824dff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "MY72v",
+                      "x": 6.399961090096326,
+                      "y": 6.400069141392009,
+                      "name": "Rectangle 14753",
+                      "fill": "#fe824dff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "Fsw6A",
+                      "x": 19.199975585945936,
+                      "y": 6.400069141392009,
+                      "name": "Rectangle 14751",
+                      "fill": "#fe824dff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "EOFD3",
+                      "x": 25.599982833870627,
+                      "y": 12.80007591247977,
+                      "name": "Rectangle 14754",
+                      "fill": "#fe824dff",
+                      "width": 6.400000095367432,
+                      "height": 6.400000095367432,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.8000000715255737
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qzrWE",
+          "name": "Frame 2147228477",
+          "width": "fill_container",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "vertical",
+          "gap": 12,
+          "justifyContent": "end",
+          "children": [
+            {
+              "type": "text",
+              "id": "uZ66w",
+              "name": "Section Title",
+              "fill": "#fe824dff",
+              "content": "+26%",
+              "lineHeight": 1,
+              "fontFamily": "Styrene A Web",
+              "fontSize": 64,
+              "fontWeight": "normal",
+              "letterSpacing": -1.2000000476837158
+            },
+            {
+              "type": "text",
+              "id": "REY32",
+              "name": "Section Title",
+              "opacity": 0.4000000059604645,
+              "fill": "#000000ff",
+              "content": "Сделок на том же трафике",
+              "lineHeight": 1.2999999523162842,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal",
+              "letterSpacing": -0.4699999988079071
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ItXeF",
+      "x": 1885,
+      "y": 37.00000000000004,
+      "name": "Glass",
+      "rotation": 3.1805546814635168e-15,
+      "width": 708,
+      "height": 420,
+      "stroke": {
+        "align": "inside",
+        "thickness": 1,
+        "fill": "#000000ff"
+      },
+      "children": [
+        {
+          "type": "frame",
+          "id": "LywYi",
+          "name": "Frame 69",
+          "rotation": -90.00002217659625,
+          "flipY": true,
+          "clip": true,
+          "width": 420,
+          "height": 176,
+          "fill": "#fefefe03",
+          "stroke": {
+            "align": "inside",
+            "thickness": 0.3172794580459595
+          },
+          "effect": {
+            "type": "background_blur",
+            "radius": 4
+          },
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "pAa4H",
+          "name": "Frame 68",
+          "rotation": -90.00002217659625,
+          "flipY": true,
+          "clip": true,
+          "width": 420,
+          "height": 67,
+          "fill": "#ffffff03",
+          "stroke": {
+            "align": "inside",
+            "thickness": 0.3172794580459595
+          },
+          "effect": {
+            "type": "background_blur",
+            "radius": 8
+          },
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "OX4ql",
+          "name": "Frame 44",
+          "rotation": -90.00002179570969,
+          "flipY": true,
+          "clip": true,
+          "width": 420,
+          "height": 106,
+          "fill": "#ffffff03",
+          "stroke": {
+            "align": "inside",
+            "thickness": 0.3172794580459595
+          },
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "pogUg",
+          "name": "Frame 63",
+          "rotation": -90.00002217659625,
+          "flipY": true,
+          "clip": true,
+          "width": 420,
+          "height": 53,
+          "fill": "#ffffff03",
+          "stroke": {
+            "align": "inside",
+            "thickness": 0.3172794580459595
+          },
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "ju4d0",
+          "name": "Frame 64",
+          "rotation": -90.00002217659625,
+          "flipY": true,
+          "clip": true,
+          "width": 420,
+          "height": 120,
+          "fill": "#ffffff03",
+          "stroke": {
+            "align": "inside",
+            "thickness": 0.3172794580459595
+          },
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "8I30b",
+          "name": "Frame 65",
+          "rotation": -90.00002217659625,
+          "flipY": true,
+          "clip": true,
+          "width": 420,
+          "height": 122,
+          "fill": "#ffffff03",
+          "stroke": {
+            "align": "inside",
+            "thickness": 0.3172794580459595
+          },
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "rTxw7",
+          "name": "Frame 64",
+          "rotation": 89.99997782340377,
+          "flipX": true,
+          "clip": true,
+          "width": 420,
+          "height": 120,
+          "fill": "#ffffff03",
+          "stroke": {
+            "align": "inside",
+            "thickness": 0.3172794580459595
+          },
+          "layout": "none"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "rrUOj",
+      "x": 1677,
+      "y": 586,
+      "name": "Frame 2147228554",
+      "fill": "#00000099",
+      "cornerRadius": 24,
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "gap": 16,
+      "padding": [
+        12,
+        12,
+        12,
+        24
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "id": "xln33",
+          "name": "Section Description",
+          "fill": "#ffffffff",
+          "content": "Пора делать ДВИЖ",
+          "lineHeight": 1.2999999523162842,
+          "textAlignVertical": "middle",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "600",
+          "letterSpacing": -0.4699999988079071
+        },
+        {
+          "type": "frame",
+          "id": "ab88m",
+          "name": "Frame 2147228553",
+          "fill": "#ff4d00ff",
+          "cornerRadius": 12,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "gap": 8,
+          "padding": [
+            12,
+            24
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "wKzvS",
+              "name": "Section Description",
+              "fill": "#ffffffff",
+              "content": "Оставить заявку",
+              "lineHeight": 1.399999976158142,
+              "textAlignVertical": "middle",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "700",
+              "letterSpacing": -0.18000000715255737
+            },
+            {
+              "type": "group",
+              "id": "5ZBpg",
+              "name": "arrow_right_alt",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "G6yW5",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Bounding box",
+                  "width": 24,
+                  "height": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  }
+                },
+                {
+                  "type": "path",
+                  "id": "GlUhu",
+                  "x": 4,
+                  "y": 6,
+                  "name": "arrow_right_alt",
+                  "geometry": "M10 12l-1.4-1.45 3.55-3.55-12.15 0 0-2 12.15 0-3.55-3.55 1.4-1.45 6 6-6 6z",
+                  "fill": "#ffffffff",
+                  "width": 16,
+                  "height": 12,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 0.02500000037252903
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

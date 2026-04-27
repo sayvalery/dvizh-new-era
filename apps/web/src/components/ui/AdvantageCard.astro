@@ -1,0 +1,146 @@
+---
+import ModalInlineForm from './ModalInlineForm.astro'
+
+/**
+ * AdvantageCard — карточка преимущества с hover-эффектом и модальным окном
+ *
+ * Дефолт: фон #F9F7F5.
+ * Hover: оранжевый радиальный градиент + stat и иконка меняют цвет на brand.
+ * Клик: открывает модальное окно 50vw × 80vh с кнопками закрыть и раскрыть.
+ *
+ * @example
+ * ```astro
+ * <AdvantageCard
+ *   title="Закрывают до 26% больше сделок на том же трафике"
+ *   stat="+26%"
+ *   label="Сделок на том же трафике"
+ * />
+ * ```
+ */
+
+interface Props {
+  /** Заголовок карточки */
+  title: string
+  /** Крупное числовое значение */
+  stat: string
+  /** Подпись под числом */
+  label: string
+  /** URL для кнопки "раскрыть" (открывает в новой вкладке) */
+  expandHref?: string
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const { title, stat, label, expandHref, class: className = '' } = Astro.props
+---
+
+<div
+  x-data="{ open: false, expanded: false, scrolled: false }"
+  x-effect="
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (!open) scrolled = false;
+  "
+  class="h-full"
+>
+
+  <!-- Карточка -->
+  <div
+    class:list={[
+      'group relative flex flex-col overflow-hidden rounded-3xl bg-[#F9F7F5] p-4 xs:p-4 sm:p-6 md:p-6 lg:p-10 transition-all duration-300 min-h-[200px] sm:min-h-[240px] lg:min-h-[320px] h-full cursor-pointer',
+      className
+    ]}
+    @click="open = true"
+  >
+    <!-- Hover background -->
+    <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true">
+      <div class="absolute inset-0 bg-[url('/adv_card_bg.png')] bg-cover bg-center"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative flex flex-1 flex-col gap-8 md:gap-16">
+      <!-- Top: title + arrow icon -->
+      <div class="flex flex-1 items-start justify-between gap-4">
+        <p class="text-medium-32 text-gray-900">{title}</p>
+        <svg class="shrink-0 w-6 h-6 md:w-8 md:h-8 text-gray-300 transition-colors duration-300 group-hover:text-brand" viewBox="20 4 28 28" fill="currentColor" aria-hidden="true">
+          <rect x="25.3254" y="4.09396" width="6.4" height="6.4" transform="rotate(45 25.3254 4.09396)"/>
+          <rect x="34.3764" y="4.09396" width="6.4" height="6.4" transform="rotate(45 34.3764 4.09396)"/>
+          <rect x="43.4274" y="4.09396" width="6.4" height="6.4" transform="rotate(45 43.4274 4.09396)"/>
+          <rect x="43.4274" y="13.1449" width="6.4" height="6.4" transform="rotate(45 43.4274 13.1449)"/>
+          <rect x="43.4274" y="22.1959" width="6.4" height="6.4" transform="rotate(45 43.4274 22.1959)"/>
+        </svg>
+      </div>
+
+      <!-- Bottom: stat + label -->
+      <div>
+        <p class="text-h1 not-italic text-gray-900/40 transition-colors duration-300 group-hover:text-brand group-hover:italic">{stat}</p>
+        <p class="text-body-lg text-gray-400">{label}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно -->
+  <div
+    x-show="open"
+    x-transition:enter="transition duration-200 ease-out"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition duration-150 ease-in"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 bg-black/40"
+    @click="open = false"
+    @keydown.escape.window="open = false"
+    x-cloak
+  >
+    <!-- Панель, прибита к низу по центру -->
+    <div
+      class="fixed bottom-0 left-1/2 -translate-x-1/2 w-screen md:w-[540px] lg:w-[50vw] lg:min-w-[600px]"
+      @click.stop
+    >
+      <!-- Белая панель -->
+      <div
+        class="relative flex flex-col overflow-hidden bg-white h-[90vh] rounded-t-[32px]"
+      >
+        <!-- Кнопка закрыть — правый верхний угол -->
+        <button
+          @click.stop="open = false"
+          class="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+          aria-label="Закрыть"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 3l10 10M13 3L3 13"/>
+          </svg>
+        </button>
+
+        <!-- Скроллируемая область контента -->
+        <div class="overflow-y-auto flex-1" @scroll="scrolled = true">
+          <slot name="modal-body">
+            <div class="p-10">
+              <p class="font-sans text-[32px] font-medium leading-none tracking-[-1px] text-gray-900">{title}</p>
+              <div class="mt-16">
+                <p class="font-heading text-[64px] font-bold leading-none tracking-[-1.2px] text-gray-900">{stat}</p>
+                <p class="mt-1 font-sans text-[18px] leading-[130%] tracking-[-0.5px] text-gray-400">{label}</p>
+              </div>
+            </div>
+          </slot>
+        </div>
+
+        <!-- Inline-форма внутри панели, появляется после первого скролла -->
+        <div
+          x-show="scrolled"
+          x-transition:enter="transition duration-300 ease-out"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition duration-200 ease-in"
+          x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 translate-y-2"
+          class="shrink-0 bg-white border-t border-gray-100 px-8 py-6"
+          x-cloak
+        >
+          <ModalInlineForm />
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

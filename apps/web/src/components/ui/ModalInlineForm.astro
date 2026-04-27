@@ -1,0 +1,121 @@
+---
+/**
+ * ModalInlineForm — двухшаговая inline-форма для модалок
+ *
+ * Шаг 1: имя + телефон → «Получить демо» + чекбокс согласия
+ * Шаг 2 (после успешной отправки): email + компания → «Отправить»
+ *
+ * @example
+ * ```astro
+ * <ModalInlineForm />
+ * ```
+ */
+
+const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
+---
+
+<div
+  x-data={`{
+    submitted: false,
+    loading: false,
+    error: false,
+    async submit1(e) {
+      this.loading = true
+      this.error = false
+      const f = e.target
+      const data = { preset: 'lead', page: window.location.href }
+      new FormData(f).forEach((v, k) => { if (k !== '_honeypot') data[k] = v })
+      try {
+        const res = await fetch('${CLIENT_CMS_URL}/api/form-submissions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        if (res.ok) { this.submitted = true; f.reset() }
+        else throw new Error()
+      } catch { this.error = true }
+      finally { this.loading = false }
+    },
+    async submit2(e) {
+      this.loading = true
+      const f = e.target
+      const data = { preset: 'demo', page: window.location.href }
+      new FormData(f).forEach((v, k) => { if (k !== '_honeypot') data[k] = v })
+      try {
+        await fetch('${CLIENT_CMS_URL}/api/form-submissions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        f.reset()
+      } catch {}
+      finally { this.loading = false }
+    }
+  }`}
+>
+  <!-- Шаг 1: имя + телефон -->
+  <div x-show="!submitted">
+    <p class="mb-4 text-h4 text-gray-900">Попробуйте ДВИЖ в деле</p>
+    <form @submit.prevent="submit1($event)">
+      <div class="hidden"><input name="_honeypot" tabindex="-1" autocomplete="off" /></div>
+      <div class="flex flex-col gap-3 sm:flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row">
+        <input
+          name="name" type="text" required placeholder="Ваше имя"
+          class="flex-1 min-w-0 bg-black/[0.04] rounded-2xl px-4 py-3 text-[15px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all"
+        />
+        <input
+          name="phone" type="text" required placeholder="Ваш телефон"
+          class="flex-1 min-w-0 bg-black/[0.04] rounded-2xl px-4 py-3 text-[15px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all"
+        />
+        <button
+          type="submit"
+          :disabled="loading"
+          class="whitespace-nowrap px-6 py-3 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand-600 active:scale-[0.98] transition-all disabled:opacity-50 md:col-span-2 lg:col-span-1"
+        >
+          Получить демо
+        </button>
+      </div>
+      <div class="mt-3 flex items-start gap-2">
+        <label class="flex items-start gap-2 cursor-pointer">
+          <input type="checkbox" required class="mt-0.5 shrink-0 accent-brand" />
+          <span class="text-footnote text-gray-400">
+            Нажимая кнопку «Получить демо», вы даёте согласие на обработку ваших персональных данных и подтверждаете, что ознакомлены с <a href="/privacy" class="underline hover:text-gray-600">Политикой обработки персональных данных</a>
+          </span>
+        </label>
+      </div>
+      <p x-show="error" class="mt-2 text-sm text-red-500">Ошибка отправки. Попробуйте ещё раз.</p>
+    </form>
+  </div>
+
+  <!-- Шаг 2: email + компания -->
+  <div x-show="submitted" x-cloak>
+    <div class="flex items-center gap-2 mb-1">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="8" fill="#22c55e"/>
+        <path d="M4.5 8l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <p class="font-heading text-[24px] font-medium leading-[120%] tracking-[-2px] text-gray-900">Скоро свяжемся с вами!</p>
+    </div>
+    <p class="mb-4 text-[13px] text-gray-400">А пока можете уточнить ваш email и компанию, которую представляете</p>
+    <form @submit.prevent="submit2($event)">
+      <div class="hidden"><input name="_honeypot" tabindex="-1" autocomplete="off" /></div>
+      <div class="flex flex-col gap-3 sm:flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row">
+        <input
+          name="email" type="email" placeholder="Email"
+          class="flex-1 min-w-0 bg-black/[0.04] rounded-2xl px-4 py-3 text-[15px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all"
+        />
+        <input
+          name="company" type="text" placeholder="Компания"
+          class="flex-1 min-w-0 bg-black/[0.04] rounded-2xl px-4 py-3 text-[15px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all"
+        />
+        <button
+          type="submit"
+          :disabled="loading"
+          class="whitespace-nowrap px-6 py-3 rounded-2xl bg-brand text-white text-[15px] font-medium hover:bg-brand-600 active:scale-[0.98] transition-all disabled:opacity-50 md:col-span-2 lg:col-span-1"
+        >
+          Отправить
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -9,6 +9,14 @@
   /* Styrene A — фирменный шрифт для заголовков (block — не прыгает при загрузке) */
   @font-face {
     font-family: 'Styrene A';
+    src: url('/fonts/StyreneAWeb-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Styrene A';
     src: url('/fonts/styrene-a-medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
@@ -20,6 +28,14 @@
     src: url('/fonts/styrene-a-bold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Styrene A';
+    src: url('/fonts/StyreneAWeb-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
     font-display: swap;
   }
 
@@ -86,6 +102,173 @@ h1, h2, h3, h4, h5, h6 {
   h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.07em;
   }
+}
+
+/* ─── Типографические утилиты ────────────────────────────────────────────── */
+@layer components {
+
+  /* Заголовки — Styrene A */
+  .text-h1 {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 100%;
+    letter-spacing: -1px;
+  }
+
+  .text-h1-italic {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    font-style: italic;
+    line-height: 100%;
+    letter-spacing: -1px;
+  }
+
+  @media (min-width: 480px) {
+    .text-h1, .text-h1-italic { font-size: 28px; }
+  }
+
+  @media (min-width: 640px) {
+    .text-h1, .text-h1-italic { font-size: 42px; }
+  }
+
+  @media (min-width: 768px) {
+    .text-h1, .text-h1-italic { font-size: 42px; }
+  }
+
+  @media (min-width: 1024px) {
+    .text-h1, .text-h1-italic { font-size: 64px; }
+  }
+
+  .text-h2 {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -2px;
+  }
+
+  @media (min-width: 768px) {
+    .text-h2 { font-size: 32px; }
+  }
+
+  @media (min-width: 1024px) {
+    .text-h2 { font-size: 48px; }
+  }
+
+  .text-h3 {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -1px;
+  }
+
+  @media (min-width: 640px) {
+    .text-h3 { font-size: 24px; }
+  }
+
+  @media (min-width: 1024px) {
+    .text-h3 { font-size: 32px; }
+  }
+
+  .text-h4 {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: -2px;
+  }
+
+  .text-h5 {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 120%;
+    letter-spacing: -2px;
+  }
+
+  .text-h6 {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 120%;
+    letter-spacing: -1px;
+  }
+
+  @media (min-width: 1024px) {
+    .text-h6 { font-size: 16px; }
+  }
+
+  /* Тело текста — Inter */
+  .text-body-lg {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.5px;
+  }
+
+  .text-body-lg-italic {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 140%;
+    letter-spacing: -0.5px;
+  }
+
+  @media (min-width: 640px) {
+    .text-body-lg, .text-body-lg-italic { font-size: 18px; }
+  }
+
+  .text-subhead {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.5px;
+  }
+
+  @media (min-width: 1024px) {
+    .text-subhead { font-size: 16px; }
+  }
+
+  .text-footnote {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.5px;
+  }
+
+  .text-side-menu {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 140%;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Смешанный Inter Medium (не heading) */
+  .text-medium-32 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -1px;
+  }
+
+  @media (min-width: 640px) {
+    .text-medium-32 { font-size: 24px; }
+  }
+
+  @media (min-width: 1024px) {
+    .text-medium-32 { font-size: 32px; }
+  }
+
 }
 
 /* Prose enhancements for Webflow legacy content (bodyHtml) */

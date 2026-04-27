@@ -1,10 +1,12 @@
 const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
+const PUBLIC_CMS_URL = import.meta.env.PUBLIC_CMS_URL || ''
 
 /**
  * Нормализует URL медиафайла из CMS:
  * 1. Убирает абсолютный origin (http://192.168.18.87:3002) → оставляет только путь /api/media/...
  * 2. Декодирует двойную URL-кодировку (%2520 → %20, %25D0 → %D0)
- * В проде nginx проксирует /api/media/ на CMS, поэтому нужны только относительные пути.
+ * 3. Если задан PUBLIC_CMS_URL — добавляет его как префикс (для dev без локальной CMS).
+ *    В проде PUBLIC_CMS_URL пустой, nginx проксирует /api/media/ на CMS напрямую.
  */
 export function normalizeMediaUrl(url: string | null | undefined): string | null {
   if (!url) return null
@@ -15,7 +17,7 @@ export function normalizeMediaUrl(url: string | null | undefined): string | null
   while (normalized.includes('%25')) {
     normalized = normalized.split('%25').join('%')
   }
-  return normalized
+  return PUBLIC_CMS_URL + normalized
 }
 
 /**

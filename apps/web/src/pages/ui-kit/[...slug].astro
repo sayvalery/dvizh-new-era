@@ -28,11 +28,13 @@ import GradientCTA from '../../components/ui/GradientCTA.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
-import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
 import SectionNavigator from '../../components/ui/SectionNavigator.astro'
 import DvizhAdvantages from '../../components/ui/DvizhAdvantages.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
-import ComparisonSection from '../../components/ui/ComparisonSection.astro'
+import AdvantageCard from '../../components/ui/AdvantageCard.astro'
+import Island from '../../components/ui/Island.astro'
+import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
+import SideMenu from '../../components/ui/SideMenu.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -55,11 +57,11 @@ import gradientCTARaw from '../../components/ui/GradientCTA.astro?raw'
 import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
 import productCardRaw from '../../components/ui/ProductCard.astro?raw'
 import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
-import productSectionNewRaw from '../../components/ui/ProductSectionNew.astro?raw'
 import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
 import dvizhAdvantagesRaw from '../../components/ui/DvizhAdvantages.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
-import comparisonSectionRaw from '../../components/ui/ComparisonSection.astro?raw'
+import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
+import islandRaw from '../../components/ui/Island.astro?raw'
 
 interface PropMeta {
   name: string
@@ -141,11 +143,11 @@ const gradientCTAMeta = parseSource(gradientCTARaw)
 const blogCardsMeta = parseSource(blogCardsRaw)
 const productCardMeta = parseSource(productCardRaw)
 const productSectionMeta = parseSource(productSectionRaw)
-const productSectionNewMeta = parseSource(productSectionNewRaw)
 const sectionNavigatorMeta = parseSource(sectionNavigatorRaw)
 const dvizhAdvantagesMeta = parseSource(dvizhAdvantagesRaw)
 const storyCardMeta = parseSource(storyCardRaw)
-const comparisonSectionMeta = parseSource(comparisonSectionRaw)
+const advantageCardMeta = parseSource(advantageCardRaw)
+const islandMeta = parseSource(islandRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -178,9 +180,11 @@ export function getStaticPaths() {
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'product-card' }, props: { section: 'product-card' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
-    { params: { slug: 'product-section-new' }, props: { section: 'product-section-new' } },
     { params: { slug: 'section-navigator' }, props: { section: 'section-navigator' } },
     { params: { slug: 'dvizh-advantages' }, props: { section: 'dvizh-advantages' } },
+    { params: { slug: 'island' }, props: { section: 'island' } },
+    { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
+    { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
   ]
 }
 
@@ -214,10 +218,11 @@ const sections = [
   { slug: 'blog-cards', label: 'Blog Cards' },
   { slug: 'product-card', label: 'Product Card' },
   { slug: 'product-section', label: 'Product Section' },
-  { slug: 'product-section-new', label: 'Product Section New' },
   { slug: 'section-navigator', label: 'Section Navigator' },
   { slug: 'dvizh-advantages', label: 'Dvizh Advantages' },
-  { slug: 'comparison-section', label: 'Comparison Section' },
+  { slug: 'island', label: 'Island' },
+  { slug: 'modal-inline-form', label: 'Modal Inline Form' },
+  { slug: 'side-menu', label: 'Side Menu' },
 ]
 ---
 
@@ -380,8 +385,9 @@ const sections = [
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Inline — аватар + имя (без подзаголовка)</p>
               <div class="flex flex-wrap gap-4">
-                <PersonCard person={{ name: 'Иван Азизов', jobTitle: 'CEO' }} variant="inline" />
-                <PersonCard person={{ name: 'Анна Смирнова' }} variant="inline" />
+                <PersonCard person={{ name: 'Иван Азизов', jobTitle: 'CEO', photo: { url: 'https://i.pravatar.cc/40?img=11' } }} variant="inline" />
+                <PersonCard person={{ name: 'Анна Смирнова', photo: { url: 'https://i.pravatar.cc/40?img=5' } }} variant="inline" />
+                <PersonCard person={{ name: 'Без фото' }} variant="inline" />
               </div>
             </div>
 
@@ -389,7 +395,7 @@ const sections = [
               <p class="text-sm font-medium text-gray-400 mb-4">В контексте статьи — inline в шапке, full внизу</p>
               <div class="border rounded-xl p-6 max-w-lg space-y-4">
                 <div class="flex items-center gap-4">
-                  <PersonCard person={{ name: 'Иван Азизов' }} variant="inline" />
+                  <PersonCard person={{ name: 'Иван Азизов', photo: { url: 'https://i.pravatar.cc/40?img=11' } }} variant="inline" />
                   <span class="text-sm text-gray-400">12 января 2025</span>
                 </div>
                 <p class="text-sm text-gray-600">Текст статьи…</p>
@@ -405,16 +411,73 @@ const sections = [
       )}
 
       {section === 'typography' && (
-        <div class="space-y-8">
+        <div class="space-y-12">
           <h1 class="text-3xl font-bold font-heading mb-6">Типографика</h1>
-          <div class="space-y-4">
-            <div><span class="text-xs text-gray-400 block mb-1">text-5xl font-bold font-heading</span><p class="text-5xl font-bold font-heading">Заголовок H1</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-4xl font-bold font-heading</span><p class="text-4xl font-bold font-heading">Заголовок H2</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-3xl font-semibold font-heading</span><p class="text-3xl font-semibold font-heading">Заголовок H3</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-xl</span><p class="text-xl">Подзаголовок / лид-текст</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-base</span><p class="text-base">Основной текст. Движ помогает банкам и девелоперам автоматизировать ипотечный процесс.</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-sm text-gray-600</span><p class="text-sm text-gray-600">Вспомогательный текст, подписи, метаданные</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-xs uppercase tracking-wide</span><p class="text-xs uppercase tracking-wide text-gray-400">Метка / Теги</p></div>
+
+          <!-- Заголовки -->
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-6">Заголовки — Styrene A</p>
+            <div class="space-y-8">
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h1 — Styrene Bold 64, lh 100%, ls -1px</span>
+                <p class="text-h1">H1 Bold 64</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h1-italic — Styrene Bold Italic 64, lh 100%, ls -1px</span>
+                <p class="text-h1-italic">H1 Bold Italic 64</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h2 — Styrene Medium 48, lh 100%, ls -2px</span>
+                <p class="text-h2">H2 Medium 48</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h3 — Styrene Medium 32, lh 100%, ls -1px</span>
+                <p class="text-h3">H3 Medium 32</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h4 — Styrene Medium 24, lh 120%, ls -2px</span>
+                <p class="text-h4">H4 Medium 24</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h5 — Styrene Bold 18, lh 120%, ls -2px</span>
+                <p class="text-h5">H5 Bold 18</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h6 — Styrene Bold 16, lh 120%, ls -2px</span>
+                <p class="text-h6">H6 Bold 16</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Тело текста -->
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-6">Тело текста — Inter</p>
+            <div class="space-y-8">
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-medium-32 — Inter Medium 32, lh 100%, ls -1px</span>
+                <p class="text-medium-32">Medium 32</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-body-lg — Inter Regular 18, lh 140%, ls -0.5px</span>
+                <p class="text-body-lg">Body 18. ДВИЖ помогает застройщикам автоматизировать продажи и ипотеку.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-body-lg-italic — Inter Regular Italic 18, lh 140%, ls -0.5px</span>
+                <p class="text-body-lg-italic">Body Italic 18. ДВИЖ помогает застройщикам автоматизировать продажи и ипотеку.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-subhead — Inter Regular 16, lh 140%, ls -0.5px</span>
+                <p class="text-subhead">Subhead 16. Вспомогательный текст и подзаголовки.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-footnote — Inter Regular 14, lh 140%, ls -0.5px</span>
+                <p class="text-footnote">Footnote 14. Мелкие подписи, метаданные, примечания.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-side-menu — Inter SemiBold 12, lh 140%, ls 1px, uppercase</span>
+                <p class="text-side-menu">Side Menu 12</p>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -665,6 +728,30 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Карточки</h1>
           <div class="space-y-12">
+            {/* AdvantageCard */}
+            <div>
+              <h2 class="text-xl font-semibold mb-4">AdvantageCard — карточка преимущества</h2>
+              <p class="text-gray-600 mb-4">Карточка с заголовком, крупным числовым показателем и подписью. На ховере появляется оранжевый градиентный фон, stat-число меняет цвет на brand.</p>
+              <PropsTable props={advantageCardMeta.props} class="mb-6" />
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <AdvantageCard
+                  title="Закрывают до 26% больше сделок на том же трафике"
+                  stat="+26%"
+                  label="Сделок на том же трафике"
+                />
+                <AdvantageCard
+                  title="Сокращают время обработки заявки в 3 раза"
+                  stat="×3"
+                  label="Быстрее обрабатывают заявки"
+                />
+                <AdvantageCard
+                  title="Повышают конверсию ипотечных заявок"
+                  stat="+18%"
+                  label="Конверсия в выданные кредиты"
+                />
+              </div>
+            </div>
+
             {/* StoryCard */}
             <div>
               <h2 class="text-xl font-semibold mb-4">StoryCard — карточка истории успеха</h2>
@@ -672,12 +759,12 @@ const sections = [
               <PropsTable props={storyCardMeta.props} class="mb-6" />
               <div class="max-w-[464px]">
                 <StoryCard
-                  backgroundImage="https://admin.dvizh.cc/api/media/file/images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
+                  backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
                   title="Помогли начать обрабатывать на 98% больше заявок"
                   person={{
                     name: "Светлана Корнелюк",
                     jobTitle: "Директор отдела продаж",
-                    photo: { url: "https://admin.dvizh.cc/api/media/file/images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+                    photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
                   }}
                 >
                   <div class="h-6 w-32 bg-white rounded flex items-center justify-center" slot="logo">
@@ -697,7 +784,7 @@ const sections = [
                     name: "Алексей Петров",
                     jobTitle: "Маркетолог",
                     company: { name: "ДВИЖ" },
-                    photo: { url: "https://admin.dvizh.cc/api/media/file/images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" }
+                    photo: { url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" }
                   }}
                 />
                 <PersonCard
@@ -1053,7 +1140,7 @@ const sections = [
               </p>
               <div class="border rounded-xl px-6">
                 <VideoBlock block={{
-                  url: 'https://admin.dvizh.cc/api/media/file/www.youtube.com/watch?v=dQw4w9WgXcQ',
+                  url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
                   caption: 'Замените URL на реальное видео продукта',
                 }} />
               </div>
@@ -1834,7 +1921,7 @@ const sections = [
             description="Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla."
             primaryButton={{ label: "Get started", href: "#" }}
             secondaryButton={{ label: "Learn more", href: "#" }}
-            image="https://admin.dvizh.cc/api/media/file/tailwindcss.com/plus-assets/img/component-images/dark-project-app-screenshot.png"
+            image="https://tailwindcss.com/plus-assets/img/component-images/dark-project-app-screenshot.png"
           />
         </div>
       )}
@@ -1848,7 +1935,7 @@ const sections = [
           <BlogCards
             articles={[
               {
-                image: "https://admin.dvizh.cc/api/media/file/images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&auto=format&fit=crop&w=3603&q=80",
+                image: "https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&auto=format&fit=crop&w=3603&q=80",
                 date: "Mar 16, 2020",
                 category: "Marketing",
                 title: "Boost your conversion rate",
@@ -1856,11 +1943,11 @@ const sections = [
                 author: {
                   name: "Michael Foster",
                   role: "Co-Founder / CTO",
-                  avatar: "https://admin.dvizh.cc/api/media/file/images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  avatar: "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 }
               },
               {
-                image: "https://admin.dvizh.cc/api/media/file/images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-4.0.3&auto=format&fit=crop&w=3270&q=80",
+                image: "https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-4.0.3&auto=format&fit=crop&w=3270&q=80",
                 date: "Mar 10, 2020",
                 category: "Sales",
                 title: "How to use search engine optimization to drive sales",
@@ -1868,11 +1955,11 @@ const sections = [
                 author: {
                   name: "Lindsay Walton",
                   role: "Front-end Developer",
-                  avatar: "https://admin.dvizh.cc/api/media/file/images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 }
               },
               {
-                image: "https://admin.dvizh.cc/api/media/file/images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-4.0.3&auto=format&fit=crop&w=3270&q=80",
+                image: "https://images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-4.0.3&auto=format&fit=crop&w=3270&q=80",
                 date: "Feb 12, 2020",
                 category: "Business",
                 title: "Improve your customer experience",
@@ -1880,7 +1967,7 @@ const sections = [
                 author: {
                   name: "Tom Cook",
                   role: "Director of Product",
-                  avatar: "https://admin.dvizh.cc/api/media/file/images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 }
               }
             ]}
@@ -1985,174 +2072,6 @@ const sections = [
                 primaryButton={{ label: "Начать", href: "#" }}
                 secondaryButton={{ label: "Узнать больше", href: "#" }}
               />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {section === 'product-section-new' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Product Section New</h1>
-          <p class="text-gray-600 mb-4">
-            Адаптивная секция с sticky меню и скроллом к секциям. На lg+ меню прилипает слева,
-            при клике прокручивает к соответствующей секции. При скролле страницы — автоматическая подсветка активного пункта.
-          </p>
-          <PropsTable props={productSectionNewMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — 5 секций с изображениями</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductSectionNew sections={[...]} title={{...}} rightContent={[...]} />`}</code></p>
-              <ProductSectionNew
-                sections={[
-                  { number: '01', title: 'Цифровая ипотека' },
-                  { number: '02', title: 'Ипотечный калькулятор' },
-                  { number: '03', title: 'Финансовый скоринг' },
-                  { number: '04', title: 'Электронная регистрация' },
-                  { number: '05', title: 'Движ AI' },
-                ]}
-                title={{
-                  lg: "Закрывайте до 26% больше сделок на таком же трафике",
-                  md: "Закрывайте до 26% больше сделок",
-                  sm: "Больше сделок"
-                }}
-                rightContent={[
-                  {
-                    images: [{
-                      src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg",
-                      alt: "Цифровая ипотека",
-                      width: 600,
-                      height: 400
-                    }],
-                    title: "Поможем перевыполнить план продаж на том же трафике",
-                    description: [
-                      "До 96% одобрения",
-                      "Единая анкета в 40+ банков",
-                      "Моментальное заполнение анкеты через Госуслуги",
-                      "Готовые интеграции с CRM",
-                      "Анализ работы менеджеров"
-                    ]
-                  },
-                  {
-                    images: [{
-                      src: "https://admin.dvizh.cc/api/media/file/product-section-2v2.jpg",
-                      alt: "Ипотечный калькулятор",
-                      width: 600,
-                      height: 400
-                    }],
-                    title: "Приведем больше лидов с сайта",
-                    description: [
-                      "Расчет рассрочки и досрочного погашения",
-                      "Автоматическое обновление ставок и программ",
-                      "API для интеграции с вашим сайтом и личным кабинетом",
-                      "Брендирование калькулятора под ваши цвета"
-                    ]
-                  },
-                  {
-                    images: [{
-                      src: "https://admin.dvizh.cc/api/media/file/product-section-3.jpg",
-                      alt: "Финансовый скоринг",
-                      width: 600,
-                      height: 400
-                    }],
-                    title: "Сократим процент отказов по проблемным заемщикам",
-                    description: [
-                      "Проверка заемщика по 15 источникам",
-                      "Ежемесячный скоринг по ДДУ c рассрочкой",
-                      "Рекомендации по улучшению кредитной истории"
-                    ]
-                  },
-                  {
-                    images: [{
-                      src: "https://admin.dvizh.cc/api/media/file/product-section-4.jpg",
-                      alt: "Электронная регистрация",
-                      width: 600,
-                      height: 400
-                    }],
-                    title: "Сократим стоимость регистрации в Росреестре",
-                    description: [
-                      "Сквозное оформление сделки от ипотеки до регистрации",
-                      "До 30% дешевле цены конкурентов",
-                      "Все виды сделок"
-                    ]
-                  },
-                  {
-                    images: [{
-                      src: "https://admin.dvizh.cc/api/media/file/product-section-5.jpg",
-                      alt: "Движ AI",
-                      width: 600,
-                      height: 400
-                    }],
-                    title: "Нейросети на службе вашего бизнеса",
-                    description: [
-                      "Расчет вероятности и скорости одобрения по банкам",
-                      "Автоматический подбор ипотечной программы",
-                      "Меньше отказов, больше сделок"
-                    ]
-                  }
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С TypeScript интерфейсом</p>
-              <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><code>{`import ProductSectionNew from '@/components/ui/ProductSectionNew.astro'
-
-interface SectionItem {
-  number: string   // '01', '02', '03'...
-  title: string    // Заголовок пункта меню
-  active?: boolean // Активный по умолчанию
-}
-
-interface ImageProps {
-  src: string
-  alt?: string
-  width?: number
-  height?: number
-}
-
-interface RightContent {
-  images?: ImageProps[]
-  title?: string
-  description?: string | string[]
-}
-
-interface AdaptiveTitle {
-  lg: string  // Для больших экранов
-  md: string  // Для средних экранов
-  sm: string  // Для мобильных
-}
-
-interface Props {
-  sections: SectionItem[]
-  title: AdaptiveTitle
-  descriptions?: string[]
-  primaryButton?: Button
-  secondaryButton?: Button
-  rightContent: RightContent | RightContent[]
-  class?: string
-}
-
-<ProductSectionNew
-  sections={[
-    { number: '01', title: 'Цифровая ипотека' },
-    { number: '02', title: 'Ипотечный калькулятор' },
-  ]}
-  title={{
-    lg: 'Заголовок для больших экранов',
-    md: 'Заголовок для средних',
-    sm: 'Заголовок для мобильных'
-  }}
-  rightContent={[
-    {
-      images: [{ src: '/image.jpg', alt: '...', width: 600, height: 400 }],
-      title: 'Заголовок секции',
-      description: ['Пункт 1', 'Пункт 2']
-    },
-  ]}
-  primaryButton={{ label: 'Начать', href: '#' }}
-  secondaryButton={{ label: 'Подробнее', href: '#' }}
-/>`}</code></pre>
             </div>
           </div>
         </div>
@@ -2376,57 +2295,67 @@ interface Props {
           </div>
         </div>
       )}
-
-      {section === 'comparison-section' && (
+      {section === 'island' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-2">Comparison Section</h1>
-          <p class="text-gray-600 mb-8">Секция сравнения «до/после» — заголовок слева, две карточки (светлая и тёмная) справа. Вписывается в контейнер 1440px.</p>
-
-          <PropsTable props={comparisonSectionMeta.props} class="mb-10" />
-
-          <div class="space-y-10">
+          <h1 class="text-3xl font-bold font-heading mb-2">Island</h1>
+          <p class="text-gray-600 mb-8">Компактный pill-баннер с CTA-кнопкой. Тёмный фон, текст слева, оранжевая кнопка со стрелкой справа.</p>
+          <PropsTable props={islandMeta.props} class="mb-8" />
+          <div class="space-y-6">
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Пример</p>
-              <div class="-mx-10 border-y border-gray-200">
-                <ComparisonSection
-                  title="Одно решение для всей сделки вместо кучи заплаток"
-                  leftTitle="Без ДВИЖа"
-                  leftItems={[
-                    'Данные клиента теряются, сделка застревает между отделами',
-                    'Менеджер тратит время на нецелевых клиентов и не выполняет KPI',
-                    'Нет потенциала для апсейла клиентов',
-                    'Менеджер узнаёт о финансовых проблемах клиента после отказа в банке',
-                    'Море цифр и ни одного ответа: почему сделка не закрылась за полгода',
-                  ]}
-                  rightTitle="С ДВИЖом"
-                  rightItems={[
-                    'Вся сделка в одном окне: без ошибок и потерянных часов',
-                    'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейки',
-                    'Средний чек и допродажи постоянно растут',
-                    'Менеджер знает о платёжеспособности клиентов больше, чем они сами',
-                    'Вклад каждого сотрудника виден как под микроскопом',
-                  ]}
-                />
+              <p class="text-sm font-medium text-gray-400 mb-4">С drawer</p>
+              <Island
+                label="Пора делать ДВИЖ"
+                buttonText="Оставить заявку"
+                drawerPreset="lead"
+              />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Со ссылкой</p>
+              <Island
+                label="Пора делать ДВИЖ"
+                buttonText="Узнать больше"
+                buttonHref="/about"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'modal-inline-form' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Modal Inline Form</h1>
+          <p class="text-gray-600 mb-8">Двухшаговая форма для модалок. Появляется снизу после первого скролла. Шаг 1: имя + телефон. Шаг 2 (после отправки): email + компания.</p>
+          <div class="space-y-8">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Шаг 1 (дефолт)</p>
+              <div class="border border-gray-100 rounded-2xl p-8 bg-white">
+                <ModalInlineForm />
               </div>
             </div>
-
+          </div>
+        </div>
+      )}
+      {section === 'side-menu' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Side Menu</h1>
+          <p class="text-gray-600 mb-8">Вертикальное боковое меню с нумерацией. Активный пункт выделяется оранжевым, переключается кликом.</p>
+          <div class="space-y-8">
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Использование</p>
-              <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><code>{`import ComparisonSection from '@/components/ui/ComparisonSection.astro'
-
-<ComparisonSection
-  title="Одно решение для всей сделки вместо кучи заплаток"
-  leftTitle="Без ДВИЖа"
-  leftItems={[
-    'Данные клиента теряются...',
-    'Менеджер тратит время...',
-  ]}
-  rightTitle="С ДВИЖом"
-  rightItems={[
-    'Вся сделка в одном окне...',
-    'Менеджер успевает в 2 раза больше...',
-  ]}
-/>`}</code></pre>
+              <p class="text-sm font-medium text-gray-400 mb-4">5 пунктов</p>
+              <SideMenu items={[
+                { number: '01', title: 'Цифровая ипотека', active: true },
+                { number: '02', title: 'Ипотечный калькулятор' },
+                { number: '03', title: 'Финансовый скоринг' },
+                { number: '04', title: 'Электронная регистрация' },
+                { number: '05', title: 'ДВИЖ AI' },
+              ]} />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 пункта</p>
+              <SideMenu items={[
+                { number: '01', title: 'Для девелоперов', active: true },
+                { number: '02', title: 'Для банков' },
+                { number: '03', title: 'Для агентств' },
+              ]} />
             </div>
           </div>
         </div>
