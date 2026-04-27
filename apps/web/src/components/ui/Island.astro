@@ -50,7 +50,7 @@ const resolvedPreset = drawerPreset ?? 'demo'
     <button
       x-data
       @click={`$dispatch('open-drawer', { preset: '${resolvedPreset}' })`}
-      class="inline-flex items-center gap-2 rounded-[12px] bg-brand px-6 py-3 text-sm font-semibold text-white whitespace-nowrap hover:bg-brand-600 transition-colors duration-200 cursor-pointer"
+      class="inline-flex items-center gap-2 rounded-[12px] bg-brand px-6 py-3 text-btn text-white whitespace-nowrap hover:bg-brand-600 transition-colors duration-200 cursor-pointer"
     >
       {buttonText}
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">

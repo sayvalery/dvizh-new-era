@@ -269,6 +269,23 @@ h1, h2, h3, h4, h5, h6 {
     .text-medium-32 { font-size: 32px; }
   }
 
+  /* Кнопки */
+  .text-btn-lg {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 140%;
+    letter-spacing: -0.5px;
+  }
+
+  .text-btn {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 140%;
+    letter-spacing: -0.5px;
+  }
+
 }
 
 /* Prose enhancements for Webflow legacy content (bodyHtml) */

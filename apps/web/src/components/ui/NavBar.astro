@@ -187,7 +187,7 @@ const megaSections = megaItem?.sections ?? []
           )}
           {cta && (
             <button
-              class="hidden md:block text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+              class="hidden md:block text-btn px-4 py-2 rounded-lg transition-colors"
               :class="clear ? 'bg-white text-gray-900 hover:bg-white/90' : 'bg-black text-white hover:bg-gray-800'"
               @click={`$dispatch('open-drawer', { preset: '${cta.preset ?? 'demo'}' })`}
             >
@@ -388,7 +388,7 @@ const megaSections = megaItem?.sections ?? []
           )}
           {cta && (
             <button
-              class="w-full text-sm font-medium bg-black text-white px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
+              class="w-full text-btn bg-black text-white px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
               @click={`mobileOpen = false; $dispatch('open-drawer', { preset: '${cta.preset ?? 'demo'}' })`}
             >
               {cta.label}

@@ -1,0 +1,166 @@
+---
+/**
+ * Button — переиспользуемая кнопка с поддержкой иконок с обеих сторон
+ *
+ * Размеры (size):
+ *   sm — высота 36px, px-4, текст 14px, иконки 16×16
+ *   md — высота 44px, px-6, текст 14px, иконки 18×18
+ *   lg — высота 52px, px-8, текст 16px, иконки 20×20
+ *
+ * Варианты (variant):
+ *   primary   — оранжевый фон, белый текст
+ *   secondary — белый фон, тёмный текст
+ *   ghost     — прозрачный фон, тёмный текст
+ *   dark      — чёрный фон, белый текст
+ *
+ * Иконки передаются через именованные слоты: icon-left, icon-right.
+ * Расстояние иконка ↔ текст — 4px (gap-1).
+ *
+ * @example
+ * ```astro
+ * <!-- Простая кнопка -->
+ * <Button size="md" variant="primary">Запросить демо</Button>
+ *
+ * <!-- Кнопка-ссылка с иконкой справа -->
+ * <Button href="/about" size="lg" variant="secondary">
+ *   Узнать больше
+ *   <svg slot="icon-right" width="20" height="20" viewBox="0 0 20 20" fill="none">
+ *     <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.5"
+ *           stroke-linecap="round" stroke-linejoin="round"/>
+ *   </svg>
+ * </Button>
+ *
+ * <!-- Кнопка открывает дровер -->
+ * <Button size="sm" variant="dark" drawerPreset="demo">Записаться</Button>
+ * ```
+ */
+
+interface Props {
+  /** Размер кнопки */
+  size?: 'sm' | 'md' | 'lg'
+  /** Вариант оформления */
+  variant?: 'primary' | 'secondary' | 'ghost' | 'dark'
+  /** Если указан — рендерит <a> вместо <button> */
+  href?: string
+  /** Отключённое состояние */
+  disabled?: boolean
+  /** Тип для <button> */
+  type?: 'button' | 'submit' | 'reset'
+  /** Пресет дровера — открывает Drawer при клике */
+  drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  size = 'md',
+  variant = 'primary',
+  href,
+  disabled = false,
+  type = 'button',
+  drawerPreset,
+  class: className = '',
+} = Astro.props
+
+// Параметры по размеру
+const sizeMap = {
+  sm: { padding: 'px-4 py-2 h-9',       text: 'text-btn',    icon: 'w-4 h-4'        },
+  md: { padding: 'px-6 py-3 h-11',      text: 'text-btn',    icon: 'w-[18px] h-[18px]' },
+  lg: { padding: 'px-8 py-4 h-[52px]',  text: 'text-btn-lg', icon: 'w-5 h-5'        },
+}
+
+const { padding, text, icon: iconSize } = sizeMap[size]
+
+// Варианты оформления
+const variantMap = {
+  primary:   'bg-brand text-white hover:bg-brand-600 focus-visible:outline-brand',
+  secondary: 'bg-white text-[#122226] hover:bg-[#e6e4e1] focus-visible:outline-gray-400',
+  ghost:     'bg-transparent text-[#122226] hover:bg-[#e6e4e1] focus-visible:outline-gray-400',
+  dark:      'bg-[#1d1e21] text-white hover:bg-[#323232] focus-visible:outline-gray-700',
+}
+
+// Состояние disabled
+const disabledMap = {
+  primary:   'disabled:opacity-40 disabled:pointer-events-none',
+  secondary: 'disabled:opacity-60 disabled:pointer-events-none',
+  ghost:     'disabled:opacity-60 disabled:pointer-events-none',
+  dark:      'disabled:opacity-40 disabled:pointer-events-none',
+}
+
+const hasIconLeft  = Astro.slots.has('icon-left')
+const hasIconRight = Astro.slots.has('icon-right')
+const isLink = !!href
+---
+
+{isLink ? (
+  <a
+    href={href}
+    class:list={[
+      'inline-flex items-center justify-center rounded-[12px]',
+      'gap-1 whitespace-nowrap transition-colors duration-200',
+      'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+      padding, text, variantMap[variant], disabledMap[variant], className,
+    ]}
+    aria-disabled={disabled || undefined}
+  >
+    {hasIconLeft && (
+      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+        <slot name="icon-left" />
+      </span>
+    )}
+    <slot />
+    {hasIconRight && (
+      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+        <slot name="icon-right" />
+      </span>
+    )}
+  </a>
+) : drawerPreset ? (
+  <button
+    x-data
+    @click={`$dispatch('open-drawer', { preset: '${drawerPreset}' })`}
+    type={type}
+    disabled={disabled || undefined}
+    class:list={[
+      'inline-flex items-center justify-center rounded-[12px]',
+      'gap-1 whitespace-nowrap transition-colors duration-200 cursor-pointer',
+      'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+      padding, text, variantMap[variant], disabledMap[variant], className,
+    ]}
+  >
+    {hasIconLeft && (
+      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+        <slot name="icon-left" />
+      </span>
+    )}
+    <slot />
+    {hasIconRight && (
+      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+        <slot name="icon-right" />
+      </span>
+    )}
+  </button>
+) : (
+  <button
+    type={type}
+    disabled={disabled || undefined}
+    class:list={[
+      'inline-flex items-center justify-center rounded-[12px]',
+      'gap-1 whitespace-nowrap transition-colors duration-200 cursor-pointer',
+      'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+      padding, text, variantMap[variant], disabledMap[variant], className,
+    ]}
+  >
+    {hasIconLeft && (
+      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+        <slot name="icon-left" />
+      </span>
+    )}
+    <slot />
+    {hasIconRight && (
+      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+        <slot name="icon-right" />
+      </span>
+    )}
+  </button>
+)}
