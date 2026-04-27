@@ -97,7 +97,7 @@ const isLink = !!href
     href={href}
     class:list={[
       'inline-flex items-center justify-center rounded-[12px]',
-      'gap-1 whitespace-nowrap transition-colors duration-200',
+      'gap-1 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98]',
       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
       padding, text, variantMap[variant], disabledMap[variant], className,
     ]}
@@ -123,7 +123,7 @@ const isLink = !!href
     disabled={disabled || undefined}
     class:list={[
       'inline-flex items-center justify-center rounded-[12px]',
-      'gap-1 whitespace-nowrap transition-colors duration-200 cursor-pointer',
+      'gap-1 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98] cursor-pointer',
       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
       padding, text, variantMap[variant], disabledMap[variant], className,
     ]}
@@ -146,7 +146,7 @@ const isLink = !!href
     disabled={disabled || undefined}
     class:list={[
       'inline-flex items-center justify-center rounded-[12px]',
-      'gap-1 whitespace-nowrap transition-colors duration-200 cursor-pointer',
+      'gap-1 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98] cursor-pointer',
       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
       padding, text, variantMap[variant], disabledMap[variant], className,
     ]}
