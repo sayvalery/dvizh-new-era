@@ -1,0 +1,347 @@
+---
+/**
+ * Lab: UI Showcase — витрина компонентов UI Kit
+ *
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/ui-showcase
+ *
+ * Показывает компоненты из UI Kit с демо-данными.
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+import BentoGrid from '../../components/ui/BentoGrid.astro'
+import ProductCardReview from '../../components/ui/ProductCardReview.astro'
+import ProductCard from '../../components/ui/ProductCard.astro'
+import ProductSection from '../../components/ui/ProductSection.astro'
+import PersonCard from '../../components/ui/PersonCard.astro'
+import StoryCard from '../../components/ui/StoryCard.astro'
+import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
+---
+
+<SiteLayout title="Lab: UI Showcase">
+  <section class="py-24 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Шапка страницы -->
+      <div class="mb-16">
+        <p class="text-sm font-medium tracking-widest uppercase text-brand mb-4">Lab</p>
+        <h1 class="text-4xl lg:text-5xl font-medium leading-tight tracking-tight text-gray-900 mb-4">
+          UI Showcase
+        </h1>
+        <p class="text-lg text-gray-400 max-w-2xl">
+          Витрина компонентов UI Kit с демо-данными.
+        </p>
+      </div>
+
+      <div class="space-y-24">
+
+        <!-- ─── 1. FormClosing ────────────────────────────────────── -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">FormClosing</h2>
+            <p class="text-gray-400 mt-1">Секция с формой в конце страницы. Карточка с заголовком, списком и инлайн-формой.</p>
+          </div>
+
+          <div class="space-y-10">
+
+            <!-- 1a. Базовый: только заголовок -->
+            <div>
+              <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-3">Базовый — только заголовок</p>
+              <FormClosing
+                preset="lead"
+                title="Попробуйте ДВИЖ в деле"
+              />
+            </div>
+
+            <!-- 1b. Со списком преимуществ -->
+            <div>
+              <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-3">Со списком items</p>
+              <FormClosing
+                preset="lead"
+                title="Попробуйте ДВИЖ в деле"
+                items={[
+                  'Покажем, как решали задачи у клиентов',
+                  'Рассчитаем ROMI и экономический эффект',
+                  'Разберём ваши задачи',
+                ]}
+              />
+            </div>
+
+            <!-- 1c. С описанием и кастомным фоном -->
+            <div>
+              <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-3">С описанием + bgColor</p>
+              <FormClosing
+                preset="demo"
+                title="Запишитесь на персональное демо"
+                description="Покажем возможности платформы и ответим на все вопросы за 30 минут."
+                bgColor="#f5f5f0"
+                submitLabel="Записаться на демо"
+              />
+            </div>
+
+            <!-- 1d. Без согласия (showPrivacy=false) -->
+            <div>
+              <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-3">showPrivacy=false</p>
+              <FormClosing
+                preset="subscribe"
+                title="Подпишитесь на дайджест"
+                description="Полезные материалы о продажах в недвижимости — раз в две недели."
+                showPrivacy={false}
+              />
+            </div>
+
+            <!-- 1e. Тёмный вариант -->
+            <div>
+              <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-3">Тёмный вариант (formVariant="dark")</p>
+              <FormClosing
+                preset="lead"
+                title="Попробуйте ДВИЖ в деле"
+                bgColor="#20202b"
+                formVariant="dark"
+                items={[
+                  'Покажем, как решали задачи у клиентов',
+                  'Рассчитаем ROMI и экономический эффект',
+                  'Разберём ваши задачи',
+                ]}
+              />
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ─── 2. BentoGrid ──────────────────────────────────────── -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">BentoGrid</h2>
+            <p class="text-gray-400 mt-1">Секция с тремя карточками в bento-раскладке: два маленьких слева + один большой справа</p>
+          </div>
+
+          <BentoGrid
+            heading="Другие причины выбрать ДВИЖ"
+            items={[
+              {
+                title: "Выпуск подписи за 5 минут",
+                description: "Поддерживаем все технологии: токен, Sign.Me, Госключ",
+              },
+              {
+                title: "Ускорим подачу заявления",
+                description: "Подключим оплату госпошлины с авансового счёта внутри ДВИЖа",
+              },
+              {
+                title: "Расчёт вероятности и скорости одобрения по банкам",
+                description: "Поможем зарегистрировать сложные сделки: с иностранными гражданами или военной ипотекой",
+              },
+            ]}
+          />
+        </section>
+
+        <!-- ─── 2. ProductCardReview ───────────────────────────────── -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">ProductCardReview</h2>
+            <p class="text-gray-400 mt-1">Блок цитаты клиента с логотипом, именем, должностью и кнопкой кейса</p>
+          </div>
+
+          <div class="bg-white rounded-3xl p-8 lg:p-10 max-w-2xl">
+            <ProductCardReview
+              quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и смогли обрабатывать на 98% больше заявок без увеличения штата"
+              author="Анастасия Швед"
+              role="Руководитель управления прямых продаж"
+              company={{ logo: "/api/media/file/talan-logo.svg", alt: "Талан" }}
+              caseLink={{ label: "Читать кейс", href: "/cases/talan" }}
+            />
+          </div>
+        </section>
+
+        <!-- ─── 3. ProductCard ─────────────────────────────────────── -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">ProductCard</h2>
+            <p class="text-gray-400 mt-1">Карточка продукта: заголовок → список пунктов → кнопка → изображение → [отзыв]</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Без отзыва -->
+            <ProductCard
+              title="Поможем перевыполнить план продаж на том же трафике"
+              items={[
+                "До 96% одобрения по ипотеке",
+                "Единая анкета в 40+ банков",
+                "Прескоринг за 3 секунды",
+                "Онлайн-сделка без визита в банк",
+              ]}
+              button={{ label: "Подробнее об ипотеке", href: "/ipoteka" }}
+            />
+
+            <!-- С отзывом -->
+            <ProductCard
+              title="Автоматизируйте регистрацию сделок"
+              items={[
+                "Электронная подпись за 5 минут",
+                "Поддержка Sign.Me и Госключа",
+                "Автоподача в Росреестр",
+              ]}
+              button={{ label: "Подробнее о регистрации", href: "/elektronnaya-registraciya" }}
+              review={{
+                quote: "Теперь регистрируем сделки вдвое быстрее — ДВИЖ взял на себя все рутинные операции",
+                author: "Дмитрий Орлов",
+                role: "Директор ипотечного отдела",
+                company: { logo: "/api/media/file/pik-logo.svg", alt: "ПИК" },
+                caseLink: { href: "/cases/pik" },
+              }}
+            />
+          </div>
+        </section>
+
+        <!-- ─── 4. ProductSection ──────────────────────────────────── -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">ProductSection</h2>
+            <p class="text-gray-400 mt-1">Адаптивная секция: меню продуктов слева (lg+) + карточка продукта справа</p>
+          </div>
+
+          <ProductSection
+            sections={[
+              { number: "01", title: "Цифровая ипотека", active: true },
+              { number: "02", title: "Э-регистрация" },
+              { number: "03", title: "Витрина квартир" },
+              { number: "04", title: "Скоринг" },
+            ]}
+            title="Увеличьте одобрение ипотеки до 96%"
+            items={[
+              "Единая анкета в 40+ банков",
+              "Прескоринг клиента за 3 секунды",
+              "Автоподбор программ по параметрам сделки",
+              "Контроль всех заявок в одном окне",
+            ]}
+            button={{ label: "Подробнее", href: "/ipoteka" }}
+          />
+        </section>
+
+        <!-- ─── 5. PersonCard (variant="with-logo") ───────────────── -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">PersonCard — вариант with-logo</h2>
+            <p class="text-gray-400 mt-1">Логотип клиента + разделитель + имя + должность. Используется в цитатах кейсов.</p>
+          </div>
+
+          <div class="flex flex-col gap-6 max-w-md">
+            <!-- С логотипом -->
+            <div class="bg-white rounded-2xl p-6">
+              <PersonCard
+                person={{
+                  name: "Анастасия Швед",
+                  jobTitle: "Руководитель управления прямых продаж",
+                }}
+                variant="with-logo"
+                logoUrl="/api/media/file/talan-logo.svg"
+                logoAlt="Талан"
+              />
+            </div>
+
+            <!-- Без логотипа (заглушка) -->
+            <div class="bg-white rounded-2xl p-6">
+              <PersonCard
+                person={{
+                  name: "Светлана Корнелюк",
+                  jobTitle: "Директор отдела продаж",
+                }}
+                variant="with-logo"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── 6. StoryCard (3 в ряд) ────────────────────────────── -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">StoryCard</h2>
+            <p class="text-gray-400 mt-1">Карточки историй успеха — три в ряд с фоновым изображением, логотипом и персоной</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <StoryCard
+              title="Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке"
+              person={{
+                name: "Петрова Надежда",
+                jobTitle: "Директор по маркетингу",
+                company: { name: "ЛСР" },
+              }}
+            >
+              <img src="/api/media/file/lsr-logo.svg" alt="ЛСР" slot="logo" />
+            </StoryCard>
+
+            <StoryCard
+              title="Сократили время оформления ипотеки с часа до 5 минут"
+              person={{
+                name: "Анастасия Швед",
+                jobTitle: "Руководитель управления прямых продаж",
+                company: { name: "Талан" },
+              }}
+            >
+              <img src="/api/media/file/talan-logo.svg" alt="Талан" slot="logo" />
+            </StoryCard>
+
+            <StoryCard
+              title="Увеличили конверсию в одобрение по ипотеке до 96%"
+              person={{
+                name: "Дмитрий Орлов",
+                jobTitle: "Директор ипотечного отдела",
+                company: { name: "ПИК" },
+              }}
+            >
+              <img src="/api/media/file/pik-logo.svg" alt="ПИК" slot="logo" />
+            </StoryCard>
+          </div>
+        </section>
+
+        <!-- ─── 7. SuccessStories (карусель) ──────────────────────── -->
+        <section>
+          <div class="mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-900">SuccessStories</h2>
+            <p class="text-gray-400 mt-1">Горизонтальная карусель карточек SuccessStory с CSS Scroll Snap и drag-to-scroll</p>
+          </div>
+
+          <SuccessStoriesCarousel
+            title="Истории успеха застройщиков"
+            stories={[
+              {
+                title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
+                quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и сразу направить его в подходящий банк.",
+                person: {
+                  name: "Петрова Надежда",
+                  jobTitle: "Директор по маркетингу, ЛСР",
+                  photo: { url: "" },
+                },
+                logo: "/api/media/file/lsr-logo.svg",
+                logoAlt: "ЛСР",
+              },
+              {
+                title: "Сократили время оформления ипотеки с часа до 5 минут",
+                quote: "С появлением ДВИЖа мы ускорили подачу заявок и смогли обрабатывать на 98% больше обращений без увеличения штата.",
+                person: {
+                  name: "Анастасия Швед",
+                  jobTitle: "Руководитель управления прямых продаж, Талан",
+                  photo: { url: "" },
+                },
+                logo: "/api/media/file/talan-logo.svg",
+                logoAlt: "Талан",
+              },
+              {
+                title: "Увеличили конверсию в одобрение по ипотеке до 96%",
+                quote: "Единая анкета и автоматический прескоринг помогли нам направлять клиентов сразу в подходящий банк — отказов стало значительно меньше.",
+                person: {
+                  name: "Дмитрий Орлов",
+                  jobTitle: "Директор ипотечного отдела, ПИК",
+                  photo: { url: "" },
+                },
+                logo: "/api/media/file/pik-logo.svg",
+                logoAlt: "ПИК",
+              },
+            ]}
+          />
+        </section>
+
+      </div>
+    </div>
+  </section>
+</SiteLayout>

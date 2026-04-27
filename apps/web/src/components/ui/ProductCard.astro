@@ -2,8 +2,8 @@
 /**
  * ProductCard — карточка продукта
  *
- * Структура: заголовок → список пунктов со значком-квадратом → кнопка → изображение.
- * Блок отзыва (review) будет добавлен позже как отдельный пропс.
+ * Структура: заголовок → список пунктов со значком-квадратом → кнопка → изображение → [отзыв].
+ * Блок отзыва (review) — необязательный пропс; рендерится через ProductCardReview.
  *
  * @example
  * ```astro
@@ -12,13 +12,35 @@
  *   items={['До 96% одобрения', 'Единая анкета в 40+ банков']}
  *   button={{ label: 'Подробнее', href: '/ipoteka' }}
  *   image={{ src: '/api/media/file/ipoteka.jpg', alt: 'Цифровая ипотека' }}
+ *   review={{
+ *     quote: 'С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут',
+ *     author: 'Анастасия Швед',
+ *     role: 'Руководитель управления прямых продаж',
+ *     company: { logo: '/api/media/file/talan-logo.svg', alt: 'Талан' },
+ *     caseLink: { label: 'Читать кейс', href: '/cases/talan' },
+ *   }}
  * />
  * ```
  */
 
+import ProductCardReview from './ProductCardReview.astro'
+
 interface Button {
   label: string
   href: string
+}
+
+interface Review {
+  /** Текст цитаты */
+  quote: string
+  /** Имя автора */
+  author: string
+  /** Должность / роль автора */
+  role: string
+  /** Логотип компании */
+  company?: { logo: string; alt?: string }
+  /** Ссылка на кейс */
+  caseLink?: { label?: string; href: string }
 }
 
 interface Props {
@@ -30,6 +52,8 @@ interface Props {
   button?: Button
   /** Изображение. Если не передано — нейтральный placeholder */
   image?: { src: string; alt?: string }
+  /** Блок цитаты клиента. Если передан — рендерится ниже изображения */
+  review?: Review
   /** Дополнительные CSS классы */
   class?: string
 }
@@ -39,6 +63,7 @@ const {
   items = [],
   button,
   image,
+  review,
   class: className = ''
 } = Astro.props
 ---
@@ -77,7 +102,10 @@ const {
   </div>
 
   <!-- Изображение -->
-  <div class="mx-6 mb-6 lg:mx-8 lg:mb-8 overflow-hidden rounded-[24px] bg-stone-200 aspect-video">
+  <div class:list={[
+    'mx-6 lg:mx-8 overflow-hidden rounded-[24px] bg-stone-200 aspect-video',
+    review ? 'mb-0' : 'mb-6 lg:mb-8'
+  ]}>
     {image && (
       <img
         src={image.src}
@@ -87,5 +115,18 @@ const {
       />
     )}
   </div>
+
+  <!-- Отзыв клиента (опционально) -->
+  {review && (
+    <div class="px-8 pb-8 lg:px-10 lg:pb-10 pt-10">
+      <ProductCardReview
+        quote={review.quote}
+        author={review.author}
+        role={review.role}
+        company={review.company}
+        caseLink={review.caseLink}
+      />
+    </div>
+  )}
 
 </div>
