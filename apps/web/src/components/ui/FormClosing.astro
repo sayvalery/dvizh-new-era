@@ -1,54 +1,67 @@
 ---
 /**
- * FormClosing — панель в конце страницы с формой
+ * FormClosing — секция с формой в конце страницы
  *
- * Тёмный фон с градиентом, заголовок, описание, изображение справа, форма слева.
+ * Карточка с заголовком, опциональным списком преимуществ и инлайн-формой.
+ * Фон карточки настраивается цветом или изображением через пропсы.
  *
  * @example
  * ```astro
+ * <!-- Базовый вариант -->
  * <FormClosing
  *   preset="lead"
- *   title="Начните пользоваться приложением сегодня"
- *   description="Автоматизируйте рабочие процессы и повышайте эффективность."
- *   image="/app-screenshot.png"
+ *   title="Попробуйте ДВИЖ в деле"
+ * />
+ *
+ * <!-- С пунктами списка -->
+ * <FormClosing
+ *   preset="lead"
+ *   title="Попробуйте ДВИЖ в деле"
+ *   items={[
+ *     'Покажем, как решали задачи у клиентов',
+ *     'Рассчитаем ROMI и экономический эффект',
+ *     'Разберём ваши задачи',
+ *   ]}
+ * />
+ *
+ * <!-- С фоновым изображением (тёмный вариант) -->
+ * <FormClosing
+ *   preset="demo"
+ *   title="Попробуйте ДВИЖ в деле"
+ *   bgImage="/images/bg-form.jpg"
+ *   formVariant="dark"
  * />
  * ```
  */
 
-import Form from './Form.astro'
+const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
 
 interface Props {
   /** Пресет полей формы */
   preset: 'lead' | 'subscribe' | 'demo' | 'research'
   /** Заголовок */
   title: string
-  /** Описание */
+  /** Описание под заголовком (опционально) */
   description?: string
-  /** URL изображения справа */
-  image?: string
-  /** Alt-текст для изображения */
-  imageAlt?: string
+  /** Список пунктов под заголовком (опционально) */
+  items?: string[]
   /** Текст на кнопке отправки */
   submitLabel?: string
-  /** Цвет фона (hex или Tailwind класс) */
+  /** Цвет фона карточки (hex или css-значение), по умолчанию белый */
   bgColor?: string
-  /** Фоновое изображение всей формы */
+  /** URL фонового изображения карточки */
   bgImage?: string
   /** Позиция фонового изображения */
-  bgImagePosition?: 'center' | 'right' | 'left' | 'top' | 'bottom' | 'top right' | 'top left' | 'right top' | 'bottom right' | 'right bottom' | 'bottom left' | 'left bottom'
-  /** Начальный цвет градиентного круга */
-  gradientStart?: string
-  /** Конечный цвет градиентного круга */
-  gradientEnd?: string
-  /** Показывать градиентный круг */
-  showGradient?: boolean
-  /** Цвет текста заголовка и описания */
-  textColor?: string
-  /** Вариант формы (light/dark) */
+  bgImagePosition?: 'center' | 'right' | 'left' | 'top' | 'bottom' | 'top right' | 'top left' | 'bottom right' | 'bottom left'
+  /** Вариант формы: light — для светлого фона, dark — для тёмного */
   formVariant?: 'light' | 'dark'
-  /** Текст о персональных данных */
+  /** Цвет текста заголовка (Tailwind-класс), по умолчанию text-gray-900 */
+  textColor?: string
+  /** Показывать согласие на обработку персональных данных, по умолчанию true */
+  showPrivacy?: boolean
+  /** Текст согласия (без ссылки). По умолчанию — стандартный текст с именем кнопки */
   privacyText?: string
-  /** Дополнительные CSS классы */
+  /** Дополнительные CSS-классы для секции */
   class?: string
 }
 
@@ -56,85 +69,205 @@ const {
   preset,
   title,
   description,
-  image,
-  imageAlt = 'Image',
+  items,
   submitLabel,
-  bgColor,
+  bgColor = '#ffffff',
   bgImage,
   bgImagePosition = 'center',
-  gradientStart = '#7775D6',
-  gradientEnd = '#E935C1',
-  showGradient = true,
-  textColor = 'text-white',
   formVariant,
+  textColor = 'text-gray-900',
+  showPrivacy = true,
   privacyText,
-  class: className = ''
+  class: className = '',
 } = Astro.props
 
-// Если bgColor задан как класс (не hex), определяем является ли фон светлым
-const isLightBg = bgColor && !bgColor.startsWith('#') && (bgColor.includes('gray-50') || bgColor.includes('gray-100') || bgColor.includes('gray-200') || bgColor.includes('gray-300'))
-const formVariantResolved = formVariant ?? (isLightBg ? 'light' : 'dark')
-const textColorResolved = textColor === 'text-white' && isLightBg ? 'text-gray-900' : textColor
-const descriptionColor = isLightBg ? 'text-gray-600' : 'text-gray-300'
-const privacyColor = isLightBg ? 'text-gray-400' : 'text-gray-400'
+// Автоматически определяем тёмный вариант если не задан явно
+const isDark = formVariant === 'dark'
 
-// Стиль для фона: цвет, изображение или комбинация
-const backgroundStyle = bgImage
-  ? `background-image: url('${bgImage}'); background-size: cover; background-position: ${bgImagePosition}; ${bgColor ? `background-color: ${bgColor};` : ''}`
-  : bgColor?.startsWith('#') || bgColor?.startsWith('rgb')
-    ? `background-color: ${bgColor}`
-    : ''
+// Стиль фона карточки
+const cardStyle = [
+  bgImage ? `background-image: url('${bgImage}'); background-size: cover; background-position: ${bgImagePosition};` : '',
+  `background-color: ${bgColor};`,
+].join(' ')
 
-// Генерируем уникальный ID для градиента (для поддержки нескольких экземпляров)
-const gradientId = `gradient-circle-closing-${Math.random().toString(36).slice(2)}`
+// Токены стилей
+const headingCls    = isDark ? 'text-white'    : textColor
+const descCls       = isDark ? 'text-white/60' : 'text-gray-500'
+const listTextCls   = isDark ? 'text-white/75' : 'text-gray-700'
+const bulletCls     = isDark ? 'bg-white/25'   : 'bg-gray-300/80'
+const privacyLinkCls = isDark ? 'text-white/40 underline hover:text-white/60' : 'text-gray-400 underline hover:text-gray-600'
+const privacyCls    = isDark ? 'text-white/40' : 'text-gray-400'
+const checkboxBorder = isDark ? 'border-white/20 bg-white/5' : 'border-gray-300/60 bg-gray-100/50'
+const inputCls = isDark
+  ? 'flex-1 min-w-0 h-16 bg-white/10 rounded-xl px-5 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/20 transition-all duration-200'
+  : 'flex-1 min-w-0 h-16 bg-gray-100 rounded-xl px-5 text-base text-gray-900 placeholder:text-gray-700/50 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all duration-200'
+const successCls = isDark ? 'text-green-400' : 'text-green-600'
+const errorCls   = isDark ? 'text-red-400'   : 'text-red-500'
+
+// Поля формы
+const fields: Record<string, string[]> = {
+  lead:      ['name', 'phone'],
+  subscribe: ['email'],
+  demo:      ['name', 'email', 'phone', 'company'],
+  research:  ['name', 'email', 'company'],
+}
+const fieldLabels: Record<string, string> = {
+  name:    'Ваше имя',
+  email:   'Email',
+  phone:   'Ваш телефон',
+  company: 'Компания',
+}
+const defaultSubmitLabels: Record<string, string> = {
+  lead:      'Получить демо',
+  subscribe: 'Подписаться',
+  demo:      'Получить демо',
+  research:  'Получить исследование',
+}
+
+const btnLabel    = submitLabel ?? defaultSubmitLabels[preset] ?? 'Отправить'
+const formFields  = fields[preset] ?? ['name', 'email']
+
+// Текст согласия
+const privacyMain = privacyText
+  ?? `Нажимая кнопку «${btnLabel}», вы даёте согласие на обработку ваших персональных данных и подтверждаете, что ознакомлены с `
 ---
 
-<section
-  class:list={['relative isolate overflow-hidden px-6 pt-[5rem] pb-2 sm:rounded-3xl sm:px-16 sm:pt-[5rem] sm:pb-2 md:pt-[5rem] md:pb-2 lg:flex lg:gap-x-20 lg:px-24 lg:pt-[5rem] lg:pb-2', (!bgImage && (bgColor || 'bg-gray-900')), className]}
-  style={backgroundStyle}
->
-  <!-- Градиентный круг -->
-  {showGradient && (
-    <svg viewBox="0 0 1024 1024" aria-hidden="true" class="absolute left-1/2 top-1/2 -z-10 size-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0">
-      <circle r="512" cx="512" cy="512 fill={`url(#${gradientId})`} fill-opacity="0.7" />
-      <defs>
-        <radialGradient id={gradientId}>
-          <stop stop-color={gradientStart} />
-          <stop offset="1" stop-color={gradientEnd} />
-        </radialGradient>
-      </defs>
-    </svg>
-  )}
+<section class:list={['py-16 md:py-[7.5rem]', className]}>
+  <div
+    class="relative overflow-hidden rounded-[2.5rem] border border-neutral-100 px-8 py-10 md:px-10 md:py-12"
+    style={cardStyle}
+  >
 
-  <div class="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left">
-    <h2 class={`text-balance text-3xl font-semibold sm:text-4xl ${textColorResolved}`}>
+    {/* ──── Заголовок + описание ──── */}
+    <h2 class:list={['font-heading text-4xl md:text-5xl font-medium leading-none tracking-tighter', headingCls]}>
       {title}
     </h2>
+
     {description && (
-      <p class={`mt-6 text-pretty text-lg/8 ${descriptionColor}`}>
+      <p class:list={['mt-4 text-lg leading-relaxed', descCls]}>
         {description}
       </p>
     )}
-    <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-      <Form preset={preset} layout="inline" variant={formVariantResolved} submitLabel={submitLabel} />
-    </div>
-    {privacyText && (
-      <p class={`mt-4 text-sm ${privacyColor}`}>
-        {privacyText}
-      </p>
-    )}
-  </div>
 
-  <div class="relative mt-8 h-80 hidden lg:block">
-    {image ? (
-      <img
-        src={image}
-        alt={imageAlt}
-        class="absolute left-0 top-0 w-full h-full object-cover"
-        loading="lazy"
-      />
-    ) : (
-      <div class="absolute left-0 top-0 w-full h-full bg-gray-700" />
+    {/* ──── Список преимуществ ──── */}
+    {items && items.length > 0 && (
+      <ul class="mt-6 space-y-3">
+        {items.map((item) => (
+          <li class="flex items-center gap-3">
+            <span class="flex items-center justify-center w-6 h-6 shrink-0">
+              <span class:list={['w-2 h-2 rounded-[2px]', bulletCls]}></span>
+            </span>
+            <span class:list={['text-lg leading-snug', listTextCls]}>{item}</span>
+          </li>
+        ))}
+      </ul>
     )}
+
+    {/* ──── Форма ──── */}
+    <form
+      class="mt-8 space-y-3"
+      data-form-closing
+      data-preset={preset}
+      data-cms-url={CLIENT_CMS_URL}
+    >
+      {/* Инпуты + кнопка в ряд */}
+      <div class="flex flex-col sm:flex-row gap-3">
+        {formFields.map((field) => (
+          <input
+            type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
+            name={field}
+            required={field === 'email' || field === 'name'}
+            placeholder={fieldLabels[field]}
+            class={inputCls}
+          />
+        ))}
+        <button
+          type="submit"
+          class="h-16 px-8 bg-brand text-white rounded-xl text-lg font-semibold whitespace-nowrap hover:opacity-90 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 shrink-0"
+        >
+          {btnLabel}
+        </button>
+      </div>
+
+      {/* Согласие на обработку персональных данных */}
+      {showPrivacy && (
+        <label class="flex items-start gap-2 cursor-pointer">
+          {/* Кастомный чекбокс с галочкой */}
+          <div class="relative mt-[2px] w-4 h-4 shrink-0">
+            <input
+              type="checkbox"
+              required
+              class="peer absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+            />
+            <div class:list={[
+              'absolute inset-0 rounded-[4px] border-2 transition-colors duration-150',
+              'peer-checked:bg-brand peer-checked:border-brand',
+              checkboxBorder,
+            ]}></div>
+            <svg
+              class="absolute inset-0 w-full h-full p-[3px] text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-150 pointer-events-none"
+              viewBox="0 0 10 8"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M1.5 4L3.5 6.5L8.5 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class:list={['text-[13px] leading-snug', privacyCls]}>
+            {privacyMain}<a href="/privacy" class={privacyLinkCls}>Политикой&nbsp;обработки персональных&nbsp;данных</a>
+          </span>
+        </label>
+      )}
+
+      {/* Honeypot */}
+      <div class="hidden">
+        <input name="_honeypot" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <p class:list={['form-success hidden text-sm', successCls]}>Спасибо! Мы свяжемся с вами.</p>
+      <p class:list={['form-error hidden text-sm', errorCls]}>Ошибка отправки. Попробуйте ещё раз.</p>
+    </form>
+
   </div>
 </section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-form-closing]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const f = e.target as HTMLFormElement
+      const cmsUrl = f.dataset.cmsUrl ?? ''
+      const preset = f.dataset.preset ?? ''
+
+      const honeypot = (f.querySelector('[name="_honeypot"]') as HTMLInputElement)?.value
+      if (honeypot) return
+
+      const data: Record<string, string> = { preset }
+      new FormData(f).forEach((val, key) => {
+        if (key !== '_honeypot') data[key] = val as string
+      })
+      data.page = window.location.href
+
+      const btn = f.querySelector<HTMLButtonElement>('button[type="submit"]')!
+      btn.disabled = true
+
+      try {
+        const res = await fetch(`${cmsUrl}/api/form-submissions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+        if (res.ok) {
+          f.querySelector('.form-success')?.classList.remove('hidden')
+          f.reset()
+        } else {
+          throw new Error('Server error')
+        }
+      } catch {
+        f.querySelector('.form-error')?.classList.remove('hidden')
+      } finally {
+        btn.disabled = false
+      }
+    })
+  })
+</script>

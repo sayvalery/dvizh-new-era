@@ -44,6 +44,14 @@ interface SectionItem {
   button?: Button
   /** Изображение */
   image?: { src: string; alt?: string }
+  /** Блок цитаты клиента */
+  review?: {
+    quote: string
+    author: string
+    role: string
+    company?: { logo: string; alt?: string }
+    caseLink?: { label?: string; href: string }
+  }
 }
 
 interface Props {
@@ -93,6 +101,7 @@ const componentId = `psn-${Math.random().toString(36).substr(2, 9)}`
               items={section.items}
               button={section.button}
               image={section.image}
+              review={section.review}
             />
           </div>
         ))}

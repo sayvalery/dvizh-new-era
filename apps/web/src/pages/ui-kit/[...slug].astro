@@ -27,6 +27,7 @@ import PropsTable from '../../components/ui/PropsTable.astro'
 import GradientCTA from '../../components/ui/GradientCTA.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
+import ProductCardReview from '../../components/ui/ProductCardReview.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
 import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
 import SectionNavigator from '../../components/ui/SectionNavigator.astro'
@@ -36,6 +37,7 @@ import AdvantageCard from '../../components/ui/AdvantageCard.astro'
 import Island from '../../components/ui/Island.astro'
 import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
 import SideMenu from '../../components/ui/SideMenu.astro'
+import AaiHero from '../../components/ui/AaiHero.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -57,12 +59,14 @@ import sectionBlockRaw from '../../components/ui/SectionBlock.astro?raw'
 import gradientCTARaw from '../../components/ui/GradientCTA.astro?raw'
 import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
 import productCardRaw from '../../components/ui/ProductCard.astro?raw'
+import productCardReviewRaw from '../../components/ui/ProductCardReview.astro?raw'
 import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
 import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
 import dvizhAdvantagesRaw from '../../components/ui/DvizhAdvantages.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
 import islandRaw from '../../components/ui/Island.astro?raw'
+import aaiHeroRaw from '../../components/ui/AaiHero.astro?raw'
 
 interface PropMeta {
   name: string
@@ -143,12 +147,14 @@ const sectionBlockMeta = parseSource(sectionBlockRaw)
 const gradientCTAMeta = parseSource(gradientCTARaw)
 const blogCardsMeta = parseSource(blogCardsRaw)
 const productCardMeta = parseSource(productCardRaw)
+const productCardReviewMeta = parseSource(productCardReviewRaw)
 const productSectionMeta = parseSource(productSectionRaw)
 const sectionNavigatorMeta = parseSource(sectionNavigatorRaw)
 const dvizhAdvantagesMeta = parseSource(dvizhAdvantagesRaw)
 const storyCardMeta = parseSource(storyCardRaw)
 const advantageCardMeta = parseSource(advantageCardRaw)
 const islandMeta = parseSource(islandRaw)
+const aaiHeroMeta = parseSource(aaiHeroRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -180,12 +186,14 @@ export function getStaticPaths() {
     { params: { slug: 'gradient-cta' }, props: { section: 'gradient-cta' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'product-card' }, props: { section: 'product-card' } },
+    { params: { slug: 'product-card-review' }, props: { section: 'product-card-review' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
     { params: { slug: 'section-navigator' }, props: { section: 'section-navigator' } },
     { params: { slug: 'dvizh-advantages' }, props: { section: 'dvizh-advantages' } },
     { params: { slug: 'island' }, props: { section: 'island' } },
     { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
     { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
+    { params: { slug: 'aai-hero' }, props: { section: 'aai-hero' } },
   ]
 }
 
@@ -218,12 +226,14 @@ const sections = [
   { slug: 'gradient-cta', label: 'Gradient CTA' },
   { slug: 'blog-cards', label: 'Blog Cards' },
   { slug: 'product-card', label: 'Product Card' },
+  { slug: 'product-card-review', label: 'Product Card Review' },
   { slug: 'product-section', label: 'Product Section' },
   { slug: 'section-navigator', label: 'Section Navigator' },
   { slug: 'dvizh-advantages', label: 'Dvizh Advantages' },
   { slug: 'island', label: 'Island' },
   { slug: 'modal-inline-form', label: 'Modal Inline Form' },
   { slug: 'side-menu', label: 'Side Menu' },
+  { slug: 'aai-hero', label: 'AaiHero' },
 ]
 ---
 
@@ -637,30 +647,68 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Form Closing</h1>
           <p class="text-gray-600 mb-4">
-            Панель в конце страницы с формой. Тёмный фон с градиентом, заголовок, описание, изображение справа.
+            Секция с формой в конце страницы. Карточка с заголовком, опциональным списком преимуществ и инлайн-формой.
+            Фон карточки настраивается цветом или изображением через пропсы.
           </p>
           <PropsTable props={formClosingMeta.props} class="mb-10" />
 
           <div class="space-y-12">
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С изображением</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="Start using our app today" description="Ac euismod vel sit maecenas." image="/app-screenshot.png" />`}</code></p>
+              <p class="text-sm font-medium text-gray-400 mb-4">Базовый — заголовок + форма</p>
+              <p class="text-xs text-gray-400 mb-6">
+                <code>{`<FormClosing preset="lead" title="Попробуйте ДВИЖ в деле" />`}</code>
+              </p>
               <FormClosing
                 preset="lead"
-                title="Начните пользоваться приложением сегодня"
-                description="Автоматизируйте рабочие процессы и повышайте эффективность команды."
-                image=""
+                title="Попробуйте ДВИЖ в деле"
               />
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без изображения</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="Попробуйте ДВИЖ в деле" description="Оставьте заявку и мы свяжемся с вами." submitLabel="Получить демо" />`}</code></p>
+              <p class="text-sm font-medium text-gray-400 mb-4">Со списком преимуществ (items)</p>
+              <p class="text-xs text-gray-400 mb-6">
+                <code>{`<FormClosing preset="lead" title="..." items={['...', '...', '...']} />`}</code>
+              </p>
               <FormClosing
                 preset="lead"
                 title="Попробуйте ДВИЖ в деле"
-                description="Оставьте заявку и мы свяжемся с вами в ближайшее время."
-                submitLabel="Получить демо"
+                items={[
+                  'Покажем, как решали задачи у клиентов',
+                  'Рассчитаем ROMI и экономический эффект',
+                  'Разберём ваши задачи',
+                ]}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С описанием и пользовательским цветом фона</p>
+              <p class="text-xs text-gray-400 mb-6">
+                <code>{`<FormClosing preset="demo" title="..." description="..." bgColor="#f5f5f5" submitLabel="Записаться на демо" />`}</code>
+              </p>
+              <FormClosing
+                preset="demo"
+                title="Запишитесь на персональное демо"
+                description="Покажем возможности платформы и ответим на все вопросы."
+                bgColor="#f5f5f5"
+                submitLabel="Записаться на демо"
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Тёмный вариант (bgColor + formVariant)</p>
+              <p class="text-xs text-gray-400 mb-6">
+                <code>{`<FormClosing preset="lead" title="..." bgColor="#20202b" formVariant="dark" items={[...]} />`}</code>
+              </p>
+              <FormClosing
+                preset="lead"
+                title="Попробуйте ДВИЖ в деле"
+                bgColor="#20202b"
+                formVariant="dark"
+                items={[
+                  'Покажем, как решали задачи у клиентов',
+                  'Рассчитаем ROMI и экономический эффект',
+                  'Разберём ваши задачи',
+                ]}
               />
             </div>
           </div>
@@ -1447,44 +1495,30 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Bento Grid</h1>
           <p class="text-gray-600 mb-4">
-            Сетка карточек разного размера (Bento layout). Карточки с span-4 занимают 2/3 ширины, span-2 — 1/3.
+            Три карточки в bento-раскладке: два маленьких элемента слева (стек) + один большой справа.
+            Карточки содержат заголовок, описание и опциональное изображение.
           </p>
           <PropsTable props={bentoGridMeta.props} class="mb-10" />
 
           <div class="space-y-12">
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С изображениями</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid items={[...]} />`}</code></p>
-              <div class="-mx-10">
+              <p class="text-sm font-medium text-gray-400 mb-4">С заголовком секции</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid heading="..." items={[...3 items...]} />`}</code></p>
+              <div class="-mx-10 bg-[#fbfbfb] px-10 py-12 rounded-2xl">
                 <BentoGrid
+                  heading="Другие причины выбрать ДВИЖ"
                   items={[
                     {
-                      label: "Releases",
-                      title: "Push to deploy",
-                      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In gravida justo et nulla efficitur, maximus egestas sem pellentesque.",
-                      image: "",
-                      span: "col-span-4"
+                      title: "Выпуск подписи за 5 минут",
+                      description: "Поддерживаем все технологии: токен, Sign.Me, Госключ"
                     },
                     {
-                      label: "Integrations",
-                      title: "Connect your favorite tools",
-                      description: "Curabitur auctor, ex quis auctor venenatis, eros arcu rhoncus massa.",
-                      image: "",
-                      span: "col-span-2"
+                      title: "Ускорим подачу заявления",
+                      description: "Подключим оплату госпошлины с авансового счёта внутри ДВИЖа"
                     },
                     {
-                      label: "Security",
-                      title: "Advanced access control",
-                      description: "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia.",
-                      image: "",
-                      span: "col-span-2"
-                    },
-                    {
-                      label: "Performance",
-                      title: "Lightning-fast builds",
-                      description: "Sed congue eros non finibus molestie. Vestibulum euismod augue vel commodo vulputate.",
-                      image: "",
-                      span: "col-span-4"
+                      title: "Расчёт вероятности и скорости одобрения по банкам",
+                      description: "Поможем зарегистрировать сложные сделки: с иностранными гражданами или военной ипотекой"
                     }
                   ]}
                 />
@@ -1492,49 +1526,26 @@ const sections = [
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без изображений</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid items={[...]} />`}</code></p>
-              <BentoGrid
-                items={[
-                  {
-                    label: "Аналитика",
-                    title: "Отчёты в реальном времени",
-                    description: "Мониторинг всех метрик вашего бизнеса.",
-                    span: "col-span-4"
-                  },
-                  {
-                    label: "Интеграции",
-                    title: "100+ сервисов",
-                    description: "Подключите любые инструменты.",
-                    span: "col-span-2"
-                  },
-                  {
-                    label: "Безопасность",
-                    title: "Шифрование данных",
-                    description: "Соответствие ФЗ-152.",
-                    span: "col-span-2"
-                  },
-                  {
-                    label: "Поддержка",
-                    title: "24/7",
-                    description: "Всегда на связи.",
-                    span: "col-span-4"
-                  }
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Три колонки</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid columns={3} items={[...]} />`}</code></p>
-              <BentoGrid
-                columns={3}
-                items={[
-                  { title: "Автоматизация", image: "" },
-                  { title: "Интеграции", image: "" },
-                  { title: "Аналитика", image: "" }
-                ]}
-              />
+              <p class="text-sm font-medium text-gray-400 mb-4">Без заголовка секции</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid items={[...3 items...]} />`}</code></p>
+              <div class="-mx-10 bg-[#fbfbfb] px-10 py-12 rounded-2xl">
+                <BentoGrid
+                  items={[
+                    {
+                      title: "Автоматизация заявок",
+                      description: "Обрабатываем заявки без участия менеджера — 24/7"
+                    },
+                    {
+                      title: "Интеграции с банками",
+                      description: "Подключено более 20 банков-партнёров"
+                    },
+                    {
+                      title: "Аналитика и отчёты в реальном времени",
+                      description: "Мониторинг конверсий, отказов и скорости обработки на едином дашборде"
+                    }
+                  ]}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -2028,6 +2039,80 @@ const sections = [
                 button={{ label: "Запросить демо", href: "#" }}
               />
             </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С отзывом клиента (prop review)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCard ... review={{ quote, author, role, company, caseLink }} />`}</code></p>
+              <ProductCard
+                title="Поможем перевыполнить план продаж на том же трафике"
+                items={[
+                  "До 96% одобрения заявок",
+                  "Единая анкета в 40+ банков",
+                  "Моментальное заполнение через Госуслуги",
+                  "Готовые интеграции с CRM",
+                ]}
+                button={{ label: "Подробнее", href: "#" }}
+                image={{ src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg", alt: "Цифровая ипотека" }}
+                review={{
+                  quote: "С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет",
+                  author: "Анастасия Швед",
+                  role: "Руководитель управления прямых продаж",
+                  company: { logo: "https://admin.dvizh.cc/api/media/file/talan-logo.svg", alt: "Талан" },
+                  caseLink: { label: "Читать кейс", href: "#" },
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'product-card-review' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Product Card Review</h1>
+          <p class="text-gray-600 mb-4">
+            Блок цитаты клиента. Используется внутри ProductCard (через prop <code>review</code>) или самостоятельно.
+            Структура: иконка-кавычка + курсивная цитата → строка автора (логотип | разделитель | имя + должность | кнопка кейса).
+          </p>
+          <PropsTable props={productCardReviewMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — цитата + автор + лого + кнопка кейса</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCardReview quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
+              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
+                <ProductCardReview
+                  quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет"
+                  author="Анастасия Швед"
+                  role="Руководитель управления прямых продаж"
+                  company={{ logo: "https://admin.dvizh.cc/api/media/file/talan-logo.svg", alt: "Талан" }}
+                  caseLink={{ label: "Читать кейс", href: "#" }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без логотипа компании</p>
+              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
+                <ProductCardReview
+                  quote="Платформа позволила нам кратно увеличить скорость обработки заявок и повысить конверсию"
+                  author="Максим Петров"
+                  role="Директор по продажам"
+                  caseLink={{ label: "Читать кейс", href: "#" }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без кнопки кейса</p>
+              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
+                <ProductCardReview
+                  quote="Интеграция с ДВИЖем заняла неделю, а ROI превысил ожидания уже в первый месяц"
+                  author="Елена Козлова"
+                  role="Коммерческий директор"
+                  company={{ logo: "https://admin.dvizh.cc/api/media/file/talan-logo.svg", alt: "Талан" }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -2342,6 +2427,55 @@ interface Props {
                 { number: '03', title: 'Для агентств' },
               ]} />
             </div>
+          </div>
+        </div>
+      )}
+      {section === 'aai-hero' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">AaiHero</h1>
+          <p class="text-gray-600 mb-4">
+            Центрированная секция-герой для AI-продукта. Бейдж → заголовок H2 → изображение.
+            Опционально: три карточки BentoGrid ниже.
+          </p>
+          <PropsTable props={aaiHeroMeta.props} class="mb-10" />
+
+          <div class="space-y-16">
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Только герой (без изображения и bento)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<AaiHero heading="Нейросети на службе вашего бизнеса" />`}</code></p>
+              <div class="-mx-10 rounded-2xl overflow-hidden">
+                <AaiHero
+                  heading="Нейросети на службе вашего бизнеса"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С изображением-заглушкой и BentoGrid</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<AaiHero heading="..." bentoItems={[...3 items...]} />`}</code></p>
+              <div class="-mx-10 rounded-2xl overflow-hidden">
+                <AaiHero
+                  heading="Нейросети на службе вашего бизнеса"
+                  bentoHeading="Что умеет ДВИЖ AI"
+                  bentoItems={[
+                    {
+                      title: "Автоматическая обработка заявок",
+                      description: "Нейросеть анализирует данные клиента и принимает решения за секунды"
+                    },
+                    {
+                      title: "Скоринг и прогноз одобрения",
+                      description: "Предсказываем вероятность одобрения по 40+ банкам"
+                    },
+                    {
+                      title: "Персонализированные предложения",
+                      description: "AI подбирает оптимальную ипотечную программу под каждого клиента"
+                    }
+                  ]}
+                />
+              </div>
+            </div>
+
           </div>
         </div>
       )}
