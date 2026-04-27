@@ -1,8 +1,11 @@
 ---
 /**
- * ProductSection — секция с меню продуктов и карточкой
+ * ProductSection — секция с меню продуктов и одной карточкой
  *
- * Адтивная секция: на lg+ — меню слева, контент справа; на md- — вертикально.
+ * @deprecated Используйте ProductSectionNew — он поддерживает несколько карточек,
+ * sticky-меню и IntersectionObserver.
+ *
+ * Адаптивная секция: на lg+ — меню слева, контент справа; на md- — вертикально.
  */
 
 import ProductCard from './ProductCard.astro'
@@ -22,18 +25,18 @@ interface Button {
 interface Props {
   sections: SectionItem[]
   title?: string
-  descriptions?: string[]
-  primaryButton?: Button
-  secondaryButton?: Button
+  items?: string[]
+  button?: Button
+  image?: { src: string; alt?: string }
   class?: string
 }
 
 const {
   sections,
   title = '',
-  descriptions = [],
-  primaryButton,
-  secondaryButton,
+  items = [],
+  button,
+  image,
   class: className = ''
 } = Astro.props
 
@@ -50,9 +53,9 @@ const componentId = `product-section-${Math.random().toString(36).substr(2, 9)}`
       <div class="flex-1">
         <ProductCard
           title={title}
-          descriptions={descriptions}
-          primaryButton={primaryButton}
-          secondaryButton={secondaryButton}
+          items={items}
+          button={button}
+          image={image}
         />
       </div>
     </div>

@@ -28,6 +28,7 @@ import GradientCTA from '../../components/ui/GradientCTA.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
+import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
 import SectionNavigator from '../../components/ui/SectionNavigator.astro'
 import DvizhAdvantages from '../../components/ui/DvizhAdvantages.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
@@ -205,8 +206,8 @@ const sections = [
   { slug: 'cta', label: 'CTA' },
   { slug: 'blocks', label: 'Блоки статей' },
   { slug: 'features', label: 'Features Grid' },
-  { slug: 'stories', label: 'Success Story' },
-  { slug: 'stories-carousel', label: 'Stories Carousel' },
+  { slug: 'stories', label: 'StoryCard' },
+  { slug: 'stories-carousel', label: 'SuccessStoriesCarousel' },
   { slug: 'bento', label: 'Bento Grid' },
   { slug: 'hero', label: 'Hero Section' },
   { slug: 'mesh-gradient', label: 'Mesh Gradient' },
@@ -388,6 +389,24 @@ const sections = [
                 <PersonCard person={{ name: 'Иван Азизов', jobTitle: 'CEO', photo: { url: 'https://i.pravatar.cc/40?img=11' } }} variant="inline" />
                 <PersonCard person={{ name: 'Анна Смирнова', photo: { url: 'https://i.pravatar.cc/40?img=5' } }} variant="inline" />
                 <PersonCard person={{ name: 'Без фото' }} variant="inline" />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">With-logo — логотип клиента + разделитель + имя + должность</p>
+              <div class="flex flex-col gap-4 max-w-sm">
+                <PersonCard
+                  person={{ name: 'Анастасия Швед', jobTitle: 'Руководитель управления прямых продаж' }}
+                  variant="with-logo"
+                />
+                <PersonCard
+                  person={{ name: 'Иван Азизов', jobTitle: 'CEO' }}
+                  variant="with-logo"
+                />
+                <PersonCard
+                  person={{ name: 'Без должности' }}
+                  variant="with-logo"
+                />
               </div>
             </div>
 
@@ -1985,41 +2004,28 @@ const sections = [
 
           <div class="space-y-12">
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — 3 строки описания + 2 кнопки</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCard title="..." descriptions={[...]} primaryButton={{...}} secondaryButton={{...}} />`}</code></p>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — заголовок + список + кнопка + изображение</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCard title="..." items={[...]} button={{...}} image={{...}} />`}</code></p>
               <ProductCard
-                title="Разворачивайте ипотечное дело с уверенностью"
-                descriptions={[
-                  "Единая платформа для автоматизации",
-                  "всего процесса ипотечного кредитования",
-                  "от заявки до регистрации сделки"
-                ]}
-                primaryButton={{ label: "Начать", href: "#" }}
-                secondaryButton={{ label: "Узнать больше", href: "#" }}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">5 строк описания</p>
-              <ProductCard
-                title="Цифровая ипотека для банков"
-                descriptions={[
+                title="Поможем перевыполнить план продаж на том же трафике"
+                items={[
                   "До 96% одобрения заявок",
                   "Единая анкета в 40+ банков",
                   "Моментальное заполнение через Госуслуги",
                   "Готовые интеграции с CRM",
                   "Анализ работы менеджеров"
                 ]}
-                primaryButton={{ label: "Запросить демо", href: "#" }}
+                button={{ label: "Подробнее о цифровой ипотеке", href: "#" }}
+                image={{ src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg", alt: "Цифровая ипотека" }}
               />
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">1 строка описания</p>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без картинки</p>
               <ProductCard
                 title="Начните сегодня"
-                descriptions={["Закрывайте до 26% больше сделок на том же трафике."]}
-                primaryButton={{ label: "Get started", href: "#" }}
+                items={["Закрывайте до 26% больше сделок на том же трафике"]}
+                button={{ label: "Запросить демо", href: "#" }}
               />
             </div>
           </div>
@@ -2028,54 +2034,33 @@ const sections = [
 
       {section === 'product-section' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Product Section</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Product Section New</h1>
           <p class="text-gray-600 mb-4">
-            Секция с меню продуктов слева и карточкой ProductCard справа. Адаптив: на lg+ — горизонтально, на md- — вертикально.
+            Sticky-меню слева + стек ProductCard справа. IntersectionObserver подсвечивает активный пункт. Клик — smooth scroll.
           </p>
-          <PropsTable props={productSectionMeta.props} class="mb-10" />
 
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — 5 секций</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductSection sections={[...]} title="..." descriptions={[...]} />`}</code></p>
-              <ProductSection
-                sections={[
-                  { number: '01', title: 'Цифровая ипотека', active: true },
-                  { number: '02', title: 'Ипотечный калькулятор' },
-                  { number: '03', title: 'Финансовый скоринг' },
-                  { number: '04', title: 'Электронная регистрация' },
-                  { number: '05', title: 'Движ AI' }
-                ]}
-                title="Цифровая ипотека"
-                descriptions={[
-                  "До 96% одобрения заявок",
-                  "Единая анкета в 40+ банков",
-                  "Моментальное заполнение через Госуслуги"
-                ]}
-                primaryButton={{ label: "Запросить демо", href: "#" }}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">3 секции</p>
-              <ProductSection
-                sections={[
-                  { number: '01', title: 'Продукт 1', active: true },
-                  { number: '02', title: 'Продукт 2' },
-                  { number: '03', title: 'Продукт 3' }
-                ]}
-                title="Наш продукт"
-                descriptions={[
-                  "Единая платформа для автоматизации",
-                  "всего процесса работы с клиентами"
-                ]}
-                primaryButton={{ label: "Начать", href: "#" }}
-                secondaryButton={{ label: "Узнать больше", href: "#" }}
-              />
-            </div>
-          </div>
+          <ProductSectionNew
+            sections={[
+              {
+                number: '01',
+                title: 'Цифровая ипотека',
+                cardTitle: 'Поможем перевыполнить план продаж на том же трафике',
+                items: ['До 96% одобрения', 'Единая анкета в 40+ банков', 'Моментальное заполнение через Госуслуги'],
+                button: { label: 'Подробнее', href: '#' },
+                image: { src: 'https://admin.dvizh.cc/api/media/file/product-section-1.jpg', alt: 'Цифровая ипотека' }
+              },
+              {
+                number: '02',
+                title: 'Ипотечный калькулятор',
+                cardTitle: 'Приведем больше лидов с сайта',
+                items: ['Расчет рассрочки и досрочного погашения', 'Автоматическое обновление ставок'],
+                button: { label: 'Подробнее', href: '#' },
+                image: { src: 'https://admin.dvizh.cc/api/media/file/product-section-2v2.jpg', alt: 'Калькулятор' }
+              }
+            ]}
+          />
         </div>
-      )}
+      )}      )}
 
       {section === 'section-navigator' && (
         <div>

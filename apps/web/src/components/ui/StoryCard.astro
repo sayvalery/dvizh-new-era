@@ -59,7 +59,7 @@ const hasModal = Astro.slots.has('modal-body')
   <!-- Карточка -->
   <div
     class:list={[
-      'w-full rounded-[18px] overflow-hidden relative aspect-[4/3] md:aspect-square flex flex-col',
+      'w-full rounded-[18px] overflow-hidden relative min-h-[300px] lg:h-[500px] flex flex-col',
       backgroundImage ? 'bg-cover bg-center' : 'bg-gray-300',
       hasModal ? 'cursor-pointer' : ''
     ]}
