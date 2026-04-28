@@ -1521,14 +1521,20 @@ const sections = [
       {section === 'story-card' && (
         <div>
           <h1 class="text-3xl font-bold font-heading mb-2">StoryCard</h1>
-          <p class="text-gray-600 mb-8">Карточка истории успеха с фоновым изображением, слотом для логотипа компании и информацией о персоне.</p>
-          <div class="space-y-12">
+          <p class="text-gray-600 mb-8">Карточка истории успеха с двумя вариантами оформления.</p>
+          <div class="space-y-16">
+
+            <PropsTable props={storyCardMeta.props} />
+
+            {/* variant="active" */}
             <div>
-              <PropsTable props={storyCardMeta.props} class="mb-8" />
-              <div class="space-y-6">
-                <p class="text-sm font-medium text-gray-400">Базовый пример</p>
-                <div class="max-w-[464px]">
+              <h2 class="text-xl font-semibold mb-1">active</h2>
+              <p class="text-gray-500 text-sm mb-6">Фоновое изображение, белый заголовок, тёмная тема PersonCard. Слот <code class="bg-gray-200 px-1 rounded text-xs">logo</code> — для логотипа компании.</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[960px]">
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">С логотипом</p>
                   <StoryCard
+                    variant="active"
                     backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
                     title="Помогли начать обрабатывать на 98% больше заявок"
                     person={{
@@ -1542,9 +1548,10 @@ const sections = [
                     </div>
                   </StoryCard>
                 </div>
-                <p class="text-sm font-medium text-gray-400 mt-8">Без логотипа</p>
-                <div class="max-w-[464px]">
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">Без логотипа</p>
                   <StoryCard
+                    variant="active"
                     backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop"
                     title="Увеличили конверсию сделок на 43% за 3 месяца"
                     person={{
@@ -1556,6 +1563,43 @@ const sections = [
                 </div>
               </div>
             </div>
+
+            {/* variant="default" */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">default</h2>
+              <p class="text-gray-500 text-sm mb-6">Светлый фон <code class="bg-gray-200 px-1 rounded text-xs">bg-gray-100</code>, тёмный заголовок, светлая тема PersonCard.</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[960px]">
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">С логотипом</p>
+                  <StoryCard
+                    variant="default"
+                    title="Помогли начать обрабатывать на 98% больше заявок"
+                    person={{
+                      name: "Светлана Корнелюк",
+                      jobTitle: "Директор отдела продаж",
+                      photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  >
+                    <div class="h-6 w-32 bg-gray-300 rounded flex items-center justify-center" slot="logo">
+                      <span class="text-xs text-gray-800 font-bold">LOGO</span>
+                    </div>
+                  </StoryCard>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">Без логотипа</p>
+                  <StoryCard
+                    variant="default"
+                    title="Увеличили конверсию сделок на 43% за 3 месяца"
+                    person={{
+                      name: "Алексей Громов",
+                      jobTitle: "Руководитель отдела ипотеки",
+                      photo: { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       )}

@@ -5,7 +5,8 @@
  * Используется для демонстрации кейсов и отзывов.
  *
  * Props:
- *   backgroundImage — URL фонового изображения карточки
+ *   variant        — вариант карточки: 'active' (фоновое фото) | 'default' (светлый фон)
+ *   backgroundImage — URL фонового изображения (только для variant='active')
  *   title — основной заголовок карточки
  *   person — объект персоны (имя, должность, фото)
  *
@@ -13,18 +14,22 @@
  *   logo — слот для логотипа компании (сверху над заголовком)
  *   modal-body — содержимое модалки (статья)
  *
- * Пример:
+ * Пример (active):
  *   <StoryCard
+ *     variant="active"
  *     backgroundImage="/images/story-bg.jpg"
  *     title="Помогли начать обрабатывать на 98% больше заявок"
- *     person={{
- *       name: "Светлана Корнелюк",
- *       jobTitle: "Директор отдела продаж",
- *       photo: { url: "/photos/photo.jpg" }
- *     }}
+ *     person={{ name: "Светлана Корнелюк", jobTitle: "Директор отдела продаж", photo: { url: "/photos/photo.jpg" } }}
  *   >
  *     <img src="/logos/logo.svg" alt="Логотип" slot="logo" />
  *   </StoryCard>
+ *
+ * Пример (default):
+ *   <StoryCard
+ *     variant="default"
+ *     title="Помогли начать обрабатывать на 98% больше заявок"
+ *     person={{ name: "Светлана Корнелюк", jobTitle: "Директор отдела продаж", photo: { url: "/photos/photo.jpg" } }}
+ *   />
  */
 
 import PersonCard from './PersonCard.astro'
@@ -39,13 +44,15 @@ interface Person {
 }
 
 interface Props {
+  variant?: 'active' | 'default'
   backgroundImage?: string
   title: string
   person: Person
 }
 
-const { backgroundImage, title, person } = Astro.props
+const { variant = 'active', backgroundImage, title, person } = Astro.props
 
+const isActive = variant === 'active'
 const hasModal = Astro.slots.has('modal-body')
 ---
 
@@ -60,10 +67,10 @@ const hasModal = Astro.slots.has('modal-body')
   <div
     class:list={[
       'w-full rounded-[18px] overflow-hidden relative aspect-[4/3] md:aspect-square flex flex-col',
-      backgroundImage ? 'bg-cover bg-center' : 'bg-gray-300',
+      isActive ? 'bg-cover bg-center' : 'bg-gray-100',
       hasModal ? 'cursor-pointer' : ''
     ]}
-    style={backgroundImage ? `background-image: url(${backgroundImage})` : ''}
+    style={isActive && backgroundImage ? `background-image: url(${backgroundImage})` : ''}
     @click={hasModal ? 'open = true' : ''}
   >
     <div class="p-4 lg:p-8 flex flex-col h-full relative">
@@ -74,11 +81,11 @@ const hasModal = Astro.slots.has('modal-body')
 
       <!-- Нижняя часть с заголовком и PersonCard -->
       <div class="mt-auto flex flex-col gap-4 lg:gap-8">
-        <h3 class="text-h3 text-white">
+        <h3 class:list={['text-h3', isActive ? 'text-white' : 'text-gray-900']}>
           {title}
         </h3>
 
-        <PersonCard person={person} theme="dark" />
+        <PersonCard person={person} theme={isActive ? 'dark' : 'light'} />
       </div>
     </div>
   </div>
