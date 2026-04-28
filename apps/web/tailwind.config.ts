@@ -12,6 +12,9 @@ export default {
         heading: ['"Styrene A"', 'system-ui', 'sans-serif'],
       },
       colors: {
+        background: {
+          secondary: '#F9F7F5',
+        },
         gray: {
           100: '#FBF9F6',
           200: '#F3F1EE',

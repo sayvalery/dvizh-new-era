@@ -23,6 +23,7 @@ import Island from '../../components/ui/Island.astro'
 import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
 import SideMenu from '../../components/ui/SideMenu.astro'
 import Button from '../../components/ui/Button.astro'
+import Input from '../../components/ui/Input.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -38,6 +39,7 @@ import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
 import islandRaw from '../../components/ui/Island.astro?raw'
 import buttonRaw from '../../components/ui/Button.astro?raw'
+import inputRaw from '../../components/ui/Input.astro?raw'
 
 interface PropMeta {
   name: string
@@ -112,6 +114,7 @@ const storyCardMeta = parseSource(storyCardRaw)
 const advantageCardMeta = parseSource(advantageCardRaw)
 const islandMeta = parseSource(islandRaw)
 const buttonMeta = parseSource(buttonRaw)
+const inputMeta = parseSource(inputRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -126,6 +129,7 @@ export function getStaticPaths() {
     { params: { slug: 'forms' }, props: { section: 'forms' } },
     { params: { slug: 'form-closing' }, props: { section: 'form-closing' } },
     { params: { slug: 'cards' }, props: { section: 'cards' } },
+    { params: { slug: 'advantage-card' }, props: { section: 'advantage-card' } },
     { params: { slug: 'drawer' }, props: { section: 'drawer' } },
     { params: { slug: 'blocks' }, props: { section: 'blocks' } },
     { params: { slug: 'hero' }, props: { section: 'hero' } },
@@ -137,6 +141,7 @@ export function getStaticPaths() {
     { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
     { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
     { params: { slug: 'story-card' }, props: { section: 'story-card' } },
+    { params: { slug: 'input' }, props: { section: 'input' } },
   ]
 }
 
@@ -152,6 +157,7 @@ const sections = [
   { slug: 'forms', label: 'Формы' },
   { slug: 'form-closing', label: 'Form Closing' },
   { slug: 'cards', label: 'Карточки' },
+  { slug: 'advantage-card', label: 'AdvantageCard' },
   { slug: 'drawer', label: 'Дровер' },
   { slug: 'blocks', label: 'Блоки статей' },
   { slug: 'hero', label: 'Hero Section' },
@@ -163,6 +169,7 @@ const sections = [
   { slug: 'modal-inline-form', label: 'Modal Inline Form' },
   { slug: 'side-menu', label: 'Side Menu' },
   { slug: 'story-card', label: 'StoryCard' },
+  { slug: 'input', label: 'Input' },
 ]
 ---
 
@@ -823,33 +830,10 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Карточки</h1>
           <div class="space-y-12">
-            {/* AdvantageCard */}
-            <div>
-              <h2 class="text-xl font-semibold mb-4">AdvantageCard — карточка преимущества</h2>
-              <p class="text-gray-600 mb-4">Карточка с заголовком, крупным числовым показателем и подписью. На ховере появляется оранжевый градиентный фон, stat-число меняет цвет на brand.</p>
-              <PropsTable props={advantageCardMeta.props} class="mb-6" />
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <AdvantageCard
-                  title="Закрывают до 26% больше сделок на том же трафике"
-                  stat="+26%"
-                  label="Сделок на том же трафике"
-                />
-                <AdvantageCard
-                  title="Сокращают время обработки заявки в 3 раза"
-                  stat="×3"
-                  label="Быстрее обрабатывают заявки"
-                />
-                <AdvantageCard
-                  title="Повышают конверсию ипотечных заявок"
-                  stat="+18%"
-                  label="Конверсия в выданные кредиты"
-                />
-              </div>
-            </div>
-
             {/* StoryCard */}
             <div>
               <h2 class="text-xl font-semibold mb-4">StoryCard — карточка истории успеха</h2>
+
               <p class="text-gray-600 mb-4">Карточка с фоновым изображением, слотом для логотипа и встроенной информацией о персоне.</p>
               <PropsTable props={storyCardMeta.props} class="mb-6" />
               <div class="max-w-[464px]">
@@ -895,6 +879,71 @@ const sections = [
           </div>
         </div>
       )}
+      {section === 'advantage-card' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">AdvantageCard</h1>
+          <p class="text-gray-600 mb-8">{advantageCardMeta.description}</p>
+
+          <PropsTable props={advantageCardMeta.props} class="mb-10" />
+
+          <div class="space-y-10">
+            {/* Базовые варианты */}
+            <div>
+              <h2 class="text-xl font-semibold mb-2">Базовые варианты</h2>
+              <p class="text-gray-500 text-sm mb-4">Три карточки в сетке — стандартное использование на главной и продуктовых страницах.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <AdvantageCard
+                  title="Закрывают до 26% больше сделок на том же трафике"
+                  stat="+26%"
+                  label="Сделок на том же трафике"
+                />
+                <AdvantageCard
+                  title="Сокращают время обработки заявки в 3 раза"
+                  stat="×3"
+                  label="Быстрее обрабатывают заявки"
+                />
+                <AdvantageCard
+                  title="Повышают конверсию ипотечных заявок"
+                  stat="+18%"
+                  label="Конверсия в выданные кредиты"
+                />
+              </div>
+            </div>
+
+            {/* Одиночная карточка */}
+            <div>
+              <h2 class="text-xl font-semibold mb-2">Одиночная карточка</h2>
+              <p class="text-gray-500 text-sm mb-4">Ограниченная ширина — hover-эффект и клик по карточке открывают модальное окно.</p>
+              <div class="max-w-sm">
+                <AdvantageCard
+                  title="Автоматизируют рутину и освобождают менеджеров для продаж"
+                  stat="−40%"
+                  label="Ручных операций"
+                />
+              </div>
+            </div>
+
+            {/* 2 колонки */}
+            <div>
+              <h2 class="text-xl font-semibold mb-2">2 колонки</h2>
+              <p class="text-gray-500 text-sm mb-4">Симметричная сетка для коротких списков преимуществ.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
+                <AdvantageCard
+                  title="Интеграции с ключевыми банками-партнёрами"
+                  stat="50+"
+                  label="Банков-партнёров"
+                />
+                <AdvantageCard
+                  title="Крупнейших застройщиков выбрали ДВИЖ"
+                  stat="75"
+                  label="Из ТОП-100 застройщиков"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {section === 'drawer' && (
         <div>
           <h1 class="text-3xl font-bold font-heading mb-8">Дровер</h1>
@@ -1481,14 +1530,36 @@ const sections = [
       {section === 'modal-inline-form' && (
         <div>
           <h1 class="text-3xl font-bold font-heading mb-2">Modal Inline Form</h1>
-          <p class="text-gray-600 mb-8">Двухшаговая форма для модалок. Появляется снизу после первого скролла. Шаг 1: имя + телефон. Шаг 2 (после отправки): email + компания.</p>
-          <div class="space-y-8">
+          <p class="text-gray-600 mb-8">
+            Двухшаговая inline-форма для модалок. Шаг 1: имя + телефон. Шаг 2 (после отправки): email + компания.<br/>
+            Заголовок: <code>text-h4</code>. Инпуты: <code>bg-gray-100 rounded-xl</code>. Три брейкпоинта: xs-sm / md / lg.
+          </p>
+          <div class="space-y-10">
+
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Шаг 1 (дефолт)</p>
-              <div class="border border-gray-100 rounded-2xl p-8 bg-white">
+              <p class="text-sm font-medium text-gray-400 mb-1">xs-sm — вертикальный стек (≤ 640px)</p>
+              <p class="text-xs text-gray-300 mb-4">Инпуты в столбик, кнопка во всю ширину, py-4</p>
+              <div class="border border-gray-100 rounded-2xl bg-white p-8 max-w-sm">
                 <ModalInlineForm />
               </div>
             </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">md — 2 колонки (640–1024px)</p>
+              <p class="text-xs text-gray-300 mb-4">Инпуты в ряд, кнопка на всю ширину под ними</p>
+              <div class="border border-gray-100 rounded-2xl bg-white p-8 max-w-xl">
+                <ModalInlineForm />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">lg — один ряд (≥ 1024px)</p>
+              <p class="text-xs text-gray-300 mb-4">Имя + телефон + кнопка в одну строку, согласие под ними</p>
+              <div class="border border-gray-100 rounded-2xl bg-white p-8">
+                <ModalInlineForm />
+              </div>
+            </div>
+
           </div>
         </div>
       )}
@@ -1596,6 +1667,124 @@ const sections = [
                       photo: { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" }
                     }}
                   />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+      {section === 'input' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Input</h1>
+          <p class="text-gray-600 mb-8">{inputMeta.description}</p>
+
+          <PropsTable props={inputMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+
+            {/* Размеры */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Размеры</h2>
+              <p class="text-gray-500 text-sm mb-6">M — 44px высота, S — компактный (py-2)</p>
+              <div class="flex flex-col gap-4 max-w-xs">
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">size="M" (default)</p>
+                  <Input name="demo-m" placeholder="Placeholder" size="M" />
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">size="S"</p>
+                  <Input name="demo-s" placeholder="Placeholder" size="S" />
+                </div>
+              </div>
+            </div>
+
+            {/* Состояния — Colour */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Вариант colour</h2>
+              <p class="text-gray-500 text-sm mb-6">Для светлого фона. Default / Active (фокус) / Filled (есть значение)</p>
+              <div class="flex flex-col gap-4 max-w-xs">
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">Default — нет фокуса, нет значения</p>
+                  <Input name="c-default" placeholder="Placeholder" variant="colour" />
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">Active — кликни, чтобы увидеть оранжевую рамку</p>
+                  <Input name="c-active" placeholder="Placeholder" variant="colour" />
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">Filled — есть значение</p>
+                  <Input name="c-filled" placeholder="Placeholder" value="Info" variant="colour" />
+                </div>
+              </div>
+            </div>
+
+            {/* Состояния — White */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Вариант white</h2>
+              <p class="text-gray-500 text-sm mb-6">Для тёмного фона. При заполнении фон становится белым.</p>
+              <div class="bg-gray-800 rounded-2xl p-6 max-w-xs flex flex-col gap-4">
+                <div>
+                  <p class="text-xs text-white/40 mb-2">Default</p>
+                  <Input name="w-default" placeholder="Placeholder" variant="white" />
+                </div>
+                <div>
+                  <p class="text-xs text-white/40 mb-2">Active — кликни для белой рамки</p>
+                  <Input name="w-active" placeholder="Placeholder" variant="white" />
+                </div>
+                <div>
+                  <p class="text-xs text-white/40 mb-2">Filled — белый фон</p>
+                  <Input name="w-filled" placeholder="Placeholder" value="Info" variant="white" />
+                </div>
+              </div>
+            </div>
+
+            {/* Все комбинации */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Все комбинации size × variant</h2>
+              <p class="text-gray-500 text-sm mb-6">Аналог таблицы из Figma</p>
+              <div class="grid grid-cols-2 gap-6 max-w-lg">
+                <div class="flex flex-col gap-3">
+                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Colour / M</p>
+                  <Input name="cm1" placeholder="Placeholder" variant="colour" size="M" />
+                  <Input name="cm2" placeholder="Placeholder" value="Info" variant="colour" size="M" />
+                </div>
+                <div class="flex flex-col gap-3">
+                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Colour / S</p>
+                  <Input name="cs1" placeholder="Placeholder" variant="colour" size="S" />
+                  <Input name="cs2" placeholder="Placeholder" value="Info" variant="colour" size="S" />
+                </div>
+                <div class="bg-gray-800 rounded-xl p-3 flex flex-col gap-3">
+                  <p class="text-xs font-semibold text-white/40 uppercase tracking-wider">White / M</p>
+                  <Input name="wm1" placeholder="Placeholder" variant="white" size="M" />
+                  <Input name="wm2" placeholder="Placeholder" value="Info" variant="white" size="M" />
+                </div>
+                <div class="bg-gray-800 rounded-xl p-3 flex flex-col gap-3">
+                  <p class="text-xs font-semibold text-white/40 uppercase tracking-wider">White / S</p>
+                  <Input name="ws1" placeholder="Placeholder" variant="white" size="S" />
+                  <Input name="ws2" placeholder="Placeholder" value="Info" variant="white" size="S" />
+                </div>
+              </div>
+            </div>
+
+            {/* Типы */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Типы (type)</h2>
+              <p class="text-gray-500 text-sm mb-6">Поддерживаются все стандартные HTML-типы</p>
+              <div class="flex flex-col gap-4 max-w-xs">
+                <Input name="t-email" type="email" placeholder="Email" />
+                <Input name="t-tel" type="tel" placeholder="Телефон" />
+                <Input name="t-password" type="password" placeholder="Пароль" />
+              </div>
+            </div>
+
+            {/* Disabled */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Disabled</h2>
+              <div class="flex flex-col gap-4 max-w-xs">
+                <Input name="d-colour" placeholder="Отключённый colour" disabled />
+                <div class="bg-gray-800 rounded-xl p-4">
+                  <Input name="d-white" placeholder="Отключённый white" variant="white" disabled />
                 </div>
               </div>
             </div>
