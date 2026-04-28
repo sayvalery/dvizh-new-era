@@ -136,6 +136,7 @@ export function getStaticPaths() {
     { params: { slug: 'island' }, props: { section: 'island' } },
     { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
     { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
+    { params: { slug: 'story-card' }, props: { section: 'story-card' } },
   ]
 }
 
@@ -161,6 +162,7 @@ const sections = [
   { slug: 'island', label: 'Island' },
   { slug: 'modal-inline-form', label: 'Modal Inline Form' },
   { slug: 'side-menu', label: 'Side Menu' },
+  { slug: 'story-card', label: 'StoryCard' },
 ]
 ---
 
@@ -1512,6 +1514,47 @@ const sections = [
                 { number: '02', title: 'Для банков' },
                 { number: '03', title: 'Для агентств' },
               ]} />
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'story-card' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">StoryCard</h1>
+          <p class="text-gray-600 mb-8">Карточка истории успеха с фоновым изображением, слотом для логотипа компании и информацией о персоне.</p>
+          <div class="space-y-12">
+            <div>
+              <PropsTable props={storyCardMeta.props} class="mb-8" />
+              <div class="space-y-6">
+                <p class="text-sm font-medium text-gray-400">Базовый пример</p>
+                <div class="max-w-[464px]">
+                  <StoryCard
+                    backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
+                    title="Помогли начать обрабатывать на 98% больше заявок"
+                    person={{
+                      name: "Светлана Корнелюк",
+                      jobTitle: "Директор отдела продаж",
+                      photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  >
+                    <div class="h-6 w-32 bg-white rounded flex items-center justify-center" slot="logo">
+                      <span class="text-xs text-gray-800 font-bold">LOGO</span>
+                    </div>
+                  </StoryCard>
+                </div>
+                <p class="text-sm font-medium text-gray-400 mt-8">Без логотипа</p>
+                <div class="max-w-[464px]">
+                  <StoryCard
+                    backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop"
+                    title="Увеличили конверсию сделок на 43% за 3 месяца"
+                    person={{
+                      name: "Алексей Громов",
+                      jobTitle: "Руководитель отдела ипотеки",
+                      photo: { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
