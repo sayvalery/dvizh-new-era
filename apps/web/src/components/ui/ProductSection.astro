@@ -9,7 +9,6 @@
  */
 
 import ProductCard from './ProductCard.astro'
-import SideMenu from './SideMenu.astro'
 
 interface SectionItem {
   number: string
@@ -47,7 +46,7 @@ const componentId = `product-section-${Math.random().toString(36).substr(2, 9)}`
   <div id={componentId} class="page-container py-[50px]">
     <div class="flex flex-col md:gap-[52px] lg:flex-row lg:gap-[120px]">
       <!-- Меню секций (md-sm: сверху, lg+: слева) -->
-      <SideMenu items={sections} class="lg:w-[220px] lg:flex-shrink-0" />
+      <div class="lg:w-[220px] lg:flex-shrink-0" />
 
       <!-- Product Card (контент справа) -->
       <div class="flex-1">

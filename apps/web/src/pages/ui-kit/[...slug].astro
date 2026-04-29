@@ -33,7 +33,6 @@ import StoryCard from '../../components/ui/StoryCard.astro'
 import AdvantageCard from '../../components/ui/AdvantageCard.astro'
 import Island from '../../components/ui/Island.astro'
 import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
-import SideMenu from '../../components/ui/SideMenu.astro'
 import AaiHero from '../../components/ui/AaiHero.astro'
 import Button from '../../components/ui/Button.astro'
 import Input from '../../components/ui/Input.astro'
@@ -185,7 +184,6 @@ export function getStaticPaths() {
     { params: { slug: 'product-card-review' }, props: { section: 'product-card-review' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
     { params: { slug: 'section-block' }, props: { section: 'section-block' } },
-    { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
     { params: { slug: 'stats' }, props: { section: 'stats' } },
     { params: { slug: 'story-card' }, props: { section: 'story-card' } },
     { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
@@ -226,7 +224,6 @@ const sections = [
   { slug: 'product-card-review', label: 'ProductCardReview' },
   { slug: 'product-section', label: 'ProductSectionNew' },
   { slug: 'section-block', label: 'SectionBlock' },
-  { slug: 'side-menu', label: 'SideMenu' },
   { slug: 'stats', label: 'StatsSection' },
   { slug: 'story-card', label: 'StoryCard' },
   { slug: 'stories-carousel', label: 'SuccessStoriesCarousel' },
@@ -2207,32 +2204,6 @@ const sections = [
             <p class="text-gray-500 text-sm mb-4">Адаптивный — лейаут меняется по ширине вьюпорта</p>
             <div class="border border-gray-200 rounded-2xl bg-white p-8">
               <ModalInlineForm />
-            </div>
-          </div>
-        </div>
-      )}
-      {section === 'side-menu' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-2">Side Menu</h1>
-          <p class="text-gray-600 mb-8">Вертикальное боковое меню с нумерацией. Активный пункт выделяется оранжевым, переключается кликом.</p>
-          <div class="space-y-8">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">5 пунктов</p>
-              <SideMenu items={[
-                { number: '01', title: 'Цифровая ипотека', active: true },
-                { number: '02', title: 'Ипотечный калькулятор' },
-                { number: '03', title: 'Финансовый скоринг' },
-                { number: '04', title: 'Электронная регистрация' },
-                { number: '05', title: 'ДВИЖ AI' },
-              ]} />
-            </div>
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">3 пункта</p>
-              <SideMenu items={[
-                { number: '01', title: 'Для девелоперов', active: true },
-                { number: '02', title: 'Для банков' },
-                { number: '03', title: 'Для агентств' },
-              ]} />
             </div>
           </div>
         </div>
