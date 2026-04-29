@@ -164,83 +164,83 @@ export function getStaticPaths() {
   if (import.meta.env.PROD) return []
   return [
     { params: { slug: undefined }, props: { section: 'overview' } },
-    { params: { slug: 'navigation' }, props: { section: 'navigation' } },
-    { params: { slug: 'persons' }, props: { section: 'persons' } },
     { params: { slug: 'typography' }, props: { section: 'typography' } },
     { params: { slug: 'colors' }, props: { section: 'colors' } },
-    { params: { slug: 'buttons' }, props: { section: 'buttons' } },
-    { params: { slug: 'forms' }, props: { section: 'forms' } },
-    { params: { slug: 'form-closing' }, props: { section: 'form-closing' } },
-    { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
-    { params: { slug: 'cards' }, props: { section: 'cards' } },
-    { params: { slug: 'drawer' }, props: { section: 'drawer' } },
-    { params: { slug: 'cta' }, props: { section: 'cta' } },
     { params: { slug: 'blocks' }, props: { section: 'blocks' } },
-    { params: { slug: 'features' }, props: { section: 'features' } },
-    { params: { slug: 'stories' }, props: { section: 'stories' } },
-    { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
+    { params: { slug: 'aai-hero' }, props: { section: 'aai-hero' } },
+    { params: { slug: 'cards' }, props: { section: 'cards' } },
     { params: { slug: 'bento' }, props: { section: 'bento' } },
-    { params: { slug: 'hero' }, props: { section: 'hero' } },
-    { params: { slug: 'mesh-gradient' }, props: { section: 'mesh-gradient' } },
-    { params: { slug: 'stats' }, props: { section: 'stats' } },
-    { params: { slug: 'timeline' }, props: { section: 'timeline' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
-    { params: { slug: 'section-block' }, props: { section: 'section-block' } },
-    { params: { slug: 'gradient-cta' }, props: { section: 'gradient-cta' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
+    { params: { slug: 'buttons' }, props: { section: 'buttons' } },
+    { params: { slug: 'cta' }, props: { section: 'cta' } },
+    { params: { slug: 'drawer' }, props: { section: 'drawer' } },
+    { params: { slug: 'dvizh-advantages' }, props: { section: 'dvizh-advantages' } },
+    { params: { slug: 'features' }, props: { section: 'features' } },
+    { params: { slug: 'form-closing' }, props: { section: 'form-closing' } },
+    { params: { slug: 'forms' }, props: { section: 'forms' } },
+    { params: { slug: 'gradient-cta' }, props: { section: 'gradient-cta' } },
+    { params: { slug: 'hero' }, props: { section: 'hero' } },
+    { params: { slug: 'input' }, props: { section: 'input' } },
+    { params: { slug: 'island' }, props: { section: 'island' } },
+    { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
+    { params: { slug: 'mesh-gradient' }, props: { section: 'mesh-gradient' } },
+    { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
+    { params: { slug: 'navigation' }, props: { section: 'navigation' } },
+    { params: { slug: 'persons' }, props: { section: 'persons' } },
     { params: { slug: 'product-card' }, props: { section: 'product-card' } },
     { params: { slug: 'product-card-review' }, props: { section: 'product-card-review' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
+    { params: { slug: 'section-block' }, props: { section: 'section-block' } },
     { params: { slug: 'section-navigator' }, props: { section: 'section-navigator' } },
-    { params: { slug: 'dvizh-advantages' }, props: { section: 'dvizh-advantages' } },
-    { params: { slug: 'island' }, props: { section: 'island' } },
-    { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
     { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
-    { params: { slug: 'aai-hero' }, props: { section: 'aai-hero' } },
+    { params: { slug: 'stats' }, props: { section: 'stats' } },
     { params: { slug: 'story-card' }, props: { section: 'story-card' } },
-    { params: { slug: 'input' }, props: { section: 'input' } },
+    { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
+    { params: { slug: 'timeline' }, props: { section: 'timeline' } },
   ]
 }
 
 const { section } = Astro.props
 
 const sections = [
+  // Обзор и нетехнические секции — всегда наверху
   { slug: '', label: 'Обзор' },
-  { slug: 'navigation', label: 'Навигация' },
-  { slug: 'persons', label: 'Персоны' },
   { slug: 'typography', label: 'Типографика' },
   { slug: 'colors', label: 'Цвета' },
-  { slug: 'buttons', label: 'Кнопки' },
-  { slug: 'forms', label: 'Формы' },
-  { slug: 'form-closing', label: 'Form Closing' },
-  { slug: 'logo-grid', label: 'Logo Grid' },
-  { slug: 'cards', label: 'Карточки' },
-  { slug: 'drawer', label: 'Дровер' },
-  { slug: 'cta', label: 'CTA' },
   { slug: 'blocks', label: 'Блоки статей' },
-  { slug: 'features', label: 'Features Grid' },
-  { slug: 'stories', label: 'StoryCard' },
-  { slug: 'stories-carousel', label: 'SuccessStoriesCarousel' },
-  { slug: 'bento', label: 'Bento Grid' },
-  { slug: 'hero', label: 'Hero Section' },
-  { slug: 'mesh-gradient', label: 'Mesh Gradient' },
-  { slug: 'stats', label: 'Stats Section' },
-  { slug: 'timeline', label: 'Timeline' },
-  { slug: 'blogcard', label: 'Blog Card' },
-  { slug: 'section-block', label: 'Section Block' },
-  { slug: 'gradient-cta', label: 'Gradient CTA' },
-  { slug: 'blog-cards', label: 'Blog Cards' },
-  { slug: 'product-card', label: 'Product Card' },
-  { slug: 'product-card-review', label: 'Product Card Review' },
-  { slug: 'product-section', label: 'Product Section' },
-  { slug: 'section-navigator', label: 'Section Navigator' },
-  { slug: 'dvizh-advantages', label: 'Dvizh Advantages' },
-  { slug: 'island', label: 'Island' },
-  { slug: 'modal-inline-form', label: 'Modal Inline Form' },
-  { slug: 'side-menu', label: 'Side Menu' },
+  // Компоненты — алфавитный порядок
   { slug: 'aai-hero', label: 'AaiHero' },
-  { slug: 'story-card', label: 'StoryCard (variant)' },
+  { slug: 'cards', label: 'AdvantageCard' },
+  { slug: 'bento', label: 'BentoGrid' },
+  { slug: 'blogcard', label: 'BlogCard' },
+  { slug: 'blog-cards', label: 'BlogCards' },
+  { slug: 'buttons', label: 'Button' },
+  { slug: 'cta', label: 'CTA' },
+  { slug: 'drawer', label: 'Drawer' },
+  { slug: 'dvizh-advantages', label: 'DvizhAdvantages' },
+  { slug: 'features', label: 'FeaturesGrid' },
+  { slug: 'form-closing', label: 'FormClosing' },
+  { slug: 'forms', label: 'Form' },
+  { slug: 'gradient-cta', label: 'GradientCTA' },
+  { slug: 'hero', label: 'HeroSection' },
   { slug: 'input', label: 'Input' },
+  { slug: 'island', label: 'Island' },
+  { slug: 'logo-grid', label: 'LogoGrid' },
+  { slug: 'mesh-gradient', label: 'MeshGradient' },
+  { slug: 'modal-inline-form', label: 'ModalInlineForm' },
+  { slug: 'navigation', label: 'NavBar' },
+  { slug: 'persons', label: 'PersonCard' },
+  { slug: 'product-card', label: 'ProductCard' },
+  { slug: 'product-card-review', label: 'ProductCardReview' },
+  { slug: 'product-section', label: 'ProductSectionNew' },
+  { slug: 'section-block', label: 'SectionBlock' },
+  { slug: 'section-navigator', label: 'SectionNavigator' },
+  { slug: 'side-menu', label: 'SideMenu' },
+  { slug: 'stats', label: 'StatsSection' },
+  { slug: 'story-card', label: 'StoryCard' },
+  { slug: 'stories-carousel', label: 'SuccessStoriesCarousel' },
+  { slug: 'timeline', label: 'Timeline' },
 ]
 ---
 
@@ -1327,48 +1327,6 @@ const sections = [
                     { icon: 'upload', title: 'Быстрая интеграция', description: 'API за 2 недели' },
                     { icon: 'lock', title: 'Безопасность', description: 'ФЗ-152, стандарты ЦБ' },
                   ]}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {section === 'stories' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">StoryCard</h1>
-          <p class="text-gray-600 mb-4">
-            Карточка истории успеха. Используется в каруселях и на страницах. Два варианта: <code class="text-sm">active</code> (фоновое фото) и <code class="text-sm">default</code> (светлый фон).
-          </p>
-          <PropsTable props={storyCardMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">variant="active" — фоновое фото</p>
-              <div class="max-w-sm">
-                <StoryCard
-                  variant="active"
-                  backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
-                  title="Помогли начать обрабатывать на 281% заявок больше"
-                  person={{
-                    name: "Петрова Надежда",
-                    jobTitle: "Директор по маркетингу, ЛСР",
-                    photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
-                  }}
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">variant="default" — светлый фон, только заголовок и персона</p>
-              <div class="max-w-sm">
-                <StoryCard
-                  variant="default"
-                  title="Сократили время обработки заявки с 3 дней до 4 часов"
-                  person={{
-                    name: "Алексей Соколов",
-                    jobTitle: "IT-директор, Банк «Стандарт»",
-                    photo: { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" }
-                  }}
                 />
               </div>
             </div>
