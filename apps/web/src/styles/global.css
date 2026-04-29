@@ -107,6 +107,29 @@ h1, h2, h3, h4, h5, h6 {
 /* ─── Типографические утилиты ────────────────────────────────────────────── */
 @layer components {
 
+  /* Контейнер страницы — единый стандарт горизонтальных отступов */
+  .page-container {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  @media (min-width: 640px) {
+    .page-container {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .page-container {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+
   /* Заголовки — Styrene A */
   .text-h1 {
     font-family: 'Styrene A', system-ui, sans-serif;

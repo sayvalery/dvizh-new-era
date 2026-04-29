@@ -64,25 +64,25 @@ const card3 = items[2] ?? { title: '' }
 <section class:list={['flex flex-col gap-10 lg:gap-16', className]}>
 
   {heading && (
-    <h2 class="font-heading text-[32px] font-medium leading-none tracking-[-0.04em] text-[#32393e] lg:text-5xl lg:tracking-[-0.042em]">
+    <h2 class="font-heading text-3xl font-medium leading-none tracking-tight text-[#32393e] lg:text-5xl">
       {heading}
     </h2>
   )}
 
   <!-- Сетка: две колонки на десктопе, стек на мобайле -->
-  <div class="flex flex-col gap-6 lg:flex-row lg:items-stretch" style="min-height:0">
+  <div class="flex flex-col gap-6 lg:h-[738px] lg:flex-row">
 
     <!-- Левая колонка: два равных элемента -->
     <div class="flex flex-1 flex-col gap-6">
 
       <!-- Карточка 1: текст сверху-слева, изображение сверху-справа -->
-      <div class="relative flex min-h-[240px] flex-1 flex-col overflow-hidden rounded-[32px] bg-[#f9f7f5] p-8 lg:min-h-0 lg:rounded-[40px] lg:p-10">
-        <div class="relative z-10 flex flex-col gap-3 lg:gap-4" style="max-width:60%">
-          <h3 class="font-sans text-[22px] font-medium leading-tight tracking-[-0.03em] text-[#1c1c1e] lg:text-[28px]">
+      <div class="relative flex min-h-[240px] flex-1 flex-col overflow-hidden rounded-[32px] bg-[#f9f7f5] p-8 lg:rounded-[40px] lg:p-10">
+        <div class="relative z-10 flex max-w-[48%] flex-col gap-3 lg:gap-4">
+          <h3 class="font-sans text-xl font-medium leading-tight tracking-tight text-[#1c1c1e] lg:text-2xl">
             {card1.title}
           </h3>
           {card1.description && (
-            <p class="font-sans text-sm leading-[1.3] tracking-[-0.02em] text-black/40 lg:text-[17px]">
+            <p class="font-sans text-sm leading-[1.3] text-black/40 lg:text-base">
               {card1.description}
             </p>
           )}
@@ -99,7 +99,7 @@ const card3 = items[2] ?? { title: '' }
       </div>
 
       <!-- Карточка 2: изображение сверху-слева, текст снизу-справа -->
-      <div class="relative flex min-h-[240px] flex-1 flex-col items-end justify-end overflow-hidden rounded-[32px] bg-[#f9f7f5] p-8 lg:min-h-0 lg:rounded-[40px] lg:p-10">
+      <div class="relative flex min-h-[240px] flex-1 flex-col items-end justify-end overflow-hidden rounded-[32px] bg-[#f9f7f5] p-8 lg:rounded-[40px] lg:p-10">
         {card2.image ? (
           <img
             src={card2.image}
@@ -109,12 +109,12 @@ const card3 = items[2] ?? { title: '' }
         ) : (
           <div class="absolute left-0 top-0 h-full w-[48%] bg-[#e5e3e0]" aria-hidden="true" />
         )}
-        <div class="relative z-10 flex flex-col gap-3 lg:gap-4" style="max-width:60%">
-          <h3 class="font-sans text-[22px] font-medium leading-tight tracking-[-0.03em] text-[#1c1c1e] lg:text-[28px]">
+        <div class="relative z-10 flex max-w-[48%] flex-col gap-3 lg:gap-4">
+          <h3 class="font-sans text-xl font-medium leading-tight tracking-tight text-[#1c1c1e] lg:text-2xl">
             {card2.title}
           </h3>
           {card2.description && (
-            <p class="font-sans text-sm leading-[1.3] tracking-[-0.02em] text-black/40 lg:text-[17px]">
+            <p class="font-sans text-sm leading-[1.3] text-black/40 lg:text-base">
               {card2.description}
             </p>
           )}
@@ -124,13 +124,13 @@ const card3 = items[2] ?? { title: '' }
     </div>
 
     <!-- Правая колонка: один большой элемент -->
-    <div class="relative flex min-h-[400px] flex-1 flex-col overflow-hidden rounded-[32px] bg-[#f9f7f5] p-8 lg:min-h-0 lg:rounded-[40px] lg:p-10">
+    <div class="relative flex min-h-[400px] flex-1 flex-col overflow-hidden rounded-[32px] bg-[#f9f7f5] p-8 lg:rounded-[40px] lg:p-10">
       <div class="relative z-10 flex flex-col gap-3 lg:gap-4">
-        <h3 class="font-sans text-[22px] font-medium leading-tight tracking-[-0.03em] text-[#1c1c1e] lg:text-[28px]">
+        <h3 class="font-sans text-xl font-medium leading-tight tracking-tight text-[#1c1c1e] lg:text-2xl">
           {card3.title}
         </h3>
         {card3.description && (
-          <p class="font-sans text-sm leading-[1.3] tracking-[-0.02em] text-black/40 lg:text-[17px]">
+          <p class="font-sans text-sm leading-[1.3] text-black/40 lg:text-base">
             {card3.description}
           </p>
         )}

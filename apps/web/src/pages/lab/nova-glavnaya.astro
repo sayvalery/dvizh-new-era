@@ -1,0 +1,266 @@
+---
+/**
+ * Лабораторная страница: Новая Главная
+ *
+ * Сборка блоков для новой версии главной страницы.
+ * Контент — заглушки, финальный текст будет добавлен отдельно.
+ *
+ * Маршрут: /lab/nova-glavnaya (только в dev)
+ */
+
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import HeroSection from '../../components/ui/HeroSection.astro'
+import LogoDrum from '../../components/ui/LogoDrum.astro'
+import Island from '../../components/ui/Island.astro'
+import AdvantageCard from '../../components/ui/AdvantageCard.astro'
+import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
+import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
+import AaiHero from '../../components/ui/AaiHero.astro'
+import BlogCards from '../../components/ui/BlogCards.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+
+const partnerLogos = [
+  '/partners/a101.svg',
+  '/partners/ava.svg',
+  '/partners/ganel.svg',
+  '/partners/glorax.svg',
+  '/partners/lsr.svg',
+  '/partners/strana.svg',
+  '/logo-dvizh-white.svg',
+]
+---
+
+<SiteLayout
+  title="Новая Главная — ДВИЖ (лаборатория)"
+  description="Новая версия главной страницы ДВИЖ — в разработке"
+  transparentHeader
+>
+
+  {/* ── 1. Hero Section — один в один с текущей главной ── */}
+  <HeroSection
+    title={"Лучшие отделы продаж застройщиков используют ДВИЖ"}
+    description={"Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"}
+    formPreset="lead"
+    formSubmitLabel="Получить демо"
+    withGradient
+    gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
+  >
+    <div slot="right" class="w-full h-[700px]">
+      <LogoDrum logos={partnerLogos} duration={55} />
+    </div>
+  </HeroSection>
+
+  {/* Sentinel для Island (появляется после скролла мимо Hero) */}
+  <div id="hero-sentinel"></div>
+
+  {/* Island — фиксированный CTA внизу экрана */}
+  <div
+    x-data="{ visible: false }"
+    x-init="
+      const sentinel = document.getElementById('hero-sentinel');
+      if (sentinel) {
+        const obs = new IntersectionObserver(([e]) => { visible = !e.isIntersecting }, { threshold: 0 });
+        obs.observe(sentinel);
+      }
+    "
+    x-show="visible"
+    x-transition:enter="transition duration-300 ease-out"
+    x-transition:enter-start="opacity-0 translate-y-4"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition duration-200 ease-in"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 translate-y-4"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40"
+    x-cloak
+  >
+    <Island
+      label="Пора делать ДВИЖ"
+      buttonText="Оставить заявку"
+      drawerPreset="lead"
+    />
+  </div>
+
+  {/* ── 2. Девелоперы с ДВИЖ — 4 AdvantageCard ── */}
+  <section class="bg-white py-24 sm:py-32">
+    <div class="page-container">
+      <h2 class="text-h2">Девелоперы с ДВИЖ</h2>
+      <div class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <AdvantageCard
+          title="Закрывают до 26% больше сделок на том же трафике"
+          stat="+26%"
+          label="Сделок на том же трафике"
+          expandHref="/blog/case-ayaks-dvizh"
+        />
+        <AdvantageCard
+          title="Снизили количество отказов по ипотеке"
+          stat="90%"
+          label="Одобрений при объёме выше рынка"
+          expandHref="/blog/granel-rost-procenta-odobreniya"
+        />
+        <AdvantageCard
+          title="Получают больше выручки на одного менеджера"
+          stat="+281%"
+          label="Заявок на одного менеджера"
+          expandHref="/blog/kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti"
+        />
+        <AdvantageCard
+          title="Сократили расходы на электронную регистрацию"
+          stat="-30%"
+          label="Затрат на регистрацию"
+          expandHref="/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya"
+        />
+      </div>
+    </div>
+  </section>
+
+  {/* ── 3. Кейсы — SuccessStoriesCarousel ── */}
+  <SuccessStoriesCarousel
+    title="70+ историй успеха на рынке девелопмента"
+    variant="mini"
+    class="py-20"
+    stories={[
+      {
+        title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
+        person: { name: "Петрова Надежда", jobTitle: "Директор по маркетингу, ЛСР" },
+      },
+      {
+        title: "Увеличили объём закрытых сделок с 1165 до 3500 за год",
+        person: { name: "Светлана Корнелюк", jobTitle: "Директор отдела продаж" },
+      },
+      {
+        title: "Дополнительно продали 96 квартир благодаря ипотечному скорингу",
+        person: { name: "Иванов Сергей", jobTitle: "Руководитель отдела ипотеки" },
+      },
+      {
+        title: "Снизили процент отказов по ипотеке до 10% за три месяца",
+        person: { name: "Анна Смирнова", jobTitle: "Ипотечный брокер, Самолёт" },
+      },
+    ]}
+  />
+
+  {/* ── 4. Product Section — 5 продуктов ── */}
+  <ProductSectionNew
+    sections={[
+      {
+        number: "01",
+        title: "Цифровая ипотека",
+        cardTitle: "Поможем превыполнить план продаж на том же трафике",
+        items: [
+          "До 96% одобрения",
+          "Единая анкета в 40+ банков",
+          "Моментальное заполнение анкеты через Госуслуги",
+          "Готовые интеграции с CRM",
+          "Анализ работы менеджеров",
+        ],
+        button: { label: "Подробнее", href: "/ipoteka" },
+      },
+      {
+        number: "02",
+        title: "Ипотечный калькулятор",
+        cardTitle: "Приведём больше лидов с сайта",
+        items: [
+          "Расчёт рассрочки и досрочного погашения",
+          "Автоматическое обновление ставок и программ",
+          "API для интеграции с вашим сайтом и личным кабинетом",
+          "Брендирование калькулятора под ваши цвета",
+        ],
+        button: { label: "Подробнее", href: "/ipotechnyy-kalkulyator" },
+      },
+      {
+        number: "03",
+        title: "Финансовый скоринг",
+        cardTitle: "Сократим процент отказов по проблемным заёмщикам",
+        items: [
+          "Проверка заёмщика по 15 источникам",
+          "Ежемесячный скоринг по ДДУ с рассрочкой",
+          "Рекомендации по улучшению кредитной истории",
+        ],
+        button: { label: "Подробнее", href: "/scoring" },
+      },
+      {
+        number: "04",
+        title: "Электронная регистрация",
+        cardTitle: "Сократим стоимость регистрации в Росреестре",
+        items: [
+          "Сквозное оформление сделки от ипотеки до регистрации",
+          "До 30% дешевле цены конкурентов",
+          "Все виды сделок",
+        ],
+        button: { label: "Подробнее", href: "/elektronnaya-registraciya" },
+      },
+    ]}
+  />
+
+  {/* ── 5. ДВИЖ AI ── */}
+  <AaiHero
+    badge="ДВИЖ AI"
+    heading="Нейросети на службе вашего бизнеса"
+    bentoHeading="Что умеет ДВИЖ AI"
+    bentoItems={[
+      {
+        title: "Расчёт вероятности одобрения",
+        description: "AI предсказывает шанс одобрения по 40+ банкам ещё до подачи заявки",
+      },
+      {
+        title: "Автоматический подбор программы",
+        description: "Нейросеть подбирает оптимальную ипотечную программу под каждого клиента",
+      },
+      {
+        title: "Меньше отказов, больше сделок",
+        description: "Умный скоринг снижает процент отказов и увеличивает конверсию в сделку",
+      },
+    ]}
+  />
+
+  {/* ── 6. Блог — BlogCards ── */}
+  <BlogCards
+    title="Из блога"
+    description="Экспертные материалы о цифровизации продаж в девелопменте"
+    articles={[
+      {
+        image: '/og-default.jpg',
+        imageAlt: 'Кейс Аякс',
+        date: '2024-01-15',
+        category: 'Кейсы',
+        categoryHref: '/category/cases',
+        title: 'Как Аякс закрыл на 26% больше сделок на том же трафике',
+        description: 'История успеха одного из крупнейших девелоперов Урала — от проблемы до результата.',
+        href: '/blog/case-ayaks-dvizh',
+      },
+      {
+        image: '/og-default.jpg',
+        imageAlt: 'Кейс Гранель',
+        date: '2024-02-10',
+        category: 'Ипотека',
+        categoryHref: '/category/ipoteka',
+        title: 'Гранель: рост процента одобрения ипотеки с ДВИЖ',
+        description: 'Как системный подход к ипотечному скорингу меняет показатели одобрения.',
+        href: '/blog/granel-rost-procenta-odobreniya',
+      },
+      {
+        image: '/og-default.jpg',
+        imageAlt: 'Самолёт AI',
+        date: '2024-03-05',
+        category: 'AI',
+        categoryHref: '/category/ai',
+        title: 'Самолёт: искусственный интеллект у девелопера',
+        description: 'Как ДВИЖ AI помогает крупнейшему девелоперу России автоматически подбирать программы.',
+        href: '/blog/samolet-ai-u-developera',
+      },
+    ]}
+    class="py-24"
+  />
+
+  {/* ── 7. FormClosing ── */}
+  <div class="page-container py-12">
+    <FormClosing
+      preset="lead"
+      title="Не оставим вас одних"
+      description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
+      submitLabel="Оставить заявку"
+    />
+  </div>
+
+  {/* ── 8. Footer — автоматически через SiteLayout ── */}
+
+</SiteLayout>
