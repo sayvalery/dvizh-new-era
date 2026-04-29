@@ -48,9 +48,13 @@ interface Props {
   backgroundImage?: string
   title: string
   person: Person
+  /** URL логотипа компании (альтернатива слоту logo) */
+  logo?: string
+  /** Alt-текст логотипа */
+  logoAlt?: string
 }
 
-const { variant = 'active', backgroundImage, title, person } = Astro.props
+const { variant = 'active', backgroundImage, title, person, logo, logoAlt = 'Logo' } = Astro.props
 
 const isActive = variant === 'active'
 const hasModal = Astro.slots.has('modal-body')
@@ -74,10 +78,16 @@ const hasModal = Astro.slots.has('modal-body')
     @click={hasModal ? 'open = true' : ''}
   >
     <div class="p-4 lg:p-8 flex flex-col h-full relative">
-      <!-- Слот для логотипа -->
-      <div class="absolute top-4 left-4 right-4 lg:top-8 lg:left-8 lg:right-8 flex items-start">
-        <slot name="logo" />
-      </div>
+      <!-- Логотип компании (слот или prop) -->
+      {(Astro.slots.has('logo') || logo) && (
+        <div class="absolute top-4 left-4 right-4 lg:top-8 lg:left-8 lg:right-8 flex items-start">
+          {Astro.slots.has('logo') ? (
+            <slot name="logo" />
+          ) : (
+            <img src={logo} alt={logoAlt} class="max-h-8 w-auto object-contain" />
+          )}
+        </div>
+      )}
 
       <!-- Нижняя часть с заголовком и PersonCard -->
       <div class="mt-auto flex flex-col gap-4 lg:gap-8">
