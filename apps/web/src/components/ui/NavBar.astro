@@ -18,6 +18,7 @@
  */
 
 import BlogCard from './BlogCard.astro'
+import Button from './Button.astro'
 
 export interface NavChild {
   label: string
@@ -210,13 +211,13 @@ const megaSections = megaItem?.sections ?? []
             </a>
           )}
           {cta && (
-            <button
-              class="hidden md:block text-btn px-4 py-2 rounded-lg transition-colors"
-              :class="clear ? 'bg-white text-gray-900 hover:bg-white/90' : 'bg-black text-white hover:bg-gray-800'"
-              @click={`$dispatch('open-drawer', { preset: '${cta.preset ?? 'demo'}' })`}
-            >
-              {cta.label}
-            </button>
+            <Button
+              variant="dark"
+              size="sm"
+              drawerPreset={cta.preset ?? 'demo'}
+              class="hidden md:inline-flex"
+              x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
+            >{cta.label}</Button>
           )}
           <button
             type="button"
@@ -411,12 +412,13 @@ const megaSections = megaItem?.sections ?? []
             </a>
           )}
           {cta && (
-            <button
-              class="w-full text-btn bg-black text-white px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
-              @click={`mobileOpen = false; $dispatch('open-drawer', { preset: '${cta.preset ?? 'demo'}' })`}
-            >
-              {cta.label}
-            </button>
+            <Button
+              variant="dark"
+              size="md"
+              drawerPreset={cta.preset ?? 'demo'}
+              class="w-full"
+              @click="mobileOpen = false"
+            >{cta.label}</Button>
           )}
         </div>
       )}

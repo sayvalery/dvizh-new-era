@@ -3,34 +3,23 @@
  * Для девелоперов — ДВИЖ
  */
 import SiteLayout from '../layouts/SiteLayout.astro'
-import Card from '../components/lab-new/Card.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import LogoMarquee from '../components/lab-new/LogoMarquee.astro'
-import FeatureCard from '../components/lab-new/FeatureCard.astro'
-import CTA from '../components/ui/CTA.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
-import ProductSectionNew from '../components/ui/ProductSectionNew.astro'
-import StoryCard from '../components/ui/StoryCard.astro'
-import ComparisonSection from '../components/ui/ComparisonSection.astro'
+import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
 ---
 
-<SiteLayout title="Для девелоперов">
-  <!-- Hero split layout (Linear-style) -->
+<SiteLayout title="Для девелоперов" bodyClass="bg-background-primary">
+  <!-- Hero full layout: контент внизу + слот для анимации -->
   <HeroSection
-    layout="split"
-    badge="Платформа для выполнения планов продаж"
-    title="Ускоряем цикл сделки и забираем на себя всю рутину"
-    description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
-    demoLabel="Посмотреть демо"
-    kpLabel="Получить КП"
-    stats={[
-      { value: '26% больше', label: 'сделок на том же трафике' },
-      { value: '1 500 000+', label: 'сделок на рынке недвижимости прошло через ДВИЖ' },
-      { value: '79', label: 'застройщиков из ТОП-100 ЕРЗ наши партнеры' },
-    ]}
-    statsCols={3}
+    layout="full"
+    title="ДВИЖ – платформа полного цикла для роста продаж у девелоперов"
+    description="Позволяет контролировать каждый этап воронки продаж, эффективнее одобрять ипотеку и закрывать до 26% больше сделок без увеличения затрат на маркетинг"
+    demoLabel="Записаться на демо"
+    kpLabel="Пробовать бесплатно"
+    demoPreset="demo"
+    kpPreset="lead"
   />
-
   <!-- Бегущая строка с логотипами -->
   <LogoMarquee
     logos={[
@@ -43,222 +32,38 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
     ]}
   />
 
-  <!-- Card -->
-  <section class="pt-32 pb-20 bg-white">
-    <div class="max-w-[1440px] mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card
-          title="Наполнить воронку
-качественными лидами"
-          description="какие-то цифры или показатели"
-          image="https://admin.dvizh.cc/api/media/file/1.jpg"
-        />
-        <Card
-          title="Закрыть клиентов
-быстрее, чем конкуренты"
-          description="какие-то цифры или показатели"
-          image="https://admin.dvizh.cc/api/media/file/3.jpg"
-        />
-        <Card
-          title="Увеличить средний чек
-и допродажи"
-          description="какие-то цифры или показатели"
-          image="https://admin.dvizh.cc/api/media/file/2.jpg"
-        />
-        <Card
-          title="Увидеть результат работы
-каждого сотрудника"
-          description="какие-то цифры или показатели"
-          image="https://admin.dvizh.cc/api/media/file/4.jpg"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- ProductSectionNew -->
-  <div class="max-w-[1440px] mx-auto px-4 mt-[50px]">
-    <ProductSectionNew
-      sections={[
-        {
-          number: "01",
-          title: "Качественные лиды",
-          cardTitle: "Повышаем качество лидов",
-          items: [
-            "Форма на сайт для проверки кредитного рейтинга: приведем надежных клиентов",
-            "Скоринг по банковским стандартам: расскажем все о платежеспособности покупателей",
-            "Ипотечный калькулятор для сайта: приведем клиентов с нужным уровнем дохода"
-          ],
-          button: { label: "Подробнее", href: "#" },
-          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-2v2.jpg", alt: "Качественные лиды" }
-        },
-        {
-          number: "02",
-          title: "Работа с клиентами",
-          cardTitle: "Помогаем закрывать даже сложных клиентов",
-          items: [
-            "Финансовый скоринг покажет, как улучшить портрет клиента до отправки заявки в банк",
-            "40+ банков-партнеров помогут подобрать ипотечную программу для каждого",
-            "ДВИЖ AI рассчитает вероятность одобрения клиента в каждом банке и подберет лучшие варианты"
-          ],
-          button: { label: "Подробнее", href: "#" },
-          image: { src: "https://admin.dvizh.cc/api/media/file/sales-section-1.jpg", alt: "Работа с клиентами" }
-        },
-        {
-          number: "03",
-          title: "Быстрые заявки",
-          cardTitle: "И делать это быстрее конкурентов",
-          items: [
-            "Актуальные статусы по сделке в CRM: контроль каждого этапа в карточке клиента",
-            "Одна анкета для всех этапов: от заявки до регистрации",
-            "Регистрация всех видов сделок и подписание любых документов в рамках 1 платформы",
-            "Пакетное распознавание документов: никакого ручного ввода данных",
-            "Заполнение анкеты через Госуслуги за 30 секунд"
-          ],
-          button: { label: "Подробнее", href: "#" },
-          image: { src: "https://admin.dvizh.cc/api/media/file/sales-section-2.jpg", alt: "Быстрые заявки" }
-        },
-        {
-          number: "04",
-          title: "Апсейл клиентов",
-          cardTitle: "Раскрываем финансовый потенциал клиентов",
-          items: [
-            "Покажем клиенту ежемесячный платеж и поможем выбрать квартиру под весь бюджет",
-            "Рассчитаем ПДН клиента и поможем увеличить средний чек сделки"
-          ],
-          button: { label: "Подробнее", href: "#" },
-          image: { src: "https://admin.dvizh.cc/api/media/file/sales-section-3.jpg", alt: "Апсейл клиентов" }
-        },
-        {
-          number: "05",
-          title: "Контроль работы",
-          cardTitle: "Делаем работу менеджеров управляемой",
-          items: [
-            "Контроль всех этапов через CRM: покажем, как быстро менеджер взял сделку в работу",
-            "Отображаем статусы сделки в CRM: покажем, в каком отделе потерялся клиент",
-            "Соберем актуальную статистику по банкам и одобрениям, для контроля и принятия решений"
-          ],
-          button: { label: "Подробнее", href: "#" },
-          image: { src: "https://admin.dvizh.cc/api/media/file/sales-section-4.jpg", alt: "Контроль работы" }
-        }
-      ]}
-    />
-  </div>
-
-  <!-- Advantages -->
-  <ComparisonSection
-    title="Одно решение для всей сделки вместо кучи заплаток"
-    leftTitle="Без ДВИЖа"
-    leftItems={[
-      'Данные клиента теряются, сделка застревает между\u00A0отделами',
-      'Менеджер тратит время на\u00A0нецелевых клиентов и\u00A0не\u00A0выполняет KPI',
-      'Нет потенциала для\u00A0апсейла клиентов',
-      'Менеджер узнаёт о\u00A0финансовых проблемах клиента после\u00A0отказа в\u00A0банке',
-      'Море цифр и\u00A0ни одного ответа на\u00A0вопрос: почему сделка так и\u00A0не\u00A0закрылась за\u00A0полгода',
-    ]}
-    rightTitle="С ДВИЖом"
-    rightItems={[
-      'Вся сделка в\u00A0одном окне: без ошибок и\u00A0потерянных часов',
-      'Менеджер успевает в\u00A02\u00A0раза больше, выполняет KPI и\u00A0не\u00A0забывает про кофе-брейки',
-      'Средний чек и\u00A0допродажи постоянно растут',
-      'Менеджер знает о\u00A0платёжеспособности клиентов больше, чем\u00A0они сами',
-      'Вклад каждого сотрудника виден как\u00A0под микроскопом',
+  <!-- SuccessStoryBlock -->
+  <SuccessStoryBlock
+    heading="70+ историй успеха на рынке застройщиков"
+    buttonLabel="Получить демо"
+    buttonPreset="demo"
+    stories={[
+      {
+        logo: '/api/media/file/lsr_color.svg',
+        logoAlt: 'Группа ЛСР',
+        titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
+        personName: 'Группа ЛСР',
+        personJobTitle: 'Один из ведущих строительных холдингов',
+      },
+      {
+        logo: '/api/media/file/tochno_color.svg',
+        logoAlt: 'ГК Точно',
+        titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
+        personName: 'ГК «Точно»',
+        personJobTitle: 'Крупнейший девелопер Краснодарского края',
+      },
+      {
+        logo: '/api/media/file/samolet_color.svg',
+        logoAlt: 'ГК Самолет',
+        titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
+        personName: 'ГК «Самолет»',
+        personJobTitle: 'Крупнейший федеральный девелопер России',
+      },
     ]}
   />
 
-  <!-- Feature Cards -->
-  <section class="py-20 bg-white">
-    <div class="max-w-[1440px] mx-auto px-4">
-      <div class="mb-12">
-        <h2 class="text-[42.5px] font-semibold text-gray-900 tracking-tight leading-none">
-          Делаем все для ваших крутых результатов
-        </h2>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <FeatureCard
-          title="Контроль всех этапов через CRM"
-          subtitle="покажем, как быстро менеджер взял сделку в работу"
-          color="#202b32"
-          image="https://admin.dvizh.cc/api/media/file/5-new.jpg"
-          imagePosition="right bottom"
-        />
-        <FeatureCard
-          title="Отображаем статусы сделки в CRM"
-          subtitle="покажем, в каком отделе потерялся клиент"
-          color="#F2F2F2"
-          image="https://admin.dvizh.cc/api/media/file/6-new.jpg"
-        />
-        <FeatureCard
-          title="Соберем актуальную статистику"
-          subtitle="по банкам и одобрениям, для контроля и принятия решений"
-          color="#F2F2F2"
-          image="https://admin.dvizh.cc/api/media/file/7-new.jpg"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="py-20">
-    <div class="max-w-[1440px] mx-auto px-4">
-      <CTA
-        title="Бонус от ДВИЖа"
-        description="Скачайте пример идеального отчета ипотечного отдела"
-        buttonText="Посмотреть демо"
-        buttonHref="#"
-        image="https://admin.dvizh.cc/api/media/file/orthographic-front-view-3d-ui-icon-of-a-present--a%20(1).png"
-        imageAlt="Подарок"
-      />
-    </div>
-  </section>
-
-  <!-- StoryCard -->
-  <section class="py-20 bg-white">
-    <div class="max-w-[1440px] mx-auto px-4">
-      <div class="mb-12">
-        <h2 class="text-[42.5px] font-semibold text-gray-900 tracking-tight leading-none">
-          Не верите нам, спросите наших клиентов
-        </h2>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">
-        <StoryCard
-          backgroundImage="https://admin.dvizh.cc/api/media/file/samolet-bg.jpg"
-          title="Помогли начать обрабатывать на 281% больше заявок"
-          person={{
-            name: "Светлана Корнелюк",
-            jobTitle: "Директор отдела продаж",
-            photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
-          }}
-        >
-          <img src="/partners/a101.svg" alt="A101" class="h-6 object-contain" slot="logo" />
-        </StoryCard>
-        <StoryCard
-          backgroundImage="https://admin.dvizh.cc/api/media/file/lsr-bg.jpg"
-          title="Дополнительно продали 96 квартир"
-          person={{
-            name: "Иван Петров",
-            jobTitle: "Руководитель отдела ипотеки",
-            photo: { url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" }
-          }}
-        >
-          <img src="/partners/lsr.svg" alt="LSR" class="h-6 object-contain" slot="logo" />
-        </StoryCard>
-        <StoryCard
-          backgroundImage="https://admin.dvizh.cc/api/media/file/glorax-bg.jpg"
-          title="Увеличили объем закрытых сделок с 1116 до 3500 за год"
-          person={{
-            name: "Мария Сидорова",
-            jobTitle: "Ипотечный брокер",
-            photo: { url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop" }
-          }}
-        >
-          <img src="/partners/glorax.svg" alt="Глоракс" class="h-6 object-contain" slot="logo" />
-        </StoryCard>
-      </div>
-    </div>
-  </section>
-
   <!-- Form Closing -->
-  <section class="py-20 bg-white">
+  <section class="py-20">
     <div class="max-w-[1440px] mx-auto px-4">
       <FormClosing
         title="Не оставим вас одних"
