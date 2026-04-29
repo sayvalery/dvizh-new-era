@@ -1,24 +1,23 @@
 ---
 /**
- * SideMenu — вертикальное боковое меню с нумерацией
+ * SideMenu — вертикальное боковое меню
  *
- * Отображает список пунктов с номерами. Активный пункт выделяется оранжевым.
+ * Отображает список пунктов. Активный пункт выделяется оранжевым.
  * Клик переключает активный пункт и вызывает callback через Alpine.js событие.
  *
  * @example
  * ```astro
  * <SideMenu
  *   items={[
- *     { number: '01', title: 'Цифровая ипотека', active: true },
- *     { number: '02', title: 'Калькулятор' },
- *     { number: '03', title: 'Скоринг' },
+ *     { title: 'Цифровая ипотека', active: true },
+ *     { title: 'Калькулятор' },
+ *     { title: 'Скоринг' },
  *   ]}
  * />
  * ```
  */
 
 interface MenuItem {
-  number: string
   title: string
   active?: boolean
 }
@@ -42,7 +41,6 @@ const { items, class: className = '' } = Astro.props
       :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
       @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
     >
-      <span class="text-side-menu">{item.number}</span>
       <span class="text-side-menu">{item.title}</span>
     </button>
   ))}
