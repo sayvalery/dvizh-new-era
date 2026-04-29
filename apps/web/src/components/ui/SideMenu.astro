@@ -43,8 +43,8 @@ const { items, class: className = '' } = Astro.props
 >
   {items.map((item, index) => (
     <button
-      class="flex-shrink-0 snap-start px-5 py-2 border-b-2 border-transparent text-left transition-colors hover:opacity-70 lg:px-0 lg:py-0 lg:border-none"
-      :class={`active === ${index} ? 'text-brand border-brand' : 'text-[#858585]'`}
+      class="flex-shrink-0 snap-start px-5 py-2 text-left transition-colors hover:opacity-70 lg:px-0 lg:py-0"
+      :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
       @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
     >
       <span class="text-side-menu whitespace-nowrap">{item.title}</span>
