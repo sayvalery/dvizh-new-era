@@ -49,13 +49,15 @@ SuccessStoriesCarousel — горизонтальная карусель кар�
 
 <section class:list={[className]} data-stories-carousel>
   <!-- Заголовок -->
-  <h2 class="text-h2 text-[#1b2226] mb-8 sm:mb-[52px] px-4">
-    {title}
-  </h2>
+  <div class="page-container">
+    <h2 class="text-h2 text-[#1b2226] mb-8 sm:mb-[52px]">
+      {title}
+    </h2>
+  </div>
 
   <!-- Карусель с CSS Scroll Snap -->
   <div
-    class="flex overflow-x-auto gap-5 pb-4 pl-4 pr-6 snap-x snap-mandatory scrollbar-hide cursor-grab select-none"
+    class="flex overflow-x-auto gap-5 pb-4 pl-4 sm:pl-6 lg:pl-10 pr-6 snap-x snap-mandatory scrollbar-hide cursor-grab select-none"
     style="-webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth;"
   >
     {stories.map((story) => (

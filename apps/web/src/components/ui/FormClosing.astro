@@ -139,15 +139,17 @@ const privacyMain = privacyText
   >
 
     {/* ──── Заголовок + описание ──── */}
-    <h2 class:list={['font-heading text-4xl md:text-5xl font-medium leading-none tracking-tighter', headingCls]}>
-      {title}
-    </h2>
+    <div class="max-w-[60%]">
+      <h2 class:list={['font-heading text-4xl md:text-5xl font-medium leading-none tracking-tighter', headingCls]}>
+        {title}
+      </h2>
 
-    {description && (
-      <p class:list={['mt-4 text-lg leading-relaxed', descCls]}>
-        {description}
-      </p>
-    )}
+      {description && (
+        <p class:list={['mt-4 text-lg leading-relaxed', descCls]}>
+          {description}
+        </p>
+      )}
+    </div>
 
     {/* ──── Список преимуществ ──── */}
     {items && items.length > 0 && (
@@ -172,15 +174,18 @@ const privacyMain = privacyText
     >
       {/* Инпуты + кнопка в ряд */}
       <div class="flex flex-col sm:flex-row gap-3">
-        {formFields.map((field) => (
-          <input
-            type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
-            name={field}
-            required={field === 'email' || field === 'name'}
-            placeholder={fieldLabels[field]}
-            class={inputCls}
-          />
-        ))}
+        {/* Инпуты занимают 60% ширины формы */}
+        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-3/5 flex-shrink-0">
+          {formFields.map((field) => (
+            <input
+              type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
+              name={field}
+              required={field === 'email' || field === 'name'}
+              placeholder={fieldLabels[field]}
+              class={inputCls}
+            />
+          ))}
+        </div>
         <button
           type="submit"
           class="h-16 px-8 bg-brand text-white rounded-xl text-lg font-semibold whitespace-nowrap hover:opacity-90 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 shrink-0"
