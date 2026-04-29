@@ -219,20 +219,18 @@ const sections = [
                 <NavBar
                   logo={{ label: 'ДВИЖ', href: '#', image: '/logo-dvizh.svg' }}
                   items={[
-                    { label: 'Продукты', sections: [
-                      { title: 'Продукты', items: [
-                        { label: 'Ипотека', href: '#', description: 'Ипотечный процесс от заявки до выдачи' },
-                        { label: 'Электронная регистрация', href: '#', description: 'Цифровая регистрация сделок' },
-                        { label: 'QBR', href: '#', description: 'Аналитика и отчёты' },
-                      ]},
-                      { title: 'Решения', items: [
-                        { label: 'Для банков', href: '#' },
-                        { label: 'Для девелоперов', href: '#' },
-                      ]},
-                      { title: 'Для кого', items: [
-                        { label: 'Департамент продаж', href: '#' },
-                        { label: 'Отдел ипотеки', href: '#' },
-                      ]},
+                    { label: 'Продукты', children: [
+                      { label: 'Ипотека', href: '#', description: 'Ипотечный процесс от заявки до выдачи' },
+                      { label: 'Электронная регистрация', href: '#', description: 'Цифровая регистрация сделок' },
+                      { label: 'QBR', href: '#', description: 'Аналитика и отчёты' },
+                    ]},
+                    { label: 'Решения', children: [
+                      { label: 'Для банков', href: '#' },
+                      { label: 'Для девелоперов', href: '#' },
+                    ]},
+                    { label: 'Для кого', children: [
+                      { label: 'Департамент продаж', href: '#' },
+                      { label: 'Отдел ипотеки', href: '#' },
                     ]},
                     { label: 'Блог', href: '#', badge: 'dot' },
                     { label: 'О нас', href: '#' },

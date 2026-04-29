@@ -1,7 +1,6 @@
 ---
 import NavBar from '../ui/NavBar.astro'
 import type { NavItem } from '../ui/NavBar.astro'
-import { getBlogPosts, normalizeMediaUrl } from '../../lib/payload'
 
 interface Props {
   /** Прозрачный режим навигации (для страниц с цветным hero) */
@@ -9,66 +8,46 @@ interface Props {
 }
 
 const { transparent = false } = Astro.props
-const isDev = import.meta.env.DEV
 
 const navItems: NavItem[] = [
   {
     label: 'Продукты',
-    sections: [
-      {
-        title: 'Продукты',
-        items: [
-          { label: 'Ипотека', href: '/ipoteka', description: 'Ипотечный процесс от заявки до выдачи' },
-          { label: 'Электронная регистрация', href: '/elektronnaya-registraciya', description: 'Цифровая регистрация сделок' },
-          { label: 'Скоринг', href: '/scoring', description: 'Оценка кредитоспособности' },
-          { label: 'Ипотечный калькулятор', href: '/ipotechnyy-kalkulyator', description: 'Интеграция в сайт и CRM' },
-          { label: 'Личный кабинет', href: '/lichnyy-kabinet', description: 'Кабинет клиента для ведения сделок' },
-          { label: 'Витрина', href: '/vitrina', description: 'Витрина объектов недвижимости' },
-          { label: 'Бизнес-ревью', href: '/qbr', description: 'Аналитика и бизнес-отчёты' },
-        ],
-      },
-      {
-        title: 'Решения',
-        items: [
-          { label: 'Для банков', href: '/banki' },
-          { label: 'Для девелоперов', href: '/developers' },
-          { label: 'Для агентств недвижимости', href: '/agentstva-nedvizhimosti' },
-        ],
-      },
-      {
-        title: 'Для кого',
-        items: [
-          { label: 'Департамент продаж', href: '/developers' },
-          { label: 'Отдел ипотеки', href: '/ipoteka' },
-          { label: 'Отдел оформления', href: '/elektronnaya-registraciya' },
-          { label: 'Команда маркетинга и аналитики', href: '/qbr' },
-        ],
-      },
+    children: [
+      { label: 'Ипотека', href: '/ipoteka', description: 'Ипотечный процесс от заявки до выдачи' },
+      { label: 'Электронная регистрация', href: '/elektronnaya-registraciya', description: 'Цифровая регистрация сделок' },
+      { label: 'Скоринг', href: '/scoring', description: 'Оценка кредитоспособности' },
+      { label: 'Ипотечный калькулятор', href: '/ipotechnyy-kalkulyator', description: 'Интеграция в сайт и CRM' },
+      { label: 'Личный кабинет', href: '/lichnyy-kabinet', description: 'Кабинет клиента для ведения сделок' },
+      { label: 'Витрина', href: '/vitrina', description: 'Витрина объектов недвижимости' },
+      { label: 'Бизнес-ревью', href: '/qbr', description: 'Аналитика и бизнес-отчёты' },
+    ],
+  },
+  {
+    label: 'Решения',
+    children: [
+      { label: 'Для банков', href: '/banki' },
+      { label: 'Для девелоперов', href: '/developers' },
+      { label: 'Для агентств недвижимости', href: '/agentstva-nedvizhimosti' },
+    ],
+  },
+  {
+    label: 'Для кого',
+    children: [
+      { label: 'Департамент продаж', href: '/developers' },
+      { label: 'Отдел ипотеки', href: '/ipoteka' },
+      { label: 'Отдел оформления', href: '/elektronnaya-registraciya' },
+      { label: 'Команда маркетинга и аналитики', href: '/qbr' },
     ],
   },
   { label: 'Блог', href: '/blog', badge: 'dot' },
   { label: 'О нас', href: '/about' },
 ]
 
-// Fetch 2 latest blog posts for mega-menu
-let blogPosts: { title: string; slug: string; cover?: { url?: string; alt?: string }; category?: string }[] = []
-try {
-  const { docs } = await getBlogPosts({ limit: 2 })
-  blogPosts = docs.map((post: any) => ({
-    title: post.title,
-    slug: post.slug,
-    cover: post.cover ? { url: normalizeMediaUrl(post.cover.url) ?? undefined, alt: post.cover.alt } : undefined,
-    category: post.category?.title,
-  }))
-} catch {
-  // CMS unavailable during build — mega-menu works without blog cards
-}
 ---
 
 <NavBar
   logo={{ label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg', imageLight: '/logo-dvizh-white.svg' }}
   items={navItems}
-  blogPosts={blogPosts}
   secondaryLink={{ label: '+7 495 032 10 47', href: 'tel:+74950321047' }}
   cta={{ label: 'Получить расчет', preset: 'demo' }}
   transparent={transparent}
