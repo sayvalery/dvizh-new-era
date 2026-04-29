@@ -43,11 +43,26 @@ const { items, class: className = '' } = Astro.props
 >
   {items.map((item, index) => (
     <button
-      class="flex-shrink-0 snap-start px-5 py-2 border-b-2 pb-1 text-left transition-colors hover:opacity-70 lg:pl-2 lg:pr-0 lg:py-0 lg:border-b-0 lg:pb-0 lg:border-l-2"
-      :class={`active === ${index} ? 'text-brand border-brand' : 'text-[#858585] border-transparent'`}
+      class="flex-shrink-0 snap-start text-left transition-colors hover:opacity-70
+             flex flex-col items-start px-5 py-2
+             lg:flex-row lg:items-center lg:gap-2 lg:px-0 lg:py-0"
+      :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
       @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
     >
-      <span class="text-side-menu whitespace-nowrap">{item.title}</span>
+      {/* Левая черта: lg+, высота = line-height текста (self-stretch) */}
+      <span
+        class="hidden lg:block w-0.5 self-stretch flex-shrink-0 transition-colors"
+        :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+      ></span>
+      {/* Текст + нижняя черта для мобиля */}
+      <span class="inline-flex flex-col gap-1">
+        <span class="text-side-menu whitespace-nowrap">{item.title}</span>
+        {/* Нижняя черта: < lg, ширина = ширина текста (inline-flex) */}
+        <span
+          class="lg:hidden h-0.5 transition-colors"
+          :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+        ></span>
+      </span>
     </button>
   ))}
 </nav>
