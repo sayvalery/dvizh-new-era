@@ -26,7 +26,7 @@ import PropsTable from '../../components/ui/PropsTable.astro'
 import GradientCTA from '../../components/ui/GradientCTA.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
-import ProductCardReview from '../../components/ui/ProductCardReview.astro'
+import Review from '../../components/ui/Review.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
 import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
@@ -56,7 +56,7 @@ import sectionBlockRaw from '../../components/ui/SectionBlock.astro?raw'
 import gradientCTARaw from '../../components/ui/GradientCTA.astro?raw'
 import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
 import productCardRaw from '../../components/ui/ProductCard.astro?raw'
-import productCardReviewRaw from '../../components/ui/ProductCardReview.astro?raw'
+import reviewRaw from '../../components/ui/Review.astro?raw'
 import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
@@ -143,7 +143,7 @@ const sectionBlockMeta = parseSource(sectionBlockRaw)
 const gradientCTAMeta = parseSource(gradientCTARaw)
 const blogCardsMeta = parseSource(blogCardsRaw)
 const productCardMeta = parseSource(productCardRaw)
-const productCardReviewMeta = parseSource(productCardReviewRaw)
+const reviewMeta = parseSource(reviewRaw)
 const productSectionMeta = parseSource(productSectionRaw)
 const storyCardMeta = parseSource(storyCardRaw)
 const advantageCardMeta = parseSource(advantageCardRaw)
@@ -221,7 +221,7 @@ const sections = [
   { slug: 'navigation', label: 'NavBar' },
   { slug: 'persons', label: 'PersonCard' },
   { slug: 'product-card', label: 'ProductCard' },
-  { slug: 'product-card-review', label: 'ProductCardReview' },
+  { slug: 'product-card-review', label: 'Review' },
   { slug: 'product-section', label: 'ProductSectionNew' },
   { slug: 'section-block', label: 'SectionBlock' },
   { slug: 'stats', label: 'StatsSection' },
@@ -1330,75 +1330,8 @@ const sections = [
 
           <div class="space-y-12">
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">3 карточки из Pencil</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStoriesCarousel title="..." stories={[...]}`}</code></p>
-              <SuccessStoriesCarousel
-                title="70+ историй успеха на рынке девелопмента"
-                stories={[
-                  {
-                    title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
-                    quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения.",
-                    person: {
-                      name: "Петрова Надежда",
-                      jobTitle: "Директор по маркетингу, ЛСР",
-                      photo: { url: "" }
-                    },
-                    image: "",
-                    imageAlt: "ЛСР",
-                    logo: "",
-                    logoAlt: "ЛСР"
-                  },
-                  {
-                    title: "Дополнительно продали 96 квартир",
-                    quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения ипотеки.",
-                    person: {
-                      name: "Алексей Соколов",
-                      jobTitle: "Коммерческий директор, Самолет плюс",
-                      photo: { url: "" }
-                    },
-                    image: "",
-                    imageAlt: "Самолет плюс",
-                    logo: "",
-                    logoAlt: "Самолет плюс"
-                  },
-                  {
-                    title: "Увеличили объем закрытых сделок с 1116 до 3500 за год",
-                    quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения ипотеки.",
-                    person: {
-                      name: "Мария Иванова",
-                      jobTitle: "Руководитель отдела продаж",
-                      photo: { url: "" }
-                    },
-                    image: "",
-                    imageAlt: "Компания",
-                    logo: "",
-                    logoAlt: "Логотип"
-                  }
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Одна карточка (для мобильных)</p>
-              <SuccessStoriesCarousel
-                title="История успеха"
-                stories={[
-                  {
-                    title: "Сократили время обработки заявки с 3 дней до 4 часов",
-                    quote: "Интеграция прошла гладко. API оказался хорошо задокументированным.",
-                    person: {
-                      name: "Иван Петров",
-                      jobTitle: "IT-директор",
-                    },
-                    image: "",
-                  }
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">3 карточки из Pencil (mini вариант)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStoriesCarousel variant="mini" title="..." :stories={[...]} />`}</code></p>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 карточки (mini)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStoriesCarousel variant="mini" title="..." stories={[...]} />`}</code></p>
               <SuccessStoriesCarousel
                 variant="mini"
                 title="70+ историй успеха на рынке девелопмента"
@@ -1998,19 +1931,19 @@ const sections = [
 
       {section === 'product-card-review' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Product Card Review</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Review</h1>
           <p class="text-gray-600 mb-4">
             Блок цитаты клиента. Используется внутри ProductCard (через prop <code>review</code>) или самостоятельно.
             Структура: иконка-кавычка + курсивная цитата → строка автора (логотип | разделитель | имя + должность | кнопка кейса).
           </p>
-          <PropsTable props={productCardReviewMeta.props} class="mb-10" />
+          <PropsTable props={reviewMeta.props} class="mb-10" />
 
           <div class="space-y-12">
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — цитата + автор + лого + кнопка кейса</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCardReview quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<Review quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
               <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
-                <ProductCardReview
+                <Review
                   quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет"
                   author="Анастасия Швед"
                   role="Руководитель управления прямых продаж"
@@ -2023,7 +1956,7 @@ const sections = [
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Без логотипа компании</p>
               <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
-                <ProductCardReview
+                <Review
                   quote="Платформа позволила нам кратно увеличить скорость обработки заявок и повысить конверсию"
                   author="Максим Петров"
                   role="Директор по продажам"
@@ -2035,7 +1968,7 @@ const sections = [
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Без кнопки кейса</p>
               <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
-                <ProductCardReview
+                <Review
                   quote="Интеграция с ДВИЖем заняла неделю, а ROI превысил ожидания уже в первый месяц"
                   author="Елена Козлова"
                   role="Коммерческий директор"
