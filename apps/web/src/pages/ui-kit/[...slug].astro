@@ -15,7 +15,6 @@ import FormBlock from '../../components/blocks/FormBlock.astro'
 import RichTextBlock from '../../components/blocks/RichTextBlock.astro'
 import FeaturesGrid from '../../components/ui/FeaturesGrid.astro'
 import BentoGrid from '../../components/ui/BentoGrid.astro'
-import SuccessStory from '../../components/ui/SuccessStory.astro'
 import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 import HeroSection from '../../components/ui/HeroSection.astro'
 import MeshGradient from '../../components/ui/MeshGradient.astro'
@@ -49,7 +48,6 @@ import formClosingRaw from '../../components/ui/FormClosing.astro?raw'
 import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import ctaRaw from '../../components/ui/CTA.astro?raw'
 import featuresGridRaw from '../../components/ui/FeaturesGrid.astro?raw'
-import successStoryRaw from '../../components/ui/SuccessStory.astro?raw'
 import storiesCarouselRaw from '../../components/ui/SuccessStoriesCarousel.astro?raw'
 import bentoGridRaw from '../../components/ui/BentoGrid.astro?raw'
 import heroSectionRaw from '../../components/ui/HeroSection.astro?raw'
@@ -139,7 +137,6 @@ const formClosingMeta = parseSource(formClosingRaw)
 const logoGridMeta = parseSource(logoGridRaw)
 const ctaMeta = parseSource(ctaRaw)
 const featuresGridMeta = parseSource(featuresGridRaw)
-const successStoryMeta = parseSource(successStoryRaw)
 const storiesCarouselMeta = parseSource(storiesCarouselRaw)
 const bentoGridMeta = parseSource(bentoGridRaw)
 const heroSectionMeta = parseSource(heroSectionRaw)
@@ -1338,55 +1335,42 @@ const sections = [
       )}
       {section === 'stories' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Success Story</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">StoryCard</h1>
           <p class="text-gray-600 mb-4">
-            Карточка истории успеха с метрикой, персоной и цитатой. Использует <code class="text-sm">PersonCard</code>.
+            Карточка истории успеха. Используется в каруселях и на страницах. Два варианта: <code class="text-sm">active</code> (фоновое фото) и <code class="text-sm">default</code> (светлый фон).
           </p>
-          <PropsTable props={successStoryMeta.props} class="mb-10" />
+          <PropsTable props={storyCardMeta.props} class="mb-10" />
 
           <div class="space-y-12">
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С выделением части текста (HTML в title)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStory title="...<span class=..."">...</span>..." ... />`}</code></p>
-              <SuccessStory
-                title="Помогли начать обрабатывать на <span class='text-indigo-600'>281%</span> заявок больше, чем в среднем на рынке"
-                quote="Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента."
-                person={{
-                  name: "Петрова Надежда",
-                  jobTitle: "Директор по маркетингу, ЛСР",
-                  photo: { url: "" }
-                }}
-                image=""
-                imageAlt="ЛСР"
-                logo=""
-                logoAlt="ЛСР"
-              />
+              <p class="text-sm font-medium text-gray-400 mb-4">variant="active" — фоновое фото</p>
+              <div class="max-w-sm">
+                <StoryCard
+                  variant="active"
+                  backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
+                  title="Помогли начать обрабатывать на 281% заявок больше"
+                  person={{
+                    name: "Петрова Надежда",
+                    jobTitle: "Директор по маркетингу, ЛСР",
+                    photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+                  }}
+                />
+              </div>
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Обычный текст без подсветки</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStory title="..." quote="..." person={{...}} image="..." logo="..." />`}</code></p>
-              <SuccessStory
-                title="Сократили время обработки заявки с 3 дней до 4 часов"
-                quote="Интеграция прошла гладко. API оказался хорошо задокументированным, а поддержка всегда на связи."
-                person={{
-                  name: "Алексей Соколов",
-                  jobTitle: "IT-директор, Банк «Стандарт»",
-                  photo: { url: "" }
-                }}
-                image=""
-                imageAlt="Банк Стандарт"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Mini вариант — только заголовок и персона</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStory variant="mini" title="..." person={{...}} />`}</code></p>
-              <SuccessStory
-                variant="mini"
-                title="Процент одобрения заявок вырос с 80% до 89%"
-                person={{ name: "Иван Иванов", jobTitle: "Директор по продажам" }}
-              />
+              <p class="text-sm font-medium text-gray-400 mb-4">variant="default" — светлый фон, только заголовок и персона</p>
+              <div class="max-w-sm">
+                <StoryCard
+                  variant="default"
+                  title="Сократили время обработки заявки с 3 дней до 4 часов"
+                  person={{
+                    name: "Алексей Соколов",
+                    jobTitle: "IT-директор, Банк «Стандарт»",
+                    photo: { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" }
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -1395,7 +1379,7 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Stories Carousel</h1>
           <p class="text-gray-600 mb-4">
-            Горизонтальная карусель карточек SuccessStory с CSS Scroll Snap. Работает с тач-свайпом и скроллом.
+            Горизонтальная карусель карточек StoryCard с CSS Scroll Snap. Работает с тач-свайпом и скроллом.
           </p>
           <PropsTable props={storiesCarouselMeta.props} class="mb-10" />
 
