@@ -1,0 +1,152 @@
+---
+/**
+ * DeveloperBlock — секция с авто-переключающимися пунктами слева и изображением справа
+ *
+ * Пункты переключаются автоматически каждые 5 секунд. Активный пункт раскрывает
+ * подпись и показывает прогресс-бар. Клик по пункту переключает вручную.
+ *
+ * @example
+ * ```astro
+ * <DeveloperBlock
+ *   heading="Повышаем конверсию в 2 раза"
+ *   features={[
+ *     { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+ *     { title: '«Умный» скоринг покупателя' },
+ *   ]}
+ *   image="/images/banks.jpg"
+ * />
+ * ```
+ */
+
+interface Feature {
+  /** Заголовок пункта */
+  title: string
+  /** Подпись — показывается при активном состоянии */
+  subtitle?: string
+}
+
+interface Props {
+  /** Заголовок секции */
+  heading?: string
+  /** Список пунктов */
+  features: Feature[]
+  /** URL изображения справа */
+  image?: string
+  /** Alt изображения */
+  imageAlt?: string
+  /** Интервал переключения в мс (по умолчанию 5000) */
+  interval?: number
+  /** Дополнительные классы */
+  class?: string
+}
+
+const {
+  heading = 'Повышаем конверсию в 2 раза',
+  features = [],
+  image,
+  imageAlt = '',
+  interval = 5000,
+  class: className = '',
+} = Astro.props
+---
+
+<section class:list={['py-24 lg:py-[120px]', className]}>
+  <div class="page-container">
+    <div class="grid lg:grid-cols-2 gap-16 items-stretch">
+
+      <!-- Левая колонка: заголовок + пункты -->
+      <div
+        x-data={`{
+          active: 0,
+          total: ${features.length},
+          timer: null,
+          init() {
+            this.startTimer()
+          },
+          startTimer() {
+            clearInterval(this.timer)
+            this.timer = setInterval(() => {
+              this.active = (this.active + 1) % this.total
+            }, ${interval})
+          },
+          select(i) {
+            this.active = i
+            this.startTimer()
+          }
+        }`}
+        class="flex flex-col justify-between min-h-[640px]"
+      >
+        <h2 class="text-h2 text-gray-900">{heading}</h2>
+
+        <ul class="flex flex-col">
+          {features.map((feature, i) => (
+            <li>
+              <!-- Разделитель с оранжевым прогрессом поверх -->
+              <div class="relative h-px bg-gray-300">
+                <div
+                  class="absolute inset-0 bg-brand"
+                  style="transform: scaleX(0); transform-origin: left"
+                  x-show={`active === ${i}`}
+                  x-bind:style={`active === ${i} ? 'transform-origin: left; animation: developer-progress ${interval}ms linear forwards' : 'transform: scaleX(0); transform-origin: left'`}
+                  x-cloak
+                ></div>
+              </div>
+
+              <div
+                class="flex gap-3 items-start py-5 cursor-pointer select-none"
+                @click={`select(${i})`}
+              >
+                <!-- Dot -->
+                <div class="shrink-0 mt-[5px] w-4 h-4 flex items-center justify-center">
+                  <div
+                    class="w-2 h-2 rounded-full transition-colors duration-300 bg-gray-300"
+                    x-bind:class={`active === ${i} ? 'bg-brand' : 'bg-gray-300'`}
+                  ></div>
+                </div>
+
+                <!-- Текст -->
+                <div class="flex-1 min-w-0">
+                  <p
+                    class="text-body-lg-bold transition-colors duration-300 text-gray-500"
+                    x-bind:class={`active === ${i} ? 'text-gray-900' : 'text-gray-500'`}
+                  >{feature.title}</p>
+
+                  {feature.subtitle && (
+                    <p
+                      class="text-body-lg text-gray-500 overflow-hidden transition-[max-height,opacity,margin-top] duration-300 ease-in-out"
+                      style="max-height: 0; opacity: 0; margin-top: 0"
+                      x-bind:style={`active === ${i} ? 'max-height: 80px; opacity: 1; margin-top: 0.5rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
+                    >{feature.subtitle}</p>
+                  )}
+                </div>
+              </div>
+            </li>
+          ))}
+          <li><div class="h-px bg-gray-300"></div></li>
+        </ul>
+      </div>
+
+      <!-- Правая колонка: изображение или плейсхолдер -->
+      <div class="rounded-3xl overflow-hidden bg-gray-300 min-h-[400px] lg:min-h-[640px]">
+        {image ? (
+          <img
+            src={image}
+            alt={imageAlt}
+            class="w-full h-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <slot name="image" />
+        )}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes developer-progress {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+</style>

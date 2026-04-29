@@ -242,8 +242,16 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.5px;
   }
 
+  .text-body-lg-bold {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 140%;
+    letter-spacing: -0.18px;
+  }
+
   @media (min-width: 640px) {
-    .text-body-lg, .text-body-lg-italic { font-size: 18px; }
+    .text-body-lg, .text-body-lg-italic, .text-body-lg-bold { font-size: 18px; }
   }
 
   .text-subhead {

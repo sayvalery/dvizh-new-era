@@ -7,6 +7,7 @@ import HeroSection from '../components/ui/HeroSection.astro'
 import LogoMarquee from '../components/lab-new/LogoMarquee.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
+import DeveloperBlock from '../components/ui/DeveloperBlock.astro'
 ---
 
 <SiteLayout title="Для девелоперов" bodyClass="bg-background-primary">
@@ -20,6 +21,22 @@ import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
     demoPreset="demo"
     kpPreset="lead"
   />
+  <!-- DeveloperBlock -->
+  <DeveloperBlock
+    heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
+    features={[
+      {
+        title: '40+ банков-партнёров',
+        subtitle: '15 «быстрых» банков по API',
+      },
+      { title: '«Умный» скоринг покупателя', subtitle: 'До отправки в банк' },
+      { title: 'Встроенный ипотечный калькулятор', subtitle: 'На сайте застройщика' },
+      { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
+      { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
+      { title: 'Контроль «зависших» обращений 24/7' },
+    ]}
+  />
+
   <!-- Бегущая строка с логотипами -->
   <LogoMarquee
     logos={[

@@ -29,6 +29,7 @@ import ProductCard from '../../components/ui/ProductCard.astro'
 import ProductCardReview from '../../components/ui/ProductCardReview.astro'
 import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
 import AaiHero from '../../components/ui/AaiHero.astro'
+import DeveloperBlock from '../../components/ui/DeveloperBlock.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -50,6 +51,7 @@ import productCardRaw from '../../components/ui/ProductCard.astro?raw'
 import productCardReviewRaw from '../../components/ui/ProductCardReview.astro?raw'
 import productSectionRaw from '../../components/ui/ProductSectionNew.astro?raw'
 import aaiHeroRaw from '../../components/ui/AaiHero.astro?raw'
+import developerBlockRaw from '../../components/ui/DeveloperBlock.astro?raw'
 
 interface PropMeta {
   name: string
@@ -162,6 +164,7 @@ export function getStaticPaths() {
     { params: { slug: 'product-card-review' }, props: { section: 'product-card-review' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
     { params: { slug: 'aai-hero' }, props: { section: 'aai-hero' } },
+    { params: { slug: 'developer-block' }, props: { section: 'developer-block' } },
   ]
 }
 
@@ -195,6 +198,7 @@ const sections = [
   { slug: 'product-card-review', label: 'Product Card Review' },
   { slug: 'product-section', label: 'Product Section' },
   { slug: 'aai-hero', label: 'AaiHero' },
+  { slug: 'developer-block', label: 'DeveloperBlock' },
 ]
 ---
 
@@ -2134,6 +2138,31 @@ const sections = [
               </div>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {section === 'developer-block' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">DeveloperBlock</h1>
+          <p class="text-gray-600 mb-8">
+            Секция с авто-переключающимися пунктами слева (таймер + прогресс-бар) и изображением/слотом справа.
+            Высота фиксирована, список прибит к низу левой колонки.
+          </p>
+          <PropsTable props={parseSource(developerBlockRaw).props} class="mb-10" />
+
+          <div class="-mx-10">
+            <DeveloperBlock
+              heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
+              features={[
+                { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+                { title: '«Умный» скоринг покупателя', subtitle: 'До отправки в банк' },
+                { title: 'Встроенный ипотечный калькулятор', subtitle: 'На сайте застройщика' },
+                { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
+                { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
+                { title: 'Контроль «зависших» обращений 24/7' },
+              ]}
+            />
           </div>
         </div>
       )}
