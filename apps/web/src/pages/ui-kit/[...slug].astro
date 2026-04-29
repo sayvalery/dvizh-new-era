@@ -38,6 +38,8 @@ import Island from '../../components/ui/Island.astro'
 import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
 import SideMenu from '../../components/ui/SideMenu.astro'
 import AaiHero from '../../components/ui/AaiHero.astro'
+import Button from '../../components/ui/Button.astro'
+import Input from '../../components/ui/Input.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -67,6 +69,8 @@ import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
 import islandRaw from '../../components/ui/Island.astro?raw'
 import aaiHeroRaw from '../../components/ui/AaiHero.astro?raw'
+import buttonRaw from '../../components/ui/Button.astro?raw'
+import inputRaw from '../../components/ui/Input.astro?raw'
 
 interface PropMeta {
   name: string
@@ -155,6 +159,8 @@ const storyCardMeta = parseSource(storyCardRaw)
 const advantageCardMeta = parseSource(advantageCardRaw)
 const islandMeta = parseSource(islandRaw)
 const aaiHeroMeta = parseSource(aaiHeroRaw)
+const buttonMeta = parseSource(buttonRaw)
+const inputMeta = parseSource(inputRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -194,6 +200,8 @@ export function getStaticPaths() {
     { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
     { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
     { params: { slug: 'aai-hero' }, props: { section: 'aai-hero' } },
+    { params: { slug: 'story-card' }, props: { section: 'story-card' } },
+    { params: { slug: 'input' }, props: { section: 'input' } },
   ]
 }
 
@@ -234,6 +242,8 @@ const sections = [
   { slug: 'modal-inline-form', label: 'Modal Inline Form' },
   { slug: 'side-menu', label: 'Side Menu' },
   { slug: 'aai-hero', label: 'AaiHero' },
+  { slug: 'story-card', label: 'StoryCard (variant)' },
+  { slug: 'input', label: 'Input' },
 ]
 ---
 
@@ -2384,13 +2394,105 @@ interface Props {
       {section === 'modal-inline-form' && (
         <div>
           <h1 class="text-3xl font-bold font-heading mb-2">Modal Inline Form</h1>
-          <p class="text-gray-600 mb-8">Двухшаговая форма для модалок. Появляется снизу после первого скролла. Шаг 1: имя + телефон. Шаг 2 (после отправки): email + компания.</p>
-          <div class="space-y-8">
+          <p class="text-gray-600 mb-8">
+            Двухшаговая inline-форма. Шаг 1: имя + телефон. Шаг 2 (после отправки): email + компания.
+            Три варианта лейаута: xs-sm / md / lg.
+          </p>
+
+          <div class="space-y-6">
+
+            {/* xs-sm */}
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Шаг 1 (дефолт)</p>
-              <div class="border border-gray-100 rounded-2xl p-8 bg-white">
-                <ModalInlineForm />
+              <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">xs-sm — стек</p>
+              <p class="text-xs text-gray-400 mb-3">Инпуты в столбик, кнопка во всю ширину</p>
+              <div class="grid grid-cols-2 gap-4 max-w-2xl">
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Попробуйте ДВИЖ в деле</p>
+                  <div class="flex flex-col gap-2">
+                    <Input name="name-xs" placeholder="Ваше имя" />
+                    <Input name="phone-xs" placeholder="Телефон" />
+                  </div>
+                  <button class="w-full bg-brand text-white font-semibold text-base rounded-xl py-4 leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                  <label class="flex items-start gap-2 cursor-pointer">
+                    <input type="checkbox" class="mt-0.5 shrink-0 accent-brand" />
+                    <span class="text-sm text-gray-400">Даю согласие на обработку персональных данных</span>
+                  </label>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Скоро свяжемся с вами!</p>
+                  <div class="flex flex-col gap-2">
+                    <Input name="email-xs" type="email" placeholder="Email" />
+                    <Input name="company-xs" placeholder="Компания" />
+                  </div>
+                  <button class="w-full bg-brand text-white font-semibold text-base rounded-xl py-4 leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                </div>
               </div>
+            </div>
+
+            {/* md */}
+            <div>
+              <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">md — 2 колонки</p>
+              <p class="text-xs text-gray-400 mb-3">Инпуты в ряд, кнопка во всю ширину под ними</p>
+              <div class="grid grid-cols-2 gap-4 max-w-3xl">
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Попробуйте ДВИЖ в деле</p>
+                  <div class="flex gap-2">
+                    <Input name="name-md" placeholder="Ваше имя" class="flex-1 min-w-0" />
+                    <Input name="phone-md" placeholder="Телефон" class="flex-1 min-w-0" />
+                  </div>
+                  <button class="w-full bg-brand text-white font-semibold text-sm rounded-xl py-3 leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                  <label class="flex items-start gap-2 cursor-pointer">
+                    <input type="checkbox" class="mt-0.5 shrink-0 accent-brand" />
+                    <span class="text-sm text-gray-400">Даю согласие на обработку персональных данных</span>
+                  </label>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Скоро свяжемся с вами!</p>
+                  <div class="flex gap-2">
+                    <Input name="email-md" type="email" placeholder="Email" class="flex-1 min-w-0" />
+                    <Input name="company-md" placeholder="Компания" class="flex-1 min-w-0" />
+                  </div>
+                  <button class="w-full bg-brand text-white font-semibold text-sm rounded-xl py-3 leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                </div>
+              </div>
+            </div>
+
+            {/* lg */}
+            <div>
+              <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">lg — один ряд</p>
+              <p class="text-xs text-gray-400 mb-3">Инпуты + кнопка в одну строку, согласие под ними</p>
+              <div class="flex flex-col gap-4">
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Попробуйте ДВИЖ в деле</p>
+                  <div class="flex gap-2 items-center">
+                    <Input name="name-lg" placeholder="Ваше имя" class="flex-1 min-w-0" />
+                    <Input name="phone-lg" placeholder="Телефон" class="flex-1 min-w-0" />
+                    <button class="shrink-0 bg-brand text-white font-semibold text-sm rounded-xl px-6 py-[11px] leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                  </div>
+                  <label class="flex items-start gap-2 cursor-pointer">
+                    <input type="checkbox" class="mt-0.5 shrink-0 accent-brand" />
+                    <span class="text-sm text-gray-400">Даю согласие на обработку персональных данных</span>
+                  </label>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Скоро свяжемся с вами!</p>
+                  <div class="flex gap-2 items-center">
+                    <Input name="email-lg" type="email" placeholder="Email" class="flex-1 min-w-0" />
+                    <Input name="company-lg" placeholder="Компания" class="flex-1 min-w-0" />
+                    <button class="shrink-0 bg-brand text-white font-semibold text-sm rounded-xl px-6 py-[11px] leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Живой компонент */}
+          <div class="mt-12">
+            <h2 class="text-xl font-semibold mb-2">Живой компонент</h2>
+            <p class="text-gray-500 text-sm mb-4">Адаптивный — лейаут меняется по ширине вьюпорта</p>
+            <div class="border border-gray-200 rounded-2xl bg-white p-8">
+              <ModalInlineForm />
             </div>
           </div>
         </div>
@@ -2464,6 +2566,160 @@ interface Props {
                     }
                   ]}
                 />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+      {section === 'story-card' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">StoryCard</h1>
+          <p class="text-gray-600 mb-8">Карточка истории успеха с двумя вариантами оформления.</p>
+          <div class="space-y-16">
+
+            <PropsTable props={storyCardMeta.props} />
+
+            {/* variant="active" */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">active</h2>
+              <p class="text-gray-500 text-sm mb-6">Фоновое изображение, белый заголовок, тёмная тема PersonCard. Слот <code class="bg-gray-200 px-1 rounded text-xs">logo</code> — для логотипа компании.</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[960px]">
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">С логотипом</p>
+                  <StoryCard
+                    variant="active"
+                    backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
+                    title="Помогли начать обрабатывать на 98% больше заявок"
+                    person={{
+                      name: "Светлана Корнелюк",
+                      jobTitle: "Директор отдела продаж",
+                      photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  >
+                    <div class="h-6 w-32 bg-white rounded flex items-center justify-center" slot="logo">
+                      <span class="text-xs text-gray-800 font-bold">LOGO</span>
+                    </div>
+                  </StoryCard>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">Без логотипа</p>
+                  <StoryCard
+                    variant="active"
+                    backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop"
+                    title="Увеличили конверсию сделок на 43% за 3 месяца"
+                    person={{
+                      name: "Алексей Громов",
+                      jobTitle: "Руководитель отдела ипотеки",
+                      photo: { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* variant="default" */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">default</h2>
+              <p class="text-gray-500 text-sm mb-6">Светлый фон <code class="bg-gray-200 px-1 rounded text-xs">bg-gray-100</code>, тёмный заголовок, светлая тема PersonCard.</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[960px]">
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">С логотипом</p>
+                  <StoryCard
+                    variant="default"
+                    title="Помогли начать обрабатывать на 98% больше заявок"
+                    person={{
+                      name: "Светлана Корнелюк",
+                      jobTitle: "Директор отдела продаж",
+                      photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  >
+                    <div class="h-6 w-32 bg-gray-300 rounded flex items-center justify-center" slot="logo">
+                      <span class="text-xs text-gray-800 font-bold">LOGO</span>
+                    </div>
+                  </StoryCard>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">Без логотипа</p>
+                  <StoryCard
+                    variant="default"
+                    title="Увеличили конверсию сделок на 43% за 3 месяца"
+                    person={{
+                      name: "Алексей Громов",
+                      jobTitle: "Руководитель отдела ипотеки",
+                      photo: { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {section === 'input' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Input</h1>
+          <p class="text-gray-600 mb-8">{inputMeta.description}</p>
+
+          <PropsTable props={inputMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+
+            {/* Размеры */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Размеры</h2>
+              <p class="text-gray-500 text-sm mb-6">M — 44px высота, S — компактный (py-2)</p>
+              <div class="flex flex-col gap-4 max-w-xs">
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">size="M" (default)</p>
+                  <Input name="demo-m" placeholder="Placeholder" size="M" />
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">size="S"</p>
+                  <Input name="demo-s" placeholder="Placeholder" size="S" />
+                </div>
+              </div>
+            </div>
+
+            {/* Вариант colour */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Вариант colour</h2>
+              <p class="text-gray-500 text-sm mb-6">Для светлого фона. Default / Active (фокус) / Filled (есть значение)</p>
+              <div class="flex flex-col gap-4 max-w-xs">
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">Default — нет фокуса, нет значения</p>
+                  <Input name="c-default" placeholder="Placeholder" variant="colour" />
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">Active — кликни, чтобы увидеть оранжевую рамку</p>
+                  <Input name="c-active" placeholder="Placeholder" variant="colour" />
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">Filled — есть значение</p>
+                  <Input name="c-filled" placeholder="Placeholder" value="Info" variant="colour" />
+                </div>
+              </div>
+            </div>
+
+            {/* Вариант white */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Вариант white</h2>
+              <p class="text-gray-500 text-sm mb-6">Для тёмного фона. При заполнении фон становится белым.</p>
+              <div class="bg-gray-800 rounded-2xl p-6 max-w-xs flex flex-col gap-4">
+                <div>
+                  <p class="text-xs text-white/40 mb-2">Default</p>
+                  <Input name="w-default" placeholder="Placeholder" variant="white" />
+                </div>
+                <div>
+                  <p class="text-xs text-white/40 mb-2">Active — кликни для белой рамки</p>
+                  <Input name="w-active" placeholder="Placeholder" variant="white" />
+                </div>
+                <div>
+                  <p class="text-xs text-white/40 mb-2">Filled — белый фон</p>
+                  <Input name="w-filled" placeholder="Placeholder" value="Info" variant="white" />
+                </div>
               </div>
             </div>
 

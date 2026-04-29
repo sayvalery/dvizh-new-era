@@ -24,6 +24,8 @@
  *
  * Отправка: POST /api/form-submissions на CMS.
  */
+import Input from './Input.astro'
+
 const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
 const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
 
@@ -40,17 +42,13 @@ const { preset, layout = 'stacked', variant = 'light', submitLabel, class: class
 
 const isDark = variant === 'dark'
 
-const inputClasses = isDark
-  ? 'w-full bg-white/[0.12] border-0 rounded-2xl px-5 py-3.5 text-[15px] text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/[0.18] transition-all duration-300 focus:scale-[1.01] focus:shadow-lg focus:shadow-white/10'
-  : 'w-full bg-black/[0.04] border-0 rounded-2xl px-5 py-3.5 text-[15px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all duration-300 focus:scale-[1.01] focus:shadow-lg focus:shadow-brand/15'
-
 const labelClasses = isDark
   ? 'text-[13px] font-medium text-white/60 pl-1'
   : 'text-[13px] font-medium text-gray-500 pl-1'
 
 const btnClasses = isDark
-  ? 'bg-white text-gray-900 hover:bg-white hover:scale-[1.03] hover:opacity-90'
-  : 'bg-brand text-white hover:bg-brand hover:scale-[1.03] hover:opacity-90'
+  ? 'bg-white text-gray-900 hover:bg-white/90 hover:scale-[1.03]'
+  : 'bg-brand text-white hover:bg-brand-600 hover:scale-[1.03]'
 
 const successClasses = isDark ? 'text-green-400' : 'text-green-600'
 const errorClasses = isDark ? 'text-red-400' : 'text-red-600'
@@ -88,18 +86,19 @@ const formFields = fields[preset] ?? ['name', 'email']
   {layout === 'inline' ? (
     <div class="flex flex-col sm:flex-row gap-3 items-start">
       {formFields.map((field) => (
-        <input
+        <Input
           id={`field-${preset}-${field}`}
-          type={field === 'email' ? 'email' : 'text'}
+          type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
           name={field}
           required={field === 'email' || field === 'name'}
           placeholder={fieldLabels[field]}
-          class:list={['flex-1', inputClasses]}
+          variant={isDark ? 'white' : 'colour'}
+          class="flex-1"
         />
       ))}
       <button
         type="submit"
-        class:list={['w-full sm:w-auto whitespace-nowrap px-7 py-3.5 rounded-2xl text-[15px] font-medium active:scale-[0.98] transition-all duration-300 ease-out disabled:opacity-50', btnClasses]}
+        class:list={['w-full sm:w-auto whitespace-nowrap px-7 py-[11px] rounded-xl text-[15px] font-medium active:scale-[0.98] transition-all duration-300 ease-out disabled:opacity-50', btnClasses]}
       >
         {btnLabel}
       </button>
@@ -114,13 +113,13 @@ const formFields = fields[preset] ?? ['name', 'email']
           >
             {fieldLabels[field]}
           </label>
-          <input
+          <Input
             id={`field-${preset}-${field}`}
-            type={field === 'email' ? 'email' : 'text'}
+            type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
             name={field}
             required={field === 'email' || field === 'name'}
             placeholder={fieldLabels[field]}
-            class={inputClasses}
+            variant={isDark ? 'white' : 'colour'}
           />
         </div>
       ))}
@@ -135,13 +134,13 @@ const formFields = fields[preset] ?? ['name', 'email']
           >
             {fieldLabels[field]}
           </label>
-          <input
+          <Input
             id={`field-${preset}-${field}`}
-            type={field === 'email' ? 'email' : 'text'}
+            type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
             name={field}
             required={field === 'email' || field === 'name'}
             placeholder={fieldLabels[field]}
-            class={inputClasses}
+            variant={isDark ? 'white' : 'colour'}
           />
         </div>
       ))}
@@ -155,7 +154,7 @@ const formFields = fields[preset] ?? ['name', 'email']
   {layout !== 'inline' && (
     <button
       type="submit"
-      class:list={['mt-5 w-full py-3.5 rounded-2xl text-[15px] font-medium active:scale-[0.98] transition-all duration-300 ease-out disabled:opacity-50', btnClasses]}
+      class:list={['mt-5 w-full py-3.5 rounded-xl text-[15px] font-medium active:scale-[0.98] transition-all duration-300 ease-out disabled:opacity-50', btnClasses]}
     >
       {btnLabel}
     </button>

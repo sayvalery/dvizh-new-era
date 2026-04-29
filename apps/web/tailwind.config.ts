@@ -21,6 +21,20 @@ export default {
         },
       },
       colors: {
+        background: {
+          secondary: '#F9F7F5',
+        },
+        gray: {
+          100: '#FBF9F6',
+          200: '#F3F1EE',
+          300: '#E6E4E1',
+          400: '#C2C2C2',
+          500: '#858585',
+          600: '#6D6C6C',
+          700: '#505050',
+          800: '#323232',
+          900: '#1D1E21',
+        },
         brand: {
           DEFAULT: '#ff4d00',
           50: '#fff5ed',
