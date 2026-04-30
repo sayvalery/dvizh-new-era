@@ -28,13 +28,28 @@ interface Props {
   items: MenuItem[]
   /** Дополнительные CSS классы */
   class?: string
+  /**
+   * ID для внешнего управления активным пунктом.
+   * Если передан — компонент слушает window-событие `side-menu-set-active`
+   * с `detail: { navId, index }`. Используется в ProductSectionNew.
+   */
+  navId?: string
 }
 
-const { items, class: className = '' } = Astro.props
+const { items, class: className = '', navId = '' } = Astro.props
 ---
 
 <nav
-  x-data={`{ active: ${items.findIndex(i => i.active) ?? 0} }`}
+  x-data={`{
+    active: ${Math.max(0, items.findIndex(i => i.active))},
+    init() {
+      const id = '${navId}';
+      if (!id) return;
+      window.addEventListener('side-menu-set-active', e => {
+        if (e.detail && e.detail.navId === id) this.active = e.detail.index;
+      });
+    }
+  }`}
   class:list={[
     'flex flex-row gap-0 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory',
     'lg:flex-col lg:overflow-visible lg:gap-6',

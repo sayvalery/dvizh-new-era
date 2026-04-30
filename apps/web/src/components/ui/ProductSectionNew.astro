@@ -25,6 +25,7 @@
  */
 
 import ProductCard from './ProductCard.astro'
+import SideMenu from './SideMenu.astro'
 
 interface Button {
   label: string
@@ -62,6 +63,7 @@ interface Props {
 const { sections, class: className = '' } = Astro.props
 
 const componentId = `psn-${Math.random().toString(36).substr(2, 9)}`
+const navId = `${componentId}-nav`
 ---
 
 <section
@@ -74,20 +76,11 @@ const componentId = `psn-${Math.random().toString(36).substr(2, 9)}`
     <div class="flex flex-col gap-6 md:gap-12 lg:flex-row lg:gap-20">
 
       <!-- Sticky SideMenu -->
-      <nav
-        id={`${componentId}-nav`}
-        class="flex justify-start gap-6 overflow-x-auto lg:sticky lg:top-[50px] lg:flex-col lg:w-[260px] lg:flex-shrink-0 lg:overflow-visible lg:h-fit lg:self-start lg:py-4"
-      >
-        {sections.map((section, index) => (
-          <button
-            data-psn-index={index}
-            class="flex-shrink-0 flex items-center gap-3 text-left transition-all text-[#858585]"
-          >
-            <span class="psn-bar hidden lg:block w-[3px] h-[16px] rounded-full bg-brand flex-shrink-0 opacity-0 transition-opacity"></span>
-            <span class="text-side-menu uppercase">{section.title}</span>
-          </button>
-        ))}
-      </nav>
+      <SideMenu
+        navId={navId}
+        items={sections.map(s => ({ title: s.title }))}
+        class="lg:sticky lg:top-[50px] lg:w-[260px] lg:flex-shrink-0 lg:h-fit lg:self-start lg:py-4"
+      />
 
       <!-- Стек карточек -->
       <div class="flex-1 flex flex-col gap-8" id={`${componentId}-cards`}>
@@ -117,47 +110,32 @@ const componentId = `psn-${Math.random().toString(36).substr(2, 9)}`
       const sectionEl = el as HTMLElement
       const componentId = sectionEl.dataset.psnId!
       const sectionsCount = parseInt(sectionEl.dataset.psnCount!)
+      const navId = `${componentId}-nav`
 
-      const nav = document.getElementById(`${componentId}-nav`)
-      const buttons = nav
-        ? Array.from(nav.querySelectorAll<HTMLButtonElement>('button[data-psn-index]'))
-        : []
-      if (!buttons.length) return
-
-      function setActive(activeIndex: number) {
-        buttons.forEach((btn, idx) => {
-          const bar = btn.querySelector('.psn-bar')
-          btn.classList.toggle('text-brand', idx === activeIndex)
-          btn.classList.toggle('text-[#858585]', idx !== activeIndex)
-          if (bar) {
-            bar.classList.toggle('opacity-0', idx !== activeIndex)
-            bar.classList.toggle('opacity-100', idx === activeIndex)
-          }
-        })
+      // Обновляем активный пункт SideMenu через window-событие.
+      // SideMenu слушает 'side-menu-set-active' и сверяет navId.
+      function setActive(index: number) {
+        window.dispatchEvent(new CustomEvent('side-menu-set-active', {
+          detail: { navId, index }
+        }))
       }
 
-      // Первый пункт активен по умолчанию
-      setActive(0)
-
-      // Клик → smooth scroll к карточке
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const index = parseInt(btn.dataset.psnIndex!)
-          const target = document.getElementById(`${componentId}-card-${index}`)
-          if (target) {
-            window.scrollTo({
-              top: target.getBoundingClientRect().top + window.pageYOffset - 100,
-              behavior: 'smooth'
-            })
-          }
-        })
+      // Клик в SideMenu → Alpine диспатчит 'side-menu-change' (всплывает до section) → smooth scroll к карточке
+      sectionEl.addEventListener('side-menu-change', (e: Event) => {
+        const { index } = (e as CustomEvent).detail
+        const target = document.getElementById(`${componentId}-card-${index}`)
+        if (target) {
+          window.scrollTo({
+            top: target.getBoundingClientRect().top + window.pageYOffset - 100,
+            behavior: 'smooth'
+          })
+        }
       })
-
-      // Набор карточек, видимых в данный момент
-      const intersecting = new Set<number>()
 
       // IntersectionObserver → автоподсветка при скролле.
       // Когда несколько карточек видны одновременно — активируем верхнюю (наименьший индекс).
+      const intersecting = new Set<number>()
+
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           const match = entry.target.id.match(new RegExp(`${componentId}-card-(\\d+)`))
