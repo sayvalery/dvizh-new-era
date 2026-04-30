@@ -36,6 +36,8 @@ import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
 import AaiHero from '../../components/ui/AaiHero.astro'
 import Button from '../../components/ui/Button.astro'
 import Input from '../../components/ui/Input.astro'
+import KeyFacts from '../../components/ui/KeyFacts.astro'
+import ComparisonSection from '../../components/ui/ComparisonSection.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -64,6 +66,8 @@ import islandRaw from '../../components/ui/Island.astro?raw'
 import aaiHeroRaw from '../../components/ui/AaiHero.astro?raw'
 import buttonRaw from '../../components/ui/Button.astro?raw'
 import inputRaw from '../../components/ui/Input.astro?raw'
+import keyFactsRaw from '../../components/ui/KeyFacts.astro?raw'
+import comparisonSectionRaw from '../../components/ui/ComparisonSection.astro?raw'
 
 interface PropMeta {
   name: string
@@ -151,6 +155,8 @@ const islandMeta = parseSource(islandRaw)
 const aaiHeroMeta = parseSource(aaiHeroRaw)
 const buttonMeta = parseSource(buttonRaw)
 const inputMeta = parseSource(inputRaw)
+const keyFactsMeta = parseSource(keyFactsRaw)
+const comparisonMeta = parseSource(comparisonSectionRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -167,6 +173,7 @@ export function getStaticPaths() {
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
     { params: { slug: 'cta' }, props: { section: 'cta' } },
+    { params: { slug: 'comparison' }, props: { section: 'comparison' } },
     { params: { slug: 'drawer' }, props: { section: 'drawer' } },
     { params: { slug: 'features' }, props: { section: 'features' } },
     { params: { slug: 'form-closing' }, props: { section: 'form-closing' } },
@@ -175,6 +182,7 @@ export function getStaticPaths() {
     { params: { slug: 'hero' }, props: { section: 'hero' } },
     { params: { slug: 'input' }, props: { section: 'input' } },
     { params: { slug: 'island' }, props: { section: 'island' } },
+    { params: { slug: 'key-facts' }, props: { section: 'key-facts' } },
     { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
     { params: { slug: 'mesh-gradient' }, props: { section: 'mesh-gradient' } },
     { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
@@ -207,6 +215,7 @@ const sections = [
   { slug: 'blog-cards', label: 'BlogCards' },
   { slug: 'buttons', label: 'Button' },
   { slug: 'cta', label: 'CTA' },
+  { slug: 'comparison', label: 'ComparisonSection' },
   { slug: 'drawer', label: 'Drawer' },
   { slug: 'features', label: 'FeaturesGrid' },
   { slug: 'form-closing', label: 'FormClosing' },
@@ -215,6 +224,7 @@ const sections = [
   { slug: 'hero', label: 'HeroSection' },
   { slug: 'input', label: 'Input' },
   { slug: 'island', label: 'Island' },
+  { slug: 'key-facts', label: 'KeyFacts' },
   { slug: 'logo-grid', label: 'LogoGrid' },
   { slug: 'mesh-gradient', label: 'MeshGradient' },
   { slug: 'modal-inline-form', label: 'ModalInlineForm' },
@@ -709,77 +719,76 @@ const sections = [
         </div>
       )}
 
+      {section === 'key-facts' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">KeyFacts</h1>
+          <p class="text-gray-600 mb-4">
+            Нумерованные факты/метрики с вертикальной чертой. Заголовок опционален.
+            2–4 колонки. Контент «прибит» к низу каждой колонки.
+          </p>
+          <PropsTable props={keyFactsMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 колонки с заголовком</p>
+              <KeyFacts
+                title="Зачем вам ипотечный калькулятор?"
+                items={[
+                  { value: '80% заявок', description: 'приходит в нерабочее время,<br>не теряйте их' },
+                  { value: '50% клиентов', description: 'заранее хотят рассчитать ежемесячный платеж' },
+                  { value: 'на 20% выше', description: 'конверсия в сделку, когда клиент знает доступный бюджет ипотеки' },
+                ]}
+              />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">4 колонки без заголовка</p>
+              <KeyFacts
+                cols={4}
+                items={[
+                  { value: '1,5 млн', description: 'заявок обработано через платформу' },
+                  { value: '75 из 100', description: 'крупнейших застройщиков России используют ДВИЖ' },
+                  { value: '40+ банков', description: 'подключено к единой системе скоринга' },
+                  { value: 'до 10 сек', description: 'заполнение ипотечной анкеты клиентом' },
+                ]}
+              />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">2 колонки</p>
+              <KeyFacts
+                cols={2}
+                title="Цифры говорят сами за себя"
+                items={[
+                  { value: '99,9% uptime', description: 'гарантированная доступность сервиса' },
+                  { value: '< 200 мс', description: 'среднее время ответа API' },
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {section === 'logo-grid' && (
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Logo Grid</h1>
           <p class="text-gray-600 mb-4">
-            Сетка логотипов клиентов/партнёров. Адаптивная вёрстка с разным количеством колонок.
+            Бегущая строка логотипов клиентов/партнёров. Серые логотипы, блюр по краям, бесшовный loop.
           </p>
           <PropsTable props={logoGridMeta.props} class="mb-10" />
 
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С заголовком</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid title="Нам доверяют 70+ застройщиков" logos={[...]} />`}</code></p>
-              <LogoGrid
-                title="Нам доверяют 70+ застройщиков"
-                logos={[
-                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
-                  { src: '/partners/ava.svg', alt: 'AVA' },
-                  { src: '/partners/ganel.svg', alt: 'Ganel' },
-                  { src: '/partners/strana.svg', alt: 'Strana' },
-                  { src: '/partners/glorax.svg', alt: 'Glorax' },
-                  { src: '/partners/a101.svg', alt: 'A101' },
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без заголовка</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid logos={[...]} />`}</code></p>
+          <div>
+            <p class="text-sm font-medium text-gray-400 mb-4">Бегущая строка (marquee)</p>
+            <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid logos={[...]} />`}</code></p>
+            <div class="-mx-10 border-y border-gray-200">
               <LogoGrid
                 logos={[
-                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
-                  { src: '/partners/ava.svg', alt: 'AVA' },
-                  { src: '/partners/ganel.svg', alt: 'Ganel' },
-                  { src: '/partners/strana.svg', alt: 'Strana' },
-                  { src: '/partners/glorax.svg', alt: 'Glorax' },
+                  { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+                  { src: '/partners/dark/ava.svg', alt: 'AVA' },
+                  { src: '/partners/dark/ganel.svg', alt: 'Ganel' },
+                  { src: '/partners/dark/strana.svg', alt: 'Strana' },
+                  { src: '/partners/dark/glorax.svg', alt: 'Glorax' },
+                  { src: '/partners/dark/a101.svg', alt: 'A101' },
                 ]}
               />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С плашкой CTA</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid logos={[...]} ctaText="Нам доверяют 70+ застройщиков" ctaLabel="Читать истории →" ctaLink="/cases" />`}</code></p>
-              <LogoGrid
-                logos={[
-                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
-                  { src: '/partners/ava.svg', alt: 'AVA' },
-                  { src: '/partners/ganel.svg', alt: 'Ganel' },
-                  { src: '/partners/strana.svg', alt: 'Strana' },
-                  { src: '/partners/glorax.svg', alt: 'Glorax' },
-                  { src: '/partners/a101.svg', alt: 'A101' },
-                ]}
-                ctaText="Нам доверяют более 70 застройщиков"
-                ctaLabel="Читать истории успеха →"
-                ctaLink="/cases"
-              />
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Тёмная тема</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid variant="dark" logos={[...]} />`}</code></p>
-              <LogoGrid
-                variant="dark"
-                logos={[
-                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
-                  { src: '/partners/ava.svg', alt: 'AVA' },
-                  { src: '/partners/ganel.svg', alt: 'Ganel' },
-                  { src: '/partners/strana.svg', alt: 'Strana' },
-                  { src: '/partners/glorax.svg', alt: 'Glorax' },
-                  { src: '/partners/a101.svg', alt: 'A101' },
-                ]}
-              />
-            </div>
             </div>
           </div>
         </div>
@@ -1093,6 +1102,67 @@ const sections = [
                 buttonHref="#"
               />
             </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'comparison' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">ComparisonSection</h1>
+          <p class="text-gray-600 mb-4">
+            Блок сравнения: левая (серая) колонка с иконками «минус» — рыночные решения,
+            правая (тёмная) — логотип + иконки «чек» + CTA-кнопки. Количество пунктов произвольное.
+          </p>
+          <PropsTable props={comparisonMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант (из дизайна Figma)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ComparisonSection leftTitle="..." leftItems={[...]} rightItems={[...]} />`}</code></p>
+              <div class="-mx-10">
+                <ComparisonSection
+                  label="В чём разница"
+                  title="Выбирайте лучшее"
+                  leftTitle="Самописные и рыночные решения"
+                  leftItems={[
+                    'Необходимо вручную поддерживать актуальность ставок',
+                    'Нельзя рассчитать комбо- и ипотеку с удорожанием стоимости',
+                    'Нет возможности выделить наиболее выгодное предложение',
+                    'Нет потенциала для апсейла клиентов',
+                  ]}
+                  rightItems={[
+                    'Ипотечные ставки обновляются автоматически',
+                    'Считает все виды ипотек: траншевую, комбо, с удорожанием, субсидированную, рассрочку',
+                    'Меняет порядок ипотечных программ и показывает выгодные предложения',
+                    'Увеличивает средний чек за счёт персональных предложений',
+                  ]}
+                  primaryButtonText="Записаться на демо"
+                  secondaryButtonText="Пробовать бесплатно"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С логотипом в правой карточке</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ComparisonSection ... rightLogoSrc="/logo.svg" rightLogoAlt="ДВИЖ" />`}</code></p>
+              <div class="-mx-10">
+                <ComparisonSection
+                  leftTitle="Другие решения"
+                  leftItems={[
+                    'Требует ручной настройки и поддержки',
+                    'Ограниченная аналитика по клиентам',
+                  ]}
+                  rightItems={[
+                    'Работает из коробки — минимум настроек',
+                    'Полная аналитика и отчётность в реальном времени',
+                  ]}
+                  primaryButtonText="Записаться на демо"
+                  secondaryButtonText="Пробовать бесплатно"
+                />
+              </div>
+            </div>
+
           </div>
         </div>
       )}

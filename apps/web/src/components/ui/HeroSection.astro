@@ -15,7 +15,6 @@
 import Form from './Form.astro'
 import FlutedGlassBg from './FlutedGlassBg.astro'
 import StatsSection from './StatsSection.astro'
-import HeroBadge from '../lab-new/HeroBadge.astro'
 
 interface StatItem {
   /** Основное значение (цифра или текст) */
@@ -29,8 +28,6 @@ interface StatItem {
 interface Props {
   /** Лейаут: default (с формой), split (Linear-style с кнопками) */
   layout?: 'default' | 'split'
-  /** Бейдж/надпись над заголовком (оранжевый) */
-  badge?: string
   /** Основной заголовок */
   title: string
   /** Описание под заголовком */
@@ -63,7 +60,6 @@ interface Props {
 
 const {
   layout = 'default',
-  badge,
   title,
   description,
   withForm = true,
@@ -96,9 +92,6 @@ const isSplit = layout === 'split'
       <div class="grid lg:grid-cols-2 gap-16 items-center py-24 lg:py-32">
         <!-- Левая колонка: бейдж и заголовок -->
         <div class="flex flex-col gap-9 order-2 lg:order-1">
-          {badge && (
-            <HeroBadge text={badge} />
-          )}
           <h1 class="text-h1 text-[#1b2226]">
             {title}
           </h1>
@@ -130,13 +123,6 @@ const isSplit = layout === 'split'
         <!-- Левая колонка: контент -->
         <div class:list={['flex flex-col justify-center gap-[52px] order-2 lg:order-1', withGradient ? 'pt-24 pb-16 lg:pt-0 lg:pb-0' : 'py-16 lg:py-0']}>
           <div class="flex flex-col gap-9">
-            <!-- Бейдж -->
-            {badge && (
-              <p class:list={['text-[18px] font-normal', withGradient ? 'text-brand-300' : 'text-brand']}>
-                {badge}
-              </p>
-            )}
-
             <!-- Заголовок и описание -->
             <div class="flex flex-col gap-8">
               <h1 class:list={['text-h1', withGradient ? 'text-white' : 'text-[#1b2226]']}>
