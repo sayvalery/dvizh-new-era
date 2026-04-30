@@ -26,6 +26,8 @@
  * />
  */
 
+import Button from './Button.astro'
+
 const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
 
 interface ButtonAction {
@@ -180,32 +182,18 @@ const privacyMain = privacyText
     {mode === 'buttons' && (
       <div class="mt-8 flex flex-wrap gap-2">
         {primaryButton && (
-          primaryButton.drawerPreset ? (
-            <button
-              x-data
-              @click={`$dispatch('open-drawer', { preset: '${primaryButton.drawerPreset}' })`}
-              class="inline-flex items-center justify-center rounded-[12px] px-6 py-3 text-btn-lg font-semibold text-white bg-brand hover:opacity-90 active:scale-[0.98] transition-all duration-200 cursor-pointer whitespace-nowrap"
-            >{primaryButton.label}</button>
-          ) : (
-            <a
-              href={primaryButton.href ?? '#'}
-              class="inline-flex items-center justify-center rounded-[12px] px-6 py-3 text-btn-lg font-semibold text-white bg-brand hover:opacity-90 active:scale-[0.98] transition-all duration-200 whitespace-nowrap"
-            >{primaryButton.label}</a>
-          )
+          <Button
+            variant="primary"
+            href={primaryButton.href}
+            drawerPreset={primaryButton.drawerPreset}
+          >{primaryButton.label}</Button>
         )}
         {secondaryButton && (
-          secondaryButton.drawerPreset ? (
-            <button
-              x-data
-              @click={`$dispatch('open-drawer', { preset: '${secondaryButton.drawerPreset}' })`}
-              class="inline-flex items-center justify-center rounded-[12px] px-6 py-3 text-btn-lg font-semibold text-white bg-gray-900 hover:bg-gray-800 active:scale-[0.98] transition-all duration-200 cursor-pointer whitespace-nowrap"
-            >{secondaryButton.label}</button>
-          ) : (
-            <a
-              href={secondaryButton.href ?? '#'}
-              class="inline-flex items-center justify-center rounded-[12px] px-6 py-3 text-btn-lg font-semibold text-white bg-gray-900 hover:bg-gray-800 active:scale-[0.98] transition-all duration-200 whitespace-nowrap"
-            >{secondaryButton.label}</a>
-          )
+          <Button
+            variant="dark"
+            href={secondaryButton.href}
+            drawerPreset={secondaryButton.drawerPreset}
+          >{secondaryButton.label}</Button>
         )}
       </div>
     )}
