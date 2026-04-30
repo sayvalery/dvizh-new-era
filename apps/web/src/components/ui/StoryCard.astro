@@ -102,6 +102,9 @@ const hasModal = Astro.slots.has('modal-body')
         )
       )}
 
+      <!-- Спейсер: растягивается если есть место, но минимум 64px -->
+      <div class="flex-1 min-h-16"></div>
+
       <!-- Нижняя часть с заголовком и PersonCard -->
       <div class:list={['flex flex-col gap-4 lg:gap-8', isActive && 'mt-auto']}>
         {titleHtml ? (
