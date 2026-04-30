@@ -1,29 +1,14 @@
 ---
 /**
- * LogoGrid — сетка логотипов клиентов/партнёров
+ * LogoGrid — бегущая строка логотипов клиентов/партнёров (marquee)
  *
  * @example
  * ```astro
- * // Без заголовка
  * <LogoGrid
  *   logos={[
- *     { src: "/partners/lsr.svg", alt: "ЛСР" },
- *     { src: "/partners/ava.svg", alt: "AVA" },
+ *     { src: "/partners/dark/lsr.svg", alt: "ЛСР" },
+ *     { src: "/partners/dark/a101.svg", alt: "A101" },
  *   ]}
- * />
- *
- * // С заголовком
- * <LogoGrid
- *   title="Нам доверяют 70+ застройщиков"
- *   logos={[...]}
- * />
- *
- * // С плашкой CTA внизу
- * <LogoGrid
- *   logos={[...]}
- *   ctaText="Over 2500 companies use our tools"
- *   ctaLabel="Read our customer stories →"
- *   ctaLink="#"
  * />
  * ```
  */
@@ -38,66 +23,106 @@ interface Logo {
 interface Props {
   /** Массив логотипов */
   logos: Logo[]
-  /** Заголовок над логотипами (опционально) */
-  title?: string
-  /** CSS класс для заголовка */
-  titleClass?: string
-  /** Текст в плашке внизу */
-  ctaText?: string
-  /** Текст ссылки в плашке */
-  ctaLabel?: string
-  /** Ссылка в плашке */
-  ctaLink?: string
-  /** Вариант оформления: light (белый фон) или dark (тёмный фон) */
-  variant?: 'light' | 'dark'
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const { logos, title, titleClass = '', ctaText, ctaLabel, ctaLink, variant = 'light', class: className = '' } = Astro.props
-const isDark = variant === 'dark'
-const hasCta = ctaText && ctaLabel
-
-// Подмена путей к тёмным логотипам
-const darkLogos = isDark ? logos.map(logo => ({
-  ...logo,
-  src: logo.src.replace(/^\/partners\//, '/partners/dark/')
-})) : logos
+const { logos, class: className = '' } = Astro.props
 ---
 
-<section class="bg-white py-24 sm:py-32">
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    {title && (
-      <h2 class="text-center text-4xl font-bold font-heading text-gray-900">
-        {title}
-      </h2>
-    )}
-    <div class:list={[
-      'grid items-center gap-x-8 gap-y-12',
-      title ? 'mx-auto mt-10 max-w-lg grid-cols-4 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 sm:gap-y-14 lg:mx-0 lg:max-w-none lg:grid-cols-5' : 'mx-auto grid-cols-4 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 sm:gap-y-14 lg:mx-0 lg:max-w-none lg:grid-cols-5'
-    ]}>
-      {darkLogos.map((logo) => (
-        <img
-          src={logo.src}
-          alt={logo.alt}
-          width="158"
-          height="48"
-          class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-          loading="lazy"
-        />
-      ))}
-    </div>
+<div class:list={['logo-grid-root', className]}>
+  <!-- Левый блюр -->
+  <div class="logo-grid-fade logo-grid-fade--left" aria-hidden="true"></div>
+  <!-- Правый блюр -->
+  <div class="logo-grid-fade logo-grid-fade--right" aria-hidden="true"></div>
 
-    {hasCta && (
-      <div class="mt-16 flex justify-center">
-        <p class="relative rounded-full bg-gray-50 px-4 py-1.5 text-sm/6 text-gray-600 ring-1 ring-inset ring-gray-900/5">
-          <span class="hidden md:inline">{ctaText}.</span>
-          <a href={ctaLink || '#'} class="font-semibold text-brand hover:text-brand-600">
-            <span aria-hidden="true" class="absolute inset-0"></span>
-            {ctaLabel}
-          </a>
-        </p>
-      </div>
-    )}
+  <!-- Набор 1 -->
+  <div class="logo-grid-set">
+    {logos.map(logo => (
+      <img
+        src={logo.src}
+        alt={logo.alt}
+        height="32"
+        class="logo-grid-img"
+        loading="lazy"
+        draggable="false"
+      />
+    ))}
   </div>
-</section>
+
+  <!-- Набор 2 — точная копия для бесшовного цикла -->
+  <div class="logo-grid-set" aria-hidden="true">
+    {logos.map(logo => (
+      <img
+        src={logo.src}
+        alt={logo.alt}
+        height="32"
+        class="logo-grid-img"
+        loading="lazy"
+        draggable="false"
+      />
+    ))}
+  </div>
+</div>
+
+<style>
+  .logo-grid-root {
+    --gap: 4rem;
+    display: flex;
+    overflow: hidden;
+    gap: var(--gap);
+    padding: 1.5rem 0;
+    position: relative;
+    user-select: none;
+  }
+
+  .logo-grid-fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8rem;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .logo-grid-fade--left {
+    left: 0;
+    background: linear-gradient(to right, white, transparent);
+  }
+
+  .logo-grid-fade--right {
+    right: 0;
+    background: linear-gradient(to left, white, transparent);
+  }
+
+  /* Каждый набор занимает минимум 100% ширины контейнера.
+     translateX(-100% - gap) сдвигает ровно на ширину одного набора,
+     и второй набор занимает его место — бесшовный loop. */
+  .logo-grid-set {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    min-width: 100%;
+    animation: logo-grid-scroll 30s linear infinite;
+    will-change: transform;
+  }
+
+  .logo-grid-img {
+    height: 2rem;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(45%);
+  }
+
+  @keyframes logo-grid-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-100% - var(--gap))); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-grid-set {
+      animation-play-state: paused;
+    }
+  }
+</style>

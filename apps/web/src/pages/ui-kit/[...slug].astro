@@ -33,6 +33,8 @@ import DeveloperBlock from '../../components/ui/DeveloperBlock.astro'
 import ModalCard from '../../components/ui/ModalCard.astro'
 import ModalSection from '../../components/ui/ModalSection.astro'
 import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
+import KeyFacts from '../../components/ui/KeyFacts.astro'
+import ComparisonSection from '../../components/ui/ComparisonSection.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -58,6 +60,8 @@ import developerBlockRaw from '../../components/ui/DeveloperBlock.astro?raw'
 import modalCardRaw from '../../components/ui/ModalCard.astro?raw'
 import modalSectionRaw from '../../components/ui/ModalSection.astro?raw'
 import successStoryBlockRaw from '../../components/ui/SuccessStoryBlock.astro?raw'
+import keyFactsRaw from '../../components/ui/KeyFacts.astro?raw'
+import comparisonSectionRaw from '../../components/ui/ComparisonSection.astro?raw'
 
 interface PropMeta {
   name: string
@@ -174,6 +178,8 @@ export function getStaticPaths() {
     { params: { slug: 'modal-card' }, props: { section: 'modal-card' } },
     { params: { slug: 'modal-section' }, props: { section: 'modal-section' } },
     { params: { slug: 'success-story-block' }, props: { section: 'success-story-block' } },
+    { params: { slug: 'key-facts' }, props: { section: 'key-facts' } },
+    { params: { slug: 'comparison' }, props: { section: 'comparison' } },
   ]
 }
 
@@ -211,6 +217,8 @@ const sections = [
   { slug: 'modal-card', label: 'ModalCard' },
   { slug: 'modal-section', label: 'ModalSection' },
   { slug: 'success-story-block', label: 'SuccessStoryBlock' },
+  { slug: 'key-facts', label: 'KeyFacts' },
+  { slug: 'comparison', label: 'ComparisonSection' },
 ]
 ---
 
@@ -2215,6 +2223,85 @@ const sections = [
                   personJobTitle: 'Крупнейший федеральный девелопер России',
                 },
               ]}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'key-facts' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">KeyFacts</h1>
+          <p class="text-gray-600 mb-4">
+            Нумерованные факты/метрики с вертикальной чертой. Заголовок опционален.
+            2–4 колонки. Контент «прибит» к низу каждой колонки.
+          </p>
+          <PropsTable props={parseSource(keyFactsRaw).props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 колонки с заголовком</p>
+              <KeyFacts
+                title="Зачем вам ипотечный калькулятор?"
+                items={[
+                  { value: '80% заявок', description: 'приходит в нерабочее время,<br>не теряйте их' },
+                  { value: '50% клиентов', description: 'заранее хотят рассчитать ежемесячный платеж' },
+                  { value: 'на 20% выше', description: 'конверсия в сделку, когда клиент знает доступный бюджет ипотеки' },
+                ]}
+              />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">4 колонки без заголовка</p>
+              <KeyFacts
+                cols={4}
+                items={[
+                  { value: '1,5 млн', description: 'заявок обработано через платформу' },
+                  { value: '75 из 100', description: 'крупнейших застройщиков России используют ДВИЖ' },
+                  { value: '40+ банков', description: 'подключено к единой системе скоринга' },
+                  { value: 'до 10 сек', description: 'заполнение ипотечной анкеты клиентом' },
+                ]}
+              />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">2 колонки</p>
+              <KeyFacts
+                cols={2}
+                title="Цифры говорят сами за себя"
+                items={[
+                  { value: '99,9% uptime', description: 'гарантированная доступность сервиса' },
+                  { value: '< 200 мс', description: 'среднее время ответа API' },
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'comparison' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">ComparisonSection</h1>
+          <p class="text-gray-600 mb-4">
+            Блок сравнения: левая (серая) колонка — рыночные решения, правая (тёмная) — ДВИЖ с CTA-кнопками.
+          </p>
+          <PropsTable props={parseSource(comparisonSectionRaw).props} class="mb-10" />
+          <div class="-mx-10">
+            <ComparisonSection
+              label="В чём разница"
+              title="Выбирайте лучшее"
+              leftTitle="Самописные и рыночные решения"
+              leftItems={[
+                'Необходимо вручную поддерживать актуальность ставок',
+                'Нельзя рассчитать комбо- и ипотеку с удорожанием стоимости',
+                'Нет возможности выделить наиболее выгодное предложение',
+                'Нет потенциала для апсейла клиентов',
+              ]}
+              rightItems={[
+                'Ипотечные ставки обновляются автоматически',
+                'Считает все виды ипотек: траншевую, комбо, с удорожанием, субсидированную, рассрочку',
+                'Меняет порядок ипотечных программ и показывает выгодные предложения',
+                'Увеличивает средний чек за счёт персональных предложений',
+              ]}
+              primaryButtonText="Записаться на демо"
+              secondaryButtonText="Пробовать бесплатно"
             />
           </div>
         </div>
