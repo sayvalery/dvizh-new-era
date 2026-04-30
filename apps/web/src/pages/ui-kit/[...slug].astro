@@ -34,6 +34,8 @@ import ModalCard from '../../components/ui/ModalCard.astro'
 import ModalSection from '../../components/ui/ModalSection.astro'
 import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
 import KeyFacts from '../../components/ui/KeyFacts.astro'
+import LogoGrid from '../../components/ui/LogoGrid.astro'
+import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
@@ -179,6 +181,7 @@ export function getStaticPaths() {
     { params: { slug: 'modal-section' }, props: { section: 'modal-section' } },
     { params: { slug: 'success-story-block' }, props: { section: 'success-story-block' } },
     { params: { slug: 'key-facts' }, props: { section: 'key-facts' } },
+    { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
     { params: { slug: 'comparison' }, props: { section: 'comparison' } },
   ]
 }
@@ -218,6 +221,7 @@ const sections = [
   { slug: 'modal-section', label: 'ModalSection' },
   { slug: 'success-story-block', label: 'SuccessStoryBlock' },
   { slug: 'key-facts', label: 'KeyFacts' },
+  { slug: 'logo-grid', label: 'LogoGrid' },
   { slug: 'comparison', label: 'ComparisonSection' },
 ]
 ---
@@ -2268,6 +2272,32 @@ const sections = [
                 },
               ]}
             />
+          </div>
+        </div>
+      )}
+
+      {section === 'logo-grid' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">LogoGrid</h1>
+          <p class="text-gray-600 mb-8">
+            Бегущая строка логотипов клиентов/партнёров (marquee). Бесшовный цикл из двух наборов.
+          </p>
+          <PropsTable props={parseSource(logoGridRaw).props} class="mb-10" />
+
+          <div>
+            <p class="text-sm font-medium text-gray-400 mb-4">Светлый фон</p>
+            <div class="-mx-10">
+              <LogoGrid
+                logos={[
+                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
+                  { src: '/partners/a101.svg', alt: 'А101' },
+                  { src: '/partners/ava.svg', alt: 'AVA' },
+                  { src: '/partners/glorax.svg', alt: 'Глоракс' },
+                  { src: '/partners/ganel.svg', alt: 'Гранель' },
+                  { src: '/partners/strana.svg', alt: 'Страна' },
+                ]}
+              />
+            </div>
           </div>
         </div>
       )}
