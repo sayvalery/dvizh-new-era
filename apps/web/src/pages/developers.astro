@@ -9,6 +9,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
 import DeveloperBlock from '../components/ui/DeveloperBlock.astro'
 import ModalSection from '../components/ui/ModalSection.astro'
+import ComparisonSection from '../components/ui/ComparisonSection.astro'
 ---
 
 <SiteLayout title="Для девелоперов" bodyClass="bg-background-primary">
@@ -111,6 +112,25 @@ import ModalSection from '../components/ui/ModalSection.astro'
       />
     </div>
   </section>
+
+  <!-- ComparisonSection -->
+  <ComparisonSection
+    title="Одно решение для всей сделки"
+    leftTitle="Без ДВИЖа"
+    leftItems={[
+      'Среднее одобрение меньше 60%',
+      'Много продуктов, ошибки при переносе данных',
+      'Менеджер теряет заявки и выполняет KPI по продажам',
+    ]}
+    rightItems={[
+      'Процент одобрения до 95%',
+      'Весь процесс в одном окне: от заявки до регистрации в Росреестре. Без ошибок и переплат',
+      'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейк с коллегами',
+    ]}
+    primaryButtonText="Записаться на демо"
+    primaryDrawerPreset="demo"
+    secondaryButtonText="Пробовать бесплатно"
+  />
 
   <!-- Form Closing -->
   <section class="py-20">
