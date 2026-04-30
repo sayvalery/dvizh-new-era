@@ -4,8 +4,9 @@ import ModalInlineForm from './ModalInlineForm.astro'
 /**
  * AdvantageCard — карточка преимущества с hover-эффектом и модальным окном
  *
- * Дефолт: фон background/secondary (`bg-background-secondary`).
- * Hover: оранжевый радиальный градиент + stat и иконка меняют цвет на brand.
+ * Дефолт: фон background/secondary (`bg-background-secondary`), курсив на стате только
+ *   на мобайле/планшете.
+ * Hover: градиентная картинка (`adv_card_bg.png`), все тексты становятся белыми, стат курсивный.
  * Клик: открывает модальное окно 50vw × 80vh с кнопками закрыть и раскрыть.
  *
  * @example
@@ -46,35 +47,42 @@ const { title, stat, label, expandHref, class: className = '' } = Astro.props
   <!-- Карточка -->
   <div
     class:list={[
-      'group relative flex flex-col overflow-hidden rounded-3xl bg-background-secondary p-4 xs:p-4 sm:p-6 md:p-6 lg:p-10 transition-all duration-300 min-h-[200px] sm:min-h-[240px] lg:min-h-[320px] h-full cursor-pointer',
+      'group relative flex flex-col overflow-hidden cursor-pointer h-full',
+      'rounded-[18px] sm:rounded-3xl',
+      'p-4 sm:p-6 lg:p-8',
+      'min-h-[220px] sm:min-h-[280px] lg:min-h-[360px]',
+      'bg-background-secondary',
       className
     ]}
     @click="open = true"
   >
-    <!-- Hover background -->
+
+    <!-- Hover background (градиент) -->
     <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true">
       <div class="absolute inset-0 bg-[url('/adv_card_bg.png')] bg-cover bg-center"></div>
     </div>
 
     <!-- Content -->
-    <div class="relative flex flex-1 flex-col gap-8 md:gap-16">
+    <div class="relative flex flex-1 flex-col justify-between">
+
       <!-- Top: title + arrow icon -->
-      <div class="flex flex-1 items-start justify-between gap-4">
+      <div class="flex items-start justify-between gap-3">
         <p class="text-medium-32 text-gray-900">{title}</p>
-        <svg class="shrink-0 w-6 h-6 md:w-8 md:h-8 text-gray-300 transition-colors duration-300 group-hover:text-brand" viewBox="20 4 28 28" fill="currentColor" aria-hidden="true">
-          <rect x="25.3254" y="4.09396" width="6.4" height="6.4" transform="rotate(45 25.3254 4.09396)"/>
-          <rect x="34.3764" y="4.09396" width="6.4" height="6.4" transform="rotate(45 34.3764 4.09396)"/>
-          <rect x="43.4274" y="4.09396" width="6.4" height="6.4" transform="rotate(45 43.4274 4.09396)"/>
-          <rect x="43.4274" y="13.1449" width="6.4" height="6.4" transform="rotate(45 43.4274 13.1449)"/>
-          <rect x="43.4274" y="22.1959" width="6.4" height="6.4" transform="rotate(45 43.4274 22.1959)"/>
+        <svg
+          class="shrink-0 w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-gray-400 transition-colors duration-300 group-hover:text-brand"
+          viewBox="0 0 21 32" fill="currentColor" aria-hidden="true"
+        >
+          <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
         </svg>
       </div>
 
       <!-- Bottom: stat + label -->
       <div>
-        <p class="text-h1 not-italic text-gray-900/40 transition-colors duration-300 group-hover:text-brand group-hover:italic">{stat}</p>
-        <p class="text-body-lg text-gray-400">{label}</p>
+        <!-- На мобайле/планшете — курсив по умолчанию, на десктопе — только при hover -->
+        <p class="text-h1 italic lg:not-italic text-gray-900/40 transition-colors duration-300 group-hover:text-brand-500 group-hover:italic">{stat}</p>
+        <p class="text-body-lg text-gray-500 transition-colors duration-300 group-hover:text-brand-500">{label}</p>
       </div>
+
     </div>
   </div>
 
@@ -104,7 +112,7 @@ const { title, stat, label, expandHref, class: className = '' } = Astro.props
         <!-- Кнопка закрыть — правый верхний угол -->
         <button
           @click.stop="open = false"
-          class="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+          class="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-500 hover:bg-gray-100"
           aria-label="Закрыть"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
@@ -116,10 +124,10 @@ const { title, stat, label, expandHref, class: className = '' } = Astro.props
         <div class="overflow-y-auto flex-1" @scroll="scrolled = true">
           <slot name="modal-body">
             <div class="p-10">
-              <p class="font-sans text-[32px] font-medium leading-none tracking-[-1px] text-gray-900">{title}</p>
+              <p class="text-medium-32 text-gray-900">{title}</p>
               <div class="mt-16">
-                <p class="font-heading text-[64px] font-bold leading-none tracking-[-1.2px] text-gray-900">{stat}</p>
-                <p class="mt-1 font-sans text-[18px] leading-[130%] tracking-[-0.5px] text-gray-400">{label}</p>
+                <p class="text-h1 text-gray-900">{stat}</p>
+                <p class="mt-1 text-body-lg text-gray-500">{label}</p>
               </div>
             </div>
           </slot>
@@ -134,7 +142,7 @@ const { title, stat, label, expandHref, class: className = '' } = Astro.props
           x-transition:leave="transition duration-200 ease-in"
           x-transition:leave-start="opacity-100 translate-y-0"
           x-transition:leave-end="opacity-0 translate-y-2"
-          class="shrink-0 bg-white border-t border-gray-100 px-8 py-6"
+          class="shrink-0 bg-white border-t border-gray-300 px-8 py-6"
           x-cloak
         >
           <ModalInlineForm />

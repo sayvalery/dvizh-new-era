@@ -1,0 +1,99 @@
+---
+/**
+ * SuccessStoryBlock — секция «истории успеха» с заголовком, кнопкой и сеткой карточек
+ *
+ * Использует StoryCard (variant="default") с поддержкой titleHtml для оранжевых выделений в заголовке карточки.
+ * PersonCard внутри карточки отображает название и описание компании.
+ *
+ * @example
+ * ```astro
+ * <SuccessStoryBlock
+ *   heading="70+ историй успеха"
+ *   buttonLabel="Получить демо"
+ *   stories={[
+ *     {
+ *       logo: '/partners/lsr.svg',
+ *       logoAlt: 'ЛСР',
+ *       titleHtml: 'Помогли <span class="text-brand">вырасти на 281%</span>',
+ *       personName: 'Группа ЛСР',
+ *       personJobTitle: 'Ведущий строительный холдинг',
+ *     }
+ *   ]}
+ * />
+ * ```
+ */
+
+import StoryCard from './StoryCard.astro'
+import Button from './Button.astro'
+
+interface StoryItem {
+  /** URL логотипа компании */
+  logo?: string
+  /** Alt логотипа */
+  logoAlt?: string
+  /** Заголовок карточки с поддержкой HTML (используй <span class="text-brand"> для выделений) */
+  titleHtml: string
+  /** Имя/название компании (в PersonCard) */
+  personName: string
+  /** Описание/должность (в PersonCard) */
+  personJobTitle?: string
+  /** Фото персоны */
+  personPhoto?: string
+}
+
+interface Props {
+  /** Заголовок секции */
+  heading?: string
+  /** Текст кнопки */
+  buttonLabel?: string
+  /** Пресет дровера для кнопки */
+  buttonPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** Карточки историй */
+  stories: StoryItem[]
+  /** Дополнительные классы */
+  class?: string
+}
+
+const {
+  heading = '70+ историй успеха на рынке застройщиков',
+  buttonLabel = 'Получить демо',
+  buttonPreset = 'demo',
+  stories,
+  class: className = '',
+} = Astro.props
+---
+
+<section class:list={['bg-background-primary py-24 lg:py-[120px]', className]}>
+  <div class="page-container">
+    <div class="flex flex-col gap-12">
+
+      <!-- Заголовок + кнопка -->
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+        <h2 class="text-h2 text-gray-900 w-[800px] max-w-full">{heading}</h2>
+        <div class="shrink-0">
+          <Button variant="dark" size="sm" drawerPreset={buttonPreset}>{buttonLabel}</Button>
+        </div>
+      </div>
+
+      <!-- Сетка карточек -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:h-[500px]">
+        {stories.map((story) => (
+          <StoryCard
+            variant="default"
+            title={story.titleHtml}
+            titleHtml={story.titleHtml}
+            logo={story.logo}
+            logoAlt={story.logoAlt}
+            person={{
+              name: story.personName,
+              jobTitle: story.personJobTitle,
+              photo: story.personPhoto ? { url: story.personPhoto } : undefined,
+            }}
+            class="h-full"
+          />
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
