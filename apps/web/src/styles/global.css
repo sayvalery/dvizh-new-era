@@ -198,18 +198,26 @@ h1, h2, h3, h4, h5, h6 {
 
   .text-h4 {
     font-family: 'Styrene A', system-ui, sans-serif;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 120%;
     letter-spacing: -2px;
   }
 
+  @media (min-width: 1024px) {
+    .text-h4 { font-size: 24px; }
+  }
+
   .text-h5 {
     font-family: 'Styrene A', system-ui, sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     line-height: 120%;
-    letter-spacing: -2px;
+    letter-spacing: -1px;
+  }
+
+  @media (min-width: 1024px) {
+    .text-h5 { font-size: 18px; }
   }
 
   .text-h6 {
