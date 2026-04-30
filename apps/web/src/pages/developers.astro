@@ -8,6 +8,7 @@ import LogoMarquee from '../components/lab-new/LogoMarquee.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
 import DeveloperBlock from '../components/ui/DeveloperBlock.astro'
+import ModalSection from '../components/ui/ModalSection.astro'
 ---
 
 <SiteLayout title="Для девелоперов" bodyClass="bg-background-primary">
@@ -78,6 +79,38 @@ import DeveloperBlock from '../components/ui/DeveloperBlock.astro'
       },
     ]}
   />
+
+  <!-- ModalSection — продукты по этапам сделки -->
+  <section class="py-16 lg:py-20">
+    <div class="page-container">
+      <ModalSection
+        heading="Добиваемся высоких конверсий на каждом этапе сделки"
+        groups={[
+          {
+            label: 'Лидогенерация',
+            cards: [
+              { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
+              { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
+              { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
+            ],
+          },
+          {
+            label: 'Управление заявками',
+            cards: [
+              { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
+              { title: 'Финансовый скоринг', description: 'Сократите число отказов в банках', href: '/scoring' },
+            ],
+          },
+          {
+            label: 'Регистрация собственности',
+            cards: [
+              { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
+            ],
+          },
+        ]}
+      />
+    </div>
+  </section>
 
   <!-- Form Closing -->
   <section class="py-20">

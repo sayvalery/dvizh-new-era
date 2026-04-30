@@ -1,0 +1,106 @@
+---
+/**
+ * ModalSection — секция продуктов, сгруппированных по этапам сделки
+ *
+ * Каждая группа: подзаголовок-категория + сетка ModalCard.
+ *
+ * Desktop (lg+): категория слева (500px), карточки справа в сетке 2 колонки.
+ * Mobile (< lg): категория сверху, карточки ниже в адаптивной сетке.
+ *
+ * Дизайн: Figma node 308:5042
+ *
+ * @example
+ * ```astro
+ * <ModalSection
+ *   heading="Добиваемся высоких конверсий на каждом этапе сделки"
+ *   groups={[
+ *     {
+ *       label: 'Лидогенерация',
+ *       cards: [
+ *         { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
+ *         { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
+ *         { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
+ *       ]
+ *     },
+ *     {
+ *       label: 'Управление заявками',
+ *       cards: [
+ *         { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
+ *         { title: 'Финансовый скоринг', description: 'Сократите число отказов в банках', href: '/scoring' },
+ *       ]
+ *     },
+ *     {
+ *       label: 'Регистрация собственности',
+ *       cards: [
+ *         { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
+ *       ]
+ *     },
+ *   ]}
+ * />
+ * ```
+ */
+
+import ModalCard from './ModalCard.astro'
+
+interface CardItem {
+  /** Заголовок карточки */
+  title: string
+  /** Подзаголовок / описание */
+  description?: string
+  /** Иконка или изображение 60×60 */
+  image?: { src: string; alt?: string }
+  /** URL — карточка становится ссылкой */
+  href?: string
+}
+
+interface Group {
+  /** Подпись категории (этап сделки) */
+  label: string
+  /** Карточки продуктов в группе */
+  cards: CardItem[]
+}
+
+interface Props {
+  /** Заголовок секции */
+  heading: string
+  /** Группы по этапам */
+  groups: Group[]
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const { heading, groups, class: className = '' } = Astro.props
+---
+
+<section class:list={['flex flex-col gap-10 lg:gap-12', className]}>
+
+  <!-- Заголовок -->
+  <h2 class="text-h2 text-gray-900 w-[800px] max-w-full">{heading}</h2>
+
+  <!-- Группы по этапам -->
+  <div class="flex flex-col gap-16">
+    {groups.map((group) => (
+      <div class="flex flex-col lg:flex-row lg:gap-6">
+
+        <!-- Подзаголовок категории -->
+        <div class="lg:w-[475px] lg:shrink-0 mb-4 lg:mb-0 lg:pt-3">
+          <span class="text-h4 text-gray-500 opacity-50">{group.label}</span>
+        </div>
+
+        <!-- Сетка карточек -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 flex-1 gap-6">
+          {group.cards.map((card) => (
+            <ModalCard
+              title={card.title}
+              description={card.description}
+              image={card.image}
+              href={card.href}
+            />
+          ))}
+        </div>
+
+      </div>
+    ))}
+  </div>
+
+</section>
