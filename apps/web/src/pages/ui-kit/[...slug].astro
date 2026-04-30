@@ -840,34 +840,78 @@ const sections = [
 
       {section === 'form-closing' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Form Closing</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">FormClosing</h1>
           <p class="text-gray-600 mb-4">
-            Панель в конце страницы с формой. Тёмный фон с градиентом, заголовок, описание, изображение справа.
+            Секция-завершение страницы. Два режима: <code>form</code> (поля + кнопка) и <code>buttons</code> (две кнопки вместо формы).
+            Пункты <code>items</code> отображаются с иконкой check circle.
           </p>
-          <PropsTable props={formClosingMeta.props} class="mb-10" />
+          <PropsTable props={parseSource(formClosingRaw).props} class="mb-10" />
 
           <div class="space-y-12">
+
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С изображением</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="Start using our app today" description="Ac euismod vel sit maecenas." image="/app-screenshot.png" />`}</code></p>
-              <FormClosing
-                preset="lead"
-                title="Начните пользоваться приложением сегодня"
-                description="Автоматизируйте рабочие процессы и повышайте эффективность команды."
-                image=""
-              />
+              <p class="text-sm font-medium text-gray-400 mb-1">mode="buttons" — кнопки вместо формы (по Figma)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing mode="buttons" title="..." items={[...]} primaryButton={{...}} secondaryButton={{...}} />`}</code></p>
+              <div class="-mx-10">
+                <FormClosing
+                  mode="buttons"
+                  title="Аудит вашего отдела продаж от аналитиков ДВИЖа"
+                  items={[
+                    'Выявим системные ошибки в процессах',
+                    'Покажем быстрые точки роста',
+                    'Предложим решения, которые подойдут именно вам',
+                  ]}
+                  primaryButton={{ label: 'Получить аудит', drawerPreset: 'demo' }}
+                  secondaryButton={{ label: 'Скачать пример', drawerPreset: 'lead' }}
+                />
+              </div>
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без изображения</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="Попробуйте ДВИЖ в деле" description="Оставьте заявку и мы свяжемся с вами." submitLabel="Получить демо" />`}</code></p>
-              <FormClosing
-                preset="lead"
-                title="Попробуйте ДВИЖ в деле"
-                description="Оставьте заявку и мы свяжемся с вами в ближайшее время."
-                submitLabel="Получить демо"
-              />
+              <p class="text-sm font-medium text-gray-400 mb-1">mode="form" с пунктами items (check circle)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="..." items={['Пункт 1', 'Пункт 2']} />`}</code></p>
+              <div class="-mx-10">
+                <FormClosing
+                  preset="lead"
+                  title="Не оставим вас одних"
+                  items={[
+                    'Покажем, как решали задачи у клиентов',
+                    'Рассчитаем ROMI и экономический эффект',
+                    'Разберём ваши задачи',
+                  ]}
+                  submitLabel="Получить демо"
+                />
+              </div>
             </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">mode="form" базовый (description)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="..." description="..." />`}</code></p>
+              <div class="-mx-10">
+                <FormClosing
+                  preset="lead"
+                  title="Попробуйте ДВИЖ в деле"
+                  description="Оставьте заявку — свяжемся в течение часа."
+                  submitLabel="Получить демо"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">С фоновым изображением (тёмный вариант)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="demo" bgImage="/..." formVariant="dark" />`}</code></p>
+              <div class="-mx-10">
+                <FormClosing
+                  preset="demo"
+                  title="Запишитесь на демо"
+                  description="Покажем платформу и ответим на все вопросы."
+                  bgImage="https://admin.dvizh.cc/api/media/file/form-image.jpg"
+                  formVariant="dark"
+                  textColor="text-white"
+                />
+              </div>
+            </div>
+
           </div>
         </div>
       )}

@@ -133,17 +133,18 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
   />
 
   <!-- Form Closing -->
-  <section class="py-20">
-    <div class="max-w-[1440px] mx-auto px-4">
+  <section class="py-16 lg:py-20">
+    <div class="page-container">
       <FormClosing
-        title="Не оставим вас одних"
-        description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
-        preset="lead"
-        submitLabel="Отправить заявку"
-        bgColor="bg-gray-100"
-        bgImage="https://admin.dvizh.cc/api/media/file/form-image.jpg"
-        showGradient={false}
-        privacyText="Нажимая кнопку «Отправить заявку», вы даёте согласие на обработку ваших персональных данных"
+        mode="buttons"
+        title="Аудит вашего отдела продаж от аналитиков ДВИЖа"
+        items={[
+          'Выявим системные ошибки в процессах',
+          'Покажем быстрые точки роста',
+          'Предложим решения, которые подойдут именно вам',
+        ]}
+        primaryButton={{ label: 'Получить аудит', drawerPreset: 'demo' }}
+        secondaryButton={{ label: 'Скачать пример', drawerPreset: 'lead' }}
       />
     </div>
   </section>
