@@ -83,7 +83,7 @@ const isFour = variant === 'four'
 <section class:list={['flex flex-col gap-10 lg:gap-16', className]}>
 
   {heading && (
-    <h2 class="font-heading text-3xl font-medium leading-none tracking-tight text-[#32393e] lg:text-5xl">
+    <h2 class="text-h2 text-gray-900">
       {heading}
     </h2>
   )}
@@ -101,11 +101,11 @@ const isFour = variant === 'four'
         <!-- Карточка 1: текст сверху-слева, изображение сверху-справа -->
         <div class="relative flex min-h-[240px] flex-1 flex-col overflow-hidden rounded-[32px] bg-background-secondary p-8 lg:rounded-[40px] lg:p-10">
           <div class="relative z-10 flex max-w-[48%] flex-col gap-3 lg:gap-4">
-            <h3 class="font-sans text-xl font-medium leading-tight tracking-tight text-gray-900 lg:text-2xl">
+            <h3 class="text-h4 text-gray-900">
               {card1.title}
             </h3>
             {card1.description && (
-              <p class="font-sans text-sm leading-[1.3] text-black/40 lg:text-base">
+              <p class="text-subhead text-black/40">
                 {card1.description}
               </p>
             )}
@@ -117,7 +117,7 @@ const isFour = variant === 'four'
               class="absolute right-0 top-0 h-full w-auto max-w-[55%] rounded-[20px] object-cover object-left lg:rounded-[24px]"
             />
           ) : (
-            <div class="absolute right-0 top-0 h-full w-[48%] bg-[#e5e3e0]" aria-hidden="true" />
+            <div class="absolute right-0 top-0 h-full w-[48%] bg-gray-200" aria-hidden="true" />
           )}
         </div>
 
@@ -130,14 +130,14 @@ const isFour = variant === 'four'
               class="absolute left-0 top-0 h-full w-auto max-w-[55%] rounded-[20px] object-cover object-right lg:rounded-[24px]"
             />
           ) : (
-            <div class="absolute left-0 top-0 h-full w-[48%] bg-[#e5e3e0]" aria-hidden="true" />
+            <div class="absolute left-0 top-0 h-full w-[48%] bg-gray-200" aria-hidden="true" />
           )}
           <div class="relative z-10 flex max-w-[48%] flex-col gap-3 lg:gap-4">
-            <h3 class="font-sans text-xl font-medium leading-tight tracking-tight text-gray-900 lg:text-2xl">
+            <h3 class="text-h4 text-gray-900">
               {card2.title}
             </h3>
             {card2.description && (
-              <p class="font-sans text-sm leading-[1.3] text-black/40 lg:text-base">
+              <p class="text-subhead text-black/40">
                 {card2.description}
               </p>
             )}
@@ -149,11 +149,11 @@ const isFour = variant === 'four'
       <!-- Правая колонка: один большой элемент -->
       <div class="relative flex min-h-[400px] flex-1 flex-col overflow-hidden rounded-[32px] bg-background-secondary p-8 lg:rounded-[40px] lg:p-10">
         <div class="relative z-10 flex flex-col gap-3 lg:gap-4">
-          <h3 class="font-sans text-xl font-medium leading-tight tracking-tight text-gray-900 lg:text-2xl">
+          <h3 class="text-h4 text-gray-900">
             {card3.title}
           </h3>
           {card3.description && (
-            <p class="font-sans text-sm leading-[1.3] text-black/40 lg:text-base">
+            <p class="text-subhead text-black/40">
               {card3.description}
             </p>
           )}
@@ -165,7 +165,7 @@ const isFour = variant === 'four'
             class="absolute bottom-0 left-0 w-full object-cover"
           />
         ) : (
-          <div class="absolute bottom-0 left-0 h-[55%] w-full bg-[#e5e3e0]" aria-hidden="true" />
+          <div class="absolute bottom-0 left-0 h-[55%] w-full bg-gray-200" aria-hidden="true" />
         )}
       </div>
 
