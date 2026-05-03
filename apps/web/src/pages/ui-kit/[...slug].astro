@@ -1212,14 +1212,16 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Bento Grid</h1>
           <p class="text-gray-600 mb-4">
-            Три карточки в bento-раскладке: два маленьких элемента слева (стек) + один большой справа.
-            Карточки содержат заголовок, описание и опциональное изображение.
+            Bento-раскладка карточек. <strong>variant="three"</strong> — два маленьких слева + один большой справа.
+            <strong>variant="four"</strong> — две строки с разными пропорциями (77/23 и 40/60).
+            Карточки поддерживают <code>backgroundImage</code> — растягивается на всю площадь.
           </p>
           <PropsTable props={bentoGridMeta.props} class="mb-10" />
 
-          <div class="space-y-12">
+          <div class="space-y-16">
+
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С заголовком секции</p>
+              <p class="text-sm font-medium text-gray-400 mb-4">variant="three" — с заголовком секции</p>
               <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid heading="..." items={[...3 items...]} />`}</code></p>
               <div class="-mx-10 bg-[#fbfbfb] px-10 py-12 rounded-2xl">
                 <BentoGrid
@@ -1243,27 +1245,33 @@ const sections = [
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без заголовка секции</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid items={[...3 items...]} />`}</code></p>
+              <p class="text-sm font-medium text-gray-400 mb-4">variant="four" — четыре карточки, пустые (текст + фон)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid variant="four" items={[...4 items...]} />`}</code></p>
               <div class="-mx-10 bg-[#fbfbfb] px-10 py-12 rounded-2xl">
                 <BentoGrid
+                  variant="four"
                   items={[
                     {
-                      title: "Автоматизация заявок",
-                      description: "Обрабатываем заявки без участия менеджера — 24/7"
+                      title: "Распознавание",
+                      description: "Определяем тип документа и вытаскиваем нужные поля автоматически"
                     },
                     {
-                      title: "Интеграции с банками",
-                      description: "Подключено более 20 банков-партнёров"
+                      title: "Дополняем профиль клиента",
+                      description: "Подтягиваем данные из сторонних источников — ФНС, ГИБДД, БКИ"
                     },
                     {
-                      title: "Аналитика и отчёты в реальном времени",
-                      description: "Мониторинг конверсий, отказов и скорости обработки на едином дашборде"
+                      title: "Антифрод",
+                      description: "Ищем признаки мошенничества и сверяем данные с внешними базами"
+                    },
+                    {
+                      title: "Верификация",
+                      description: "Проверяем документ на подлинность ещё до ручной обработки"
                     }
                   ]}
                 />
               </div>
             </div>
+
           </div>
         </div>
       )}
