@@ -59,7 +59,7 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
       {logoUrl ? (
         <img src={logoUrl} alt={logoAlt ?? ''} class="max-w-full max-h-full object-contain" />
       ) : (
-        <div class="w-full h-full bg-gray-200 rounded"></div>
+        <div class="w-full h-full bg-gray-300 rounded"></div>
       )}
     </div>
 
@@ -85,7 +85,7 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
       {photoUrl ? (
         <img src={photoUrl} alt={person.photo?.alt ?? person.name} class="w-6 h-6 rounded-full object-cover shrink-0" />
       ) : (
-        <div class="w-6 h-6 rounded-full bg-gray-200 shrink-0 flex items-center justify-center">
+        <div class="w-6 h-6 rounded-full bg-gray-300 shrink-0 flex items-center justify-center">
           <span class="text-xs text-gray-500 font-medium">{person.name[0]}</span>
         </div>
       )}
@@ -96,7 +96,7 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
       {photoUrl ? (
         <img src={photoUrl} alt={person.photo?.alt ?? person.name} class="w-6 h-6 rounded-full object-cover shrink-0" />
       ) : (
-        <div class="w-6 h-6 rounded-full bg-gray-200 shrink-0 flex items-center justify-center">
+        <div class="w-6 h-6 rounded-full bg-gray-300 shrink-0 flex items-center justify-center">
           <span class="text-xs text-gray-500 font-medium">{person.name[0]}</span>
         </div>
       )}
@@ -110,7 +110,7 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
         {photoUrl ? (
           <img src={photoUrl} alt={person.photo?.alt ?? person.name} class="w-10 h-10 rounded-full object-cover" />
         ) : (
-          <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+          <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
             <span class="text-base text-gray-500 font-medium">{person.name[0]}</span>
           </div>
         )}
@@ -120,7 +120,7 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
         {photoUrl ? (
           <img src={photoUrl} alt={person.photo?.alt ?? person.name} class="w-10 h-10 rounded-full object-cover" />
         ) : (
-          <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+          <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
             <span class="text-base text-gray-500 font-medium">{person.name[0]}</span>
           </div>
         )}
