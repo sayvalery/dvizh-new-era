@@ -28,6 +28,10 @@ import AdvantageCard from '../../components/ui/AdvantageCard.astro'
 import Island from '../../components/ui/Island.astro'
 import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
 import AaiHero from '../../components/ui/AaiHero.astro'
+import DeveloperBlock from '../../components/ui/DeveloperBlock.astro'
+import ModalCard from '../../components/ui/ModalCard.astro'
+import ModalSection from '../../components/ui/ModalSection.astro'
+import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
 import Button from '../../components/ui/Button.astro'
 import Input from '../../components/ui/Input.astro'
 import KeyFacts from '../../components/ui/KeyFacts.astro'
@@ -54,6 +58,10 @@ import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
 import islandRaw from '../../components/ui/Island.astro?raw'
 import aaiHeroRaw from '../../components/ui/AaiHero.astro?raw'
+import developerBlockRaw from '../../components/ui/DeveloperBlock.astro?raw'
+import modalCardRaw from '../../components/ui/ModalCard.astro?raw'
+import modalSectionRaw from '../../components/ui/ModalSection.astro?raw'
+import successStoryBlockRaw from '../../components/ui/SuccessStoryBlock.astro?raw'
 import buttonRaw from '../../components/ui/Button.astro?raw'
 import inputRaw from '../../components/ui/Input.astro?raw'
 import keyFactsRaw from '../../components/ui/KeyFacts.astro?raw'
@@ -178,6 +186,11 @@ export function getStaticPaths() {
     { params: { slug: 'story-card' }, props: { section: 'story-card' } },
     { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
     { params: { slug: 'timeline' }, props: { section: 'timeline' } },
+    { params: { slug: 'advantage-card' }, props: { section: 'advantage-card' } },
+    { params: { slug: 'developer-block' }, props: { section: 'developer-block' } },
+    { params: { slug: 'modal-card' }, props: { section: 'modal-card' } },
+    { params: { slug: 'modal-section' }, props: { section: 'modal-section' } },
+    { params: { slug: 'success-story-block' }, props: { section: 'success-story-block' } },
   ]
 }
 
@@ -216,6 +229,11 @@ const sections = [
   { slug: 'story-card', label: 'StoryCard' },
   { slug: 'stories-carousel', label: 'SuccessStoriesCarousel' },
   { slug: 'timeline', label: 'Timeline' },
+  { slug: 'advantage-card', label: 'AdvantageCard' },
+  { slug: 'developer-block', label: 'DeveloperBlock' },
+  { slug: 'modal-card', label: 'ModalCard' },
+  { slug: 'modal-section', label: 'ModalSection' },
+  { slug: 'success-story-block', label: 'SuccessStoryBlock' },
 ]
 ---
 
@@ -2136,6 +2154,243 @@ const sections = [
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {section === 'advantage-card' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">AdvantageCard</h1>
+          <p class="text-gray-600 mb-8">{advantageCardMeta.description}</p>
+
+          <PropsTable props={advantageCardMeta.props} class="mb-10" />
+
+          <div class="space-y-10">
+            {/* Базовые варианты */}
+            <div>
+              <h2 class="text-xl font-semibold mb-2">Базовые варианты</h2>
+              <p class="text-gray-500 text-sm mb-4">Три карточки в сетке — стандартное использование на главной и продуктовых страницах.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <AdvantageCard
+                  title="Закрывают до 26% больше сделок на том же трафике"
+                  stat="+26%"
+                  label="Сделок на том же трафике"
+                />
+                <AdvantageCard
+                  title="Сокращают время обработки заявки в 3 раза"
+                  stat="×3"
+                  label="Быстрее обрабатывают заявки"
+                />
+                <AdvantageCard
+                  title="Повышают конверсию ипотечных заявок"
+                  stat="+18%"
+                  label="Конверсия в выданные кредиты"
+                />
+              </div>
+            </div>
+
+            {/* Одиночная карточка */}
+            <div>
+              <h2 class="text-xl font-semibold mb-2">Одиночная карточка</h2>
+              <p class="text-gray-500 text-sm mb-4">Ограниченная ширина — hover-эффект и клик по карточке открывают модальное окно.</p>
+              <div class="max-w-sm">
+                <AdvantageCard
+                  title="Автоматизируют рутину и освобождают менеджеров для продаж"
+                  stat="−40%"
+                  label="Ручных операций"
+                />
+              </div>
+            </div>
+
+            {/* 2 колонки */}
+            <div>
+              <h2 class="text-xl font-semibold mb-2">2 колонки</h2>
+              <p class="text-gray-500 text-sm mb-4">Симметричная сетка для коротких списков преимуществ.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
+                <AdvantageCard
+                  title="Интеграции с ключевыми банками-партнёрами"
+                  stat="50+"
+                  label="Банков-партнёров"
+                />
+                <AdvantageCard
+                  title="Крупнейших застройщиков выбрали ДВИЖ"
+                  stat="75"
+                  label="Из ТОП-100 застройщиков"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'developer-block' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">DeveloperBlock</h1>
+          <p class="text-gray-600 mb-8">
+            Секция с авто-переключающимися пунктами слева (таймер + прогресс-бар) и изображением/слотом справа.
+            Высота фиксирована, список прибит к низу левой колонки.
+          </p>
+          <PropsTable props={parseSource(developerBlockRaw).props} class="mb-10" />
+
+          <div class="-mx-10">
+            <DeveloperBlock
+              heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
+              features={[
+                { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+                { title: '«Умный» скоринг покупателя', subtitle: 'До отправки в банк' },
+                { title: 'Встроенный ипотечный калькулятор', subtitle: 'На сайте застройщика' },
+                { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
+                { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
+                { title: 'Контроль «зависших» обращений 24/7' },
+              ]}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'success-story-block' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">SuccessStoryBlock</h1>
+          <p class="text-gray-600 mb-8">
+            Секция «истории успеха» с заголовком, кнопкой и сеткой из 3 карточек.
+            Заголовок карточки поддерживает HTML — используй <code>&lt;span class="text-brand"&gt;</code> для оранжевых выделений.
+          </p>
+          <PropsTable props={parseSource(successStoryBlockRaw).props} class="mb-10" />
+
+          <div class="-mx-10">
+            <SuccessStoryBlock
+              heading="70+ историй успеха на рынке застройщиков"
+              buttonLabel="Получить демо"
+              buttonPreset="demo"
+              stories={[
+                {
+                  logo: '/partners/lsr.svg',
+                  logoAlt: 'Группа ЛСР',
+                  titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
+                  personName: 'Группа ЛСР',
+                  personJobTitle: 'Один из ведущих строительных холдингов',
+                },
+                {
+                  logo: '/partners/strana.svg',
+                  logoAlt: 'ГК Точно',
+                  titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
+                  personName: 'ГК «Точно»',
+                  personJobTitle: 'Крупнейший девелопер Краснодарского края',
+                },
+                {
+                  logo: '/partners/a101.svg',
+                  logoAlt: 'ГК Самолет',
+                  titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
+                  personName: 'ГК «Самолет»',
+                  personJobTitle: 'Крупнейший федеральный девелопер России',
+                },
+              ]}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'modal-section' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">ModalSection</h1>
+          <p class="text-gray-600 mb-8">
+            Секция с группами карточек продуктов по этапам сделки.
+            Desktop (lg+): подзаголовок-категория слева (500px), карточки справа в сетке 2 колонки.
+            Mobile: подзаголовок сверху, карточки снизу.
+          </p>
+          <PropsTable props={parseSource(modalSectionRaw).props} class="mb-10" />
+
+          <div class="-mx-10">
+            <ModalSection
+              heading="Добиваемся высоких конверсий на каждом этапе сделки"
+              groups={[
+                {
+                  label: 'Лидогенерация',
+                  cards: [
+                    { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
+                    { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
+                    { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
+                  ],
+                },
+                {
+                  label: 'Управление заявками',
+                  cards: [
+                    { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
+                    { title: 'Финансовый скоринг', description: 'Сократите число отказов в банках', href: '/scoring' },
+                  ],
+                },
+                {
+                  label: 'Регистрация собственности',
+                  cards: [
+                    { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
+                  ],
+                },
+              ]}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'modal-card' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">ModalCard</h1>
+          <p class="text-gray-600 mb-2">
+            Компактная карточка модуля/продукта. Default — прозрачный фон, тёмный текст.
+            Hover — фон <code>background/secondary</code>, текст brand-orange. Может быть ссылкой (prop <code>href</code>).
+          </p>
+          <PropsTable props={parseSource(modalCardRaw).props} class="mb-10" />
+
+          <h2 class="text-xl font-semibold mb-4">Default (без изображения)</h2>
+          <p class="text-xs text-gray-400 mb-4">
+            <code>{`<ModalCard title="Ипотечный калькулятор" description="Собирайте заявки в нерабочее время" />`}</code>
+          </p>
+          <div class="flex flex-wrap gap-4 mb-10">
+            <ModalCard
+              title="Ипотечный калькулятор"
+              description="Собирайте заявки в нерабочее время"
+            />
+            <ModalCard
+              title="Электронная регистрация"
+              description="Сделки онлайн без визита в МФЦ"
+            />
+            <ModalCard
+              title="Скоринг покупателя"
+              description="Оценка до отправки в банк"
+            />
+          </div>
+
+          <h2 class="text-xl font-semibold mb-4">Со стоп-кадром (заглушка)</h2>
+          <p class="text-xs text-gray-400 mb-4">
+            <code>{`<ModalCard title="..." description="..." image={{ src: '/placeholder.png', alt: '...' }} />`}</code>
+          </p>
+          <div class="flex flex-wrap gap-4 mb-10">
+            <ModalCard
+              title="Ипотечный калькулятор"
+              description="Собирайте заявки в нерабочее время"
+              image={{ src: '', alt: 'заглушка' }}
+            />
+          </div>
+
+          <h2 class="text-xl font-semibold mb-4">Как ссылка (href)</h2>
+          <p class="text-xs text-gray-400 mb-4">
+            <code>{`<ModalCard title="..." description="..." href="/ipotechnyy-kalkulyator" />`}</code>
+          </p>
+          <div class="flex flex-wrap gap-4 mb-10">
+            <ModalCard
+              title="Ипотечный калькулятор"
+              description="Собирайте заявки в нерабочее время"
+              href="/ipotechnyy-kalkulyator"
+            />
+          </div>
+
+          <h2 class="text-xl font-semibold mb-4">Сетка карточек</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-2 max-w-2xl">
+            <ModalCard title="Ипотека" description="Цифровые заявки в 40+ банков" />
+            <ModalCard title="Э-регистрация" description="Сделки без МФЦ" />
+            <ModalCard title="Калькулятор" description="Заявки в нерабочее время" />
+            <ModalCard title="Скоринг" description="Оценка до банка" />
+            <ModalCard title="Витрина" description="Умный каталог квартир" />
+            <ModalCard title="Личный кабинет" description="Клиент всегда в курсе" />
           </div>
         </div>
       )}
