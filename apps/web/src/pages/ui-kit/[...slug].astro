@@ -6,24 +6,19 @@ import Form from '../../components/ui/Form.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
 import LogoGrid from '../../components/ui/LogoGrid.astro'
 import Drawer from '../../components/ui/Drawer.astro'
-import CTA from '../../components/ui/CTA.astro'
 import CTABlock from '../../components/blocks/CTABlock.astro'
 import ImageBlock from '../../components/blocks/ImageBlock.astro'
 import VideoBlock from '../../components/blocks/VideoBlock.astro'
 import QuoteBlock from '../../components/blocks/QuoteBlock.astro'
 import FormBlock from '../../components/blocks/FormBlock.astro'
 import RichTextBlock from '../../components/blocks/RichTextBlock.astro'
-import FeaturesGrid from '../../components/ui/FeaturesGrid.astro'
 import BentoGrid from '../../components/ui/BentoGrid.astro'
 import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 import HeroSection from '../../components/ui/HeroSection.astro'
 import MeshGradient from '../../components/ui/MeshGradient.astro'
-import StatsSection from '../../components/ui/StatsSection.astro'
 import Timeline from '../../components/ui/Timeline.astro'
 import BlogCard from '../../components/ui/BlogCard.astro'
-import SectionBlock from '../../components/ui/SectionBlock.astro'
 import PropsTable from '../../components/ui/PropsTable.astro'
-import GradientCTA from '../../components/ui/GradientCTA.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
 import Review from '../../components/ui/Review.astro'
@@ -46,17 +41,12 @@ import personCardRaw from '../../components/ui/PersonCard.astro?raw'
 import formRaw from '../../components/ui/Form.astro?raw'
 import formClosingRaw from '../../components/ui/FormClosing.astro?raw'
 import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
-import ctaRaw from '../../components/ui/CTA.astro?raw'
-import featuresGridRaw from '../../components/ui/FeaturesGrid.astro?raw'
 import storiesCarouselRaw from '../../components/ui/SuccessStoriesCarousel.astro?raw'
 import bentoGridRaw from '../../components/ui/BentoGrid.astro?raw'
 import heroSectionRaw from '../../components/ui/HeroSection.astro?raw'
 import meshGradientRaw from '../../components/ui/MeshGradient.astro?raw'
-import statsSectionRaw from '../../components/ui/StatsSection.astro?raw'
 import timelineRaw from '../../components/ui/Timeline.astro?raw'
 import blogCardRaw from '../../components/ui/BlogCard.astro?raw'
-import sectionBlockRaw from '../../components/ui/SectionBlock.astro?raw'
-import gradientCTARaw from '../../components/ui/GradientCTA.astro?raw'
 import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
 import productCardRaw from '../../components/ui/ProductCard.astro?raw'
 import reviewRaw from '../../components/ui/Review.astro?raw'
@@ -136,17 +126,12 @@ const personCardMeta = parseSource(personCardRaw)
 const formMeta = parseSource(formRaw)
 const formClosingMeta = parseSource(formClosingRaw)
 const logoGridMeta = parseSource(logoGridRaw)
-const ctaMeta = parseSource(ctaRaw)
-const featuresGridMeta = parseSource(featuresGridRaw)
 const storiesCarouselMeta = parseSource(storiesCarouselRaw)
 const bentoGridMeta = parseSource(bentoGridRaw)
 const heroSectionMeta = parseSource(heroSectionRaw)
 const meshGradientMeta = parseSource(meshGradientRaw)
-const statsSectionMeta = parseSource(statsSectionRaw)
 const timelineMeta = parseSource(timelineRaw)
 const blogCardMeta = parseSource(blogCardRaw)
-const sectionBlockMeta = parseSource(sectionBlockRaw)
-const gradientCTAMeta = parseSource(gradientCTARaw)
 const blogCardsMeta = parseSource(blogCardsRaw)
 const productCardMeta = parseSource(productCardRaw)
 const reviewMeta = parseSource(reviewRaw)
@@ -174,13 +159,10 @@ export function getStaticPaths() {
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
-    { params: { slug: 'cta' }, props: { section: 'cta' } },
     { params: { slug: 'comparison' }, props: { section: 'comparison' } },
     { params: { slug: 'drawer' }, props: { section: 'drawer' } },
-    { params: { slug: 'features' }, props: { section: 'features' } },
     { params: { slug: 'form-closing' }, props: { section: 'form-closing' } },
     { params: { slug: 'forms' }, props: { section: 'forms' } },
-    { params: { slug: 'gradient-cta' }, props: { section: 'gradient-cta' } },
     { params: { slug: 'hero' }, props: { section: 'hero' } },
     { params: { slug: 'input' }, props: { section: 'input' } },
     { params: { slug: 'island' }, props: { section: 'island' } },
@@ -193,9 +175,7 @@ export function getStaticPaths() {
     { params: { slug: 'product-card' }, props: { section: 'product-card' } },
     { params: { slug: 'product-card-review' }, props: { section: 'product-card-review' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
-    { params: { slug: 'section-block' }, props: { section: 'section-block' } },
     { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
-    { params: { slug: 'stats' }, props: { section: 'stats' } },
     { params: { slug: 'story-card' }, props: { section: 'story-card' } },
     { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
     { params: { slug: 'timeline' }, props: { section: 'timeline' } },
@@ -217,13 +197,10 @@ const sections = [
   { slug: 'blogcard', label: 'BlogCard' },
   { slug: 'blog-cards', label: 'BlogCards' },
   { slug: 'buttons', label: 'Button' },
-  { slug: 'cta', label: 'CTA' },
   { slug: 'comparison', label: 'ComparisonSection' },
   { slug: 'drawer', label: 'Drawer' },
-  { slug: 'features', label: 'FeaturesGrid' },
   { slug: 'form-closing', label: 'FormClosing' },
   { slug: 'forms', label: 'Form' },
-  { slug: 'gradient-cta', label: 'GradientCTA' },
   { slug: 'hero', label: 'HeroSection' },
   { slug: 'input', label: 'Input' },
   { slug: 'island', label: 'Island' },
@@ -236,9 +213,7 @@ const sections = [
   { slug: 'product-card', label: 'ProductCard' },
   { slug: 'product-card-review', label: 'Review' },
   { slug: 'product-section', label: 'ProductSectionNew' },
-  { slug: 'section-block', label: 'SectionBlock' },
   { slug: 'side-menu', label: 'SideMenu' },
-  { slug: 'stats', label: 'StatsSection' },
   { slug: 'story-card', label: 'StoryCard' },
   { slug: 'stories-carousel', label: 'SuccessStoriesCarousel' },
   { slug: 'timeline', label: 'Timeline' },
@@ -967,148 +942,6 @@ const sections = [
           </div>
         </div>
       )}
-      {section === 'cta' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">CTA</h1>
-          <p class="text-gray-600 mb-4">
-            Призыв к действию. Заголовок, описание и кнопка. Три варианта: dark, light, split.
-          </p>
-<PropsTable props={ctaMeta.props} class="mb-8" />
-
-          <!-- Alpine Playground -->
-          <div class="mb-12">
-            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Playground</p>
-            <div
-              x-data="{
-                variant: 'dark',
-                title: 'Бонус от ДВИЖа',
-                description: 'Скачайте пример идеального отчета ипотечного отдела',
-                buttonText: 'Посмотреть демо',
-                badge: 'Award winning'
-              }"
-              class="grid lg:grid-cols-[260px_1fr] border rounded-xl overflow-hidden"
-            >
-              <!-- Controls -->
-              <div class="p-4 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-200 space-y-3">
-                <div>
-                  <label class="text-xs text-gray-500 block mb-1">variant</label>
-                  <select x-model="variant" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm bg-white">
-                    <option value="dark">dark</option>
-                    <option value="light">light</option>
-                    <option value="split">split</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="text-xs text-gray-500 block mb-1">title</label>
-                  <input x-model="title" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
-                </div>
-                <div>
-                  <label class="text-xs text-gray-500 block mb-1">description</label>
-                  <textarea x-model="description" rows="2" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm"></textarea>
-                </div>
-                <div>
-                  <label class="text-xs text-gray-500 block mb-1">buttonText</label>
-                  <input x-model="buttonText" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
-                </div>
-                <div x-show="variant === 'split'" x-transition>
-                  <label class="text-xs text-gray-500 block mb-1">badge</label>
-                  <input x-model="badge" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
-                </div>
-              </div>
-
-              <!-- Preview -->
-              <div class="p-6 bg-white min-h-[200px] flex items-center">
-                <!-- Dark / Light -->
-                <section
-                  x-show="variant !== 'split'"
-                  :class="variant === 'dark' ? 'bg-[#3a3a3a]' : 'bg-indigo-100'"
-                  class="rounded-[31px] w-full"
-                >
-                  <div class="mx-auto max-w-7xl px-6 py-10 lg:flex lg:items-center lg:justify-between lg:px-8 lg:py-10">
-                    <div class="flex items-center gap-7">
-                      <div class="w-[94px] h-[95px] flex items-center justify-center rounded-xl bg-white/10 shrink-0">
-                        <svg class="w-12 h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h2 :class="variant === 'dark' ? 'text-white' : 'text-gray-900'" class="max-w-2xl text-2xl font-semibold sm:text-4xl" x-text="title"></h2>
-                        <p x-show="description" :class="variant === 'dark' ? 'text-[#d3d3d3]' : 'text-gray-600'" class="mt-2 text-base max-w-lg" x-text="description"></p>
-                      </div>
-                    </div>
-                    <div class="mt-8 flex items-center lg:mt-0 lg:shrink-0">
-                      <button :class="variant === 'dark' ? 'bg-brand hover:bg-brand-600' : 'bg-indigo-600 hover:bg-indigo-500'" class="rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors cursor-pointer" x-text="buttonText"></button>
-                    </div>
-                  </div>
-                </section>
-
-                <!-- Split -->
-                <section x-show="variant === 'split'" class="relative bg-white rounded-[31px] overflow-hidden w-full border">
-                  <div class="relative h-80 overflow-hidden bg-gray-200 md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2"></div>
-                  <div class="relative mx-auto max-w-7xl py-16 lg:px-8 lg:py-24">
-                    <div class="pl-6 pr-6 md:ml-auto md:w-2/3 md:pl-16 lg:w-1/2 lg:pl-24 lg:pr-0 xl:pl-32">
-                      <p x-show="badge" class="text-base/7 font-semibold text-brand" x-text="badge"></p>
-                      <h2 class="mt-2 text-3xl font-semibold text-gray-900 sm:text-4xl" x-text="title"></h2>
-                      <p x-show="description" class="mt-6 text-base/7 text-gray-600" x-text="description"></p>
-                      <div class="mt-8">
-                        <button class="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-600 cursor-pointer" x-text="buttonText"></button>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Тёмный вариант (как в Pencil)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA title="Бонус от ДВИЖа" description="Скачайте пример идеального отчета ипотечного отдела" buttonText="Посмотреть демо" buttonHref="#"/>`}</code></p>
-              <CTA
-                title="Бонус от ДВИЖа"
-                description="Скачайте пример идеального отчета ипотечного отдела"
-                buttonText="Посмотреть демо"
-                buttonHref="#"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Светлый вариант (Tailwind Plus)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA variant="light" title="Ready to dive in?" description="Start your free trial today." buttonText="Get started" buttonHref="#"/>`}</code></p>
-              <CTA
-                variant="light"
-                title="Ready to dive in?"
-                description="Start your free trial today."
-                buttonText="Get started"
-                buttonHref="#"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без описания</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA title="Готовы начать?" buttonText="Начать" buttonHref="#"/>`}</code></p>
-              <CTA
-                title="Готовы начать?"
-                buttonText="Начать"
-                buttonHref="#"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Split — серый фон слева, контент справа</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA variant="split" badge="Award winning" title="We're here to help" description="Lorem ipsum." buttonText="Get started" buttonHref="#" />`}</code></p>
-              <CTA
-                variant="split"
-                badge="Award winning support"
-                title="We're here to help"
-                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                buttonText="Visit the help center"
-                buttonHref="#"
-              />
-            </div>
-          </div>
-        </div>
-      )}
 
       {section === 'comparison' && (
         <div>
@@ -1312,103 +1145,6 @@ const sections = [
               }} />
             </div>
 
-          </div>
-        </div>
-      )}
-      {section === 'features' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Features Grid</h1>
-          <p class="text-gray-600 mb-4">
-            Секция с заголовком, описанием, списком фичей с иконками и изображением.
-          </p>
-          <PropsTable props={featuresGridMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Основной вариант — с изображением</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FeaturesGrid badge="..." title="..." description="..." features={[...]} image="..." />`}</code></p>
-              <div class="-mx-10">
-                <FeaturesGrid
-                  badge="Для банков и девелоперов"
-                  title="Полный цикл цифровой ипотеки"
-                  description="Единая платформа для автоматизации всего процесса ипотечного кредитования — от заявки до регистрации."
-                  features={[
-                    {
-                      icon: 'upload',
-                      title: 'Быстрый старт',
-                      description: 'Интеграция через API за 2 недели. Полная автоматизация сбора документов и скоринга.'
-                    },
-                    {
-                      icon: 'lock',
-                      title: 'Безопасность данных',
-                      description: 'Соответствие требованиям ЦБ РФ и ФЗ-152. Шифрование и защита персональных данных.'
-                    },
-                    {
-                      icon: 'database',
-                      title: 'Единая база знаний',
-                      description: 'Актуальные ставки банков, программы льготной ипотеки и калькулятор расчёта платежей.'
-                    }
-                  ]}
-                  image=""
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без badge и описания</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FeaturesGrid title="..." features={[...]} />`}</code></p>
-              <div class="border rounded-xl p-6">
-                <FeaturesGrid
-                  title="Минималистичный вариант"
-                  features={[
-                    { icon: 'upload', title: 'Быстрая интеграция', description: 'API за 2 недели' },
-                    { icon: 'lock', title: 'Безопасность', description: 'ФЗ-152, стандарты ЦБ' },
-                  ]}
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Доступные иконки</p>
-              <div class="flex gap-4">
-                <div class="flex items-center gap-2 p-3 border rounded-lg">
-                  <svg class="size-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M5.5 17a4.5 4.5 0 0 1-1.44-8.765 4.5 4.5 0 0 1 8.302-3.046 3.5 3.5 0 0 1 4.504 4.272A4 4 0 0 1 15 17H5.5Zm3.75-2.75a.75.75 0 0 0 1.5 0V9.66l1.95 2.1a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 1 0 1.1 1.02l1.95-2.1v4.59Z" clip-rule="evenodd"/>
-                  </svg>
-                  <span class="text-sm">upload</span>
-                </div>
-                <div class="flex items-center gap-2 p-3 border rounded-lg">
-                  <svg class="size-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd"/>
-                  </svg>
-                  <span class="text-sm">lock</span>
-                </div>
-                <div class="flex items-center gap-2 p-3 border rounded-lg">
-                  <svg class="size-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M4.632 3.533A2 2 0 0 1 6.577 2h6.846a2 2 0 0 1 1.945 1.533l1.976 8.234A3.489 3.489 0 0 0 16 11.5H4c-.476 0-.93.095-1.344.267l1.976-8.234Z M4 13a2 2 0 1 0 0 4h12a2 2 0 1 0 0-4H4Zm11.24 2a.75.75 0 0 1 .75-.75H16a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75h-.01a.75.75 0 0 1-.75-.75V15Zm-2.25-.75a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 0 0 .75-.75V15a.75.75 0 0 0-.75-.75h-.01Z"/>
-                  </svg>
-                  <span class="text-sm">database</span>
-                </div>
-              </div>
-              <p class="text-xs text-gray-400 mt-3">Можно добавить свой SVG path в проп icon</p>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Тёмная тема</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FeaturesGrid variant="dark" ... />`}</code></p>
-              <div class="-mx-10">
-                <FeaturesGrid
-                  variant="dark"
-                  badge="Тёмная тема"
-                  title="Работает в тёмном режиме"
-                  description="Принудительная тёмная тема через prop variant."
-                  features={[
-                    { icon: 'upload', title: 'Быстрая интеграция', description: 'API за 2 недели' },
-                    { icon: 'lock', title: 'Безопасность', description: 'ФЗ-152, стандарты ЦБ' },
-                  ]}
-                />
-              </div>
-            </div>
           </div>
         </div>
       )}
@@ -1722,57 +1458,6 @@ const sections = [
           </div>
         </div>
       )}
-      {section === 'stats' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Stats Section</h1>
-          <p class="text-gray-600 mb-4">
-            Секция с метриками или преимуществами в виде сетки.
-          </p>
-          <PropsTable props={statsSectionMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С заголовком</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<StatsSection title="Девелоперы с ДВИЖом" items={[...]} />`}</code></p>
-              <StatsSection
-                title="Девелоперы с ДВИЖом"
-                cols={4}
-                items={[
-                  { label: 'Сократили количество отказов по ипотеке' },
-                  { label: 'Перестали терять сделки из-за клиентов с низким КР' },
-                  { label: 'Ускорили заполнение анкеты до 10 секунд' },
-                  { label: 'Стали закрывать больше сделок без роста штата' },
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С метриками (цифры)</p>
-              <StatsSection
-                cols={3}
-                items={[
-                  { value: '44 million', label: 'Transactions every 24 hours' },
-                  { value: '$119 trillion', label: 'Assets under holding' },
-                  { value: '46,000', label: 'New users annually' },
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С преимуществами (без заголовка)</p>
-              <StatsSection
-                cols={4}
-                items={[
-                  { label: 'Сократили количество отказов по ипотеке' },
-                  { label: 'Перестали терять сделки из-за клиентов с низким КР' },
-                  { label: 'Ускорили заполнение анкеты до 10 секунд' },
-                  { label: 'Стали закрывать больше сделок без роста штата' },
-                ]}
-              />
-            </div>
-          </div>
-        </div>
-      )}
 
       {section === 'timeline' && (
         <div>
@@ -1874,51 +1559,6 @@ const sections = [
         </div>
       )}
 
-      {section === 'section-block' && (
-        <div>
-          <h1 class="text-3xl font-bold mb-8">Section Block</h1>
-          <p class="text-gray-600 mb-10">
-            Секция с меню слева и контентом справа. Серый фон с заголовком, placeholder для контента и кнопками.
-          </p>
-
-          <SectionBlock
-            title="Поможем перевыполнить план продаж на том же трафике"
-            sections={[
-              { title: "Цифровая ипотека", active: true, href: "#" },
-              { title: "Ипотечный калькулятор", href: "#" },
-              { title: "Финансовый скоринг", href: "#" },
-              { title: "Электронная регистрация", href: "#" }
-            ]}
-            descriptions={[
-              { text: "До 96% одобрения" },
-              { text: "Единая анкета в 40+ банков" },
-              { text: "Моментальное заполнение анкеты через Госуслуги" },
-              { text: "Готовые интеграции с CRM" },
-              { text: "Анализ работы менеджеров" }
-            ]}
-            buttons={[
-              { label: "Связаться с нами", href: "#" },
-              { label: "Запросить демо", href: "#" }
-            ]}
-          />
-        </div>
-      )}
-      {section === 'gradient-cta' && (
-        <div>
-          <h1 class="text-3xl font-bold mb-8">Gradient CTA</h1>
-          <p class="text-gray-600 mb-10">
-            CTA-секция с градиентным фоном и изображением. Базируется на компоненте из Tailwind UI.
-          </p>
-
-          <GradientCTA
-            title="Boost your productivity. Start using our app today."
-            description="Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla."
-            primaryButton={{ label: "Get started", href: "#" }}
-            secondaryButton={{ label: "Learn more", href: "#" }}
-            image="https://tailwindcss.com/plus-assets/img/component-images/dark-project-app-screenshot.png"
-          />
-        </div>
-      )}
       {section === 'blog-cards' && (
         <div>
           <h1 class="text-3xl font-bold mb-8">Blog Cards</h1>
