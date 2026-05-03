@@ -47,14 +47,18 @@ interface Props {
   variant?: 'active' | 'default'
   backgroundImage?: string
   title: string
+  /** HTML-заголовок с поддержкой тегов (например, <span class="text-brand">выделение</span>) */
+  titleHtml?: string
   person: Person
   /** URL логотипа компании (альтернатива слоту logo) */
   logo?: string
   /** Alt-текст логотипа */
   logoAlt?: string
+  /** Дополнительные классы для карточки (например переопределить высоту) */
+  class?: string
 }
 
-const { variant = 'active', backgroundImage, title, person, logo, logoAlt = 'Logo' } = Astro.props
+const { variant = 'active', backgroundImage, title, titleHtml, person, logo, logoAlt = 'Logo', class: className = '' } = Astro.props
 
 const isActive = variant === 'active'
 const hasModal = Astro.slots.has('modal-body')
@@ -70,30 +74,44 @@ const hasModal = Astro.slots.has('modal-body')
   <!-- Карточка -->
   <div
     class:list={[
-      'w-full rounded-[18px] overflow-hidden relative aspect-[4/3] md:aspect-square flex flex-col',
-      isActive ? 'bg-cover bg-center' : 'bg-gray-100',
-      hasModal ? 'cursor-pointer' : ''
+      'w-full rounded-[18px] overflow-hidden relative flex flex-col',
+      !className && 'aspect-[4/3] md:aspect-square',
+      isActive ? 'bg-cover bg-center' : 'bg-background-secondary',
+      hasModal ? 'cursor-pointer' : '',
+      className,
     ]}
     style={isActive && backgroundImage ? `background-image: url(${backgroundImage})` : ''}
     @click={hasModal ? 'open = true' : ''}
   >
-    <div class="p-4 lg:p-8 flex flex-col h-full relative">
-      <!-- Логотип компании (слот или prop) -->
+    <div class:list={['p-4 lg:p-8 flex flex-col h-full relative', !isActive && 'justify-between']}>
+
+      <!-- Логотип: в потоке (default) или абсолютный (active) -->
       {(Astro.slots.has('logo') || logo) && (
-        <div class="absolute top-4 left-4 right-4 lg:top-8 lg:left-8 lg:right-8 flex items-start">
-          {Astro.slots.has('logo') ? (
-            <slot name="logo" />
-          ) : (
-            <img src={logo} alt={logoAlt} class="max-h-8 w-auto object-contain" />
-          )}
-        </div>
+        isActive ? (
+          <div class="absolute top-4 left-4 right-4 lg:top-8 lg:left-8 lg:right-8 flex items-start">
+            {Astro.slots.has('logo') ? <slot name="logo" /> : (
+              <img src={logo} alt={logoAlt} class="max-h-8 w-auto object-contain" />
+            )}
+          </div>
+        ) : (
+          <div class="self-start inline-flex items-center bg-white/[0.60] backdrop-blur-[8px] rounded-[40px] px-5 py-2.5 ring-1 ring-white/50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)]">
+            {Astro.slots.has('logo') ? <slot name="logo" /> : (
+              <img src={logo} alt={logoAlt} class="h-5 w-auto object-contain" />
+            )}
+          </div>
+        )
       )}
 
+      <!-- Спейсер: растягивается если есть место, но минимум 64px -->
+      <div class="flex-1 min-h-16"></div>
+
       <!-- Нижняя часть с заголовком и PersonCard -->
-      <div class="mt-auto flex flex-col gap-4 lg:gap-8">
-        <h3 class:list={['text-h3', isActive ? 'text-white' : 'text-gray-900']}>
-          {title}
-        </h3>
+      <div class:list={['flex flex-col gap-4 lg:gap-8', isActive && 'mt-auto']}>
+        {titleHtml ? (
+          <h3 class:list={['text-h3', isActive ? 'text-white' : 'text-gray-900']} set:html={titleHtml} />
+        ) : (
+          <h3 class:list={['text-h3', isActive ? 'text-white' : 'text-gray-900']}>{title}</h3>
+        )}
 
         <PersonCard person={person} theme={isActive ? 'dark' : 'light'} />
       </div>
