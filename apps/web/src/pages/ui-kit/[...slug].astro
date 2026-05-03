@@ -1114,8 +1114,9 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">ComparisonSection</h1>
           <p class="text-gray-600 mb-4">
-            Блок сравнения: левая (серая) колонка с иконками «минус» — рыночные решения,
-            правая (тёмная) — логотип + иконки «чек» + CTA-кнопки. Количество пунктов произвольное.
+            Блок сравнения: два варианта. <strong>default</strong> — левая колонка с иконками «минус»,
+            правая — иконки «чек» + CTA-кнопки. <strong>prices</strong> — строки «название → цена»
+            без кнопок, с опциональным тултипом.
           </p>
           <PropsTable props={comparisonMeta.props} class="mb-10" />
 
@@ -1142,7 +1143,7 @@ const sections = [
                     'Увеличивает средний чек за счёт персональных предложений',
                   ]}
                   primaryButtonText="Записаться на демо"
-                  secondaryButtonText="Пробовать бесплатно"
+                  secondaryButtonText="Попробовать бесплатно"
                 />
               </div>
             </div>
@@ -1162,7 +1163,24 @@ const sections = [
                     'Полная аналитика и отчётность в реальном времени',
                   ]}
                   primaryButtonText="Записаться на демо"
-                  secondaryButtonText="Пробовать бесплатно"
+                  secondaryButtonText="Попробовать бесплатно"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">variant="prices" — ценовое сравнение</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ComparisonSection variant="prices" leftTitle="Без ДВИЖа" priceRows={[...]} />`}</code></p>
+              <div class="-mx-10">
+                <ComparisonSection
+                  variant="prices"
+                  label="Стоимость"
+                  title="Дешевле на каждом этапе"
+                  leftTitle="Без ДВИЖа"
+                  priceRows={[
+                    { label: 'Регистрация', tooltip: 'Стоимость услуги сервиса регистрации', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
+                    { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
+                  ]}
                 />
               </div>
             </div>
