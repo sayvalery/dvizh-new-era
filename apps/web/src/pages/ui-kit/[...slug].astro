@@ -37,6 +37,9 @@ import KeyFacts from '../../components/ui/KeyFacts.astro'
 import LogoGrid from '../../components/ui/LogoGrid.astro'
 import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
+import ReviewFull from '../../components/ui/ReviewFull.astro'
+import TextImageBlock from '../../components/ui/TextImageBlock.astro'
+import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -64,6 +67,9 @@ import modalSectionRaw from '../../components/ui/ModalSection.astro?raw'
 import successStoryBlockRaw from '../../components/ui/SuccessStoryBlock.astro?raw'
 import keyFactsRaw from '../../components/ui/KeyFacts.astro?raw'
 import comparisonSectionRaw from '../../components/ui/ComparisonSection.astro?raw'
+import reviewFullRaw from '../../components/ui/ReviewFull.astro?raw'
+import textImageBlockRaw from '../../components/ui/TextImageBlock.astro?raw'
+import storiesCarouselRaw from '../../components/ui/SuccessStoriesCarousel.astro?raw'
 
 interface PropMeta {
   name: string
@@ -144,6 +150,9 @@ const productCardMeta = parseSource(productCardRaw)
 const productCardReviewMeta = parseSource(productCardReviewRaw)
 const productSectionMeta = parseSource(productSectionRaw)
 const aaiHeroMeta = parseSource(aaiHeroRaw)
+const reviewFullMeta = parseSource(reviewFullRaw)
+const textImageBlockMeta = parseSource(textImageBlockRaw)
+const storiesCarouselMeta = parseSource(storiesCarouselRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -183,6 +192,9 @@ export function getStaticPaths() {
     { params: { slug: 'key-facts' }, props: { section: 'key-facts' } },
     { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
     { params: { slug: 'comparison' }, props: { section: 'comparison' } },
+    { params: { slug: 'review-full' }, props: { section: 'review-full' } },
+    { params: { slug: 'text-image-block' }, props: { section: 'text-image-block' } },
+    { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
   ]
 }
 
@@ -223,6 +235,9 @@ const sections = [
   { slug: 'key-facts', label: 'KeyFacts' },
   { slug: 'logo-grid', label: 'LogoGrid' },
   { slug: 'comparison', label: 'ComparisonSection' },
+  { slug: 'review-full', label: 'ReviewFull' },
+  { slug: 'text-image-block', label: 'TextImageBlock' },
+  { slug: 'stories-carousel', label: 'SuccessStoriesCarousel' },
 ]
 ---
 
@@ -2484,6 +2499,126 @@ const sections = [
             <ModalCard title="Скоринг" description="Оценка до банка" />
             <ModalCard title="Витрина" description="Умный каталог квартир" />
             <ModalCard title="Личный кабинет" description="Клиент всегда в курсе" />
+          </div>
+        </div>
+      )}
+
+      {section === 'review-full' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">ReviewFull</h1>
+          <p class="text-gray-600 mb-4">
+            Блок отзыва с фото спикера слева и цитатой справа. Обёртка над <code>Review</code>.
+            Фото занимает всю высоту блока; при отсутствии <code>src</code> показывается серая заглушка.
+          </p>
+          <PropsTable props={reviewFullMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С заглушкой (нет фото) + полный набор атрибутов</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ReviewFull quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
+              <ReviewFull
+                quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счёт использования стороннего решения мы оптимизируем наши процессы и сокращаем сроки реализации."
+                author="Бурганов Рунар"
+                role="Руководитель отдела ипотеки и финансовых инструментов"
+                company={{ logo: "https://admin.dvizh.cc/api/media/file/kortros-logo.svg", alt: "Кортрос" }}
+                caseLink={{ label: "Читать кейс", href: "#" }}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без кнопки кейса и логотипа</p>
+              <ReviewFull
+                quote="Интеграция с ДВИЖем заняла неделю, а ROI превысил ожидания уже в первый месяц"
+                author="Елена Козлова"
+                role="Коммерческий директор"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'text-image-block' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">TextImageBlock</h1>
+          <p class="text-gray-600 mb-8">
+            Секция с текстом слева (заголовок + подзаголовок + кнопка) и изображением справа.
+            Правая колонка — слот <code>image</code>: передай любой <code>&lt;img&gt;</code> или иллюстрацию.
+            Без слота — карточка остаётся пустым плейсхолдером.
+          </p>
+          <PropsTable props={textImageBlockMeta.props} class="mb-10" />
+
+          <h2 class="text-xl font-semibold mb-4">С плейсхолдером (без изображения)</h2>
+          <p class="text-xs text-gray-400 mb-6">
+            <code>{`<TextImageBlock heading="..." subheading="..." buttonText="..." drawerPreset="demo" />`}</code>
+          </p>
+          <div class="mb-10 -mx-4 sm:-mx-6 lg:-mx-10">
+            <TextImageBlock
+              heading="Заберите готовое решение и одобряйте больше клиентов"
+              subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
+              buttonText="Запросить демо"
+              drawerPreset="demo"
+            />
+          </div>
+
+          <h2 class="text-xl font-semibold mb-4">С изображением в слоте</h2>
+          <p class="text-xs text-gray-400 mb-6">
+            <code>{`<TextImageBlock ...><img slot="image" src="..." class="w-full h-full object-cover" /></TextImageBlock>`}</code>
+          </p>
+          <div class="mb-10 -mx-4 sm:-mx-6 lg:-mx-10">
+            <TextImageBlock
+              heading="Заберите готовое решение и одобряйте больше клиентов"
+              subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
+              buttonText="Забрать решение"
+              buttonHref="/scoring"
+            >
+              <div slot="image" class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400 text-sm">
+                Здесь будет ваше изображение
+              </div>
+            </TextImageBlock>
+          </div>
+        </div>
+      )}
+
+      {section === 'stories-carousel' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Stories Carousel</h1>
+          <p class="text-gray-600 mb-4">
+            Горизонтальная карусель карточек StoryCard с CSS Scroll Snap. Работает с тач-свайпом и скроллом.
+          </p>
+          <PropsTable props={storiesCarouselMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 карточки (mini)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStoriesCarousel variant="mini" title="..." stories={[...]} />`}</code></p>
+              <SuccessStoriesCarousel
+                variant="mini"
+                title="70+ историй успеха на рынке девелопмента"
+                stories={[
+                  {
+                    title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
+                    person: {
+                      name: "Петрова Надежда",
+                      jobTitle: "Директор по маркетингу, ЛСР"
+                    }
+                  },
+                  {
+                    title: "Дополнительно продали 96 квартир",
+                    person: {
+                      name: "Алексей Соколов",
+                      jobTitle: "Коммерческий директор, Самолет плюс"
+                    }
+                  },
+                  {
+                    title: "Увеличили объем закрытых сделок с 1116 до 3500 за год",
+                    person: {
+                      name: "Мария Иванова",
+                      jobTitle: "Руководитель отдела продаж"
+                    }
+                  }
+                ]}
+              />
+            </div>
           </div>
         </div>
       )}

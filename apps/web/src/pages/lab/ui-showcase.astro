@@ -11,9 +11,9 @@ import KeyFacts from '../../components/ui/KeyFacts.astro'
 import LogoGrid from '../../components/ui/LogoGrid.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
 import BentoGrid from '../../components/ui/BentoGrid.astro'
-import ProductCardReview from '../../components/ui/ProductCardReview.astro'
+import Review from '../../components/ui/Review.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
-import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
+import ProductSection from '../../components/ui/ProductSection.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
 ---
@@ -135,15 +135,15 @@ import StoryCard from '../../components/ui/StoryCard.astro'
           />
         </section>
 
-        <!-- ─── 2. ProductCardReview ───────────────────────────────── -->
+        <!-- ─── 2. Review ───────────────────────────────── -->
         <section>
           <div class="mb-6 pb-4 border-b border-gray-200">
-            <h2 class="text-2xl font-semibold text-gray-900">ProductCardReview</h2>
+            <h2 class="text-2xl font-semibold text-gray-900">Review</h2>
             <p class="text-gray-400 mt-1">Блок цитаты клиента с логотипом, именем, должностью и кнопкой кейса</p>
           </div>
 
           <div class="bg-white rounded-3xl p-8 lg:p-10 max-w-2xl">
-            <ProductCardReview
+            <Review
               quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и смогли обрабатывать на 98% больше заявок без увеличения штата"
               author="Анастасия Швед"
               role="Руководитель управления прямых продаж"
@@ -196,11 +196,11 @@ import StoryCard from '../../components/ui/StoryCard.astro'
         <!-- ─── 4. ProductSection ──────────────────────────────────── -->
         <section>
           <div class="mb-6 pb-4 border-b border-gray-200">
-            <h2 class="text-2xl font-semibold text-gray-900">ProductSectionNew</h2>
+            <h2 class="text-2xl font-semibold text-gray-900">ProductSection</h2>
             <p class="text-gray-400 mt-1">Адаптивная секция: sticky-меню продуктов слева (lg+) + карточка продукта справа. Каждый раздел содержит свои данные.</p>
           </div>
 
-          <ProductSectionNew
+          <ProductSection
             sections={[
               {
                 number: "01",

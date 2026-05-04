@@ -3,7 +3,7 @@
  * ProductCard — карточка продукта
  *
  * Структура: заголовок → список пунктов со значком-квадратом → кнопка → изображение → [отзыв].
- * Блок отзыва (review) — необязательный пропс; рендерится через ProductCardReview.
+ * Блок отзыва (review) — необязательный пропс; рендерится через Review.
  *
  * @example
  * ```astro
@@ -23,7 +23,7 @@
  * ```
  */
 
-import ProductCardReview from './ProductCardReview.astro'
+import Review from './Review.astro'
 
 interface Button {
   label: string
@@ -119,7 +119,7 @@ const {
   <!-- Отзыв клиента (опционально) -->
   {review && (
     <div class="px-8 pb-8 lg:px-10 lg:pb-10 pt-10">
-      <ProductCardReview
+      <Review
         quote={review.quote}
         author={review.author}
         role={review.role}

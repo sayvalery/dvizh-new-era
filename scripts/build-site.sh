@@ -192,6 +192,28 @@ fi
 update_status "building" "build" "done"
 log "Build complete"
 
+# Step 2.5: Copy CMS media files to dist (so VPS serves them as static assets)
+update_status "building" "media_copy" "active"
+log "Copying CMS media to dist/api/media/file/ ..."
+
+CMS_CONTAINER="dvizh-new-era-cms-1"
+MEDIA_DST="$DIST_DIR/api/media/file"
+mkdir -p "$MEDIA_DST"
+
+if docker inspect "$CMS_CONTAINER" > /dev/null 2>&1; then
+  if docker cp "$CMS_CONTAINER:/app/apps/cms/media/." "$MEDIA_DST/" 2>&1 | tee -a "$LOG_FILE"; then
+    MEDIA_COUNT=$(ls "$MEDIA_DST" | wc -l | tr -d ' ')
+    update_status "building" "media_copy" "done"
+    log "Media copy OK: $MEDIA_COUNT files in dist/api/media/file/"
+  else
+    log "WARNING: docker cp failed — images may not load on VPS"
+    update_status "building" "media_copy" "skipped"
+  fi
+else
+  log "WARNING: CMS container not found — images may not load on VPS"
+  update_status "building" "media_copy" "skipped"
+fi
+
 # Step 3: Validate
 update_status "building" "validate" "active"
 log "Validating build..."

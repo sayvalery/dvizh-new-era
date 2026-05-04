@@ -10,14 +10,16 @@ import HeroWithBadge from '../../components/lab-new/HeroWithBadge.astro'
 import FeatureCard from '../../components/lab-new/FeatureCard.astro'
 import CTA from '../../components/ui/CTA.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
+import ProductSection from '../../components/ui/ProductSection.astro'
+import StoryCard from '../../components/ui/StoryCard.astro'
 ---
 
 <SiteLayout title="Lab: Ипотека (новые компоненты)">
   <!-- Hero с бейджем -->
   <HeroWithBadge
     badge="Ипотечная платформа"
-    title="Закрывайте до 26% больше сделок на том же трафике"
-    description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
+    title="Закрывайте до 26% больше сделок на том же трафике"
+    description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
     submitLabel="Отправить"
     logos={[
       { name: 'ЛСР', src: '/partners/lsr.svg' },
@@ -35,19 +37,19 @@ import FormClosing from '../../components/ui/FormClosing.astro'
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card
           title="Сократили количество
-отказов по ипотеке"
+отказов по ипотеке"
           description="какие-то цифры или показатели"
           image="https://admin.dvizh.cc/api/media/file/1.jpg"
         />
         <Card
           title="Перестали терять сделки
-из-за клиентов с низким КР"
+из-за клиентов с низким КР"
           description="какие-то цифры или показатели"
           image="https://admin.dvizh.cc/api/media/file/3.jpg"
         />
         <Card
           title="Ускорили заполнение
-анкеты до 10 секунд"
+анкеты до 10 секунд"
           description="какие-то цифры или показатели"
           image="https://admin.dvizh.cc/api/media/file/2.jpg"
         />
@@ -61,28 +63,62 @@ import FormClosing from '../../components/ui/FormClosing.astro'
     </div>
   </section>
 
+  <!-- ProductSection -->
+  <div class="max-w-[1440px] mx-auto px-4 mt-[50px]">
+    <ProductSection
+      sections={[
+        {
+          number: "01",
+          title: "Подбор банков",
+          cardTitle: "Повышаем конверсию до 20%",
+          items: ["40+ банков-партнеров"],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg", alt: "" }
+        },
+        {
+          number: "02",
+          title: "Заполнение анкеты",
+          cardTitle: "Анкета за 10 секунд",
+          items: ["Заполнение через Госуслуги"],
+          button: { label: "Подробнее", href: "#" }
+        },
+        {
+          number: "03",
+          title: "Скоринг клиента",
+          cardTitle: "Банковский скоринг клиентов",
+          items: ["Долговая нагрузка клиента"],
+          button: { label: "Подробнее", href: "#" }
+        },
+        {
+          number: "04",
+          title: "Отправка заявки",
+          cardTitle: "Одобрение до 95%+",
+          items: ["Отправка в 5+ банков"],
+          button: { label: "Подробнее", href: "#" }
+        }
+      ]}
+    />
+  </div>
+
   <!-- Feature Cards -->
   <section class="py-20 bg-white">
     <div class="max-w-[1440px] mx-auto px-4">
       <div class="mb-12">
         <h2 class="text-[42.5px] font-semibold text-gray-900 tracking-tight leading-none">
-          70+ историй успеха<br>на рынке девелопмента
+          Делаем все для ваших крутых результатов
         </h2>
-        <p class="mt-4 text-base text-gray-600">
-          Текст про преимущества и всякое такое
-        </p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <FeatureCard
           title="Готовые интеграции"
-          subtitle="с популярными системами"
+          subtitle="с популярными системами"
           color="#202b32"
           image="https://admin.dvizh.cc/api/media/file/5-new.jpg"
           imagePosition="right bottom"
         />
         <FeatureCard
           title="57 секунд"
-          subtitle="среднее время ответа в поддержке"
+          subtitle="среднее время ответа в поддержке"
           color="#F2F2F2"
           image="https://admin.dvizh.cc/api/media/file/6-new.jpg"
         />
@@ -97,14 +133,60 @@ import FormClosing from '../../components/ui/FormClosing.astro'
   </section>
 
   <!-- CTA -->
-  <section class="py-20 bg-gray-50">
+  <section class="py-20">
     <div class="max-w-[1440px] mx-auto px-4">
       <CTA
-        title="Бонус от ДВИЖа"
+        title="Бонус от ДВИЖа"
         description="Скачайте пример идеального отчета ипотечного отдела"
         buttonText="Посмотреть демо"
         buttonHref="#"
       />
+    </div>
+  </section>
+
+  <!-- StoryCard -->
+  <section class="py-20 bg-white">
+    <div class="max-w-[1440px] mx-auto px-4">
+      <div class="mb-12">
+        <h2 class="text-[42.5px] font-semibold text-gray-900 tracking-tight leading-none">
+          70+ историй успеха<br>на рынке девелопмента
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">
+        <StoryCard
+          backgroundImage="https://admin.dvizh.cc/api/media/file/samolet-bg.jpg"
+          title="Помогли начать обрабатывать на 281% больше заявок"
+          person={{
+            name: "Светлана Корнелюк",
+            jobTitle: "Директор отдела продаж",
+            photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+          }}
+        >
+          <img src="/partners/a101.svg" alt="A101" class="h-6 object-contain" slot="logo" />
+        </StoryCard>
+        <StoryCard
+          backgroundImage="https://admin.dvizh.cc/api/media/file/lsr-bg.jpg"
+          title="Дополнительно продали 96 квартир"
+          person={{
+            name: "Иван Петров",
+            jobTitle: "Руководитель отдела ипотеки",
+            photo: { url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" }
+          }}
+        >
+          <img src="/partners/lsr.svg" alt="LSR" class="h-6 object-contain" slot="logo" />
+        </StoryCard>
+        <StoryCard
+          backgroundImage="https://admin.dvizh.cc/api/media/file/glorax-bg.jpg"
+          title="Увеличили объем закрытых сделок с 1116 до 3500 за год"
+          person={{
+            name: "Мария Сидорова",
+            jobTitle: "Ипотечный брокер",
+            photo: { url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop" }
+          }}
+        >
+          <img src="/partners/glorax.svg" alt="Глоракс" class="h-6 object-contain" slot="logo" />
+        </StoryCard>
+      </div>
     </div>
   </section>
 
@@ -113,7 +195,7 @@ import FormClosing from '../../components/ui/FormClosing.astro'
     <div class="max-w-[1440px] mx-auto px-4">
       <FormClosing
         title="Не оставим вас одних"
-        description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
+        description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
         preset="lead"
         submitLabel="Отправить заявку"
         bgColor="bg-gray-100"
