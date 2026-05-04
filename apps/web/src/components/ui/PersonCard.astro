@@ -36,6 +36,8 @@ interface Props {
   person: Person
   variant?: 'full' | 'inline' | 'with-logo'
   theme?: 'light' | 'dark'
+  /** Показывать фото/аватар слева. По умолчанию true */
+  showPhoto?: boolean
   /** URL логотипа компании (только для variant="with-logo") */
   logoUrl?: string
   /** Alt-текст логотипа (только для variant="with-logo") */
@@ -44,7 +46,7 @@ interface Props {
 
 import { normalizeMediaUrl } from '../../lib/payload'
 
-const { person, variant = 'full', theme = 'light', logoUrl, logoAlt } = Astro.props
+const { person, variant = 'full', theme = 'light', showPhoto = true, logoUrl, logoAlt } = Astro.props
 const isDark = theme === 'dark'
 const photoUrl = normalizeMediaUrl(person.photo?.url)
 const personHref = person.slug ? `/person/${person.slug}` : null
@@ -82,30 +84,30 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
 ) : variant === 'inline' ? (
   personHref ? (
     <a href={personHref} class="flex items-center gap-2 hover:opacity-80 transition-opacity">
-      {photoUrl ? (
+      {showPhoto && (photoUrl ? (
         <img src={photoUrl} alt={person.photo?.alt ?? person.name} class="w-6 h-6 rounded-full object-cover shrink-0" />
       ) : (
         <div class="w-6 h-6 rounded-full bg-gray-300 shrink-0 flex items-center justify-center">
           <span class="text-xs text-gray-500 font-medium">{person.name[0]}</span>
         </div>
-      )}
+      ))}
       <span class:list={['text-h6', isDark ? 'text-white' : 'text-gray-900']}>{person.name}</span>
     </a>
   ) : (
     <div class="flex items-center gap-2">
-      {photoUrl ? (
+      {showPhoto && (photoUrl ? (
         <img src={photoUrl} alt={person.photo?.alt ?? person.name} class="w-6 h-6 rounded-full object-cover shrink-0" />
       ) : (
         <div class="w-6 h-6 rounded-full bg-gray-300 shrink-0 flex items-center justify-center">
           <span class="text-xs text-gray-500 font-medium">{person.name[0]}</span>
         </div>
-      )}
+      ))}
       <span class:list={['text-h6', isDark ? 'text-white' : 'text-gray-900']}>{person.name}</span>
     </div>
   )
 ) : (
   <div class="flex items-center gap-3">
-    {personHref ? (
+    {showPhoto && (personHref ? (
       <a href={personHref} class="shrink-0 hover:opacity-80 transition-opacity">
         {photoUrl ? (
           <img src={photoUrl} alt={person.photo?.alt ?? person.name} class="w-10 h-10 rounded-full object-cover" />
@@ -125,7 +127,7 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
           </div>
         )}
       </div>
-    )}
+    ))}
     <div>
       {personHref ? (
         <a href={personHref} class:list={['text-h6 hover:underline', isDark ? 'text-white' : 'text-gray-900']}>{person.name}</a>
