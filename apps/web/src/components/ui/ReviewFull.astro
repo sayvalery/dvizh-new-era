@@ -57,10 +57,10 @@ const {
 const hasPhoto = photo?.src
 ---
 
-<div class:list={['flex flex-col lg:flex-row lg:min-h-[340px] rounded-2xl overflow-hidden bg-gray-100', className]}>
+<div class:list={['flex flex-col lg:flex-row lg:h-[400px] rounded-[30px] overflow-hidden bg-gray-100 border border-gray-200', className]}>
 
   <!-- Левая колонка: фото или заглушка -->
-  <div class="relative w-full aspect-[4/3] lg:aspect-auto lg:w-72 lg:shrink-0">
+  <div class="relative w-full aspect-[4/3] lg:aspect-auto lg:w-96 lg:shrink-0">
     {hasPhoto ? (
       <img
         src={photo!.src}
@@ -81,6 +81,7 @@ const hasPhoto = photo?.src
       role={role}
       company={company}
       caseLink={caseLink}
+      variant="dark"
       class="flex-1 justify-between"
     />
   </div>

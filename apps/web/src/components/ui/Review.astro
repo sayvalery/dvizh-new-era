@@ -36,6 +36,12 @@ interface Props {
   company?: Company
   /** Ссылка на кейс. label по умолчанию — «Читать кейс» */
   caseLink?: { label?: string; href: string }
+  /**
+   * Визуальный вариант:
+   * - `default` — оранжевая кнопка, логотип h-[11px] (для ProductCard)
+   * - `dark`    — тёмная кнопка bg-gray-900, логотип h-[41px] (для ReviewFull)
+   */
+  variant?: 'default' | 'dark'
   /** Дополнительные CSS классы */
   class?: string
 }
@@ -46,6 +52,7 @@ const {
   role,
   company,
   caseLink,
+  variant = 'default',
   class: className = ''
 } = Astro.props
 ---
@@ -73,7 +80,10 @@ const {
         <img
           src={company.logo}
           alt={company.alt ?? ''}
-          class="h-[11px] w-auto max-w-[72px] shrink-0 object-contain"
+          class:list={[
+            'w-auto shrink-0 object-contain',
+            variant === 'dark' ? 'h-[41px] max-w-[120px]' : 'h-[11px] max-w-[72px]'
+          ]}
           loading="lazy"
         />
       )}
@@ -89,7 +99,12 @@ const {
     {caseLink && (
       <a
         href={caseLink.href}
-        class="shrink-0 inline-flex items-center rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+        class:list={[
+          'shrink-0 inline-flex items-center rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-colors',
+          variant === 'dark'
+            ? 'bg-gray-900 hover:bg-gray-700'
+            : 'bg-brand hover:bg-brand-700'
+        ]}
       >
         {caseLink.label ?? 'Читать кейс'}
       </a>
