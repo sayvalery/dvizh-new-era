@@ -368,16 +368,8 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       -->
       <div class="relative z-10 px-[34px] pb-[34px] pt-8"></div>
       <div class="relative z-10 px-[34px] pb-[34px] pt-8 flex flex-wrap gap-2">
-        <button
-          x-data
-          @click={`$dispatch('open-drawer', { preset: '${primaryDrawerPreset}' })`}
-          class="inline-flex items-center justify-center rounded-[12px] px-6 py-3 text-btn-lg text-white bg-gray-800 hover:bg-gray-700 transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98] cursor-pointer whitespace-nowrap"
-        >{primaryButtonText}</button>
-        <button
-          x-data
-          @click={`$dispatch('open-drawer', { preset: '${secondaryDrawerPreset}' })`}
-          class="inline-flex items-center justify-center rounded-[12px] px-6 py-3 text-btn-lg text-white/70 hover:text-white transition-all duration-300 ease-out cursor-pointer whitespace-nowrap"
-        >{secondaryButtonText}</button>
+        <Button variant="primary" drawerPreset={primaryDrawerPreset}>{primaryButtonText}</Button>
+        <Button variant="ghost-dark" drawerPreset={secondaryDrawerPreset}>{secondaryButtonText}</Button>
       </div>
 
     </div>
