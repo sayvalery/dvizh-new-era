@@ -18,6 +18,8 @@
  * ```
  */
 
+import Button from './Button.astro'
+
 interface Company {
   /** Путь к логотипу (SVG или растровый) */
   logo: string
@@ -97,17 +99,14 @@ const {
     </div>
 
     {caseLink && (
-      <a
+      <Button
         href={caseLink.href}
-        class:list={[
-          'shrink-0 inline-flex items-center rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-colors',
-          variant === 'dark'
-            ? 'bg-gray-900 hover:bg-gray-700'
-            : 'bg-brand hover:bg-brand-700'
-        ]}
+        size="sm"
+        variant={variant === 'dark' ? 'dark' : 'primary'}
+        class="shrink-0"
       >
         {caseLink.label ?? 'Читать кейс'}
-      </a>
+      </Button>
     )}
 
   </div>
