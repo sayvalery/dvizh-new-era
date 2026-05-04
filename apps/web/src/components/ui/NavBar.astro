@@ -240,8 +240,8 @@ const megaSections = megaItem?.sections ?? []
           <button
             type="button"
             @click="mobileOpen = true"
-            class="lg:hidden flex items-center justify-center w-8 h-8 rounded-xl transition-colors flex-shrink-0 bg-white text-gray-900 xs:bg-gray-900 xs:text-white"
-            :class="clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : 'hover:opacity-90'"
+            class="lg:hidden flex items-center justify-center w-8 h-8 rounded-xl transition-colors flex-shrink-0 bg-transparent text-gray-900 hover:bg-gray-200 xs:bg-gray-900 xs:text-white xs:hover:bg-gray-800"
+            :class="clear ? '!bg-transparent !text-white hover:!bg-white/10' : ''"
             aria-label="Открыть меню"
           >
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
