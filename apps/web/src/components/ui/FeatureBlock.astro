@@ -185,7 +185,7 @@ const imageLeft = imageSide === 'left'
 
       <!-- Desktop: колонка с изображением (скрыта на мобайле) -->
       <div class:list={[
-        'hidden lg:block rounded-3xl overflow-hidden bg-gray-300 lg:min-h-[640px]',
+        'hidden lg:block rounded-3xl overflow-hidden bg-gray-300 lg:aspect-square',
         imageLeft && 'lg:order-1'
       ]}>
         {image ? (
