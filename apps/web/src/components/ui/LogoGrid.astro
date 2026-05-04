@@ -36,30 +36,17 @@ const { logos, class: className = '' } = Astro.props
   <!-- Правый блюр -->
   <div class="logo-grid-fade logo-grid-fade--right" aria-hidden="true"></div>
 
-  <!-- Набор 1 -->
+  <!-- 4 копии логотипов в одну строку, анимируется на -25% = ровно 1 копия -->
   <div class="logo-grid-set">
-    {logos.map(logo => (
+    {[...logos, ...logos, ...logos, ...logos].map((logo, i) => (
       <img
         src={logo.src}
         alt={logo.alt}
         height="32"
         class="logo-grid-img"
-        loading="lazy"
+        loading={i < logos.length ? 'eager' : 'lazy'}
         draggable="false"
-      />
-    ))}
-  </div>
-
-  <!-- Набор 2 — точная копия для бесшовного цикла -->
-  <div class="logo-grid-set" aria-hidden="true">
-    {logos.map(logo => (
-      <img
-        src={logo.src}
-        alt={logo.alt}
-        height="32"
-        class="logo-grid-img"
-        loading="lazy"
-        draggable="false"
+        aria-hidden={i >= logos.length ? 'true' : undefined}
       />
     ))}
   </div>
@@ -95,15 +82,13 @@ const { logos, class: className = '' } = Astro.props
     background: linear-gradient(to left, white, transparent);
   }
 
-  /* Каждый набор занимает минимум 100% ширины контейнера.
-     translateX(-100% - gap) сдвигает ровно на ширину одного набора,
-     и второй набор занимает его место — бесшовный loop. */
+  /* 4 копии логотипов в одной строке.
+     translateX(-25%) сдвигает ровно на 1 копию — бесшовный loop. */
   .logo-grid-set {
     flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: var(--gap);
-    min-width: 100%;
     animation: logo-grid-scroll 30s linear infinite;
     will-change: transform;
   }
@@ -117,7 +102,7 @@ const { logos, class: className = '' } = Astro.props
 
   @keyframes logo-grid-scroll {
     from { transform: translateX(0); }
-    to   { transform: translateX(calc(-100% - var(--gap))); }
+    to   { transform: translateX(-25%); }
   }
 
   @media (prefers-reduced-motion: reduce) {
