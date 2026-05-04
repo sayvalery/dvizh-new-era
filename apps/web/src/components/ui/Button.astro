@@ -49,7 +49,7 @@ interface Props {
   /** Размер кнопки */
   size?: 'sm' | 'md' | 'lg'
   /** Вариант оформления */
-  variant?: 'primary' | 'secondary' | 'ghost' | 'dark'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'ghost-dark' | 'dark'
   /** Если указан — рендерит <a> вместо <button> */
   href?: string
   /** Отключённое состояние */
@@ -88,18 +88,20 @@ const sizeCls = iconOnly ? square : padding
 
 // Варианты оформления
 const variantMap = {
-  primary:   'bg-brand text-white hover:bg-brand-600 focus-visible:outline-brand',
-  secondary: 'bg-white text-[#122226] hover:bg-[#e6e4e1] focus-visible:outline-gray-400',
-  ghost:     'bg-transparent text-[#122226] hover:bg-[#e6e4e1] focus-visible:outline-gray-400',
-  dark:      'bg-[#1d1e21] text-white hover:bg-[#323232] focus-visible:outline-gray-700',
+  primary:      'bg-brand text-white hover:bg-brand-600 focus-visible:outline-brand',
+  secondary:    'bg-white text-[#122226] hover:bg-[#e6e4e1] focus-visible:outline-gray-400',
+  ghost:        'bg-transparent text-[#122226] hover:bg-[#e6e4e1] focus-visible:outline-gray-400',
+  'ghost-dark': 'bg-transparent text-white hover:bg-white/10 focus-visible:outline-white/40',
+  dark:         'bg-[#1d1e21] text-white hover:bg-[#323232] focus-visible:outline-gray-700',
 }
 
 // Состояние disabled
 const disabledMap = {
-  primary:   'disabled:opacity-40 disabled:pointer-events-none',
-  secondary: 'disabled:opacity-60 disabled:pointer-events-none',
-  ghost:     'disabled:opacity-60 disabled:pointer-events-none',
-  dark:      'disabled:opacity-40 disabled:pointer-events-none',
+  primary:      'disabled:opacity-40 disabled:pointer-events-none',
+  secondary:    'disabled:opacity-60 disabled:pointer-events-none',
+  ghost:        'disabled:opacity-60 disabled:pointer-events-none',
+  'ghost-dark': 'disabled:opacity-40 disabled:pointer-events-none',
+  dark:         'disabled:opacity-40 disabled:pointer-events-none',
 }
 
 const hasIconLeft  = Astro.slots.has('icon-left')
