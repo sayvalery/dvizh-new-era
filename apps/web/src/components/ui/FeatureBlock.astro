@@ -1,19 +1,19 @@
 ---
 /**
- * FeatureBlock — секция с авто-переключающимися пунктами слева и изображением справа
+ * FeatureBlock — секция с авто-переключающимися пунктами и изображением
  *
- * Пункты переключаются автоматически каждые 5 секунд. Активный пункт раскрывает
- * подпись и показывает прогресс-бар. Клик по пункту переключает вручную.
+ * Desktop (lg+): двухколоночный grid — пункты слева, изображение справа.
+ * Mobile (< lg): одна колонка, изображение появляется inline под активным пунктом.
  *
  * Опционально: описание под заголовком и кнопка CTA.
  *
- * Дизайн: Figma node 402:7195
+ * Дизайн: Figma 402:7195 (desktop), 418:4462 (mobile)
  *
  * @example
  * ```astro
  * <FeatureBlock
  *   heading="Повышаем конверсию в 2 раза"
- *   description="Подключите ДВИЖ и закрывайте до 26% больше сделок без увеличения бюджета на маркетинг."
+ *   description="Подключите ДВИЖ и закрывайте до 26% больше сделок."
  *   button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
  *   features={[
  *     { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
@@ -54,7 +54,7 @@ interface Props {
   image?: string
   /** Alt изображения */
   imageAlt?: string
-  /** Сторона изображения: right (по умолчанию) или left */
+  /** Сторона изображения на десктопе: right (по умолчанию) или left */
   imageSide?: 'left' | 'right'
   /** Интервал переключения в мс (по умолчанию 5000) */
   interval?: number
@@ -81,16 +81,14 @@ const imageLeft = imageSide === 'left'
   <div class="page-container">
     <div class="grid lg:grid-cols-2 gap-16 items-stretch">
 
-      <!-- Текстовая колонка -->
+      <!-- Текстовая колонка (+ inline image на мобайле) -->
       <div
-        class:list={[imageLeft && 'lg:order-2']}
+        class:list={['flex flex-col gap-12 lg:gap-16 lg:justify-between lg:min-h-[640px]', imageLeft && 'lg:order-2']}
         x-data={`{
           active: 0,
           total: ${features.length},
           timer: null,
-          init() {
-            this.startTimer()
-          },
+          init() { this.startTimer() },
           startTimer() {
             clearInterval(this.timer)
             this.timer = setInterval(() => {
@@ -102,7 +100,6 @@ const imageLeft = imageSide === 'left'
             this.startTimer()
           }
         }`}
-        class="flex flex-col gap-12 lg:gap-16 lg:justify-between lg:min-h-[640px]"
       >
 
         <!-- Заголовок + описание + кнопка -->
@@ -128,7 +125,7 @@ const imageLeft = imageSide === 'left'
         <ul class="flex flex-col">
           {features.map((feature, i) => (
             <li>
-              <!-- Разделитель с оранжевым прогрессом поверх -->
+              <!-- Разделитель с прогресс-баром -->
               <div class="relative h-px bg-gray-300">
                 <div
                   class="absolute inset-0 bg-brand"
@@ -146,7 +143,7 @@ const imageLeft = imageSide === 'left'
                 <!-- Dot -->
                 <div class="shrink-0 mt-[5px] w-4 h-4 flex items-center justify-center">
                   <div
-                    class="w-2 h-2 rounded-full transition-colors duration-300 bg-gray-300"
+                    class="w-2 h-2 rounded-full transition-colors duration-300"
                     x-bind:class={`active === ${i} ? 'bg-brand' : 'bg-gray-300'`}
                   ></div>
                 </div>
@@ -154,7 +151,7 @@ const imageLeft = imageSide === 'left'
                 <!-- Текст -->
                 <div class="flex-1 min-w-0">
                   <p
-                    class="text-body-lg-bold transition-colors duration-300 text-gray-500"
+                    class="text-body-lg-bold transition-colors duration-300"
                     x-bind:class={`active === ${i} ? 'text-gray-900' : 'text-gray-500'`}
                   >{feature.title}</p>
 
@@ -165,6 +162,26 @@ const imageLeft = imageSide === 'left'
                       x-bind:style={`active === ${i} ? 'max-height: 80px; opacity: 1; margin-top: 0.5rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
                     >{feature.subtitle}</p>
                   )}
+
+                  <!-- Mobile: изображение под активным пунктом (скрыто на lg+) -->
+                  <div
+                    class="lg:hidden overflow-hidden transition-[max-height,opacity,margin-top] duration-300 ease-in-out rounded-2xl"
+                    style="max-height: 0; opacity: 0; margin-top: 0"
+                    x-bind:style={`active === ${i} ? 'max-height: 400px; opacity: 1; margin-top: 1rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
+                  >
+                    <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-gray-300">
+                      {image ? (
+                        <img
+                          src={image}
+                          alt={imageAlt}
+                          class="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <slot name="image-mobile" />
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </li>
@@ -174,8 +191,11 @@ const imageLeft = imageSide === 'left'
 
       </div>
 
-      <!-- Колонка с изображением -->
-      <div class:list={['rounded-3xl overflow-hidden bg-gray-300 min-h-[280px] lg:min-h-[640px]', imageLeft && 'lg:order-1']}>
+      <!-- Desktop: колонка с изображением (скрыта на мобайле) -->
+      <div class:list={[
+        'hidden lg:block rounded-3xl overflow-hidden bg-gray-300 lg:min-h-[640px]',
+        imageLeft && 'lg:order-1'
+      ]}>
         {image ? (
           <img
             src={image}
