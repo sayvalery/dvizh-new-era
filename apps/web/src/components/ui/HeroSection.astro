@@ -112,9 +112,9 @@ const isFull = layout === 'full'
           {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
           <h1 class="text-h1 text-gray-900">{title}</h1>
           {description && <p class="text-body-lg text-gray-500">{description}</p>}
-          <div class="flex flex-wrap gap-4 pt-2">
-            <Button variant="primary" size="lg" drawerPreset={demoPreset as any}>{demoLabel}</Button>
-            <Button variant="ghost" size="lg" drawerPreset={kpPreset as any}>{kpLabel}</Button>
+          <div class="flex flex-col xs:flex-row gap-4 pt-2">
+            <Button variant="primary" size="lg" drawerPreset={demoPreset as any} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{demoLabel}</Button>
+            <Button variant="ghost" size="lg" drawerPreset={kpPreset as any} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{kpLabel}</Button>
           </div>
         </div>
       </div>
