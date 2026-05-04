@@ -2234,22 +2234,66 @@ const sections = [
           <h1 class="text-3xl font-bold font-heading mb-2">FeatureBlock</h1>
           <p class="text-gray-600 mb-8">
             Секция с авто-переключающимися пунктами слева (таймер + прогресс-бар) и изображением/слотом справа.
-            Высота фиксирована, список прибит к низу левой колонки.
+            Опционально: описание под заголовком и кнопка CTA.
           </p>
           <PropsTable props={parseSource(featureBlockRaw).props} class="mb-10" />
 
-          <div class="-mx-10">
-            <FeatureBlock
-              heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
-              features={[
-                { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
-                { title: '«Умный» скоринг покупателя', subtitle: 'До отправки в банк' },
-                { title: 'Встроенный ипотечный калькулятор', subtitle: 'На сайте застройщика' },
-                { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
-                { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
-                { title: 'Контроль «зависших» обращений 24/7' },
-              ]}
-            />
+          <div class="space-y-16">
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">Базовый — только заголовок и пункты</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeatureBlock heading="..." features={[...]} />`}</code></p>
+              <div class="-mx-10">
+                <FeatureBlock
+                  heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
+                  features={[
+                    { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+                    { title: '«Умный» скоринг покупателя', subtitle: 'До отправки в банк' },
+                    { title: 'Встроенный ипотечный калькулятор', subtitle: 'На сайте застройщика' },
+                    { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
+                    { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
+                    { title: 'Контроль «зависших» обращений 24/7' },
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">С описанием и кнопкой</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeatureBlock heading="..." description="..." button={{ label, drawerPreset }} features={[...]} />`}</code></p>
+              <div class="-mx-10">
+                <FeatureBlock
+                  heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
+                  description="Подключите ДВИЖ и закрывайте до 26% больше сделок без увеличения затрат на маркетинг."
+                  button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
+                  features={[
+                    { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+                    { title: '«Умный» скоринг покупателя', subtitle: 'До отправки в банк' },
+                    { title: 'Встроенный ипотечный калькулятор', subtitle: 'На сайте застройщика' },
+                    { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
+                    { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
+                    { title: 'Контроль «зависших» обращений 24/7' },
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">Только с описанием (без кнопки)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeatureBlock heading="..." description="..." features={[...]} />`}</code></p>
+              <div class="-mx-10">
+                <FeatureBlock
+                  heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
+                  description="Подключите ДВИЖ и закрывайте до 26% больше сделок без увеличения затрат на маркетинг."
+                  features={[
+                    { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+                    { title: '«Умный» скоринг покупателя' },
+                    { title: 'Встроенный ипотечный калькулятор' },
+                  ]}
+                />
+              </div>
+            </div>
+
           </div>
         </div>
       )}
