@@ -140,14 +140,6 @@ const imageLeft = imageSide === 'left'
                 class="flex gap-3 items-start py-5 cursor-pointer select-none"
                 @click={`select(${i})`}
               >
-                <!-- Dot -->
-                <div class="shrink-0 mt-[5px] w-4 h-4 flex items-center justify-center">
-                  <div
-                    class="w-2 h-2 rounded-full transition-colors duration-300"
-                    x-bind:class={`active === ${i} ? 'bg-brand' : 'bg-gray-300'`}
-                  ></div>
-                </div>
-
                 <!-- Текст -->
                 <div class="flex-1 min-w-0">
                   <p
