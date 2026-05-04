@@ -83,7 +83,7 @@ const imageLeft = imageSide === 'left'
 
       <!-- Текстовая колонка (+ inline image на мобайле) -->
       <div
-        class:list={['flex flex-col gap-12 lg:gap-16 lg:justify-between lg:min-h-[640px]', imageLeft && 'lg:order-2']}
+        class:list={['flex flex-col gap-12 lg:gap-16', imageLeft && 'lg:order-2']}
         x-data={`{
           active: 0,
           total: ${features.length},
