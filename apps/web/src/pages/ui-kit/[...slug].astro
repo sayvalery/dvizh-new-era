@@ -29,7 +29,7 @@ import ProductCard from '../../components/ui/ProductCard.astro'
 import ProductCardReview from '../../components/ui/ProductCardReview.astro'
 import ProductSectionNew from '../../components/ui/ProductSection.astro'
 import AaiHero from '../../components/ui/AaiHero.astro'
-import DeveloperBlock from '../../components/ui/DeveloperBlock.astro'
+import FeatureBlock from '../../components/ui/FeatureBlock.astro'
 import ModalCard from '../../components/ui/ModalCard.astro'
 import ModalSection from '../../components/ui/ModalSection.astro'
 import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
@@ -61,7 +61,7 @@ import productCardRaw from '../../components/ui/ProductCard.astro?raw'
 import productCardReviewRaw from '../../components/ui/ProductCardReview.astro?raw'
 import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
 import aaiHeroRaw from '../../components/ui/AaiHero.astro?raw'
-import developerBlockRaw from '../../components/ui/DeveloperBlock.astro?raw'
+import featureBlockRaw from '../../components/ui/FeatureBlock.astro?raw'
 import modalCardRaw from '../../components/ui/ModalCard.astro?raw'
 import modalSectionRaw from '../../components/ui/ModalSection.astro?raw'
 import successStoryBlockRaw from '../../components/ui/SuccessStoryBlock.astro?raw'
@@ -185,7 +185,7 @@ export function getStaticPaths() {
     { params: { slug: 'product-card-review' }, props: { section: 'product-card-review' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
     { params: { slug: 'aai-hero' }, props: { section: 'aai-hero' } },
-    { params: { slug: 'developer-block' }, props: { section: 'developer-block' } },
+    { params: { slug: 'feature-block' }, props: { section: 'feature-block' } },
     { params: { slug: 'modal-card' }, props: { section: 'modal-card' } },
     { params: { slug: 'modal-section' }, props: { section: 'modal-section' } },
     { params: { slug: 'success-story-block' }, props: { section: 'success-story-block' } },
@@ -228,7 +228,7 @@ const sections = [
   { slug: 'product-card-review', label: 'Product Card Review' },
   { slug: 'product-section', label: 'Product Section' },
   { slug: 'aai-hero', label: 'AaiHero' },
-  { slug: 'developer-block', label: 'DeveloperBlock' },
+  { slug: 'feature-block', label: 'FeatureBlock' },
   { slug: 'modal-card', label: 'ModalCard' },
   { slug: 'modal-section', label: 'ModalSection' },
   { slug: 'success-story-block', label: 'SuccessStoryBlock' },
@@ -2229,17 +2229,17 @@ const sections = [
         </div>
       )}
 
-      {section === 'developer-block' && (
+      {section === 'feature-block' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-2">DeveloperBlock</h1>
+          <h1 class="text-3xl font-bold font-heading mb-2">FeatureBlock</h1>
           <p class="text-gray-600 mb-8">
             Секция с авто-переключающимися пунктами слева (таймер + прогресс-бар) и изображением/слотом справа.
             Высота фиксирована, список прибит к низу левой колонки.
           </p>
-          <PropsTable props={parseSource(developerBlockRaw).props} class="mb-10" />
+          <PropsTable props={parseSource(featureBlockRaw).props} class="mb-10" />
 
           <div class="-mx-10">
-            <DeveloperBlock
+            <FeatureBlock
               heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
               features={[
                 { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
