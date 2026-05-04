@@ -236,11 +236,12 @@ const megaSections = megaItem?.sections ?? []
           )}
 
           <!-- Hamburger square button: visible below lg -->
+          <!-- xs (< 480px): white bg, dark icon — xs+ (480px+): dark bg, white icon -->
           <button
             type="button"
             @click="mobileOpen = true"
-            class="lg:hidden flex items-center justify-center w-8 h-8 rounded-xl transition-colors flex-shrink-0"
-            :class="clear ? 'bg-white/20 text-white hover:bg-white/30' : 'bg-gray-900 text-white hover:bg-gray-800'"
+            class="lg:hidden flex items-center justify-center w-8 h-8 rounded-xl transition-colors flex-shrink-0 bg-white text-gray-900 xs:bg-gray-900 xs:text-white"
+            :class="clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : 'hover:opacity-90'"
             aria-label="Открыть меню"
           >
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
