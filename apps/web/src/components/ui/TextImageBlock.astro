@@ -1,0 +1,94 @@
+---
+/**
+ * TextImageBlock — секция с текстом слева и изображением/иллюстрацией справа.
+ *
+ * Левая колонка: заголовок + подзаголовок + кнопка.
+ * Правая колонка: слот `image` в стилизованной карточке-контейнере.
+ * Если слот не передан — карточка остаётся пустым плейсхолдером (bg-background-secondary).
+ *
+ * На мобиле колонки стекаются (текст → изображение).
+ *
+ * @example
+ * ```astro
+ * <!-- С кнопкой-ссылкой -->
+ * <TextImageBlock
+ *   heading="Заберите готовое решение и одобряйте больше клиентов"
+ *   subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
+ *   buttonText="Забрать решение"
+ *   buttonHref="/scoring"
+ * >
+ *   <img slot="image" src="/images/scoring-chart.png" alt="График одобрения" class="w-full h-full object-cover" />
+ * </TextImageBlock>
+ *
+ * <!-- С открытием дровера -->
+ * <TextImageBlock
+ *   heading="Заберите готовое решение"
+ *   subheading="Скоринг без роста риска."
+ *   buttonText="Запросить демо"
+ *   drawerPreset="demo"
+ * />
+ * ```
+ */
+
+import Button from './Button.astro'
+
+interface Props {
+  /** Заголовок секции */
+  heading: string
+  /** Подзаголовок / описание */
+  subheading: string
+  /** Текст кнопки */
+  buttonText: string
+  /** href кнопки — если не указан, рендерится <button> */
+  buttonHref?: string
+  /** Пресет дровера — открывает Drawer при клике */
+  drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** Дополнительные CSS классы для секции */
+  class?: string
+}
+
+const {
+  heading,
+  subheading,
+  buttonText,
+  buttonHref,
+  drawerPreset,
+  class: className = '',
+} = Astro.props
+
+const hasImage = Astro.slots.has('image')
+---
+
+<section class:list={['bg-gray-100 py-16 lg:py-24', className]}>
+  <div class="page-container">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+      {/* Левая колонка: текст + CTA */}
+      <div class="flex flex-col gap-6">
+        <h2 class="text-h2 text-gray-900">{heading}</h2>
+        <p class="text-body-lg text-gray-900 max-w-[34rem]">{subheading}</p>
+        <div class="mt-2">
+          {drawerPreset ? (
+            <Button size="md" variant="primary" drawerPreset={drawerPreset}>
+              {buttonText}
+            </Button>
+          ) : buttonHref ? (
+            <Button size="md" variant="primary" href={buttonHref}>
+              {buttonText}
+            </Button>
+          ) : (
+            <Button size="md" variant="primary">
+              {buttonText}
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Правая колонка: слот для изображения */}
+      <div class="rounded-[32px] overflow-hidden aspect-[7/5] bg-background-secondary flex items-center justify-center">
+        {hasImage && <slot name="image" />}
+      </div>
+
+    </div>
+  </div>
+</section>
