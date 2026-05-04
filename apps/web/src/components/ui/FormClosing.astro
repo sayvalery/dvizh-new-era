@@ -83,7 +83,7 @@ const {
   submitLabel,
   primaryButton,
   secondaryButton,
-  bgColor = '#F3F1EE',
+  bgColor = '#F3F1EE', // gray-200 токен (#F3F1EE) — используется в inline style, Tailwind-класс недоступен
   bgImage,
   bgImagePosition = 'center',
   formVariant,
@@ -147,12 +147,12 @@ const privacyMain = privacyText
 
     <!-- Заголовок + описание -->
     <div class="max-w-[60%]">
-      <h2 class:list={['font-heading text-4xl md:text-5xl font-medium leading-none tracking-tighter', headingCls]}>
+      <h2 class:list={['text-h2 font-medium leading-none tracking-tighter', headingCls]}>
         {title}
       </h2>
 
       {description && (
-        <p class:list={['mt-4 text-lg leading-relaxed', descCls]}>
+        <p class:list={['mt-4 text-body-lg leading-relaxed', descCls]}>
           {description}
         </p>
       )}
@@ -172,7 +172,7 @@ const privacyMain = privacyText
               <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
               <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span class:list={['text-lg leading-snug', listTextCls]}>{item}</span>
+            <span class:list={['text-body-lg leading-snug', listTextCls]}>{item}</span>
           </li>
         ))}
       </ul>
@@ -220,7 +220,7 @@ const privacyMain = privacyText
           </div>
           <button
             type="submit"
-            class="h-16 px-8 bg-brand text-white rounded-xl text-lg font-semibold whitespace-nowrap hover:opacity-90 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 shrink-0"
+            class="h-16 px-8 bg-brand text-white rounded-xl text-btn-lg font-semibold whitespace-nowrap hover:opacity-90 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 shrink-0"
           >
             {btnLabel}
           </button>
