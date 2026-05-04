@@ -4,7 +4,7 @@
  */
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
-import LogoMarquee from '../components/lab-new/LogoMarquee.astro'
+import LogoGrid from '../components/ui/LogoGrid.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
 import DeveloperBlock from '../components/ui/DeveloperBlock.astro'
@@ -40,14 +40,14 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
   />
 
   <!-- Бегущая строка с логотипами -->
-  <LogoMarquee
+  <LogoGrid
     logos={[
-      { name: 'ЛСР', src: '/partners/lsr.svg' },
-      { name: 'А101', src: '/partners/a101.svg' },
-      { name: 'AVA', src: '/partners/ava.svg' },
-      { name: 'Глоракс', src: '/partners/glorax.svg' },
-      { name: 'Гранель', src: '/partners/ganel.svg' },
-      { name: 'Страна', src: '/partners/strana.svg' },
+      { src: '/partners/dark/a101.svg', alt: 'А101' },
+      { src: '/partners/dark/ava.svg', alt: 'AVA' },
+      { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
+      { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
+      { src: '/partners/dark/strana.svg', alt: 'Страна' },
+      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
     ]}
   />
 
