@@ -85,7 +85,8 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
   />
 
   <!-- ModalSection — продукты по этапам сделки -->
-  <div class="page-container">
+  <section class="py-16 lg:py-20">
+    <div class="page-container">
       <ModalSection
         heading="Добиваемся высоких конверсий на каждом этапе сделки"
         groups={[
@@ -112,7 +113,8 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
           },
         ]}
       />
-  </div>
+    </div>
+  </section>
 
   <!-- ComparisonSection -->
   <ComparisonSection
@@ -134,7 +136,8 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
   />
 
   <!-- Form Closing -->
-  <div class="page-container">
+  <section class="pb-16 lg:pb-20">
+    <div class="page-container">
       <FormClosing
         mode="buttons"
         title="Аудит вашего отдела продаж от аналитиков ДВИЖа"
@@ -148,5 +151,4 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
       />
   </div>
 
-  </div><!-- /gap wrapper -->
 </SiteLayout>
