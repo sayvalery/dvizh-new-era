@@ -4,7 +4,6 @@ import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
-import StatsSection from '../components/ui/StatsSection.astro'
 import CTA from '../components/ui/CTA.astro'
 ---
 
@@ -37,6 +36,7 @@ import CTA from '../components/ui/CTA.astro'
 
   <!-- KeyFacts -->
   <KeyFacts
+    class="!pb-0"
     title="Больше лидов на том же трафике"
     items={[
       { value: '80% заявок', description: 'приходит в нерабочее время, не теряйте их' },
@@ -45,15 +45,10 @@ import CTA from '../components/ui/CTA.astro'
     ]}
   />
 
-  <StatsSection
-    cols={4}
-    items={[
-      { value: '80%', label: 'Заявок поступает в нерабочее время' },
-      { value: '50%', label: 'Клиентов хотят сами рассчитать платёж' },
-      { value: 'на 20%', label: 'Выше конверсия с калькулятором' },
-      { value: 'до 3 ч', label: 'От анкеты до ответа банка' },
-    ]}
-  />
+  <!-- Плейсхолдер виджета калькулятора -->
+  <div class="page-container w-full">
+    <div class="h-[150px] md:h-[400px] bg-gray-300 rounded-3xl"></div>
+  </div>
 
   <!-- Features Grid 1: ноль ошибок в ставках -->
   <FeaturesGrid
