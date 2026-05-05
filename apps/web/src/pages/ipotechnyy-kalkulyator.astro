@@ -1,6 +1,5 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
@@ -71,43 +70,6 @@ import CTA from '../components/ui/CTA.astro'
     primaryDrawerPreset="demo"
     secondaryButtonText="Пробовать бесплатно"
     secondaryDrawerPreset="lead"
-  />
-
-  <!-- Features Grid 1: ноль ошибок в ставках -->
-  <FeaturesGrid
-    badge="актуальные ставки"
-    title="Ноль ошибок в ставках"
-    description="Обновляем все ипотечные ставки от банков-партнёров. Клиенты видят только актуальные условия."
-    features={[
-      { icon: 'check', title: 'Автоматическое обновление', description: 'Ставки обновляются автоматически при изменении условий банков' },
-      { icon: 'building-bank', title: 'Все банки-партнёры', description: 'Актуальные программы от всех подключённых банков в одном виджете' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Features Grid 2: адаптация под себя -->
-  <FeaturesGrid
-    badge="настройка"
-    title="Адаптируйте под себя"
-    description="Встройте калькулятор на сайт через API. Настройте цвета под ваш бренд — виджет станет частью вашего сайта."
-    features={[
-      { icon: 'globe', title: 'API-интеграция', description: 'Гибкое API для встраивания калькулятора на любую страницу вашего сайта' },
-      { icon: 'arrow-path', title: 'Брендирование', description: 'Настройте цвета, шрифты и стиль виджета под фирменный стиль вашей компании' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Features Grid 3: повышение конверсии -->
-  <FeaturesGrid
-    badge="конверсия"
-    title="Повышайте конверсию"
-    description="Собирайте заявки на всех этапах: от расчёта платежа до подбора программы. Каждое взаимодействие — потенциальная сделка."
-    features={[
-      { icon: 'document', title: 'Заявки на каждом этапе', description: 'Формы захвата встроены в каждый шаг работы с калькулятором' },
-      { icon: 'database', title: 'Аналитика взаимодействий', description: 'Отслеживайте, на каком этапе клиенты оставляют заявки чаще всего' },
-      { icon: 'check', title: 'Круглосуточный приём', description: '80% заявок поступает в нерабочее время — калькулятор работает 24/7' },
-    ]}
-    variant="light"
   />
 
   <!-- CTA -->
