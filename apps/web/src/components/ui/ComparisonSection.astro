@@ -2,7 +2,6 @@
 /**
  * ComparisonSection — блок сравнения «рынок vs ДВИЖ»
  *
- * ## Вариант 'default' (по умолчанию)
  * Две колонки:
  * - Левая (нейтральная, серая): иконка «минус», всегда один вид.
  * - Правая (тёмная): логотип/изображение вверху, иконка «чек», CTA снизу.
@@ -12,7 +11,9 @@
  * содержимым. Это гарантирует выравнивание даже если текст занимает разное
  * количество строк.
  *
- * @example variant='default'
+ * Количество пунктов произвольное — оба списка независимы.
+ *
+ * @example
  * ```astro
  * <ComparisonSection
  *   label="В чём разница"
@@ -27,67 +28,31 @@
  *     'Считает все виды ипотек: траншевую, комбо, с удорожанием',
  *   ]}
  *   primaryButtonText="Записаться на демо"
- *   secondaryButtonText="Попробовать бесплатно"
- * />
- * ```
- *
- * ## Вариант 'prices'
- * Ценовое сравнение: строки вида «название → цена».
- * - Левая карточка (серая): заголовок + строки цен с приглушённостью (opacity-60).
- * - Правая карточка (тёмная): логотип + строки цен (белый текст, опциональный тултип).
- * CTA-кнопок нет.
- *
- * @example variant='prices'
- * ```astro
- * <ComparisonSection
- *   variant="prices"
- *   label="Стоимость"
- *   title="Дешевле на каждом этапе"
- *   leftTitle="Без ДВИЖа"
- *   priceRows={[
- *     { label: 'Регистрация', tooltip: 'Стоимость услуги сервиса', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
- *     { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
- *   ]}
+ *   secondaryButtonText="Пробовать бесплатно"
  * />
  * ```
  */
 
-/** Строка ценового сравнения для variant='prices' */
-interface PriceRow {
-  /** Название параметра */
-  label: string
-  /** Текст подсказки (tooltip) для иконки-информации в правой карточке */
-  tooltip?: string
-  /** Значение в левой (серой) карточке */
-  leftValue: string
-  /** Значение в правой (тёмной) карточке */
-  rightValue: string
-}
-
 interface Props {
-  /** Вариант отображения: 'default' — пункты с иконками, 'prices' — строки цен */
-  variant?: 'default' | 'prices'
   /** Мелкая подпись-бейдж над заголовком */
   label?: string
   /** Главный заголовок секции */
   title?: string
   /** Заголовок левой (серой) карточки */
   leftTitle: string
-  /** Пункты левой карточки (серые, с иконкой «минус») — только для variant='default' */
-  leftItems?: string[]
-  /** Пункты правой (тёмной) карточки (с иконкой «чек») — только для variant='default' */
-  rightItems?: string[]
-  /** Строки ценового сравнения — только для variant='prices' */
-  priceRows?: PriceRow[]
+  /** Пункты левой карточки (серые, с иконкой «минус») */
+  leftItems: string[]
+  /** Пункты правой (тёмной) карточки (с иконкой «чек») */
+  rightItems: string[]
   /** URL логотипа или изображения для правой карточки */
   rightLogoSrc?: string
   /** Alt-текст логотипа */
   rightLogoAlt?: string
-  /** Текст основной CTA-кнопки — только для variant='default' */
+  /** Текст основной CTA-кнопки */
   primaryButtonText?: string
   /** Пресет дровера для основной кнопки */
   primaryDrawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
-  /** Текст вторичной CTA-кнопки — только для variant='default' */
+  /** Текст вторичной CTA-кнопки */
   secondaryButtonText?: string
   /** Пресет дровера для вторичной кнопки */
   secondaryDrawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
@@ -98,28 +63,23 @@ interface Props {
 import Button from './Button.astro'
 
 const {
-  variant = 'default',
   label = 'В чём разница',
   title = 'Выбирайте лучшее',
   leftTitle,
   leftItems = [],
   rightItems = [],
-  priceRows = [],
   rightLogoSrc,
   rightLogoAlt = 'ДВИЖ',
   primaryButtonText = 'Записаться на демо',
   primaryDrawerPreset = 'demo',
-  secondaryButtonText = 'Попробовать бесплатно',
+  secondaryButtonText = 'Пробовать бесплатно',
   secondaryDrawerPreset = 'lead',
   class: className = '',
 } = Astro.props
 
-const isPrices = variant === 'prices'
-
 /**
  * Попарно объединяем пункты: каждый индекс — одна горизонтальная строка.
  * Если массивы разной длины, пустые ячейки заполняются null.
- * Используется только в variant='default'.
  */
 const maxLen = Math.max(leftItems.length, rightItems.length)
 const pairs = Array.from({ length: maxLen }, (_, i) => ({
@@ -144,90 +104,13 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
     </div>
 
     <!--
-      ═══ PRICES VARIANT ═══
-      Адаптивный: на мобайле flex-col, на десктопе flex-row.
-      justify-between на desktop — заголовок/лого вверху, строки цен внизу,
-      что визуально выравнивает их между карточками.
-    -->
-    {isPrices && (
-      <div class="flex flex-col lg:flex-row gap-6 lg:gap-10">
-
-        <!-- Левая карточка (без ДВИЖа) -->
-        <div class="bg-gray-200 rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px]">
-          <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
-          <div class="border-t border-gray-300 pt-8 flex flex-col gap-6 opacity-60">
-            {priceRows.map((row) => (
-              <div class="flex items-baseline justify-between gap-4">
-                <span class="text-body-lg text-gray-900 leading-[1.3]">{row.label}</span>
-                <span class="text-h3 text-gray-900 shrink-0 leading-none">{row.leftValue}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <!-- Правая карточка (ДВИЖ) -->
-        <!-- bg #151517 → bg-gray-900 (#1D1E21), ближайший токен -->
-        <div class="bg-gray-900 rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px]">
-
-          <!-- Логотип -->
-          <div class="h-[54px] flex items-center">
-            {rightLogoSrc ? (
-              <img src={rightLogoSrc} alt={rightLogoAlt} class="h-full w-auto object-contain" />
-            ) : (
-              <div class="h-full w-[220px] rounded-xl bg-white/10" role="img" aria-label={rightLogoAlt} />
-            )}
-          </div>
-
-          <!-- Строки цен -->
-          <div class="border-t border-white/15 pt-8 flex flex-col gap-6">
-            {priceRows.map((row) => (
-              <div class="flex items-baseline justify-between gap-4">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-body-lg text-white leading-[1.3]">{row.label}</span>
-                  {row.tooltip && (
-                    <span x-data="{ open: false }" class="relative inline-flex shrink-0">
-                      <button
-                        type="button"
-                        @mouseenter="open = true"
-                        @mouseleave="open = false"
-                        @focus="open = true"
-                        @blur="open = false"
-                        class="text-white/40 hover:text-white/70 transition-colors cursor-default"
-                        aria-label={row.tooltip}
-                      >
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                          <circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/>
-                          <path d="M8 7.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                          <circle cx="8" cy="5.5" r="0.75" fill="currentColor"/>
-                        </svg>
-                      </button>
-                      <div
-                        x-show="open"
-                        x-cloak
-                        x-transition.opacity
-                        class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-gray-800 text-white text-footnote rounded-3xl px-3 py-2 pointer-events-none z-20 text-center"
-                      >{row.tooltip}</div>
-                    </span>
-                  )}
-                </div>
-                <span class="text-h3 text-white shrink-0 leading-none">{row.rightValue}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-      </div>
-    )}
-
-    <!--
       ═══ MOBILE (< lg): простые стекированные карточки ═══
       Стандартный flex-col — пункты внутри каждой карточки независимы.
     -->
-    {!isPrices && (
     <div class="flex flex-col gap-6 lg:hidden">
 
       <!-- Левая карточка -->
-      <div class="bg-gray-200 rounded-3xl p-8 flex flex-col gap-14">
+      <div class="bg-background-secondary rounded-[24px] p-8 flex flex-col gap-14">
         <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
         <div class="flex flex-col divide-y divide-gray-300">
           {leftItems.map((text) => (
@@ -244,7 +127,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 
       <!-- Правая карточка -->
       <!-- Цвет фона в Figma: #131313 → используем bg-gray-900 (#1D1E21), ближайший токен -->
-      <div class="bg-gray-900 rounded-3xl p-8 flex flex-col justify-between gap-10">
+      <div class="bg-gray-900 rounded-[24px] p-8 flex flex-col justify-between gap-10">
         <div class="flex flex-col gap-10">
           <div class="h-[54px] flex items-center">
             {rightLogoSrc ? (
@@ -272,7 +155,6 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       </div>
 
     </div>
-    )}
 
     <!--
       ═══ DESKTOP (≥ lg): выровненная по строкам сетка ═══
@@ -286,7 +168,6 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       если один текст однострочный, а другой двухстрочный, оба занимают
       одинаковую высоту.
     -->
-    {!isPrices && (
     <div class="hidden lg:grid lg:grid-cols-2 lg:gap-6 relative">
 
       <!--
@@ -295,12 +176,12 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
         inset-y-0 растягивает их на полную высоту grid-контейнера.
       -->
       <div
-        class="absolute inset-y-0 left-0 rounded-3xl bg-gray-200"
+        class="absolute inset-y-0 left-0 rounded-[24px] bg-gray-200"
         style="width: calc(50% - 0.75rem)"
         aria-hidden="true"
       ></div>
       <div
-        class="absolute inset-y-0 right-0 rounded-3xl bg-gray-900"
+        class="absolute inset-y-0 right-0 rounded-[24px] bg-gray-900"
         style="width: calc(50% - 0.75rem)"
         aria-hidden="true"
       ></div>
@@ -373,7 +254,6 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       </div>
 
     </div>
-    )}
 
   </div>
 </section>
