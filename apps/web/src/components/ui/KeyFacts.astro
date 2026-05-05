@@ -58,28 +58,35 @@ const gridCols = {
         </h2>
       )}
 
-      <div class:list={['grid grid-cols-1 gap-10 lg:gap-8', gridCols]}>
-        {items.map((item, i) => (
-          <div class="flex gap-6 min-h-[280px] lg:min-h-[404px]">
+      <div class="flex flex-col gap-4 lg:gap-6">
 
-            {/* Вертикальная черта — градиент: исключение, CSS gradient не поддерживает Tailwind-токены */}
-            <div class="w-px shrink-0 self-stretch" style="background: linear-gradient(to bottom, transparent 0%, #ff4d00 47%, transparent 100%)" aria-hidden="true"></div>
+        <!-- Ряд 1: номер + значение. justify-between выравнивает значения по одной линии,
+             поскольку description вынесен в отдельный ряд и не влияет на высоту ячейки -->
+        <div class:list={['grid grid-cols-1 gap-10 lg:gap-8', gridCols]}>
+          {items.map((item, i) => (
+            <div class="flex gap-6 min-h-[220px] lg:min-h-[340px]">
 
-            {/* Контент колонки: номер сверху, значение+описание снизу */}
-            <div class="flex flex-col justify-between flex-1">
-              <span class="text-subhead text-gray-400">
-                {String(i + 1).padStart(3, '0')}
-              </span>
-              <div class="flex flex-col gap-4">
-                <p class="text-h2 text-gray-900">
-                  {item.value}
-                </p>
-                <p class="text-body-lg text-gray-900" set:html={item.description} />
+              {/* Вертикальная черта — градиент */}
+              <div class="w-px shrink-0 self-stretch" style="background: linear-gradient(to bottom, transparent 0%, #ff4d00 47%, transparent 100%)" aria-hidden="true"></div>
+
+              <div class="flex flex-col justify-between flex-1">
+                <span class="text-subhead text-gray-400">
+                  {String(i + 1).padStart(3, '0')}
+                </span>
+                <p class="text-h2 text-gray-900">{item.value}</p>
               </div>
-            </div>
 
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
+
+        <!-- Ряд 2: описания — вынесены сюда, чтобы не сдвигали значения вверх -->
+        <div class:list={['grid grid-cols-1 gap-10 lg:gap-8', gridCols]}>
+          {items.map((item) => (
+            <p class="text-body-lg text-gray-900 pl-[25px]" set:html={item.description} />
+          ))}
+        </div>
+
       </div>
 
     </div>
