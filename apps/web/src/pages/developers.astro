@@ -27,6 +27,18 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
   <!-- gap-10 (40px) / xs:gap-12 (48px) / md:gap-24 / lg:gap-36 -->
   <div class="flex flex-col gap-10 xs:gap-12 md:gap-24 lg:gap-36">
 
+  <!-- Бегущая строка с логотипами — сразу под Hero -->
+  <LogoGrid
+    logos={[
+      { src: '/partners/dark/a101.svg', alt: 'А101' },
+      { src: '/partners/dark/ava.svg', alt: 'AVA' },
+      { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
+      { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
+      { src: '/partners/dark/strana.svg', alt: 'Страна' },
+      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+    ]}
+  />
+
   <!-- DeveloperBlock -->
   <FeatureBlock
     heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
@@ -40,18 +52,6 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
       { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
       { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
       { title: 'Контроль «зависших» обращений 24/7' },
-    ]}
-  />
-
-  <!-- Бегущая строка с логотипами -->
-  <LogoGrid
-    logos={[
-      { src: '/partners/dark/a101.svg', alt: 'А101' },
-      { src: '/partners/dark/ava.svg', alt: 'AVA' },
-      { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
-      { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
-      { src: '/partners/dark/strana.svg', alt: 'Страна' },
-      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
     ]}
   />
 
@@ -92,7 +92,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
         {
           label: 'Лидогенерация',
           cards: [
-            { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
+            { title: 'Калькулятор ипотеки и рассрочки', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
             { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
             { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
           ],
@@ -101,7 +101,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
           label: 'Управление заявками',
           cards: [
             { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
-            { title: 'Финансовый скоринг', description: 'Сократите число отказов в банках', href: '/scoring' },
+            { title: 'Финансовый скоринг', description: 'Доведем больше клиентов до одобрения', href: '/scoring' },
           ],
         },
         {
