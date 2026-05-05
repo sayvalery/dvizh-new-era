@@ -26,9 +26,6 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
   <!-- gap-10 (40px) / xs:gap-12 (48px) / lg:gap-36 -->
   <div class="flex flex-col gap-10 xs:gap-12 md:gap-24 lg:gap-36">
 
-  <!-- gap: 40px / 48px (xs) / 96px (md) / 144px (lg) -->
-  <div class="flex flex-col gap-10 xs:gap-12 md:gap-24 lg:gap-36">
-
   <!-- DeveloperBlock -->
   <FeatureBlock
     heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
@@ -88,7 +85,8 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
   />
 
   <!-- ModalSection — продукты по этапам сделки -->
-  <div class="page-container">
+  <section class="py-16 lg:py-20">
+    <div class="page-container">
       <ModalSection
         heading="Добиваемся высоких конверсий на каждом этапе сделки"
         groups={[
@@ -115,7 +113,8 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
           },
         ]}
       />
-  </div>
+    </div>
+  </section>
 
   <!-- ComparisonSection -->
   <ComparisonSection
@@ -137,7 +136,8 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
   />
 
   <!-- Form Closing -->
-  <div class="page-container">
+  <section class="pb-16 lg:pb-20">
+    <div class="page-container">
       <FormClosing
         mode="buttons"
         title="Аудит вашего отдела продаж от аналитиков ДВИЖа"
