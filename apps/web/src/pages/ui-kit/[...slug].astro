@@ -4,62 +4,72 @@ import NavBar from '../../components/ui/NavBar.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
 import Form from '../../components/ui/Form.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
-import LogoGrid from '../../components/ui/LogoGrid.astro'
 import Drawer from '../../components/ui/Drawer.astro'
-import CTA from '../../components/ui/CTA.astro'
 import CTABlock from '../../components/blocks/CTABlock.astro'
 import ImageBlock from '../../components/blocks/ImageBlock.astro'
 import VideoBlock from '../../components/blocks/VideoBlock.astro'
 import QuoteBlock from '../../components/blocks/QuoteBlock.astro'
 import FormBlock from '../../components/blocks/FormBlock.astro'
 import RichTextBlock from '../../components/blocks/RichTextBlock.astro'
-import FeaturesGrid from '../../components/ui/FeaturesGrid.astro'
-import BentoGrid from '../../components/ui/BentoGrid.astro'
-import SuccessStory from '../../components/ui/SuccessStory.astro'
-import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 import HeroSection from '../../components/ui/HeroSection.astro'
 import MeshGradient from '../../components/ui/MeshGradient.astro'
-import StatsSection from '../../components/ui/StatsSection.astro'
 import Timeline from '../../components/ui/Timeline.astro'
 import BlogCard from '../../components/ui/BlogCard.astro'
-import SectionBlock from '../../components/ui/SectionBlock.astro'
 import PropsTable from '../../components/ui/PropsTable.astro'
-import GradientCTA from '../../components/ui/GradientCTA.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
-import ProductCard from '../../components/ui/ProductCard.astro'
-import ProductSection from '../../components/ui/ProductSection.astro'
-import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
-import SectionNavigator from '../../components/ui/SectionNavigator.astro'
-import DvizhAdvantages from '../../components/ui/DvizhAdvantages.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
+import AdvantageCard from '../../components/ui/AdvantageCard.astro'
+import Island from '../../components/ui/Island.astro'
+import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
+import SideMenu from '../../components/ui/SideMenu.astro'
+import Button from '../../components/ui/Button.astro'
+import Input from '../../components/ui/Input.astro'
+import BentoGrid from '../../components/ui/BentoGrid.astro'
+import ProductCard from '../../components/ui/ProductCard.astro'
+import ProductCardReview from '../../components/ui/ProductCardReview.astro'
+import ProductSection from '../../components/ui/ProductSection.astro'
+import AaiHero from '../../components/ui/AaiHero.astro'
+import FeatureBlock from '../../components/ui/FeatureBlock.astro'
+import ModalCard from '../../components/ui/ModalCard.astro'
+import ModalSection from '../../components/ui/ModalSection.astro'
+import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
+import KeyFacts from '../../components/ui/KeyFacts.astro'
+import LogoGrid from '../../components/ui/LogoGrid.astro'
+import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
+import ReviewFull from '../../components/ui/ReviewFull.astro'
+import TextImageBlock from '../../components/ui/TextImageBlock.astro'
+import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
 import personCardRaw from '../../components/ui/PersonCard.astro?raw'
 import formRaw from '../../components/ui/Form.astro?raw'
 import formClosingRaw from '../../components/ui/FormClosing.astro?raw'
-import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
-import ctaRaw from '../../components/ui/CTA.astro?raw'
-import featuresGridRaw from '../../components/ui/FeaturesGrid.astro?raw'
-import successStoryRaw from '../../components/ui/SuccessStory.astro?raw'
-import storiesCarouselRaw from '../../components/ui/SuccessStoriesCarousel.astro?raw'
-import bentoGridRaw from '../../components/ui/BentoGrid.astro?raw'
 import heroSectionRaw from '../../components/ui/HeroSection.astro?raw'
 import meshGradientRaw from '../../components/ui/MeshGradient.astro?raw'
-import statsSectionRaw from '../../components/ui/StatsSection.astro?raw'
 import timelineRaw from '../../components/ui/Timeline.astro?raw'
 import blogCardRaw from '../../components/ui/BlogCard.astro?raw'
-import sectionBlockRaw from '../../components/ui/SectionBlock.astro?raw'
-import gradientCTARaw from '../../components/ui/GradientCTA.astro?raw'
 import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
-import productCardRaw from '../../components/ui/ProductCard.astro?raw'
-import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
-import productSectionNewRaw from '../../components/ui/ProductSectionNew.astro?raw'
-import sectionNavigatorRaw from '../../components/ui/SectionNavigator.astro?raw'
-import dvizhAdvantagesRaw from '../../components/ui/DvizhAdvantages.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
+import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
+import islandRaw from '../../components/ui/Island.astro?raw'
+import buttonRaw from '../../components/ui/Button.astro?raw'
+import inputRaw from '../../components/ui/Input.astro?raw'
+import bentoGridRaw from '../../components/ui/BentoGrid.astro?raw'
+import productCardRaw from '../../components/ui/ProductCard.astro?raw'
+import productCardReviewRaw from '../../components/ui/ProductCardReview.astro?raw'
+import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
+import aaiHeroRaw from '../../components/ui/AaiHero.astro?raw'
+import featureBlockRaw from '../../components/ui/FeatureBlock.astro?raw'
+import modalCardRaw from '../../components/ui/ModalCard.astro?raw'
+import modalSectionRaw from '../../components/ui/ModalSection.astro?raw'
+import successStoryBlockRaw from '../../components/ui/SuccessStoryBlock.astro?raw'
+import keyFactsRaw from '../../components/ui/KeyFacts.astro?raw'
 import comparisonSectionRaw from '../../components/ui/ComparisonSection.astro?raw'
+import reviewFullRaw from '../../components/ui/ReviewFull.astro?raw'
+import textImageBlockRaw from '../../components/ui/TextImageBlock.astro?raw'
+import storiesCarouselRaw from '../../components/ui/SuccessStoriesCarousel.astro?raw'
 
 interface PropMeta {
   name: string
@@ -125,27 +135,24 @@ const navBarMeta = parseSource(navBarRaw)
 const personCardMeta = parseSource(personCardRaw)
 const formMeta = parseSource(formRaw)
 const formClosingMeta = parseSource(formClosingRaw)
-const logoGridMeta = parseSource(logoGridRaw)
-const ctaMeta = parseSource(ctaRaw)
-const featuresGridMeta = parseSource(featuresGridRaw)
-const successStoryMeta = parseSource(successStoryRaw)
-const storiesCarouselMeta = parseSource(storiesCarouselRaw)
-const bentoGridMeta = parseSource(bentoGridRaw)
 const heroSectionMeta = parseSource(heroSectionRaw)
 const meshGradientMeta = parseSource(meshGradientRaw)
-const statsSectionMeta = parseSource(statsSectionRaw)
 const timelineMeta = parseSource(timelineRaw)
 const blogCardMeta = parseSource(blogCardRaw)
-const sectionBlockMeta = parseSource(sectionBlockRaw)
-const gradientCTAMeta = parseSource(gradientCTARaw)
 const blogCardsMeta = parseSource(blogCardsRaw)
-const productCardMeta = parseSource(productCardRaw)
-const productSectionMeta = parseSource(productSectionRaw)
-const productSectionNewMeta = parseSource(productSectionNewRaw)
-const sectionNavigatorMeta = parseSource(sectionNavigatorRaw)
-const dvizhAdvantagesMeta = parseSource(dvizhAdvantagesRaw)
 const storyCardMeta = parseSource(storyCardRaw)
-const comparisonSectionMeta = parseSource(comparisonSectionRaw)
+const advantageCardMeta = parseSource(advantageCardRaw)
+const islandMeta = parseSource(islandRaw)
+const buttonMeta = parseSource(buttonRaw)
+const inputMeta = parseSource(inputRaw)
+const bentoGridMeta = parseSource(bentoGridRaw)
+const productCardMeta = parseSource(productCardRaw)
+const productCardReviewMeta = parseSource(productCardReviewRaw)
+const productSectionMeta = parseSource(productSectionRaw)
+const aaiHeroMeta = parseSource(aaiHeroRaw)
+const reviewFullMeta = parseSource(reviewFullRaw)
+const textImageBlockMeta = parseSource(textImageBlockRaw)
+const storiesCarouselMeta = parseSource(storiesCarouselRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -159,28 +166,35 @@ export function getStaticPaths() {
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
     { params: { slug: 'forms' }, props: { section: 'forms' } },
     { params: { slug: 'form-closing' }, props: { section: 'form-closing' } },
-    { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
     { params: { slug: 'cards' }, props: { section: 'cards' } },
+    { params: { slug: 'advantage-card' }, props: { section: 'advantage-card' } },
     { params: { slug: 'drawer' }, props: { section: 'drawer' } },
-    { params: { slug: 'cta' }, props: { section: 'cta' } },
     { params: { slug: 'blocks' }, props: { section: 'blocks' } },
-    { params: { slug: 'features' }, props: { section: 'features' } },
-    { params: { slug: 'stories' }, props: { section: 'stories' } },
-    { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
-    { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'hero' }, props: { section: 'hero' } },
     { params: { slug: 'mesh-gradient' }, props: { section: 'mesh-gradient' } },
-    { params: { slug: 'stats' }, props: { section: 'stats' } },
     { params: { slug: 'timeline' }, props: { section: 'timeline' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
-    { params: { slug: 'section-block' }, props: { section: 'section-block' } },
-    { params: { slug: 'gradient-cta' }, props: { section: 'gradient-cta' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
+    { params: { slug: 'island' }, props: { section: 'island' } },
+    { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
+    { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
+    { params: { slug: 'story-card' }, props: { section: 'story-card' } },
+    { params: { slug: 'input' }, props: { section: 'input' } },
+    { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'product-card' }, props: { section: 'product-card' } },
+    { params: { slug: 'product-card-review' }, props: { section: 'product-card-review' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
-    { params: { slug: 'product-section-new' }, props: { section: 'product-section-new' } },
-    { params: { slug: 'section-navigator' }, props: { section: 'section-navigator' } },
-    { params: { slug: 'dvizh-advantages' }, props: { section: 'dvizh-advantages' } },
+    { params: { slug: 'aai-hero' }, props: { section: 'aai-hero' } },
+    { params: { slug: 'feature-block' }, props: { section: 'feature-block' } },
+    { params: { slug: 'modal-card' }, props: { section: 'modal-card' } },
+    { params: { slug: 'modal-section' }, props: { section: 'modal-section' } },
+    { params: { slug: 'success-story-block' }, props: { section: 'success-story-block' } },
+    { params: { slug: 'key-facts' }, props: { section: 'key-facts' } },
+    { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
+    { params: { slug: 'comparison' }, props: { section: 'comparison' } },
+    { params: { slug: 'review-full' }, props: { section: 'review-full' } },
+    { params: { slug: 'text-image-block' }, props: { section: 'text-image-block' } },
+    { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
   ]
 }
 
@@ -188,36 +202,42 @@ const { section } = Astro.props
 
 const sections = [
   { slug: '', label: 'Обзор' },
-  { slug: 'navigation', label: 'Навигация' },
-  { slug: 'persons', label: 'Персоны' },
+  { slug: 'navigation', label: 'Header' },
+  { slug: 'persons', label: 'PersonCard' },
   { slug: 'typography', label: 'Типографика' },
   { slug: 'colors', label: 'Цвета' },
   { slug: 'buttons', label: 'Кнопки' },
   { slug: 'forms', label: 'Формы' },
   { slug: 'form-closing', label: 'Form Closing' },
-  { slug: 'logo-grid', label: 'Logo Grid' },
   { slug: 'cards', label: 'Карточки' },
+  { slug: 'advantage-card', label: 'AdvantageCard' },
   { slug: 'drawer', label: 'Дровер' },
-  { slug: 'cta', label: 'CTA' },
   { slug: 'blocks', label: 'Блоки статей' },
-  { slug: 'features', label: 'Features Grid' },
-  { slug: 'stories', label: 'Success Story' },
-  { slug: 'stories-carousel', label: 'Stories Carousel' },
-  { slug: 'bento', label: 'Bento Grid' },
   { slug: 'hero', label: 'Hero Section' },
   { slug: 'mesh-gradient', label: 'Mesh Gradient' },
-  { slug: 'stats', label: 'Stats Section' },
   { slug: 'timeline', label: 'Timeline' },
   { slug: 'blogcard', label: 'Blog Card' },
-  { slug: 'section-block', label: 'Section Block' },
-  { slug: 'gradient-cta', label: 'Gradient CTA' },
   { slug: 'blog-cards', label: 'Blog Cards' },
+  { slug: 'island', label: 'Island' },
+  { slug: 'modal-inline-form', label: 'Modal Inline Form' },
+  { slug: 'side-menu', label: 'Side Menu' },
+  { slug: 'story-card', label: 'StoryCard' },
+  { slug: 'input', label: 'Input' },
+  { slug: 'bento', label: 'Bento Grid' },
   { slug: 'product-card', label: 'Product Card' },
+  { slug: 'product-card-review', label: 'Product Card Review' },
   { slug: 'product-section', label: 'Product Section' },
-  { slug: 'product-section-new', label: 'Product Section New' },
-  { slug: 'section-navigator', label: 'Section Navigator' },
-  { slug: 'dvizh-advantages', label: 'Dvizh Advantages' },
-  { slug: 'comparison-section', label: 'Comparison Section' },
+  { slug: 'aai-hero', label: 'AaiHero' },
+  { slug: 'feature-block', label: 'FeatureBlock' },
+  { slug: 'modal-card', label: 'ModalCard' },
+  { slug: 'modal-section', label: 'ModalSection' },
+  { slug: 'success-story-block', label: 'SuccessStoryBlock' },
+  { slug: 'key-facts', label: 'KeyFacts' },
+  { slug: 'logo-grid', label: 'LogoGrid' },
+  { slug: 'comparison', label: 'ComparisonSection' },
+  { slug: 'review-full', label: 'ReviewFull' },
+  { slug: 'text-image-block', label: 'TextImageBlock' },
+  { slug: 'stories-carousel', label: 'SuccessStoriesCarousel' },
 ]
 ---
 
@@ -257,7 +277,7 @@ const sections = [
 
       {section === 'navigation' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Навигация</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">Header</h1>
           <PropsTable props={navBarMeta.props} class="mb-8" />
 
           <div class="space-y-10">
@@ -267,20 +287,18 @@ const sections = [
                 <NavBar
                   logo={{ label: 'ДВИЖ', href: '#', image: '/logo-dvizh.svg' }}
                   items={[
-                    { label: 'Продукты', sections: [
-                      { title: 'Продукты', items: [
-                        { label: 'Ипотека', href: '#', description: 'Ипотечный процесс от заявки до выдачи' },
-                        { label: 'Электронная регистрация', href: '#', description: 'Цифровая регистрация сделок' },
-                        { label: 'QBR', href: '#', description: 'Аналитика и отчёты' },
-                      ]},
-                      { title: 'Решения', items: [
-                        { label: 'Для банков', href: '#' },
-                        { label: 'Для девелоперов', href: '#' },
-                      ]},
-                      { title: 'Для кого', items: [
-                        { label: 'Департамент продаж', href: '#' },
-                        { label: 'Отдел ипотеки', href: '#' },
-                      ]},
+                    { label: 'Продукты', children: [
+                      { label: 'Ипотека', href: '#', description: 'Ипотечный процесс от заявки до выдачи' },
+                      { label: 'Электронная регистрация', href: '#', description: 'Цифровая регистрация сделок' },
+                      { label: 'QBR', href: '#', description: 'Аналитика и отчёты' },
+                    ]},
+                    { label: 'Решения', children: [
+                      { label: 'Для банков', href: '#' },
+                      { label: 'Для девелоперов', href: '#' },
+                    ]},
+                    { label: 'Для кого', children: [
+                      { label: 'Департамент продаж', href: '#' },
+                      { label: 'Отдел ипотеки', href: '#' },
                     ]},
                     { label: 'Блог', href: '#', badge: 'dot' },
                     { label: 'О нас', href: '#' },
@@ -380,8 +398,9 @@ const sections = [
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Inline — аватар + имя (без подзаголовка)</p>
               <div class="flex flex-wrap gap-4">
-                <PersonCard person={{ name: 'Иван Азизов', jobTitle: 'CEO' }} variant="inline" />
-                <PersonCard person={{ name: 'Анна Смирнова' }} variant="inline" />
+                <PersonCard person={{ name: 'Иван Азизов', jobTitle: 'CEO', photo: { url: 'https://i.pravatar.cc/40?img=11' } }} variant="inline" />
+                <PersonCard person={{ name: 'Анна Смирнова', photo: { url: 'https://i.pravatar.cc/40?img=5' } }} variant="inline" />
+                <PersonCard person={{ name: 'Без фото' }} variant="inline" />
               </div>
             </div>
 
@@ -389,7 +408,7 @@ const sections = [
               <p class="text-sm font-medium text-gray-400 mb-4">В контексте статьи — inline в шапке, full внизу</p>
               <div class="border rounded-xl p-6 max-w-lg space-y-4">
                 <div class="flex items-center gap-4">
-                  <PersonCard person={{ name: 'Иван Азизов' }} variant="inline" />
+                  <PersonCard person={{ name: 'Иван Азизов', photo: { url: 'https://i.pravatar.cc/40?img=11' } }} variant="inline" />
                   <span class="text-sm text-gray-400">12 января 2025</span>
                 </div>
                 <p class="text-sm text-gray-600">Текст статьи…</p>
@@ -405,78 +424,369 @@ const sections = [
       )}
 
       {section === 'typography' && (
-        <div class="space-y-8">
+        <div class="space-y-12">
           <h1 class="text-3xl font-bold font-heading mb-6">Типографика</h1>
-          <div class="space-y-4">
-            <div><span class="text-xs text-gray-400 block mb-1">text-5xl font-bold font-heading</span><p class="text-5xl font-bold font-heading">Заголовок H1</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-4xl font-bold font-heading</span><p class="text-4xl font-bold font-heading">Заголовок H2</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-3xl font-semibold font-heading</span><p class="text-3xl font-semibold font-heading">Заголовок H3</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-xl</span><p class="text-xl">Подзаголовок / лид-текст</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-base</span><p class="text-base">Основной текст. Движ помогает банкам и девелоперам автоматизировать ипотечный процесс.</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-sm text-gray-600</span><p class="text-sm text-gray-600">Вспомогательный текст, подписи, метаданные</p></div>
-            <div><span class="text-xs text-gray-400 block mb-1">text-xs uppercase tracking-wide</span><p class="text-xs uppercase tracking-wide text-gray-400">Метка / Теги</p></div>
+
+          <!-- Заголовки -->
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-6">Заголовки — Styrene A</p>
+            <div class="space-y-8">
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h1 — Styrene Bold 64, lh 100%, ls -1px</span>
+                <p class="text-h1">H1 Bold 64</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h1-italic — Styrene Bold Italic 64, lh 100%, ls -1px</span>
+                <p class="text-h1-italic">H1 Bold Italic 64</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h2 — Styrene Medium 48, lh 100%, ls -2px</span>
+                <p class="text-h2">H2 Medium 48</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h3 — Styrene Medium 32, lh 100%, ls -1px</span>
+                <p class="text-h3">H3 Medium 32</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h4 — Styrene Medium 24, lh 120%, ls -2px</span>
+                <p class="text-h4">H4 Medium 24</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h5 — Styrene Bold 18, lh 120%, ls -2px</span>
+                <p class="text-h5">H5 Bold 18</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-h6 — Styrene Bold 16, lh 120%, ls -2px</span>
+                <p class="text-h6">H6 Bold 16</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Тело текста -->
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-6">Тело текста — Inter</p>
+            <div class="space-y-8">
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-medium-32 — Inter Medium 32, lh 100%, ls -1px</span>
+                <p class="text-medium-32">Medium 32</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-body-lg — Inter Regular 18, lh 140%, ls -0.5px</span>
+                <p class="text-body-lg">Body 18. ДВИЖ помогает застройщикам автоматизировать продажи и ипотеку.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-body-lg-italic — Inter Regular Italic 18, lh 140%, ls -0.5px</span>
+                <p class="text-body-lg-italic">Body Italic 18. ДВИЖ помогает застройщикам автоматизировать продажи и ипотеку.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-subhead — Inter Regular 16, lh 140%, ls -0.5px</span>
+                <p class="text-subhead">Subhead 16. Вспомогательный текст и подзаголовки.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-footnote — Inter Regular 14, lh 140%, ls -0.5px</span>
+                <p class="text-footnote">Footnote 14. Мелкие подписи, метаданные, примечания.</p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-400 block mb-2">.text-side-menu — Inter SemiBold 12, lh 140%, ls 1px, uppercase</span>
+                <p class="text-side-menu">Side Menu 12</p>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
       {section === 'colors' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Цвета</h1>
-          <div class="space-y-6">
+          <h1 class="text-3xl font-bold font-heading mb-8">Цвета</h1>
+          <div class="space-y-10">
+
+            <!-- Brand -->
             <div>
-              <p class="text-sm font-medium mb-3">Бренд (Brand) — #ff4d00</p>
-              <div class="flex gap-3">
-                <div class="w-16 h-16 bg-brand-50 rounded-lg border" title="brand-50"></div>
-                <div class="w-16 h-16 bg-brand-100 rounded-lg" title="brand-100"></div>
-                <div class="w-16 h-16 bg-brand-200 rounded-lg" title="brand-200"></div>
-                <div class="w-16 h-16 bg-brand-300 rounded-lg" title="brand-300"></div>
-                <div class="w-16 h-16 bg-brand-400 rounded-lg" title="brand-400"></div>
-                <div class="w-16 h-16 bg-brand rounded-lg" title="brand-500 DEFAULT"></div>
-                <div class="w-16 h-16 bg-brand-600 rounded-lg" title="brand-600"></div>
-                <div class="w-16 h-16 bg-brand-700 rounded-lg" title="brand-700"></div>
-                <div class="w-16 h-16 bg-brand-800 rounded-lg" title="brand-800"></div>
-                <div class="w-16 h-16 bg-brand-900 rounded-lg" title="brand-900"></div>
+              <p class="text-sm font-semibold mb-4">Бренд (Brand) — #ff4d00</p>
+              <div class="flex flex-wrap gap-3">
+                {[
+                  { cls: 'bg-brand-50',  label: '50',  hex: '#fff5ed' },
+                  { cls: 'bg-brand-100', label: '100', hex: '#ffe8d5' },
+                  { cls: 'bg-brand-200', label: '200', hex: '#fecda9' },
+                  { cls: 'bg-brand-300', label: '300', hex: '#fda973' },
+                  { cls: 'bg-brand-400', label: '400', hex: '#fb7a3a' },
+                  { cls: 'bg-brand',     label: '500',  hex: '#ff4d00' },
+                  { cls: 'bg-brand-600', label: '600', hex: '#e64600' },
+                  { cls: 'bg-brand-700', label: '700', hex: '#be3500' },
+                  { cls: 'bg-brand-800', label: '800', hex: '#972c07' },
+                  { cls: 'bg-brand-900', label: '900', hex: '#7a280c' },
+                ].map(s => (
+                  <div class="flex flex-col items-center gap-1.5">
+                    <div class={`w-16 h-16 rounded-xl border border-black/5 ${s.cls}`}></div>
+                    <span class="text-xs font-medium text-gray-700">{s.label}</span>
+                    <span class="text-[10px] text-gray-400 font-mono">{s.hex}</span>
+                  </div>
+                ))}
               </div>
             </div>
+
+            <!-- Gray -->
             <div>
-              <p class="text-sm font-medium mb-3">Основные</p>
-              <div class="flex gap-3">
-                <div class="w-16 h-16 bg-black rounded-lg" title="black"></div>
-                <div class="w-16 h-16 bg-white border rounded-lg" title="white"></div>
-                <div class="w-16 h-16 bg-gray-100 rounded-lg" title="gray-100"></div>
-                <div class="w-16 h-16 bg-gray-200 rounded-lg" title="gray-200"></div>
-                <div class="w-16 h-16 bg-gray-500 rounded-lg" title="gray-500"></div>
-                <div class="w-16 h-16 bg-gray-900 rounded-lg" title="gray-900"></div>
+              <p class="text-sm font-semibold mb-4">Серый (Gray)</p>
+              <div class="flex flex-wrap gap-3">
+                {[
+                  { cls: 'bg-gray-100', label: '100', hex: '#FBF9F6' },
+                  { cls: 'bg-gray-200', label: '200', hex: '#F3F1EE' },
+                  { cls: 'bg-gray-300', label: '300', hex: '#E6E4E1' },
+                  { cls: 'bg-gray-400', label: '400', hex: '#C2C2C2' },
+                  { cls: 'bg-gray-500', label: '500', hex: '#858585' },
+                  { cls: 'bg-gray-600', label: '600', hex: '#6D6C6C' },
+                  { cls: 'bg-gray-700', label: '700', hex: '#505050' },
+                  { cls: 'bg-gray-800', label: '800', hex: '#323232' },
+                  { cls: 'bg-gray-900', label: '900', hex: '#1D1E21' },
+                ].map(s => (
+                  <div class="flex flex-col items-center gap-1.5">
+                    <div class={`w-16 h-16 rounded-xl border border-black/5 ${s.cls}`}></div>
+                    <span class="text-xs font-medium text-gray-700">{s.label}</span>
+                    <span class="text-[10px] text-gray-400 font-mono">{s.hex}</span>
+                  </div>
+                ))}
               </div>
             </div>
+
+            <!-- Base -->
+            <div>
+              <p class="text-sm font-semibold mb-4">Базовые</p>
+              <div class="flex flex-wrap gap-3">
+                {[
+                  { style: 'background:#ffffff', label: 'white',          hex: '#ffffff',  border: true },
+                  { style: 'background:#000000', label: 'black',          hex: '#000000'               },
+                  { style: 'background:#FBF9F6', label: 'background',     hex: '#FBF9F6',  border: true },
+                  { style: 'background:#1D1E21', label: 'text-primary',   hex: '#1D1E21'               },
+                  { style: 'background:#858585', label: 'text-secondary', hex: '#858585'               },
+                ].map(s => (
+                  <div class="flex flex-col items-center gap-1.5">
+                    <div class={`w-16 h-16 rounded-xl ${s.border ? 'border border-gray-200' : ''}`} style={s.style}></div>
+                    <span class="text-xs font-medium text-gray-700">{s.label}</span>
+                    <span class="text-[10px] text-gray-400 font-mono">{s.hex}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
         </div>
       )}
 
       {section === 'buttons' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Кнопки</h1>
-          <div class="space-y-8">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-3">Primary</p>
-              <div class="flex gap-3 items-center">
-                <button class="bg-black text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-800">Запросить демо</button>
-                <button class="bg-black text-white px-4 py-2 rounded text-sm font-medium hover:bg-gray-800">Малый</button>
-                <button class="bg-black text-white px-8 py-4 rounded-xl font-medium hover:bg-gray-800">Большой</button>
+          <h1 class="text-3xl font-bold font-heading mb-2">Кнопки</h1>
+          <p class="text-gray-500 text-sm mb-2">4 варианта · 3 размера · 3 состояния · иконки с обеих сторон</p>
+          <p class="text-xs text-gray-400 font-mono mb-8">components/ui/Button.astro</p>
+
+          <PropsTable props={buttonMeta.props} class="mb-12" />
+
+          <!-- Размеры и варианты (статика) -->
+          {[
+            {
+              variant: 'primary' as const,
+              desc: 'Оранжевый фон, белый текст',
+              states: {
+                default:  'bg-brand text-white',
+                hover:    'bg-brand-600 text-white',
+                disabled: 'bg-brand text-white opacity-40',
+              },
+            },
+            {
+              variant: 'secondary' as const,
+              desc: 'Белый фон, тёмный текст',
+              states: {
+                default:  'bg-white text-[#122226]',
+                hover:    'bg-[#e6e4e1] text-[#122226]',
+                disabled: 'bg-white text-[#9ca3a8] opacity-60',
+              },
+            },
+            {
+              variant: 'ghost' as const,
+              desc: 'Прозрачный фон, тёмный текст',
+              states: {
+                default:  'text-[#122226]',
+                hover:    'bg-[#e6e4e1] text-[#122226]',
+                disabled: 'text-[#6b7280] opacity-60',
+              },
+            },
+            {
+              variant: 'dark' as const,
+              desc: 'Тёмный фон, белый текст',
+              states: {
+                default:  'bg-[#1d1e21] text-white',
+                hover:    'bg-[#323232] text-white',
+                disabled: 'bg-[#1d1e21] text-white opacity-40',
+              },
+            },
+          ].map(group => (
+            <div class="mb-12">
+              <h2 class="text-base font-semibold mb-0.5 capitalize">{group.variant}</h2>
+              <p class="text-xs text-gray-500 mb-5">{group.desc}</p>
+
+              <div class="grid grid-cols-[64px_1fr_1fr_1fr] gap-x-6 mb-2 px-1">
+                <div></div>
+                <span class="text-xs text-gray-400 font-medium">Default</span>
+                <span class="text-xs text-gray-400 font-medium">Hover</span>
+                <span class="text-xs text-gray-400 font-medium">Disabled</span>
+              </div>
+
+              <div class="space-y-3">
+                {(['sm', 'md', 'lg'] as const).map(size => {
+                  const pad = size === 'sm' ? 'px-4 py-2 h-9' : size === 'md' ? 'px-6 py-3 h-11' : 'px-8 py-4 h-[52px]'
+                  const txt = size === 'lg' ? 'text-btn-lg' : 'text-btn'
+                  return (
+                    <div class="grid grid-cols-[64px_1fr_1fr_1fr] gap-x-6 items-center">
+                      <span class="text-xs text-gray-400 uppercase">{size}</span>
+                      <div>
+                        <button class={`inline-flex items-center justify-center rounded-[12px] ${pad} ${txt} ${group.states.default}`}>Button</button>
+                      </div>
+                      <div>
+                        <button class={`inline-flex items-center justify-center rounded-[12px] ${pad} ${txt} ${group.states.hover}`}>Button</button>
+                      </div>
+                      <div>
+                        <button class={`inline-flex items-center justify-center rounded-[12px] ${pad} ${txt} ${group.states.disabled} cursor-not-allowed`} disabled>Button</button>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-3">Secondary</p>
-              <div class="flex gap-3 items-center">
-                <button class="border border-gray-900 text-gray-900 px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-50">Узнать больше</button>
-                <button class="border border-gray-300 text-gray-600 px-4 py-2 rounded text-sm hover:bg-gray-50">Отмена</button>
-              </div>
+          ))}
+
+          <!-- Живые кнопки (реальный hover) -->
+          <div class="pt-8 border-t border-gray-200 mb-12">
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-5">Живые — реальный hover через Button.astro</p>
+            <div class="flex flex-wrap gap-3 items-center">
+              <Button size="md" variant="primary">Primary</Button>
+              <Button size="md" variant="secondary">Secondary</Button>
+              <Button size="md" variant="ghost">Ghost</Button>
+              <Button size="md" variant="dark">Dark</Button>
             </div>
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-3">Ghost / Link</p>
-              <div class="flex gap-3 items-center">
-                <button class="text-gray-900 text-sm font-medium underline underline-offset-2">Подробнее →</button>
-                <button class="text-gray-500 text-sm hover:text-gray-900">← Назад</button>
+            <div class="flex flex-wrap gap-3 items-center mt-3 bg-gray-900 rounded-xl p-4">
+              <p class="text-xs text-white/40 w-full mb-1">На тёмном фоне</p>
+              <Button size="md" variant="ghost-dark">Ghost Dark</Button>
+            </div>
+            <div class="flex flex-wrap gap-3 items-center mt-3">
+              <Button size="sm" variant="primary">Small</Button>
+              <Button size="md" variant="primary">Medium</Button>
+              <Button size="lg" variant="primary">Large</Button>
+            </div>
+          </div>
+
+          <!-- Иконки -->
+          <div class="pt-8 border-t border-gray-200">
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-2">Иконки</p>
+            <p class="text-xs text-gray-400 mb-6">Слоты <code class="bg-gray-100 px-1 rounded">icon-left</code> и <code class="bg-gray-100 px-1 rounded">icon-right</code>. Размер: SM→16px, MD→18px, LG→20px. Отступ→4px.</p>
+
+            <div class="space-y-6">
+              <!-- Иконка слева -->
+              <div>
+                <p class="text-xs text-gray-500 mb-3">Иконка слева</p>
+                <div class="flex flex-wrap gap-3 items-center">
+                  <Button size="sm" variant="primary">
+                    <svg slot="icon-left" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+                      <path d="M8 5v3.5l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    SM — иконка слева
+                  </Button>
+                  <Button size="md" variant="primary">
+                    <svg slot="icon-left" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5"/>
+                      <path d="M9 5.5v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    MD — иконка слева
+                  </Button>
+                  <Button size="lg" variant="primary">
+                    <svg slot="icon-left" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <circle cx="10" cy="10" r="8.5" stroke="currentColor" stroke-width="1.5"/>
+                      <path d="M10 6v4.5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    LG — иконка слева
+                  </Button>
+                </div>
+              </div>
+
+              <!-- Иконка справа -->
+              <div>
+                <p class="text-xs text-gray-500 mb-3">Иконка справа</p>
+                <div class="flex flex-wrap gap-3 items-center">
+                  <Button size="sm" variant="secondary">
+                    SM — иконка справа
+                    <svg slot="icon-right" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </Button>
+                  <Button size="md" variant="secondary">
+                    MD — иконка справа
+                    <svg slot="icon-right" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M3.5 9h11M10 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </Button>
+                  <Button size="lg" variant="secondary">
+                    LG — иконка справа
+                    <svg slot="icon-right" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </Button>
+                </div>
+              </div>
+
+              <!-- Иконки с обеих сторон -->
+              <div>
+                <p class="text-xs text-gray-500 mb-3">Иконки с обеих сторон</p>
+                <div class="flex flex-wrap gap-3 items-center">
+                  <Button size="sm" variant="dark">
+                    <svg slot="icon-left" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 3v3.5l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    SM
+                    <svg slot="icon-right" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </Button>
+                  <Button size="md" variant="dark">
+                    <svg slot="icon-left" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M9 2.25a6.75 6.75 0 100 13.5A6.75 6.75 0 009 2.25zm0 3.5V10l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    MD
+                    <svg slot="icon-right" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M3.5 9h11M10 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </Button>
+                  <Button size="lg" variant="dark">
+                    <svg slot="icon-left" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M10 2.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zm0 4V11l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    LG
+                    <svg slot="icon-right" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </Button>
+                </div>
+              </div>
+
+              <!-- Только иконка (iconOnly) -->
+              <div>
+                <p class="text-xs text-gray-500 mb-3">Только иконка</p>
+                <div class="flex flex-wrap gap-3 items-center">
+                  <Button size="sm" variant="primary" iconOnly>
+                    <svg slot="icon-left" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </Button>
+                  <Button size="md" variant="primary" iconOnly>
+                    <svg slot="icon-left" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M3.5 9h11M10 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </Button>
+                  <Button size="lg" variant="primary" iconOnly>
+                    <svg slot="icon-left" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -553,113 +863,82 @@ const sections = [
 
       {section === 'form-closing' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Form Closing</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">FormClosing</h1>
           <p class="text-gray-600 mb-4">
-            Панель в конце страницы с формой. Тёмный фон с градиентом, заголовок, описание, изображение справа.
+            Секция-завершение страницы. Два режима: <code>form</code> (поля + кнопка) и <code>buttons</code> (две кнопки вместо формы).
+            Пункты <code>items</code> отображаются с иконкой check circle.
           </p>
-          <PropsTable props={formClosingMeta.props} class="mb-10" />
+          <PropsTable props={parseSource(formClosingRaw).props} class="mb-10" />
 
           <div class="space-y-12">
+
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С изображением</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="Start using our app today" description="Ac euismod vel sit maecenas." image="/app-screenshot.png" />`}</code></p>
-              <FormClosing
-                preset="lead"
-                title="Начните пользоваться приложением сегодня"
-                description="Автоматизируйте рабочие процессы и повышайте эффективность команды."
-                image=""
-              />
+              <p class="text-sm font-medium text-gray-400 mb-1">mode="buttons" — кнопки вместо формы (по Figma)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing mode="buttons" title="..." items={[...]} primaryButton={{...}} secondaryButton={{...}} />`}</code></p>
+              <div class="-mx-10">
+                <FormClosing
+                  mode="buttons"
+                  title="Аудит вашего отдела продаж от аналитиков ДВИЖа"
+                  items={[
+                    'Выявим системные ошибки в процессах',
+                    'Покажем быстрые точки роста',
+                    'Предложим решения, которые подойдут именно вам',
+                  ]}
+                  primaryButton={{ label: 'Получить аудит', drawerPreset: 'demo' }}
+                  secondaryButton={{ label: 'Скачать пример', drawerPreset: 'lead' }}
+                />
+              </div>
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без изображения</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="Попробуйте ДВИЖ в деле" description="Оставьте заявку и мы свяжемся с вами." submitLabel="Получить демо" />`}</code></p>
-              <FormClosing
-                preset="lead"
-                title="Попробуйте ДВИЖ в деле"
-                description="Оставьте заявку и мы свяжемся с вами в ближайшее время."
-                submitLabel="Получить демо"
-              />
+              <p class="text-sm font-medium text-gray-400 mb-1">mode="form" с пунктами items (check circle)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="..." items={['Пункт 1', 'Пункт 2']} />`}</code></p>
+              <div class="-mx-10">
+                <FormClosing
+                  preset="lead"
+                  title="Не оставим вас одних"
+                  items={[
+                    'Покажем, как решали задачи у клиентов',
+                    'Рассчитаем ROMI и экономический эффект',
+                    'Разберём ваши задачи',
+                  ]}
+                  submitLabel="Получить демо"
+                />
+              </div>
             </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">mode="form" базовый (description)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="..." description="..." />`}</code></p>
+              <div class="-mx-10">
+                <FormClosing
+                  preset="lead"
+                  title="Попробуйте ДВИЖ в деле"
+                  description="Оставьте заявку — свяжемся в течение часа."
+                  submitLabel="Получить демо"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">С фоновым изображением (тёмный вариант)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="demo" bgImage="/..." formVariant="dark" />`}</code></p>
+              <div class="-mx-10">
+                <FormClosing
+                  preset="demo"
+                  title="Запишитесь на демо"
+                  description="Покажем платформу и ответим на все вопросы."
+                  bgImage="https://admin.dvizh.cc/api/media/file/form-image.jpg"
+                  formVariant="dark"
+                  textColor="text-white"
+                />
+              </div>
+            </div>
+
           </div>
         </div>
       )}
 
-      {section === 'logo-grid' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Logo Grid</h1>
-          <p class="text-gray-600 mb-4">
-            Сетка логотипов клиентов/партнёров. Адаптивная вёрстка с разным количеством колонок.
-          </p>
-          <PropsTable props={logoGridMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С заголовком</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid title="Нам доверяют 70+ застройщиков" logos={[...]} />`}</code></p>
-              <LogoGrid
-                title="Нам доверяют 70+ застройщиков"
-                logos={[
-                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
-                  { src: '/partners/ava.svg', alt: 'AVA' },
-                  { src: '/partners/ganel.svg', alt: 'Ganel' },
-                  { src: '/partners/strana.svg', alt: 'Strana' },
-                  { src: '/partners/glorax.svg', alt: 'Glorax' },
-                  { src: '/partners/a101.svg', alt: 'A101' },
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без заголовка</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid logos={[...]} />`}</code></p>
-              <LogoGrid
-                logos={[
-                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
-                  { src: '/partners/ava.svg', alt: 'AVA' },
-                  { src: '/partners/ganel.svg', alt: 'Ganel' },
-                  { src: '/partners/strana.svg', alt: 'Strana' },
-                  { src: '/partners/glorax.svg', alt: 'Glorax' },
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С плашкой CTA</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid logos={[...]} ctaText="Нам доверяют 70+ застройщиков" ctaLabel="Читать истории →" ctaLink="/cases" />`}</code></p>
-              <LogoGrid
-                logos={[
-                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
-                  { src: '/partners/ava.svg', alt: 'AVA' },
-                  { src: '/partners/ganel.svg', alt: 'Ganel' },
-                  { src: '/partners/strana.svg', alt: 'Strana' },
-                  { src: '/partners/glorax.svg', alt: 'Glorax' },
-                  { src: '/partners/a101.svg', alt: 'A101' },
-                ]}
-                ctaText="Нам доверяют более 70 застройщиков"
-                ctaLabel="Читать истории успеха →"
-                ctaLink="/cases"
-              />
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Тёмная тема</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<LogoGrid variant="dark" logos={[...]} />`}</code></p>
-              <LogoGrid
-                variant="dark"
-                logos={[
-                  { src: '/partners/lsr.svg', alt: 'ЛСР' },
-                  { src: '/partners/ava.svg', alt: 'AVA' },
-                  { src: '/partners/ganel.svg', alt: 'Ganel' },
-                  { src: '/partners/strana.svg', alt: 'Strana' },
-                  { src: '/partners/glorax.svg', alt: 'Glorax' },
-                  { src: '/partners/a101.svg', alt: 'A101' },
-                ]}
-              />
-            </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {section === 'cards' && (
         <div>
@@ -668,16 +947,17 @@ const sections = [
             {/* StoryCard */}
             <div>
               <h2 class="text-xl font-semibold mb-4">StoryCard — карточка истории успеха</h2>
+
               <p class="text-gray-600 mb-4">Карточка с фоновым изображением, слотом для логотипа и встроенной информацией о персоне.</p>
               <PropsTable props={storyCardMeta.props} class="mb-6" />
               <div class="max-w-[464px]">
                 <StoryCard
-                  backgroundImage="/api/media/file/images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
+                  backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
                   title="Помогли начать обрабатывать на 98% больше заявок"
                   person={{
                     name: "Светлана Корнелюк",
                     jobTitle: "Директор отдела продаж",
-                    photo: { url: "/api/media/file/images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+                    photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
                   }}
                 >
                   <div class="h-6 w-32 bg-white rounded flex items-center justify-center" slot="logo">
@@ -697,7 +977,7 @@ const sections = [
                     name: "Алексей Петров",
                     jobTitle: "Маркетолог",
                     company: { name: "ДВИЖ" },
-                    photo: { url: "/api/media/file/images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" }
+                    photo: { url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" }
                   }}
                 />
                 <PersonCard
@@ -710,31 +990,74 @@ const sections = [
               </div>
             </div>
 
-            {/* ProductCard */}
+          </div>
+        </div>
+      )}
+      {section === 'advantage-card' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">AdvantageCard</h1>
+          <p class="text-gray-600 mb-8">{advantageCardMeta.description}</p>
+
+          <PropsTable props={advantageCardMeta.props} class="mb-10" />
+
+          <div class="space-y-10">
+            {/* Базовые варианты */}
             <div>
-              <h2 class="text-xl font-semibold mb-4">ProductCard — карточка продукта</h2>
-              <div class="grid grid-cols-2 gap-6 max-w-2xl">
-                <div class="border rounded-xl p-6 hover:shadow-md transition-shadow">
-                  <h3 class="font-semibold mb-2">Карточка продукта</h3>
-                  <p class="text-sm text-gray-600">Описание продукта в одну-две строки.</p>
-                </div>
-                <div class="bg-gray-50 rounded-xl p-6">
-                  <h3 class="font-semibold mb-2">Карточка на фоне</h3>
-                  <p class="text-sm text-gray-600">Вариант с серым фоном.</p>
-                </div>
-                <div class="border rounded-xl overflow-hidden hover:shadow-md transition-shadow col-span-2">
-                  <div class="bg-gray-100 h-40 w-full"></div>
-                  <div class="p-5">
-                    <span class="text-xs text-gray-400 uppercase tracking-wide">Категория</span>
-                    <h3 class="font-semibold mt-1">Карточка статьи с обложкой</h3>
-                    <p class="text-sm text-gray-600 mt-1 line-clamp-2">Описание статьи в две строки. Ещё немного текста для примера.</p>
-                  </div>
-                </div>
+              <h2 class="text-xl font-semibold mb-2">Базовые варианты</h2>
+              <p class="text-gray-500 text-sm mb-4">Три карточки в сетке — стандартное использование на главной и продуктовых страницах.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <AdvantageCard
+                  title="Закрывают до 26% больше сделок на том же трафике"
+                  stat="+26%"
+                  label="Сделок на том же трафике"
+                />
+                <AdvantageCard
+                  title="Сокращают время обработки заявки в 3 раза"
+                  stat="×3"
+                  label="Быстрее обрабатывают заявки"
+                />
+                <AdvantageCard
+                  title="Повышают конверсию ипотечных заявок"
+                  stat="+18%"
+                  label="Конверсия в выданные кредиты"
+                />
+              </div>
+            </div>
+
+            {/* Одиночная карточка */}
+            <div>
+              <h2 class="text-xl font-semibold mb-2">Одиночная карточка</h2>
+              <p class="text-gray-500 text-sm mb-4">Ограниченная ширина — hover-эффект и клик по карточке открывают модальное окно.</p>
+              <div class="max-w-sm">
+                <AdvantageCard
+                  title="Автоматизируют рутину и освобождают менеджеров для продаж"
+                  stat="−40%"
+                  label="Ручных операций"
+                />
+              </div>
+            </div>
+
+            {/* 2 колонки */}
+            <div>
+              <h2 class="text-xl font-semibold mb-2">2 колонки</h2>
+              <p class="text-gray-500 text-sm mb-4">Симметричная сетка для коротких списков преимуществ.</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
+                <AdvantageCard
+                  title="Интеграции с ключевыми банками-партнёрами"
+                  stat="50+"
+                  label="Банков-партнёров"
+                />
+                <AdvantageCard
+                  title="Крупнейших застройщиков выбрали ДВИЖ"
+                  stat="75"
+                  label="Из ТОП-100 застройщиков"
+                />
               </div>
             </div>
           </div>
         </div>
       )}
+
       {section === 'drawer' && (
         <div>
           <h1 class="text-3xl font-bold font-heading mb-8">Дровер</h1>
@@ -803,148 +1126,6 @@ const sections = [
               </div>
             </div>
 
-          </div>
-        </div>
-      )}
-      {section === 'cta' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">CTA</h1>
-          <p class="text-gray-600 mb-4">
-            Призыв к действию. Заголовок, описание и кнопка. Три варианта: dark, light, split.
-          </p>
-<PropsTable props={ctaMeta.props} class="mb-8" />
-
-          <!-- Alpine Playground -->
-          <div class="mb-12">
-            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Playground</p>
-            <div
-              x-data="{
-                variant: 'dark',
-                title: 'Бонус от ДВИЖа',
-                description: 'Скачайте пример идеального отчета ипотечного отдела',
-                buttonText: 'Посмотреть демо',
-                badge: 'Award winning'
-              }"
-              class="grid lg:grid-cols-[260px_1fr] border rounded-xl overflow-hidden"
-            >
-              <!-- Controls -->
-              <div class="p-4 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-200 space-y-3">
-                <div>
-                  <label class="text-xs text-gray-500 block mb-1">variant</label>
-                  <select x-model="variant" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm bg-white">
-                    <option value="dark">dark</option>
-                    <option value="light">light</option>
-                    <option value="split">split</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="text-xs text-gray-500 block mb-1">title</label>
-                  <input x-model="title" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
-                </div>
-                <div>
-                  <label class="text-xs text-gray-500 block mb-1">description</label>
-                  <textarea x-model="description" rows="2" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm"></textarea>
-                </div>
-                <div>
-                  <label class="text-xs text-gray-500 block mb-1">buttonText</label>
-                  <input x-model="buttonText" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
-                </div>
-                <div x-show="variant === 'split'" x-transition>
-                  <label class="text-xs text-gray-500 block mb-1">badge</label>
-                  <input x-model="badge" type="text" class="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
-                </div>
-              </div>
-
-              <!-- Preview -->
-              <div class="p-6 bg-white min-h-[200px] flex items-center">
-                <!-- Dark / Light -->
-                <section
-                  x-show="variant !== 'split'"
-                  :class="variant === 'dark' ? 'bg-[#3a3a3a]' : 'bg-indigo-100'"
-                  class="rounded-[31px] w-full"
-                >
-                  <div class="mx-auto max-w-7xl px-6 py-10 lg:flex lg:items-center lg:justify-between lg:px-8 lg:py-10">
-                    <div class="flex items-center gap-7">
-                      <div class="w-[94px] h-[95px] flex items-center justify-center rounded-xl bg-white/10 shrink-0">
-                        <svg class="w-12 h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h2 :class="variant === 'dark' ? 'text-white' : 'text-gray-900'" class="max-w-2xl text-2xl font-semibold sm:text-4xl" x-text="title"></h2>
-                        <p x-show="description" :class="variant === 'dark' ? 'text-[#d3d3d3]' : 'text-gray-600'" class="mt-2 text-base max-w-lg" x-text="description"></p>
-                      </div>
-                    </div>
-                    <div class="mt-8 flex items-center lg:mt-0 lg:shrink-0">
-                      <button :class="variant === 'dark' ? 'bg-brand hover:bg-brand-600' : 'bg-indigo-600 hover:bg-indigo-500'" class="rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm transition-colors cursor-pointer" x-text="buttonText"></button>
-                    </div>
-                  </div>
-                </section>
-
-                <!-- Split -->
-                <section x-show="variant === 'split'" class="relative bg-white rounded-[31px] overflow-hidden w-full border">
-                  <div class="relative h-80 overflow-hidden bg-gray-200 md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2"></div>
-                  <div class="relative mx-auto max-w-7xl py-16 lg:px-8 lg:py-24">
-                    <div class="pl-6 pr-6 md:ml-auto md:w-2/3 md:pl-16 lg:w-1/2 lg:pl-24 lg:pr-0 xl:pl-32">
-                      <p x-show="badge" class="text-base/7 font-semibold text-brand" x-text="badge"></p>
-                      <h2 class="mt-2 text-3xl font-semibold text-gray-900 sm:text-4xl" x-text="title"></h2>
-                      <p x-show="description" class="mt-6 text-base/7 text-gray-600" x-text="description"></p>
-                      <div class="mt-8">
-                        <button class="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-600 cursor-pointer" x-text="buttonText"></button>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Тёмный вариант (как в Pencil)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA title="Бонус от ДВИЖа" description="Скачайте пример идеального отчета ипотечного отдела" buttonText="Посмотреть демо" buttonHref="#"/>`}</code></p>
-              <CTA
-                title="Бонус от ДВИЖа"
-                description="Скачайте пример идеального отчета ипотечного отдела"
-                buttonText="Посмотреть демо"
-                buttonHref="#"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Светлый вариант (Tailwind Plus)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA variant="light" title="Ready to dive in?" description="Start your free trial today." buttonText="Get started" buttonHref="#"/>`}</code></p>
-              <CTA
-                variant="light"
-                title="Ready to dive in?"
-                description="Start your free trial today."
-                buttonText="Get started"
-                buttonHref="#"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без описания</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA title="Готовы начать?" buttonText="Начать" buttonHref="#"/>`}</code></p>
-              <CTA
-                title="Готовы начать?"
-                buttonText="Начать"
-                buttonHref="#"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Split — серый фон слева, контент справа</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<CTA variant="split" badge="Award winning" title="We're here to help" description="Lorem ipsum." buttonText="Get started" buttonHref="#" />`}</code></p>
-              <CTA
-                variant="split"
-                badge="Award winning support"
-                title="We're here to help"
-                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                buttonText="Visit the help center"
-                buttonHref="#"
-              />
-            </div>
           </div>
         </div>
       )}
@@ -1053,7 +1234,7 @@ const sections = [
               </p>
               <div class="border rounded-xl px-6">
                 <VideoBlock block={{
-                  url: '/api/media/file/www.youtube.com/watch?v=dQw4w9WgXcQ',
+                  url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
                   caption: 'Замените URL на реальное видео продукта',
                 }} />
               </div>
@@ -1072,364 +1253,6 @@ const sections = [
               }} />
             </div>
 
-          </div>
-        </div>
-      )}
-      {section === 'features' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Features Grid</h1>
-          <p class="text-gray-600 mb-4">
-            Секция с заголовком, описанием, списком фичей с иконками и изображением.
-          </p>
-          <PropsTable props={featuresGridMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Основной вариант — с изображением</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FeaturesGrid badge="..." title="..." description="..." features={[...]} image="..." />`}</code></p>
-              <div class="-mx-10">
-                <FeaturesGrid
-                  badge="Для банков и девелоперов"
-                  title="Полный цикл цифровой ипотеки"
-                  description="Единая платформа для автоматизации всего процесса ипотечного кредитования — от заявки до регистрации."
-                  features={[
-                    {
-                      icon: 'upload',
-                      title: 'Быстрый старт',
-                      description: 'Интеграция через API за 2 недели. Полная автоматизация сбора документов и скоринга.'
-                    },
-                    {
-                      icon: 'lock',
-                      title: 'Безопасность данных',
-                      description: 'Соответствие требованиям ЦБ РФ и ФЗ-152. Шифрование и защита персональных данных.'
-                    },
-                    {
-                      icon: 'database',
-                      title: 'Единая база знаний',
-                      description: 'Актуальные ставки банков, программы льготной ипотеки и калькулятор расчёта платежей.'
-                    }
-                  ]}
-                  image=""
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без badge и описания</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FeaturesGrid title="..." features={[...]} />`}</code></p>
-              <div class="border rounded-xl p-6">
-                <FeaturesGrid
-                  title="Минималистичный вариант"
-                  features={[
-                    { icon: 'upload', title: 'Быстрая интеграция', description: 'API за 2 недели' },
-                    { icon: 'lock', title: 'Безопасность', description: 'ФЗ-152, стандарты ЦБ' },
-                  ]}
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Доступные иконки</p>
-              <div class="flex gap-4">
-                <div class="flex items-center gap-2 p-3 border rounded-lg">
-                  <svg class="size-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M5.5 17a4.5 4.5 0 0 1-1.44-8.765 4.5 4.5 0 0 1 8.302-3.046 3.5 3.5 0 0 1 4.504 4.272A4 4 0 0 1 15 17H5.5Zm3.75-2.75a.75.75 0 0 0 1.5 0V9.66l1.95 2.1a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 1 0 1.1 1.02l1.95-2.1v4.59Z" clip-rule="evenodd"/>
-                  </svg>
-                  <span class="text-sm">upload</span>
-                </div>
-                <div class="flex items-center gap-2 p-3 border rounded-lg">
-                  <svg class="size-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd"/>
-                  </svg>
-                  <span class="text-sm">lock</span>
-                </div>
-                <div class="flex items-center gap-2 p-3 border rounded-lg">
-                  <svg class="size-5 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M4.632 3.533A2 2 0 0 1 6.577 2h6.846a2 2 0 0 1 1.945 1.533l1.976 8.234A3.489 3.489 0 0 0 16 11.5H4c-.476 0-.93.095-1.344.267l1.976-8.234Z M4 13a2 2 0 1 0 0 4h12a2 2 0 1 0 0-4H4Zm11.24 2a.75.75 0 0 1 .75-.75H16a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75h-.01a.75.75 0 0 1-.75-.75V15Zm-2.25-.75a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 0 0 .75-.75V15a.75.75 0 0 0-.75-.75h-.01Z"/>
-                  </svg>
-                  <span class="text-sm">database</span>
-                </div>
-              </div>
-              <p class="text-xs text-gray-400 mt-3">Можно добавить свой SVG path в проп icon</p>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Тёмная тема</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<FeaturesGrid variant="dark" ... />`}</code></p>
-              <div class="-mx-10">
-                <FeaturesGrid
-                  variant="dark"
-                  badge="Тёмная тема"
-                  title="Работает в тёмном режиме"
-                  description="Принудительная тёмная тема через prop variant."
-                  features={[
-                    { icon: 'upload', title: 'Быстрая интеграция', description: 'API за 2 недели' },
-                    { icon: 'lock', title: 'Безопасность', description: 'ФЗ-152, стандарты ЦБ' },
-                  ]}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {section === 'stories' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Success Story</h1>
-          <p class="text-gray-600 mb-4">
-            Карточка истории успеха с метрикой, персоной и цитатой. Использует <code class="text-sm">PersonCard</code>.
-          </p>
-          <PropsTable props={successStoryMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С выделением части текста (HTML в title)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStory title="...<span class=..."">...</span>..." ... />`}</code></p>
-              <SuccessStory
-                title="Помогли начать обрабатывать на <span class='text-indigo-600'>281%</span> заявок больше, чем в среднем на рынке"
-                quote="Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента."
-                person={{
-                  name: "Петрова Надежда",
-                  jobTitle: "Директор по маркетингу, ЛСР",
-                  photo: { url: "" }
-                }}
-                image=""
-                imageAlt="ЛСР"
-                logo=""
-                logoAlt="ЛСР"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Обычный текст без подсветки</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStory title="..." quote="..." person={{...}} image="..." logo="..." />`}</code></p>
-              <SuccessStory
-                title="Сократили время обработки заявки с 3 дней до 4 часов"
-                quote="Интеграция прошла гладко. API оказался хорошо задокументированным, а поддержка всегда на связи."
-                person={{
-                  name: "Алексей Соколов",
-                  jobTitle: "IT-директор, Банк «Стандарт»",
-                  photo: { url: "" }
-                }}
-                image=""
-                imageAlt="Банк Стандарт"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Mini вариант — только заголовок и персона</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStory variant="mini" title="..." person={{...}} />`}</code></p>
-              <SuccessStory
-                variant="mini"
-                title="Процент одобрения заявок вырос с 80% до 89%"
-                person={{ name: "Иван Иванов", jobTitle: "Директор по продажам" }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      {section === 'stories-carousel' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Stories Carousel</h1>
-          <p class="text-gray-600 mb-4">
-            Горизонтальная карусель карточек SuccessStory с CSS Scroll Snap. Работает с тач-свайпом и скроллом.
-          </p>
-          <PropsTable props={storiesCarouselMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">3 карточки из Pencil</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStoriesCarousel title="..." stories={[...]}`}</code></p>
-              <SuccessStoriesCarousel
-                title="70+ историй успеха на рынке девелопмента"
-                stories={[
-                  {
-                    title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
-                    quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения.",
-                    person: {
-                      name: "Петрова Надежда",
-                      jobTitle: "Директор по маркетингу, ЛСР",
-                      photo: { url: "" }
-                    },
-                    image: "",
-                    imageAlt: "ЛСР",
-                    logo: "",
-                    logoAlt: "ЛСР"
-                  },
-                  {
-                    title: "Дополнительно продали 96 квартир",
-                    quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения ипотеки.",
-                    person: {
-                      name: "Алексей Соколов",
-                      jobTitle: "Коммерческий директор, Самолет плюс",
-                      photo: { url: "" }
-                    },
-                    image: "",
-                    imageAlt: "Самолет плюс",
-                    logo: "",
-                    logoAlt: "Самолет плюс"
-                  },
-                  {
-                    title: "Увеличили объем закрытых сделок с 1116 до 3500 за год",
-                    quote: "Спасибо ДВИЖ за прескоринг: он помогает точнее оценить финансовое состояние клиента и выбрать шаги, которые повышают шанс одобрения ипотеки.",
-                    person: {
-                      name: "Мария Иванова",
-                      jobTitle: "Руководитель отдела продаж",
-                      photo: { url: "" }
-                    },
-                    image: "",
-                    imageAlt: "Компания",
-                    logo: "",
-                    logoAlt: "Логотип"
-                  }
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Одна карточка (для мобильных)</p>
-              <SuccessStoriesCarousel
-                title="История успеха"
-                stories={[
-                  {
-                    title: "Сократили время обработки заявки с 3 дней до 4 часов",
-                    quote: "Интеграция прошла гладко. API оказался хорошо задокументированным.",
-                    person: {
-                      name: "Иван Петров",
-                      jobTitle: "IT-директор",
-                    },
-                    image: "",
-                  }
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">3 карточки из Pencil (mini вариант)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStoriesCarousel variant="mini" title="..." :stories={[...]} />`}</code></p>
-              <SuccessStoriesCarousel
-                variant="mini"
-                title="70+ историй успеха на рынке девелопмента"
-                stories={[
-                  {
-                    title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
-                    person: {
-                      name: "Петрова Надежда",
-                      jobTitle: "Директор по маркетингу, ЛСР"
-                    }
-                  },
-                  {
-                    title: "Дополнительно продали 96 квартир",
-                    person: {
-                      name: "Алексей Соколов",
-                      jobTitle: "Коммерческий директор, Самолет плюс"
-                    }
-                  },
-                  {
-                    title: "Увеличили объем закрытых сделок с 1116 до 3500 за год",
-                    person: {
-                      name: "Мария Иванова",
-                      jobTitle: "Руководитель отдела продаж"
-                    }
-                  }
-                ]}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      {section === 'bento' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Bento Grid</h1>
-          <p class="text-gray-600 mb-4">
-            Сетка карточек разного размера (Bento layout). Карточки с span-4 занимают 2/3 ширины, span-2 — 1/3.
-          </p>
-          <PropsTable props={bentoGridMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С изображениями</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid items={[...]} />`}</code></p>
-              <div class="-mx-10">
-                <BentoGrid
-                  items={[
-                    {
-                      label: "Releases",
-                      title: "Push to deploy",
-                      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In gravida justo et nulla efficitur, maximus egestas sem pellentesque.",
-                      image: "",
-                      span: "col-span-4"
-                    },
-                    {
-                      label: "Integrations",
-                      title: "Connect your favorite tools",
-                      description: "Curabitur auctor, ex quis auctor venenatis, eros arcu rhoncus massa.",
-                      image: "",
-                      span: "col-span-2"
-                    },
-                    {
-                      label: "Security",
-                      title: "Advanced access control",
-                      description: "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia.",
-                      image: "",
-                      span: "col-span-2"
-                    },
-                    {
-                      label: "Performance",
-                      title: "Lightning-fast builds",
-                      description: "Sed congue eros non finibus molestie. Vestibulum euismod augue vel commodo vulputate.",
-                      image: "",
-                      span: "col-span-4"
-                    }
-                  ]}
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без изображений</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid items={[...]} />`}</code></p>
-              <BentoGrid
-                items={[
-                  {
-                    label: "Аналитика",
-                    title: "Отчёты в реальном времени",
-                    description: "Мониторинг всех метрик вашего бизнеса.",
-                    span: "col-span-4"
-                  },
-                  {
-                    label: "Интеграции",
-                    title: "100+ сервисов",
-                    description: "Подключите любые инструменты.",
-                    span: "col-span-2"
-                  },
-                  {
-                    label: "Безопасность",
-                    title: "Шифрование данных",
-                    description: "Соответствие ФЗ-152.",
-                    span: "col-span-2"
-                  },
-                  {
-                    label: "Поддержка",
-                    title: "24/7",
-                    description: "Всегда на связи.",
-                    span: "col-span-4"
-                  }
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Три колонки</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid columns={3} items={[...]} />`}</code></p>
-              <BentoGrid
-                columns={3}
-                items={[
-                  { title: "Автоматизация", image: "" },
-                  { title: "Интеграции", image: "" },
-                  { title: "Аналитика", image: "" }
-                ]}
-              />
-            </div>
           </div>
         </div>
       )}
@@ -1641,57 +1464,6 @@ const sections = [
           </div>
         </div>
       )}
-      {section === 'stats' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Stats Section</h1>
-          <p class="text-gray-600 mb-4">
-            Секция с метриками или преимуществами в виде сетки.
-          </p>
-          <PropsTable props={statsSectionMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С заголовком</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<StatsSection title="Девелоперы с ДВИЖом" items={[...]} />`}</code></p>
-              <StatsSection
-                title="Девелоперы с ДВИЖом"
-                cols={4}
-                items={[
-                  { label: 'Сократили количество отказов по ипотеке' },
-                  { label: 'Перестали терять сделки из-за клиентов с низким КР' },
-                  { label: 'Ускорили заполнение анкеты до 10 секунд' },
-                  { label: 'Стали закрывать больше сделок без роста штата' },
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С метриками (цифры)</p>
-              <StatsSection
-                cols={3}
-                items={[
-                  { value: '44 million', label: 'Transactions every 24 hours' },
-                  { value: '$119 trillion', label: 'Assets under holding' },
-                  { value: '46,000', label: 'New users annually' },
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С преимуществами (без заголовка)</p>
-              <StatsSection
-                cols={4}
-                items={[
-                  { label: 'Сократили количество отказов по ипотеке' },
-                  { label: 'Перестали терять сделки из-за клиентов с низким КР' },
-                  { label: 'Ускорили заполнение анкеты до 10 секунд' },
-                  { label: 'Стали закрывать больше сделок без роста штата' },
-                ]}
-              />
-            </div>
-          </div>
-        </div>
-      )}
 
       {section === 'timeline' && (
         <div>
@@ -1793,51 +1565,6 @@ const sections = [
         </div>
       )}
 
-      {section === 'section-block' && (
-        <div>
-          <h1 class="text-3xl font-bold mb-8">Section Block</h1>
-          <p class="text-gray-600 mb-10">
-            Секция с меню слева и контентом справа. Серый фон с заголовком, placeholder для контента и кнопками.
-          </p>
-
-          <SectionBlock
-            title="Поможем перевыполнить план продаж на том же трафике"
-            sections={[
-              { title: "Цифровая ипотека", active: true, href: "#" },
-              { title: "Ипотечный калькулятор", href: "#" },
-              { title: "Финансовый скоринг", href: "#" },
-              { title: "Электронная регистрация", href: "#" }
-            ]}
-            descriptions={[
-              { text: "До 96% одобрения" },
-              { text: "Единая анкета в 40+ банков" },
-              { text: "Моментальное заполнение анкеты через Госуслуги" },
-              { text: "Готовые интеграции с CRM" },
-              { text: "Анализ работы менеджеров" }
-            ]}
-            buttons={[
-              { label: "Связаться с нами", href: "#" },
-              { label: "Запросить демо", href: "#" }
-            ]}
-          />
-        </div>
-      )}
-      {section === 'gradient-cta' && (
-        <div>
-          <h1 class="text-3xl font-bold mb-8">Gradient CTA</h1>
-          <p class="text-gray-600 mb-10">
-            CTA-секция с градиентным фоном и изображением. Базируется на компоненте из Tailwind UI.
-          </p>
-
-          <GradientCTA
-            title="Boost your productivity. Start using our app today."
-            description="Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla."
-            primaryButton={{ label: "Get started", href: "#" }}
-            secondaryButton={{ label: "Learn more", href: "#" }}
-            image="/api/media/file/tailwindcss.com/plus-assets/img/component-images/dark-project-app-screenshot.png"
-          />
-        </div>
-      )}
       {section === 'blog-cards' && (
         <div>
           <h1 class="text-3xl font-bold mb-8">Blog Cards</h1>
@@ -1848,7 +1575,7 @@ const sections = [
           <BlogCards
             articles={[
               {
-                image: "/api/media/file/images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&auto=format&fit=crop&w=3603&q=80",
+                image: "https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&auto=format&fit=crop&w=3603&q=80",
                 date: "Mar 16, 2020",
                 category: "Marketing",
                 title: "Boost your conversion rate",
@@ -1856,11 +1583,11 @@ const sections = [
                 author: {
                   name: "Michael Foster",
                   role: "Co-Founder / CTO",
-                  avatar: "/api/media/file/images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  avatar: "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 }
               },
               {
-                image: "/api/media/file/images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-4.0.3&auto=format&fit=crop&w=3270&q=80",
+                image: "https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-4.0.3&auto=format&fit=crop&w=3270&q=80",
                 date: "Mar 10, 2020",
                 category: "Sales",
                 title: "How to use search engine optimization to drive sales",
@@ -1868,11 +1595,11 @@ const sections = [
                 author: {
                   name: "Lindsay Walton",
                   role: "Front-end Developer",
-                  avatar: "/api/media/file/images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 }
               },
               {
-                image: "/api/media/file/images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-4.0.3&auto=format&fit=crop&w=3270&q=80",
+                image: "https://images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-4.0.3&auto=format&fit=crop&w=3270&q=80",
                 date: "Feb 12, 2020",
                 category: "Business",
                 title: "Improve your customer experience",
@@ -1880,11 +1607,433 @@ const sections = [
                 author: {
                   name: "Tom Cook",
                   role: "Director of Product",
-                  avatar: "/api/media/file/images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 }
               }
             ]}
           />
+        </div>
+      )}
+
+
+      {section === 'island' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Island</h1>
+          <p class="text-gray-600 mb-8">Компактный pill-баннер с CTA-кнопкой. Тёмный фон, текст слева, оранжевая кнопка со стрелкой справа.</p>
+          <PropsTable props={islandMeta.props} class="mb-8" />
+          <div class="space-y-6">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С drawer</p>
+              <Island
+                label="Пора делать ДВИЖ"
+                buttonText="Оставить заявку"
+                drawerPreset="lead"
+              />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Со ссылкой</p>
+              <Island
+                label="Пора делать ДВИЖ"
+                buttonText="Узнать больше"
+                buttonHref="/about"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'modal-inline-form' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Modal Inline Form</h1>
+          <p class="text-gray-600 mb-8">
+            Двухшаговая inline-форма. Шаг 1: имя + телефон. Шаг 2 (после отправки): email + компания.
+            Три варианта лейаута: xs-sm / md / lg.
+          </p>
+
+          <div class="space-y-6">
+
+            {/* xs-sm */}
+            <div>
+              <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">xs-sm — стек</p>
+              <p class="text-xs text-gray-400 mb-3">Инпуты в столбик, кнопка во всю ширину</p>
+              <div class="grid grid-cols-2 gap-4 max-w-2xl">
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Попробуйте ДВИЖ в деле</p>
+                  <div class="flex flex-col gap-2">
+                    <Input name="name-xs" placeholder="Ваше имя" />
+                    <Input name="phone-xs" placeholder="Телефон" />
+                  </div>
+                  <button class="w-full bg-brand text-white font-semibold text-base rounded-xl py-4 leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                  <label class="flex items-start gap-2 cursor-pointer">
+                    <input type="checkbox" class="mt-0.5 shrink-0 accent-brand" />
+                    <span class="text-sm text-gray-400">Даю согласие на обработку персональных данных</span>
+                  </label>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Скоро свяжемся с вами!</p>
+                  <div class="flex flex-col gap-2">
+                    <Input name="email-xs" type="email" placeholder="Email" />
+                    <Input name="company-xs" placeholder="Компания" />
+                  </div>
+                  <button class="w-full bg-brand text-white font-semibold text-base rounded-xl py-4 leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                </div>
+              </div>
+            </div>
+
+            {/* md */}
+            <div>
+              <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">md — 2 колонки</p>
+              <p class="text-xs text-gray-400 mb-3">Инпуты в ряд, кнопка во всю ширину под ними</p>
+              <div class="grid grid-cols-2 gap-4 max-w-3xl">
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Попробуйте ДВИЖ в деле</p>
+                  <div class="flex gap-2">
+                    <Input name="name-md" placeholder="Ваше имя" class="flex-1 min-w-0" />
+                    <Input name="phone-md" placeholder="Телефон" class="flex-1 min-w-0" />
+                  </div>
+                  <button class="w-full bg-brand text-white font-semibold text-sm rounded-xl py-3 leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                  <label class="flex items-start gap-2 cursor-pointer">
+                    <input type="checkbox" class="mt-0.5 shrink-0 accent-brand" />
+                    <span class="text-sm text-gray-400">Даю согласие на обработку персональных данных</span>
+                  </label>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Скоро свяжемся с вами!</p>
+                  <div class="flex gap-2">
+                    <Input name="email-md" type="email" placeholder="Email" class="flex-1 min-w-0" />
+                    <Input name="company-md" placeholder="Компания" class="flex-1 min-w-0" />
+                  </div>
+                  <button class="w-full bg-brand text-white font-semibold text-sm rounded-xl py-3 leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                </div>
+              </div>
+            </div>
+
+            {/* lg */}
+            <div>
+              <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">lg — один ряд</p>
+              <p class="text-xs text-gray-400 mb-3">Инпуты + кнопка в одну строку, согласие под ними</p>
+              <div class="flex flex-col gap-4">
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Попробуйте ДВИЖ в деле</p>
+                  <div class="flex gap-2 items-center">
+                    <Input name="name-lg" placeholder="Ваше имя" class="flex-1 min-w-0" />
+                    <Input name="phone-lg" placeholder="Телефон" class="flex-1 min-w-0" />
+                    <button class="shrink-0 bg-brand text-white font-semibold text-sm rounded-xl px-6 py-[11px] leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                  </div>
+                  <label class="flex items-start gap-2 cursor-pointer">
+                    <input type="checkbox" class="mt-0.5 shrink-0 accent-brand" />
+                    <span class="text-sm text-gray-400">Даю согласие на обработку персональных данных</span>
+                  </label>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col gap-4">
+                  <p class="font-heading font-medium text-2xl text-gray-900 tracking-[-0.02em] leading-[1.2]">Скоро свяжемся с вами!</p>
+                  <div class="flex gap-2 items-center">
+                    <Input name="email-lg" type="email" placeholder="Email" class="flex-1 min-w-0" />
+                    <Input name="company-lg" placeholder="Компания" class="flex-1 min-w-0" />
+                    <button class="shrink-0 bg-brand text-white font-semibold text-sm rounded-xl px-6 py-[11px] leading-[1.4] tracking-[-0.5px]">Получить демо</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Живой компонент */}
+          <div class="mt-12">
+            <h2 class="text-xl font-semibold mb-2">Живой компонент</h2>
+            <p class="text-gray-500 text-sm mb-4">Адаптивный — лейаут меняется по ширине вьюпорта</p>
+            <div class="border border-gray-200 rounded-2xl bg-white p-8">
+              <ModalInlineForm />
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'side-menu' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Side Menu</h1>
+          <p class="text-gray-600 mb-8">Вертикальное боковое меню. Активный пункт выделяется оранжевым, переключается кликом.</p>
+          <div class="space-y-8">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">5 пунктов</p>
+              <SideMenu items={[
+                { title: 'Цифровая ипотека', active: true },
+                { title: 'Ипотечный калькулятор' },
+                { title: 'Финансовый скоринг' },
+                { title: 'Электронная регистрация' },
+                { title: 'ДВИЖ AI' },
+              ]} />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 пункта</p>
+              <SideMenu items={[
+                { title: 'Для девелоперов', active: true },
+                { title: 'Для банков' },
+                { title: 'Для агентств' },
+              ]} />
+            </div>
+          </div>
+        </div>
+      )}
+      {section === 'story-card' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">StoryCard</h1>
+          <p class="text-gray-600 mb-8">Карточка истории успеха с двумя вариантами оформления.</p>
+          <div class="space-y-16">
+
+            <PropsTable props={storyCardMeta.props} />
+
+            {/* variant="active" */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">active</h2>
+              <p class="text-gray-500 text-sm mb-6">Фоновое изображение, белый заголовок, тёмная тема PersonCard. Слот <code class="bg-gray-200 px-1 rounded text-xs">logo</code> — для логотипа компании.</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[960px]">
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">С логотипом</p>
+                  <StoryCard
+                    variant="active"
+                    backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
+                    title="Помогли начать обрабатывать на 98% больше заявок"
+                    person={{
+                      name: "Светлана Корнелюк",
+                      jobTitle: "Директор отдела продаж",
+                      photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  >
+                    <div class="h-6 w-32 bg-white rounded flex items-center justify-center" slot="logo">
+                      <span class="text-xs text-gray-800 font-bold">LOGO</span>
+                    </div>
+                  </StoryCard>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">Без логотипа</p>
+                  <StoryCard
+                    variant="active"
+                    backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop"
+                    title="Увеличили конверсию сделок на 43% за 3 месяца"
+                    person={{
+                      name: "Алексей Громов",
+                      jobTitle: "Руководитель отдела ипотеки",
+                      photo: { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* variant="default" */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">default</h2>
+              <p class="text-gray-500 text-sm mb-6">Светлый фон <code class="bg-gray-200 px-1 rounded text-xs">bg-gray-100</code>, тёмный заголовок, светлая тема PersonCard.</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[960px]">
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">С логотипом</p>
+                  <StoryCard
+                    variant="default"
+                    title="Помогли начать обрабатывать на 98% больше заявок"
+                    person={{
+                      name: "Светлана Корнелюк",
+                      jobTitle: "Директор отдела продаж",
+                      photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  >
+                    <div class="h-6 w-32 bg-gray-300 rounded flex items-center justify-center" slot="logo">
+                      <span class="text-xs text-gray-800 font-bold">LOGO</span>
+                    </div>
+                  </StoryCard>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-3">Без логотипа</p>
+                  <StoryCard
+                    variant="default"
+                    title="Увеличили конверсию сделок на 43% за 3 месяца"
+                    person={{
+                      name: "Алексей Громов",
+                      jobTitle: "Руководитель отдела ипотеки",
+                      photo: { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+      {section === 'input' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Input</h1>
+          <p class="text-gray-600 mb-8">{inputMeta.description}</p>
+
+          <PropsTable props={inputMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+
+            {/* Размеры */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Размеры</h2>
+              <p class="text-gray-500 text-sm mb-6">M — 44px высота, S — компактный (py-2)</p>
+              <div class="flex flex-col gap-4 max-w-xs">
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">size="M" (default)</p>
+                  <Input name="demo-m" placeholder="Placeholder" size="M" />
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">size="S"</p>
+                  <Input name="demo-s" placeholder="Placeholder" size="S" />
+                </div>
+              </div>
+            </div>
+
+            {/* Состояния — Colour */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Вариант colour</h2>
+              <p class="text-gray-500 text-sm mb-6">Для светлого фона. Default / Active (фокус) / Filled (есть значение)</p>
+              <div class="flex flex-col gap-4 max-w-xs">
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">Default — нет фокуса, нет значения</p>
+                  <Input name="c-default" placeholder="Placeholder" variant="colour" />
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">Active — кликни, чтобы увидеть оранжевую рамку</p>
+                  <Input name="c-active" placeholder="Placeholder" variant="colour" />
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 mb-2">Filled — есть значение</p>
+                  <Input name="c-filled" placeholder="Placeholder" value="Info" variant="colour" />
+                </div>
+              </div>
+            </div>
+
+            {/* Состояния — White */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Вариант white</h2>
+              <p class="text-gray-500 text-sm mb-6">Для тёмного фона. При заполнении фон становится белым.</p>
+              <div class="bg-gray-800 rounded-2xl p-6 max-w-xs flex flex-col gap-4">
+                <div>
+                  <p class="text-xs text-white/40 mb-2">Default</p>
+                  <Input name="w-default" placeholder="Placeholder" variant="white" />
+                </div>
+                <div>
+                  <p class="text-xs text-white/40 mb-2">Active — кликни для белой рамки</p>
+                  <Input name="w-active" placeholder="Placeholder" variant="white" />
+                </div>
+                <div>
+                  <p class="text-xs text-white/40 mb-2">Filled — белый фон</p>
+                  <Input name="w-filled" placeholder="Placeholder" value="Info" variant="white" />
+                </div>
+              </div>
+            </div>
+
+            {/* Все комбинации */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Все комбинации size × variant</h2>
+              <p class="text-gray-500 text-sm mb-6">Аналог таблицы из Figma</p>
+              <div class="grid grid-cols-2 gap-6 max-w-lg">
+                <div class="flex flex-col gap-3">
+                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Colour / M</p>
+                  <Input name="cm1" placeholder="Placeholder" variant="colour" size="M" />
+                  <Input name="cm2" placeholder="Placeholder" value="Info" variant="colour" size="M" />
+                </div>
+                <div class="flex flex-col gap-3">
+                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Colour / S</p>
+                  <Input name="cs1" placeholder="Placeholder" variant="colour" size="S" />
+                  <Input name="cs2" placeholder="Placeholder" value="Info" variant="colour" size="S" />
+                </div>
+                <div class="bg-gray-800 rounded-xl p-3 flex flex-col gap-3">
+                  <p class="text-xs font-semibold text-white/40 uppercase tracking-wider">White / M</p>
+                  <Input name="wm1" placeholder="Placeholder" variant="white" size="M" />
+                  <Input name="wm2" placeholder="Placeholder" value="Info" variant="white" size="M" />
+                </div>
+                <div class="bg-gray-800 rounded-xl p-3 flex flex-col gap-3">
+                  <p class="text-xs font-semibold text-white/40 uppercase tracking-wider">White / S</p>
+                  <Input name="ws1" placeholder="Placeholder" variant="white" size="S" />
+                  <Input name="ws2" placeholder="Placeholder" value="Info" variant="white" size="S" />
+                </div>
+              </div>
+            </div>
+
+            {/* Типы */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Типы (type)</h2>
+              <p class="text-gray-500 text-sm mb-6">Поддерживаются все стандартные HTML-типы</p>
+              <div class="flex flex-col gap-4 max-w-xs">
+                <Input name="t-email" type="email" placeholder="Email" />
+                <Input name="t-tel" type="tel" placeholder="Телефон" />
+                <Input name="t-password" type="password" placeholder="Пароль" />
+              </div>
+            </div>
+
+            {/* Disabled */}
+            <div>
+              <h2 class="text-xl font-semibold mb-1">Disabled</h2>
+              <div class="flex flex-col gap-4 max-w-xs">
+                <Input name="d-colour" placeholder="Отключённый colour" disabled />
+                <div class="bg-gray-800 rounded-xl p-4">
+                  <Input name="d-white" placeholder="Отключённый white" variant="white" disabled />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {section === 'bento' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Bento Grid</h1>
+          <p class="text-gray-600 mb-4">
+            Три карточки в bento-раскладке: два маленьких элемента слева (стек) + один большой справа.
+            Карточки содержат заголовок, описание и опциональное изображение.
+          </p>
+          <PropsTable props={bentoGridMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С заголовком секции</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid heading="..." items={[...3 items...]} />`}</code></p>
+              <div class="-mx-10 bg-[#fbfbfb] px-10 py-12 rounded-2xl">
+                <BentoGrid
+                  heading="Другие причины выбрать ДВИЖ"
+                  items={[
+                    {
+                      title: "Выпуск подписи за 5 минут",
+                      description: "Поддерживаем все технологии: токен, Sign.Me, Госключ"
+                    },
+                    {
+                      title: "Ускорим подачу заявления",
+                      description: "Подключим оплату госпошлины с авансового счёта внутри ДВИЖа"
+                    },
+                    {
+                      title: "Расчёт вероятности и скорости одобрения по банкам",
+                      description: "Поможем зарегистрировать сложные сделки: с иностранными гражданами или военной ипотекой"
+                    }
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без заголовка секции</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid items={[...3 items...]} />`}</code></p>
+              <div class="-mx-10 bg-[#fbfbfb] px-10 py-12 rounded-2xl">
+                <BentoGrid
+                  items={[
+                    {
+                      title: "Автоматизация заявок",
+                      description: "Обрабатываем заявки без участия менеджера — 24/7"
+                    },
+                    {
+                      title: "Интеграции с банками",
+                      description: "Подключено более 20 банков-партнёров"
+                    },
+                    {
+                      title: "Аналитика и отчёты в реальном времени",
+                      description: "Мониторинг конверсий, отказов и скорости обработки на едином дашборде"
+                    }
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -1898,42 +2047,103 @@ const sections = [
 
           <div class="space-y-12">
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — 3 строки описания + 2 кнопки</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCard title="..." descriptions={[...]} primaryButton={{...}} secondaryButton={{...}} />`}</code></p>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — заголовок + список + кнопка + изображение</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCard title="..." items={[...]} button={{...}} image={{...}} />`}</code></p>
               <ProductCard
-                title="Разворачивайте ипотечное дело с уверенностью"
-                descriptions={[
-                  "Единая платформа для автоматизации",
-                  "всего процесса ипотечного кредитования",
-                  "от заявки до регистрации сделки"
-                ]}
-                primaryButton={{ label: "Начать", href: "#" }}
-                secondaryButton={{ label: "Узнать больше", href: "#" }}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">5 строк описания</p>
-              <ProductCard
-                title="Цифровая ипотека для банков"
-                descriptions={[
+                title="Поможем перевыполнить план продаж на том же трафике"
+                items={[
                   "До 96% одобрения заявок",
                   "Единая анкета в 40+ банков",
                   "Моментальное заполнение через Госуслуги",
                   "Готовые интеграции с CRM",
                   "Анализ работы менеджеров"
                 ]}
-                primaryButton={{ label: "Запросить демо", href: "#" }}
+                button={{ label: "Подробнее о цифровой ипотеке", href: "#" }}
+                image={{ src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg", alt: "Цифровая ипотека" }}
               />
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">1 строка описания</p>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без картинки</p>
               <ProductCard
                 title="Начните сегодня"
-                descriptions={["Закрывайте до 26% больше сделок на том же трафике."]}
-                primaryButton={{ label: "Get started", href: "#" }}
+                items={["Закрывайте до 26% больше сделок на том же трафике"]}
+                button={{ label: "Запросить демо", href: "#" }}
               />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С отзывом клиента (prop review)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCard ... review={{ quote, author, role, company, caseLink }} />`}</code></p>
+              <ProductCard
+                title="Поможем перевыполнить план продаж на том же трафике"
+                items={[
+                  "До 96% одобрения заявок",
+                  "Единая анкета в 40+ банков",
+                  "Моментальное заполнение через Госуслуги",
+                  "Готовые интеграции с CRM",
+                ]}
+                button={{ label: "Подробнее", href: "#" }}
+                image={{ src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg", alt: "Цифровая ипотека" }}
+                review={{
+                  quote: "С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет",
+                  author: "Анастасия Швед",
+                  role: "Руководитель управления прямых продаж",
+                  company: { logo: "https://admin.dvizh.cc/api/media/file/talan-logo.svg", alt: "Талан" },
+                  caseLink: { label: "Читать кейс", href: "#" },
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'product-card-review' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Product Card Review</h1>
+          <p class="text-gray-600 mb-4">
+            Блок цитаты клиента. Используется внутри ProductCard (через prop <code>review</code>) или самостоятельно.
+            Структура: иконка-кавычка + курсивная цитата → строка автора (логотип | разделитель | имя + должность | кнопка кейса).
+          </p>
+          <PropsTable props={productCardReviewMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — цитата + автор + лого + кнопка кейса</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCardReview quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
+              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
+                <ProductCardReview
+                  quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет"
+                  author="Анастасия Швед"
+                  role="Руководитель управления прямых продаж"
+                  company={{ logo: "https://admin.dvizh.cc/api/media/file/talan-logo.svg", alt: "Талан" }}
+                  caseLink={{ label: "Читать кейс", href: "#" }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без логотипа компании</p>
+              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
+                <ProductCardReview
+                  quote="Платформа позволила нам кратно увеличить скорость обработки заявок и повысить конверсию"
+                  author="Максим Петров"
+                  role="Директор по продажам"
+                  caseLink={{ label: "Читать кейс", href: "#" }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без кнопки кейса</p>
+              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
+                <ProductCardReview
+                  quote="Интеграция с ДВИЖем заняла неделю, а ROI превысил ожидания уже в первый месяц"
+                  author="Елена Козлова"
+                  role="Коммерческий директор"
+                  company={{ logo: "https://admin.dvizh.cc/api/media/file/talan-logo.svg", alt: "Талан" }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -1941,496 +2151,540 @@ const sections = [
 
       {section === 'product-section' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Product Section</h1>
-          <p class="text-gray-600 mb-4">
-            Секция с меню продуктов слева и карточкой ProductCard справа. Адаптив: на lg+ — горизонтально, на md- — вертикально.
-          </p>
-          <PropsTable props={productSectionMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — 5 секций</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductSection sections={[...]} title="..." descriptions={[...]} />`}</code></p>
-              <ProductSection
-                sections={[
-                  { number: '01', title: 'Цифровая ипотека', active: true },
-                  { number: '02', title: 'Ипотечный калькулятор' },
-                  { number: '03', title: 'Финансовый скоринг' },
-                  { number: '04', title: 'Электронная регистрация' },
-                  { number: '05', title: 'Движ AI' }
-                ]}
-                title="Цифровая ипотека"
-                descriptions={[
-                  "До 96% одобрения заявок",
-                  "Единая анкета в 40+ банков",
-                  "Моментальное заполнение через Госуслуги"
-                ]}
-                primaryButton={{ label: "Запросить демо", href: "#" }}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">3 секции</p>
-              <ProductSection
-                sections={[
-                  { number: '01', title: 'Продукт 1', active: true },
-                  { number: '02', title: 'Продукт 2' },
-                  { number: '03', title: 'Продукт 3' }
-                ]}
-                title="Наш продукт"
-                descriptions={[
-                  "Единая платформа для автоматизации",
-                  "всего процесса работы с клиентами"
-                ]}
-                primaryButton={{ label: "Начать", href: "#" }}
-                secondaryButton={{ label: "Узнать больше", href: "#" }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {section === 'product-section-new' && (
-        <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Product Section New</h1>
           <p class="text-gray-600 mb-4">
-            Адаптивная секция с sticky меню и скроллом к секциям. На lg+ меню прилипает слева,
-            при клике прокручивает к соответствующей секции. При скролле страницы — автоматическая подсветка активного пункта.
+            Sticky-меню слева + стек ProductCard справа. IntersectionObserver подсвечивает активный пункт. Клик — smooth scroll.
           </p>
-          <PropsTable props={productSectionNewMeta.props} class="mb-10" />
 
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — 5 секций с изображениями</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductSectionNew sections={[...]} title={{...}} rightContent={[...]} />`}</code></p>
-              <ProductSectionNew
-                sections={[
-                  { number: '01', title: 'Цифровая ипотека' },
-                  { number: '02', title: 'Ипотечный калькулятор' },
-                  { number: '03', title: 'Финансовый скоринг' },
-                  { number: '04', title: 'Электронная регистрация' },
-                  { number: '05', title: 'Движ AI' },
-                ]}
-                title={{
-                  lg: "Закрывайте до 26% больше сделок на таком же трафике",
-                  md: "Закрывайте до 26% больше сделок",
-                  sm: "Больше сделок"
-                }}
-                rightContent={[
-                  {
-                    images: [{
-                      src: "/api/media/file/product-section-1.jpg",
-                      alt: "Цифровая ипотека",
-                      width: 600,
-                      height: 400
-                    }],
-                    title: "Поможем перевыполнить план продаж на том же трафике",
-                    description: [
-                      "До 96% одобрения",
-                      "Единая анкета в 40+ банков",
-                      "Моментальное заполнение анкеты через Госуслуги",
-                      "Готовые интеграции с CRM",
-                      "Анализ работы менеджеров"
-                    ]
-                  },
-                  {
-                    images: [{
-                      src: "/api/media/file/product-section-2v2.jpg",
-                      alt: "Ипотечный калькулятор",
-                      width: 600,
-                      height: 400
-                    }],
-                    title: "Приведем больше лидов с сайта",
-                    description: [
-                      "Расчет рассрочки и досрочного погашения",
-                      "Автоматическое обновление ставок и программ",
-                      "API для интеграции с вашим сайтом и личным кабинетом",
-                      "Брендирование калькулятора под ваши цвета"
-                    ]
-                  },
-                  {
-                    images: [{
-                      src: "/api/media/file/product-section-3.jpg",
-                      alt: "Финансовый скоринг",
-                      width: 600,
-                      height: 400
-                    }],
-                    title: "Сократим процент отказов по проблемным заемщикам",
-                    description: [
-                      "Проверка заемщика по 15 источникам",
-                      "Ежемесячный скоринг по ДДУ c рассрочкой",
-                      "Рекомендации по улучшению кредитной истории"
-                    ]
-                  },
-                  {
-                    images: [{
-                      src: "/api/media/file/product-section-4.jpg",
-                      alt: "Электронная регистрация",
-                      width: 600,
-                      height: 400
-                    }],
-                    title: "Сократим стоимость регистрации в Росреестре",
-                    description: [
-                      "Сквозное оформление сделки от ипотеки до регистрации",
-                      "До 30% дешевле цены конкурентов",
-                      "Все виды сделок"
-                    ]
-                  },
-                  {
-                    images: [{
-                      src: "/api/media/file/product-section-5.jpg",
-                      alt: "Движ AI",
-                      width: 600,
-                      height: 400
-                    }],
-                    title: "Нейросети на службе вашего бизнеса",
-                    description: [
-                      "Расчет вероятности и скорости одобрения по банкам",
-                      "Автоматический подбор ипотечной программы",
-                      "Меньше отказов, больше сделок"
-                    ]
-                  }
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С TypeScript интерфейсом</p>
-              <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><code>{`import ProductSectionNew from '@/components/ui/ProductSectionNew.astro'
-
-interface SectionItem {
-  number: string   // '01', '02', '03'...
-  title: string    // Заголовок пункта меню
-  active?: boolean // Активный по умолчанию
-}
-
-interface ImageProps {
-  src: string
-  alt?: string
-  width?: number
-  height?: number
-}
-
-interface RightContent {
-  images?: ImageProps[]
-  title?: string
-  description?: string | string[]
-}
-
-interface AdaptiveTitle {
-  lg: string  // Для больших экранов
-  md: string  // Для средних экранов
-  sm: string  // Для мобильных
-}
-
-interface Props {
-  sections: SectionItem[]
-  title: AdaptiveTitle
-  descriptions?: string[]
-  primaryButton?: Button
-  secondaryButton?: Button
-  rightContent: RightContent | RightContent[]
-  class?: string
-}
-
-<ProductSectionNew
-  sections={[
-    { number: '01', title: 'Цифровая ипотека' },
-    { number: '02', title: 'Ипотечный калькулятор' },
-  ]}
-  title={{
-    lg: 'Заголовок для больших экранов',
-    md: 'Заголовок для средних',
-    sm: 'Заголовок для мобильных'
-  }}
-  rightContent={[
-    {
-      images: [{ src: '/image.jpg', alt: '...', width: 600, height: 400 }],
-      title: 'Заголовок секции',
-      description: ['Пункт 1', 'Пункт 2']
-    },
-  ]}
-  primaryButton={{ label: 'Начать', href: '#' }}
-  secondaryButton={{ label: 'Подробнее', href: '#' }}
-/>`}</code></pre>
-            </div>
-          </div>
+          <ProductSection
+            sections={[
+              {
+                number: '01',
+                title: 'Цифровая ипотека',
+                cardTitle: 'Поможем перевыполнить план продаж на том же трафике',
+                items: ['До 96% одобрения', 'Единая анкета в 40+ банков', 'Моментальное заполнение через Госуслуги'],
+                button: { label: 'Подробнее', href: '#' },
+                image: { src: 'https://admin.dvizh.cc/api/media/file/product-section-1.jpg', alt: 'Цифровая ипотека' }
+              },
+              {
+                number: '02',
+                title: 'Ипотечный калькулятор',
+                cardTitle: 'Приведем больше лидов с сайта',
+                items: ['Расчет рассрочки и досрочного погашения', 'Автоматическое обновление ставок'],
+                button: { label: 'Подробнее', href: '#' },
+                image: { src: 'https://admin.dvizh.cc/api/media/file/product-section-2v2.jpg', alt: 'Калькулятор' }
+              }
+            ]}
+          />
         </div>
       )}
 
-      {section === 'section-navigator' && (
+      {section === 'aai-hero' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Section Navigator</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">AaiHero</h1>
           <p class="text-gray-600 mb-4">
-            Навигация по секциям с нумерованным меню. Слева — кнопки 01, 02, 03..., справа — контент.
-            На мобильной версии — горизонтальная прокрутка сверху.
+            Центрированная секция-герой для AI-продукта. Бейдж → заголовок H2 → изображение.
+            Опционально: три карточки BentoGrid ниже.
           </p>
-          <PropsTable props={sectionNavigatorMeta.props} class="mb-10" />
+          <PropsTable props={aaiHeroMeta.props} class="mb-10" />
 
-          <div class="space-y-12">
+          <div class="space-y-16">
+
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Базовый пример — 3 секции</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SectionNavigator sections={[...]} />`}</code></p>
-              <SectionNavigator
-                badge="Как это работает"
-                title="Три простых шага"
-                sections={[
-                  {
-                    number: '01',
-                    title: 'Подключение',
-                    content: '<h3 class="text-xl font-semibold mb-3">Интеграция за 2 недели</h3><p class="text-gray-600">Подключите платформу через API или используйте готовые виджеты. Наша команда поможет настроить интеграцию с вашей CRM.</p>',
-                  },
-                  {
-                    number: '02',
-                    title: 'Обработка',
-                    content: '<h3 class="text-xl font-semibold mb-3">Автоматический прескоринг</h3><p class="text-gray-600">Система автоматически анализирует заявки и определяет вероятность одобрения ипотеки в каждом банке.</p>',
-                  },
-                  {
-                    number: '03',
-                    title: 'Результат',
-                    content: '<h3 class="text-xl font-semibold mb-3">До 26% больше сделок</h3><p class="text-gray-600">Увеличьте конверсию на том же трафике. Средний рост закрытых сделок среди наших клиентов — 26%.</p>',
-                  },
-                ]}
-              />
+              <p class="text-sm font-medium text-gray-400 mb-4">Только герой (без изображения и bento)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<AaiHero heading="Нейросети на службе вашего бизнеса" />`}</code></p>
+              <div class="-mx-10 rounded-2xl overflow-hidden">
+                <AaiHero
+                  heading="Нейросети на службе вашего бизнеса"
+                />
+              </div>
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">6 секций — как на fin.ai</p>
-              <SectionNavigator
-                sections={[
-                  {
-                    number: '01',
-                    title: 'Процесс',
-                    content: '<h3 class="text-xl font-semibold mb-3">Упрощённый рабочий процесс</h3><p class="text-gray-600 mb-4">Автоматизируйте рутинные задачи и сосредоточьтесь на важных клиентах.</p><ul class="list-disc list-inside text-gray-600 space-y-2"><li>Автоматический сбор документов</li><li>Прескоринг за 30 секунд</li><li>Единая анкета для всех банков</li></ul>',
-                  },
-                  {
-                    number: '02',
-                    title: 'Производительность',
-                    content: '<h3 class="text-xl font-semibold mb-3">Мгновенная обработка заявок</h3><p class="text-gray-600">Скорость обработки увеличена в 10 раз благодаря AI-алгоритмам.</p>',
-                  },
-                  {
-                    number: '03',
-                    title: 'Интеграции',
-                    content: '<h3 class="text-xl font-semibold mb-3">Готовые соединения</h3><p class="text-gray-600">Интегрируйтесь с 40+ банками и ведущими CRM-системами.</p>',
-                  },
-                  {
-                    number: '04',
-                    title: 'Технологии',
-                    content: '<h3 class="text-xl font-semibold mb-3">AI на службе бизнеса</h3><p class="text-gray-600">Нейросети анализируют вероятность одобрения и подбирают оптимальные программы.</p>',
-                  },
-                  {
-                    number: '05',
-                    title: 'Команда',
-                    content: '<h3 class="text-xl font-semibold mb-3">Экспертная поддержка</h3><p class="text-gray-600">Персональный менеджер поможет на каждом этапе внедрения.</p>',
-                  },
-                  {
-                    number: '06',
-                    title: 'Цены',
-                    content: '<h3 class="text-xl font-semibold mb-3">Прозрачное ценообразование</h3><p class="text-gray-600">Оплата за результат — фиксируем процент от закрытых сделок.</p>',
-                  },
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С TypeScript интерфейсом</p>
-              <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><code>{`import SectionNavigator from '@/components/ui/SectionNavigator.astro'
-
-interface SectionItem {
-  number: string   // '01', '02', '03'...
-  title: string    // Заголовок кнопки
-  content: string  // HTML-контент
-}
-
-<SectionNavigator
-  badge="Как это работает"
-  title="Три простых шага"
-  sections={[
-    {
-      number: '01',
-      title: 'Подключение',
-      content: \`<h3>Заголовок</h3><p>Описание...</p>\`,
-    },
-  ]}
-/>`}</code></pre>
-            </div>
-          </div>
-        </div>
-      )}
-      {section === 'dvizh-advantages' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-8">Dvizh Advantages</h1>
-          <p class="text-gray-600 mb-10">
-            Секция преимуществ/планов с двумя карточками. Декоративный градиентный фон.
-          </p>
-          <PropsTable props={dvizhAdvantagesMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Базовый пример — 2 плана</p>
-              <DvizhAdvantages
-                title="Почему выбирают ДВИЖ"
-                plans={[
-                  {
-                    id: 'plan-basic',
-                    name: 'Базовый',
-                    price: 'от 29 000 ₽',
-                    period: '/месяц',
-                    description: 'Подходит для небольших команд',
-                    features: [
-                      { label: 'До 1 000 заявок' },
-                      { label: 'Базовая аналитика' },
-                      { label: 'Email-поддержка' },
-                      { label: 'Интеграция с 5 банками' },
-                    ],
-                    buttonHref: '#',
-                  },
-                  {
-                    id: 'plan-pro',
-                    name: 'Профессионал',
-                    price: 'от 99 000 ₽',
-                    period: '/месяц',
-                    description: 'Для крупных компаний',
-                    isDark: true,
-                    features: [
-                      { label: 'Безлимитные заявки' },
-                      { label: 'Безлимитные подписчики' },
-                      { label: 'AI-прогнозирование' },
-                      { label: 'Персональный менеджер' },
-                      { label: 'Кастомные интеграции' },
-                      { label: 'Маркетинговые автоматизации' },
-                    ],
-                    buttonHref: '#',
-                  },
-                ]}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С TypeScript интерфейсом</p>
-              <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><code>{`import DvizhAdvantages from '@/components/ui/DvizhAdvantages.astro'
-
-interface PlanFeature {
-  label: string
-}
-
-interface Plan {
-  id: string
-  name: string
-  price: string
-  period: string
-  description: string
-  features: PlanFeature[]
-  isDark?: boolean
-  buttonText?: string
-  buttonHref?: string
-}
-
-interface Props {
-  badge?: string
-  title: string
-  description?: string
-  plans: Plan[]
-  class?: string
-}
-
-<DvizhAdvantages
-  badge="Преимущества"
-  title="Почему выбирают ДВИЖ"
-  description="Выберите решение, которое подходит вашему бизнесу"
-  plans={[
-    {
-      id: 'plan-basic',
-      name: 'Базовый',
-      price: 'от 29 000 ₽',
-      period: '/месяц',
-      description: 'Подходит для небольших команд',
-      features: [
-        { label: 'До 1 000 заявок' },
-        { label: 'Базовая аналитика' },
-        { label: 'Email-поддержка' },
-        { label: 'Интеграция с 5 банками' },
-      ],
-      buttonText: 'Начать',
-    },
-    {
-      id: 'plan-pro',
-      name: 'Профессионал',
-      price: 'от 99 000 ₽',
-      period: '/месяц',
-      description: 'Для крупных компаний',
-      isDark: true,
-      features: [
-        { label: 'Безлимитные заявки' },
-        { label: 'Безлимитные подписчики' },
-        { label: 'AI-прогнозирование' },
-        { label: 'Персональный менеджер' },
-        { label: 'Кастомные интеграции' },
-        { label: 'Маркетинговые автоматизации' },
-      ],
-      buttonText: 'Связаться',
-    },
-  ]}
-/>`}</code></pre>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {section === 'comparison-section' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-2">Comparison Section</h1>
-          <p class="text-gray-600 mb-8">Секция сравнения «до/после» — заголовок слева, две карточки (светлая и тёмная) справа. Вписывается в контейнер 1440px.</p>
-
-          <PropsTable props={comparisonSectionMeta.props} class="mb-10" />
-
-          <div class="space-y-10">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Пример</p>
-              <div class="-mx-10 border-y border-gray-200">
-                <ComparisonSection
-                  title="Одно решение для всей сделки вместо кучи заплаток"
-                  leftTitle="Без ДВИЖа"
-                  leftItems={[
-                    'Данные клиента теряются, сделка застревает между отделами',
-                    'Менеджер тратит время на нецелевых клиентов и не выполняет KPI',
-                    'Нет потенциала для апсейла клиентов',
-                    'Менеджер узнаёт о финансовых проблемах клиента после отказа в банке',
-                    'Море цифр и ни одного ответа: почему сделка не закрылась за полгода',
+              <p class="text-sm font-medium text-gray-400 mb-4">С изображением-заглушкой и BentoGrid</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<AaiHero heading="..." bentoItems={[...3 items...]} />`}</code></p>
+              <div class="-mx-10 rounded-2xl overflow-hidden">
+                <AaiHero
+                  heading="Нейросети на службе вашего бизнеса"
+                  bentoHeading="Что умеет ДВИЖ AI"
+                  bentoItems={[
+                    {
+                      title: "Автоматическая обработка заявок",
+                      description: "Нейросеть анализирует данные клиента и принимает решения за секунды"
+                    },
+                    {
+                      title: "Скоринг и прогноз одобрения",
+                      description: "Предсказываем вероятность одобрения по 40+ банкам"
+                    },
+                    {
+                      title: "Персонализированные предложения",
+                      description: "AI подбирает оптимальную ипотечную программу под каждого клиента"
+                    }
                   ]}
-                  rightTitle="С ДВИЖом"
-                  rightItems={[
-                    'Вся сделка в одном окне: без ошибок и потерянных часов',
-                    'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейки',
-                    'Средний чек и допродажи постоянно растут',
-                    'Менеджер знает о платёжеспособности клиентов больше, чем они сами',
-                    'Вклад каждого сотрудника виден как под микроскопом',
+                />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {section === 'feature-block' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">FeatureBlock</h1>
+          <p class="text-gray-600 mb-8">
+            Секция с авто-переключающимися пунктами слева (таймер + прогресс-бар) и изображением/слотом справа.
+            Опционально: описание под заголовком и кнопка CTA.
+          </p>
+          <PropsTable props={parseSource(featureBlockRaw).props} class="mb-10" />
+
+          <div class="space-y-16">
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">Базовый — только заголовок и пункты</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeatureBlock heading="..." features={[...]} />`}</code></p>
+              <div class="-mx-10">
+                <FeatureBlock
+                  heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
+                  features={[
+                    { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+                    { title: '«Умный» скоринг покупателя', subtitle: 'До отправки в банк' },
+                    { title: 'Встроенный ипотечный калькулятор', subtitle: 'На сайте застройщика' },
+                    { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
+                    { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
+                    { title: 'Контроль «зависших» обращений 24/7' },
                   ]}
                 />
               </div>
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Использование</p>
-              <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><code>{`import ComparisonSection from '@/components/ui/ComparisonSection.astro'
+              <p class="text-sm font-medium text-gray-400 mb-2">С описанием и кнопкой</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeatureBlock heading="..." description="..." button={{ label, drawerPreset }} features={[...]} />`}</code></p>
+              <div class="-mx-10">
+                <FeatureBlock
+                  heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
+                  description="Подключите ДВИЖ и закрывайте до 26% больше сделок без увеличения затрат на маркетинг."
+                  button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
+                  features={[
+                    { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+                    { title: '«Умный» скоринг покупателя', subtitle: 'До отправки в банк' },
+                    { title: 'Встроенный ипотечный калькулятор', subtitle: 'На сайте застройщика' },
+                    { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
+                    { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
+                    { title: 'Контроль «зависших» обращений 24/7' },
+                  ]}
+                />
+              </div>
+            </div>
 
-<ComparisonSection
-  title="Одно решение для всей сделки вместо кучи заплаток"
-  leftTitle="Без ДВИЖа"
-  leftItems={[
-    'Данные клиента теряются...',
-    'Менеджер тратит время...',
-  ]}
-  rightTitle="С ДВИЖом"
-  rightItems={[
-    'Вся сделка в одном окне...',
-    'Менеджер успевает в 2 раза больше...',
-  ]}
-/>`}</code></pre>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">Только с описанием (без кнопки)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeatureBlock heading="..." description="..." features={[...]} />`}</code></p>
+              <div class="-mx-10">
+                <FeatureBlock
+                  heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
+                  description="Подключите ДВИЖ и закрывайте до 26% больше сделок без увеличения затрат на маркетинг."
+                  features={[
+                    { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+                    { title: '«Умный» скоринг покупателя' },
+                    { title: 'Встроенный ипотечный калькулятор' },
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">Изображение слева (imageSide="left")</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeatureBlock imageSide="left" ... />`}</code></p>
+              <div class="-mx-10">
+                <FeatureBlock
+                  heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
+                  description="Подключите ДВИЖ и закрывайте до 26% больше сделок."
+                  button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
+                  imageSide="left"
+                  features={[
+                    { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+                    { title: '«Умный» скоринг покупателя' },
+                    { title: 'Встроенный ипотечный калькулятор' },
+                  ]}
+                />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+      {section === 'success-story-block' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">SuccessStoryBlock</h1>
+          <p class="text-gray-600 mb-8">
+            Секция «истории успеха» с заголовком, кнопкой и сеткой из 3 карточек.
+            Заголовок карточки поддерживает HTML — используй <code>&lt;span class="text-brand"&gt;</code> для оранжевых выделений.
+          </p>
+          <PropsTable props={parseSource(successStoryBlockRaw).props} class="mb-10" />
+
+          <div class="-mx-10">
+            <SuccessStoryBlock
+              heading="70+ историй успеха на рынке застройщиков"
+              buttonLabel="Получить демо"
+              buttonPreset="demo"
+              stories={[
+                {
+                  logo: '/partners/lsr.svg',
+                  logoAlt: 'Группа ЛСР',
+                  titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
+                  personName: 'Группа ЛСР',
+                  personJobTitle: 'Один из ведущих строительных холдингов',
+                },
+                {
+                  logo: '/partners/strana.svg',
+                  logoAlt: 'ГК Точно',
+                  titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
+                  personName: 'ГК «Точно»',
+                  personJobTitle: 'Крупнейший девелопер Краснодарского края',
+                },
+                {
+                  logo: '/partners/a101.svg',
+                  logoAlt: 'ГК Самолет',
+                  titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
+                  personName: 'ГК «Самолет»',
+                  personJobTitle: 'Крупнейший федеральный девелопер России',
+                },
+              ]}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'logo-grid' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">LogoGrid</h1>
+          <p class="text-gray-600 mb-8">
+            Бегущая строка логотипов клиентов/партнёров (marquee). Бесшовный цикл из двух наборов.
+          </p>
+          <PropsTable props={parseSource(logoGridRaw).props} class="mb-10" />
+
+          <p class="text-xs text-gray-400 mb-4">Логотипы намеренно серые и полупрозрачные (grayscale 100%, opacity 45%) — так по дизайну.</p>
+          <div class="bg-white rounded-2xl overflow-hidden -mx-10">
+            <LogoGrid
+              logos={[
+                { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+                { src: '/partners/dark/a101.svg', alt: 'А101' },
+                { src: '/partners/dark/ava.svg', alt: 'AVA' },
+                { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
+                { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
+                { src: '/partners/dark/strana.svg', alt: 'Страна' },
+              ]}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'key-facts' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">KeyFacts</h1>
+          <p class="text-gray-600 mb-4">
+            Нумерованные факты/метрики с вертикальной чертой. Заголовок опционален.
+            2–4 колонки. Контент «прибит» к низу каждой колонки.
+          </p>
+          <PropsTable props={parseSource(keyFactsRaw).props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 колонки с заголовком</p>
+              <KeyFacts
+                title="Зачем вам ипотечный калькулятор?"
+                items={[
+                  { value: '80% заявок', description: 'приходит в нерабочее время,<br>не теряйте их' },
+                  { value: '50% клиентов', description: 'заранее хотят рассчитать ежемесячный платеж' },
+                  { value: 'на 20% выше', description: 'конверсия в сделку, когда клиент знает доступный бюджет ипотеки' },
+                ]}
+              />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">4 колонки без заголовка</p>
+              <KeyFacts
+                cols={4}
+                items={[
+                  { value: '1,5 млн', description: 'заявок обработано через платформу' },
+                  { value: '75 из 100', description: 'крупнейших застройщиков России используют ДВИЖ' },
+                  { value: '40+ банков', description: 'подключено к единой системе скоринга' },
+                  { value: 'до 10 сек', description: 'заполнение ипотечной анкеты клиентом' },
+                ]}
+              />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">2 колонки</p>
+              <KeyFacts
+                cols={2}
+                title="Цифры говорят сами за себя"
+                items={[
+                  { value: '99,9% uptime', description: 'гарантированная доступность сервиса' },
+                  { value: '< 200 мс', description: 'среднее время ответа API' },
+                ]}
+              />
             </div>
           </div>
         </div>
       )}
+
+      {section === 'comparison' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">ComparisonSection</h1>
+          <p class="text-gray-600 mb-4">
+            Блок сравнения: левая (серая) колонка — рыночные решения, правая (тёмная) — ДВИЖ с CTA-кнопками.
+          </p>
+          <PropsTable props={parseSource(comparisonSectionRaw).props} class="mb-10" />
+          <div class="-mx-10">
+            <ComparisonSection
+              label="В чём разница"
+              title="Выбирайте лучшее"
+              leftTitle="Самописные и рыночные решения"
+              leftItems={[
+                'Необходимо вручную поддерживать актуальность ставок',
+                'Нельзя рассчитать комбо- и ипотеку с удорожанием стоимости',
+                'Нет возможности выделить наиболее выгодное предложение',
+                'Нет потенциала для апсейла клиентов',
+              ]}
+              rightItems={[
+                'Ипотечные ставки обновляются автоматически',
+                'Считает все виды ипотек: траншевую, комбо, с удорожанием, субсидированную, рассрочку',
+                'Меняет порядок ипотечных программ и показывает выгодные предложения',
+                'Увеличивает средний чек за счёт персональных предложений',
+              ]}
+              primaryButtonText="Записаться на демо"
+              secondaryButtonText="Пробовать бесплатно"
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'modal-section' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">ModalSection</h1>
+          <p class="text-gray-600 mb-8">
+            Секция с группами карточек продуктов по этапам сделки.
+            Desktop (lg+): подзаголовок-категория слева (500px), карточки справа в сетке 2 колонки.
+            Mobile: подзаголовок сверху, карточки снизу.
+          </p>
+          <PropsTable props={parseSource(modalSectionRaw).props} class="mb-10" />
+
+          <div class="-mx-10">
+            <ModalSection
+              heading="Добиваемся высоких конверсий на каждом этапе сделки"
+              groups={[
+                {
+                  label: 'Лидогенерация',
+                  cards: [
+                    { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
+                    { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
+                    { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
+                  ],
+                },
+                {
+                  label: 'Управление заявками',
+                  cards: [
+                    { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
+                    { title: 'Финансовый скоринг', description: 'Сократите число отказов в банках', href: '/scoring' },
+                  ],
+                },
+                {
+                  label: 'Регистрация собственности',
+                  cards: [
+                    { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
+                  ],
+                },
+              ]}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'modal-card' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">ModalCard</h1>
+          <p class="text-gray-600 mb-2">
+            Компактная карточка модуля/продукта. Default — прозрачный фон, тёмный текст.
+            Hover — фон <code>background/secondary</code>, текст brand-orange. Может быть ссылкой (prop <code>href</code>).
+          </p>
+          <PropsTable props={parseSource(modalCardRaw).props} class="mb-10" />
+
+          <h2 class="text-xl font-semibold mb-4">Default (без изображения)</h2>
+          <p class="text-xs text-gray-400 mb-4">
+            <code>{`<ModalCard title="Ипотечный калькулятор" description="Собирайте заявки в нерабочее время" />`}</code>
+          </p>
+          <div class="flex flex-wrap gap-4 mb-10">
+            <ModalCard
+              title="Ипотечный калькулятор"
+              description="Собирайте заявки в нерабочее время"
+            />
+            <ModalCard
+              title="Электронная регистрация"
+              description="Сделки онлайн без визита в МФЦ"
+            />
+            <ModalCard
+              title="Скоринг покупателя"
+              description="Оценка до отправки в банк"
+            />
+          </div>
+
+          <h2 class="text-xl font-semibold mb-4">Со стоп-кадром (заглушка)</h2>
+          <p class="text-xs text-gray-400 mb-4">
+            <code>{`<ModalCard title="..." description="..." image={{ src: '/placeholder.png', alt: '...' }} />`}</code>
+          </p>
+          <div class="flex flex-wrap gap-4 mb-10">
+            <ModalCard
+              title="Ипотечный калькулятор"
+              description="Собирайте заявки в нерабочее время"
+              image={{ src: '', alt: 'заглушка' }}
+            />
+          </div>
+
+          <h2 class="text-xl font-semibold mb-4">Как ссылка (href)</h2>
+          <p class="text-xs text-gray-400 mb-4">
+            <code>{`<ModalCard title="..." description="..." href="/ipotechnyy-kalkulyator" />`}</code>
+          </p>
+          <div class="flex flex-wrap gap-4 mb-10">
+            <ModalCard
+              title="Ипотечный калькулятор"
+              description="Собирайте заявки в нерабочее время"
+              href="/ipotechnyy-kalkulyator"
+            />
+          </div>
+
+          <h2 class="text-xl font-semibold mb-4">Сетка карточек</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-2 max-w-2xl">
+            <ModalCard title="Ипотека" description="Цифровые заявки в 40+ банков" />
+            <ModalCard title="Э-регистрация" description="Сделки без МФЦ" />
+            <ModalCard title="Калькулятор" description="Заявки в нерабочее время" />
+            <ModalCard title="Скоринг" description="Оценка до банка" />
+            <ModalCard title="Витрина" description="Умный каталог квартир" />
+            <ModalCard title="Личный кабинет" description="Клиент всегда в курсе" />
+          </div>
+        </div>
+      )}
+
+      {section === 'review-full' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">ReviewFull</h1>
+          <p class="text-gray-600 mb-4">
+            Блок отзыва с фото спикера слева и цитатой справа. Обёртка над <code>Review</code>.
+            Фото занимает всю высоту блока; при отсутствии <code>src</code> показывается серая заглушка.
+          </p>
+          <PropsTable props={reviewFullMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">С заглушкой (нет фото) + полный набор атрибутов</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<ReviewFull quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
+              <ReviewFull
+                quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счёт использования стороннего решения мы оптимизируем наши процессы и сокращаем сроки реализации."
+                author="Бурганов Рунар"
+                role="Руководитель отдела ипотеки и финансовых инструментов"
+                company={{ logo: "https://admin.dvizh.cc/api/media/file/kortros-logo.svg", alt: "Кортрос" }}
+                caseLink={{ label: "Читать кейс", href: "#" }}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без кнопки кейса и логотипа</p>
+              <ReviewFull
+                quote="Интеграция с ДВИЖем заняла неделю, а ROI превысил ожидания уже в первый месяц"
+                author="Елена Козлова"
+                role="Коммерческий директор"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'text-image-block' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">TextImageBlock</h1>
+          <p class="text-gray-600 mb-8">
+            Секция с текстом слева (заголовок + подзаголовок + кнопка) и изображением справа.
+            Правая колонка — слот <code>image</code>: передай любой <code>&lt;img&gt;</code> или иллюстрацию.
+            Без слота — карточка остаётся пустым плейсхолдером.
+          </p>
+          <PropsTable props={textImageBlockMeta.props} class="mb-10" />
+
+          <h2 class="text-xl font-semibold mb-4">С плейсхолдером (без изображения)</h2>
+          <p class="text-xs text-gray-400 mb-6">
+            <code>{`<TextImageBlock heading="..." subheading="..." buttonText="..." drawerPreset="demo" />`}</code>
+          </p>
+          <div class="mb-10 -mx-4 sm:-mx-6 lg:-mx-10">
+            <TextImageBlock
+              heading="Заберите готовое решение и одобряйте больше клиентов"
+              subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
+              buttonText="Запросить демо"
+              drawerPreset="demo"
+            />
+          </div>
+
+          <h2 class="text-xl font-semibold mb-4">С изображением в слоте</h2>
+          <p class="text-xs text-gray-400 mb-6">
+            <code>{`<TextImageBlock ...><img slot="image" src="..." class="w-full h-full object-cover" /></TextImageBlock>`}</code>
+          </p>
+          <div class="mb-10 -mx-4 sm:-mx-6 lg:-mx-10">
+            <TextImageBlock
+              heading="Заберите готовое решение и одобряйте больше клиентов"
+              subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
+              buttonText="Забрать решение"
+              buttonHref="/scoring"
+            >
+              <div slot="image" class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400 text-sm">
+                Здесь будет ваше изображение
+              </div>
+            </TextImageBlock>
+          </div>
+        </div>
+      )}
+
+      {section === 'stories-carousel' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Stories Carousel</h1>
+          <p class="text-gray-600 mb-4">
+            Горизонтальная карусель карточек StoryCard с CSS Scroll Snap. Работает с тач-свайпом и скроллом.
+          </p>
+          <PropsTable props={storiesCarouselMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">3 карточки (mini)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStoriesCarousel variant="mini" title="..." stories={[...]} />`}</code></p>
+              <SuccessStoriesCarousel
+                variant="mini"
+                title="70+ историй успеха на рынке девелопмента"
+                stories={[
+                  {
+                    title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
+                    person: {
+                      name: "Петрова Надежда",
+                      jobTitle: "Директор по маркетингу, ЛСР"
+                    }
+                  },
+                  {
+                    title: "Дополнительно продали 96 квартир",
+                    person: {
+                      name: "Алексей Соколов",
+                      jobTitle: "Коммерческий директор, Самолет плюс"
+                    }
+                  },
+                  {
+                    title: "Увеличили объем закрытых сделок с 1116 до 3500 за год",
+                    person: {
+                      name: "Мария Иванова",
+                      jobTitle: "Руководитель отдела продаж"
+                    }
+                  }
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
     </main>
   </div>
 </BaseLayout>

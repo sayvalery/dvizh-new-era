@@ -1,0 +1,112 @@
+---
+/**
+ * AaiHero — секция-герой для AI-продукта
+ *
+ * Центрированная секция: бейдж → заголовок H2 → изображение.
+ * Опционально: блок BentoGrid из трёх карточек ниже.
+ *
+ * @example
+ * ```astro
+ * <AaiHero
+ *   badge="ДВИЖ AI"
+ *   heading="Нейросети на службе вашего бизнеса"
+ *   image="/img/ai-icon.png"
+ *   imageAlt="ДВИЖ AI иконка"
+ *   bentoHeading="Что умеет ДВИЖ AI"
+ *   bentoItems={[
+ *     { title: "Автоматическая обработка заявок", description: "Нейросеть анализирует данные и принимает решения за секунды" },
+ *     { title: "Скоринг и прогноз одобрения", description: "Предсказываем вероятность одобрения по 40+ банкам" },
+ *     { title: "Персонализированные предложения", description: "AI подбирает оптимальную программу под каждого клиента" },
+ *   ]}
+ * />
+ * ```
+ */
+
+import BentoGrid from './BentoGrid.astro'
+
+interface BentoItem {
+  /** Заголовок карточки */
+  title: string
+  /** Подпись под заголовком */
+  description?: string
+  /** URL изображения */
+  image?: string
+  /** Alt-текст изображения */
+  imageAlt?: string
+}
+
+interface Props {
+  /** Текст бейджа над заголовком */
+  badge?: string
+  /** Основной заголовок H2 */
+  heading: string
+  /** URL центрального изображения */
+  image?: string
+  /** Alt-текст изображения */
+  imageAlt?: string
+  /** Заголовок секции BentoGrid */
+  bentoHeading?: string
+  /** Три карточки BentoGrid (опционально) */
+  bentoItems?: BentoItem[]
+  /** Дополнительные CSS классы на секцию */
+  class?: string
+}
+
+const {
+  badge = 'ДВИЖ AI',
+  heading,
+  image,
+  imageAlt = '',
+  bentoHeading,
+  bentoItems,
+  class: className = '',
+} = Astro.props
+
+const hasBento = bentoItems && bentoItems.length >= 3
+---
+
+<section class:list={['bg-gray-100 py-16 lg:py-24', className]}>
+  <div class="page-container">
+
+    <!-- Центрированная hero-часть -->
+    <div class="mx-auto flex max-w-[1025px] flex-col items-center text-center">
+
+      <!-- Бейдж + заголовок (gap 24px как в макете) -->
+      <div class="flex flex-col items-center gap-6">
+        <!-- Бейдж-заглушка -->
+        <div class="inline-flex items-center rounded-full bg-gray-100 px-5 py-2 text-sm font-medium text-gray-500">
+          {badge}
+        </div>
+
+        <!-- Заголовок H2 -->
+        <h2 class="text-h2 lg:text-h1 font-medium leading-none tracking-[-0.04em] text-gray-900">
+          {heading}
+        </h2>
+      </div>
+
+      <!-- Изображение (отступ 64px от заголовка) -->
+      {image ? (
+        <img
+          src={image}
+          alt={imageAlt}
+          class="mt-16 h-auto w-[180px] lg:w-[294px]"
+        />
+      ) : (
+        <div
+          class="mt-16 flex h-[180px] w-[180px] items-center justify-center rounded-[36px] bg-gray-100 lg:h-[294px] lg:w-[294px] lg:rounded-[56px]"
+          aria-hidden="true"
+        >
+          <div class="h-[80px] w-[80px] rounded-2xl bg-gray-200 lg:h-[120px] lg:w-[120px]" />
+        </div>
+      )}
+    </div>
+
+    <!-- BentoGrid (опционально) -->
+    {hasBento && (
+      <div class="mt-16 lg:mt-24">
+        <BentoGrid heading={bentoHeading} items={bentoItems!.slice(0, 3)} />
+      </div>
+    )}
+
+  </div>
+</section>

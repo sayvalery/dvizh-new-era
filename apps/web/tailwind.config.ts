@@ -4,20 +4,29 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
   theme: {
     extend: {
+      screens: {
+        xs: '480px',
+      },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         heading: ['"Styrene A"', 'system-ui', 'sans-serif'],
       },
-      animation: {
-        marquee: 'marquee 30s linear infinite',
-      },
-      keyframes: {
-        marquee: {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-25%)' },
-        },
-      },
       colors: {
+        background: {
+          primary: '#FBF9F6',
+          secondary: '#F3F1EE',
+        },
+        gray: {
+          100: '#FBF9F6',
+          200: '#F3F1EE',
+          300: '#E6E4E1',
+          400: '#C2C2C2',
+          500: '#858585',
+          600: '#6D6C6C',
+          700: '#505050',
+          800: '#323232',
+          900: '#1D1E21',
+        },
         brand: {
           DEFAULT: '#ff4d00',
           50: '#fff5ed',

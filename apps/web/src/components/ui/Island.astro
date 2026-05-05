@@ -1,0 +1,61 @@
+---
+import Button from './Button.astro'
+/**
+ * Island — компактный pill-баннер с CTA-кнопкой
+ *
+ * Тёмный pill-контейнер: текст слева, оранжевая кнопка справа.
+ * Кнопка может открывать drawer или ссылаться на страницу.
+ *
+ * @example
+ * ```astro
+ * <Island
+ *   label="Пора делать ДВИЖ"
+ *   buttonText="Оставить заявку"
+ *   drawerPreset="lead"
+ * />
+ * ```
+ */
+
+interface Props {
+  /** Текст слева */
+  label: string
+  /** Текст на кнопке */
+  buttonText: string
+  /** Ссылка для кнопки */
+  buttonHref?: string
+  /** Пресет дровера: demo, lead, research, subscribe */
+  drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  label,
+  buttonText,
+  buttonHref = '#',
+  drawerPreset,
+  class: className = ''
+} = Astro.props
+
+const useDrawer = !!drawerPreset || buttonHref === '#'
+const resolvedPreset = drawerPreset ?? 'demo'
+---
+
+<div class:list={[
+  'inline-flex items-center gap-3 rounded-[24px] bg-black/60 backdrop-blur-[10px] pl-4 pr-3 py-3',
+  className
+]}>
+  <span class="text-subhead text-white whitespace-nowrap">{label}</span>
+
+  <Button
+    size="md"
+    variant="primary"
+    href={useDrawer ? undefined : buttonHref}
+    drawerPreset={useDrawer ? resolvedPreset : undefined}
+  >
+    {buttonText}
+    <svg slot="icon-right" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </Button>
+</div>

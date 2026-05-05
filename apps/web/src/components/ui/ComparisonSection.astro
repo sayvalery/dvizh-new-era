@@ -1,91 +1,379 @@
 ---
 /**
- * ComparisonSection — секция сравнения «до/после» с заголовком слева и двумя карточками справа
+ * ComparisonSection — блок сравнения «рынок vs ДВИЖ»
  *
- * @example
+ * ## Вариант 'default' (по умолчанию)
+ * Две колонки:
+ * - Левая (нейтральная, серая): иконка «минус», всегда один вид.
+ * - Правая (тёмная): логотип/изображение вверху, иконка «чек», CTA снизу.
+ *
+ * На десктопе пункты выровнены построчно: каждая пара (левый/правый пункт)
+ * занимает одну CSS Grid строку — высота ячейки определяется более высоким
+ * содержимым. Это гарантирует выравнивание даже если текст занимает разное
+ * количество строк.
+ *
+ * @example variant='default'
  * ```astro
  * <ComparisonSection
- *   title="Одно решение для всей сделки вместо кучи заплаток"
+ *   label="В чём разница"
+ *   title="Выбирайте лучшее"
+ *   leftTitle="Самописные и рыночные решения"
+ *   leftItems={[
+ *     'Необходимо вручную поддерживать актуальность ставок',
+ *     'Нельзя рассчитать комбо- и ипотеку с удорожанием стоимости',
+ *   ]}
+ *   rightItems={[
+ *     'Ипотечные ставки обновляются автоматически',
+ *     'Считает все виды ипотек: траншевую, комбо, с удорожанием',
+ *   ]}
+ *   primaryButtonText="Записаться на демо"
+ *   secondaryButtonText="Попробовать бесплатно"
+ * />
+ * ```
+ *
+ * ## Вариант 'prices'
+ * Ценовое сравнение: строки вида «название → цена».
+ * - Левая карточка (серая): заголовок + строки цен с приглушённостью (opacity-60).
+ * - Правая карточка (тёмная): логотип + строки цен (белый текст, опциональный тултип).
+ * CTA-кнопок нет.
+ *
+ * @example variant='prices'
+ * ```astro
+ * <ComparisonSection
+ *   variant="prices"
+ *   label="Стоимость"
+ *   title="Дешевле на каждом этапе"
  *   leftTitle="Без ДВИЖа"
- *   leftItems={['Данные теряются...', 'Менеджер тратит время...']}
- *   rightTitle="С ДВИЖом"
- *   rightItems={['Вся сделка в одном окне...', 'Менеджер успевает в 2 раза больше...']}
+ *   priceRows={[
+ *     { label: 'Регистрация', tooltip: 'Стоимость услуги сервиса', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
+ *     { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
+ *   ]}
  * />
  * ```
  */
 
+/** Строка ценового сравнения для variant='prices' */
+interface PriceRow {
+  /** Название параметра */
+  label: string
+  /** Текст подсказки (tooltip) для иконки-информации в правой карточке */
+  tooltip?: string
+  /** Значение в левой (серой) карточке */
+  leftValue: string
+  /** Значение в правой (тёмной) карточке */
+  rightValue: string
+}
+
 interface Props {
-  /** Основной заголовок слева */
-  title: string
-  /** Заголовок левой (светлой) карточки */
-  leftTitle?: string
-  /** Пункты левой карточки */
-  leftItems: string[]
-  /** Заголовок правой (тёмной) карточки */
-  rightTitle?: string
-  /** Пункты правой карточки */
-  rightItems: string[]
+  /** Вариант отображения: 'default' — пункты с иконками, 'prices' — строки цен */
+  variant?: 'default' | 'prices'
+  /** Мелкая подпись-бейдж над заголовком */
+  label?: string
+  /** Главный заголовок секции */
+  title?: string
+  /** Заголовок левой (серой) карточки */
+  leftTitle: string
+  /** Пункты левой карточки (серые, с иконкой «минус») — только для variant='default' */
+  leftItems?: string[]
+  /** Пункты правой (тёмной) карточки (с иконкой «чек») — только для variant='default' */
+  rightItems?: string[]
+  /** Строки ценового сравнения — только для variant='prices' */
+  priceRows?: PriceRow[]
+  /** URL логотипа или изображения для правой карточки */
+  rightLogoSrc?: string
+  /** Alt-текст логотипа */
+  rightLogoAlt?: string
+  /** Текст основной CTA-кнопки — только для variant='default' */
+  primaryButtonText?: string
+  /** Пресет дровера для основной кнопки */
+  primaryDrawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** Текст вторичной CTA-кнопки — только для variant='default' */
+  secondaryButtonText?: string
+  /** Пресет дровера для вторичной кнопки */
+  secondaryDrawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   /** Дополнительные CSS классы */
   class?: string
 }
 
+import Button from './Button.astro'
+
 const {
-  title,
-  leftTitle = 'До',
+  variant = 'default',
+  label = 'В чём разница',
+  title = 'Выбирайте лучшее',
+  leftTitle,
   leftItems = [],
-  rightTitle = 'После',
   rightItems = [],
+  priceRows = [],
+  rightLogoSrc,
+  rightLogoAlt = 'ДВИЖ',
+  primaryButtonText = 'Записаться на демо',
+  primaryDrawerPreset = 'demo',
+  secondaryButtonText = 'Попробовать бесплатно',
+  secondaryDrawerPreset = 'lead',
   class: className = '',
 } = Astro.props
 
-const checkPath = 'M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z'
+const isPrices = variant === 'prices'
+
+/**
+ * Попарно объединяем пункты: каждый индекс — одна горизонтальная строка.
+ * Если массивы разной длины, пустые ячейки заполняются null.
+ * Используется только в variant='default'.
+ */
+const maxLen = Math.max(leftItems.length, rightItems.length)
+const pairs = Array.from({ length: maxLen }, (_, i) => ({
+  left:  (leftItems[i]  ?? null) as string | null,
+  right: (rightItems[i] ?? null) as string | null,
+}))
 ---
 
-<section class:list={['bg-white py-24 sm:py-32', className]}>
-  <div class="max-w-[1440px] mx-auto px-4">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+<section class:list={['bg-gray-100', className]}>
+  <div class="page-container flex flex-col gap-16">
 
-      <!-- Левая колонка: заголовок -->
-      <div class="lg:col-span-1">
-        <h2 class="text-4xl font-semibold font-heading text-gray-900 sm:text-[42.5px] tracking-tight leading-tight">
-          {title}
-        </h2>
-      </div>
-
-      <!-- Правая колонка: две карточки -->
-      <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-        <!-- Левая карточка (светлая) -->
-        <div class="rounded-3xl bg-gray-50 p-8 ring-1 ring-gray-900/10">
-          <h3 class="text-2xl font-semibold font-heading text-gray-900">{leftTitle}</h3>
-          <ul role="list" class="mt-8 space-y-4 text-sm/6 text-gray-600">
-            {leftItems.map((item) => (
-              <li class="flex gap-x-3">
-                <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="h-6 w-5 flex-none text-gray-400">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d={checkPath} />
-                </svg>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- Правая карточка (тёмная) -->
-        <div class="rounded-3xl bg-gray-900 p-8 shadow-2xl">
-          <h3 class="text-2xl font-semibold font-heading text-white">{rightTitle}</h3>
-          <ul role="list" class="mt-8 space-y-4 text-sm/6 text-gray-300">
-            {rightItems.map((item) => (
-              <li class="flex gap-x-3">
-                <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="h-6 w-5 flex-none text-brand-400">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d={checkPath} />
-                </svg>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-      </div>
+    <!-- Заголовок секции -->
+    <div class="flex flex-col items-center gap-5 text-center">
+      {label && (
+        <span class="inline-flex items-center rounded-full border border-gray-300 px-5 py-2 text-subhead text-gray-900">
+          {label}
+        </span>
+      )}
+      {title && (
+        <h2 class="text-h1 font-medium text-gray-900">{title}</h2>
+      )}
     </div>
+
+    <!--
+      ═══ PRICES VARIANT ═══
+      Адаптивный: на мобайле flex-col, на десктопе flex-row.
+      justify-between на desktop — заголовок/лого вверху, строки цен внизу,
+      что визуально выравнивает их между карточками.
+    -->
+    {isPrices && (
+      <div class="flex flex-col lg:flex-row gap-6 lg:gap-10">
+
+        <!-- Левая карточка (без ДВИЖа) -->
+        <div class="bg-gray-200 rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px]">
+          <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
+          <div class="border-t border-gray-300 pt-8 flex flex-col gap-6 opacity-60">
+            {priceRows.map((row) => (
+              <div class="flex items-baseline justify-between gap-4">
+                <span class="text-body-lg text-gray-900 leading-[1.3]">{row.label}</span>
+                <span class="text-h3 text-gray-900 shrink-0 leading-none">{row.leftValue}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Правая карточка (ДВИЖ) -->
+        <!-- bg #151517 → bg-gray-900 (#1D1E21), ближайший токен -->
+        <div class="bg-gray-900 rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px]">
+
+          <!-- Логотип -->
+          <div class="h-[54px] flex items-center">
+            {rightLogoSrc ? (
+              <img src={rightLogoSrc} alt={rightLogoAlt} class="h-full w-auto object-contain" />
+            ) : (
+              <div class="h-full w-[220px] rounded-xl bg-white/10" role="img" aria-label={rightLogoAlt} />
+            )}
+          </div>
+
+          <!-- Строки цен -->
+          <div class="border-t border-white/15 pt-8 flex flex-col gap-6">
+            {priceRows.map((row) => (
+              <div class="flex items-baseline justify-between gap-4">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-body-lg text-white leading-[1.3]">{row.label}</span>
+                  {row.tooltip && (
+                    <span x-data="{ open: false }" class="relative inline-flex shrink-0">
+                      <button
+                        type="button"
+                        @mouseenter="open = true"
+                        @mouseleave="open = false"
+                        @focus="open = true"
+                        @blur="open = false"
+                        class="text-white/40 hover:text-white/70 transition-colors cursor-default"
+                        aria-label={row.tooltip}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/>
+                          <path d="M8 7.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                          <circle cx="8" cy="5.5" r="0.75" fill="currentColor"/>
+                        </svg>
+                      </button>
+                      <div
+                        x-show="open"
+                        x-cloak
+                        x-transition.opacity
+                        class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-gray-800 text-white text-footnote rounded-3xl px-3 py-2 pointer-events-none z-20 text-center"
+                      >{row.tooltip}</div>
+                    </span>
+                  )}
+                </div>
+                <span class="text-h3 text-white shrink-0 leading-none">{row.rightValue}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    )}
+
+    <!--
+      ═══ MOBILE (< lg): простые стекированные карточки ═══
+      Стандартный flex-col — пункты внутри каждой карточки независимы.
+    -->
+    {!isPrices && (
+    <div class="flex flex-col gap-6 lg:hidden">
+
+      <!-- Левая карточка -->
+      <div class="bg-gray-200 rounded-3xl p-8 flex flex-col gap-14">
+        <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
+        <div class="flex flex-col divide-y divide-gray-300">
+          {leftItems.map((text) => (
+            <div class="flex gap-3 items-start py-5 first:pt-0 last:pb-0 opacity-60">
+              <svg class="w-6 h-6 shrink-0 mt-0.5 text-gray-900" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                <path d="M8 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+              <p class="text-body-lg text-gray-900 leading-[1.3]">{text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Правая карточка -->
+      <!-- Цвет фона в Figma: #131313 → используем bg-gray-900 (#1D1E21), ближайший токен -->
+      <div class="bg-gray-900 rounded-3xl p-8 flex flex-col justify-between gap-10">
+        <div class="flex flex-col gap-10">
+          <div class="h-[54px] flex items-center">
+            {rightLogoSrc ? (
+              <img src={rightLogoSrc} alt={rightLogoAlt} class="h-full w-auto object-contain" />
+            ) : (
+              <div class="h-full w-[220px] rounded-xl bg-white/10" role="img" aria-label={rightLogoAlt} />
+            )}
+          </div>
+          <div class="flex flex-col divide-y divide-white/15">
+            {rightItems.map((text) => (
+              <div class="flex gap-3 items-start py-5 first:pt-0 last:pb-0">
+                <svg class="w-6 h-6 shrink-0 mt-0.5 text-white" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="text-body-lg text-white leading-[1.3]">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <Button variant="primary" drawerPreset={primaryDrawerPreset}>{primaryButtonText}</Button>
+          <Button variant="ghost-dark" drawerPreset={secondaryDrawerPreset}>{secondaryButtonText}</Button>
+        </div>
+      </div>
+
+    </div>
+    )}
+
+    <!--
+      ═══ DESKTOP (≥ lg): выровненная по строкам сетка ═══
+
+      Принцип: фоновые карточки — абсолютно позиционированные декоративные
+      блоки, не влияющие на сетку. Содержимое обеих колонок — прямые дочерние
+      элементы одного CSS Grid контейнера с grid-cols-2.
+
+      Каждая пара пунктов (левый[i] + правый[i]) попадает в одну grid-строку.
+      CSS Grid автоматически выравнивает высоты ячеек в строке по максимуму —
+      если один текст однострочный, а другой двухстрочный, оба занимают
+      одинаковую высоту.
+    -->
+    {!isPrices && (
+    <div class="hidden lg:grid lg:grid-cols-2 lg:gap-6 relative">
+
+      <!--
+        Декоративные фоны карточек.
+        width: calc(50% - 0.75rem) = половина контейнера минус половина gap-6 (1.5rem).
+        inset-y-0 растягивает их на полную высоту grid-контейнера.
+      -->
+      <div
+        class="absolute inset-y-0 left-0 rounded-3xl bg-gray-200"
+        style="width: calc(50% - 0.75rem)"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="absolute inset-y-0 right-0 rounded-3xl bg-gray-900"
+        style="width: calc(50% - 0.75rem)"
+        aria-hidden="true"
+      ></div>
+
+      <!-- ── Строка 1: заголовок | логотип ── -->
+      <div class="relative z-10 px-[34px] pt-[34px] pb-14">
+        <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
+      </div>
+      <div class="relative z-10 px-[34px] pt-[34px] pb-14 flex items-start">
+        <div class="h-[54px] flex items-center">
+          {rightLogoSrc ? (
+            <img src={rightLogoSrc} alt={rightLogoAlt} class="h-full w-auto object-contain" />
+          ) : (
+            <div class="h-full w-[220px] rounded-xl bg-white/10" role="img" aria-label={rightLogoAlt} />
+          )}
+        </div>
+      </div>
+
+      <!-- ── Строки 2..N+1: попарные пункты ── -->
+      {pairs.map((pair, i) => (
+        <Fragment>
+          <!-- Левая ячейка строки i -->
+          <!-- Левая ячейка: flex items-center центрирует группу в строке -->
+          <!-- border-t перенесён на внутренний блок, чтобы линия была вровень с контентом (учитывает px-[34px]) -->
+          <div class="relative z-10 px-[34px] flex items-center opacity-60 pb-5">
+            {pair.left && (
+              <div class:list={[
+                'flex gap-3 items-start w-full',
+                i !== 0 && 'border-t border-gray-300 pt-5',
+              ]}>
+                <svg class="w-6 h-6 shrink-0 mt-0.5 text-gray-900" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M8 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                <p class="text-body-lg text-gray-900 leading-[1.3]">{pair.left}</p>
+              </div>
+            )}
+          </div>
+
+          <!-- Правая ячейка: flex items-center центрирует группу в строке -->
+          <!-- border-t перенесён на внутренний блок, чтобы линия была вровень с контентом (учитывает px-[34px]) -->
+          <div class="relative z-10 px-[34px] flex items-center pb-5">
+            {pair.right && (
+              <div class:list={[
+                'flex gap-3 items-start w-full',
+                i !== 0 && 'border-t border-white/15 pt-5',
+              ]}>
+                <svg class="w-6 h-6 shrink-0 mt-0.5 text-white" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="text-body-lg text-white leading-[1.3]">{pair.right}</p>
+              </div>
+            )}
+          </div>
+        </Fragment>
+      ))}
+
+      <!-- ── Строка N+2: кнопки (только правая колонка) ── -->
+      <!--
+        Пустая левая ячейка нужна для сохранения grid-строки.
+        Высота строки = высота правой ячейки с кнопками.
+        Левый фон через эту строку тоже продолжается — визуально левая карточка
+        «дотягивается» до высоты правой, как в дизайне Figma.
+      -->
+      <div class="relative z-10 px-[34px] pb-[34px] pt-8"></div>
+      <div class="relative z-10 px-[34px] pb-[34px] pt-8 flex flex-wrap gap-2">
+        <Button variant="primary" drawerPreset={primaryDrawerPreset}>{primaryButtonText}</Button>
+        <Button variant="ghost-dark" drawerPreset={secondaryDrawerPreset}>{secondaryButtonText}</Button>
+      </div>
+
+    </div>
+    )}
+
   </div>
 </section>

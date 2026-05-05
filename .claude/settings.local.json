@@ -37,7 +37,12 @@
       "Bash(git diff:*)",
       "Bash(git remote:*)",
       "Bash(git reset:*)",
-      "Bash(lsof:*)"
+      "Bash(lsof:*)",
+      "Bash(python3:*)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "figma"
+  ],
+  "enableAllProjectMcpServers": true
 }

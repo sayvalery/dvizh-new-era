@@ -9,7 +9,7 @@ import LogoMarquee from '../components/lab-new/LogoMarquee.astro'
 import FeatureCard from '../components/lab-new/FeatureCard.astro'
 import CTA from '../components/ui/CTA.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
-import ProductSectionNew from '../components/ui/ProductSectionNew.astro'
+import ProductSection from '../components/ui/ProductSection.astro'
 import StoryCard from '../components/ui/StoryCard.astro'
 ---
 
@@ -18,14 +18,14 @@ import StoryCard from '../components/ui/StoryCard.astro'
   <HeroSection
     layout="split"
     badge="Платформа для выполнения планов продаж"
-    title="Ускоряем цикл сделки и забираем на себя всю рутину"
-    description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
+    title="Ускоряем цикл сделки и забираем на себя всю рутину"
+    description="Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
     demoLabel="Посмотреть демо"
     kpLabel="Получить КП"
     stats={[
-      { value: '26% больше', label: 'сделок на том же трафике' },
-      { value: '1 500 000+', label: 'сделок на рынке недвижимости прошло через ДВИЖ' },
-      { value: '79', label: 'застройщиков из ТОП-100 ЕРЗ наши партнеры' },
+      { value: '26% больше', label: 'сделок на том же трафике' },
+      { value: '1 500 000+', label: 'сделок на рынке недвижимости прошло через ДВИЖ' },
+      { value: '79', label: 'застройщиков из ТОП-100 ЕРЗ наши партнеры' },
     ]}
     statsCols={3}
   />
@@ -54,13 +54,13 @@ import StoryCard from '../components/ui/StoryCard.astro'
         />
         <Card
           title="Закрыть клиентов
-быстрее, чем конкуренты"
+быстрее, чем конкуренты"
           description="какие-то цифры или показатели"
           image="/api/media/file/3.jpg"
         />
         <Card
           title="Увеличить средний чек
-и допродажи"
+и допродажи"
           description="какие-то цифры или показатели"
           image="/api/media/file/2.jpg"
         />
@@ -74,110 +74,72 @@ import StoryCard from '../components/ui/StoryCard.astro'
     </div>
   </section>
 
-  <!-- ProductSectionNew -->
+  <!-- ProductSection -->
   <div class="max-w-[1440px] mx-auto px-4 mt-[50px]">
-    <ProductSectionNew
-    sections={[
-      { number: "01", title: "Качественные лиды", active: true },
-      { number: "02", title: "Работа с клиентами" },
-      { number: "03", title: "Быстрые заявки" },
-      { number: "04", title: "Апсейл клиентов" },
-      { number: "05", title: "Контроль работы" },
-    ]}
-    title={{
-      lg: "Заголовок для больших экранов (lg+)",
-      md: "Заголовок для средних экранов (md)",
-      sm: "Заголовок для мобильных (sm)"
-    }}
-    descriptions={[
-      "Это демонстрация нового компонента ProductSectionNew",
-      "С адаптивными заголовками и изображениями в правом блоке"
-    ]}
-    primaryButton={{ label: "Начать", href: "#" }}
-    secondaryButton={{ label: "Подробнее", href: "#" }}
-    rightContent={[
-      {
-        images: [
-          {
-            src: "/api/media/file/product-section-2v2.jpg",
-            alt: "Цифровая ипотека",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Повышаем качество лидов",
-        description: [
-          "Форма на сайт для проверки кредитного рейтинга: приведем надежных клиентов",
-          "Скоринг по банковским стандартам: расскажем все о платежеспособности покупателей",
-          "Ипотечный калькулятор для сайта: приведем клиентов с нужным уровнем дохода"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "/api/media/file/sales-section-1.jpg",
-            alt: "Ипотечный калькулятор",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Помогаем закрывать даже сложных клиентов",
-        description: [
-          "Финансовый скоринг покажет, как улучшить портрет клиента до отправки заявки в банк",
-          "40+ банков-партнеров помогут подобрать ипотечную программу для каждого",
-          "ДВИЖ AI рассчитает вероятность одобрения клиента в каждом банке и подберет лучшие варианты"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "/api/media/file/sales-section-2.jpg",
-            alt: "Финансовый скоринг",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "... и делать это быстрее конкурентов",
-        description: [
-          "Актуальные статусы по сделке в CRM: контроль каждого этапа в карточке клиента",
-          "Одна анкета для всех этапов: от заявки до регистрации",
-          "Регистрация всех видов сделок и подписание любых документов в рамках 1 платформы",
-          "Пакетное распознавание документов: никакого ручного ввода данных",
-          "Заполнение анкеты через Госуслуги за 30 секунд"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "/api/media/file/sales-section-3.jpg",
-            alt: "Электронная регистрация",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Раскрываем финансовый потенциал клиентов",
-        description: [
-          "Покажем клиенту ежемесячный платеж и поможем выбрать квартиру под весь бюджет",
-          "Рассчитаем ПДН* клиента и поможем увеличить средний чек сделки"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "/api/media/file/sales-section-4.jpg",
-            alt: "Движ AI",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Делаем работу менеджеров управляемой",
-        description: [
-          "Контроль всех этапов через CRM: покажем, как быстро менеджер взял сделку в работу",
-          "Отображаем статусы сделки в CRM: покажем, в каком отделе потерялся клиент",
-          "Соберем актуальную статистику по банкам и одобрениям, для контроля и принятия решений"
-        ]
-      }
-    ]}
+    <ProductSection
+      sections={[
+        {
+          number: "01",
+          title: "Качественные лиды",
+          cardTitle: "Повышаем качество лидов",
+          items: [
+            "Форма на сайт для проверки кредитного рейтинга: приведем надежных клиентов",
+            "Скоринг по банковским стандартам: расскажем все о платежеспособности покупателей",
+            "Ипотечный калькулятор для сайта: приведем клиентов с нужным уровнем дохода"
+          ],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "/api/media/file/product-section-2v2.jpg", alt: "Цифровая ипотека" }
+        },
+        {
+          number: "02",
+          title: "Работа с клиентами",
+          cardTitle: "Помогаем закрывать даже сложных клиентов",
+          items: [
+            "Финансовый скоринг покажет, как улучшить портрет клиента до отправки заявки в банк",
+            "40+ банков-партнеров помогут подобрать ипотечную программу для каждого",
+            "ДВИЖ AI рассчитает вероятность одобрения клиента в каждом банке и подберет лучшие варианты"
+          ],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "/api/media/file/sales-section-1.jpg", alt: "Ипотечный калькулятор" }
+        },
+        {
+          number: "03",
+          title: "Быстрые заявки",
+          cardTitle: "... и делать это быстрее конкурентов",
+          items: [
+            "Актуальные статусы по сделке в CRM: контроль каждого этапа в карточке клиента",
+            "Одна анкета для всех этапов: от заявки до регистрации",
+            "Регистрация всех видов сделок и подписание любых документов в рамках 1 платформы",
+            "Пакетное распознавание документов: никакого ручного ввода данных",
+            "Заполнение анкеты через Госуслуги за 30 секунд"
+          ],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "/api/media/file/sales-section-2.jpg", alt: "Финансовый скоринг" }
+        },
+        {
+          number: "04",
+          title: "Апсейл клиентов",
+          cardTitle: "Раскрываем финансовый потенциал клиентов",
+          items: [
+            "Покажем клиенту ежемесячный платеж и поможем выбрать квартиру под весь бюджет",
+            "Рассчитаем ПДН клиента и поможем увеличить средний чек сделки"
+          ],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "/api/media/file/sales-section-3.jpg", alt: "Электронная регистрация" }
+        },
+        {
+          number: "05",
+          title: "Контроль работы",
+          cardTitle: "Делаем работу менеджеров управляемой",
+          items: [
+            "Контроль всех этапов через CRM: покажем, как быстро менеджер взял сделку в работу",
+            "Отображаем статусы сделки в CRM: покажем, в каком отделе потерялся клиент",
+            "Соберем актуальную статистику по банкам и одобрениям, для контроля и принятия решений"
+          ],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "/api/media/file/sales-section-4.jpg", alt: "Движ AI" }
+        }
+      ]}
     />
   </div>
 
@@ -186,26 +148,26 @@ import StoryCard from '../components/ui/StoryCard.astro'
     <div class="max-w-[1440px] mx-auto px-4">
       <div class="mb-12">
         <h2 class="text-[42.5px] font-semibold text-gray-900 tracking-tight leading-none">
-          Делаем все для ваших крутых результатов
+          Делаем все для ваших крутых результатов
         </h2>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <FeatureCard
-          title="Контроль всех этапов через CRM"
-          subtitle="покажем, как быстро менеджер взял сделку в работу"
+          title="Контроль всех этапов через CRM"
+          subtitle="покажем, как быстро менеджер взял сделку в работу"
           color="#202b32"
           image="/api/media/file/5-new.jpg"
           imagePosition="right bottom"
         />
         <FeatureCard
-          title="Отображаем статусы сделки в CRM"
-          subtitle="покажем, в каком отделе потерялся клиент"
+          title="Отображаем статусы сделки в CRM"
+          subtitle="покажем, в каком отделе потерялся клиент"
           color="#F2F2F2"
           image="/api/media/file/6-new.jpg"
         />
         <FeatureCard
           title="Соберем актуальную статистику"
-          subtitle="по банкам и одобрениям, для контроля и принятия решений"
+          subtitle="по банкам и одобрениям, для контроля и принятия решений"
           color="#F2F2F2"
           image="/api/media/file/7-new.jpg"
         />
@@ -217,7 +179,7 @@ import StoryCard from '../components/ui/StoryCard.astro'
   <section class="py-20">
     <div class="max-w-[1440px] mx-auto px-4">
       <CTA
-        title="Бонус от ДВИЖа"
+        title="Бонус от ДВИЖа"
         description="Скачайте пример идеального отчета ипотечного отдела"
         buttonText="Посмотреть демо"
         buttonHref="#"
@@ -230,13 +192,13 @@ import StoryCard from '../components/ui/StoryCard.astro'
     <div class="max-w-[1440px] mx-auto px-4">
       <div class="mb-12">
         <h2 class="text-[42.5px] font-semibold text-gray-900 tracking-tight leading-none">
-          Не верите нам, спросите наших клиентов
+          Не верите нам, спросите наших клиентов
         </h2>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">
         <StoryCard
           backgroundImage="/api/media/file/samolet-bg.jpg"
-          title="Помогли начать обрабатывать на 281% больше заявок"
+          title="Помогли начать обрабатывать на 281% больше заявок"
           person={{
             name: "Светлана Корнелюк",
             jobTitle: "Директор отдела продаж",
@@ -247,7 +209,7 @@ import StoryCard from '../components/ui/StoryCard.astro'
         </StoryCard>
         <StoryCard
           backgroundImage="/api/media/file/lsr-bg.jpg"
-          title="Дополнительно продали 96 квартир"
+          title="Дополнительно продали 96 квартир"
           person={{
             name: "Иван Петров",
             jobTitle: "Руководитель отдела ипотеки",
@@ -258,7 +220,7 @@ import StoryCard from '../components/ui/StoryCard.astro'
         </StoryCard>
         <StoryCard
           backgroundImage="/api/media/file/glorax-bg.jpg"
-          title="Увеличили объем закрытых сделок с 1116 до 3500 за год"
+          title="Увеличили объем закрытых сделок с 1116 до 3500 за год"
           person={{
             name: "Мария Сидорова",
             jobTitle: "Ипотечный брокер",
@@ -276,13 +238,13 @@ import StoryCard from '../components/ui/StoryCard.astro'
     <div class="max-w-[1440px] mx-auto px-4">
       <FormClosing
         title="Не оставим вас одних"
-        description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
+        description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
         preset="lead"
         submitLabel="Отправить заявку"
         bgColor="bg-gray-100"
         bgImage="/api/media/file/form-image.jpg"
         showGradient={false}
-        privacyText="Нажимая кнопку «Отправить заявку», вы даёте согласие на обработку ваших персональных данных"
+        privacyText="Нажимая кнопку «Отправить заявку», вы даёте согласие на обработку ваших персональных данных"
       />
     </div>
   </section>

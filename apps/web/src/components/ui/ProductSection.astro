@@ -1,75 +1,164 @@
 ---
 /**
- * ProductSection — секция с меню продуктов и карточкой
+ * ProductSection — секция продуктов со sticky-меню и скроллом к карточкам
  *
- * Адтивная секция: на lg+ — меню слева, контент справа; на md- — вертикально.
+ * Слева — sticky SideMenu с нумерованными пунктами.
+ * IntersectionObserver автоматически подсвечивает активный пункт при скролле.
+ * Клик по пункту — плавный scroll к соответствующей карточке.
+ * Справа — стек ProductCard (по одной карточке на секцию).
+ *
+ * @example
+ * ```astro
+ * <ProductSection
+ *   sections={[
+ *     {
+ *       number: "01",
+ *       title: "Цифровая ипотека",
+ *       cardTitle: "Поможем перевыполнить план продаж",
+ *       items: ["До 96% одобрения", "Единая анкета в 40+ банков"],
+ *       button: { label: "Подробнее", href: "/ipoteka" },
+ *       image: { src: "/api/media/file/ipoteka.jpg", alt: "Ипотека" }
+ *     }
+ *   ]}
+ * />
+ * ```
  */
 
 import ProductCard from './ProductCard.astro'
-
-interface SectionItem {
-  number: string
-  title: string
-  active?: boolean
-}
+import SideMenu from './SideMenu.astro'
 
 interface Button {
   label: string
   href: string
 }
 
+interface SectionItem {
+  /** Номер пункта меню (01, 02 …) */
+  number: string
+  /** Текст пункта меню */
+  title: string
+  /** Заголовок карточки */
+  cardTitle: string
+  /** Список пунктов на карточке */
+  items?: string[]
+  /** Кнопка CTA */
+  button?: Button
+  /** Изображение */
+  image?: { src: string; alt?: string }
+  /** Блок цитаты клиента */
+  review?: {
+    quote: string
+    author: string
+    role: string
+    company?: { logo: string; alt?: string }
+    caseLink?: { label?: string; href: string }
+  }
+}
+
 interface Props {
   sections: SectionItem[]
-  title?: string
-  descriptions?: string[]
-  primaryButton?: Button
-  secondaryButton?: Button
   class?: string
 }
 
-const {
-  sections,
-  title = '',
-  descriptions = [],
-  primaryButton,
-  secondaryButton,
-  class: className = ''
-} = Astro.props
+const { sections, class: className = '' } = Astro.props
 
-const componentId = `product-section-${Math.random().toString(36).substr(2, 9)}`
+const componentId = `psn-${Math.random().toString(36).substr(2, 9)}`
+const navId = `${componentId}-nav`
 ---
 
-<section class:list={['bg-white', className]}>
-  <div id={componentId} class="px-[50px] py-[50px]">
-    <div class="flex flex-col md:gap-[52px] lg:flex-row lg:gap-[120px]">
-      <!-- Меню секций (md-sm: сверху, lg+: слева) -->
-      <nav class="flex flex-col gap-6 lg:w-[220px] lg:flex-shrink-0">
-        {sections.map((section, index) => (
-          <button
-            class:list={[
-              'flex items-center gap-2 text-left transition-colors hover:opacity-70',
-              index === 0 ? 'text-brand' : 'text-[#858585]'
-            ]}
-          >
-            <span class="text-xs uppercase tracking-wide">
-              {section.number}
-            </span>
-            <span class="text-xs uppercase tracking-wide">
-              {section.title}
-            </span>
-          </button>
-        ))}
-      </nav>
+<section
+  id={componentId}
+  data-psn-id={componentId}
+  data-psn-count={sections.length}
+  class:list={['bg-white pb-24', className]}
+>
+  <div class="page-container py-[50px]">
+    <div class="flex flex-col gap-6 md:gap-12 lg:flex-row lg:gap-20">
 
-      <!-- Product Card (контент справа) -->
-      <div class="flex-1">
-        <ProductCard
-          title={title}
-          descriptions={descriptions}
-          primaryButton={primaryButton}
-          secondaryButton={secondaryButton}
-        />
+      <!-- Sticky SideMenu -->
+      <SideMenu
+        navId={navId}
+        items={sections.map(s => ({ title: s.title }))}
+        class="lg:sticky lg:top-[50px] lg:w-[260px] lg:flex-shrink-0 lg:h-fit lg:self-start lg:py-4"
+      />
+
+      <!-- Стек карточек -->
+      <div class="flex-1 flex flex-col gap-8" id={`${componentId}-cards`}>
+        {sections.map((section, index) => (
+          <div
+            id={`${componentId}-card-${index}`}
+            class="scroll-mt-[100px]"
+          >
+            <ProductCard
+              title={section.cardTitle}
+              items={section.items}
+              button={section.button}
+              image={section.image}
+              review={section.review}
+            />
+          </div>
+        ))}
       </div>
+
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-psn-id][data-psn-count]').forEach(el => {
+      const sectionEl = el as HTMLElement
+      const componentId = sectionEl.dataset.psnId!
+      const sectionsCount = parseInt(sectionEl.dataset.psnCount!)
+      const navId = `${componentId}-nav`
+
+      // Обновляем активный пункт SideMenu через window-событие.
+      // SideMenu слушает 'side-menu-set-active' и сверяет navId.
+      function setActive(index: number) {
+        window.dispatchEvent(new CustomEvent('side-menu-set-active', {
+          detail: { navId, index }
+        }))
+      }
+
+      // Клик в SideMenu → Alpine диспатчит 'side-menu-change' (всплывает до section) → smooth scroll к карточке
+      sectionEl.addEventListener('side-menu-change', (e: Event) => {
+        const { index } = (e as CustomEvent).detail
+        const target = document.getElementById(`${componentId}-card-${index}`)
+        if (target) {
+          window.scrollTo({
+            top: target.getBoundingClientRect().top + window.pageYOffset - 100,
+            behavior: 'smooth'
+          })
+        }
+      })
+
+      // IntersectionObserver → автоподсветка при скролле.
+      // Когда несколько карточек видны одновременно — активируем верхнюю (наименьший индекс).
+      const intersecting = new Set<number>()
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const match = entry.target.id.match(new RegExp(`${componentId}-card-(\\d+)`))
+          if (!match) return
+          const idx = parseInt(match[1])
+          if (entry.isIntersecting) {
+            intersecting.add(idx)
+          } else {
+            intersecting.delete(idx)
+          }
+        })
+        if (intersecting.size > 0) {
+          setActive(Math.min(...intersecting))
+        }
+      }, {
+        threshold: 0.15,
+        rootMargin: '-80px 0px -30% 0px'
+      })
+
+      for (let i = 0; i < sectionsCount; i++) {
+        const card = document.getElementById(`${componentId}-card-${i}`)
+        if (card) observer.observe(card)
+      }
+    })
+  })
+</script>

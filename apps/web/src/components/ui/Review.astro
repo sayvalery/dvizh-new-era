@@ -1,0 +1,114 @@
+---
+/**
+ * ProductCardReview — блок цитаты клиента
+ *
+ * Используется внутри ProductCard (через prop review) или самостоятельно.
+ * Структура: иконка-кавычка + курсивная цитата → строка автора
+ * (логотип | разделитель | имя + должность | кнопка кейса).
+ *
+ * @example
+ * ```astro
+ * <ProductCardReview
+ *   quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут"
+ *   author="Анастасия Швед"
+ *   role="Руководитель управления прямых продаж"
+ *   company={{ logo: "/api/media/file/talan-logo.svg", alt: "Талан" }}
+ *   caseLink={{ label: "Читать кейс", href: "/cases/talan" }}
+ * />
+ * ```
+ */
+
+import Button from './Button.astro'
+
+interface Company {
+  /** Путь к логотипу (SVG или растровый) */
+  logo: string
+  /** Alt-текст для скринридеров */
+  alt?: string
+}
+
+interface Props {
+  /** Текст цитаты */
+  quote: string
+  /** Имя автора */
+  author: string
+  /** Должность / роль автора */
+  role: string
+  /** Логотип компании. Если не передан — разделитель скрывается */
+  company?: Company
+  /** Ссылка на кейс. label по умолчанию — «Читать кейс» */
+  caseLink?: { label?: string; href: string }
+  /**
+   * Визуальный вариант:
+   * - `default` — оранжевая кнопка, логотип h-[11px] (для ProductCard)
+   * - `dark`    — тёмная кнопка bg-gray-900, логотип h-[41px] (для ReviewFull)
+   */
+  variant?: 'default' | 'dark'
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  quote,
+  author,
+  role,
+  company,
+  caseLink,
+  variant = 'default',
+  class: className = ''
+} = Astro.props
+---
+
+<div class:list={['flex flex-col gap-8', className]}>
+
+  <!-- Цитата: иконка + текст -->
+  <div class="flex items-start gap-3">
+    <svg
+      class="w-5 h-5 text-brand shrink-0 mt-0.5"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>
+    </svg>
+    <p class="text-body-lg-italic text-gray-900 flex-1">{quote}</p>
+  </div>
+
+  <!-- Строка автора: лого | разделитель | имя + роль | кнопка кейса -->
+  <div class="flex items-center justify-between gap-4 pl-8">
+
+    <div class="flex items-center gap-4 min-w-0 flex-1">
+      {company && (
+        <img
+          src={company.logo}
+          alt={company.alt ?? ''}
+          class:list={[
+            'w-auto shrink-0 object-contain',
+            variant === 'dark' ? 'h-[41px] max-w-[120px]' : 'h-[11px] max-w-[72px]'
+          ]}
+          loading="lazy"
+        />
+      )}
+      {company && (
+        <div class="w-px self-stretch bg-gray-300/60 shrink-0" aria-hidden="true" />
+      )}
+      <div class="flex flex-col min-w-0">
+        <span class="text-h6 text-gray-900 leading-snug">{author}</span>
+        <span class="text-subhead text-gray-500 leading-snug">{role}</span>
+      </div>
+    </div>
+
+    {caseLink && (
+      <Button
+        href={caseLink.href}
+        size="sm"
+        variant={variant === 'dark' ? 'dark' : 'primary'}
+        class="shrink-0"
+      >
+        {caseLink.label ?? 'Читать кейс'}
+      </Button>
+    )}
+
+  </div>
+
+</div>
