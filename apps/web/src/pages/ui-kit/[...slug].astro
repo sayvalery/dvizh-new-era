@@ -28,7 +28,7 @@ import StoryCard from '../../components/ui/StoryCard.astro'
 import AdvantageCard from '../../components/ui/AdvantageCard.astro'
 import Island from '../../components/ui/Island.astro'
 import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
-import AaiHero from '../../components/ui/AaiHero.astro'
+import HeroAI from '../../components/ui/HeroAI.astro'
 import DeveloperBlock from '../../components/ui/DeveloperBlock.astro'
 import ModalCard from '../../components/ui/ModalCard.astro'
 import ModalSection from '../../components/ui/ModalSection.astro'
@@ -39,6 +39,7 @@ import KeyFacts from '../../components/ui/KeyFacts.astro'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
 import SideMenu from '../../components/ui/SideMenu.astro'
 import TextImageBlock from '../../components/ui/TextImageBlock.astro'
+import FeatureBlock from '../../components/ui/FeatureBlock.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -60,7 +61,7 @@ import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
 import islandRaw from '../../components/ui/Island.astro?raw'
-import aaiHeroRaw from '../../components/ui/AaiHero.astro?raw'
+import heroAIRaw from '../../components/ui/HeroAI.astro?raw'
 import developerBlockRaw from '../../components/ui/DeveloperBlock.astro?raw'
 import modalCardRaw from '../../components/ui/ModalCard.astro?raw'
 import modalSectionRaw from '../../components/ui/ModalSection.astro?raw'
@@ -71,6 +72,7 @@ import keyFactsRaw from '../../components/ui/KeyFacts.astro?raw'
 import comparisonSectionRaw from '../../components/ui/ComparisonSection.astro?raw'
 import sideMenuRaw from '../../components/ui/SideMenu.astro?raw'
 import textImageBlockRaw from '../../components/ui/TextImageBlock.astro?raw'
+import featureBlockRaw from '../../components/ui/FeatureBlock.astro?raw'
 
 interface PropMeta {
   name: string
@@ -151,12 +153,13 @@ const productSectionMeta = parseSource(productSectionRaw)
 const storyCardMeta = parseSource(storyCardRaw)
 const advantageCardMeta = parseSource(advantageCardRaw)
 const islandMeta = parseSource(islandRaw)
-const aaiHeroMeta = parseSource(aaiHeroRaw)
+const heroAIMeta = parseSource(heroAIRaw)
 const buttonMeta = parseSource(buttonRaw)
 const inputMeta = parseSource(inputRaw)
 const keyFactsMeta = parseSource(keyFactsRaw)
 const comparisonMeta = parseSource(comparisonSectionRaw)
 const textImageBlockMeta = parseSource(textImageBlockRaw)
+const featureBlockMeta = parseSource(featureBlockRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -166,7 +169,7 @@ export function getStaticPaths() {
     { params: { slug: 'typography' }, props: { section: 'typography' } },
     { params: { slug: 'colors' }, props: { section: 'colors' } },
     { params: { slug: 'blocks' }, props: { section: 'blocks' } },
-    { params: { slug: 'aai-hero' }, props: { section: 'aai-hero' } },
+    { params: { slug: 'hero-ai' }, props: { section: 'hero-ai' } },
     { params: { slug: 'cards' }, props: { section: 'cards' } },
     { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
@@ -199,6 +202,7 @@ export function getStaticPaths() {
     { params: { slug: 'modal-section' }, props: { section: 'modal-section' } },
     { params: { slug: 'success-story-block' }, props: { section: 'success-story-block' } },
     { params: { slug: 'text-image-block' }, props: { section: 'text-image-block' } },
+    { params: { slug: 'feature-block' }, props: { section: 'feature-block' } },
   ]
 }
 
@@ -211,7 +215,7 @@ const sections = [
   { slug: 'colors', label: 'Цвета' },
   { slug: 'blocks', label: 'Блоки статей' },
   // Компоненты — алфавитный порядок
-  { slug: 'aai-hero', label: 'AaiHero' },
+  { slug: 'hero-ai', label: 'HeroAI' },
   { slug: 'cards', label: 'AdvantageCard' },
   { slug: 'bento', label: 'BentoGrid' },
   { slug: 'blogcard', label: 'BlogCard' },
@@ -244,6 +248,7 @@ const sections = [
   { slug: 'modal-section', label: 'ModalSection' },
   { slug: 'success-story-block', label: 'SuccessStoryBlock' },
   { slug: 'text-image-block', label: 'TextImageBlock' },
+  { slug: 'feature-block', label: 'FeatureBlock' },
 ]
 ---
 
@@ -1942,22 +1947,22 @@ const sections = [
           </div>
         </div>
       )}
-      {section === 'aai-hero' && (
+      {section === 'hero-ai' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">AaiHero</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">HeroAI</h1>
           <p class="text-gray-600 mb-4">
             Центрированная секция-герой для AI-продукта. Бейдж → заголовок H2 → изображение.
             Опционально: три карточки BentoGrid ниже.
           </p>
-          <PropsTable props={aaiHeroMeta.props} class="mb-10" />
+          <PropsTable props={heroAIMeta.props} class="mb-10" />
 
           <div class="space-y-16">
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Только герой (без изображения и bento)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<AaiHero heading="Нейросети на службе вашего бизнеса" />`}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<HeroAI heading="Нейросети на службе вашего бизнеса" />`}</code></p>
               <div class="-mx-10 rounded-2xl overflow-hidden">
-                <AaiHero
+                <HeroAI
                   heading="Нейросети на службе вашего бизнеса"
                 />
               </div>
@@ -1965,9 +1970,9 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">С изображением-заглушкой и BentoGrid</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<AaiHero heading="..." bentoItems={[...3 items...]} />`}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<HeroAI heading="..." bentoItems={[...3 items...]} />`}</code></p>
               <div class="-mx-10 rounded-2xl overflow-hidden">
-                <AaiHero
+                <HeroAI
                   heading="Нейросети на службе вашего бизнеса"
                   bentoHeading="Что умеет ДВИЖ AI"
                   bentoItems={[
@@ -2485,6 +2490,77 @@ const sections = [
                 Здесь будет ваше изображение
               </div>
             </TextImageBlock>
+          </div>
+        </div>
+      )}
+
+      {section === 'feature-block' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">FeatureBlock</h1>
+          <p class="text-gray-600 mb-8">
+            Секция с авто-переключающимися пунктами (таймер + прогресс-бар) и изображением справа или слева.
+            Desktop: два столбца — текст + изображение. Mobile: изображение появляется inline под активным пунктом.
+          </p>
+          <PropsTable props={featureBlockMeta.props} class="mb-10" />
+
+          {/* ── Базовый: только заголовок + фичи ── */}
+          <h2 class="text-xl font-semibold mb-2">Базовый</h2>
+          <p class="text-sm text-gray-400 mb-6">
+            <code>{`<FeatureBlock heading="..." features={[...]} />`}</code>
+          </p>
+          <div class="-mx-4 sm:-mx-6 lg:-mx-10 mb-16">
+            <FeatureBlock
+              heading="Повышаем конверсию первичной консультации в 2 раза"
+              features={[
+                { title: 'Расчёт досрочных погашений и рефинансирования' },
+                { title: '40+ банков-партнёров и большой выбор ипотечных программ' },
+                { title: 'Заполнение анкеты через Госуслуги' },
+              ]}
+            />
+          </div>
+
+          {/* ── Полный: description + button + subtitles + review ── */}
+          <h2 class="text-xl font-semibold mb-2">Полный (description + button + subtitle + review)</h2>
+          <p class="text-sm text-gray-400 mb-6">
+            <code>{`<FeatureBlock heading="..." description="..." button={...} features={[{title, subtitle}]} review={...} />`}</code>
+          </p>
+          <div class="-mx-4 sm:-mx-6 lg:-mx-10 mb-16">
+            <FeatureBlock
+              heading="Повышаем конверсию первичной консультации в 2 раза"
+              description="Подключите ДВИЖ и закрывайте до 26% больше сделок на том же трафике."
+              button={{ label: 'Узнать больше', href: '/ipoteka' }}
+              features={[
+                { title: 'Расчёт досрочных погашений и рефинансирования', subtitle: 'Досрочка, рефинансирование, субсидированные программы' },
+                { title: '40+ банков-партнёров и большой выбор ипотечных программ', subtitle: '15 банков отвечают по API в течение минуты' },
+                { title: 'Заполнение анкеты через Госуслуги', subtitle: 'Клиент заполняет анкету за 10 секунд' },
+              ]}
+              review={{
+                quote: 'С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и значительно повысили процент одобрения',
+                author: 'Екатерина Чурюкина',
+                role: 'Руководитель управления прямых продаж',
+                company: { logo: '/partners/lsr.svg', alt: 'ЛСР' },
+                caseLink: { label: 'Читать кейс', href: '/cases' },
+              }}
+            />
+          </div>
+
+          {/* ── imageSide="left" ── */}
+          <h2 class="text-xl font-semibold mb-2">Изображение слева (imageSide="left")</h2>
+          <p class="text-sm text-gray-400 mb-6">
+            <code>{`<FeatureBlock imageSide="left" ... />`}</code>
+          </p>
+          <div class="-mx-4 sm:-mx-6 lg:-mx-10 mb-10">
+            <FeatureBlock
+              imageSide="left"
+              heading="Электронная регистрация без визита в МФЦ"
+              description="Полное сопровождение сделки — от подписания до записи в Росреестре."
+              button={{ label: 'Подробнее', href: '/elektronnaya-registraciya' }}
+              features={[
+                { title: 'Все виды сделок', subtitle: 'ДДУ, переуступка, вторичка' },
+                { title: 'До 30% дешевле конкурентов' },
+                { title: 'Сквозное оформление от ипотеки до регистрации' },
+              ]}
+            />
           </div>
         </div>
       )}

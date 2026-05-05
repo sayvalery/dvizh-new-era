@@ -1,0 +1,194 @@
+---
+/**
+ * Лабораторная страница: Новая Ипотека
+ *
+ * Сборка блоков для новой версии страницы ипотеки.
+ * Контент — заглушки, финальный текст будет добавлен отдельно.
+ *
+ * Маршрут: /lab/nova-ipoteka (только в dev)
+ */
+
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import HeroSection from '../../components/ui/HeroSection.astro'
+import AdvantageCard from '../../components/ui/AdvantageCard.astro'
+import FeatureBlock from '../../components/ui/FeatureBlock.astro'
+import BentoGrid from '../../components/ui/BentoGrid.astro'
+import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+---
+
+<SiteLayout
+  title="Новая Ипотека — ДВИЖ (лаборатория)"
+  description="Новая версия страницы ипотеки ДВИЖ — в разработке"
+>
+
+  {/* ── 1. Hero Section ── */}
+  <HeroSection
+    layout="full"
+    title="Закрывайте до 26% больше сделок на том же трафике"
+    description="Ипотечная платформа для современных девелоперов. Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
+    demoLabel="Получить демо"
+    kpLabel="Получить КП"
+  />
+
+  {/* ── 2. AdvantageCard — 4 карточки ── */}
+  <section class="bg-white py-24 sm:py-32">
+    <div class="page-container">
+      <h2 class="text-h2">Девелоперы с ДВИЖ Ипотекой</h2>
+      <div class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <AdvantageCard
+          title="Сократили количество отказов по ипотеке"
+          stat="+26%"
+          label="Сделок на том же трафике"
+          expandHref="/blog/case-ayaks-dvizh"
+        />
+        <AdvantageCard
+          title="Перестали терять сделки из-за клиентов с низким кредитным рейтингом"
+          stat="90%"
+          label="Одобрений при объёме выше рынка"
+          expandHref="/blog/granel-rost-procenta-odobreniya"
+        />
+        <AdvantageCard
+          title="Ускорили заполнение анкеты до 10 секунд, а получение одобрения — до 5 минут"
+          stat="+281%"
+          label="Заявок на одного менеджера"
+          expandHref="/blog/kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti"
+        />
+        <AdvantageCard
+          title="Перестали терять сделки из-за клиентов с низким кредитным рейтингом"
+          stat="-30%"
+          label="Затрат на регистрацию"
+          expandHref="/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya"
+        />
+      </div>
+    </div>
+  </section>
+
+  {/* ── 3. FeatureBlock ── */}
+  <FeatureBlock
+    heading="Повышаем конверсию первичной консультации в 2 раза"
+    description="Какой-то небольшой подзаголовок — подборку статей / кейсов добавим позже"
+    button={{ label: 'Узнать больше', href: '/ipoteka' }}
+    features={[
+      { title: 'Расчёт досрочных погашений и рефинансирования' },
+      { title: '40+ банков-партнёров и большой выбор ипотечных программ' },
+    ]}
+    review={{
+      quote: 'С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и значительно повысили процент одобрения',
+      author: 'Екатерина Чурюкина',
+      role: 'Руководитель управления прямых продаж',
+      company: { logo: '/partners/lsr.svg', alt: 'ФСК' },
+      caseLink: { label: 'Читать кейс', href: '/cases' },
+    }}
+  />
+
+  {/* ── 3б. FeatureBlock — Сокращаем время (imageSide left) ── */}
+  <FeatureBlock
+    imageSide="left"
+    heading="Сокращаем время на заполнение анкеты до 10 секунд"
+    description="Подзаголовок будет добавлен позже"
+    button={{ label: 'Узнать больше', href: '/ipoteka' }}
+    features={[
+      { title: 'Распознавание документов от паспорта до 2-НДФЛ' },
+      { title: 'Заполнение анкеты через Госуслуги' },
+      { title: 'Одна анкета в 40+ банков' },
+    ]}
+    review={{
+      quote: 'С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет',
+      author: 'Екатерина Чурюкина',
+      role: 'Руководитель управления прямых продаж',
+      company: { logo: '/partners/lsr.svg', alt: 'ФСК' },
+      caseLink: { label: 'Читать кейс', href: '/cases' },
+    }}
+  />
+
+  {/* ── 3в. FeatureBlock — Проверяем клиентов (imageSide right) ── */}
+  <FeatureBlock
+    heading="Проверяем ваших клиентов по банковским стандартам"
+    description="Подзаголовок будет добавлен позже"
+    button={{ label: 'Узнать больше', href: '/scoring' }}
+    features={[
+      { title: 'Долговая нагрузка и «красные флаги» клиента' },
+      { title: 'Рекомендации по улучшению рейтинга клиента' },
+      { title: '25,8% клиентов с низким кредитным рейтингом' },
+    ]}
+    review={{
+      quote: 'Иногда клиент не знает о наличии какой-либо задолженности. Мы исключаем негативные факторы ещё до подачи заявки в банк и увеличиваем шансы клиента получить одобрение по ипотеке',
+      author: 'Екатерина Чурюкина',
+      role: 'Руководитель управления прямых продаж',
+      company: { logo: '/partners/lsr.svg', alt: 'ФСК' },
+      caseLink: { label: 'Читать кейс', href: '/cases' },
+    }}
+  />
+
+  {/* ── 3г. FeatureBlock — Увеличиваем одобрение (imageSide left) ── */}
+  <FeatureBlock
+    imageSide="left"
+    heading="Увеличиваем процент одобрения до 95%"
+    description="Подзаголовок будет добавлен позже"
+    button={{ label: 'Узнать больше', href: '/ipoteka' }}
+    features={[
+      { title: 'Прогноз скорости и вероятности одобрения клиента в банках' },
+      { title: 'Отправка заявки сразу в 5+ банков' },
+    ]}
+  />
+
+  {/* ── 4. BentoGrid variant three ── */}
+  <section class="py-24 lg:py-[120px]">
+    <div class="page-container">
+      <BentoGrid
+        heading="Дополнительные возможности"
+        items={[
+          { title: 'Готовые интеграции с популярными системами' },
+          { title: 'Среднее время ответа в чате поддержки' },
+          { title: 'Все ключевые показатели в одном готовом дашборде' },
+        ]}
+      />
+    </div>
+  </section>
+
+  {/* ── 5. SuccessStoryBlock ── */}
+  <SuccessStoryBlock
+    heading="70+ историй успеха на рынке девелопмента"
+    buttonLabel="Получить демо"
+    buttonPreset="demo"
+    stories={[
+      {
+        logo: '/partners/lsr.svg',
+        logoAlt: 'ЛСР',
+        titleHtml: 'Помогли начать обрабатывать на <span class="text-brand">281% заявок больше</span>, чем в среднем на рынке',
+        personName: 'Петрова Надежда',
+        personJobTitle: 'Директор по маркетингу, ЛСР',
+      },
+      {
+        logo: '/partners/strana.svg',
+        logoAlt: 'Страна Девелопмент',
+        titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с 1165 до 3500</span> за год',
+        personName: 'Светлана Корнелюк',
+        personJobTitle: 'Директор отдела продаж',
+      },
+      {
+        logo: '/partners/glorax.svg',
+        logoAlt: 'Glorax',
+        titleHtml: 'Снизили процент отказов по ипотеке <span class="text-brand">до 10%</span> за три месяца',
+        personName: 'Анна Смирнова',
+        personJobTitle: 'Ипотечный брокер, Самолёт',
+      },
+    ]}
+  />
+
+  {/* ── 6. FormClosing ── */}
+  <div class="page-container py-12">
+    <FormClosing
+      preset="lead"
+      title="Подберем решение под ваши задачи"
+      items={[
+        'Найдём потерянные заявки и проанализируем путь клиента',
+        'Проверим, не отстаёте ли вы от рынка, и сравним ваши показатели с бенчмарками',
+        'Составим рекомендации на основе опыта работы с застройщиками из топ-50',
+      ]}
+      submitLabel="Оставить заявку"
+    />
+  </div>
+
+</SiteLayout>

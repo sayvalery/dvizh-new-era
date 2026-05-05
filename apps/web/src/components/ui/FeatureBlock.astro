@@ -24,6 +24,7 @@
  */
 
 import Button from './Button.astro'
+import Review from './Review.astro'
 
 interface Feature {
   /** Заголовок пункта */
@@ -39,6 +40,19 @@ interface ButtonProps {
   drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   /** Ссылка (если не дровер) */
   href?: string
+}
+
+interface ReviewProps {
+  /** Текст цитаты */
+  quote: string
+  /** Имя автора */
+  author: string
+  /** Должность автора */
+  role: string
+  /** Логотип компании */
+  company?: { logo: string; alt?: string }
+  /** Ссылка на кейс */
+  caseLink?: { label?: string; href: string }
 }
 
 interface Props {
@@ -58,6 +72,8 @@ interface Props {
   imageSide?: 'left' | 'right'
   /** Интервал переключения в мс (по умолчанию 5000) */
   interval?: number
+  /** Отзыв под списком пунктов (опционально) */
+  review?: ReviewProps
   /** Дополнительные классы */
   class?: string
 }
@@ -71,6 +87,7 @@ const {
   imageAlt = '',
   imageSide = 'right',
   interval = 5000,
+  review,
   class: className = '',
 } = Astro.props
 
@@ -180,6 +197,17 @@ const imageLeft = imageSide === 'left'
           ))}
           <li><div class="h-px bg-gray-300"></div></li>
         </ul>
+
+        {review && (
+          <Review
+            quote={review.quote}
+            author={review.author}
+            role={review.role}
+            company={review.company}
+            caseLink={review.caseLink}
+            variant="dark"
+          />
+        )}
 
       </div>
 

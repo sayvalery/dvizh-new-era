@@ -13,9 +13,9 @@ import HeroSection from '../../components/ui/HeroSection.astro'
 import LogoDrum from '../../components/ui/LogoDrum.astro'
 import Island from '../../components/ui/Island.astro'
 import AdvantageCard from '../../components/ui/AdvantageCard.astro'
-import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
+import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
-import AaiHero from '../../components/ui/AaiHero.astro'
+import HeroAI from '../../components/ui/HeroAI.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
 
@@ -113,27 +113,32 @@ const partnerLogos = [
     </div>
   </section>
 
-  {/* ── 3. Кейсы — SuccessStoriesCarousel ── */}
-  <SuccessStoriesCarousel
-    title="70+ историй успеха на рынке девелопмента"
-    variant="mini"
-    class="py-20"
+  {/* ── 3. Кейсы — SuccessStoryBlock ── */}
+  <SuccessStoryBlock
+    heading="70+ историй успеха на рынке девелопмента"
+    buttonLabel="Получить демо"
+    buttonPreset="demo"
     stories={[
       {
-        title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
-        person: { name: "Петрова Надежда", jobTitle: "Директор по маркетингу, ЛСР" },
+        logo: '/partners/lsr.svg',
+        logoAlt: 'ЛСР',
+        titleHtml: 'Помогли начать обрабатывать на <span class="text-brand">281% заявок больше</span>, чем в среднем на рынке',
+        personName: 'Петрова Надежда',
+        personJobTitle: 'Директор по маркетингу, ЛСР',
       },
       {
-        title: "Увеличили объём закрытых сделок с 1165 до 3500 за год",
-        person: { name: "Светлана Корнелюк", jobTitle: "Директор отдела продаж" },
+        logo: '/partners/strana.svg',
+        logoAlt: 'Страна Девелопмент',
+        titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с 1165 до 3500</span> за год',
+        personName: 'Светлана Корнелюк',
+        personJobTitle: 'Директор отдела продаж',
       },
       {
-        title: "Дополнительно продали 96 квартир благодаря ипотечному скорингу",
-        person: { name: "Иванов Сергей", jobTitle: "Руководитель отдела ипотеки" },
-      },
-      {
-        title: "Снизили процент отказов по ипотеке до 10% за три месяца",
-        person: { name: "Анна Смирнова", jobTitle: "Ипотечный брокер, Самолёт" },
+        logo: '/partners/glorax.svg',
+        logoAlt: 'Glorax',
+        titleHtml: 'Снизили процент отказов по ипотеке <span class="text-brand">до 10%</span> за три месяца',
+        personName: 'Анна Смирнова',
+        personJobTitle: 'Ипотечный брокер, Самолёт',
       },
     ]}
   />
@@ -192,7 +197,7 @@ const partnerLogos = [
   />
 
   {/* ── 5. ДВИЖ AI ── */}
-  <AaiHero
+  <HeroAI
     badge="ДВИЖ AI"
     heading="Нейросети на службе вашего бизнеса"
     bentoHeading="Что умеет ДВИЖ AI"
