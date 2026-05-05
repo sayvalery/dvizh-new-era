@@ -95,7 +95,7 @@ const isSplit = layout === 'split'
 const isFull = layout === 'full'
 ---
 
-<section class:list={['relative overflow-hidden', withGradient ? 'bg-brand' : 'bg-background-primary', isFull ? 'lg:pb-36' : '', className]}>
+<section class:list={['relative overflow-hidden', withGradient ? 'bg-brand' : 'bg-background-primary', isFull ? 'md:pb-32 lg:pb-36' : '', className]}>
 
   {withGradient && <FlutedGlassBg />}
 
