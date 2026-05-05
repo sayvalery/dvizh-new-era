@@ -8,7 +8,7 @@ import LogoGrid from '../components/ui/LogoGrid.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
-import ModalSection from '../components/ui/ModalSection.astro'
+import FunnelSection from '../components/ui/FunnelSection.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
 ---
 
@@ -22,10 +22,9 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
     kpLabel="Пробовать бесплатно"
     demoPreset="demo"
     kpPreset="lead"
+    class="pb-10 xs:pb-12 md:pb-24 lg:pb-36"
   />
-  <!-- gap-10 (40px) / xs:gap-12 (48px) / lg:gap-36 -->
-  <div class="flex flex-col gap-10 xs:gap-12 md:gap-24 lg:gap-36">
-
+  <!-- gap-10 (40px) / xs:gap-12 (48px) / md:gap-24 / lg:gap-36 -->
   <div class="flex flex-col gap-10 xs:gap-12 md:gap-24 lg:gap-36">
 
   <!-- DeveloperBlock -->
@@ -86,35 +85,33 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
     ]}
   />
 
-  <!-- ModalSection — продукты по этапам сделки -->
-  <div class="page-container">
-      <ModalSection
-        heading="Добиваемся высоких конверсий на каждом этапе сделки"
-        groups={[
-          {
-            label: 'Лидогенерация',
-            cards: [
-              { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
-              { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
-              { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
-            ],
-          },
-          {
-            label: 'Управление заявками',
-            cards: [
-              { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
-              { title: 'Финансовый скоринг', description: 'Сократите число отказов в банках', href: '/scoring' },
-            ],
-          },
-          {
-            label: 'Регистрация собственности',
-            cards: [
-              { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
-            ],
-          },
-        ]}
-      />
-  </div>
+  <!-- FunnelSection — воронка по этапам сделки -->
+  <FunnelSection
+      heading="Добиваемся высоких конверсий на каждом этапе сделки"
+      groups={[
+        {
+          label: 'Лидогенерация',
+          cards: [
+            { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
+            { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
+            { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
+          ],
+        },
+        {
+          label: 'Управление заявками',
+          cards: [
+            { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
+            { title: 'Финансовый скоринг', description: 'Сократите число отказов в банках', href: '/scoring' },
+          ],
+        },
+        {
+          label: 'Регистрация собственности',
+          cards: [
+            { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
+          ],
+        },
+      ]}
+  />
 
   <!-- ComparisonSection -->
   <ComparisonSection
@@ -149,5 +146,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
         secondaryButton={{ label: 'Скачать пример', drawerPreset: 'lead' }}
       />
   </div>
+
+  </div>{/* /gap-контейнер */}
 
 </SiteLayout>
