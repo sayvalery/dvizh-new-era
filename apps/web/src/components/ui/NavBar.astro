@@ -335,8 +335,8 @@ const megaSections = megaItem?.sections ?? []
       <!-- Scrollable content -->
       <div class="flex-1 overflow-y-auto px-8 pt-6 pb-4">
 
-        <!-- Header: logo LEFT | ✕ RIGHT -->
-        <div class="flex items-center justify-between mb-6">
+        <!-- Header: logo LEFT | ✕ RIGHT — высота h-14 как в navbar island -->
+        <div class="flex items-center justify-between h-14 mb-4">
           <a href={logo.href} class="flex-shrink-0" @click="mobileOpen = false">
             {logo.image ? (
               <img src={logo.image} alt={logo.label} class="h-7 w-auto" />
@@ -350,7 +350,7 @@ const megaSections = megaItem?.sections ?? []
             class="p-2 rounded-lg text-gray-500 hover:bg-background-secondary transition-colors"
             aria-label="Закрыть меню"
           >
-            <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
           </button>
