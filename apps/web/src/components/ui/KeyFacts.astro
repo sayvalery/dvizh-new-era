@@ -41,10 +41,18 @@ const { items, title, cols, class: className = '' } = Astro.props
 
 const colCount = (cols ?? Math.min(items.length, 4)) as 2 | 3 | 4
 
-const gridCols = {
+// Мобайл/планшет (< lg): объединённая сетка, описание под значением в той же ячейке
+const gridColsMobile = {
   2: 'sm:grid-cols-2',
-  3: 'sm:grid-cols-2 lg:grid-cols-3',
-  4: 'sm:grid-cols-2 lg:grid-cols-4',
+  3: 'sm:grid-cols-2',
+  4: 'sm:grid-cols-2',
+}[colCount]
+
+// Десктоп (lg+): разделённая сетка для выравнивания значений по одной линии
+const gridColsDesktop = {
+  2: 'lg:grid-cols-2',
+  3: 'lg:grid-cols-3',
+  4: 'lg:grid-cols-4',
 }[colCount]
 ---
 
@@ -58,35 +66,46 @@ const gridCols = {
         </h2>
       )}
 
-      <div class="flex flex-col gap-4 lg:gap-6">
+      <!-- Мобайл / планшет (< lg): номер + значение + описание в одной ячейке -->
+      <div class:list={['lg:hidden grid grid-cols-1 gap-10', gridColsMobile]}>
+        {items.map((item, i) => (
+          <div class="flex gap-6 min-h-[220px]">
+            <div class="w-px shrink-0 self-stretch" style="background: linear-gradient(to bottom, transparent 0%, #ff4d00 47%, transparent 100%)" aria-hidden="true"></div>
+            <div class="flex flex-col justify-between flex-1">
+              <span class="text-subhead text-gray-400">
+                {String(i + 1).padStart(3, '0')}
+              </span>
+              <div class="flex flex-col gap-4">
+                <p class="text-h2 text-gray-900">{item.value}</p>
+                <p class="text-body-lg text-gray-900" set:html={item.description} />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
-        <!-- Ряд 1: номер + значение. justify-between выравнивает значения по одной линии,
-             поскольку description вынесен в отдельный ряд и не влияет на высоту ячейки -->
-        <div class:list={['grid grid-cols-1 gap-10 lg:gap-8', gridCols]}>
+      <!-- Десктоп (lg+): два ряда — значения выровнены по одной линии, описания под ними -->
+      <div class:list={['hidden lg:flex flex-col gap-6']}>
+        <!-- Ряд 1: номер + значение -->
+        <div class:list={['grid gap-8', gridColsDesktop]}>
           {items.map((item, i) => (
-            <div class="flex gap-6 min-h-[220px] lg:min-h-[340px]">
-
-              {/* Вертикальная черта — градиент */}
+            <div class="flex gap-6 min-h-[340px]">
               <div class="w-px shrink-0 self-stretch" style="background: linear-gradient(to bottom, transparent 0%, #ff4d00 47%, transparent 100%)" aria-hidden="true"></div>
-
               <div class="flex flex-col justify-between flex-1">
                 <span class="text-subhead text-gray-400">
                   {String(i + 1).padStart(3, '0')}
                 </span>
                 <p class="text-h2 text-gray-900">{item.value}</p>
               </div>
-
             </div>
           ))}
         </div>
-
-        <!-- Ряд 2: описания — вынесены сюда, чтобы не сдвигали значения вверх -->
-        <div class:list={['grid grid-cols-1 gap-10 lg:gap-8', gridCols]}>
+        <!-- Ряд 2: описания -->
+        <div class:list={['grid gap-8', gridColsDesktop]}>
           {items.map((item) => (
             <p class="text-body-lg text-gray-900 pl-[25px]" set:html={item.description} />
           ))}
         </div>
-
       </div>
 
     </div>
