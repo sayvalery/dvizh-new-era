@@ -133,11 +133,6 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 
     <!-- Заголовок секции -->
     <div class="flex flex-col items-center gap-5 text-center">
-      {label && (
-        <span class="inline-flex items-center rounded-full border border-gray-300 px-5 py-2 text-subhead text-gray-900">
-          {label}
-        </span>
-      )}
       {title && (
         <h2 class="text-h1 font-medium text-gray-900">{title}</h2>
       )}
@@ -226,23 +221,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
     {!isPrices && (
     <div class="flex flex-col gap-6 lg:hidden">
 
-      <!-- Левая карточка -->
-      <div class="bg-gray-200 rounded-3xl p-8 flex flex-col gap-14">
-        <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
-        <div class="flex flex-col divide-y divide-gray-300">
-          {leftItems.map((text) => (
-            <div class="flex gap-3 items-start py-5 first:pt-0 last:pb-0 opacity-60">
-              <svg class="w-6 h-6 shrink-0 mt-0.5 text-gray-900" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
-                <path d="M8 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-              </svg>
-              <p class="text-body-lg text-gray-900 leading-[1.3]">{text}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <!-- Правая карточка -->
+      <!-- Правая карточка (тёмная, «С ДВИЖем») — первой на мобайле -->
       <!-- Цвет фона в Figma: #131313 → используем bg-gray-900 (#1D1E21), ближайший токен -->
       <div class="bg-gray-900 rounded-3xl p-8 flex flex-col justify-between gap-10">
         <div class="flex flex-col gap-10">
@@ -268,6 +247,22 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
         <div class="flex flex-wrap gap-2">
           <Button variant="primary" drawerPreset={primaryDrawerPreset}>{primaryButtonText}</Button>
           <Button variant="ghost-dark" drawerPreset={secondaryDrawerPreset}>{secondaryButtonText}</Button>
+        </div>
+      </div>
+
+      <!-- Левая карточка (серая, «Без ДВИЖа») — второй на мобайле -->
+      <div class="bg-gray-200 rounded-3xl p-8 flex flex-col gap-14">
+        <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
+        <div class="flex flex-col divide-y divide-gray-300">
+          {leftItems.map((text) => (
+            <div class="flex gap-3 items-start py-5 first:pt-0 last:pb-0 opacity-60">
+              <svg class="w-6 h-6 shrink-0 mt-0.5 text-gray-900" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                <path d="M8 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+              <p class="text-body-lg text-gray-900 leading-[1.3]">{text}</p>
+            </div>
+          ))}
         </div>
       </div>
 
