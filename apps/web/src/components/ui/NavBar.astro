@@ -206,7 +206,7 @@ const megaSections = megaItem?.sections ?? []
           {secondaryLink && (
             <a
               href={secondaryLink.href}
-              class="hidden xs:block text-sm font-medium opacity-80 transition-colors"
+              class="hidden sm:block text-sm font-medium opacity-80 transition-colors"
               :class="clear ? 'text-white hover:text-white/70' : 'text-gray-500 hover:text-gray-900'"
             >
               {secondaryLink.label}
@@ -219,7 +219,7 @@ const megaSections = megaItem?.sections ?? []
               variant="dark"
               size="sm"
               drawerPreset={cta.preset ?? 'demo'}
-              class="hidden xs:inline-flex lg:hidden"
+              class="hidden sm:inline-flex lg:hidden"
               x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
             >{cta.label}</Button>
           )}
