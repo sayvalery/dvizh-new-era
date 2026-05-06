@@ -6,6 +6,7 @@ import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
+import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
 <SiteLayout title="Для департамента продаж — ДВИЖ" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="bg-background-primary">
@@ -41,6 +42,18 @@ import KeyFacts from '../components/ui/KeyFacts.astro'
         { value: '40+', description: 'банков партнеров' },
       ]}
     />
+
+    <!-- FormClosing -->
+    <div class="page-container">
+      <FormClosing
+        mode="buttons"
+        title="Каждая третья ипотека"
+        description="на первичном рынке России выдается с помощью ДВИЖа"
+        primaryButton={{ label: 'Больше о нас', href: '/about' }}
+        bgImage="/Pattern.png"
+        bgImagePosition="right"
+      />
+    </div>
 
   </div>
 </SiteLayout>
