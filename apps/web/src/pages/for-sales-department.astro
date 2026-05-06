@@ -44,14 +44,16 @@ import FormClosing from '../components/ui/FormClosing.astro'
     />
 
     <!-- FormClosing -->
-    <FormClosing
-      mode="buttons"
-      title="Каждая третья ипотека"
-      description="на первичном рынке России выдается с помощью ДВИЖа"
-      primaryButton={{ label: 'Больше о нас', href: '/about' }}
-      bgImage="/Pattern.png"
-      bgImagePosition="right"
-    />
+    <div class="page-container">
+      <FormClosing
+        mode="buttons"
+        title="Каждая третья ипотека"
+        description="на первичном рынке России выдается с помощью ДВИЖа"
+        primaryButton={{ label: 'Больше о нас', href: '/about' }}
+        bgImage="/Pattern.png"
+        bgImagePosition="right"
+      />
+    </div>
 
   </div>
 </SiteLayout>
