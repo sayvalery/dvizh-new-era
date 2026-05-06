@@ -10,6 +10,7 @@
 
 import SiteLayout from '../../layouts/SiteLayout.astro'
 import HeroSectionFull from '../../components/lab-new/HeroSectionFull.astro'
+import LogoGrid from '../../components/ui/LogoGrid.astro'
 import AdvantageCard from '../../components/ui/AdvantageCard.astro'
 import FeatureBlock from '../../components/ui/FeatureBlock.astro'
 import BentoGrid from '../../components/ui/BentoGrid.astro'
@@ -30,7 +31,19 @@ import FormClosing from '../../components/ui/FormClosing.astro'
     kpLabel="Получить КП"
   />
 
-  {/* ── 2. AdvantageCard — 4 карточки ── */}
+  {/* ── 2. LogoGrid ── */}
+  <LogoGrid
+    logos={[
+      { src: '/partners/dark/a101.svg', alt: 'А101' },
+      { src: '/partners/dark/ava.svg', alt: 'AVA' },
+      { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
+      { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
+      { src: '/partners/dark/strana.svg', alt: 'Страна' },
+      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+    ]}
+  />
+
+  {/* ── 3. AdvantageCard — 4 карточки ── */}
   <section class="py-24 sm:py-32">
     <div class="page-container">
       <h2 class="text-h2">Девелоперы с ДВИЖ Ипотекой</h2>
