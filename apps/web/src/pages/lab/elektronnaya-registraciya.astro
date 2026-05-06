@@ -1,0 +1,101 @@
+---
+/**
+ * Лабораторная страница: Электронная регистрация
+ *
+ * Сборка блоков — контент будет добавлен отдельно.
+ * Маршрут: /lab/elektronnaya-registraciya (только в dev)
+ */
+
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import HeroSectionFull from '../../components/lab-new/HeroSectionFull.astro'
+import ComparisonSection from '../../components/ui/ComparisonSection.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+import BentoGrid from '../../components/ui/BentoGrid.astro'
+import ReviewFull from '../../components/ui/ReviewFull.astro'
+import LogoGrid from '../../components/ui/LogoGrid.astro'
+---
+
+<SiteLayout
+  title="Электронная регистрация — ДВИЖ (лаборатория)"
+  description="Электронная регистрация ДВИЖ — в разработке"
+>
+
+  {/* ── 1. Hero Section ── */}
+  <HeroSectionFull
+    title="Регистрируйте все виды сделок с выгодой от 30% до 80%"
+    description="Автоматизируйте этап подготовки документов, ускорьте оформление сделок в Росреестре и сократите затраты на регистрацию"
+    demoLabel="Записаться на демо"
+    kpLabel="Попробовать бесплатно"
+  />
+
+  {/* ── 2. LogoGrid ── */}
+  <LogoGrid
+    logos={[
+      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+      { src: '/partners/dark/a101.svg', alt: 'A101' },
+      { src: '/partners/dark/strana.svg', alt: 'Страна Девелопмент' },
+      { src: '/partners/dark/glorax.svg', alt: 'Glorax' },
+      { src: '/partners/dark/ganel.svg', alt: 'Ganel' },
+      { src: '/partners/dark/ava.svg', alt: 'AVA' },
+    ]}
+  />
+
+  {/* ── 3. ComparisonSection variant='prices' ── */}
+  <ComparisonSection
+    variant="prices"
+    label="Стоимость"
+    title="Дешевле на каждом этапе"
+    leftTitle="Без ДВИЖа"
+    priceRows={[
+      { label: 'Регистрация', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
+      { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
+    ]}
+  />
+
+  {/* ── 4. FormClosing ── */}
+  <div class="page-container py-12">
+    <FormClosing
+      preset="lead"
+      title="Узнайте, сколько вы можете сэкономить"
+      submitLabel="Получить расчёт"
+    />
+  </div>
+
+  {/* ── 5. BentoGrid variant three ── */}
+  <section class="py-24 lg:py-[120px]">
+    <div class="page-container">
+      <BentoGrid
+        heading="Другие причины выбрать ДВИЖ"
+        items={[
+          {
+            title: 'Выпуск подписи за 5 минут',
+            description: 'Поддерживаем все технологии: токен, Sign.Me, Госключ',
+          },
+          {
+            title: 'Ускорим подачу заявления',
+            description: 'Подключим оплату госпошлины с авансового счета внутри ДВИЖа',
+          },
+          {
+            title: 'Всегда рядом с вами',
+            description: 'Поможем зарегистрировать сложные сделки: с иностранными гражданами или военной ипотекой',
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  {/* ── 6. ReviewFull ── */}
+  <section class="py-24 lg:py-[120px]">
+    <div class="page-container">
+      <ReviewFull
+        quote="Раньше мы могли провозиться с регистрацией дома неделю, потому что каждое заявление создавалось вручную. Теперь любое количество объектов мы можем отправить на регистрацию за считанные минуты. К тому же, за счет комплексного предложения (ипотека+регистрация) ДВИЖ выходит на 30% дешевле других рыночных платформ."
+        author="Анастасия Швед"
+        role="Директор по продажам"
+        caseLink={{ label: 'Читать кейс', href: '/cases' }}
+      />
+    </div>
+  </section>
+
+  {/* ── 7. Footer — входит в SiteLayout ── */}
+
+</SiteLayout>
