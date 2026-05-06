@@ -4,7 +4,7 @@ import HeroSection from '../components/ui/HeroSection.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
-import CTA from '../components/ui/CTA.astro'
+import ReviewFull from '../components/ui/ReviewFull.astro'
 ---
 
 <SiteLayout title="Ипотечный калькулятор — ДВИЖ" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="bg-background-primary" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
@@ -72,13 +72,14 @@ import CTA from '../components/ui/CTA.astro'
     secondaryDrawerPreset="lead"
   />
 
-  <!-- CTA -->
-  <div class="max-w-[1440px] mx-auto px-4">
-    <CTA
-      title="Запросить демо"
-      description="Посмотрите, как калькулятор увеличивает количество заявок с вашего сайта"
-      buttonText="Запросить демо"
-      buttonHref="#"
+  <!-- ReviewFull -->
+  <div class="page-container">
+    <ReviewFull
+      quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счет использования стороннего решения, уже готового и гибко настраиваемого, мы оптимизируем наши процессы и, самое главное, сокращаем в сроке реализации."
+      author="Бурганов Рунар"
+      role="Руководитель отдела ипотеки и финансовых инструментов"
+      company={{ logo: '/api/media/file/kortros-logo.svg', alt: 'Кортрос' }}
+      caseLink={{ label: 'Читать кейс', href: '/cases/kortros' }}
     />
   </div>
 
