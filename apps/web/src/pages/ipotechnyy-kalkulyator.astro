@@ -5,6 +5,7 @@ import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
 import ReviewFull from '../components/ui/ReviewFull.astro'
+import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
 <SiteLayout title="Ипотечный калькулятор — ДВИЖ" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="bg-background-primary" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
@@ -80,6 +81,23 @@ import ReviewFull from '../components/ui/ReviewFull.astro'
       role="Руководитель отдела ипотеки и финансовых инструментов"
       company={{ logo: '/api/media/file/kortros-logo.svg', alt: 'Кортрос' }}
       caseLink={{ label: 'Читать кейс', href: '/cases/kortros' }}
+    />
+  </div>
+
+  <!-- FormClosing -->
+  <div class="page-container">
+    <FormClosing
+      mode="form"
+      preset="lead"
+      title="Реализация по API – для тех, кто хочет ещё больше"
+      items={[
+        'Адаптируйте ипотечный калькулятор под ваш фирменный стиль',
+        'Встройте расчеты прямо в карточку лота на сайте',
+        'Избавьтесь от рисков и юридических ошибок: следим за соответствием ФЗ',
+      ]}
+      submitLabel="Попробовать бесплатно"
+      bgImage="https://admin.dvizh.cc/api/media/file/form-image.jpg"
+      bgImagePosition="right"
     />
   </div>
 
