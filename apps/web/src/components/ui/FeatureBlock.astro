@@ -100,7 +100,7 @@ const imageLeft = imageSide === 'left'
 
       <!-- Текстовая колонка (+ inline image на мобайле) -->
       <div
-        class:list={['flex flex-col gap-12 lg:gap-16 lg:justify-between lg:min-h-[640px]', imageLeft && 'lg:order-2']}
+        class:list={['flex flex-col gap-12 lg:gap-16 lg:justify-between lg:h-[720px]', imageLeft && 'lg:order-2']}
         x-data={`{
           active: 0,
           total: ${features.length},
@@ -122,7 +122,7 @@ const imageLeft = imageSide === 'left'
         <!-- Заголовок + описание + кнопка -->
         <div class="flex flex-col gap-6">
           <div class="flex flex-col gap-4">
-            <h2 class="text-h2 text-gray-900">{heading}</h2>
+            <h2 class="text-h3 text-gray-900">{heading}</h2>
             {description && (
               <p class="text-body-lg text-gray-900">{description}</p>
             )}
@@ -213,7 +213,7 @@ const imageLeft = imageSide === 'left'
 
       <!-- Desktop: колонка с изображением (скрыта на мобайле) -->
       <div class:list={[
-        'hidden lg:block rounded-3xl overflow-hidden bg-gray-300 lg:aspect-square lg:self-end',
+        'hidden lg:block rounded-3xl overflow-hidden bg-gray-300 lg:h-[720px]',
         imageLeft && 'lg:order-1'
       ]}>
         {image ? (
