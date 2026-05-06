@@ -95,7 +95,7 @@ const isSplit = layout === 'split'
 const isFull = layout === 'full'
 ---
 
-<section class:list={['relative overflow-hidden', withGradient ? 'bg-brand' : 'bg-background-primary', className]}>
+<section class:list={['relative overflow-hidden', withGradient ? 'bg-brand' : 'bg-background-primary', isFull ? '' : '', className]}>
 
   {withGradient && <FlutedGlassBg />}
 
@@ -107,14 +107,15 @@ const isFull = layout === 'full'
       </div>
 
       <!-- Контент: прибит к низу слева -->
-      <div class="relative z-10 flex flex-col justify-end flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-10 pb-8 xs:pb-16 lg:pb-24">
+      <div class="relative z-10 flex flex-col justify-end flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-10 pb-16 lg:pb-24">
         <div class="flex flex-col gap-6 max-w-[1000px]">
           {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
           <h1 class="text-h1 text-gray-900">{title}</h1>
           {description && <p class="text-body-lg text-gray-500">{description}</p>}
+          <!-- base: sm / xs+: md / lg+: lg — оверрайд через responsive-классы -->
           <div class="flex flex-col xs:flex-row gap-4 pt-2">
-            <Button variant="primary" size="lg" drawerPreset={demoPreset as any} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{demoLabel}</Button>
-            <Button variant="ghost" size="lg" drawerPreset={kpPreset as any} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{kpLabel}</Button>
+            <Button variant="primary" size="md" drawerPreset={demoPreset as any} class="w-full xs:flex-1 lg:flex-none lg:w-auto lg:h-[52px] lg:py-4">{demoLabel}</Button>
+            <Button variant="ghost"   size="md" drawerPreset={kpPreset as any}  class="w-full xs:flex-1 lg:flex-none lg:w-auto lg:h-[52px] lg:py-4">{kpLabel}</Button>
           </div>
         </div>
       </div>

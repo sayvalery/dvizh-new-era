@@ -1,0 +1,136 @@
+---
+/**
+ * FunnelSection — продукты по этапам сделки в формате воронки
+ *
+ * Desktop (lg+): 2 колонки.
+ *   Левая — название этапа, ширина = 1 карточка SuccessStoryBlock: calc((100%-3rem)/3).
+ *   Правая — карточки ProductLink (flex-1).
+ *   Вертикальная линия на границе колонок + кружки-индикаторы.
+ *   Кружок в левой колонке: h-[60px] items-center → вертикально совпадает с
+ *   центром первой иконки ProductLink (60px). translate-x-1/2 центрирует кружок на линии.
+ *   Горизонтальные разделители — только на правой половине (lg:ml-[...]).
+ * Mobile (< lg): стэк — заголовок этапа сверху, карточки снизу.
+ *
+ * Figma: PnfTfcrl6KaCZU0mEMQiws node 496:4965
+ *
+ * @example
+ * ```astro
+ * <FunnelSection
+ *   heading="Добиваемся высоких конверсий на каждом этапе сделки"
+ *   groups={[
+ *     {
+ *       label: 'Лидогенерация',
+ *       cards: [
+ *         { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
+ *       ],
+ *     },
+ *   ]}
+ * />
+ * ```
+ */
+
+import ProductLink from './ProductLink.astro'
+
+interface FunnelCard {
+  /** Название продукта */
+  title: string
+  /** Краткое описание */
+  description: string
+  /** Ссылка на страницу продукта */
+  href?: string
+  /** URL иконки / изображения (60×60) */
+  icon?: string
+}
+
+interface FunnelGroup {
+  /** Название этапа */
+  label: string
+  /** Карточки продуктов в этом этапе */
+  cards: FunnelCard[]
+}
+
+interface Props {
+  /** Заголовок секции */
+  heading: string
+  /** Этапы с карточками */
+  groups: FunnelGroup[]
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const { heading, groups, class: className = '' } = Astro.props
+---
+
+<section class:list={['w-full', className]}>
+  <div class="page-container">
+  <div class="flex flex-col gap-16">
+
+  <!-- Заголовок -->
+  <h2 class="text-h2 text-gray-900 max-w-[800px] w-full">{heading}</h2>
+
+  <!-- Воронка: relative для позиционирования вертикальной линии -->
+  <div class="relative w-full flex flex-col">
+
+    <!-- Вертикальная линия (desktop): позиция = ширина левой колонки -->
+    <div
+      class="hidden lg:block absolute top-0 bottom-0 w-px bg-gray-300"
+      style="left: calc((100% - 3rem) / 3)"
+      aria-hidden="true"
+    ></div>
+
+    {groups.map((group, i) => (
+      <>
+        {/*
+          Горизонтальный разделитель между этапами
+          - mobile: полная ширина
+          - desktop: только правая половина (ml = ширина левой колонки)
+          my-8/my-10 создаёт отступ вокруг разделителя (≈ gap-33px из Figma)
+        */}
+        {i > 0 && (
+          <div class="my-8 lg:my-10" aria-hidden="true">
+            <div class="border-t border-gray-300 lg:ml-[calc((100%-3rem)/3)]"></div>
+          </div>
+        )}
+
+        <!-- Строка этапа -->
+        <div class="flex flex-col lg:flex-row lg:gap-10">
+
+          <!--
+            Левая колонка:
+            - lg:w-[calc((100%-3rem)/3)] — ширина как в SuccessStoryBlock (1 из 3 колонок)
+            - lg:h-[60px] items-center — высота = иконке ProductLink, кружок по центру
+            - кружок с translate-x-1/2 → центр кружка на вертикальной линии
+          -->
+          <div class="flex items-center mb-6 lg:mb-0 lg:w-[calc((100%-3rem)/3)] lg:h-[60px] lg:shrink-0">
+            <span class="text-h4 text-gray-900 opacity-50 flex-1">{group.label}</span>
+            <!-- Кружок-индикатор (только desktop) -->
+            <div
+              class="hidden lg:block relative size-6 rounded-full bg-gray-200 overflow-hidden shrink-0 translate-x-1/2"
+              aria-hidden="true"
+            >
+              <!-- Центр цвета фона страницы — эффект кольца на кремовом фоне -->
+              <div class="absolute inset-[6px] rounded-full bg-background-primary"></div>
+            </div>
+          </div>
+
+          <!-- Правая колонка: карточки ProductLink -->
+          <div class="flex flex-col gap-7 flex-1">
+            {group.cards.map((card) => (
+              <ProductLink
+                title={card.title}
+                description={card.description}
+                href={card.href}
+                icon={card.icon}
+              />
+            ))}
+          </div>
+
+        </div>
+      </>
+    ))}
+
+  </div>
+
+  </div>{/* flex gap */}
+  </div>{/* page-container */}
+</section>

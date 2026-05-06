@@ -1,72 +1,105 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
-import StatsSection from '../components/ui/StatsSection.astro'
-import CTA from '../components/ui/CTA.astro'
+import LogoGrid from '../components/ui/LogoGrid.astro'
+import KeyFacts from '../components/ui/KeyFacts.astro'
+import ComparisonSection from '../components/ui/ComparisonSection.astro'
+import ReviewFull from '../components/ui/ReviewFull.astro'
+import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
-<SiteLayout title="Ипотечный калькулятор — ДВИЖ" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
+<SiteLayout title="Ипотечный калькулятор — ДВИЖ" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="bg-background-primary" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
   <HeroSection
-    badge="Ипотечный калькулятор"
-    title="Ипотечный калькулятор"
-    description="Получайте больше заявок с помощью готового виджета. Актуальные ставки от 40+ банков-партнёров"
+    layout="full"
+    title="Получайте до 20% больше заявок с помощью готового калькулятора"
+    description="ДВИЖ Калькулятор — готовый виджет для вашего сайта, который показывает программы 40+ банков и помогает подобрать лучшие условия клиенту"
+    demoLabel="Записаться на демо"
+    kpLabel="Попробовать бесплатно"
+    demoPreset="demo"
+    kpPreset="lead"
+    class="pb-4 xs:pb-5 md:pb-16 lg:pb-32"
   />
 
-  <StatsSection
-    cols={4}
+  <!-- gap-16 (64px) / sm:gap-20 (80px) / md:gap-24 (96px) / lg:gap-36 (144px) -->
+  <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-36">
+
+  <!-- Бегущая строка с логотипами — сразу под Hero -->
+  <LogoGrid
+    logos={[
+      { src: '/partners/dark/a101.svg', alt: 'А101' },
+      { src: '/partners/dark/ava.svg', alt: 'AVA' },
+      { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
+      { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
+      { src: '/partners/dark/strana.svg', alt: 'Страна' },
+      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+    ]}
+  />
+
+  <!-- KeyFacts -->
+  <KeyFacts
+    class="!pb-0"
+    title="Больше лидов на том же трафике"
     items={[
-      { value: '80%', label: 'Заявок поступает в нерабочее время' },
-      { value: '50%', label: 'Клиентов хотят сами рассчитать платёж' },
-      { value: 'на 20%', label: 'Выше конверсия с калькулятором' },
-      { value: 'до 3 ч', label: 'От анкеты до ответа банка' },
+      { value: '80% заявок', description: 'приходит в нерабочее время, не теряйте их' },
+      { value: '50% клиентов', description: 'заранее хотят рассчитать ежемесячный платеж' },
+      { value: 'на 20% выше', description: 'конверсия в сделку, когда клиент знает доступный бюджет ипотеки' },
     ]}
   />
 
-  <!-- Features Grid 1: ноль ошибок в ставках -->
-  <FeaturesGrid
-    badge="актуальные ставки"
-    title="Ноль ошибок в ставках"
-    description="Обновляем все ипотечные ставки от банков-партнёров. Клиенты видят только актуальные условия."
-    features={[
-      { icon: 'check', title: 'Автоматическое обновление', description: 'Ставки обновляются автоматически при изменении условий банков' },
-      { icon: 'building-bank', title: 'Все банки-партнёры', description: 'Актуальные программы от всех подключённых банков в одном виджете' },
+  <!-- Плейсхолдер виджета калькулятора -->
+  <div class="page-container w-full">
+    <div class="h-[150px] md:h-[400px] bg-gray-300 rounded-3xl"></div>
+  </div>
+
+  <!-- ComparisonSection -->
+  <ComparisonSection
+    title="Выбирайте лучшее"
+    leftTitle="Самописные и рыночные решения"
+    leftItems={[
+      'Необходимо вручную поддерживать актуальность ставок',
+      'Нельзя рассчитать комбо- и ипотеку с удорожанием стоимости',
+      'Нет возможности выделить наиболее выгодное предложение',
+      'Нет потенциала для апсейла клиентов',
     ]}
-    variant="light"
+    rightItems={[
+      'Ипотечные ставки обновляются автоматически',
+      'Считает все виды ипотек: траншевую, комбо, с удорожанием, субсидированную, рассрочку',
+      'Меняет порядок ипотечных программ и показывает выгодные предложения',
+      'Увеличивает средний чек за счёт персональных предложений',
+    ]}
+    primaryButtonText="Записаться на демо"
+    primaryDrawerPreset="demo"
+    secondaryButtonText="Пробовать бесплатно"
+    secondaryDrawerPreset="lead"
   />
 
-  <!-- Features Grid 2: адаптация под себя -->
-  <FeaturesGrid
-    badge="настройка"
-    title="Адаптируйте под себя"
-    description="Встройте калькулятор на сайт через API. Настройте цвета под ваш бренд — виджет станет частью вашего сайта."
-    features={[
-      { icon: 'globe', title: 'API-интеграция', description: 'Гибкое API для встраивания калькулятора на любую страницу вашего сайта' },
-      { icon: 'arrow-path', title: 'Брендирование', description: 'Настройте цвета, шрифты и стиль виджета под фирменный стиль вашей компании' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Features Grid 3: повышение конверсии -->
-  <FeaturesGrid
-    badge="конверсия"
-    title="Повышайте конверсию"
-    description="Собирайте заявки на всех этапах: от расчёта платежа до подбора программы. Каждое взаимодействие — потенциальная сделка."
-    features={[
-      { icon: 'document', title: 'Заявки на каждом этапе', description: 'Формы захвата встроены в каждый шаг работы с калькулятором' },
-      { icon: 'database', title: 'Аналитика взаимодействий', description: 'Отслеживайте, на каком этапе клиенты оставляют заявки чаще всего' },
-      { icon: 'check', title: 'Круглосуточный приём', description: '80% заявок поступает в нерабочее время — калькулятор работает 24/7' },
-    ]}
-    variant="light"
-  />
-
-  <!-- CTA -->
-  <div class="max-w-[1440px] mx-auto px-4 py-12">
-    <CTA
-      title="Запросить демо"
-      description="Посмотрите, как калькулятор увеличивает количество заявок с вашего сайта"
-      buttonText="Запросить демо"
-      buttonHref="#"
+  <!-- ReviewFull -->
+  <div class="page-container">
+    <ReviewFull
+      quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счет использования стороннего решения, уже готового и гибко настраиваемого, мы оптимизируем наши процессы и, самое главное, сокращаем в сроке реализации."
+      author="Бурганов Рунар"
+      role="Руководитель отдела ипотеки и финансовых инструментов"
+      company={{ logo: '/api/media/file/kortros-logo.svg', alt: 'Кортрос' }}
+      caseLink={{ label: 'Читать кейс', href: '/cases/kortros' }}
     />
   </div>
+
+  <!-- FormClosing -->
+  <div class="page-container">
+    <FormClosing
+      mode="form"
+      preset="lead"
+      title="Реализация по API – для тех, кто хочет ещё больше"
+      items={[
+        'Адаптируйте ипотечный калькулятор под ваш фирменный стиль',
+        'Встройте расчеты прямо в карточку лота на сайте',
+        'Избавьтесь от рисков и юридических ошибок: следим за соответствием ФЗ',
+      ]}
+      submitLabel="Попробовать бесплатно"
+      bgImage="https://admin.dvizh.cc/api/media/file/form-image.jpg"
+      bgImagePosition="right"
+    />
+  </div>
+
+  </div>{/* /gap-контейнер */}
 </SiteLayout>

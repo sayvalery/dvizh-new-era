@@ -88,20 +88,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Styrene A', system-ui, sans-serif;
-  letter-spacing: -0.03em;
   overflow-wrap: break-word;
-}
-
-@media (min-width: 768px) {
-  h1, h2, h3, h4, h5, h6 {
-    letter-spacing: -0.05em;
-  }
-}
-
-@media (min-width: 1024px) {
-  h1, h2, h3, h4, h5, h6 {
-    letter-spacing: -0.07em;
-  }
 }
 
 /* ─── Типографические утилиты ────────────────────────────────────────────── */

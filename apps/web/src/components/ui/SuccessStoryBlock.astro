@@ -63,20 +63,20 @@ const {
 } = Astro.props
 ---
 
-<section class:list={['bg-background-primary py-24 lg:py-[120px]', className]}>
+<section class:list={['bg-background-primary', className]}>
   <div class="page-container">
     <div class="flex flex-col gap-12">
 
       <!-- Заголовок + кнопка -->
       <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-        <h2 class="text-h2 text-gray-900 w-[800px] max-w-full">{heading}</h2>
+        <h2 class="text-h2 text-gray-900 max-w-[800px] w-full">{heading}</h2>
         <div class="shrink-0">
           <Button variant="dark" size="sm" drawerPreset={buttonPreset}>{buttonLabel}</Button>
         </div>
       </div>
 
       <!-- Сетка карточек -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:h-[500px]">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {stories.map((story) => (
           <StoryCard
             variant="default"
