@@ -3,22 +3,20 @@
  * Для департамента продаж — ДВИЖ
  */
 import SiteLayout from '../layouts/SiteLayout.astro'
-import HeroSection from '../components/ui/HeroSection.astro'
+import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
 <SiteLayout title="Для департамента продаж — ДВИЖ" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="bg-background-primary">
-  <HeroSection
-    layout="full"
-    title={`Ускоряем цикл сделки и забираем на себя всю рутину`}
+  <HeroSectionFull
+    title="Ускоряем цикл сделки и забираем на себя всю рутину"
     description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI"
     demoLabel="Получить демо"
     kpLabel="Получить КП"
     demoPreset="demo"
     kpPreset="lead"
-    class="pb-4 xs:pb-5 md:pb-16 lg:pb-32"
   />
 
   <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-36">
