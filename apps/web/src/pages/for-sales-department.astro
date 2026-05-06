@@ -7,6 +7,7 @@ import HeroSection from '../components/ui/HeroSection.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
+import AdvantageCard from '../components/ui/AdvantageCard.astro'
 ---
 
 <SiteLayout title="Для департамента продаж — ДВИЖ" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="bg-background-primary">
@@ -43,6 +44,33 @@ import FormClosing from '../components/ui/FormClosing.astro'
         { value: '40+', description: 'банков партнеров' },
       ]}
     />
+
+    <!-- Мы помогаем -->
+    <div class="page-container">
+      <h2 class="text-h2">Мы помогаем</h2>
+      <div class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <AdvantageCard
+          title="Наполнить воронку качественными лидами"
+          stat="+281%"
+          label="Заявок на&#160;одного менеджера"
+        />
+        <AdvantageCard
+          title="Закрыть клиентов быстрее, чем конкуренты"
+          stat="×16"
+          label="Одна заявка вместо шестнадцати писем"
+        />
+        <AdvantageCard
+          title="Увеличить средний чек и&#160;допродажи"
+          stat="×3"
+          label="Сделок без&#160;увеличения штата"
+        />
+        <AdvantageCard
+          title="Увидеть результат работы каждого сотрудника"
+          stat="90%"
+          label="Одобрений при&#160;объёме выше рынка"
+        />
+      </div>
+    </div>
 
     <!-- FormClosing -->
     <FormClosing
