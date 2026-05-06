@@ -18,6 +18,7 @@ import ProductSection from '../../components/ui/ProductSection.astro'
 import HeroAI from '../../components/ui/HeroAI.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import SupportSection from '../../components/ui/SupportSection.astro'
+import KeyFacts from '../../components/ui/KeyFacts.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
 
 const partnerLogos = [
@@ -257,7 +258,17 @@ const partnerLogos = [
     ]}
   />
 
-  {/* ── 7. Блог — BlogCards ── */}
+  {/* ── 7. KeyFacts ── */}
+  <KeyFacts
+    items={[
+      { value: '30 специалистов', description: 'в команде поддержки — консультанты, менеджеры успеха и аналитики' },
+      { value: '57 секунд', description: 'среднее время ответа в рабочее время' },
+      { value: '24/7', description: 'доступность в момент важной сделки — в любой день недели' },
+      { value: '75 из ТОП-100', description: 'крупнейших застройщиков России доверяют ДВИЖ' },
+    ]}
+  />
+
+  {/* ── 8. Блог — BlogCards ── */}
   <BlogCards
     title="Из блога"
     description="Экспертные материалы о цифровизации продаж в девелопменте"
