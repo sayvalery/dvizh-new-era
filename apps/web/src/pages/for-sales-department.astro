@@ -11,6 +11,7 @@ import AdvantageCard from '../components/ui/AdvantageCard.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
 import ReviewFull from '../components/ui/ReviewFull.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
+import ComparisonSection from '../components/ui/ComparisonSection.astro'
 ---
 
 <SiteLayout title="Для департамента продаж — ДВИЖ" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="bg-background-primary">
@@ -194,6 +195,29 @@ import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
           personJobTitle: 'Крупнейший федеральный девелопер России',
         },
       ]}
+    />
+
+    <!-- ComparisonSection -->
+    <ComparisonSection
+      title="Одно решение для всей сделки"
+      leftTitle="Без ДВИЖа"
+      leftItems={[
+        'Данные клиента теряются, сделка застревает между отделами',
+        'Менеджер тратит время на нецелевых клиентов и не выполняет KPI',
+        'Нет потенциала для апсейла клиентов',
+        'Менеджер узнаёт о финансовых проблемах клиента после отказа в банке',
+        'Море цифр и ни одного ответа на вопрос: почему сделка так и не закрылась за полгода',
+      ]}
+      rightItems={[
+        'Вся сделка в одном окне: без ошибок и потерянных часов',
+        'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейки',
+        'Средний чек и допродажи постоянно растут',
+        'Менеджер знает о платёжеспособности клиентов больше, чем они сами',
+        'Вклад каждого сотрудника виден как под микроскопом',
+      ]}
+      primaryButtonText="Получить демо"
+      primaryDrawerPreset="demo"
+      secondaryButtonText=""
     />
 
   </div>
