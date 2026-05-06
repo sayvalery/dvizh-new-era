@@ -30,7 +30,6 @@ import BentoGrid from '../../components/ui/BentoGrid.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
 import ProductCardReview from '../../components/ui/ProductCardReview.astro'
 import ProductSectionNew from '../../components/ui/ProductSection.astro'
-import AaiHero from '../../components/ui/AaiHero.astro'
 import FeatureBlock from '../../components/ui/FeatureBlock.astro'
 import ModalCard from '../../components/ui/ModalCard.astro'
 import ModalSection from '../../components/ui/ModalSection.astro'
@@ -64,7 +63,6 @@ import bentoGridRaw from '../../components/ui/BentoGrid.astro?raw'
 import productCardRaw from '../../components/ui/ProductCard.astro?raw'
 import productCardReviewRaw from '../../components/ui/ProductCardReview.astro?raw'
 import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
-import aaiHeroRaw from '../../components/ui/AaiHero.astro?raw'
 import featureBlockRaw from '../../components/ui/FeatureBlock.astro?raw'
 import modalCardRaw from '../../components/ui/ModalCard.astro?raw'
 import modalSectionRaw from '../../components/ui/ModalSection.astro?raw'
@@ -154,7 +152,7 @@ const bentoGridMeta = parseSource(bentoGridRaw)
 const productCardMeta = parseSource(productCardRaw)
 const productCardReviewMeta = parseSource(productCardReviewRaw)
 const productSectionMeta = parseSource(productSectionRaw)
-const aaiHeroMeta = parseSource(aaiHeroRaw)
+const aaiHeroMeta = parseSource(heroAIRaw)
 const reviewFullMeta = parseSource(reviewFullRaw)
 const textImageBlockMeta = parseSource(textImageBlockRaw)
 const featureBlockMeta = parseSource(featureBlockRaw)
@@ -236,7 +234,7 @@ const sections = [
   { slug: 'product-card', label: 'Product Card' },
   { slug: 'product-card-review', label: 'Product Card Review' },
   { slug: 'product-section', label: 'Product Section' },
-  { slug: 'aai-hero', label: 'AaiHero' },
+  { slug: 'aai-hero', label: 'HeroAI' },
   { slug: 'feature-block', label: 'FeatureBlock' },
   { slug: 'modal-card', label: 'ModalCard' },
   { slug: 'modal-section', label: 'ModalSection' },
@@ -2226,7 +2224,7 @@ const sections = [
 
       {section === 'aai-hero' && (
         <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">AaiHero</h1>
+          <h1 class="text-3xl font-bold font-heading mb-6">HeroAI</h1>
           <p class="text-gray-600 mb-4">
             Центрированная секция-герой для AI-продукта. Бейдж → заголовок H2 → изображение.
             Опционально: три карточки BentoGrid ниже.
@@ -2237,9 +2235,9 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">Только герой (без изображения и bento)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<AaiHero heading="Нейросети на службе вашего бизнеса" />`}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<HeroAI heading="Нейросети на службе вашего бизнеса" />`}</code></p>
               <div class="-mx-10 rounded-2xl overflow-hidden">
-                <AaiHero
+                <HeroAI
                   heading="Нейросети на службе вашего бизнеса"
                 />
               </div>
@@ -2247,9 +2245,9 @@ const sections = [
 
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">С изображением-заглушкой и BentoGrid</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<AaiHero heading="..." bentoItems={[...3 items...]} />`}</code></p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<HeroAI heading="..." bentoItems={[...3 items...]} />`}</code></p>
               <div class="-mx-10 rounded-2xl overflow-hidden">
-                <AaiHero
+                <HeroAI
                   heading="Нейросети на службе вашего бизнеса"
                   bentoHeading="Что умеет ДВИЖ AI"
                   bentoItems={[
