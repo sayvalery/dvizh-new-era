@@ -9,6 +9,7 @@ import KeyFacts from '../components/ui/KeyFacts.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import AdvantageCard from '../components/ui/AdvantageCard.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
+import ReviewFull from '../components/ui/ReviewFull.astro'
 ---
 
 <SiteLayout title="Для департамента продаж — ДВИЖ" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="bg-background-primary">
@@ -92,17 +93,28 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
       ]}
     />
 
-    <!-- Помогаем закрывать даже сложных клиентов -->
-    <FeatureBlock
-      heading="Помогаем закрывать даже сложных клиентов…"
-      imageSide="left"
-      button={{ label: 'Узнать больше', href: '/blog' }}
-      features={[
-        { title: 'Финансовый скоринг', subtitle: 'Покажет, как улучшить портрет клиента до отправки заявки в банк' },
-        { title: '40+ банков-партнёров' },
-        { title: 'ДВИЖ AI' },
-      ]}
-    />
+    <!-- Помогаем закрывать даже сложных клиентов + отзыв -->
+    <div class="flex flex-col gap-16">
+      <FeatureBlock
+        heading="Помогаем закрывать даже сложных клиентов…"
+        imageSide="left"
+        button={{ label: 'Узнать больше', href: '/blog' }}
+        features={[
+          { title: 'Финансовый скоринг', subtitle: 'Покажет, как улучшить портрет клиента до отправки заявки в банк' },
+          { title: '40+ банков-партнёров' },
+          { title: 'ДВИЖ AI' },
+        ]}
+      />
+      <div class="page-container">
+        <ReviewFull
+          quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет"
+          author="Анастасия Швед"
+          role="Директор по продажам"
+          company={{ logo: '/api/media/file/talan-logo.svg', alt: 'Талан' }}
+          caseLink={{ label: 'Читать кейс', href: '/cases/talan' }}
+        />
+      </div>
+    </div>
 
   </div>
 </SiteLayout>
