@@ -7,6 +7,9 @@ import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
+import AdvantageCard from '../components/ui/AdvantageCard.astro'
+import FeatureBlock from '../components/ui/FeatureBlock.astro'
+import ReviewFull from '../components/ui/ReviewFull.astro'
 ---
 
 <SiteLayout title="Для департамента продаж — ДВИЖ" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="bg-background-primary">
@@ -49,6 +52,67 @@ import FormClosing from '../components/ui/FormClosing.astro'
       description="на первичном рынке России выдается с помощью ДВИЖа"
       primaryButton={{ label: 'Больше о нас', href: '/about' }}
     />
+
+    <!-- Мы помогаем -->
+    <div class="page-container">
+      <h2 class="text-h2">Мы помогаем</h2>
+      <div class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <AdvantageCard
+          title="Наполнить воронку качественными лидами"
+          stat="+281%"
+          label="Заявок на&#160;одного менеджера"
+        />
+        <AdvantageCard
+          title="Закрыть клиентов быстрее, чем конкуренты"
+          stat="×16"
+          label="Одна заявка вместо шестнадцати писем"
+        />
+        <AdvantageCard
+          title="Увеличить средний чек и&#160;допродажи"
+          stat="×3"
+          label="Сделок без&#160;увеличения штата"
+        />
+        <AdvantageCard
+          title="Увидеть результат работы каждого сотрудника"
+          stat="90%"
+          label="Одобрений при&#160;объёме выше рынка"
+        />
+      </div>
+    </div>
+
+    <!-- Повышаем качество лидов -->
+    <FeatureBlock
+      heading="Повышаем качество лидов"
+      button={{ label: 'Узнать больше', href: '/blog' }}
+      features={[
+        { title: 'Форма на сайт для проверки кредитного рейтинга', subtitle: 'Приведем надежных клиентов' },
+        { title: 'Скоринг по банковским стандартам' },
+        { title: 'Ипотечный калькулятор для сайта' },
+      ]}
+    />
+
+    <!-- Помогаем закрывать даже сложных клиентов + отзыв -->
+    <div class="flex flex-col gap-16">
+      <FeatureBlock
+        heading="Помогаем закрывать даже сложных клиентов…"
+        imageSide="left"
+        button={{ label: 'Узнать больше', href: '/blog' }}
+        features={[
+          { title: 'Финансовый скоринг', subtitle: 'Покажет, как улучшить портрет клиента до отправки заявки в банк' },
+          { title: '40+ банков-партнёров' },
+          { title: 'ДВИЖ AI' },
+        ]}
+      />
+      <div class="page-container">
+        <ReviewFull
+          quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет"
+          author="Анастасия Швед"
+          role="Директор по продажам"
+          company={{ logo: '/api/media/file/talan-logo.svg', alt: 'Талан' }}
+          caseLink={{ label: 'Читать кейс', href: '/cases/talan' }}
+        />
+      </div>
+    </div>
 
   </div>
 </SiteLayout>
