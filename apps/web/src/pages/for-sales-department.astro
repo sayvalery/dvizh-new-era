@@ -4,17 +4,43 @@
  */
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
+import LogoGrid from '../components/ui/LogoGrid.astro'
+import KeyFacts from '../components/ui/KeyFacts.astro'
 ---
 
-<SiteLayout title="Для департамента продаж — ДВИЖ" description="ДВИЖ помогает департаменту продаж закрывать больше сделок, автоматизировать рутину и повышать конверсию на каждом этапе воронки." bodyClass="bg-background-primary">
+<SiteLayout title="Для департамента продаж — ДВИЖ" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="bg-background-primary">
   <HeroSection
     layout="full"
-    title="Больше сделок — меньше рутины"
-    description="ДВИЖ автоматизирует ипотечный процесс, чтобы менеджеры успевали в 2 раза больше и закрывали до 26% больше сделок"
-    demoLabel="Записаться на демо"
-    kpLabel="Пробовать бесплатно"
+    title="Ускоряем цикл сделки и забираем на себя всю рутину"
+    description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI"
+    demoLabel="Получить демо"
+    kpLabel="Получить КП"
     demoPreset="demo"
     kpPreset="lead"
     class="pb-4 xs:pb-5 md:pb-16 lg:pb-32"
   />
+
+  <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-36">
+
+    <LogoGrid
+      logos={[
+        { src: '/partners/dark/a101.svg', alt: 'А101' },
+        { src: '/partners/dark/ava.svg', alt: 'AVA' },
+        { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
+        { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
+        { src: '/partners/dark/strana.svg', alt: 'Страна' },
+        { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+      ]}
+    />
+
+    <KeyFacts
+      items={[
+        { value: 'На 26%', description: 'больше сделок закрываем на том же трафике' },
+        { value: '1 500 000+', description: 'сделок на рынке прошло через Движ' },
+        { value: '79', description: 'застройщиков партнеров из ТОП-100 ЕРЗ' },
+        { value: '40+', description: 'банков партнеров' },
+      ]}
+    />
+
+  </div>
 </SiteLayout>
