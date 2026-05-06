@@ -47,7 +47,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   />
 
   <!-- Плейсхолдер виджета калькулятора -->
-  <div class="page-container">
+  <div class="page-container w-full">
     <div class="h-[150px] md:h-[400px] bg-gray-300 rounded-3xl"></div>
   </div>
 
@@ -74,13 +74,15 @@ import FormClosing from '../components/ui/FormClosing.astro'
   />
 
   <!-- ReviewFull -->
-  <ReviewFull
-    quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счет использования стороннего решения, уже готового и гибко настраиваемого, мы оптимизируем наши процессы и, самое главное, сокращаем в сроке реализации."
-    author="Бурганов Рунар"
-    role="Руководитель отдела ипотеки и финансовых инструментов"
-    company={{ logo: '/api/media/file/kortros-logo.svg', alt: 'Кортрос' }}
-    caseLink={{ label: 'Читать кейс', href: '/cases/kortros' }}
-  />
+  <div class="page-container">
+    <ReviewFull
+      quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счет использования стороннего решения, уже готового и гибко настраиваемого, мы оптимизируем наши процессы и, самое главное, сокращаем в сроке реализации."
+      author="Бурганов Рунар"
+      role="Руководитель отдела ипотеки и финансовых инструментов"
+      company={{ logo: '/api/media/file/kortros-logo.svg', alt: 'Кортрос' }}
+      caseLink={{ label: 'Читать кейс', href: '/cases/kortros' }}
+    />
+  </div>
 
   <!-- FormClosing -->
   <div class="page-container">
