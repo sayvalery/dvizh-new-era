@@ -15,7 +15,6 @@ import Island from '../../components/ui/Island.astro'
 import AdvantageCard from '../../components/ui/AdvantageCard.astro'
 import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
-import HeroAI from '../../components/ui/HeroAI.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import SupportSection from '../../components/ui/SupportSection.astro'
 import KeyFacts from '../../components/ui/KeyFacts.astro'
@@ -198,28 +197,7 @@ const partnerLogos = [
     ]}
   />
 
-  {/* ── 5. ДВИЖ AI ── */}
-  <HeroAI
-    badge="ДВИЖ AI"
-    heading="Нейросети на службе вашего бизнеса"
-    bentoHeading="Что умеет ДВИЖ AI"
-    bentoItems={[
-      {
-        title: "Расчёт вероятности одобрения",
-        description: "AI предсказывает шанс одобрения по 40+ банкам ещё до подачи заявки",
-      },
-      {
-        title: "Автоматический подбор программы",
-        description: "Нейросеть подбирает оптимальную ипотечную программу под каждого клиента",
-      },
-      {
-        title: "Меньше отказов, больше сделок",
-        description: "Умный скоринг снижает процент отказов и увеличивает конверсию в сделку",
-      },
-    ]}
-  />
-
-  {/* ── 6. Поддержка — SupportSection ── */}
+{/* ── 6. Поддержка — SupportSection ── */}
   <SupportSection
     tabs={[
       {
