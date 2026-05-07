@@ -59,6 +59,8 @@ interface Props {
   variant?: 'three' | 'four'
   /** Заголовок секции над сеткой */
   heading?: string
+  /** Описание под заголовком (опционально) */
+  description?: string
   /**
    * Карточки сетки.
    * variant='three': [0] верх-лево, [1] низ-лево, [2] большая справа.
@@ -69,7 +71,7 @@ interface Props {
   class?: string
 }
 
-const { variant = 'three', heading, items, class: className = '' } = Astro.props
+const { variant = 'three', heading, description, items, class: className = '' } = Astro.props
 
 const card1 = items[0] ?? { title: '' }
 const card2 = items[1] ?? { title: '' }
@@ -83,9 +85,12 @@ const isFour = variant === 'four'
 <section class:list={['flex flex-col gap-10 lg:gap-16', className]}>
 
   {heading && (
-    <h2 class="text-h2 text-gray-900">
-      {heading}
-    </h2>
+    <div class="flex flex-col gap-4">
+      <h2 class="text-h2 text-gray-900">{heading}</h2>
+      {description && (
+        <p class="text-body-lg text-gray-600 max-w-3xl">{description}</p>
+      )}
+    </div>
   )}
 
   <!--

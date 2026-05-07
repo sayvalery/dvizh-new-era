@@ -65,7 +65,8 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
   <section class="py-24 lg:py-[120px]">
     <div class="page-container">
       <BentoGrid
-        heading="Другие причины выбрать ДВИЖ"
+        heading="Поможем решить любые вопросы"
+        description="От сложных сделок до проблем с УЦ — в нашей команде ребята с опытом работы у регистраторов"
         items={[
           {
             title: 'Выпуск подписи за 5 минут',
@@ -99,8 +100,13 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
   {/* ── 7. FormClosing ── */}
   <FormClosing
     preset="lead"
-    title="Узнайте, сколько вы можете сэкономить"
-    submitLabel="Получить расчёт"
+    title="Попробуйте ДВИЖ в деле"
+    items={[
+      'Менеджер ответит на любые вопросы',
+      'Среднее время ответа техподдержки — 57 сек',
+      'Помогаем увеличивать продажи',
+    ]}
+    submitLabel="Получить демо"
     class="py-12"
   />
 
