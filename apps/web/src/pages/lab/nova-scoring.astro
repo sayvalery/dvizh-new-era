@@ -1,0 +1,138 @@
+---
+/**
+ * Лабораторная страница: Новый Скоринг
+ *
+ * Сборка блоков для новой версии страницы финансового скоринга.
+ * Контент — заглушки, финальный текст будет добавлен отдельно.
+ *
+ * Маршрут: /lab/nova-scoring (только в dev)
+ */
+
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import HeroSectionFull from '../../components/lab-new/HeroSectionFull.astro'
+import LogoGrid from '../../components/ui/LogoGrid.astro'
+import KeyFacts from '../../components/ui/KeyFacts.astro'
+import FeatureBlock from '../../components/ui/FeatureBlock.astro'
+import BentoGrid from '../../components/ui/BentoGrid.astro'
+import TextImageBlock from '../../components/ui/TextImageBlock.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+---
+
+<SiteLayout
+  title="Финансовый скоринг — ДВИЖ (лаборатория)"
+  description="Финансовый скоринг ДВИЖ — в разработке"
+>
+
+  {/* ── 1. Hero ── */}
+  <HeroSectionFull
+    badge="Финансовый скоринг"
+    title="Снизьте количество проблемных случаев с рассрочкой"
+    description="Не потеряйте миллионы из-за проблемных клиентов. Проверяйте платёжеспособность покупателей на банковском уровне до подписания договора"
+    demoLabel="Записаться на демо"
+    kpLabel="Попробовать бесплатно"
+  />
+
+  {/* ── 2. LogoGrid ── */}
+  <LogoGrid
+    logos={[
+      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+      { src: '/partners/dark/a101.svg', alt: 'A101' },
+      { src: '/partners/dark/strana.svg', alt: 'Страна Девелопмент' },
+      { src: '/partners/dark/glorax.svg', alt: 'Glorax' },
+      { src: '/partners/dark/ganel.svg', alt: 'Ganel' },
+      { src: '/partners/dark/ava.svg', alt: 'AVA' },
+    ]}
+  />
+
+  {/* ── 3. KeyFacts — 3 пункта ── */}
+  <KeyFacts
+    items={[
+      {
+        value: '25,8%',
+        description: 'клиентов с низким кредитным рейтингом — выявляем до заключения сделки',
+      },
+      {
+        value: '15+',
+        description: 'проверок при каждом скоринге — на уровне банковской проверки',
+      },
+      {
+        value: '×3',
+        description: 'снижение дефолтов по рассрочке после подключения скоринга',
+      },
+    ]}
+  />
+
+  {/* ── 4. FeatureBlock — картинка слева, 4 пункта справа ── */}
+  <FeatureBlock
+    heading="Защитите бизнес от финансовых рисков"
+    description="Скоринг от ДВИЖ помогает застройщикам снизить дефолты по рассрочке, упростить переход клиентов на ипотеку и реанимировать базу отказников"
+    imageSide="left"
+    button={{ label: 'Записаться на демо', drawerPreset: 'demo' }}
+    features={[
+      {
+        title: 'Снижение дефолтов по рассрочке',
+        subtitle: 'Проверяем кредитную историю до оформления рассрочки и исключаем проблемных клиентов',
+      },
+      {
+        title: 'Перевод клиентов с рассрочки на ипотеку',
+        subtitle: 'Автоматически определяем клиентов, которых можно перевести на ипотечное кредитование',
+      },
+      {
+        title: 'Реанимация базы отказников',
+        subtitle: 'Повторный скоринг ранее отклонённых — их кредитный рейтинг мог улучшиться',
+      },
+      {
+        title: 'Ежемесячный мониторинг клиентов',
+        subtitle: 'Система пересчитывает рейтинг каждый месяц — вы узнаёте об изменениях первыми',
+      },
+    ]}
+  />
+
+  {/* ── 5. BentoGrid variant="four" ── */}
+  <section class="py-24 lg:py-[120px]">
+    <div class="page-container">
+      <BentoGrid
+        variant="four"
+        heading="Другие причины выбрать скоринг ДВИЖ"
+        items={[
+          {
+            title: 'Проверка на банковском уровне',
+            description: '15+ параметров: кредитная история, долговая нагрузка, судебные дела и исполнительные листы',
+          },
+          {
+            title: 'Виджет прямо в CRM',
+            description: 'Результат скоринга в карточке клиента — не нужно переключаться между системами',
+          },
+          {
+            title: 'Быстрый запуск',
+            description: 'Интеграция за один день — подключаем к AmoCRM и Битрикс24',
+          },
+          {
+            title: 'API для любой системы',
+            description: 'Гибкое API позволяет встроить скоринг в любую внутреннюю систему застройщика',
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  {/* ── 6. TextImageBlock ── */}
+  <TextImageBlock
+    heading="Заберите готовое решение и снижайте риски уже сегодня"
+    subheading="Наш скоринг заменяет самописные модели и снижает процент дефолтов без роста операционных затрат. Настраивается под ваши процессы за один день."
+    buttonText="Запросить демо"
+    drawerPreset="demo"
+  />
+
+  {/* ── 7. FormClosing ── */}
+  <FormClosing
+    preset="demo"
+    title="Покажем скоринг в деле"
+    description="Разберём ваши кейсы, покажем, как скоринг снизит дефолты, и настроим под ваши процессы"
+    submitLabel="Записаться на демо"
+    class="py-12"
+  />
+
+  {/* ── 8. Footer — автоматически через SiteLayout ── */}
+
+</SiteLayout>
