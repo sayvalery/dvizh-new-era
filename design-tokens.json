@@ -1,0 +1,138 @@
+{
+  "global": {
+    "color": {
+      "brand": {
+        "50":  { "$value": "#fff5ed", "$type": "color" },
+        "100": { "$value": "#ffe8d5", "$type": "color" },
+        "200": { "$value": "#fecda9", "$type": "color" },
+        "300": { "$value": "#fda973", "$type": "color" },
+        "400": { "$value": "#fb7a3a", "$type": "color" },
+        "500": { "$value": "#ff4d00", "$type": "color", "$description": "Primary brand color" },
+        "600": { "$value": "#e64600", "$type": "color" },
+        "700": { "$value": "#be3500", "$type": "color" },
+        "800": { "$value": "#972c07", "$type": "color" },
+        "900": { "$value": "#7a280c", "$type": "color" }
+      },
+      "gray": {
+        "100": { "$value": "#f3f4f6", "$type": "color" },
+        "200": { "$value": "#e5e7eb", "$type": "color" },
+        "300": { "$value": "#d1d5db", "$type": "color" },
+        "400": { "$value": "#9ca3af", "$type": "color" },
+        "500": { "$value": "#6b7280", "$type": "color" },
+        "600": { "$value": "#4b5563", "$type": "color" },
+        "700": { "$value": "#374151", "$type": "color" },
+        "800": { "$value": "#1f2937", "$type": "color" },
+        "900": { "$value": "#111827", "$type": "color" }
+      },
+      "base": {
+        "white":          { "$value": "#ffffff", "$type": "color" },
+        "black":          { "$value": "#000000", "$type": "color" },
+        "background":     { "$value": "#f9f7f5", "$type": "color", "$description": "Card/surface background" },
+        "text-primary":   { "$value": "#1b2226", "$type": "color" },
+        "text-secondary": { "$value": "#858585", "$type": "color" }
+      }
+    },
+    "font": {
+      "family": {
+        "heading": { "$value": "Styrene A", "$type": "fontFamily" },
+        "sans":    { "$value": "Inter",     "$type": "fontFamily" }
+      },
+      "weight": {
+        "regular":  { "$value": 400, "$type": "fontWeight" },
+        "medium":   { "$value": 500, "$type": "fontWeight" },
+        "semibold": { "$value": 600, "$type": "fontWeight" },
+        "bold":     { "$value": 700, "$type": "fontWeight" }
+      }
+    },
+    "spacing": {
+      "1":  { "$value": "4px",   "$type": "spacing" },
+      "2":  { "$value": "8px",   "$type": "spacing" },
+      "3":  { "$value": "12px",  "$type": "spacing" },
+      "4":  { "$value": "16px",  "$type": "spacing" },
+      "5":  { "$value": "20px",  "$type": "spacing" },
+      "6":  { "$value": "24px",  "$type": "spacing" },
+      "8":  { "$value": "32px",  "$type": "spacing" },
+      "10": { "$value": "40px",  "$type": "spacing" },
+      "12": { "$value": "48px",  "$type": "spacing" },
+      "16": { "$value": "64px",  "$type": "spacing" },
+      "20": { "$value": "80px",  "$type": "spacing" },
+      "24": { "$value": "96px",  "$type": "spacing" },
+      "32": { "$value": "128px", "$type": "spacing" }
+    },
+    "borderRadius": {
+      "sm":   { "$value": "8px",    "$type": "borderRadius" },
+      "md":   { "$value": "12px",   "$type": "borderRadius" },
+      "lg":   { "$value": "16px",   "$type": "borderRadius" },
+      "xl":   { "$value": "18px",   "$type": "borderRadius", "$description": "StoryCard" },
+      "2xl":  { "$value": "24px",   "$type": "borderRadius" },
+      "3xl":  { "$value": "32px",   "$type": "borderRadius", "$description": "Modal, AdvantageCard" },
+      "full": { "$value": "9999px", "$type": "borderRadius" }
+    },
+    "breakpoints": {
+      "xs": { "$value": "480px",  "$type": "dimension" },
+      "sm": { "$value": "640px",  "$type": "dimension" },
+      "md": { "$value": "768px",  "$type": "dimension" },
+      "lg": { "$value": "1024px", "$type": "dimension" },
+      "xl": { "$value": "1280px", "$type": "dimension" }
+    }
+  },
+  "typography": {
+    "h1": {
+      "xs": { "$value": { "fontFamily": "Styrene A", "fontWeight": 700, "fontSize": "28px", "lineHeight": "100%", "letterSpacing": "-1px" }, "$type": "typography" },
+      "sm": { "$value": { "fontFamily": "Styrene A", "fontWeight": 700, "fontSize": "42px", "lineHeight": "100%", "letterSpacing": "-1px" }, "$type": "typography" },
+      "md": { "$value": { "fontFamily": "Styrene A", "fontWeight": 700, "fontSize": "42px", "lineHeight": "100%", "letterSpacing": "-1px" }, "$type": "typography" },
+      "lg": { "$value": { "fontFamily": "Styrene A", "fontWeight": 700, "fontSize": "64px", "lineHeight": "100%", "letterSpacing": "-1px" }, "$type": "typography" }
+    },
+    "h1-italic": {
+      "xs": { "$value": { "fontFamily": "Styrene A", "fontWeight": 700, "fontSize": "28px", "lineHeight": "100%", "letterSpacing": "-1px", "fontStyle": "italic" }, "$type": "typography" },
+      "lg": { "$value": { "fontFamily": "Styrene A", "fontWeight": 700, "fontSize": "64px", "lineHeight": "100%", "letterSpacing": "-1px", "fontStyle": "italic" }, "$type": "typography" }
+    },
+    "h2": {
+      "xs": { "$value": { "fontFamily": "Styrene A", "fontWeight": 500, "fontSize": "24px", "lineHeight": "100%", "letterSpacing": "-2px" }, "$type": "typography" },
+      "md": { "$value": { "fontFamily": "Styrene A", "fontWeight": 500, "fontSize": "32px", "lineHeight": "100%", "letterSpacing": "-2px" }, "$type": "typography" },
+      "lg": { "$value": { "fontFamily": "Styrene A", "fontWeight": 500, "fontSize": "48px", "lineHeight": "100%", "letterSpacing": "-2px" }, "$type": "typography" }
+    },
+    "h3": {
+      "xs": { "$value": { "fontFamily": "Styrene A", "fontWeight": 500, "fontSize": "18px", "lineHeight": "100%", "letterSpacing": "-1px" }, "$type": "typography" },
+      "sm": { "$value": { "fontFamily": "Styrene A", "fontWeight": 500, "fontSize": "24px", "lineHeight": "100%", "letterSpacing": "-1px" }, "$type": "typography" },
+      "lg": { "$value": { "fontFamily": "Styrene A", "fontWeight": 500, "fontSize": "32px", "lineHeight": "100%", "letterSpacing": "-1px" }, "$type": "typography" }
+    },
+    "h4": {
+      "$value": { "fontFamily": "Styrene A", "fontWeight": 500, "fontSize": "24px", "lineHeight": "120%", "letterSpacing": "-2px" },
+      "$type": "typography"
+    },
+    "h5": {
+      "$value": { "fontFamily": "Styrene A", "fontWeight": 700, "fontSize": "18px", "lineHeight": "120%", "letterSpacing": "-2px" },
+      "$type": "typography"
+    },
+    "h6": {
+      "xs": { "$value": { "fontFamily": "Styrene A", "fontWeight": 700, "fontSize": "14px", "lineHeight": "120%", "letterSpacing": "-1px" }, "$type": "typography" },
+      "lg": { "$value": { "fontFamily": "Styrene A", "fontWeight": 700, "fontSize": "16px", "lineHeight": "120%", "letterSpacing": "-1px" }, "$type": "typography" }
+    },
+    "body-lg": {
+      "xs": { "$value": { "fontFamily": "Inter", "fontWeight": 400, "fontSize": "16px", "lineHeight": "140%", "letterSpacing": "-0.5px" }, "$type": "typography" },
+      "sm": { "$value": { "fontFamily": "Inter", "fontWeight": 400, "fontSize": "18px", "lineHeight": "140%", "letterSpacing": "-0.5px" }, "$type": "typography" }
+    },
+    "body-lg-italic": {
+      "xs": { "$value": { "fontFamily": "Inter", "fontWeight": 400, "fontSize": "16px", "lineHeight": "140%", "letterSpacing": "-0.5px", "fontStyle": "italic" }, "$type": "typography" },
+      "sm": { "$value": { "fontFamily": "Inter", "fontWeight": 400, "fontSize": "18px", "lineHeight": "140%", "letterSpacing": "-0.5px", "fontStyle": "italic" }, "$type": "typography" }
+    },
+    "subhead": {
+      "xs": { "$value": { "fontFamily": "Inter", "fontWeight": 400, "fontSize": "14px", "lineHeight": "140%", "letterSpacing": "-0.5px" }, "$type": "typography" },
+      "lg": { "$value": { "fontFamily": "Inter", "fontWeight": 400, "fontSize": "16px", "lineHeight": "140%", "letterSpacing": "-0.5px" }, "$type": "typography" }
+    },
+    "footnote": {
+      "$value": { "fontFamily": "Inter", "fontWeight": 400, "fontSize": "14px", "lineHeight": "140%", "letterSpacing": "-0.5px" },
+      "$type": "typography"
+    },
+    "side-menu": {
+      "$value": { "fontFamily": "Inter", "fontWeight": 600, "fontSize": "12px", "lineHeight": "140%", "letterSpacing": "1px" },
+      "$type": "typography"
+    },
+    "medium-32": {
+      "xs": { "$value": { "fontFamily": "Inter", "fontWeight": 500, "fontSize": "18px", "lineHeight": "100%", "letterSpacing": "-1px" }, "$type": "typography" },
+      "sm": { "$value": { "fontFamily": "Inter", "fontWeight": 500, "fontSize": "24px", "lineHeight": "100%", "letterSpacing": "-1px" }, "$type": "typography" },
+      "lg": { "$value": { "fontFamily": "Inter", "fontWeight": 500, "fontSize": "32px", "lineHeight": "100%", "letterSpacing": "-1px" }, "$type": "typography" }
+    }
+  }
+}

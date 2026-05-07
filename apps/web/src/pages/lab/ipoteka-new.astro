@@ -10,7 +10,7 @@ import HeroWithBadge from '../../components/lab-new/HeroWithBadge.astro'
 import FeatureCard from '../../components/lab-new/FeatureCard.astro'
 import CTA from '../../components/ui/CTA.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
-import ProductSectionNew from '../../components/ui/ProductSectionNew.astro'
+import ProductSection from '../../components/ui/ProductSection.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
 ---
 
@@ -39,113 +39,64 @@ import StoryCard from '../../components/ui/StoryCard.astro'
           title="Сократили количество
 отказов по ипотеке"
           description="какие-то цифры или показатели"
-          image="/api/media/file/1.jpg"
+          image="https://admin.dvizh.cc/api/media/file/1.jpg"
         />
         <Card
           title="Перестали терять сделки
 из-за клиентов с низким КР"
           description="какие-то цифры или показатели"
-          image="/api/media/file/3.jpg"
+          image="https://admin.dvizh.cc/api/media/file/3.jpg"
         />
         <Card
           title="Ускорили заполнение
 анкеты до 10 секунд"
           description="какие-то цифры или показатели"
-          image="/api/media/file/2.jpg"
+          image="https://admin.dvizh.cc/api/media/file/2.jpg"
         />
         <Card
           title="Стали закрывать больше
 сделок без роста штата"
           description="какие-то цифры или показатели"
-          image="/api/media/file/4.jpg"
+          image="https://admin.dvizh.cc/api/media/file/4.jpg"
         />
       </div>
     </div>
   </section>
 
-  <!-- ProductSectionNew -->
+  <!-- ProductSection -->
   <div class="max-w-[1440px] mx-auto px-4 mt-[50px]">
-    <ProductSectionNew
-    sections={[
-      { number: "01", title: "Подбор банков", active: true },
-      { number: "02", title: "Заполнение анкеты" },
-      { number: "03", title: "Скоринг клиента" },
-      { number: "04", title: "Отправка заявки" },
-    ]}
-    title={{
-      lg: "Заголовок для больших экранов (lg+)",
-      md: "Заголовок для средних экранов (md)",
-      sm: "Заголовок для мобильных (sm)"
-    }}
-    descriptions={[
-      "Это демонстрация нового компонента ProductSectionNew",
-      "С адаптивными заголовками и изображениями в правом блоке"
-    ]}
-    primaryButton={{ label: "Начать", href: "#" }}
-    secondaryButton={{ label: "Подробнее", href: "#" }}
-    rightContent={[
-      {
-        images: [
-          {
-            src: "/api/media/file/product-section-1.jpg",
-            alt: "Цифровая ипотека",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Повышаем конверсию из первичной консультации до 20%",
-        description: [
-          "Расчет досрочных погашений и рефинансирования",
-          "40+ банков-партнеров и большой выбор ипотечных программ"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "/api/media/file/product-section-2v2.jpg",
-            alt: "Ипотечный калькулятор",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Сокращаем время на заполнение анкеты до 10 секунд",
-        description: [
-          "Распознавание документов от паспорта до справки 2-НДФЛ",
-          "Заполнение анкеты через Госуслуги",
-          "Одна анкета в 40+ банков"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "/api/media/file/product-section-3.jpg",
-            alt: "Финансовый скоринг",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Проверяем ваших клиентов по банковским стандартам",
-        description: [
-          "Долговая нагрузка и «красные флаги» клиента",
-          "Рекомендации по улучшению рейтинга клиента"
-        ]
-      },
-      {
-        images: [
-          {
-            src: "/api/media/file/product-section-4.jpg",
-            alt: "Электронная регистрация",
-            width: 600,
-            height: 400
-          }
-        ],
-        title: "Увеличиваем процент одобрения до 95%+",
-        description: [
-          "Прогноз скорости и вероятности одобрения клиента в банках",
-          "Отправка заявки сразу в 5+ банков"
-        ]
-      }
-    ]}
+    <ProductSection
+      sections={[
+        {
+          number: "01",
+          title: "Подбор банков",
+          cardTitle: "Повышаем конверсию до 20%",
+          items: ["40+ банков-партнеров"],
+          button: { label: "Подробнее", href: "#" },
+          image: { src: "https://admin.dvizh.cc/api/media/file/product-section-1.jpg", alt: "" }
+        },
+        {
+          number: "02",
+          title: "Заполнение анкеты",
+          cardTitle: "Анкета за 10 секунд",
+          items: ["Заполнение через Госуслуги"],
+          button: { label: "Подробнее", href: "#" }
+        },
+        {
+          number: "03",
+          title: "Скоринг клиента",
+          cardTitle: "Банковский скоринг клиентов",
+          items: ["Долговая нагрузка клиента"],
+          button: { label: "Подробнее", href: "#" }
+        },
+        {
+          number: "04",
+          title: "Отправка заявки",
+          cardTitle: "Одобрение до 95%+",
+          items: ["Отправка в 5+ банков"],
+          button: { label: "Подробнее", href: "#" }
+        }
+      ]}
     />
   </div>
 
@@ -162,20 +113,20 @@ import StoryCard from '../../components/ui/StoryCard.astro'
           title="Готовые интеграции"
           subtitle="с популярными системами"
           color="#202b32"
-          image="/api/media/file/5-new.jpg"
+          image="https://admin.dvizh.cc/api/media/file/5-new.jpg"
           imagePosition="right bottom"
         />
         <FeatureCard
           title="57 секунд"
           subtitle="среднее время ответа в поддержке"
           color="#F2F2F2"
-          image="/api/media/file/6-new.jpg"
+          image="https://admin.dvizh.cc/api/media/file/6-new.jpg"
         />
         <FeatureCard
           title="Все ключевые показатели"
           subtitle="ипотечного отдела"
           color="#F2F2F2"
-          image="/api/media/file/7-new.jpg"
+          image="https://admin.dvizh.cc/api/media/file/7-new.jpg"
         />
       </div>
     </div>
@@ -203,7 +154,7 @@ import StoryCard from '../../components/ui/StoryCard.astro'
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">
         <StoryCard
-          backgroundImage="/api/media/file/samolet-bg.jpg"
+          backgroundImage="https://admin.dvizh.cc/api/media/file/samolet-bg.jpg"
           title="Помогли начать обрабатывать на 281% больше заявок"
           person={{
             name: "Светлана Корнелюк",
@@ -214,7 +165,7 @@ import StoryCard from '../../components/ui/StoryCard.astro'
           <img src="/partners/a101.svg" alt="A101" class="h-6 object-contain" slot="logo" />
         </StoryCard>
         <StoryCard
-          backgroundImage="/api/media/file/lsr-bg.jpg"
+          backgroundImage="https://admin.dvizh.cc/api/media/file/lsr-bg.jpg"
           title="Дополнительно продали 96 квартир"
           person={{
             name: "Иван Петров",
@@ -225,7 +176,7 @@ import StoryCard from '../../components/ui/StoryCard.astro'
           <img src="/partners/lsr.svg" alt="LSR" class="h-6 object-contain" slot="logo" />
         </StoryCard>
         <StoryCard
-          backgroundImage="/api/media/file/glorax-bg.jpg"
+          backgroundImage="https://admin.dvizh.cc/api/media/file/glorax-bg.jpg"
           title="Увеличили объем закрытых сделок с 1116 до 3500 за год"
           person={{
             name: "Мария Сидорова",
@@ -248,7 +199,7 @@ import StoryCard from '../../components/ui/StoryCard.astro'
         preset="lead"
         submitLabel="Отправить заявку"
         bgColor="bg-gray-100"
-        bgImage="/api/media/file/form-image.jpg"
+        bgImage="https://admin.dvizh.cc/api/media/file/form-image.jpg"
         showGradient={false}
         privacyText="Нажимая кнопку «Отправить заявку», вы даёте согласие на обработку ваших персональных данных"
       />

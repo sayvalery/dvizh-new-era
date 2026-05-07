@@ -1,0 +1,89 @@
+---
+/**
+ * ReviewFull — блок отзыва с фото спикера слева
+ *
+ * Обёртка над Review: слева фото (или серая заглушка),
+ * справа цитата + строка автора (лого, имя, кнопка кейса).
+ *
+ * @example
+ * ```astro
+ * <ReviewFull
+ *   photo={{ src: "/api/media/file/speaker.jpg", alt: "Бурганов Рунар" }}
+ *   quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты"
+ *   author="Бурганов Рунар"
+ *   role="Руководитель отдела ипотеки и финансовых инструментов"
+ *   company={{ logo: "/api/media/file/kortros-logo.svg", alt: "Кортрос" }}
+ *   caseLink={{ label: "Читать кейс", href: "/cases/kortros" }}
+ * />
+ * ```
+ */
+
+import Review from './Review.astro'
+
+interface Company {
+  /** Путь к логотипу */
+  logo: string
+  /** Alt-текст */
+  alt?: string
+}
+
+interface Props {
+  /** Фото спикера. Если не передано или src пустой — показывается серая заглушка */
+  photo?: { src: string; alt?: string }
+  /** Текст цитаты */
+  quote: string
+  /** Имя автора */
+  author: string
+  /** Должность / роль автора */
+  role: string
+  /** Логотип компании */
+  company?: Company
+  /** Ссылка на кейс */
+  caseLink?: { label?: string; href: string }
+  /** Дополнительные CSS-классы для внешнего контейнера */
+  class?: string
+}
+
+const {
+  photo,
+  quote,
+  author,
+  role,
+  company,
+  caseLink,
+  class: className = ''
+} = Astro.props
+
+const hasPhoto = photo?.src
+---
+
+<div class:list={['flex flex-col lg:flex-row lg:h-[400px] rounded-[30px] overflow-hidden bg-gray-200', className]}>
+
+  <!-- Левая колонка: фото или заглушка -->
+  <div class="relative w-full aspect-[4/3] lg:aspect-auto lg:w-96 lg:shrink-0">
+    {hasPhoto ? (
+      <img
+        src={photo!.src}
+        alt={photo!.alt ?? ''}
+        class="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
+      />
+    ) : (
+      <div class="absolute inset-0 bg-gray-200" aria-hidden="true" />
+    )}
+  </div>
+
+  <!-- Правая колонка: Review растянут на всю высоту, автор прибит к низу -->
+  <div class="flex-1 p-8 lg:p-10 flex flex-col">
+    <Review
+      quote={quote}
+      author={author}
+      role={role}
+      company={company}
+      caseLink={caseLink}
+      variant="dark"
+      class="flex-1 justify-between"
+    />
+  </div>
+
+</div>

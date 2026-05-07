@@ -1,0 +1,83 @@
+---
+/**
+ * SideMenu — боковое меню (горизонтальная карусель до lg, вертикальное с lg)
+ *
+ * До lg: горизонтальная карусель с scroll-snap и скроллом без полосы прокрутки.
+ * С lg и выше: вертикальный стек пунктов.
+ * Активный пункт выделяется оранжевым.
+ * Клик переключает активный пункт и вызывает callback через Alpine.js событие.
+ *
+ * @example
+ * ```astro
+ * <SideMenu
+ *   items={[
+ *     { title: 'Цифровая ипотека', active: true },
+ *     { title: 'Калькулятор' },
+ *     { title: 'Скоринг' },
+ *   ]}
+ * />
+ * ```
+ */
+
+interface MenuItem {
+  title: string
+  active?: boolean
+}
+
+interface Props {
+  items: MenuItem[]
+  /** Дополнительные CSS классы */
+  class?: string
+  /**
+   * ID для внешнего управления активным пунктом.
+   * Если передан — компонент слушает window-событие `side-menu-set-active`
+   * с `detail: { navId, index }`. Используется в ProductSection.
+   */
+  navId?: string
+}
+
+const { items, class: className = '', navId = '' } = Astro.props
+---
+
+<nav
+  x-data={`{
+    active: ${Math.max(0, items.findIndex(i => i.active))},
+    init() {
+      const id = '${navId}';
+      if (!id) return;
+      window.addEventListener('side-menu-set-active', e => {
+        if (e.detail && e.detail.navId === id) this.active = e.detail.index;
+      });
+    }
+  }`}
+  class:list={[
+    'flex flex-row gap-0 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory',
+    'lg:flex-col lg:overflow-visible lg:gap-6',
+    className
+  ]}
+>
+  {items.map((item, index) => (
+    <button
+      class="flex-shrink-0 snap-start text-left transition-colors hover:opacity-70
+             flex flex-col items-start px-5 py-2
+             lg:flex-row lg:items-center lg:gap-2 lg:px-0 lg:py-0"
+      :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
+      @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
+    >
+      {/* Левая черта: lg+, высота = line-height текста (self-stretch) */}
+      <span
+        class="hidden lg:block w-0.5 self-stretch flex-shrink-0 transition-colors"
+        :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+      ></span>
+      {/* Текст + нижняя черта для мобиля */}
+      <span class="inline-flex flex-col gap-1">
+        <span class="text-side-menu whitespace-nowrap">{item.title}</span>
+        {/* Нижняя черта: < lg, ширина = ширина текста (inline-flex) */}
+        <span
+          class="lg:hidden h-0.5 transition-colors"
+          :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+        ></span>
+      </span>
+    </button>
+  ))}
+</nav>

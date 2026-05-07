@@ -42,7 +42,7 @@ const { badge, title, items, class: className = '' } = Astro.props
 ---
 
 <section class:list={['py-24', className]}>
-  <div class="max-w-[1440px] mx-auto px-4">
+  <div class="page-container">
     {(badge || title) && (
       <div class="max-w-2xl mb-16">
         {badge && (

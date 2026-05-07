@@ -1,5 +1,5 @@
 ---
-import SuccessStory from './SuccessStory.astro'
+import StoryCard from './StoryCard.astro'
 
 interface Person {
   name: string
@@ -11,10 +11,8 @@ interface Person {
 
 interface StoryProps {
   title: string
-  quote?: string
   person: Person
-  image?: string
-  imageAlt?: string
+  backgroundImage?: string
   logo?: string
   logoAlt?: string
 }
@@ -22,9 +20,9 @@ interface StoryProps {
 interface Props {
   /** Заголовок секции */
   title: string
-  /** Массив карточек SuccessStory */
+  /** Массив карточек StoryCard */
   stories: StoryProps[]
-  /** Вариант: default (полные карточки) или mini (только заголовок и персона) */
+  /** Вариант: default (фоновое фото) или mini (светлый фон, только заголовок + персона) */
   variant?: 'default' | 'mini'
   /** Дополнительные CSS классы */
   class?: string
@@ -32,16 +30,17 @@ interface Props {
 
 const { title, stories, variant = 'default', class: className = '' } = Astro.props
 
-const isMini = variant === 'mini'
+// Маппинг варианта карусели → вариант StoryCard
+const cardVariant = variant === 'mini' ? 'default' : 'active'
 
 // Ширина карточки для snap
-const itemClass = isMini
+const itemClass = variant === 'mini'
   ? 'snap-center shrink-0 w-[42%]'
   : 'snap-center shrink-0 w-full max-w-[80%] xl:max-w-[900px]'
 ---
 
 <!--
-SuccessStoriesCarousel — горизонтальная карусель карточек SuccessStory
+SuccessStoriesCarousel — горизонтальная карусель карточек StoryCard
 
 Использует CSS Scroll Snap для нативной прокрутки с эффектом «липания» к слайдам.
 Работает с тач-свайпом на мобильных и скроллом на десктопе.
@@ -49,18 +48,27 @@ SuccessStoriesCarousel — горизонтальная карусель кар�
 
 <section class:list={[className]} data-stories-carousel>
   <!-- Заголовок -->
-  <h2 class="text-[36px] sm:text-[52px] md:text-[80px] font-medium text-[#1b2226] leading-none mb-8 sm:mb-[52px]">
-    {title}
-  </h2>
+  <div class="page-container">
+    <h2 class="text-h2 text-[#1b2226] mb-8 sm:mb-[52px]">
+      {title}
+    </h2>
+  </div>
 
   <!-- Карусель с CSS Scroll Snap -->
   <div
-    class="flex overflow-x-auto gap-5 pb-4 pr-6 snap-x snap-mandatory scrollbar-hide cursor-grab select-none"
+    class="flex overflow-x-auto gap-5 pb-4 pl-4 sm:pl-6 lg:pl-10 pr-6 snap-x snap-mandatory scrollbar-hide cursor-grab select-none"
     style="-webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth;"
   >
     {stories.map((story) => (
       <div class={itemClass}>
-        <SuccessStory variant={variant} {...story} />
+        <StoryCard
+          variant={cardVariant}
+          backgroundImage={story.backgroundImage}
+          title={story.title}
+          person={story.person}
+          logo={story.logo}
+          logoAlt={story.logoAlt}
+        />
       </div>
     ))}
   </div>

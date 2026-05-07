@@ -11,14 +11,18 @@ interface Props {
   jsonLd?: object | object[]
   /** Прозрачный хедер поверх контента */
   transparentHeader?: boolean
+  /** CSS-класс для <body> — применяется ко всей странице включая футер */
+  bodyClass?: string
+  /** CSS-класс для <main> (например bg-background-primary) */
+  mainClass?: string
 }
 
-const { transparentHeader = false, ...baseProps } = Astro.props
+const { transparentHeader = false, mainClass = '', ...baseProps } = Astro.props
 ---
 
 <BaseLayout {...baseProps}>
   <Header transparent={transparentHeader} />
-  <main class="flex-1">
+  <main class:list={['flex-1', mainClass]}>
     <slot />
   </main>
   <Footer />

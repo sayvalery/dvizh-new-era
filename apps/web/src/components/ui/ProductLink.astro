@@ -1,0 +1,64 @@
+---
+/**
+ * ProductLink — ссылка на продукт с иконкой, заголовком и описанием
+ *
+ * Desktop: иконка 60×60, заголовок text-h4, описание text-subhead
+ * Mobile:  иконка 42×42, заголовок text-h5, описание text-footnote
+ * Hover:   заголовок → text-brand, описание → text-brand-400
+ *
+ * Figma: PnfTfcrl6KaCZU0mEMQiws node 497:5036
+ *
+ * @example
+ * ```astro
+ * <ProductLink
+ *   title="Ипотечный калькулятор"
+ *   description="Собирайте заявки в нерабочее время"
+ *   href="/ipotechnyy-kalkulyator"
+ * />
+ * ```
+ */
+
+interface Props {
+  /** Название продукта */
+  title: string
+  /** Краткое описание */
+  description: string
+  /** Ссылка (если есть — рендерит <a>, без — <div>) */
+  href?: string
+  /** URL иконки 60×60 (если нет — серый плейсхолдер) */
+  icon?: string
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const { title, description, href, icon, class: className = '' } = Astro.props
+
+const itemClass = `flex gap-4 lg:gap-6 items-center group ${className}`
+---
+
+{href
+  ? (
+    <a href={href} class={itemClass}>
+      {icon
+        ? <img src={icon} alt="" width="60" height="60" class="size-[42px] lg:size-[60px] rounded-[13px] lg:rounded-[18px] shrink-0 object-cover" />
+        : <div class="size-[42px] lg:size-[60px] rounded-[13px] lg:rounded-[18px] bg-gray-200 shrink-0"></div>
+      }
+      <div class="flex flex-col gap-1 min-w-0">
+        <p class="text-h5 lg:text-h4 text-gray-900 group-hover:text-brand transition-colors">{title}</p>
+        <p class="text-footnote lg:text-subhead text-gray-500 group-hover:text-brand-400 transition-colors">{description}</p>
+      </div>
+    </a>
+  )
+  : (
+    <div class={itemClass}>
+      {icon
+        ? <img src={icon} alt="" width="60" height="60" class="size-[42px] lg:size-[60px] rounded-[13px] lg:rounded-[18px] shrink-0 object-cover" />
+        : <div class="size-[42px] lg:size-[60px] rounded-[13px] lg:rounded-[18px] bg-gray-200 shrink-0"></div>
+      }
+      <div class="flex flex-col gap-1 min-w-0">
+        <p class="text-h5 lg:text-h4 text-gray-900">{title}</p>
+        <p class="text-footnote lg:text-subhead text-gray-500">{description}</p>
+      </div>
+    </div>
+  )
+}

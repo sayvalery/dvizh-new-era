@@ -7,9 +7,11 @@ interface Props {
   ogImage?: string
   ogType?: string
   jsonLd?: object | object[]
+  /** CSS-класс для <body> (например bg-background-primary) */
+  bodyClass?: string
 }
 
-const { title, description, ogImage, ogType = 'website', jsonLd } = Astro.props
+const { title, description, ogImage, ogType = 'website', jsonLd, bodyClass = '' } = Astro.props
 const siteTitle = title ? `${title} — ДВИЖ` : 'ДВИЖ'
 const canonicalUrl = Astro.url.href
 const defaultOgImage = `${Astro.site}og-default.jpg`
@@ -61,7 +63,7 @@ const resolvedOgImage = ogImage || defaultOgImage
       Alpine.start()
     </script>
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class:list={['min-h-screen flex flex-col', bodyClass]}>
     <slot />
   </body>
 </html>

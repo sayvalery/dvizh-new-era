@@ -1,0 +1,106 @@
+---
+/**
+ * ModalInlineForm — двухшаговая inline-форма для модалок
+ *
+ * Шаг 1: имя + телефон → «Получить демо» + чекбокс согласия
+ * Шаг 2 (после успешной отправки): email + компания → «Отправить»
+ *
+ * Заголовок: text-h4 (Styrene A Medium 24px, -2px, 1.2).
+ * Инпуты: bg-gray-100, rounded-xl.
+ * Кнопка: brand, rounded-xl; py-4 на xs-sm, py-3 на md+.
+ *
+ * @example
+ * ```astro
+ * <ModalInlineForm />
+ * ```
+ */
+
+import Input from './Input.astro'
+
+const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
+---
+
+<div
+  x-data={`{
+    submitted: false,
+    loading: false,
+    error: false,
+    async submit1(e) {
+      this.loading = true
+      this.error = false
+      const f = e.target
+      const data = { preset: 'lead', page: window.location.href }
+      new FormData(f).forEach((v, k) => { if (k !== '_honeypot') data[k] = v })
+      try {
+        const res = await fetch('${CLIENT_CMS_URL}/api/form-submissions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        if (res.ok) { this.submitted = true; f.reset() }
+        else throw new Error()
+      } catch { this.error = true }
+      finally { this.loading = false }
+    },
+    async submit2(e) {
+      this.loading = true
+      const f = e.target
+      const data = { preset: 'demo', page: window.location.href }
+      new FormData(f).forEach((v, k) => { if (k !== '_honeypot') data[k] = v })
+      try {
+        await fetch('${CLIENT_CMS_URL}/api/form-submissions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        f.reset()
+      } catch {}
+      finally { this.loading = false }
+    }
+  }`}
+>
+  <!-- Шаг 1: имя + телефон -->
+  <div x-show="!submitted">
+    <p class="mb-4 text-h4 text-gray-900">Попробуйте ДВИЖ в деле</p>
+    <form @submit.prevent="submit1($event)">
+      <div class="hidden"><input name="_honeypot" tabindex="-1" autocomplete="off" /></div>
+      <div class="flex flex-col gap-3 sm:flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row">
+        <Input name="name" type="text" required placeholder="Ваше имя" class="flex-1 min-w-0" />
+        <Input name="phone" type="tel" required placeholder="Ваш телефон" class="flex-1 min-w-0" />
+        <button
+          type="submit"
+          :disabled="loading"
+          class="whitespace-nowrap px-6 py-4 md:py-3 rounded-xl bg-brand text-white text-[15px] font-medium hover:bg-brand-600 active:scale-[0.98] transition-all disabled:opacity-50 md:col-span-2 lg:col-span-1"
+        >
+          Получить демо
+        </button>
+      </div>
+      <div class="mt-3 flex items-start gap-2">
+        <label class="flex items-start gap-2 cursor-pointer">
+          <input type="checkbox" required class="mt-0.5 shrink-0 accent-brand" />
+          <span class="text-footnote text-gray-400">Даю согласие на обработку персональных данных</span>
+        </label>
+      </div>
+      <p x-show="error" class="mt-2 text-sm text-red-500">Ошибка отправки. Попробуйте ещё раз.</p>
+    </form>
+  </div>
+
+  <!-- Шаг 2: email + компания -->
+  <div x-show="submitted" x-cloak>
+    <p class="mb-4 text-h4 text-gray-900">Скоро свяжемся с вами!</p>
+    <form @submit.prevent="submit2($event)">
+      <div class="hidden"><input name="_honeypot" tabindex="-1" autocomplete="off" /></div>
+      <div class="flex flex-col gap-3 sm:flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row">
+        <Input name="email" type="email" placeholder="Email" class="flex-1 min-w-0" />
+        <Input name="company" type="text" placeholder="Компания" class="flex-1 min-w-0" />
+        <button
+          type="submit"
+          :disabled="loading"
+          class="whitespace-nowrap px-6 py-4 md:py-3 rounded-xl bg-brand text-white text-[15px] font-medium hover:bg-brand-600 active:scale-[0.98] transition-all disabled:opacity-50 md:col-span-2 lg:col-span-1"
+        >
+          Отправить
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
