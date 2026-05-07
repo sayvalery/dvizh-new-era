@@ -246,7 +246,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
         </div>
         <div class="flex flex-wrap gap-2">
           <Button variant="primary" drawerPreset={primaryDrawerPreset}>{primaryButtonText}</Button>
-          <Button variant="ghost-dark" drawerPreset={secondaryDrawerPreset}>{secondaryButtonText}</Button>
+          {secondaryButtonText && <Button variant="ghost-dark" drawerPreset={secondaryDrawerPreset}>{secondaryButtonText}</Button>}
         </div>
       </div>
 
@@ -364,7 +364,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       <div class="relative z-10 px-[34px] pb-[34px] pt-8"></div>
       <div class="relative z-10 px-[34px] pb-[34px] pt-8 flex flex-wrap gap-2">
         <Button variant="primary" drawerPreset={primaryDrawerPreset}>{primaryButtonText}</Button>
-        <Button variant="ghost-dark" drawerPreset={secondaryDrawerPreset}>{secondaryButtonText}</Button>
+        {secondaryButtonText && <Button variant="ghost-dark" drawerPreset={secondaryDrawerPreset}>{secondaryButtonText}</Button>}
       </div>
 
     </div>

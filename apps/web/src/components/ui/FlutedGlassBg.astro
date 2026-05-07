@@ -28,6 +28,10 @@ interface Props {
   grain?: number
   /** Интенсивность теней на рёбрах (0-1, дефолт 0.09) */
   shadows?: number
+  /** Количество рёбер (дефолт: 30) */
+  ribs?: number
+  /** Количество рёбер на мобильных <768px (дефолт: то же что ribs) */
+  ribsMobile?: number
   /** CSS-класс контейнера */
   class?: string
 }
@@ -40,6 +44,8 @@ const {
   speed = 1.0,
   grain = 0.53,
   shadows = 0.09,
+  ribs = 30,
+  ribsMobile,
   class: className = ''
 } = Astro.props
 
@@ -72,6 +78,8 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, ${hexColors[0]} 0%
   data-speed={speed}
   data-grain={grain}
   data-shadows={shadows}
+  data-ribs={ribs}
+  data-ribs-mobile={ribsMobile ?? ribs}
 >
   <canvas class="fluted-glass-canvas"></canvas>
 </div>
@@ -95,6 +103,10 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, ${hexColors[0]} 0%
       const speedMul = parseFloat(container.dataset.speed || '1')
       const grainVal = parseFloat(container.dataset.grain || '0.53')
       const shadowsVal = parseFloat(container.dataset.shadows || '0.09')
+      const isMobile = window.innerWidth < 768
+      const ribCount = parseFloat(
+        (isMobile ? container.dataset.ribsMobile : container.dataset.ribs) || container.dataset.ribs || '30'
+      )
 
       // --- Extension for fwidth/dFdx/dFdy ---
       gl.getExtension('OES_standard_derivatives')
@@ -112,7 +124,7 @@ const fallbackGradient = `radial-gradient(ellipse at 30% 50%, ${hexColors[0]} 0%
         uniform vec2 u_resolution;
         uniform float u_time;
 
-        #define RIB_COUNT 30.0
+        #define RIB_COUNT ${ribCount.toFixed(1)}
         #define RIB_STRENGTH 0.020
         #define RIB_SPEED ${(0.6 * speedMul).toFixed(4)}
         #define DIST_POWER 6.0

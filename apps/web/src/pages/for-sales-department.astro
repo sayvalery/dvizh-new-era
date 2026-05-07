@@ -10,6 +10,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
 import AdvantageCard from '../components/ui/AdvantageCard.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
 import ReviewFull from '../components/ui/ReviewFull.astro'
+import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
+import ComparisonSection from '../components/ui/ComparisonSection.astro'
 ---
 
 <SiteLayout title="Для департамента продаж — ДВИЖ" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="bg-background-primary">
@@ -49,7 +51,7 @@ import ReviewFull from '../components/ui/ReviewFull.astro'
     <FormClosing
       mode="buttons"
       title="Каждая третья ипотека"
-      description="на первичном рынке России выдается с помощью ДВИЖа"
+      description="на первичном рынке России выдаётся с&#160;помощью ДВИЖа"
       primaryButton={{ label: 'Больше о нас', href: '/about' }}
     />
 
@@ -85,7 +87,7 @@ import ReviewFull from '../components/ui/ReviewFull.astro'
       heading="Повышаем качество лидов"
       button={{ label: 'Узнать больше', href: '/blog' }}
       features={[
-        { title: 'Форма на сайт для проверки кредитного рейтинга', subtitle: 'Приведем надежных клиентов' },
+        { title: 'Форма на сайт для проверки кредитного рейтинга', subtitle: 'Приведём надёжных клиентов' },
         { title: 'Скоринг по банковским стандартам' },
         { title: 'Ипотечный калькулятор для сайта' },
       ]}
@@ -105,13 +107,130 @@ import ReviewFull from '../components/ui/ReviewFull.astro'
       />
       <div class="page-container">
         <ReviewFull
-          quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет"
+          quote="С появлением ДВИЖа мы ускорили подачу заявок с&#160;часа до&#160;5&#160;минут и&#160;минимизировали ошибки в&#160;заполнении анкет"
           author="Анастасия Швед"
           role="Директор по продажам"
           company={{ logo: '/api/media/file/talan-logo.svg', alt: 'Талан' }}
           caseLink={{ label: 'Читать кейс', href: '/cases/talan' }}
         />
       </div>
+    </div>
+
+    <!-- … и делать это быстрее конкурентов + отзыв -->
+    <div class="flex flex-col gap-16">
+      <FeatureBlock
+        heading="… и делать это быстрее конкурентов"
+        description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определённую подборку статей / кейсов?"
+        imageSide="left"
+        button={{ label: 'Узнать больше', href: '/blog' }}
+        features={[
+          { title: 'Актуальные статусы по сделке в CRM', subtitle: 'Контроль каждого этапа в карточке клиента' },
+          { title: 'Одна анкета для всех этапов' },
+          { title: 'Все в одном месте' },
+          { title: 'Пакетное распознавание документов' },
+          { title: 'Заполнение анкеты через Госуслуги за 30 секунд' },
+        ]}
+      />
+      <div class="page-container">
+        <ReviewFull
+          quote="С появлением ДВИЖа мы ускорили подачу заявок с&#160;часа до&#160;5&#160;минут и&#160;минимизировали ошибки в&#160;заполнении анкет"
+          author="Екатерина Чурюкина"
+          role="Руководитель управления прямых продаж ГК ФСК"
+          caseLink={{ label: 'Читать кейс', href: '/cases/fsk' }}
+        />
+      </div>
+    </div>
+
+    <!-- Раскрываем финансовый потенциал клиентов -->
+    <FeatureBlock
+      heading="Раскрываем финансовый потенциал клиентов"
+      description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определённую подборку статей / кейсов?"
+      button={{ label: 'Узнать больше', href: '/blog' }}
+      features={[
+        { title: 'Финансовый скоринг', subtitle: 'Покажет, как улучшить портрет клиента до отправки заявки в банк' },
+        { title: 'Расчёт ПДН' },
+      ]}
+    />
+
+    <!-- Делаем работу менеджеров управляемой -->
+    <FeatureBlock
+      heading="Делаем работу менеджеров управляемой"
+      description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определённую подборку статей / кейсов?"
+      imageSide="left"
+      button={{ label: 'Узнать больше', href: '/blog' }}
+      features={[
+        { title: 'Контроль всех этапов через CRM', subtitle: 'Покажем, как быстро менеджер взял сделку в работу' },
+        { title: 'Отображаем статусы сделки в CRM' },
+        { title: 'Актуальная статистика' },
+      ]}
+    />
+
+    <!-- SuccessStoryBlock -->
+    <SuccessStoryBlock
+      heading="70+ историй успеха на&#160;рынке застройщиков"
+      buttonLabel="Получить демо"
+      buttonPreset="demo"
+      stories={[
+        {
+          logo: '/api/media/file/lsr_color.svg',
+          logoAlt: 'Группа ЛСР',
+          titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на&#160;281% заявок больше,</span> чем&#160;в среднем на&#160;рынке',
+          personName: 'Группа ЛСР',
+          personJobTitle: 'Один из ведущих строительных холдингов',
+        },
+        {
+          logo: '/api/media/file/tochno_color.svg',
+          logoAlt: 'ГК Точно',
+          titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с&#160;1165 до&#160;3500 за&#160;год</span>',
+          personName: 'ГК «Точно»',
+          personJobTitle: 'Крупнейший девелопер Краснодарского края',
+        },
+        {
+          logo: '/api/media/file/samolet_color.svg',
+          logoAlt: 'ГК Самолет',
+          titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
+          personName: 'ГК «Самолет»',
+          personJobTitle: 'Крупнейший федеральный девелопер России',
+        },
+      ]}
+    />
+
+    <!-- ComparisonSection -->
+    <ComparisonSection
+      title="Одно решение для&#160;всей сделки"
+      leftTitle="Без ДВИЖа"
+      leftItems={[
+        'Данные клиента теряются, сделка застревает между отделами',
+        'Менеджер тратит время на нецелевых клиентов и не выполняет KPI',
+        'Нет потенциала для апсейла клиентов',
+        'Менеджер узнаёт о финансовых проблемах клиента после отказа в банке',
+        'Море цифр и ни одного ответа на вопрос: почему сделка так и не закрылась за полгода',
+      ]}
+      rightItems={[
+        'Вся сделка в одном окне: без ошибок и потерянных часов',
+        'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейки',
+        'Средний чек и допродажи постоянно растут',
+        'Менеджер знает о платёжеспособности клиентов больше, чем они сами',
+        'Вклад каждого сотрудника виден как под микроскопом',
+      ]}
+      primaryButtonText="Получить демо"
+      primaryDrawerPreset="demo"
+      secondaryButtonText=""
+    />
+
+    <!-- FormClosing -->
+    <div class="page-container">
+      <FormClosing
+        preset="lead"
+        title="Попробуйте ДВИЖ в&#160;деле"
+        items={[
+          'Менеджер ответит на любые вопросы',
+          'Среднее время ответа техподдержки — 57 сек',
+          'Помогаем увеличивать продажи',
+        ]}
+        submitLabel="Получить демо"
+        privacyText="Нажимая кнопку «Получить демо», вы даёте согласие на&#160;обработку ваших персональных данных и&#160;подтверждаете, что ознакомлены с&#160;Политикой обработки персональных данных"
+      />
     </div>
 
   </div>
