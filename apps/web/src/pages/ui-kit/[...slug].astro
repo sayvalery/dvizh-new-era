@@ -38,6 +38,7 @@ import KeyFacts from '../../components/ui/KeyFacts.astro'
 import LogoGrid from '../../components/ui/LogoGrid.astro'
 import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
+import CTABanner from '../../components/ui/CTABanner.astro'
 import ReviewFull from '../../components/ui/ReviewFull.astro'
 import TextImageBlock from '../../components/ui/TextImageBlock.astro'
 import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
@@ -2477,33 +2478,84 @@ const sections = [
       )}
 
       {section === 'comparison' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">ComparisonSection</h1>
-          <p class="text-gray-600 mb-4">
-            Блок сравнения: левая (серая) колонка — рыночные решения, правая (тёмная) — ДВИЖ с CTA-кнопками.
-          </p>
-          <PropsTable props={parseSource(comparisonSectionRaw).props} class="mb-10" />
-          <div class="-mx-10">
-            <ComparisonSection
-              label="В чём разница"
-              title="Выбирайте лучшее"
-              leftTitle="Самописные и рыночные решения"
-              leftItems={[
-                'Необходимо вручную поддерживать актуальность ставок',
-                'Нельзя рассчитать комбо- и ипотеку с удорожанием стоимости',
-                'Нет возможности выделить наиболее выгодное предложение',
-                'Нет потенциала для апсейла клиентов',
-              ]}
-              rightItems={[
-                'Ипотечные ставки обновляются автоматически',
-                'Считает все виды ипотек: траншевую, комбо, с удорожанием, субсидированную, рассрочку',
-                'Меняет порядок ипотечных программ и показывает выгодные предложения',
-                'Увеличивает средний чек за счёт персональных предложений',
-              ]}
-              primaryButtonText="Записаться на демо"
-              secondaryButtonText="Пробовать бесплатно"
-            />
+        <div class="space-y-16">
+          <div>
+            <h1 class="text-3xl font-bold font-heading mb-6">ComparisonSection</h1>
+            <p class="text-gray-600 mb-4">
+              Блок сравнения: левая (серая) колонка — рыночные решения, правая (тёмная) — ДВИЖ с CTA-кнопками.
+            </p>
+            <PropsTable props={parseSource(comparisonSectionRaw).props} class="mb-10" />
           </div>
+
+          {/* Вариант default */}
+          <div>
+            <p class="text-sm font-medium text-gray-400 mb-4">variant="default" — пункты с иконками</p>
+            <div class="-mx-10">
+              <ComparisonSection
+                label="В чём разница"
+                title="Выбирайте лучшее"
+                leftTitle="Самописные и рыночные решения"
+                leftItems={[
+                  'Необходимо вручную поддерживать актуальность ставок',
+                  'Нельзя рассчитать комбо- и ипотеку с удорожанием стоимости',
+                  'Нет возможности выделить наиболее выгодное предложение',
+                  'Нет потенциала для апсейла клиентов',
+                ]}
+                rightItems={[
+                  'Ипотечные ставки обновляются автоматически',
+                  'Считает все виды ипотек: траншевую, комбо, с удорожанием, субсидированную, рассрочку',
+                  'Меняет порядок ипотечных программ и показывает выгодные предложения',
+                  'Увеличивает средний чек за счёт персональных предложений',
+                ]}
+                primaryButtonText="Записаться на демо"
+                secondaryButtonText="Пробовать бесплатно"
+              />
+            </div>
+          </div>
+
+          {/* Вариант prices */}
+          <div>
+            <p class="text-sm font-medium text-gray-400 mb-4">variant="prices" — ценовое сравнение</p>
+            <div class="-mx-10">
+              <ComparisonSection
+                variant="prices"
+                label="Стоимость"
+                title="Дешевле на каждом этапе"
+                leftTitle="Без ДВИЖа"
+                priceRows={[
+                  { label: 'Регистрация', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
+                  { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
+                ]}
+                class="py-24"
+              />
+            </div>
+          </div>
+
+          {/* Вариант prices + CTA слот */}
+          <div>
+            <p class="text-sm font-medium text-gray-400 mb-4">variant="prices" + слот cta — CTABanner внутри с маленьким отступом</p>
+            <div class="-mx-10">
+              <ComparisonSection
+                variant="prices"
+                label="Стоимость"
+                title="Дешевле на каждом этапе"
+                leftTitle="Без ДВИЖа"
+                priceRows={[
+                  { label: 'Регистрация', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
+                  { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
+                ]}
+                class="py-24"
+              >
+                <CTABanner
+                  slot="cta"
+                  title="Узнайте, сколько вы можете сэкономить"
+                  buttonText="Получить расчёт"
+                  drawerPreset="lead"
+                />
+              </ComparisonSection>
+            </div>
+          </div>
+
         </div>
       )}
 

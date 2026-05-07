@@ -41,8 +41,9 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
     ]}
   />
 
-  {/* ── 3. ComparisonSection variant='prices' ── */}
+  {/* ── 3. ComparisonSection variant='prices' + CTABanner внутри ── */}
   <ComparisonSection
+    class="py-24 lg:py-[120px]"
     variant="prices"
     label="Стоимость"
     title="Дешевле на каждом этапе"
@@ -51,16 +52,14 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
       { label: 'Регистрация', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
       { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
     ]}
-  />
-
-  {/* ── 4. CTABanner ── */}
-  <div class="page-container py-12">
+  >
     <CTABanner
+      slot="cta"
       title="Узнайте, сколько вы можете сэкономить"
       buttonText="Получить расчёт"
       drawerPreset="lead"
     />
-  </div>
+  </ComparisonSection>
 
   {/* ── 5. BentoGrid variant three ── */}
   <section class="py-24 lg:py-[120px]">
@@ -98,13 +97,12 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
   </section>
 
   {/* ── 7. FormClosing ── */}
-  <div class="page-container py-12">
-    <FormClosing
-      preset="lead"
-      title="Узнайте, сколько вы можете сэкономить"
-      submitLabel="Получить расчёт"
-    />
-  </div>
+  <FormClosing
+    preset="lead"
+    title="Узнайте, сколько вы можете сэкономить"
+    submitLabel="Получить расчёт"
+    class="py-12"
+  />
 
   {/* ── 8. Footer — входит в SiteLayout ── */}
 
