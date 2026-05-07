@@ -183,7 +183,7 @@ const isFour = variant === 'four'
     <div class="flex flex-col gap-6">
 
       <!-- Строка 1 -->
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[77fr_23fr] lg:h-[488px]">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[62fr_38fr] lg:h-[488px]">
 
         <!-- Карточка 1: широкая, текст внизу-слева -->
         <div
@@ -203,7 +203,7 @@ const isFour = variant === 'four'
           class="relative min-h-[300px] overflow-hidden rounded-[32px] bg-background-secondary lg:rounded-[40px]"
           style={card2.backgroundImage ? `background-image: url('${card2.backgroundImage}'); background-size: cover; background-position: center;` : ''}
         >
-          <div class="absolute top-8 left-8 flex flex-col gap-4 lg:top-10 lg:left-10">
+          <div class="absolute top-8 left-8 right-8 flex flex-col gap-4 lg:top-10 lg:left-10 lg:right-10">
             <h3 class="text-h3 text-gray-900">{card2.title}</h3>
             {card2.description && (
               <p class="text-body-lg text-black/40">{card2.description}</p>

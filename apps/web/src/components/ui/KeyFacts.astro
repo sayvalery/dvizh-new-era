@@ -33,11 +33,18 @@ interface Props {
   title?: string
   /** Количество колонок на десктопе (2–4). По умолчанию — по числу items */
   cols?: 2 | 3 | 4
+  /**
+   * Размер значений: 'default' — text-h3 (для длинных текстов),
+   * 'large' — text-h2 (для коротких цифр и метрик)
+   */
+  variant?: 'default' | 'large'
   /** Дополнительные CSS классы на секции */
   class?: string
 }
 
-const { items, title, cols, class: className = '' } = Astro.props
+const { items, title, cols, variant = 'default', class: className = '' } = Astro.props
+
+const valueCls = variant === 'large' ? 'text-h2' : 'text-h3'
 
 const colCount = (cols ?? Math.min(items.length, 4)) as 2 | 3 | 4
 
@@ -73,7 +80,7 @@ const gridColsDesktop = {
             <div class="w-px shrink-0 self-stretch" style="background: linear-gradient(to bottom, transparent 0%, #ff4d00 47%, transparent 100%)" aria-hidden="true"></div>
             <div class="flex flex-col justify-end flex-1">
               <div class="flex flex-col gap-4">
-                <p class="text-h3 text-gray-900">{item.value}</p>
+                <p class:list={[valueCls, 'text-gray-900']}>{item.value}</p>
                 <p class="text-body-lg text-gray-900" set:html={item.description} />
               </div>
             </div>
@@ -89,7 +96,7 @@ const gridColsDesktop = {
             <div class="flex gap-6 min-h-[340px]">
               <div class="w-px shrink-0 self-stretch" style="background: linear-gradient(to bottom, transparent 0%, #ff4d00 47%, transparent 100%)" aria-hidden="true"></div>
               <div class="flex flex-col justify-end flex-1">
-                <p class="text-h3 text-gray-900">{item.value}</p>
+                <p class:list={[valueCls, 'text-gray-900']}>{item.value}</p>
               </div>
             </div>
           ))}
