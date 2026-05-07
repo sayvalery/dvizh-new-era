@@ -1,0 +1,49 @@
+---
+/**
+ * CTABanner — горизонтальная плашка CTA
+ *
+ * Текст слева, кнопка справа. Светлый фон, скруглённые углы.
+ * Используется внутри секций как компактный призыв к действию.
+ *
+ * @example
+ * ```astro
+ * <CTABanner
+ *   title="Узнайте, сколько вы можете сэкономить"
+ *   buttonText="Получить расчёт"
+ *   drawerPreset="lead"
+ * />
+ * ```
+ */
+
+import Button from './Button.astro'
+
+interface Props {
+  /** Текст заголовка слева */
+  title: string
+  /** Текст кнопки */
+  buttonText: string
+  /** Пресет дровера для кнопки */
+  drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** Ссылка для кнопки (если нет drawerPreset) */
+  buttonHref?: string
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  title,
+  buttonText,
+  drawerPreset,
+  buttonHref,
+  class: className = '',
+} = Astro.props
+---
+
+<div class:list={['bg-gray-200 rounded-[24px] flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between px-8 py-6 lg:px-10 lg:py-7', className]}>
+  <p class="text-h4 text-gray-900">{title}</p>
+  <div class="shrink-0">
+    <Button variant="dark" size="md" drawerPreset={drawerPreset} href={buttonHref}>
+      {buttonText}
+    </Button>
+  </div>
+</div>

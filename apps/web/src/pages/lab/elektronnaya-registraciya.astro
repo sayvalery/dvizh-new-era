@@ -9,6 +9,7 @@
 import SiteLayout from '../../layouts/SiteLayout.astro'
 import HeroSectionFull from '../../components/lab-new/HeroSectionFull.astro'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
+import CTABanner from '../../components/ui/CTABanner.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
 import BentoGrid from '../../components/ui/BentoGrid.astro'
 import ReviewFull from '../../components/ui/ReviewFull.astro'
@@ -52,12 +53,12 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
     ]}
   />
 
-  {/* ── 4. FormClosing ── */}
+  {/* ── 4. CTABanner ── */}
   <div class="page-container py-12">
-    <FormClosing
-      preset="lead"
+    <CTABanner
       title="Узнайте, сколько вы можете сэкономить"
-      submitLabel="Получить расчёт"
+      buttonText="Получить расчёт"
+      drawerPreset="lead"
     />
   </div>
 
@@ -96,6 +97,15 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
     </div>
   </section>
 
-  {/* ── 7. Footer — входит в SiteLayout ── */}
+  {/* ── 7. FormClosing ── */}
+  <div class="page-container py-12">
+    <FormClosing
+      preset="lead"
+      title="Узнайте, сколько вы можете сэкономить"
+      submitLabel="Получить расчёт"
+    />
+  </div>
+
+  {/* ── 8. Footer — входит в SiteLayout ── */}
 
 </SiteLayout>
