@@ -1,18 +1,26 @@
 ---
-import SiteLayout from '../layouts/SiteLayout.astro'
-import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
-import LogoGrid from '../components/ui/LogoGrid.astro'
-import KeyFacts from '../components/ui/KeyFacts.astro'
-import FeatureBlock from '../components/ui/FeatureBlock.astro'
-import BentoGrid from '../components/ui/BentoGrid.astro'
-import TextImageBlock from '../components/ui/TextImageBlock.astro'
-import FormClosing from '../components/ui/FormClosing.astro'
+/**
+ * Лабораторная страница: Новый Скоринг
+ *
+ * Сборка блоков для новой версии страницы финансового скоринга.
+ * Контент — заглушки, финальный текст будет добавлен отдельно.
+ *
+ * Маршрут: /lab/nova-scoring (только в dev)
+ */
+
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import HeroSectionFull from '../../components/lab-new/HeroSectionFull.astro'
+import LogoGrid from '../../components/ui/LogoGrid.astro'
+import KeyFacts from '../../components/ui/KeyFacts.astro'
+import FeatureBlock from '../../components/ui/FeatureBlock.astro'
+import BentoGrid from '../../components/ui/BentoGrid.astro'
+import TextImageBlock from '../../components/ui/TextImageBlock.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
 ---
 
 <SiteLayout
-  title="Финансовый скоринг — ДВИЖ"
-  description="Проверяйте платёжеспособность покупателей на банковском уровне до подписания договора"
-  jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Скоринг', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'RUB' }, provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
+  title="Финансовый скоринг — ДВИЖ (лаборатория)"
+  description="Финансовый скоринг ДВИЖ — в разработке"
 >
 
   {/* ── 1. Hero ── */}
@@ -55,7 +63,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
     ]}
   />
 
-  {/* ── 4. FeatureBlock ── */}
+  {/* ── 4. FeatureBlock — картинка слева, 4 пункта справа ── */}
   <FeatureBlock
     heading="Что проверяем"
     description="Скоринг охватывает полный финансовый профиль заёмщика — от долговой нагрузки до банкротных дел"
@@ -125,5 +133,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
     submitLabel="Попробовать бесплатно"
     class="py-12"
   />
+
+  {/* ── 8. Footer — автоматически через SiteLayout ── */}
 
 </SiteLayout>

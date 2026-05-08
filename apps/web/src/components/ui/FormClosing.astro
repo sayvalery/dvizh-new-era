@@ -108,8 +108,8 @@ const privacyLinkCls = isDark ? 'text-white/40 underline hover:text-white/60' : 
 const privacyCls    = isDark ? 'text-white/40' : 'text-gray-400'
 const checkboxBorder = isDark ? 'border-white/20 bg-white/5' : 'border-gray-300/60 bg-gray-100/50'
 const inputCls = isDark
-  ? 'flex-1 min-w-0 h-16 bg-white/10 rounded-xl px-5 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/20 transition-all duration-200'
-  : 'flex-1 min-w-0 h-16 bg-gray-100 rounded-xl px-5 text-base text-gray-900 placeholder:text-gray-700/50 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all duration-200'
+  ? 'w-full sm:flex-1 sm:min-w-0 h-16 bg-white/10 rounded-xl px-5 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/20 transition-all duration-200'
+  : 'w-full sm:flex-1 sm:min-w-0 h-16 bg-gray-100 rounded-xl px-5 text-base text-gray-900 placeholder:text-gray-700/50 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all duration-200'
 const successCls = isDark ? 'text-green-400' : 'text-green-600'
 const errorCls   = isDark ? 'text-red-400'   : 'text-red-500'
 
@@ -140,13 +140,14 @@ const privacyMain = privacyText
 ---
 
 <section class:list={['', className]}>
+  <div class="page-container">
   <div
     class="relative overflow-hidden rounded-[2.5rem] border border-neutral-100 px-8 py-10 md:px-10 md:py-12"
     style={cardStyle}
   >
 
     <!-- Заголовок + описание -->
-    <div class="max-w-[60%]">
+    <div class="max-w-full lg:max-w-[60%]">
       <h2 class:list={['text-h2 font-medium leading-none tracking-tighter', headingCls]}>
         {title}
       </h2>
@@ -263,6 +264,7 @@ const privacyMain = privacyText
       </form>
     )}
 
+  </div>
   </div>
 </section>
 

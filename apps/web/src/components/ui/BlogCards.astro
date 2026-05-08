@@ -80,7 +80,7 @@ function formatDate(dateStr: string): string {
 }
 ---
 
-<section class:list={['bg-white', className]}>
+<section class:list={[className]}>
   <div class="page-container">
 
     {(title || description) && (
@@ -94,12 +94,12 @@ function formatDate(dateStr: string): string {
       </div>
     )}
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-5">
       {articles.map((article) => (
         <a href={article.href || '#'} class="group flex flex-col gap-6">
 
           {/* Обложка 16:10 */}
-          <div class="relative overflow-hidden rounded-3xl aspect-[16/10] bg-gray-100 shrink-0">
+          <div class="relative overflow-hidden rounded-[24px] aspect-[16/10] bg-gray-100 shrink-0">
             {article.image
               ? (
                 <img
@@ -120,7 +120,7 @@ function formatDate(dateStr: string): string {
             <p class="text-subhead text-gray-500 leading-snug">
               {formatDate(article.date)}
             </p>
-            <h3 class="text-h5 text-gray-900 group-hover:text-brand transition-colors duration-200">
+            <h3 class="text-card-title text-gray-900 group-hover:text-brand transition-colors duration-200">
               {article.title}
             </h3>
           </div>

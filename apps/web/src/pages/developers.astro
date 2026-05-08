@@ -8,7 +8,7 @@ import LogoGrid from '../components/ui/LogoGrid.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
-import ModalSection from '../components/ui/ModalSection.astro'
+import FunnelSection from '../components/ui/FunnelSection.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
 ---
 
@@ -22,11 +22,22 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
     kpLabel="Пробовать бесплатно"
     demoPreset="demo"
     kpPreset="lead"
+    class="pb-4 xs:pb-5 md:pb-16 lg:pb-32"
   />
-  <!-- gap-10 (40px) / xs:gap-12 (48px) / lg:gap-36 -->
-  <div class="flex flex-col gap-10 xs:gap-12 md:gap-24 lg:gap-36">
+  <!-- gap-16 (64px) / sm:gap-20 (80px) / md:gap-24 (96px) / lg:gap-36 (144px) -->
+  <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-36">
 
-  <div class="flex flex-col gap-10 xs:gap-12 md:gap-24 lg:gap-36">
+  <!-- Бегущая строка с логотипами — сразу под Hero -->
+  <LogoGrid
+    logos={[
+      { src: '/partners/dark/a101.svg', alt: 'А101' },
+      { src: '/partners/dark/ava.svg', alt: 'AVA' },
+      { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
+      { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
+      { src: '/partners/dark/strana.svg', alt: 'Страна' },
+      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+    ]}
+  />
 
   <!-- DeveloperBlock -->
   <FeatureBlock
@@ -44,17 +55,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
     ]}
   />
 
-  <!-- Бегущая строка с логотипами -->
-  <LogoGrid
-    logos={[
-      { src: '/partners/dark/a101.svg', alt: 'А101' },
-      { src: '/partners/dark/ava.svg', alt: 'AVA' },
-      { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
-      { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
-      { src: '/partners/dark/strana.svg', alt: 'Страна' },
-      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
-    ]}
-  />
+
 
   <!-- SuccessStoryBlock -->
   <SuccessStoryBlock
@@ -86,35 +87,33 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
     ]}
   />
 
-  <!-- ModalSection — продукты по этапам сделки -->
-  <div class="page-container">
-      <ModalSection
-        heading="Добиваемся высоких конверсий на каждом этапе сделки"
-        groups={[
-          {
-            label: 'Лидогенерация',
-            cards: [
-              { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
-              { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
-              { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
-            ],
-          },
-          {
-            label: 'Управление заявками',
-            cards: [
-              { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
-              { title: 'Финансовый скоринг', description: 'Сократите число отказов в банках', href: '/scoring' },
-            ],
-          },
-          {
-            label: 'Регистрация собственности',
-            cards: [
-              { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
-            ],
-          },
-        ]}
-      />
-  </div>
+  <!-- FunnelSection — воронка по этапам сделки -->
+  <FunnelSection
+      heading="Добиваемся высоких конверсий на каждом этапе сделки"
+      groups={[
+        {
+          label: 'Лидогенерация',
+          cards: [
+            { title: 'Калькулятор ипотеки и рассрочки', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
+            { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
+            { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
+          ],
+        },
+        {
+          label: 'Управление заявками',
+          cards: [
+            { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
+            { title: 'Финансовый скоринг', description: 'Доведем больше клиентов до одобрения', href: '/scoring' },
+          ],
+        },
+        {
+          label: 'Регистрация собственности',
+          cards: [
+            { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
+          ],
+        },
+      ]}
+  />
 
   <!-- ComparisonSection -->
   <ComparisonSection
@@ -136,8 +135,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
   />
 
   <!-- Form Closing -->
-  <section class="pb-16 lg:pb-20">
-    <div class="page-container">
+  <div class="page-container">
       <FormClosing
         mode="buttons"
         title="Аудит вашего отдела продаж от аналитиков ДВИЖа"
@@ -149,7 +147,8 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
         primaryButton={{ label: 'Получить аудит', drawerPreset: 'demo' }}
         secondaryButton={{ label: 'Скачать пример', drawerPreset: 'lead' }}
       />
-    </div>
-  </section>
+  </div>
+
+  </div>{/* /gap-контейнер */}
 
 </SiteLayout>

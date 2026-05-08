@@ -205,18 +205,13 @@ import StoryCard from '../components/ui/StoryCard.astro'
   </section>
 
   <!-- Form Closing -->
-  <section class="py-20 bg-white">
-    <div class="max-w-[1440px] mx-auto px-4">
-      <FormClosing
-        title="Не оставим вас одних"
-        description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
-        preset="lead"
-        submitLabel="Отправить заявку"
-        bgColor="bg-gray-100"
-        bgImage="https://admin.dvizh.cc/api/media/file/form-image.jpg"
-        showGradient={false}
-        privacyText="Нажимая кнопку «Отправить заявку», вы даёте согласие на обработку ваших персональных данных"
-      />
-    </div>
-  </section>
+  <FormClosing
+    title="Не оставим вас одних"
+    description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
+    preset="lead"
+    submitLabel="Отправить заявку"
+    bgImage="https://admin.dvizh.cc/api/media/file/form-image.jpg"
+    privacyText="Нажимая кнопку «Отправить заявку», вы даёте согласие на обработку ваших персональных данных"
+    class="py-20"
+  />
 </SiteLayout>

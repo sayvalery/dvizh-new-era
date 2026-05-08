@@ -61,13 +61,15 @@ const hasImage = Astro.slots.has('image')
 
 <section class:list={['bg-gray-100 py-16 lg:py-24', className]}>
   <div class="page-container">
-    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
 
-      {/* Левая колонка: текст + CTA */}
-      <div class="flex flex-col gap-6">
-        <h2 class="text-h2 text-gray-900">{heading}</h2>
-        <p class="text-body-lg text-gray-900 max-w-[34rem]">{subheading}</p>
-        <div class="mt-2">
+      {/* Левая колонка: заголовок сверху, кнопка снизу */}
+      <div class="flex flex-col justify-between gap-10">
+        <div class="flex flex-col gap-6">
+          <h2 class="text-h2 text-gray-900">{heading}</h2>
+          <p class="text-body-lg text-gray-900 max-w-[34rem]">{subheading}</p>
+        </div>
+        <div>
           {drawerPreset ? (
             <Button size="md" variant="primary" drawerPreset={drawerPreset}>
               {buttonText}

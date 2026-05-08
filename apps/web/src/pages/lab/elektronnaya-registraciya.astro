@@ -1,18 +1,24 @@
 ---
-import SiteLayout from '../layouts/SiteLayout.astro'
-import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
-import LogoGrid from '../components/ui/LogoGrid.astro'
-import ComparisonSection from '../components/ui/ComparisonSection.astro'
-import CTABanner from '../components/ui/CTABanner.astro'
-import BentoGrid from '../components/ui/BentoGrid.astro'
-import ReviewFull from '../components/ui/ReviewFull.astro'
-import FormClosing from '../components/ui/FormClosing.astro'
+/**
+ * Лабораторная страница: Электронная регистрация
+ *
+ * Сборка блоков — контент будет добавлен отдельно.
+ * Маршрут: /lab/elektronnaya-registraciya (только в dev)
+ */
+
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import HeroSectionFull from '../../components/lab-new/HeroSectionFull.astro'
+import ComparisonSection from '../../components/ui/ComparisonSection.astro'
+import CTABanner from '../../components/ui/CTABanner.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+import BentoGrid from '../../components/ui/BentoGrid.astro'
+import ReviewFull from '../../components/ui/ReviewFull.astro'
+import LogoGrid from '../../components/ui/LogoGrid.astro'
 ---
 
 <SiteLayout
-  title="Электронная регистрация сделок — ДВИЖ"
-  description="Сократите затраты на регистрацию на 30%. Электронная регистрация сделок с недвижимостью."
-  jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Электронная регистрация', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
+  title="Электронная регистрация — ДВИЖ (лаборатория)"
+  description="Электронная регистрация ДВИЖ — в разработке"
 >
 
   {/* ── 1. Hero Section ── */}
@@ -55,7 +61,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
     />
   </ComparisonSection>
 
-  {/* ── 4. BentoGrid ── */}
+  {/* ── 5. BentoGrid variant three ── */}
   <section class="py-24 lg:py-[120px]">
     <div class="page-container">
       <BentoGrid
@@ -79,7 +85,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
     </div>
   </section>
 
-  {/* ── 5. ReviewFull ── */}
+  {/* ── 6. ReviewFull ── */}
   <section class="py-24 lg:py-[120px]">
     <div class="page-container">
       <ReviewFull
@@ -91,7 +97,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
     </div>
   </section>
 
-  {/* ── 6. FormClosing ── */}
+  {/* ── 7. FormClosing ── */}
   <FormClosing
     preset="lead"
     title="Попробуйте ДВИЖ в деле"
@@ -103,5 +109,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
     submitLabel="Получить демо"
     class="py-12"
   />
+
+  {/* ── 8. Footer — входит в SiteLayout ── */}
 
 </SiteLayout>

@@ -153,7 +153,7 @@ h1, h2, h3, h4, h5, h6 {
 
   .text-h2 {
     font-family: 'Styrene A', system-ui, sans-serif;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 500;
     line-height: 100%;
     letter-spacing: -2px;
@@ -177,6 +177,19 @@ h1, h2, h3, h4, h5, h6 {
 
   @media (min-width: 1024px) {
     .text-h3 { font-size: 32px; }
+  }
+
+  /* 24px мобилка / 18px десктоп — для карточек блога */
+  .text-card-title {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+
+  @media (min-width: 1024px) {
+    .text-card-title { font-size: 20px; }
   }
 
   .text-h4 {

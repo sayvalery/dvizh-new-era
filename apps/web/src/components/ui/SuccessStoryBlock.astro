@@ -63,7 +63,7 @@ const {
 } = Astro.props
 ---
 
-<section class:list={['bg-background-primary', className]}>
+<section class:list={[className]}>
   <div class="page-container">
     <div class="flex flex-col gap-12">
 
@@ -89,7 +89,7 @@ const {
               jobTitle: story.personJobTitle,
               photo: story.personPhoto ? { url: story.personPhoto } : undefined,
             }}
-            class="h-full"
+            class="min-h-[350px] md:min-h-0 h-full"
           />
         ))}
       </div>
