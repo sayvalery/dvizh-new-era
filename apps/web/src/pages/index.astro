@@ -2,75 +2,27 @@
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import LogoDrum from '../components/ui/LogoDrum.astro'
-import BentoGrid from '../components/ui/BentoGrid.astro'
-import AdvantageCard from '../components/ui/AdvantageCard.astro'
-import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
-import SectionBlock from '../components/ui/SectionBlock.astro'
-import GradientCTA from '../components/ui/GradientCTA.astro'
-import BlogCards from '../components/ui/BlogCards.astro'
-import SuccessStoriesCarousel from '../components/ui/SuccessStoriesCarousel.astro'
-import ProductSection from '../components/ui/ProductSection.astro'
-import FormClosing from '../components/ui/FormClosing.astro'
-import CTA from '../components/ui/CTA.astro'
 import Island from '../components/ui/Island.astro'
-import BlockRenderer from '../components/blocks/BlockRenderer.astro'
-import { getBlogPost, normalizeBodyHtml, sanitizeBodyHtml } from '../lib/payload'
+import AdvantageCard from '../components/ui/AdvantageCard.astro'
+import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
+import ProductSection from '../components/ui/ProductSection.astro'
+import SupportSection from '../components/ui/SupportSection.astro'
+import KeyFacts from '../components/ui/KeyFacts.astro'
+import BlogCards from '../components/ui/BlogCards.astro'
+import FormClosing from '../components/ui/FormClosing.astro'
+import { getBlogPosts, normalizeMediaUrl } from '../lib/payload'
 
-// Фетч статьи: CMS → fallback dvizh.io
-async function fetchArticle(slug: string): Promise<{ post: any | null, html: string | null, title: string | null }> {
-  // 1. Пробуем CMS
-  try {
-    const post = await getBlogPost(slug)
-    if (post) {
-      const html = post.bodyHtml
-        ? sanitizeBodyHtml(normalizeBodyHtml(
-            post.bodyHtml
-              .replaceAll('href="https://dvizh.webflow.io/', 'href="/')
-              .replaceAll('href="https://www.dvizh.io/', 'href="/')
-          ))
-        : null
-      return { post, html, title: post.title ?? null }
-    }
-  } catch {}
-
-  // 2. Fallback: парсим dvizh.io
-  try {
-    const res = await fetch(`https://www.dvizh.io/blog/${slug}`)
-    const raw = await res.text()
-    const bodyStart = raw.indexOf('class="blog-article-body"')
-    if (bodyStart !== -1) {
-      const tagStart = raw.lastIndexOf('<', bodyStart)
-      const innerStart = raw.indexOf('>', tagStart) + 1
-      const tagName = raw.slice(tagStart + 1).match(/^[a-zA-Z]+/)?.[0] ?? 'section'
-      const openRe = new RegExp(`<${tagName}[\\s>]`, 'gi')
-      const closeRe = new RegExp(`</${tagName}>`, 'gi')
-      let depth = 1, i = innerStart, html: string | null = null
-      while (depth > 0 && i < raw.length) {
-        openRe.lastIndex = i; closeRe.lastIndex = i
-        const nextOpen = openRe.exec(raw)
-        const nextClose = closeRe.exec(raw)
-        if (!nextClose) break
-        if (nextOpen && nextOpen.index < nextClose.index) { depth++; i = nextOpen.index + 1 }
-        else { depth--; i = nextClose.index + 1; if (depth === 0) { html = raw.slice(innerStart, nextClose.index); break } }
-      }
-      const titleMatch = raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)
-      const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '').trim() : null
-      return { post: null, html, title }
-    }
-  } catch {}
-
-  return { post: null, html: null, title: null }
-}
-
-const [ayaks, granel, lidov, ereg, lsr, tochno, samolet] = await Promise.all([
-  fetchArticle('case-ayaks-dvizh'),
-  fetchArticle('granel-rost-procenta-odobreniya'),
-  fetchArticle('kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti'),
-  fetchArticle('alfavit-polzy-zastroyshchika-elektronnaya-registraciya'),
-  fetchArticle('keys-lsr-dvizh'),
-  fetchArticle('keys-gk-tochno-i-dvizha'),
-  fetchArticle('samolet-ai-u-developera'),
-])
+const blogResult = await getBlogPosts({ limit: 3 })
+const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
+  image: normalizeMediaUrl(post.cover?.url) ?? '/og-default.jpg',
+  imageAlt: post.cover?.alt ?? post.title,
+  date: post.publishedAt ?? '',
+  category: post.category?.title ?? '',
+  categoryHref: post.category?.slug ? `/category/${post.category.slug}` : undefined,
+  title: post.title ?? '',
+  description: post.excerpt ?? '',
+  href: `/blog/${post.slug}`,
+}))
 
 const partnerLogos = [
   '/partners/a101.svg',
@@ -88,10 +40,11 @@ const partnerLogos = [
   description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
   transparentHeader
 >
-  <!-- Hero -->
+
+  {/* ── 1. Hero Section ── */}
   <HeroSection
-    title={"Лучшие отделы\u00A0продаж застройщиков используют ДВИЖ"}
-    description={"Единая платформа для\u00A0увеличения продаж. Закрываем весь цикл\u00A0сделки: от\u00A0подбора квартиры до\u00A0одобрения ипотеки и\u00A0регистрации в\u00A0Росреестре"}
+    title={"Лучшие отделы продаж застройщиков используют ДВИЖ"}
+    description={"Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"}
     formPreset="lead"
     formSubmitLabel="Получить демо"
     withGradient
@@ -102,10 +55,10 @@ const partnerLogos = [
     </div>
   </HeroSection>
 
-  <!-- Sentinel для Island (появляется после скролла Hero) -->
+  {/* Sentinel для Island (появляется после скролла мимо Hero) */}
   <div id="hero-sentinel"></div>
 
-  <!-- Island — фиксированный CTA внизу страницы -->
+  {/* Island — фиксированный CTA внизу экрана */}
   <div
     x-data="{ visible: false }"
     x-init="
@@ -132,218 +85,219 @@ const partnerLogos = [
     />
   </div>
 
-  <!-- Девелоперы с ДВИЖ -->
+  {/* ── 2. Девелоперы с ДВИЖ — 4 AdvantageCard ── */}
   <section class="bg-white py-24 sm:py-32">
-    <div class="mx-auto max-w-[1440px] px-4">
+    <div class="page-container">
       <h2 class="text-h2">Девелоперы с ДВИЖ</h2>
       <div class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
         <AdvantageCard
-          title="Закрывают до\u00A026% больше сделок на\u00A0том же трафике"
+          title="Закрывают до 26% больше сделок на том же трафике"
           stat="+26%"
-          label="Сделок на\u00A0том же трафике"
-          expandHref="https://www.dvizh.io/blog/case-ayaks-dvizh"
-        >
-          {(ayaks.post || ayaks.html) && (
-            <article slot="modal-body" class="max-w-3xl mx-auto px-8 py-12">
-              {ayaks.title && <h1 class="text-4xl font-bold mb-4">{ayaks.title}</h1>}
-              {ayaks.post?.content?.length > 0
-                ? <BlockRenderer blocks={ayaks.post.content} />
-                : ayaks.html && <div class="prose prose-lg max-w-none mt-8" set:html={ayaks.html} />
-              }
-            </article>
-          )}
-        </AdvantageCard>
+          label="Сделок на том же трафике"
+          expandHref="/blog/case-ayaks-dvizh"
+        />
         <AdvantageCard
-          title="Снизили количество отказов по\u00A0ипотеке"
+          title="Снизили количество отказов по ипотеке"
           stat="90%"
-          label="Одобрений при\u00A0объёме выше рынка"
-          expandHref="https://www.dvizh.io/blog/granel-rost-procenta-odobreniya"
-        >
-          {(granel.post || granel.html) && (
-            <article slot="modal-body" class="max-w-3xl mx-auto px-8 py-12">
-              {granel.title && <h1 class="text-4xl font-bold mb-4">{granel.title}</h1>}
-              {granel.post?.content?.length > 0
-                ? <BlockRenderer blocks={granel.post.content} />
-                : granel.html && <div class="prose prose-lg max-w-none mt-8" set:html={granel.html} />
-              }
-            </article>
-          )}
-        </AdvantageCard>
+          label="Одобрений при объёме выше рынка"
+          expandHref="/blog/granel-rost-procenta-odobreniya"
+        />
         <AdvantageCard
-          title="Получают больше выручки на\u00A0одного менеджера"
+          title="Получают больше выручки на одного менеджера"
           stat="+281%"
-          label="Заявок на\u00A0одного менеджера"
-          expandHref="https://www.dvizh.io/blog/kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti"
-        >
-          {(lidov.post || lidov.html) && (
-            <article slot="modal-body" class="max-w-3xl mx-auto px-8 py-12">
-              {lidov.title && <h1 class="text-4xl font-bold mb-4">{lidov.title}</h1>}
-              {lidov.post?.content?.length > 0
-                ? <BlockRenderer blocks={lidov.post.content} />
-                : lidov.html && <div class="prose prose-lg max-w-none mt-8" set:html={lidov.html} />
-              }
-            </article>
-          )}
-        </AdvantageCard>
+          label="Заявок на одного менеджера"
+          expandHref="/blog/kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti"
+        />
         <AdvantageCard
-          title="Сократили расходы на\u00A0электронную регистрацию"
+          title="Сократили расходы на электронную регистрацию"
           stat="-30%"
-          label="Затрат на\u00A0регистрацию"
-          expandHref="https://www.dvizh.io/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya"
-        >
-          {(ereg.post || ereg.html) && (
-            <article slot="modal-body" class="max-w-3xl mx-auto px-8 py-12">
-              {ereg.title && <h1 class="text-4xl font-bold mb-4">{ereg.title}</h1>}
-              {ereg.post?.content?.length > 0
-                ? <BlockRenderer blocks={ereg.post.content} />
-                : ereg.html && <div class="prose prose-lg max-w-none mt-8" set:html={ereg.html} />
-              }
-            </article>
-          )}
-        </AdvantageCard>
+          label="Затрат на регистрацию"
+          expandHref="/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya"
+        />
       </div>
     </div>
   </section>
 
-  <!-- Stories Carousel -->
-  <SuccessStoriesCarousel
-    title="70+ историй успеха на рынке девелопмента"
-    variant="mini"
-    class="max-w-[1440px] mx-auto py-20"
+  {/* ── 3. Кейсы — SuccessStoryBlock ── */}
+  <SuccessStoryBlock
+    heading="70+ историй успеха на рынке девелопмента"
+    buttonLabel="Получить демо"
+    buttonPreset="demo"
     stories={[
       {
-        title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке",
-        person: { name: "Петрова Надежда", jobTitle: "Директор по маркетингу, ЛСР" }
+        logo: '/partners/lsr.svg',
+        logoAlt: 'ЛСР',
+        titleHtml: 'Помогли начать обрабатывать на <span class="text-brand">281% заявок больше</span>, чем в среднем на рынке',
+        personName: 'Петрова Надежда',
+        personJobTitle: 'Директор по маркетингу, ЛСР',
       },
       {
-        title: "Увеличили объём закрытых сделок с 1165 до 3500 за год",
-        person: { name: "Светлана Корнелюк", jobTitle: "Директор отдела продаж" }
+        logo: '/partners/strana.svg',
+        logoAlt: 'Страна Девелопмент',
+        titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с 1165 до 3500</span> за год',
+        personName: 'Светлана Корнелюк',
+        personJobTitle: 'Директор отдела продаж',
       },
       {
-        title: "Дополнительно продали 96 квартир",
-        person: { name: "Иванов Сергей", jobTitle: "Руководитель отдела ипотеки" }
-      }
+        logo: '/partners/glorax.svg',
+        logoAlt: 'Glorax',
+        titleHtml: 'Снизили процент отказов по ипотеке <span class="text-brand">до 10%</span> за три месяца',
+        personName: 'Анна Смирнова',
+        personJobTitle: 'Ипотечный брокер, Самолёт',
+      },
     ]}
   />
 
-  <!-- Product Section -->
+  {/* ── 4. Product Section — 5 продуктов ── */}
   <ProductSection
     sections={[
-      { number: "01", title: "Цифровая ипотека", active: true },
-      { number: "02", title: "Калькулятор" },
-      { number: "03", title: "Скоринг" },
-      { number: "04", title: "Регистрация" },
+      {
+        number: "01",
+        title: "Цифровая ипотека",
+        cardTitle: "Поможем превыполнить план продаж на том же трафике",
+        items: [
+          "До 96% одобрения",
+          "Единая анкета в 40+ банков",
+          "Моментальное заполнение анкеты через Госуслуги",
+          "Готовые интеграции с CRM",
+          "Анализ работы менеджеров",
+        ],
+        button: { label: "Подробнее", href: "/ipoteka" },
+        review: {
+          quote: "С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут. Одобрение выросло до 94% — результат, который раньше казался недостижимым.",
+          author: "Петрова Надежда",
+          role: "Директор по маркетингу",
+          company: { logo: "/partners/lsr.svg", alt: "ЛСР" },
+          caseLink: { label: "Читать кейс", href: "/blog/case-ayaks-dvizh" },
+        },
+      },
+      {
+        number: "02",
+        title: "Ипотечный калькулятор",
+        cardTitle: "Приведём больше лидов с сайта",
+        items: [
+          "Расчёт рассрочки и досрочного погашения",
+          "Автоматическое обновление ставок и программ",
+          "API для интеграции с вашим сайтом и личным кабинетом",
+          "Брендирование калькулятора под ваши цвета",
+        ],
+        button: { label: "Подробнее", href: "/ipotechnyy-kalkulyator" },
+        review: {
+          quote: "Калькулятор ДВИЖ встроили в сайт за один день. Количество заявок с сайта выросло в 2,3 раза уже в первый месяц.",
+          author: "Алексей Громов",
+          role: "Руководитель digital-маркетинга",
+          company: { logo: "/partners/a101.svg", alt: "А101" },
+          caseLink: { label: "Читать кейс", href: "/cases" },
+        },
+      },
+      {
+        number: "03",
+        title: "Финансовый скоринг",
+        cardTitle: "Сократим процент отказов по проблемным заёмщикам",
+        items: [
+          "Проверка заёмщика по 15 источникам",
+          "Ежемесячный скоринг по ДДУ с рассрочкой",
+          "Рекомендации по улучшению кредитной истории",
+        ],
+        button: { label: "Подробнее", href: "/scoring" },
+        review: {
+          quote: "Скоринг ДВИЖ помог нам снизить процент отказов с 35% до 10% за три месяца. Менеджеры теперь работают только с перспективными клиентами.",
+          author: "Светлана Корнелюк",
+          role: "Директор отдела продаж",
+          company: { logo: "/partners/glorax.svg", alt: "Glorax" },
+          caseLink: { label: "Читать кейс", href: "/blog/granel-rost-procenta-odobreniya" },
+        },
+      },
+      {
+        number: "04",
+        title: "Электронная регистрация",
+        cardTitle: "Сократим стоимость регистрации в Росреестре",
+        items: [
+          "Сквозное оформление сделки от ипотеки до регистрации",
+          "До 30% дешевле цены конкурентов",
+          "Все виды сделок",
+        ],
+        button: { label: "Подробнее", href: "/elektronnaya-registraciya" },
+        review: {
+          quote: "Электронная регистрация через ДВИЖ сократила наши расходы на 30% и убрала бумажную волокиту. Сделка оформляется в тот же день.",
+          author: "Иван Соколов",
+          role: "Операционный директор",
+          company: { logo: "/partners/ganel.svg", alt: "Гранель" },
+          caseLink: { label: "Читать кейс", href: "/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya" },
+        },
+      },
     ]}
-    title="Поможем перевыполнить план продаж на том же трафике"
-    descriptions={[
-      "До 96% одобрения",
-      "Единая анкета в 40+ банков",
-      "Моментальное заполнение анкеты через Госуслуги",
-      "Готовые интеграции с CRM",
-      "Анализ работы менеджеров"
-    ]}
-    primaryButton={{ label: "Читать кейс", href: "#" }}
-    secondaryButton={{ label: "Подробнее о цифровой ипотеке", href: "#" }}
   />
 
-  <!-- Цифровая ипотека -->
-  <FeaturesGrid
-    badge="Цифровая ипотека"
-    title="Поможем перевыполнить план продаж на том же трафике"
-    features={[
-      { icon: 'check', title: 'До 96% одобрения', description: '' },
-      { icon: 'check', title: 'Единая анкета в 40+ банков', description: '' },
-      { icon: 'check', title: 'Моментальное заполнение анкеты через Госуслуги', description: '' },
-      { icon: 'check', title: 'Готовые интеграции с CRM', description: '' },
-      { icon: 'check', title: 'Анализ работы менеджеров', description: '' },
+  {/* ── 5. Поддержка — SupportSection ── */}
+  <SupportSection
+    tabs={[
+      {
+        title: '15 консультантов поддержки',
+        bullets: [
+          'Решат технический вопрос прямо в чате',
+          'Доступны 24/7 — в рабочий день и в момент важной сделки',
+          'Знают продукт изнутри и дают конкретные ответы',
+        ],
+        personName: 'Третьякова Юлия',
+        personTitle: 'Руководитель отдела ипотеки и финансовых инструментов',
+        avatars: ['', '', ''],
+        extraCount: 2,
+      },
+      {
+        title: '7 менеджеров успеха',
+        bullets: [
+          'Настроят платформу под процессы вашего отдела продаж',
+          'Проведут онбординг команды',
+          'Подскажут, какие функции вы ещё не используете',
+        ],
+        personName: 'Иванов Сергей',
+        personTitle: 'Руководитель направления Customer Success',
+        avatars: ['', '', '', ''],
+        extraCount: 3,
+      },
+      {
+        title: '8 аналитиков',
+        bullets: [
+          'Разберут вашу воронку и найдут, где теряются заявки',
+          'Покажут, кто из менеджеров тормозит сделки и почему',
+          'Дадут конкретные рекомендации — не выводы, а следующий шаг',
+        ],
+        personName: 'Козлова Анна',
+        personTitle: 'Руководитель аналитического отдела',
+        avatars: ['', ''],
+        extraCount: 2,
+      },
     ]}
-    variant="light"
   />
 
-  <!-- Ипотечный калькулятор -->
-  <FeaturesGrid
-    badge="Ипотечный калькулятор"
-    title="Приведем больше лидов с сайта"
-    features={[
-      { icon: 'check', title: 'Расчет рассрочки и досрочного погашения', description: '' },
-      { icon: 'check', title: 'Автоматическое обновление ставок и программ', description: '' },
-      { icon: 'check', title: 'API для интеграции с вашим сайтом и личным кабинетом', description: '' },
-      { icon: 'check', title: 'Брендирование калькулятора под ваши цвета', description: '' },
+  {/* ── 6. KeyFacts ── */}
+  <KeyFacts
+    items={[
+      { value: 'Uptime 99,9%', description: 'Uptime платформы 99,9%' },
+      { value: 'Безопасность', description: 'Подтверждена отделами ИБ крупнейших застройщиков и банков страны' },
+      { value: '152 ФЗ', description: 'Соответствие стандартам 152 ФЗ' },
     ]}
-    variant="light"
+    variant="large"
   />
 
-  <!-- Финансовый скоринг -->
-  <FeaturesGrid
-    badge="Финансовый скоринг"
-    title="Сократим процент отказов по проблемным заемщикам"
-    features={[
-      { icon: 'check', title: 'Проверка заемщика по 15 источникам', description: '' },
-      { icon: 'check', title: 'Ежемесячный скоринг по ДДУ c рассрочкой', description: '' },
-      { icon: 'check', title: 'Рекомендации по улучшению кредитной истории', description: '' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Электронная регистрация сделок -->
-  <FeaturesGrid
-    badge="Электронная регистрация сделок"
-    title="Сократим стоимость регистрации в Росреестре"
-    features={[
-      { icon: 'check', title: 'Сквозное оформление сделки от ипотеки до регистрации', description: '' },
-      { icon: 'check', title: 'До 30% дешевле цены конкурентов', description: '' },
-      { icon: 'check', title: 'Все виды сделок', description: '' },
-    ]}
-    variant="light"
-  />
-
-  <!-- ДВИЖ AI -->
-  <FeaturesGrid
-    badge="ДВИЖ AI"
-    title="Нейросети на службе вашего бизнеса"
-    features={[
-      { icon: 'check', title: 'Расчет вероятности и скорости одобрения по банкам', description: '' },
-      { icon: 'check', title: 'Автоматический подбор ипотечной программы', description: '' },
-      { icon: 'check', title: 'Меньше отказов, больше сделок', description: '' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Не оставим вас одних -->
-  <div class="max-w-[1440px] mx-auto px-4 py-12">
-    <FormClosing
-      preset="lead"
-      title="Не оставим вас одних"
-      description="За каждым клиентом закреплен менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
-      submitLabel="Оставить заявку"
+  {/* ── 7. Блог — из CMS ── */}
+  {recentPosts.length > 0 && (
+    <BlogCards
+      title="Из блога"
+      description="Экспертные материалы о цифровизации продаж в девелопменте"
+      articles={recentPosts}
+      class="py-24"
     />
-  </div>
+  )}
 
-  <!-- CTA: Как оценить отдел ипотеки -->
-  <div class="max-w-[1440px] mx-auto px-4 py-12">
-    <CTA
-      title="Как оценить отдел ипотеки"
-      description="Скачайте пример отчета и узнайте, какие метрики нужно контролировать"
-      buttonText="Получить отчет"
-      drawerPreset="research"
-    />
-  </div>
-
-<script>
-  document.querySelectorAll('[data-drag-scroll]').forEach(el => {
-    const container = el as HTMLElement
-    let isDown = false, startX = 0, scrollLeft = 0
-    container.addEventListener('mousedown', (e: MouseEvent) => {
-      isDown = true; container.style.cursor = 'grabbing'
-      startX = e.pageX - container.offsetLeft; scrollLeft = container.scrollLeft
-    })
-    container.addEventListener('mouseleave', () => { isDown = false; container.style.cursor = '' })
-    container.addEventListener('mouseup', () => { isDown = false; container.style.cursor = '' })
-    container.addEventListener('mousemove', (e: MouseEvent) => {
-      if (!isDown) return; e.preventDefault()
-      container.scrollLeft = scrollLeft - (e.pageX - container.offsetLeft - startX)
-    })
-  })
-</script>
+  {/* ── 8. FormClosing ── */}
+  <FormClosing
+    preset="lead"
+    title="Не оставим вас одних"
+    description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
+    submitLabel="Оставить заявку"
+    class="py-12"
+  />
 
 </SiteLayout>
