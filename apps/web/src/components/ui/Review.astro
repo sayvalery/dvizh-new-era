@@ -40,8 +40,8 @@ interface Props {
   caseLink?: { label?: string; href: string }
   /**
    * Визуальный вариант:
-   * - `default` — оранжевая кнопка, логотип h-[11px] (для ProductCard)
-   * - `dark`    — тёмная кнопка bg-gray-900, логотип h-[41px] (для ReviewFull)
+   * - `default` — оранжевая кнопка (для ProductCard)
+   * - `dark`    — тёмная кнопка bg-gray-900 (для ReviewFull)
    */
   variant?: 'default' | 'dark'
   /** Дополнительные CSS классы */
@@ -84,7 +84,7 @@ const {
         alt={company.alt ?? ''}
         class:list={[
           'w-auto object-contain sm:hidden',
-          variant === 'dark' ? 'h-[28px] max-w-[100px]' : 'h-[9px] max-w-[60px]'
+          variant === 'dark' ? 'h-[25px] max-w-[90px]' : 'h-[25px] max-w-[90px]'
         ]}
         loading="lazy"
       />
@@ -99,7 +99,7 @@ const {
             alt={company.alt ?? ''}
             class:list={[
               'w-auto shrink-0 object-contain hidden sm:block',
-              variant === 'dark' ? 'h-[41px] max-w-[120px]' : 'h-[11px] max-w-[72px]'
+              variant === 'dark' ? 'h-[37px] max-w-[108px]' : 'h-[37px] max-w-[108px]'
             ]}
             loading="lazy"
           />
