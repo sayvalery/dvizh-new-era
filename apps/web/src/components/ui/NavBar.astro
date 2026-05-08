@@ -235,19 +235,21 @@ const megaSections = megaItem?.sections ?? []
             >{cta.label}</Button>
           )}
 
-          <!-- Hamburger square button: visible below lg -->
-          <!-- xs (< 480px): white bg, dark icon — xs+ (480px+): dark bg, white icon -->
-          <button
+          <!-- Hamburger square button: visible below lg. Вариант и clear-инверсия идентичны CTA-кнопке слева. -->
+          <Button
             type="button"
+            iconOnly
+            size="sm"
+            variant="dark"
             @click="mobileOpen = true"
-            class="lg:hidden flex items-center justify-center w-8 h-8 rounded-xl transition-colors flex-shrink-0 bg-transparent text-gray-900 hover:bg-gray-200 xs:bg-gray-900 xs:text-white xs:hover:bg-gray-800"
-            :class="clear ? '!bg-transparent !text-white hover:!bg-white/10' : ''"
+            x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
+            class="lg:hidden flex-shrink-0"
             aria-label="Открыть меню"
           >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <svg slot="icon-left" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
-          </button>
+          </Button>
 
         </div>
       </nav>
