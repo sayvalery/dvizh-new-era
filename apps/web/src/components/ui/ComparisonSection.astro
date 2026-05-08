@@ -147,8 +147,8 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
     {isPrices && (
       <div class="flex flex-col lg:flex-row gap-6 lg:gap-10">
 
-        <!-- Левая карточка (без ДВИЖа) -->
-        <div class="bg-gray-200 rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px]">
+        <!-- Левая карточка (без ДВИЖа) — на мобайле второй -->
+        <div class="bg-gray-200 rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px] order-2 lg:order-1">
           <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
           <div class="border-t border-gray-300 pt-8 flex flex-col gap-6 opacity-60">
             {priceRows.map((row) => (
@@ -160,9 +160,9 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
           </div>
         </div>
 
-        <!-- Правая карточка (ДВИЖ) -->
+        <!-- Правая карточка (ДВИЖ) — на мобайле первой -->
         <!-- bg #151517 → bg-gray-900 (#1D1E21), ближайший токен -->
-        <div class="bg-gray-900 rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px]">
+        <div class="bg-gray-900 rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px] order-1 lg:order-2">
 
           <!-- Логотип -->
           <div class="h-[54px] flex items-center">
