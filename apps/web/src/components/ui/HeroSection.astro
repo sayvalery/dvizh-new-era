@@ -97,7 +97,7 @@ const isFull = layout === 'full'
 
 <section class:list={['relative overflow-hidden', withGradient ? 'bg-brand' : 'bg-background-primary', isFull ? '' : '', className]}>
 
-  {withGradient && <FlutedGlassBg />}
+  {withGradient && <FlutedGlassBg grain={0.05} />}
 
   {isFull && (
     <div class="relative flex flex-col min-h-[680px] lg:min-h-[900px]">
