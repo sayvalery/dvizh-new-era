@@ -1,120 +1,107 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
-import HeroSection from '../components/ui/HeroSection.astro'
-import StatsSection from '../components/ui/StatsSection.astro'
-import CTA from '../components/ui/CTA.astro'
+import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
+import LogoGrid from '../components/ui/LogoGrid.astro'
+import ComparisonSection from '../components/ui/ComparisonSection.astro'
+import CTABanner from '../components/ui/CTABanner.astro'
+import BentoGrid from '../components/ui/BentoGrid.astro'
+import ReviewFull from '../components/ui/ReviewFull.astro'
+import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
-<SiteLayout title="Электронная регистрация сделок — ДВИЖ" description="Сократите затраты на регистрацию на 30%. Электронная регистрация сделок с недвижимостью." jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Электронная регистрация', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
-  <HeroSection
-    badge="Электронная регистрация"
-    title="Электронная регистрация сделок"
-    description="Сократите затраты на регистрацию на 30%"
+<SiteLayout
+  title="Электронная регистрация сделок — ДВИЖ"
+  description="Сократите затраты на регистрацию на 30%. Электронная регистрация сделок с недвижимостью."
+  jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Электронная регистрация', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
+>
+
+  {/* ── 1. Hero Section ── */}
+  <HeroSectionFull
+    title="Регистрируйте все виды сделок с выгодой от 30% до 80%"
+    description="Автоматизируйте этап подготовки документов, ускорьте оформление сделок в Росреестре и сократите затраты на регистрацию"
+    demoLabel="Записаться на демо"
+    kpLabel="Попробовать бесплатно"
   />
 
-  <StatsSection
-    cols={3}
-    items={[
-      { value: 'на 30%', label: 'Сократили затраты на регистрацию' },
-      { value: 'до 15 мин', label: 'Подготовка пакета документов' },
-      { value: 'до 0', label: 'Ошибок в документах' },
-      { value: '99.9%', label: 'Uptime сервиса' },
-      { value: '1 000 ₽', label: 'Стоимость регистрации' },
-      { value: '200 ₽', label: 'Госпошлина' },
+  {/* ── 2. LogoGrid ── */}
+  <LogoGrid
+    logos={[
+      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+      { src: '/partners/dark/a101.svg', alt: 'A101' },
+      { src: '/partners/dark/strana.svg', alt: 'Страна Девелопмент' },
+      { src: '/partners/dark/glorax.svg', alt: 'Glorax' },
+      { src: '/partners/dark/ganel.svg', alt: 'Ganel' },
+      { src: '/partners/dark/ava.svg', alt: 'AVA' },
     ]}
   />
 
-  <!-- Features Grid 1: пакетные регистрации -->
-  <FeaturesGrid
-    badge="пакетные регистрации"
-    title="ДДУ, ДКП, ДУПТ, ДС за 15 минут"
-    description="Регистрируйте любые типы сделок пакетами. Экономьте время менеджеров и сокращайте сроки закрытия."
-    features={[
-      { icon: 'document', title: 'Все типы сделок', description: 'ДДУ, ДКП, ДУПТ, ДС — регистрация любого типа договора за 15 минут' },
-      { icon: 'arrow-path', title: 'Пакетная обработка', description: 'Отправляйте на регистрацию сразу несколько сделок одним пакетом' },
+  {/* ── 3. ComparisonSection variant='prices' + CTABanner внутри ── */}
+  <ComparisonSection
+    class="py-24 lg:py-[120px]"
+    variant="prices"
+    label="Стоимость"
+    title="Дешевле на каждом этапе"
+    leftTitle="Без ДВИЖа"
+    priceRows={[
+      { label: 'Регистрация', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
+      { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
     ]}
-    variant="light"
-  />
+  >
+    <CTABanner
+      slot="cta"
+      title="Узнайте, сколько вы можете сэкономить"
+      buttonText="Получить расчёт"
+      drawerPreset="lead"
+    />
+  </ComparisonSection>
 
-  <!-- Features Grid 2: фиксированные комиссии -->
-  <FeaturesGrid
-    badge="выгодные условия"
-    title="Фиксированные комиссии + бесплатная ЭЦП"
-    description="Прозрачное ценообразование без скрытых платежей. Электронная цифровая подпись для участников сделки — бесплатно."
-    features={[
-      { icon: 'check', title: 'Фиксированная стоимость', description: 'Никаких скрытых комиссий — фиксированная цена за каждую регистрацию' },
-      { icon: 'lock', title: 'Бесплатная ЭЦП', description: 'Выпуск электронной цифровой подписи для участников сделки без дополнительных затрат' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Features Grid 3: уведомления -->
-  <FeaturesGrid
-    badge="уведомления"
-    title="Гибкие уведомления"
-    description="Настройте уведомления о статусе регистрации для менеджеров и клиентов. Все участники сделки в курсе на каждом этапе."
-    features={[
-      { icon: 'globe', title: 'Уведомления в реальном времени', description: 'Мгновенные оповещения об изменении статуса регистрации' },
-      { icon: 'check', title: 'Настраиваемые каналы', description: 'Email, SMS и push-уведомления — выберите удобный способ оповещения' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Features Grid 4: 3 способа выпуска ЭЦП -->
-  <FeaturesGrid
-    badge="выпуск ЭЦП"
-    title="3 способа выпуска ЭЦП"
-    description="Выбирайте удобный способ получения электронной цифровой подписи для каждого участника сделки."
-    features={[
-      { icon: 'lock', title: 'Удалённый выпуск', description: 'Выпуск ЭЦП онлайн без посещения офиса' },
-      { icon: 'document', title: 'В офисе застройщика', description: 'Выпуск ЭЦП при личном визите клиента' },
-      { icon: 'building-bank', title: 'Через удостоверяющий центр', description: 'Выпуск квалифицированной ЭЦП через аккредитованный УЦ' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Features Grid 5: интеграции -->
-  <FeaturesGrid
-    badge="интеграции"
-    title="Интеграции с AmoCRM и Битрикс24"
-    description="Подключите электронную регистрацию к вашей CRM. Запускайте регистрацию прямо из карточки сделки."
-    features={[
-      { icon: 'database', title: 'AmoCRM', description: 'Запуск регистрации и отслеживание статуса прямо из карточки сделки в AmoCRM' },
-      { icon: 'building-bank', title: 'Битрикс24', description: 'Полная интеграция с Битрикс24 — регистрация сделок без переключения между системами' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Кейсы -->
-  <section class="bg-gray-50 py-24">
-    <div class="mx-auto max-w-[1440px] px-4">
-      <div class="mx-auto max-w-2xl text-center mb-16">
-        <h2 class="text-base font-semibold text-brand">Кейсы</h2>
-        <p class="mt-2 text-4xl font-semibold text-gray-900 sm:text-5xl">Результаты клиентов</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        <div class="bg-white rounded-xl p-8 shadow-sm">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">GloraX</h3>
-          <p class="text-3xl font-bold text-brand mb-2">−30%</p>
-          <p class="text-sm text-gray-600">Сокращение затрат на регистрацию и сопровождение сделок</p>
-        </div>
-        <div class="bg-white rounded-xl p-8 shadow-sm">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Страна Девелопмент</h3>
-          <p class="text-3xl font-bold text-brand mb-2">150 млн ₽/мес</p>
-          <p class="text-sm text-gray-600">Ежемесячный объём сделок через платформу ДВИЖ</p>
-        </div>
-      </div>
+  {/* ── 4. BentoGrid ── */}
+  <section class="py-24 lg:py-[120px]">
+    <div class="page-container">
+      <BentoGrid
+        heading="Поможем решить любые вопросы"
+        description="От сложных сделок до проблем с УЦ — в нашей команде ребята с опытом работы у регистраторов"
+        items={[
+          {
+            title: 'Выпуск подписи за 5 минут',
+            description: 'Поддерживаем все технологии: токен, Sign.Me, Госключ',
+          },
+          {
+            title: 'Ускорим подачу заявления',
+            description: 'Подключим оплату госпошлины с авансового счета внутри ДВИЖа',
+          },
+          {
+            title: 'Всегда рядом с вами',
+            description: 'Поможем зарегистрировать сложные сделки: с иностранными гражданами или военной ипотекой',
+          },
+        ]}
+      />
     </div>
   </section>
 
-  <!-- CTA -->
-  <div class="max-w-[1440px] mx-auto px-4 py-12">
-    <CTA
-      title="Запросить демо"
-      description="Посмотрите, как электронная регистрация ускорит ваши сделки"
-      buttonText="Запросить демо"
-      buttonHref="#"
-    />
-  </div>
+  {/* ── 5. ReviewFull ── */}
+  <section class="py-24 lg:py-[120px]">
+    <div class="page-container">
+      <ReviewFull
+        quote="Раньше мы могли провозиться с регистрацией дома неделю, потому что каждое заявление создавалось вручную. Теперь любое количество объектов мы можем отправить на регистрацию за считанные минуты. К тому же, за счет комплексного предложения (ипотека+регистрация) ДВИЖ выходит на 30% дешевле других рыночных платформ."
+        author="Анастасия Швед"
+        role="Директор по продажам"
+        caseLink={{ label: 'Читать кейс', href: '/cases' }}
+      />
+    </div>
+  </section>
+
+  {/* ── 6. FormClosing ── */}
+  <FormClosing
+    preset="lead"
+    title="Попробуйте ДВИЖ в деле"
+    items={[
+      'Менеджер ответит на любые вопросы',
+      'Среднее время ответа техподдержки — 57 сек',
+      'Помогаем увеличивать продажи',
+    ]}
+    submitLabel="Получить демо"
+    class="py-12"
+  />
+
 </SiteLayout>

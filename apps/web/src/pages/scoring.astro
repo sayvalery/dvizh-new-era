@@ -1,64 +1,129 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import HeroSection from '../components/ui/HeroSection.astro'
-import StatsSection from '../components/ui/StatsSection.astro'
-import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
-import CTA from '../components/ui/CTA.astro'
+import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
+import LogoGrid from '../components/ui/LogoGrid.astro'
+import KeyFacts from '../components/ui/KeyFacts.astro'
+import FeatureBlock from '../components/ui/FeatureBlock.astro'
+import BentoGrid from '../components/ui/BentoGrid.astro'
+import TextImageBlock from '../components/ui/TextImageBlock.astro'
+import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
-<SiteLayout title="Финансовый скоринг — ДВИЖ" description="Проверяйте платёжеспособность покупателей на банковском уровне до подписания договора" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Скоринг', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'RUB' }, provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
-  <HeroSection
-    badge="Финансовый скоринг"
+<SiteLayout
+  title="Финансовый скоринг — ДВИЖ"
+  description="Проверяйте платёжеспособность покупателей на банковском уровне до подписания договора"
+  jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Скоринг', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'RUB' }, provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
+>
+
+  {/* ── 1. Hero ── */}
+  <HeroSectionFull
     title="Проверьте ипотечного заёмщика до обращения в банки"
     description="Сократите риск отказа до минимума благодаря предварительной оценке клиента по данным из 15 источников"
-    formPreset="demo"
-    withForm={true}
+    demoLabel="Записаться на демо"
+    kpLabel="Попробовать бесплатно"
   />
 
-  <StatsSection
+  {/* ── 2. LogoGrid ── */}
+  <LogoGrid
+    logos={[
+      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+      { src: '/partners/dark/a101.svg', alt: 'A101' },
+      { src: '/partners/dark/strana.svg', alt: 'Страна Девелопмент' },
+      { src: '/partners/dark/glorax.svg', alt: 'Glorax' },
+      { src: '/partners/dark/ganel.svg', alt: 'Ganel' },
+      { src: '/partners/dark/ava.svg', alt: 'AVA' },
+    ]}
+  />
+
+  {/* ── 3. KeyFacts — 3 пункта ── */}
+  <KeyFacts
     title="Зачем вам финансовый скоринг"
-    cols={3}
+    variant="large"
     items={[
-      { value: 'до 35% заявок', label: 'уходят в автоматический отказ на стороне банков из-за плохого кредитного рейтинга' },
-      { value: '80% клиентов', label: 'не отправляют запросы в БКИ и не знают, могут ли получить одобрение ипотеки' },
-      { value: 'на 20% выше', label: 'вероятность одобрения после предварительной проверки и правок в ипотечной анкете' },
+      {
+        value: 'до 35% заявок',
+        description: 'уходят в автоматический отказ на стороне банков из-за плохого кредитного рейтинга',
+      },
+      {
+        value: '80% клиентов',
+        description: 'не отправляют запросы в БКИ и не знают, могут ли получить одобрение ипотеки',
+      },
+      {
+        value: 'на 20% выше',
+        description: 'вероятность одобрения после предварительной проверки и правок в ипотечной анкете',
+      },
     ]}
   />
 
-  <!-- Что проверяем -->
-  <FeaturesGrid
-    badge="Что проверяем"
-    title="15 источников данных для каждого клиента"
-    description="Скоринг охватывает полный финансовый профиль заёмщика — от долговой нагрузки до банкротных дел."
+  {/* ── 4. FeatureBlock ── */}
+  <FeatureBlock
+    heading="Что проверяем"
+    description="Скоринг охватывает полный финансовый профиль заёмщика — от долговой нагрузки до банкротных дел"
+    imageSide="left"
+    button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
     features={[
-      { icon: 'lock', title: 'Долговую нагрузку клиента', description: ' — соотношение активных кредитов и доходов' },
-      { icon: 'document', title: 'Долги по налогам и сборам', description: ' — задолженности перед ФНС и другими госорганами' },
-      { icon: 'database', title: 'Долги по кредитам и кредитным картам', description: ' — данные из бюро кредитных историй' },
-      { icon: 'check', title: 'Информацию о банкротстве и приостановлении счетов', description: ' — открытые дела о банкротстве и блокировки счетов' },
+      {
+        title: 'Долговую нагрузку клиента',
+        subtitle: 'Соотношение активных кредитов и доходов',
+      },
+      {
+        title: 'Долги по налогам и сборам',
+        subtitle: 'Задолженности перед ФНС и другими государственными органами',
+      },
+      {
+        title: 'Долги по кредитам и кредитным картам',
+        subtitle: 'Данные из бюро кредитных историй',
+      },
+      {
+        title: 'Информацию о банкротстве и приостановлении счетов',
+        subtitle: 'Открытые дела о банкротстве и блокировки счетов',
+      },
     ]}
-    variant="light"
   />
 
-  <!-- Реализация по API -->
-  <FeaturesGrid
-    badge="Интеграция"
+  {/* ── 5. BentoGrid variant="four" ── */}
+  <section class="py-24 lg:py-[120px]">
+    <div class="page-container">
+      <BentoGrid
+        variant="four"
+        heading="Как это работает"
+        items={[
+          {
+            title: 'Распознавание',
+            description: 'Определяем тип документа и вытаскиваем нужные поля автоматически',
+          },
+          {
+            title: 'Дополняем профиль клиента',
+            description: 'Подтягиваем данные из сторонних источников — ФНС, ГИБДД, БКИ',
+          },
+          {
+            title: 'Антифрод',
+            description: 'Ищем признаки мошенничества и сверяем данные с внешними базами',
+          },
+          {
+            title: 'Верификация',
+            description: 'Проверяем документ на подлинность ещё до ручной обработки',
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  {/* ── 6. TextImageBlock ── */}
+  <TextImageBlock
+    heading="Заберите готовое решение и одобряйте больше клиентов"
+    subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
+    buttonText="Забрать решение"
+    drawerPreset="demo"
+  />
+
+  {/* ── 7. FormClosing ── */}
+  <FormClosing
+    preset="lead"
     title="Реализация по API — для тех, кто хочет ещё больше"
-    description="Встройте скоринг в собственную экосистему и управляйте оценкой клиентов на уровне бизнес-процессов."
-    features={[
-      { icon: 'check', title: 'Адаптируйте ипотечный калькулятор под ваш фирменный стиль', description: ' — брендированный интерфейс без разработчиков на вашей стороне' },
-      { icon: 'globe', title: 'Встройте расчёты прямо в карточку лота на сайте', description: ' — покупатель видит ипотечный расчёт рядом с объектом без перехода на другую страницу' },
-      { icon: 'document', title: 'Избавьтесь от рисков и юридических ошибок', description: ' — следим за соответствием ФЗ, актуальность законодательства на нашей стороне' },
-    ]}
-    variant="dark"
+    description="Адаптируйте калькулятор под фирменный стиль, встройте расчёты в карточку лота и избавьтесь от юридических рисков"
+    submitLabel="Попробовать бесплатно"
+    class="py-12"
   />
 
-  <!-- CTA -->
-  <div class="max-w-[1440px] mx-auto px-4 py-12">
-    <CTA
-      title="Заберите готовое решение и одобряйте больше клиентов"
-      description="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
-      buttonText="Забрать решение"
-      buttonHref="#"
-    />
-  </div>
 </SiteLayout>
