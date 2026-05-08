@@ -1,6 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import HeroSection from '../components/ui/HeroSection.astro'
+import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
@@ -8,16 +8,14 @@ import ReviewFull from '../components/ui/ReviewFull.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
-<SiteLayout title="Ипотечный калькулятор — ДВИЖ" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="bg-background-primary" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
-  <HeroSection
-    layout="full"
+<SiteLayout title="Ипотечный калькулятор" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="bg-background-primary" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
+  <HeroSectionFull
     title="Получайте до 20% больше заявок с помощью готового калькулятора"
     description="ДВИЖ Калькулятор — готовый виджет для вашего сайта, который показывает программы 40+ банков и помогает подобрать лучшие условия клиенту"
     demoLabel="Записаться на демо"
     kpLabel="Попробовать бесплатно"
     demoPreset="demo"
     kpPreset="lead"
-    class="pb-4 xs:pb-5 md:pb-16 lg:pb-32"
   />
 
   <!-- gap-16 (64px) / sm:gap-20 (80px) / md:gap-24 (96px) / lg:gap-36 (144px) -->
@@ -85,19 +83,17 @@ import FormClosing from '../components/ui/FormClosing.astro'
   </div>
 
   <!-- FormClosing -->
-  <div class="page-container">
-    <FormClosing
-      mode="form"
-      preset="lead"
-      title="Реализация по API – для тех, кто хочет ещё больше"
-      items={[
-        'Адаптируйте ипотечный калькулятор под ваш фирменный стиль',
-        'Встройте расчеты прямо в карточку лота на сайте',
-        'Избавьтесь от рисков и юридических ошибок: следим за соответствием ФЗ',
-      ]}
-      submitLabel="Попробовать бесплатно"
-    />
-  </div>
+  <FormClosing
+    mode="form"
+    preset="lead"
+    title="Реализация по API – для тех, кто хочет ещё больше"
+    items={[
+      'Адаптируйте ипотечный калькулятор под ваш фирменный стиль',
+      'Встройте расчеты прямо в карточку лота на сайте',
+      'Избавьтесь от рисков и юридических ошибок: следим за соответствием ФЗ',
+    ]}
+    submitLabel="Попробовать бесплатно"
+  />
 
   </div>{/* /gap-контейнер */}
 </SiteLayout>

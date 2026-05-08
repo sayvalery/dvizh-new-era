@@ -45,21 +45,25 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
         title: '40+ банков-партнёров',
         subtitle: '15 «быстрых» банков по API',
         image: '/api/media/file/1st_banks.png',
+        imageMobile: '/api/media/file/1st_banks_m.png',
       },
       {
         title: '«Умный» скоринг покупателя',
         subtitle: 'До отправки в банк',
         image: '/api/media/file/2nd_scoring.png',
+        imageMobile: '/api/media/file/2nd_scoring_m.png',
       },
       {
         title: 'Встроенный ипотечный калькулятор',
         subtitle: 'На сайте застройщика',
         image: '/api/media/file/3d_calc.png',
+        imageMobile: '/api/media/file/3d_calc_m.png',
       },
       {
         title: 'Анкета «0 полей»',
         subtitle: 'Через Госуслуги',
         image: '/api/media/file/4th_gos.png',
+        imageMobile: '/api/media/file/4th_gos_m.png',
       },
       { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
       { title: 'Контроль «зависших» обращений 24/7' },
@@ -146,19 +150,17 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
   />
 
   <!-- Form Closing -->
-  <div class="page-container">
-      <FormClosing
-        mode="buttons"
-        title="Аудит вашего отдела продаж от аналитиков ДВИЖа"
-        items={[
-          'Выявим системные ошибки в процессах',
-          'Покажем быстрые точки роста',
-          'Предложим решения, которые подойдут именно вам',
-        ]}
-        primaryButton={{ label: 'Получить аудит', drawerPreset: 'demo' }}
-        secondaryButton={{ label: 'Скачать пример', drawerPreset: 'lead' }}
-      />
-  </div>
+  <FormClosing
+    mode="buttons"
+    title="Аудит вашего отдела продаж от аналитиков ДВИЖа"
+    items={[
+      'Выявим системные ошибки в процессах',
+      'Покажем быстрые точки роста',
+      'Предложим решения, которые подойдут именно вам',
+    ]}
+    primaryButton={{ label: 'Получить аудит', drawerPreset: 'demo' }}
+    secondaryButton={{ label: 'Скачать пример', drawerPreset: 'lead' }}
+  />
 
   </div>{/* /gap-контейнер */}
 

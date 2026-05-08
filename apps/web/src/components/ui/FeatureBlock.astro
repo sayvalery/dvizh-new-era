@@ -33,6 +33,8 @@ interface Feature {
   subtitle?: string
   /** Изображение этого пункта (если не задано — серый плейсхолдер на десктопе и общий fallback на мобайле) */
   image?: string
+  /** Изображение для мобильной версии (если не задано — используется `image`) */
+  imageMobile?: string
   /** Alt изображения пункта */
   imageAlt?: string
 }
@@ -179,22 +181,23 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
 
                   <!-- Mobile: изображение под активным пунктом (скрыто на lg+) -->
                   <div
-                    class="lg:hidden overflow-hidden transition-[max-height,opacity,margin-top] duration-300 ease-in-out rounded-2xl"
+                    class="lg:hidden overflow-hidden transition-[max-height,opacity,margin-top] duration-300 ease-in-out"
                     style="max-height: 0; opacity: 0; margin-top: 0"
-                    x-bind:style={`active === ${i} ? 'max-height: 400px; opacity: 1; margin-top: 1rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
+                    x-bind:style={`active === ${i} ? 'max-height: 800px; opacity: 1; margin-top: 1rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
                   >
-                    <div class:list={['aspect-[4/3] rounded-2xl overflow-hidden', feature.image ? 'bg-background-primary' : 'bg-background-secondary']}>
-                      {(feature.image ?? image) ? (
-                        <img
-                          src={feature.image ?? image}
-                          alt={feature.imageAlt ?? imageAlt}
-                          class="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                      ) : (
+                    {(feature.imageMobile ?? feature.image ?? image) ? (
+                      <img
+                        src={feature.imageMobile ?? feature.image ?? image}
+                        alt={feature.imageAlt ?? imageAlt}
+                        class="block w-full h-auto rounded-2xl"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div class="aspect-[4/3] rounded-2xl bg-background-secondary">
                         <slot name="image-mobile" />
-                      )}
-                    </div>
+                      </div>
+                    )}
+
                   </div>
                 </div>
               </div>

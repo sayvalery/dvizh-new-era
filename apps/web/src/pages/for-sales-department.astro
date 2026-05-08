@@ -39,6 +39,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
 
     <KeyFacts
       class="!pb-0"
+      variant="large"
       items={[
         { value: 'На 26%', description: 'больше сделок закрываем на том же трафике' },
         { value: '1 500 000+', description: 'сделок на рынке прошло через Движ' },
@@ -85,6 +86,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
     <!-- Повышаем качество лидов -->
     <FeatureBlock
       heading="Повышаем качество лидов"
+      description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определённую подборку статей / кейсов?"
       button={{ label: 'Узнать больше', href: '/blog' }}
       features={[
         { title: 'Форма на сайт для проверки кредитного рейтинга', subtitle: 'Приведём надёжных клиентов' },
@@ -97,6 +99,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
     <div class="flex flex-col gap-16">
       <FeatureBlock
         heading="Помогаем закрывать даже сложных клиентов…"
+        description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определённую подборку статей / кейсов?"
         imageSide="left"
         button={{ label: 'Узнать больше', href: '/blog' }}
         features={[
@@ -219,19 +222,17 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
     />
 
     <!-- FormClosing -->
-    <div class="page-container">
-      <FormClosing
-        preset="lead"
-        title="Попробуйте ДВИЖ в&#160;деле"
-        items={[
-          'Менеджер ответит на любые вопросы',
-          'Среднее время ответа техподдержки — 57 сек',
-          'Помогаем увеличивать продажи',
-        ]}
-        submitLabel="Получить демо"
-        privacyText="Нажимая кнопку «Получить демо», вы даёте согласие на&#160;обработку ваших персональных данных и&#160;подтверждаете, что ознакомлены с&#160;Политикой обработки персональных данных"
-      />
-    </div>
+    <FormClosing
+      preset="lead"
+      title="Попробуйте ДВИЖ в&#160;деле"
+      items={[
+        'Менеджер ответит на любые вопросы',
+        'Среднее время ответа техподдержки — 57 сек',
+        'Помогаем увеличивать продажи',
+      ]}
+      submitLabel="Получить демо"
+      privacyText="Нажимая кнопку «Получить демо», вы даёте согласие на&#160;обработку ваших персональных данных и&#160;подтверждаете, что ознакомлены с&#160;Политикой обработки персональных данных"
+    />
 
   </div>
 </SiteLayout>
