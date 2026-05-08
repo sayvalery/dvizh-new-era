@@ -21,6 +21,8 @@ interface Tab {
   personTitle: string
   /** URL мини-аватарок в углу карточки (до 4, пустая строка → серый круг) */
   avatars?: string[]
+  /** Число в квадрате «+N» рядом с аватарками (мобайл). Перекрывает авторасчёт */
+  extraCount?: number
 }
 
 interface Props {
@@ -80,12 +82,12 @@ const {
 
     <!-- Контент -->
     <div
-      x-data="{ active: 0 }"
+      x-data="{ active: window.innerWidth >= 1024 ? 0 : -1 }"
       class="flex flex-col lg:flex-row gap-6"
     >
 
       <!-- Левая карточка с фото -->
-      <div class="relative rounded-[24px] bg-background-secondary overflow-hidden lg:w-[45%] min-h-[480px]">
+      <div class="hidden lg:block relative rounded-[24px] bg-background-secondary overflow-hidden lg:w-[45%] min-h-[480px]">
 
         <!-- Фото / плейсхолдеры (стопкой, crossfade) -->
         {tabs.map((tab, i) =>
@@ -150,27 +152,51 @@ const {
       <div class="flex-1 flex flex-col gap-6">
         {tabs.map((tab, i) => (
           <div
-            @click={`active = ${i}`}
-            :class={`active === ${i} ? 'bg-gray-900' : 'bg-background-secondary hover:bg-gray-200'`}
-            class="rounded-[24px] p-6 flex flex-col gap-8 flex-1 min-h-[220px] cursor-pointer transition-colors duration-300 select-none"
+            @click={`if(window.innerWidth >= 1024) active = ${i}`}
+            :class={`active === ${i} ? 'bg-gray-900' : 'bg-background-secondary lg:hover:bg-gray-200'`}
+            class="rounded-[24px] p-6 flex flex-col gap-8 flex-1 min-h-[220px] lg:cursor-pointer transition-colors duration-300 select-none"
           >
+            <!-- Аватарки команды (только мобайл) -->
+            {(tab.avatars ?? []).length > 0 && (
+              <div class="flex gap-1 lg:hidden">
+                {(tab.avatars ?? []).slice(0, 3).map(src =>
+                  src ? (
+                    <img src={src} alt="" class="size-[54px] rounded-[12px] object-cover border-2 border-white/50 shrink-0" loading="lazy" />
+                  ) : (
+                    <div class="size-[54px] rounded-[12px] bg-gray-300 border-2 border-white/50 shrink-0" />
+                  )
+                )}
+                {(tab.extraCount !== undefined || (tab.avatars ?? []).length > 3) && (
+                  <div
+                    class="size-[54px] rounded-[12px] border-2 border-white/50 flex items-center justify-center shrink-0 transition-colors duration-300"
+                    :class={`active === ${i} ? 'bg-white/20' : 'bg-gray-200'`}
+                  >
+                    <span
+                      class="text-h5 transition-colors duration-300"
+                      :class={`active === ${i} ? 'text-white' : 'text-gray-500'`}
+                    >+{tab.extraCount ?? ((tab.avatars ?? []).length - 3)}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
             <!-- Иконка + заголовок -->
             <div class="flex items-center gap-4">
               {tab.icon ? (
                 <img
                   src={tab.icon}
                   alt=""
-                  class="size-14 rounded-[15px] object-cover shrink-0"
+                  class="size-14 rounded-[15px] object-cover shrink-0 hidden lg:block"
                 />
               ) : (
                 <div
                   :class={`active === ${i} ? 'bg-brand' : 'bg-gray-200'`}
-                  class="size-14 rounded-[15px] shrink-0 transition-colors duration-300"
+                  class="size-14 rounded-[15px] shrink-0 transition-colors duration-300 hidden lg:block"
                 />
               )}
               <h3
                 :class={`active === ${i} ? 'text-white' : 'text-gray-900'`}
-                class="text-h4 transition-colors duration-300"
+                class="text-h3 transition-colors duration-300"
               >
                 {tab.title}
               </h3>
