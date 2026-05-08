@@ -3,7 +3,7 @@
  * Для девелоперов — ДВИЖ
  */
 import SiteLayout from '../layouts/SiteLayout.astro'
-import HeroSection from '../components/ui/HeroSection.astro'
+import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
@@ -14,15 +14,13 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
 
 <SiteLayout title="Для девелоперов" bodyClass="bg-background-primary">
   <!-- Hero full layout: контент внизу + слот для анимации -->
-  <HeroSection
-    layout="full"
+  <HeroSectionFull
     title="ДВИЖ – платформа полного цикла для роста продаж у девелоперов"
     description="Позволяет контролировать каждый этап воронки продаж, эффективнее одобрять ипотеку и закрывать до 26% больше сделок без увеличения затрат на маркетинг"
     demoLabel="Записаться на демо"
     kpLabel="Пробовать бесплатно"
     demoPreset="demo"
     kpPreset="lead"
-    class="pb-4 xs:pb-5 md:pb-16 lg:pb-32"
   />
   <!-- gap-16 (64px) / sm:gap-20 (80px) / md:gap-24 (96px) / lg:gap-36 (144px) -->
   <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-36">
@@ -46,10 +44,23 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
       {
         title: '40+ банков-партнёров',
         subtitle: '15 «быстрых» банков по API',
+        image: '/api/media/file/1st_banks.png',
       },
-      { title: '«Умный» скоринг покупателя', subtitle: 'До отправки в банк' },
-      { title: 'Встроенный ипотечный калькулятор', subtitle: 'На сайте застройщика' },
-      { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
+      {
+        title: '«Умный» скоринг покупателя',
+        subtitle: 'До отправки в банк',
+        image: '/api/media/file/2nd_scoring.png',
+      },
+      {
+        title: 'Встроенный ипотечный калькулятор',
+        subtitle: 'На сайте застройщика',
+        image: '/api/media/file/3d_calc.png',
+      },
+      {
+        title: 'Анкета «0 полей»',
+        subtitle: 'Через Госуслуги',
+        image: '/api/media/file/4th_gos.png',
+      },
       { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
       { title: 'Контроль «зависших» обращений 24/7' },
     ]}

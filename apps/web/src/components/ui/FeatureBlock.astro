@@ -31,6 +31,10 @@ interface Feature {
   title: string
   /** Подпись — показывается при активном состоянии */
   subtitle?: string
+  /** Изображение этого пункта (если не задано — серый плейсхолдер на десктопе и общий fallback на мобайле) */
+  image?: string
+  /** Alt изображения пункта */
+  imageAlt?: string
 }
 
 interface ButtonProps {
@@ -96,28 +100,28 @@ const imageLeft = imageSide === 'left'
 
 <section class:list={['py-24 lg:py-[120px]', className]}>
   <div class="page-container">
-    <div class="grid lg:grid-cols-2 gap-16 items-stretch">
+    <div
+      class="grid lg:grid-cols-2 gap-16 items-stretch"
+      x-data={`{
+        active: 0,
+        total: ${features.length},
+        timer: null,
+        init() { this.startTimer() },
+        startTimer() {
+          clearInterval(this.timer)
+          this.timer = setInterval(() => {
+            this.active = (this.active + 1) % this.total
+          }, ${interval})
+        },
+        select(i) {
+          this.active = i
+          this.startTimer()
+        }
+      }`}
+    >
 
       <!-- Текстовая колонка (+ inline image на мобайле) -->
-      <div
-        class:list={['flex flex-col gap-12 lg:gap-16 lg:justify-between lg:h-[720px]', imageLeft && 'lg:order-2']}
-        x-data={`{
-          active: 0,
-          total: ${features.length},
-          timer: null,
-          init() { this.startTimer() },
-          startTimer() {
-            clearInterval(this.timer)
-            this.timer = setInterval(() => {
-              this.active = (this.active + 1) % this.total
-            }, ${interval})
-          },
-          select(i) {
-            this.active = i
-            this.startTimer()
-          }
-        }`}
-      >
+      <div class:list={['flex flex-col gap-12 lg:gap-16 lg:justify-between lg:h-[720px]', imageLeft && 'lg:order-2']}>
 
         <!-- Заголовок + описание + кнопка -->
         <div class="flex flex-col gap-6">
@@ -178,11 +182,11 @@ const imageLeft = imageSide === 'left'
                     style="max-height: 0; opacity: 0; margin-top: 0"
                     x-bind:style={`active === ${i} ? 'max-height: 400px; opacity: 1; margin-top: 1rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
                   >
-                    <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-gray-300">
-                      {image ? (
+                    <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-background-primary">
+                      {(feature.image ?? image) ? (
                         <img
-                          src={image}
-                          alt={imageAlt}
+                          src={feature.image ?? image}
+                          alt={feature.imageAlt ?? imageAlt}
                           class="w-full h-full object-cover"
                           loading="lazy"
                         />
@@ -214,10 +218,20 @@ const imageLeft = imageSide === 'left'
 
       <!-- Desktop: колонка с изображением (скрыта на мобайле) -->
       <div class:list={[
-        'hidden lg:block rounded-3xl overflow-hidden bg-gray-300 lg:h-[720px]',
+        'hidden lg:block relative rounded-3xl overflow-hidden bg-background-primary lg:h-[720px]',
         imageLeft && 'lg:order-1'
       ]}>
-        {image ? (
+        {features.some(f => f.image) ? (
+          features.map((feature, i) => feature.image && (
+            <img
+              src={feature.image}
+              alt={feature.imageAlt ?? feature.title}
+              class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0"
+              x-bind:class={`active === ${i} ? 'opacity-100' : 'opacity-0'`}
+              loading="lazy"
+            />
+          ))
+        ) : image ? (
           <img
             src={image}
             alt={imageAlt}
