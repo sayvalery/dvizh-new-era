@@ -62,11 +62,6 @@ const { variant = 'active', backgroundImage, title, titleHtml, person, logo, log
 
 const isActive = variant === 'active'
 const hasModal = Astro.slots.has('modal-body')
-
-// Для default-варианта автоматически берём цветную версию из /partners/dark/
-const darkLogo = (!isActive && logo && logo.startsWith('/partners/') && !logo.includes('/dark/'))
-  ? logo.replace('/partners/', '/partners/dark/')
-  : logo
 ---
 
 <div
@@ -103,7 +98,7 @@ const darkLogo = (!isActive && logo && logo.startsWith('/partners/') && !logo.in
           /* default (светлый фон): белая плашка с цветными логотипами из /partners/dark/ */
           <div class="self-start inline-flex items-center bg-white rounded-full px-5 py-2.5 shadow-sm">
             {Astro.slots.has('logo') ? <slot name="logo" /> : (
-              <img src={darkLogo} alt={logoAlt} class="h-5 w-auto object-contain" />
+              <img src={logo} alt={logoAlt} class="h-5 w-auto object-contain" />
             )}
           </div>
         )
