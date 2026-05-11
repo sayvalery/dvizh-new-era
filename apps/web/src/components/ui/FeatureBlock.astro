@@ -189,11 +189,11 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
                       <img
                         src={feature.imageMobile ?? feature.image ?? image}
                         alt={feature.imageAlt ?? imageAlt}
-                        class="block w-full h-auto rounded-2xl"
+                        class="block w-full h-auto rounded-2xl lg:rounded-3xl"
                         loading="lazy"
                       />
                     ) : (
-                      <div class="aspect-[4/3] rounded-2xl bg-background-secondary">
+                      <div class="aspect-[4/3] rounded-2xl lg:rounded-3xl bg-background-secondary">
                         <slot name="image-mobile" />
                       </div>
                     )}
