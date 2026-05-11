@@ -68,7 +68,7 @@ const {
 } = Astro.props
 ---
 
-<div class:list={['rounded-3xl bg-stone-100 overflow-hidden', className]}>
+<div class:list={['rounded-2xl lg:rounded-3xl bg-stone-100 overflow-hidden', className]}>
 
   <!-- Текстовая часть -->
   <div class="p-8 lg:p-10">
@@ -103,7 +103,7 @@ const {
 
   <!-- Изображение -->
   <div class:list={[
-    'mx-6 lg:mx-8 overflow-hidden rounded-3xl bg-stone-200 aspect-video',
+    'mx-4 lg:mx-8 overflow-hidden rounded-2xl bg-stone-200 aspect-video',
     review ? 'mb-0' : 'mb-6 lg:mb-8'
   ]}>
     {image && (
