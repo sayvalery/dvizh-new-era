@@ -40,8 +40,8 @@ const itemClass = `flex gap-4 lg:gap-6 items-center group ${className}`
   ? (
     <a href={href} class={itemClass}>
       {icon
-        ? <img src={icon} alt="" width="60" height="60" class="size-[42px] lg:size-[60px] rounded-[13px] lg:rounded-[18px] shrink-0 object-cover" />
-        : <div class="size-[42px] lg:size-[60px] rounded-[13px] lg:rounded-[18px] bg-gray-200 shrink-0"></div>
+        ? <img src={icon} alt="" width="60" height="60" class="size-[42px] lg:size-[60px] rounded-2xl lg:rounded-3xl shrink-0 object-cover" />
+        : <div class="size-[42px] lg:size-[60px] rounded-2xl lg:rounded-3xl bg-gray-200 shrink-0"></div>
       }
       <div class="flex flex-col gap-1 min-w-0">
         <p class="text-h5 lg:text-h4 text-gray-900 group-hover:text-brand transition-colors">{title}</p>
@@ -52,8 +52,8 @@ const itemClass = `flex gap-4 lg:gap-6 items-center group ${className}`
   : (
     <div class={itemClass}>
       {icon
-        ? <img src={icon} alt="" width="60" height="60" class="size-[42px] lg:size-[60px] rounded-[13px] lg:rounded-[18px] shrink-0 object-cover" />
-        : <div class="size-[42px] lg:size-[60px] rounded-[13px] lg:rounded-[18px] bg-gray-200 shrink-0"></div>
+        ? <img src={icon} alt="" width="60" height="60" class="size-[42px] lg:size-[60px] rounded-2xl lg:rounded-3xl shrink-0 object-cover" />
+        : <div class="size-[42px] lg:size-[60px] rounded-2xl lg:rounded-3xl bg-gray-200 shrink-0"></div>
       }
       <div class="flex flex-col gap-1 min-w-0">
         <p class="text-h5 lg:text-h4 text-gray-900">{title}</p>
