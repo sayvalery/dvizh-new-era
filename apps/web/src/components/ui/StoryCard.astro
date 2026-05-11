@@ -74,7 +74,7 @@ const hasModal = Astro.slots.has('modal-body')
   <!-- Карточка -->
   <div
     class:list={[
-      'w-full rounded-[18px] overflow-hidden relative flex flex-col',
+      'w-full rounded-2xl sm:rounded-3xl overflow-hidden relative flex flex-col',
       !className && 'aspect-[4/3] md:aspect-square',
       isActive ? 'bg-cover bg-center' : 'bg-background-secondary',
       hasModal ? 'cursor-pointer' : '',
@@ -139,7 +139,7 @@ const hasModal = Astro.slots.has('modal-body')
         @click.stop
       >
         <!-- Белая панель -->
-        <div class="relative flex flex-col overflow-hidden bg-white h-[90vh] rounded-t-[32px]">
+        <div class="relative flex flex-col overflow-hidden bg-white h-[90vh] rounded-t-3xl">
           <!-- Кнопка закрыть -->
           <button
             @click.stop="open = false"
