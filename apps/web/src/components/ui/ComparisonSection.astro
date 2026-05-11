@@ -148,7 +148,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       <div class="flex flex-col lg:flex-row gap-6 lg:gap-10">
 
         <!-- Левая карточка (без ДВИЖа) — на мобайле второй -->
-        <div class="bg-gray-200 rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px] order-2 lg:order-1">
+        <div class="bg-gray-200 rounded-2xl lg:rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px] order-2 lg:order-1">
           <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
           <div class="border-t border-gray-300 pt-8 flex flex-col gap-6 opacity-60">
             {priceRows.map((row) => (
@@ -162,7 +162,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 
         <!-- Правая карточка (ДВИЖ) — на мобайле первой -->
         <!-- bg #151517 → bg-gray-900 (#1D1E21), ближайший токен -->
-        <div class="bg-gray-900 rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px] order-1 lg:order-2">
+        <div class="bg-gray-900 rounded-2xl lg:rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px] order-1 lg:order-2">
 
           <!-- Логотип -->
           <div class="h-[54px] flex items-center">
@@ -223,7 +223,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 
       <!-- Правая карточка (тёмная, «С ДВИЖем») — первой на мобайле -->
       <!-- Цвет фона в Figma: #131313 → используем bg-gray-900 (#1D1E21), ближайший токен -->
-      <div class="bg-gray-900 rounded-3xl p-8 flex flex-col justify-between gap-10">
+      <div class="bg-gray-900 rounded-2xl lg:rounded-3xl p-8 flex flex-col justify-between gap-10">
         <div class="flex flex-col gap-10">
           <div class="h-[54px] flex items-center">
             {rightLogoSrc ? (
@@ -251,7 +251,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       </div>
 
       <!-- Левая карточка (серая, «Без ДВИЖа») — второй на мобайле -->
-      <div class="bg-gray-200 rounded-3xl p-8 flex flex-col gap-14">
+      <div class="bg-gray-200 rounded-2xl lg:rounded-3xl p-8 flex flex-col gap-14">
         <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
         <div class="flex flex-col divide-y divide-gray-300">
           {leftItems.map((text) => (
@@ -290,12 +290,12 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
         inset-y-0 растягивает их на полную высоту grid-контейнера.
       -->
       <div
-        class="absolute inset-y-0 left-0 rounded-3xl bg-gray-200"
+        class="absolute inset-y-0 left-0 rounded-2xl lg:rounded-3xl bg-gray-200"
         style="width: calc(50% - 0.75rem)"
         aria-hidden="true"
       ></div>
       <div
-        class="absolute inset-y-0 right-0 rounded-3xl bg-gray-900"
+        class="absolute inset-y-0 right-0 rounded-2xl lg:rounded-3xl bg-gray-900"
         style="width: calc(50% - 0.75rem)"
         aria-hidden="true"
       ></div>
