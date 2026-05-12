@@ -2,6 +2,7 @@
   "name": "dvizh-site",
   "private": true,
   "version": "0.0.1",
+  "packageManager": "pnpm@10.30.2",
   "engines": {
     "node": ">=20",
     "pnpm": ">=9"

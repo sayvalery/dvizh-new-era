@@ -115,6 +115,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || 'postgresql://dvizh:dvizh@localhost:5432/dvizh',
     },
+    push: true,
   }),
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore — sharp types incompatible with Payload's SharpDependency, works at runtime
