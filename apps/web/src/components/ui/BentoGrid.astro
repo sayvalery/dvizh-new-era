@@ -104,7 +104,7 @@ const isFour = variant === 'four'
       <div class="flex flex-1 flex-col gap-6">
 
         <!-- Карточка 1: текст сверху-слева, изображение сверху-справа -->
-        <div class="relative flex min-h-[350px] flex-1 flex-col justify-end overflow-hidden rounded-[32px] bg-background-secondary p-6 lg:min-h-0 lg:justify-start lg:rounded-[40px] lg:p-10">
+        <div class="relative flex min-h-[350px] flex-1 flex-col justify-end overflow-hidden rounded-2xl bg-background-secondary p-6 lg:min-h-0 lg:justify-start lg:rounded-3xl lg:p-10">
           <div class="relative z-10 flex max-w-none flex-col gap-3 lg:max-w-[48%] lg:gap-4">
             <h3 class="text-h3 text-gray-900">
               {card1.title}
@@ -119,7 +119,7 @@ const isFour = variant === 'four'
             <img
               src={card1.image}
               alt={card1.imageAlt ?? card1.title}
-              class="absolute right-0 top-0 h-full w-auto max-w-[55%] rounded-[20px] object-cover object-left lg:rounded-[24px]"
+              class="absolute right-0 top-0 h-full w-auto max-w-[55%] rounded-2xl object-cover object-left lg:rounded-3xl"
             />
           ) : (
             <div class="absolute right-0 top-0 h-full w-[48%] bg-gray-200" aria-hidden="true" />
@@ -127,12 +127,12 @@ const isFour = variant === 'four'
         </div>
 
         <!-- Карточка 2: изображение сверху-слева, текст снизу-справа -->
-        <div class="relative flex min-h-[350px] flex-1 flex-col items-start justify-end overflow-hidden rounded-[32px] bg-background-secondary p-6 lg:min-h-0 lg:items-end lg:rounded-[40px] lg:p-10">
+        <div class="relative flex min-h-[350px] flex-1 flex-col items-start justify-end overflow-hidden rounded-2xl bg-background-secondary p-6 lg:min-h-0 lg:items-end lg:rounded-3xl lg:p-10">
           {card2.image ? (
             <img
               src={card2.image}
               alt={card2.imageAlt ?? card2.title}
-              class="absolute left-0 top-0 h-full w-auto max-w-[55%] rounded-[20px] object-cover object-right lg:rounded-[24px]"
+              class="absolute left-0 top-0 h-full w-auto max-w-[55%] rounded-2xl object-cover object-right lg:rounded-3xl"
             />
           ) : (
             <div class="absolute left-0 top-0 h-full w-[48%] bg-gray-200" aria-hidden="true" />
@@ -152,7 +152,7 @@ const isFour = variant === 'four'
       </div>
 
       <!-- Правая колонка: один большой элемент -->
-      <div class="relative flex min-h-[350px] flex-1 flex-col justify-end overflow-hidden rounded-[32px] bg-background-secondary p-6 lg:min-h-0 lg:justify-start lg:rounded-[40px] lg:p-10">
+      <div class="relative flex min-h-[350px] flex-1 flex-col justify-end overflow-hidden rounded-2xl bg-background-secondary p-6 lg:min-h-0 lg:justify-start lg:rounded-3xl lg:p-10">
         <div class="relative z-10 flex flex-col gap-4">
           <h3 class="text-h3 text-gray-900">
             {card3.title}
@@ -192,7 +192,7 @@ const isFour = variant === 'four'
 
         <!-- Карточка 1: широкая, текст внизу-слева -->
         <div
-          class="relative h-[350px] overflow-hidden rounded-[32px] bg-background-secondary lg:h-auto lg:rounded-[40px]"
+          class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary lg:h-auto lg:rounded-3xl"
           style={card1.backgroundImage ? `background-image: url('${card1.backgroundImage}'); background-size: cover; background-position: center;` : ''}
         >
           <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
@@ -205,7 +205,7 @@ const isFour = variant === 'four'
 
         <!-- Карточка 2: узкая, текст вверху-слева на десктопе / внизу-слева на мобайле -->
         <div
-          class="relative h-[350px] overflow-hidden rounded-[32px] bg-background-secondary lg:h-auto lg:rounded-[40px]"
+          class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary lg:h-auto lg:rounded-3xl"
           style={card2.backgroundImage ? `background-image: url('${card2.backgroundImage}'); background-size: cover; background-position: center;` : ''}
         >
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:top-10 lg:bottom-auto lg:left-10 lg:right-10">
@@ -223,7 +223,7 @@ const isFour = variant === 'four'
 
         <!-- Карточка 3: узкая, текст внизу-слева -->
         <div
-          class="relative h-[350px] overflow-hidden rounded-[32px] bg-background-secondary lg:h-auto lg:rounded-[40px]"
+          class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary lg:h-auto lg:rounded-3xl"
           style={card3.backgroundImage ? `background-image: url('${card3.backgroundImage}'); background-size: cover; background-position: center;` : ''}
         >
           <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
@@ -236,7 +236,7 @@ const isFour = variant === 'four'
 
         <!-- Карточка 4: широкая, текст внизу-слева -->
         <div
-          class="relative h-[350px] overflow-hidden rounded-[32px] bg-background-secondary lg:h-auto lg:rounded-[40px]"
+          class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary lg:h-auto lg:rounded-3xl"
           style={card4.backgroundImage ? `background-image: url('${card4.backgroundImage}'); background-size: cover; background-position: center;` : ''}
         >
           <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">

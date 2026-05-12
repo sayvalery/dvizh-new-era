@@ -44,9 +44,14 @@ import FormClosing from '../components/ui/FormClosing.astro'
     ]}
   />
 
-  <!-- Плейсхолдер виджета калькулятора -->
-  <div class="page-container w-full">
-    <div class="h-[150px] md:h-[400px] bg-gray-300 rounded-3xl"></div>
+  <!-- Виджет калькулятора -->
+  <div class="page-container">
+    <img
+      src={`${import.meta.env.PUBLIC_CMS_URL}/api/media/file/calc.png`}
+      alt="Ипотечный калькулятор ДВИЖ"
+      class="w-full h-auto rounded-2xl lg:rounded-3xl"
+      loading="lazy"
+    />
   </div>
 
   <!-- ComparisonSection -->
@@ -65,6 +70,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
       'Меняет порядок ипотечных программ и показывает выгодные предложения',
       'Увеличивает средний чек за счёт персональных предложений',
     ]}
+    rightLogoSrc={`${import.meta.env.PUBLIC_CMS_URL}/api/media/file/dvizh_comp.svg`}
+    rightLogoAlt="ДВИЖ"
     primaryButtonText="Записаться на демо"
     primaryDrawerPreset="demo"
     secondaryButtonText="Пробовать бесплатно"
@@ -74,10 +81,11 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <!-- ReviewFull -->
   <div class="page-container">
     <ReviewFull
+      photo={{ src: `${import.meta.env.PUBLIC_CMS_URL}/api/media/file/calc_person_transp.png`, alt: 'Бурганов Рунар' }}
       quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счет использования стороннего решения, уже готового и гибко настраиваемого, мы оптимизируем наши процессы и, самое главное, сокращаем в сроке реализации."
       author="Бурганов Рунар"
       role="Руководитель отдела ипотеки и финансовых инструментов"
-      company={{ logo: '/api/media/file/kortros-logo.svg', alt: 'Кортрос' }}
+      company={{ logo: `${import.meta.env.PUBLIC_CMS_URL}/api/media/file/kortross.svg`, alt: 'Кортрос' }}
       caseLink={{ label: 'Читать кейс', href: '/cases/kortros' }}
     />
   </div>
