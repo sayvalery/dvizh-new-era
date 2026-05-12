@@ -10,6 +10,8 @@ import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
 import FunnelSection from '../components/ui/FunnelSection.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
+
+const cms = import.meta.env.PUBLIC_CMS_URL
 ---
 
 <SiteLayout title="Для девелоперов" bodyClass="bg-background-primary">
@@ -45,26 +47,26 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
       {
         title: '40+ банков-партнёров',
         subtitle: '15 «быстрых» банков по API',
-        image: '/api/media/file/1st_banks.png',
-        imageMobile: '/api/media/file/1st_banks_m.png',
+        image: `${cms}/api/media/file/1st_banks.png`,
+        imageMobile: `${cms}/api/media/file/1st_banks_m.png`,
       },
       {
         title: '«Умный» скоринг покупателя',
         subtitle: 'До отправки в банк',
-        image: '/api/media/file/2nd_scoring.png',
-        imageMobile: '/api/media/file/2nd_scoring_m.png',
+        image: `${cms}/api/media/file/2nd_scoring.png`,
+        imageMobile: `${cms}/api/media/file/2nd_scoring_m.png`,
       },
       {
         title: 'Встроенный ипотечный калькулятор',
         subtitle: 'На сайте застройщика',
-        image: '/api/media/file/3d_calc.png',
-        imageMobile: '/api/media/file/3d_calc_m.png',
+        image: `${cms}/api/media/file/3d_calc.png`,
+        imageMobile: `${cms}/api/media/file/3d_calc_m.png`,
       },
       {
         title: 'Анкета «0 полей»',
         subtitle: 'Через Госуслуги',
-        image: '/api/media/file/4th_gos.png',
-        imageMobile: '/api/media/file/4th_gos_m.png',
+        image: `${cms}/api/media/file/4th_gos.png`,
+        imageMobile: `${cms}/api/media/file/4th_gos_m.png`,
       },
       { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
       { title: 'Контроль «зависших» обращений 24/7' },
@@ -80,21 +82,21 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
     buttonPreset="demo"
     stories={[
       {
-        logo: '/api/media/file/lsr_color.svg',
+        logo: `${cms}/api/media/file/lsr_color.svg`,
         logoAlt: 'Группа ЛСР',
         titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
         personName: 'Группа ЛСР',
         personJobTitle: 'Один из ведущих строительных холдингов',
       },
       {
-        logo: '/api/media/file/tochno_color.svg',
+        logo: `${cms}/api/media/file/tochno_color.svg`,
         logoAlt: 'ГК Точно',
         titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
         personName: 'ГК «Точно»',
         personJobTitle: 'Крупнейший девелопер Краснодарского края',
       },
       {
-        logo: '/api/media/file/samolet_color.svg',
+        logo: `${cms}/api/media/file/samolet_color.svg`,
         logoAlt: 'ГК Самолет',
         titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
         personName: 'ГК «Самолет»',
@@ -110,22 +112,22 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
         {
           label: 'Лидогенерация',
           cards: [
-            { title: 'Калькулятор ипотеки и рассрочки', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
-            { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
-            { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
+            { title: 'Калькулятор ипотеки и рассрочки', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator', icon: `${cms}/api/media/file/calc_mini-1.png` },
+            { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina', icon: `${cms}/api/media/file/vitrina_mini-1.png` },
+            { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet', icon: `${cms}/api/media/file/lk_mini.png` },
           ],
         },
         {
           label: 'Управление заявками',
           cards: [
-            { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
-            { title: 'Финансовый скоринг', description: 'Доведем больше клиентов до одобрения', href: '/scoring' },
+            { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka', icon: `${cms}/api/media/file/mortgage_mini.png` },
+            { title: 'Финансовый скоринг', description: 'Доведем больше клиентов до одобрения', href: '/scoring', icon: `${cms}/api/media/file/fin_mini.png` },
           ],
         },
         {
           label: 'Регистрация собственности',
           cards: [
-            { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
+            { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya', icon: `${cms}/api/media/file/rega_mini.png` },
           ],
         },
       ]}
@@ -145,6 +147,8 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
       'Весь процесс в одном окне: от заявки до регистрации в Росреестре. Без ошибок и переплат',
       'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейк с коллегами',
     ]}
+    rightLogoSrc={`${cms}/api/media/file/dvizh_comp.svg`}
+    rightLogoAlt="ДВИЖ"
     primaryButtonText="Записаться на демо"
     primaryDrawerPreset="demo"
     secondaryButtonText="Пробовать бесплатно"

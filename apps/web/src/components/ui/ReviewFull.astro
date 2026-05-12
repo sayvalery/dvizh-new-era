@@ -57,7 +57,7 @@ const {
 const hasPhoto = photo?.src
 ---
 
-<div class:list={['flex flex-col lg:flex-row lg:h-[400px] rounded-[30px] overflow-hidden bg-gray-200', className]}>
+<div class:list={['flex flex-col lg:flex-row lg:h-[400px] rounded-2xl lg:rounded-3xl overflow-hidden bg-gray-200', className]}>
 
   <!-- Левая колонка: фото или заглушка -->
   <div class="relative w-full aspect-[4/3] lg:aspect-auto lg:w-96 lg:shrink-0">
@@ -65,7 +65,7 @@ const hasPhoto = photo?.src
       <img
         src={photo!.src}
         alt={photo!.alt ?? ''}
-        class="absolute inset-0 w-full h-full object-cover"
+        class="absolute inset-0 w-full h-full object-contain object-bottom"
         loading="lazy"
       />
     ) : (

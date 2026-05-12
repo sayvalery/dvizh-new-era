@@ -12,11 +12,13 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
 import ReviewFull from '../components/ui/ReviewFull.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
+
+const cms = import.meta.env.PUBLIC_CMS_URL
 ---
 
 <SiteLayout title="Для департамента продаж" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="bg-background-primary">
   <HeroSectionFull
-    title="Ускоряем цикл сделки и забираем на себя всю рутину"
+    title="Ускоряем цикл сделки и&#160;забираем на&#160;себя всю&#160;рутину"
     description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI"
     demoLabel="Получить демо"
     kpLabel="Получить КП"
@@ -221,6 +223,8 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
         'Менеджер знает о платёжеспособности клиентов больше, чем они сами',
         'Вклад каждого сотрудника виден как под микроскопом',
       ]}
+      rightLogoSrc={`${cms}/api/media/file/dvizh_comp.svg`}
+      rightLogoAlt="ДВИЖ"
       primaryButtonText="Получить демо"
       primaryDrawerPreset="demo"
       secondaryButtonText=""

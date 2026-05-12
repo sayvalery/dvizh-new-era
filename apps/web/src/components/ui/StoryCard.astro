@@ -74,7 +74,7 @@ const hasModal = Astro.slots.has('modal-body')
   <!-- Карточка -->
   <div
     class:list={[
-      'w-full rounded-[18px] overflow-hidden relative flex flex-col',
+      'w-full rounded-2xl sm:rounded-3xl overflow-hidden relative flex flex-col',
       !className && 'aspect-[4/3] md:aspect-square',
       isActive ? 'bg-cover bg-center' : 'bg-background-secondary',
       hasModal ? 'cursor-pointer' : '',
@@ -88,13 +88,15 @@ const hasModal = Astro.slots.has('modal-body')
       <!-- Логотип: в потоке (default) или абсолютный (active) -->
       {(Astro.slots.has('logo') || logo) && (
         isActive ? (
-          <div class="absolute top-4 left-4 right-4 lg:top-8 lg:left-8 lg:right-8 flex items-start">
+          /* active (тёмный фон): стеклянная плашка, белые логотипы */
+          <div class="self-start inline-flex items-center bg-white/[0.15] backdrop-blur-[8px] rounded-full px-5 py-2.5 ring-1 ring-white/30 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
             {Astro.slots.has('logo') ? <slot name="logo" /> : (
-              <img src={logo} alt={logoAlt} class="max-h-8 w-auto object-contain" />
+              <img src={logo} alt={logoAlt} class="h-5 w-auto object-contain" />
             )}
           </div>
         ) : (
-          <div class="self-start inline-flex items-center bg-white/[0.60] backdrop-blur-[8px] rounded-[40px] px-5 py-2.5 ring-1 ring-white/50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)]">
+          /* default (светлый фон): белая плашка с цветными логотипами из /partners/dark/ */
+          <div class="self-start inline-flex items-center bg-white rounded-full px-5 py-2.5 shadow-sm">
             {Astro.slots.has('logo') ? <slot name="logo" /> : (
               <img src={logo} alt={logoAlt} class="h-5 w-auto object-contain" />
             )}
@@ -139,7 +141,7 @@ const hasModal = Astro.slots.has('modal-body')
         @click.stop
       >
         <!-- Белая панель -->
-        <div class="relative flex flex-col overflow-hidden bg-white h-[90vh] rounded-t-[32px]">
+        <div class="relative flex flex-col overflow-hidden bg-white h-[90vh] rounded-t-3xl">
           <!-- Кнопка закрыть -->
           <button
             @click.stop="open = false"
