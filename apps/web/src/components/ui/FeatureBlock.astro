@@ -70,8 +70,10 @@ interface Props {
   button?: ButtonProps
   /** Список пунктов */
   features: Feature[]
-  /** URL изображения */
+  /** URL изображения (десктоп) */
   image?: string
+  /** URL изображения для мобильной версии (если не задано — используется `image`) */
+  imageMobile?: string
   /** Alt изображения */
   imageAlt?: string
   /** Сторона изображения на десктопе: right (по умолчанию) или left */
@@ -90,6 +92,7 @@ const {
   button,
   features = [],
   image,
+  imageMobile,
   imageAlt = '',
   imageSide = 'right',
   interval = 5000,
@@ -185,9 +188,9 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
                     style="max-height: 0; opacity: 0; margin-top: 0"
                     x-bind:style={`active === ${i} ? 'max-height: 800px; opacity: 1; margin-top: 1rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
                   >
-                    {(feature.imageMobile ?? feature.image ?? image) ? (
+                    {(feature.imageMobile ?? feature.image ?? imageMobile ?? image) ? (
                       <img
-                        src={feature.imageMobile ?? feature.image ?? image}
+                        src={feature.imageMobile ?? feature.image ?? imageMobile ?? image}
                         alt={feature.imageAlt ?? imageAlt}
                         class="block w-full h-auto rounded-2xl lg:rounded-3xl"
                         loading="lazy"

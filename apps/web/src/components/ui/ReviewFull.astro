@@ -65,7 +65,7 @@ const hasPhoto = photo?.src
       <img
         src={photo!.src}
         alt={photo!.alt ?? ''}
-        class="absolute inset-0 w-full h-full object-contain object-bottom"
+        class="absolute inset-0 w-full h-full object-cover object-top"
         loading="lazy"
       />
     ) : (
