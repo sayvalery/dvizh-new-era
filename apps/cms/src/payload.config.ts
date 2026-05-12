@@ -7,6 +7,8 @@ import {
   LinkFeature,
   StrikethroughFeature,
 } from '@payloadcms/richtext-lexical'
+import { seoPlugin } from '@payloadcms/plugin-seo'
+import type { GenerateTitle, GenerateDescription, GenerateImage, GenerateURL } from '@payloadcms/plugin-seo/types'
 import sharp from 'sharp'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -124,5 +126,17 @@ export default buildConfig({
     process.env.WEB_URL || 'http://localhost:4321',
     'https://dvizh.cc',
     'https://www.dvizh.cc',
+  ],
+  plugins: [
+    seoPlugin({
+      collections: ['blog-posts'],
+      uploadsCollection: 'media',
+      tabbedUI: false,
+      generateTitle: (({ doc }) => (doc?.title as string) ?? '') satisfies GenerateTitle,
+      generateDescription: (({ doc }) => (doc?.excerpt as string) ?? '') satisfies GenerateDescription,
+      generateImage: (({ doc }) => doc?.cover) satisfies GenerateImage,
+      generateURL: (({ doc }) =>
+        `${process.env.WEB_URL || 'https://dvizh.io'}/blog/${(doc?.slug as string) ?? ''}`) satisfies GenerateURL,
+    }),
   ],
 })

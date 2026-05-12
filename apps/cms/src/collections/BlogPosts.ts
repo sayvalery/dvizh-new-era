@@ -12,24 +12,6 @@ export const BlogPosts: CollectionConfig = {
   access: {
     read: () => true,
   },
-  hooks: {
-    beforeChange: [
-      ({ data }) => {
-        // Auto-fill SEO meta from post fields if empty
-        if (!data.meta) data.meta = {}
-        if (!data.meta.title && data.title) {
-          data.meta.title = data.title.length > 60 ? data.title.slice(0, 57) + '...' : data.title
-        }
-        if (!data.meta.description && data.excerpt) {
-          data.meta.description = data.excerpt.length > 160 ? data.excerpt.slice(0, 157) + '...' : data.excerpt
-        }
-        if (!data.meta.image && data.cover) {
-          data.meta.image = typeof data.cover === 'string' ? data.cover : data.cover?.id ?? data.cover
-        }
-        return data
-      },
-    ],
-  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'status', 'publishedAt'],
@@ -140,15 +122,8 @@ export const BlogPosts: CollectionConfig = {
       label: 'Дата публикации',
       admin: { date: { pickerAppearance: 'dayAndTime' } },
     },
-    {
-      name: 'meta',
-      type: 'group',
-      label: 'SEO',
-      fields: [
-        { name: 'title', type: 'text', label: 'Meta title' },
-        { name: 'description', type: 'textarea', label: 'Meta description' },
-        { name: 'image', type: 'upload', relationTo: 'media', label: 'OG Image' },
-      ],
-    },
+    // SEO-поля добавляются автоматически плагином @payloadcms/plugin-seo
+    // (см. payload.config.ts → plugins). Превью SERP-выдачи и автозаполнение
+    // из title/excerpt/cover включены через generateTitle/Description/Image.
   ],
 }
