@@ -2,17 +2,22 @@
 /**
  * BentoGrid — секция с bento-раскладкой карточек
  *
+ * Карточки в обоих вариантах поддерживают `backgroundImage` — растягивается на всю
+ * площадь карточки (background-size: cover; background-position: center). Текст лежит
+ * абсолютом поверх — учитывай читаемость при подборе картинки.
+ *
  * ## Вариант 'three' (по умолчанию)
  * Два маленьких элемента слева (стек) + один большой справа.
+ * Позиции текста: card1 — верх-лево, card2 — низ-лево, card3 — верх-лево.
  *
  * @example variant='three'
  * ```astro
  * <BentoGrid
  *   heading="Другие причины выбрать ДВИЖ"
  *   items={[
- *     { title: "Выпуск подписи за 5 минут", description: "...", image: "/img/sign.png" },
- *     { title: "Ускорим подачу заявления", description: "...", image: "/img/gosuslugi.png" },
- *     { title: "Расчёт вероятности одобрения", description: "...", image: "/img/scoring.png" }
+ *     { title: "Выпуск подписи за 5 минут", description: "...", backgroundImage: "/img/sign.png" },
+ *     { title: "Ускорим подачу заявления", description: "...", backgroundImage: "/img/gosuslugi.png" },
+ *     { title: "Расчёт вероятности одобрения", description: "...", backgroundImage: "/img/scoring.png" }
  *   ]}
  * />
  * ```
@@ -21,8 +26,6 @@
  * Две строки по две карточки с разными пропорциями:
  * - Строка 1: широкая (≈77%) + узкая (≈23%), текст внизу/вверху соответственно
  * - Строка 2: узкая (≈40%) + широкая (≈60%), текст внизу у обеих
- *
- * Карточки поддерживают фоновое изображение на всю площадь (backgroundImage).
  *
  * @example variant='four'
  * ```astro
@@ -43,13 +46,9 @@ interface BentoItem {
   title: string
   /** Подпись под заголовком */
   description?: string
-  /** URL изображения (для variant='three') */
-  image?: string
-  /** Alt-текст изображения */
-  imageAlt?: string
   /**
-   * URL фонового изображения на всю карточку (для variant='four').
-   * Растягивается на весь размер карточки (background-size: cover).
+   * URL фонового изображения на всю карточку.
+   * Растягивается на весь размер карточки (background-size: cover; background-position: center).
    */
   backgroundImage?: string
 }
@@ -103,75 +102,45 @@ const isFour = variant === 'four'
       <!-- Левая колонка: два равных элемента -->
       <div class="flex flex-1 flex-col gap-6">
 
-        <!-- Карточка 1: текст сверху-слева, изображение сверху-справа -->
-        <div class="relative flex min-h-[350px] flex-1 flex-col justify-end overflow-hidden rounded-2xl bg-background-secondary p-6 lg:min-h-0 lg:justify-start lg:rounded-3xl lg:p-10">
-          <div class="relative z-10 flex max-w-none flex-col gap-3 lg:max-w-[48%] lg:gap-4">
-            <h3 class="text-h3 text-gray-900">
-              {card1.title}
-            </h3>
+        <!-- Карточка 1: текст сверху-слева -->
+        <div
+          class="relative min-h-[350px] flex-1 overflow-hidden rounded-2xl bg-background-secondary lg:min-h-0 lg:rounded-3xl"
+          style={card1.backgroundImage ? `background-image: url('${card1.backgroundImage}'); background-size: cover; background-position: center;` : ''}
+        >
+          <div class="absolute top-6 left-6 right-6 flex flex-col gap-3 lg:top-10 lg:left-10 lg:right-10 lg:max-w-[48%] lg:gap-4">
+            <h3 class="text-h3 text-gray-900">{card1.title}</h3>
             {card1.description && (
-              <p class="text-body-lg text-black/40">
-                {card1.description}
-              </p>
+              <p class="text-body-lg text-black/40">{card1.description}</p>
             )}
           </div>
-          {card1.image ? (
-            <img
-              src={card1.image}
-              alt={card1.imageAlt ?? card1.title}
-              class="absolute right-0 top-0 h-full w-auto max-w-[55%] rounded-2xl object-cover object-left lg:rounded-3xl"
-            />
-          ) : (
-            <div class="absolute right-0 top-0 h-full w-[48%] bg-gray-200" aria-hidden="true" />
-          )}
         </div>
 
-        <!-- Карточка 2: изображение сверху-слева, текст снизу-справа -->
-        <div class="relative flex min-h-[350px] flex-1 flex-col items-start justify-end overflow-hidden rounded-2xl bg-background-secondary p-6 lg:min-h-0 lg:items-end lg:rounded-3xl lg:p-10">
-          {card2.image ? (
-            <img
-              src={card2.image}
-              alt={card2.imageAlt ?? card2.title}
-              class="absolute left-0 top-0 h-full w-auto max-w-[55%] rounded-2xl object-cover object-right lg:rounded-3xl"
-            />
-          ) : (
-            <div class="absolute left-0 top-0 h-full w-[48%] bg-gray-200" aria-hidden="true" />
-          )}
-          <div class="relative z-10 flex max-w-none flex-col gap-3 lg:max-w-[48%] lg:gap-4">
-            <h3 class="text-h3 text-gray-900">
-              {card2.title}
-            </h3>
+        <!-- Карточка 2: текст снизу-слева -->
+        <div
+          class="relative min-h-[350px] flex-1 overflow-hidden rounded-2xl bg-background-secondary lg:min-h-0 lg:rounded-3xl"
+          style={card2.backgroundImage ? `background-image: url('${card2.backgroundImage}'); background-size: cover; background-position: center;` : ''}
+        >
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:max-w-[48%] lg:gap-4">
+            <h3 class="text-h3 text-gray-900">{card2.title}</h3>
             {card2.description && (
-              <p class="text-body-lg text-black/40">
-                {card2.description}
-              </p>
+              <p class="text-body-lg text-black/40">{card2.description}</p>
             )}
           </div>
         </div>
 
       </div>
 
-      <!-- Правая колонка: один большой элемент -->
-      <div class="relative flex min-h-[350px] flex-1 flex-col justify-end overflow-hidden rounded-2xl bg-background-secondary p-6 lg:min-h-0 lg:justify-start lg:rounded-3xl lg:p-10">
-        <div class="relative z-10 flex flex-col gap-4">
-          <h3 class="text-h3 text-gray-900">
-            {card3.title}
-          </h3>
+      <!-- Правая колонка: один большой элемент, текст сверху-слева -->
+      <div
+        class="relative min-h-[350px] flex-1 overflow-hidden rounded-2xl bg-background-secondary lg:min-h-0 lg:rounded-3xl"
+        style={card3.backgroundImage ? `background-image: url('${card3.backgroundImage}'); background-size: cover; background-position: center;` : ''}
+      >
+        <div class="absolute top-6 left-6 right-6 flex flex-col gap-4 lg:top-10 lg:left-10 lg:right-10">
+          <h3 class="text-h3 text-gray-900">{card3.title}</h3>
           {card3.description && (
-            <p class="text-body-lg text-black/40">
-              {card3.description}
-            </p>
+            <p class="text-body-lg text-black/40">{card3.description}</p>
           )}
         </div>
-        {card3.image ? (
-          <img
-            src={card3.image}
-            alt={card3.imageAlt ?? card3.title}
-            class="absolute bottom-0 left-0 w-full object-cover"
-          />
-        ) : (
-          <div class="absolute bottom-0 left-0 h-[55%] w-full bg-gray-200" aria-hidden="true" />
-        )}
       </div>
 
     </div>

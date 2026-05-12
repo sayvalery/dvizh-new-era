@@ -95,10 +95,11 @@ const partnerLogos = [
 
   {/* ── 1. Hero Section ── */}
   <HeroSection
-    title={"Лучшие отделы продаж застройщиков используют ДВИЖ"}
+    title={"В рынке, где заявок мало, ДВИЖ выжимает максимум продаж"}
     description={"Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"}
     formPreset="lead"
     formSubmitLabel="Получить демо"
+    wideTitle
     withGradient
     gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
   >
@@ -141,8 +142,13 @@ const partnerLogos = [
   <section class="py-24 sm:py-32">
     <div class="page-container">
       <h2 class="text-h2">Девелоперы с ДВИЖ</h2>
-      <div class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div
+        x-data="{ active: 0 }"
+        @mouseleave="active = 0"
+        class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6"
+      >
         <AdvantageCard
+          index={0}
           title="Закрывают до 26% больше сделок на том же трафике"
           stat="+26%"
           label="Сделок на том же трафике"
@@ -156,6 +162,7 @@ const partnerLogos = [
           )}
         </AdvantageCard>
         <AdvantageCard
+          index={1}
           title="Снизили количество отказов по ипотеке"
           stat="90%"
           label="Одобрений при объёме выше рынка"
@@ -169,6 +176,7 @@ const partnerLogos = [
           )}
         </AdvantageCard>
         <AdvantageCard
+          index={2}
           title="Получают больше выручки на одного менеджера"
           stat="+281%"
           label="Заявок на одного менеджера"
@@ -182,6 +190,7 @@ const partnerLogos = [
           )}
         </AdvantageCard>
         <AdvantageCard
+          index={3}
           title="Сократили расходы на электронную регистрацию"
           stat="-30%"
           label="Затрат на регистрацию"
@@ -200,31 +209,31 @@ const partnerLogos = [
 
   {/* ── 3. Кейсы — SuccessStoryBlock ── */}
   <SuccessStoryBlock
-    heading="70+ историй успеха на рынке девелопмента"
+    heading="70+ историй успеха на рынке застройщиков"
     buttonLabel="Получить демо"
     buttonPreset="demo"
     class="pb-24 lg:pb-[120px]"
     stories={[
       {
-        logo: '/partners/dark/lsr.svg',
-        logoAlt: 'ЛСР',
-        titleHtml: 'Помогли начать обрабатывать на <span class="text-brand">281% заявок больше</span>, чем в среднем на рынке',
-        personName: 'Петрова Надежда',
-        personJobTitle: 'Директор по маркетингу, ЛСР',
+        logo: '/api/media/file/lsr_color.svg',
+        logoAlt: 'Группа ЛСР',
+        titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
+        personName: 'Группа ЛСР',
+        personJobTitle: 'Один из ведущих строительных холдингов',
       },
       {
-        logo: '/partners/dark/strana.svg',
-        logoAlt: 'Страна Девелопмент',
-        titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с 1165 до 3500</span> за год',
-        personName: 'Светлана Корнелюк',
-        personJobTitle: 'Директор отдела продаж',
+        logo: '/api/media/file/tochno_color.svg',
+        logoAlt: 'ГК Точно',
+        titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
+        personName: 'ГК «Точно»',
+        personJobTitle: 'Крупнейший девелопер Краснодарского края',
       },
       {
-        logo: '/partners/dark/glorax.svg',
-        logoAlt: 'Glorax',
-        titleHtml: 'Снизили процент отказов по ипотеке <span class="text-brand">до 10%</span> за три месяца',
-        personName: 'Анна Смирнова',
-        personJobTitle: 'Ипотечный брокер, Самолёт',
+        logo: '/api/media/file/samolet_color.svg',
+        logoAlt: 'ГК Самолет',
+        titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
+        personName: 'ГК «Самолет»',
+        personJobTitle: 'Крупнейший федеральный девелопер России',
       },
     ]}
   />
@@ -326,8 +335,10 @@ const partnerLogos = [
         ],
         personName: 'Третьякова Юлия',
         personTitle: 'Руководитель отдела ипотеки и финансовых инструментов',
-        avatars: ['', '', ''],
-        extraCount: 2,
+        icon: '/api/media/file/icon-chat.svg',
+        photo: '/api/media/file/sup1.webp',
+        avatars: ['/api/media/file/sup-small2.jpg', '/api/media/file/sup-small1.jpg'],
+        extraCount: 12,
       },
       {
         title: '7 менеджеров успеха',
@@ -338,8 +349,10 @@ const partnerLogos = [
         ],
         personName: 'Иванов Сергей',
         personTitle: 'Руководитель направления Customer Success',
-        avatars: ['', '', '', ''],
-        extraCount: 3,
+        icon: '/api/media/file/icon-settings.svg',
+        photo: '/api/media/file/sup2.webp',
+        avatars: ['/api/media/file/sup-small3.jpg', '/api/media/file/sup-small2.jpg'],
+        extraCount: 4,
       },
       {
         title: '8 аналитиков',
@@ -350,8 +363,10 @@ const partnerLogos = [
         ],
         personName: 'Козлова Анна',
         personTitle: 'Руководитель аналитического отдела',
-        avatars: ['', ''],
-        extraCount: 2,
+        icon: '/api/media/file/icon-trending.svg',
+        photo: '/api/media/file/sup3.webp',
+        avatars: ['/api/media/file/sup-small1.jpg', '/api/media/file/sup-small3.jpg'],
+        extraCount: 5,
       },
     ]}
   />

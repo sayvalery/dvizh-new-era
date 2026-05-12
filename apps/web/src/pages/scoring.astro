@@ -91,18 +91,22 @@ import FormClosing from '../components/ui/FormClosing.astro'
           {
             title: 'Распознавание',
             description: 'Определяем тип документа и вытаскиваем нужные поля автоматически',
+            backgroundImage: '/api/media/file/bento-skoring-1.webp',
           },
           {
             title: 'Дополняем профиль клиента',
             description: 'Подтягиваем данные из сторонних источников — ФНС, ГИБДД, БКИ',
+            backgroundImage: '/api/media/file/bento-skoring-2.webp',
           },
           {
             title: 'Антифрод',
             description: 'Ищем признаки мошенничества и сверяем данные с внешними базами',
+            backgroundImage: '/api/media/file/bento-skoring-3.webp',
           },
           {
             title: 'Верификация',
             description: 'Проверяем документ на подлинность ещё до ручной обработки',
+            backgroundImage: '/api/media/file/bento-skoring-4.webp',
           },
         ]}
       />
@@ -115,7 +119,14 @@ import FormClosing from '../components/ui/FormClosing.astro'
     subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
     buttonText="Забрать решение"
     drawerPreset="demo"
-  />
+  >
+    <img
+      slot="image"
+      src="/api/media/file/skoring-approve.webp"
+      alt="ДВИЖ Скоринг — одобрение"
+      class="w-full h-full object-cover"
+    />
+  </TextImageBlock>
 
   {/* ── 7. FormClosing ── */}
   <FormClosing

@@ -53,9 +53,10 @@ const {
 ---
 
 <!-- Классы Alpine, используемые в :class-биндингах (нужны для сканера Tailwind):
-     bg-gray-900 bg-background-secondary bg-gray-200 bg-brand bg-gray-300
+     bg-gray-900 bg-background-secondary bg-gray-200 bg-brand bg-gray-300 bg-white/10
      text-white text-gray-900 text-white/80 text-gray-500
      opacity-100 opacity-0 hover:bg-gray-200
+     brightness-0 invert
 -->
 
 <section class:list={['py-24 lg:py-[120px]', className]}>
@@ -95,12 +96,12 @@ const {
             <img
               src={tab.photo}
               alt={tab.personName}
-              class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 pointer-events-none"
+              class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ease-out pointer-events-none"
               :class={`active === ${i} ? 'opacity-100' : 'opacity-0'`}
             />
           ) : (
             <div
-              class="absolute inset-0 bg-gray-200 transition-opacity duration-500"
+              class="absolute inset-0 bg-gray-200 transition-opacity duration-300 ease-out"
               :class={`active === ${i} ? 'opacity-100' : 'opacity-0'`}
             />
           )
@@ -109,8 +110,8 @@ const {
         <!-- Мини-аватарки (левый верхний угол), меняются с табом -->
         {tabs.map((tab, i) => {
           const avs = tab.avatars ?? []
-          const shown = avs.slice(0, 3)
-          const extra = avs.length - 3
+          const shown = avs.slice(0, 2)
+          const extra = tab.extraCount ?? (avs.length - 2)
           return (
             <div
               class="absolute top-6 left-6 z-10 flex gap-2 transition-opacity duration-300"
@@ -139,7 +140,7 @@ const {
         <!-- Нейм-бейдж (снизу), меняется с табом -->
         {tabs.map((tab, i) => (
           <div
-            class="absolute bottom-0 left-0 right-0 z-10 p-6 bg-gray-900/30 backdrop-blur-sm rounded-b-[24px] transition-opacity duration-500"
+            class="absolute bottom-0 left-0 right-0 z-10 p-6 bg-gray-900/30 backdrop-blur-sm rounded-b-[24px] transition-opacity duration-300 ease-out"
             :class={`active === ${i} ? 'opacity-100' : 'opacity-0'`}
           >
             <p class="text-h4 text-white">{tab.personName}</p>
@@ -182,18 +183,19 @@ const {
 
             <!-- Иконка + заголовок -->
             <div class="flex items-center gap-4">
-              {tab.icon ? (
-                <img
-                  src={tab.icon}
-                  alt=""
-                  class="size-14 rounded-2xl object-cover shrink-0 hidden lg:block"
-                />
-              ) : (
-                <div
-                  :class={`active === ${i} ? 'bg-brand' : 'bg-gray-200'`}
-                  class="size-14 rounded-2xl shrink-0 transition-colors duration-300 hidden lg:block"
-                />
-              )}
+              <div
+                :class={`active === ${i} ? 'bg-white/10' : 'bg-gray-300'`}
+                class="size-14 rounded-2xl shrink-0 transition-colors duration-300 hidden lg:flex items-center justify-center"
+              >
+                {tab.icon && (
+                  <img
+                    src={tab.icon}
+                    alt=""
+                    :class={`active === ${i} ? 'brightness-0 invert' : ''`}
+                    class="size-8 transition-[filter] duration-300"
+                  />
+                )}
+              </div>
               <h3
                 :class={`active === ${i} ? 'text-white' : 'text-gray-900'`}
                 class="text-h3 transition-colors duration-300"

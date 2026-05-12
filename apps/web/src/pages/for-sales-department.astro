@@ -61,23 +61,31 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     <!-- Мы помогаем -->
     <div class="page-container">
       <h2 class="text-h2">Мы помогаем</h2>
-      <div class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div
+        x-data="{ active: 0 }"
+        @mouseleave="active = 0"
+        class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6"
+      >
         <AdvantageCard
+          index={0}
           title="Наполнить воронку качественными лидами"
           stat="+281%"
           label="Заявок на&#160;одного менеджера"
         />
         <AdvantageCard
+          index={1}
           title="Закрыть клиентов быстрее, чем конкуренты"
           stat="×16"
           label="Одна заявка вместо шестнадцати писем"
         />
         <AdvantageCard
+          index={2}
           title="Увеличить средний чек и&#160;допродажи"
           stat="×3"
           label="Сделок без&#160;увеличения штата"
         />
         <AdvantageCard
+          index={3}
           title="Увидеть результат работы каждого сотрудника"
           stat="90%"
           label="Одобрений при&#160;объёме выше рынка"
