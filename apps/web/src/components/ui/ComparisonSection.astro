@@ -252,7 +252,9 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 
       <!-- Левая карточка (серая, «Без ДВИЖа») — второй на мобайле -->
       <div class="bg-gray-200 rounded-2xl lg:rounded-3xl p-8 flex flex-col gap-14">
-        <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
+        <div class="h-[54px] flex items-center">
+          <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
+        </div>
         <div class="flex flex-col divide-y divide-gray-300">
           {leftItems.map((text) => (
             <div class="flex gap-3 items-start py-5 first:pt-0 last:pb-0 opacity-60">
@@ -302,7 +304,9 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 
       <!-- ── Строка 1: заголовок | логотип ── -->
       <div class="relative z-10 px-[34px] pt-[34px] pb-14">
-        <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
+        <div class="h-[54px] flex items-center">
+          <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
+        </div>
       </div>
       <div class="relative z-10 px-[34px] pt-[34px] pb-14 flex items-start">
         <div class="h-[54px] flex items-center">
