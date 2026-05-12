@@ -47,5 +47,8 @@ export default defineConfig({
         '/media': { target: cmsProxy, changeOrigin: true, secure: false },
       },
     },
+    optimizeDeps: {
+      include: ['alpinejs'],
+    },
   },
 })
