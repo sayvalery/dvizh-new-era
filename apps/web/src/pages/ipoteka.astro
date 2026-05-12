@@ -39,26 +39,34 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <section class="py-24 sm:py-32">
     <div class="page-container">
       <h2 class="text-h2">Девелоперы с ДВИЖ Ипотекой</h2>
-      <div class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div
+        x-data="{ active: 0 }"
+        @mouseleave="active = 0"
+        class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6"
+      >
         <AdvantageCard
+          index={0}
           title="Сократили количество отказов по ипотеке"
           stat="+26%"
           label="Сделок на том же трафике"
           expandHref="/blog/case-ayaks-dvizh"
         />
         <AdvantageCard
+          index={1}
           title="Перестали терять сделки из-за клиентов с низким кредитным рейтингом"
           stat="90%"
           label="Одобрений при объёме выше рынка"
           expandHref="/blog/granel-rost-procenta-odobreniya"
         />
         <AdvantageCard
+          index={2}
           title="Ускорили заполнение анкеты до 10 секунд, а получение одобрения — до 5 минут"
           stat="+281%"
           label="Заявок на одного менеджера"
           expandHref="/blog/kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti"
         />
         <AdvantageCard
+          index={3}
           title="Перестали терять сделки из-за клиентов с низким кредитным рейтингом"
           stat="-30%"
           label="Затрат на регистрацию"
@@ -70,6 +78,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   {/* ── 4. FeatureBlock — Повышаем конверсию ── */}
   <FeatureBlock
+    image="/api/media/file/product-calc.webp"
+    imageAlt="Ипотечный калькулятор"
     heading="Повышаем конверсию первичной консультации в 2 раза"
     description="Какой-то небольшой подзаголовок — подборку статей / кейсов добавим позже"
     button={{ label: 'Узнать больше', href: '/ipoteka' }}
@@ -89,6 +99,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
   {/* ── 5. FeatureBlock — Сокращаем время ── */}
   <FeatureBlock
     imageSide="left"
+    image="/api/media/file/product-anketa.webp"
+    imageAlt="Анкета клиента"
     heading="Сокращаем время на заполнение анкеты до 10 секунд"
     description="Подзаголовок будет добавлен позже"
     button={{ label: 'Узнать больше', href: '/ipoteka' }}
@@ -108,6 +120,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   {/* ── 6. FeatureBlock — Проверяем клиентов ── */}
   <FeatureBlock
+    image="/api/media/file/product-calc.webp"
+    imageAlt="Ипотечный калькулятор"
     heading="Проверяем ваших клиентов по банковским стандартам"
     description="Подзаголовок будет добавлен позже"
     button={{ label: 'Узнать больше', href: '/scoring' }}
@@ -128,6 +142,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
   {/* ── 7. FeatureBlock — Увеличиваем одобрение ── */}
   <FeatureBlock
     imageSide="left"
+    image="/api/media/file/product-anketa.webp"
+    imageAlt="Анкета клиента"
     heading="Увеличиваем процент одобрения до 95%"
     description="Подзаголовок будет добавлен позже"
     button={{ label: 'Узнать больше', href: '/ipoteka' }}
@@ -191,7 +207,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
       'Составим рекомендации на основе опыта работы с застройщиками из топ-50',
     ]}
     submitLabel="Оставить заявку"
-    class="py-12"
+    class="pt-24 pb-12 lg:pt-[120px]"
   />
 
 </SiteLayout>
