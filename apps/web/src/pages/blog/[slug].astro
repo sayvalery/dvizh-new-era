@@ -80,19 +80,28 @@ const coAuthors = (post.coAuthors ?? []).filter(
   (a: any) => a.id !== primaryAuthor?.id
 )
 
-// Связанные посты из той же категории
-let relatedPosts: any[] = []
-if (post.category?.slug) {
+// Связанные посты: гибридная логика — ручные + авто-добор из той же категории.
+// 1. Ручные связанные (из поля post.relatedPosts)
+const manualRelated = (post.relatedPosts ?? []).filter((p: any) => p?.id && p.id !== post.id)
+
+// 2. Авто-добор из той же категории, исключая текущую и manual
+let autoRelated: any[] = []
+const slotsLeft = 3 - manualRelated.length
+if (slotsLeft > 0 && post.category?.slug) {
+  const excludeIds = [post.id, ...manualRelated.map((p: any) => p.id)]
   const { docs } = await getBlogPosts({
     where: {
       _status: { equals: 'published' },
       'category.slug': { equals: post.category.slug },
-      slug: { not_equals: post.slug },
+      id: { not_in: excludeIds },
     },
-    limit: 3,
+    sort: '-publishedAt',
+    limit: slotsLeft,
+    depth: 2,
   })
-  relatedPosts = docs
+  autoRelated = docs
 }
+const relatedPosts = [...manualRelated, ...autoRelated].slice(0, 3)
 ---
 
 <BlogLayout
@@ -149,9 +158,18 @@ if (post.category?.slug) {
     {post.tags?.length > 0 && (
       <div class="flex flex-wrap gap-2 mb-8">
         {post.tags.map((tag: any) => (
-          <span class="px-2.5 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">
-            {tag.title || tag.name || tag}
-          </span>
+          tag.slug ? (
+            <a
+              href={`/tag/${tag.slug}`}
+              class="px-2.5 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full hover:bg-gray-200 transition-colors"
+            >
+              {tag.title || tag.name || tag}
+            </a>
+          ) : (
+            <span class="px-2.5 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">
+              {tag.title || tag.name || tag}
+            </span>
+          )
         ))}
       </div>
     )}

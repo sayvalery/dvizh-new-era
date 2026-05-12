@@ -314,3 +314,33 @@ export async function getPostsByCompany(slug: string) {
   })
 }
 
+export async function getTags(options: FetchOptions = {}) {
+  return fetchFromCMS<{ docs: any[]; totalDocs: number; hasNextPage: boolean }>('/tags', {
+    sort: 'name',
+    limit: 100,
+    depth: 1,
+    ...options,
+  })
+}
+
+export async function getTag(slug: string) {
+  const result = await fetchFromCMS<{ docs: any[] }>('/tags', {
+    where: { slug: { equals: slug } },
+    depth: 1,
+    limit: 1,
+  })
+  return result.docs[0] ?? null
+}
+
+export async function getPostsByTag(tagId: number | string) {
+  return fetchFromCMS<{ docs: any[]; totalDocs: number }>('/blog-posts', {
+    where: {
+      ...publishedFilter,
+      tags: { in: [tagId] },
+    },
+    sort: '-publishedAt',
+    limit: 200,
+    depth: 2,
+  })
+}
+

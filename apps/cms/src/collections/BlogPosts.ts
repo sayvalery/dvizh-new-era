@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { RichTextBlock } from '../blocks/RichText'
 import { ImageBlock } from '../blocks/ImageBlock'
 import { FormBlock } from '../blocks/FormBlock'
@@ -123,6 +122,17 @@ export const BlogPosts: CollectionConfig = {
       relationTo: 'tags',
       hasMany: true,
       label: 'Теги',
+    },
+    {
+      name: 'relatedPosts',
+      type: 'relationship',
+      relationTo: 'blog-posts',
+      hasMany: true,
+      maxRows: 3,
+      label: 'Связанные статьи (вручную)',
+      admin: {
+        description: 'Опционально. Если выбраны — показываются первыми. Остальные слоты добиваются автоматически из той же категории.',
+      },
     },
     {
       name: 'publishedAt',

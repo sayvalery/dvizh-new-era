@@ -1,5 +1,4 @@
 import type { Block } from 'payload'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
 
 export const RichTextBlock: Block = {
   slug: 'richText',
@@ -9,7 +8,8 @@ export const RichTextBlock: Block = {
       name: 'content',
       type: 'richText',
       label: 'Контент',
-      editor: lexicalEditor({}),
+      // editor не указан — наследуется глобальный из payload.config.ts
+      // (FixedToolbar + Heading H2-H4 + LinkFeature с nofollow + Strikethrough)
       required: true,
     },
   ],

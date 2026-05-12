@@ -1,6 +1,12 @@
 import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import {
+  lexicalEditor,
+  FixedToolbarFeature,
+  HeadingFeature,
+  LinkFeature,
+  StrikethroughFeature,
+} from '@payloadcms/richtext-lexical'
 import sharp from 'sharp'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -71,7 +77,36 @@ export default buildConfig({
     FormSubmissions,
   ],
   globals: [],
-  editor: lexicalEditor({}),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [
+      // Сохраняем все дефолтные фичи Payload (paragraph, bold, italic, lists, blockquote, inline toolbar и т.д.)
+      // Дефолтные HeadingFeature/LinkFeature/StrikethroughFeature будут переопределены ниже.
+      ...defaultFeatures.filter(
+        (f) => !['heading', 'link', 'strikethrough'].includes(f.key),
+      ),
+      // 1. Постоянная панель сверху с дропдауном Paragraph / H1-H6 — позволяет переключать
+      //    блок без пересоздания.
+      FixedToolbarFeature(),
+      // Ограничиваем выбор размеров заголовков для маркетологов (H1 на странице должен быть один).
+      HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+      // 3. Зачёркнутый текст (кнопка в тулбаре + горячая клавиша Cmd/Ctrl+Shift+S).
+      StrikethroughFeature(),
+      // 2. Ссылки с галочками "Открывать в новой вкладке" (newTab — дефолт) и "rel=nofollow".
+      LinkFeature({
+        fields: ({ defaultFields }) => [
+          ...defaultFields,
+          {
+            name: 'nofollow',
+            type: 'checkbox',
+            label: 'rel="nofollow"',
+            admin: {
+              description: 'Не передавать ссылочный вес (для рекламы и внешних ненадёжных доменов).',
+            },
+          },
+        ],
+      }),
+    ],
+  }),
   secret: process.env.PAYLOAD_SECRET || 'dev-secret-change-in-production',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

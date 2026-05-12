@@ -17,7 +17,18 @@ for (const item of allDocs) {
   const letter = (item.name || '?')[0].toUpperCase()
   ;(grouped[letter] ??= []).push(item)
 }
-const letters = Object.keys(grouped).sort()
+// Сортировка: сначала кириллица (А, Б, В...), потом латиница (A, B, C...).
+// Object.keys().sort() по умолчанию сортирует по Unicode codepoint, из-за чего
+// латинские и кириллические буквы перемешиваются. Используем localeCompare('ru')
+// внутри каждой группы.
+const isCyrillic = (s: string) => /[а-яё]/i.test(s)
+const letters = Object.keys(grouped).sort((a, b) => {
+  const aCyr = isCyrillic(a)
+  const bCyr = isCyrillic(b)
+  if (aCyr && !bCyr) return -1
+  if (!aCyr && bCyr) return 1
+  return a.localeCompare(b, 'ru')
+})
 ---
 
 <BlogLayout title="Словарь девелопера — ДВИЖ" description="Термины и понятия рынка недвижимости и ипотеки">
