@@ -38,6 +38,16 @@ import CTABanner from '../../components/ui/CTABanner.astro'
 import ReviewFull from '../../components/ui/ReviewFull.astro'
 import TextImageBlock from '../../components/ui/TextImageBlock.astro'
 import SupportSection from '../../components/ui/SupportSection.astro'
+import BlogGrid from '../../components/ui/BlogGrid.astro'
+import CTA from '../../components/ui/CTA.astro'
+import ClearGlassBg from '../../components/ui/ClearGlassBg.astro'
+import FlutedGlassBg from '../../components/ui/FlutedGlassBg.astro'
+import FunnelSection from '../../components/ui/FunnelSection.astro'
+import LogoDrum from '../../components/ui/LogoDrum.astro'
+import LogoStream from '../../components/ui/LogoStream.astro'
+import PageSection from '../../components/ui/PageSection.astro'
+import ProductLink from '../../components/ui/ProductLink.astro'
+import Review from '../../components/ui/Review.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -65,6 +75,17 @@ import comparisonSectionRaw from '../../components/ui/ComparisonSection.astro?ra
 import reviewFullRaw from '../../components/ui/ReviewFull.astro?raw'
 import textImageBlockRaw from '../../components/ui/TextImageBlock.astro?raw'
 import supportSectionRaw from '../../components/ui/SupportSection.astro?raw'
+import blogGridRaw from '../../components/ui/BlogGrid.astro?raw'
+import ctaRaw from '../../components/ui/CTA.astro?raw'
+import ctaBannerRaw from '../../components/ui/CTABanner.astro?raw'
+import clearGlassBgRaw from '../../components/ui/ClearGlassBg.astro?raw'
+import flutedGlassBgRaw from '../../components/ui/FlutedGlassBg.astro?raw'
+import funnelSectionRaw from '../../components/ui/FunnelSection.astro?raw'
+import logoDrumRaw from '../../components/ui/LogoDrum.astro?raw'
+import logoStreamRaw from '../../components/ui/LogoStream.astro?raw'
+import pageSectionRaw from '../../components/ui/PageSection.astro?raw'
+import productLinkRaw from '../../components/ui/ProductLink.astro?raw'
+import reviewRaw from '../../components/ui/Review.astro?raw'
 
 interface PropMeta {
   name: string
@@ -146,44 +167,68 @@ const productSectionMeta = parseSource(productSectionRaw)
 const reviewFullMeta = parseSource(reviewFullRaw)
 const textImageBlockMeta = parseSource(textImageBlockRaw)
 const featureBlockMeta = parseSource(featureBlockRaw)
+const blogGridMeta = parseSource(blogGridRaw)
+const ctaMeta = parseSource(ctaRaw)
+const ctaBannerMeta = parseSource(ctaBannerRaw)
+const clearGlassBgMeta = parseSource(clearGlassBgRaw)
+const flutedGlassBgMeta = parseSource(flutedGlassBgRaw)
+const funnelSectionMeta = parseSource(funnelSectionRaw)
+const logoDrumMeta = parseSource(logoDrumRaw)
+const logoStreamMeta = parseSource(logoStreamRaw)
+const pageSectionMeta = parseSource(pageSectionRaw)
+const productLinkMeta = parseSource(productLinkRaw)
+const reviewMeta = parseSource(reviewRaw)
+const developerBlockMeta = parseSource(developerBlockRaw)
+const supportSectionMeta = parseSource(supportSectionRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
   if (import.meta.env.PROD) return []
   return [
     { params: { slug: undefined }, props: { section: 'overview' } },
-    { params: { slug: 'navigation' }, props: { section: 'navigation' } },
-    { params: { slug: 'persons' }, props: { section: 'persons' } },
+    { params: { slug: 'blocks' }, props: { section: 'blocks' } },
+    { params: { slug: 'drawer' }, props: { section: 'drawer' } },
     { params: { slug: 'typography' }, props: { section: 'typography' } },
     { params: { slug: 'colors' }, props: { section: 'colors' } },
-    { params: { slug: 'buttons' }, props: { section: 'buttons' } },
-    { params: { slug: 'forms' }, props: { section: 'forms' } },
-    { params: { slug: 'form-closing' }, props: { section: 'form-closing' } },
-    { params: { slug: 'cards' }, props: { section: 'cards' } },
     { params: { slug: 'advantage-card' }, props: { section: 'advantage-card' } },
-    { params: { slug: 'drawer' }, props: { section: 'drawer' } },
-    { params: { slug: 'blocks' }, props: { section: 'blocks' } },
-    { params: { slug: 'hero' }, props: { section: 'hero' } },
-    { params: { slug: 'mesh-gradient' }, props: { section: 'mesh-gradient' } },
-    { params: { slug: 'timeline' }, props: { section: 'timeline' } },
+    { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
-    { params: { slug: 'island' }, props: { section: 'island' } },
-    { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
-    { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
-    { params: { slug: 'story-card' }, props: { section: 'story-card' } },
+    { params: { slug: 'blog-grid' }, props: { section: 'blog-grid' } },
+    { params: { slug: 'buttons' }, props: { section: 'buttons' } },
+    { params: { slug: 'clear-glass-bg' }, props: { section: 'clear-glass-bg' } },
+    { params: { slug: 'comparison' }, props: { section: 'comparison' } },
+    { params: { slug: 'cta' }, props: { section: 'cta' } },
+    { params: { slug: 'cta-banner' }, props: { section: 'cta-banner' } },
+    { params: { slug: 'developer-block' }, props: { section: 'developer-block' } },
+    { params: { slug: 'feature-block' }, props: { section: 'feature-block' } },
+    { params: { slug: 'fluted-glass-bg' }, props: { section: 'fluted-glass-bg' } },
+    { params: { slug: 'forms' }, props: { section: 'forms' } },
+    { params: { slug: 'form-closing' }, props: { section: 'form-closing' } },
+    { params: { slug: 'funnel-section' }, props: { section: 'funnel-section' } },
+    { params: { slug: 'navigation' }, props: { section: 'navigation' } },
+    { params: { slug: 'hero' }, props: { section: 'hero' } },
     { params: { slug: 'input' }, props: { section: 'input' } },
-    { params: { slug: 'bento' }, props: { section: 'bento' } },
+    { params: { slug: 'island' }, props: { section: 'island' } },
+    { params: { slug: 'key-facts' }, props: { section: 'key-facts' } },
+    { params: { slug: 'logo-drum' }, props: { section: 'logo-drum' } },
+    { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
+    { params: { slug: 'logo-stream' }, props: { section: 'logo-stream' } },
+    { params: { slug: 'mesh-gradient' }, props: { section: 'mesh-gradient' } },
+    { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
+    { params: { slug: 'page-section' }, props: { section: 'page-section' } },
+    { params: { slug: 'persons' }, props: { section: 'persons' } },
     { params: { slug: 'product-card' }, props: { section: 'product-card' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
-    { params: { slug: 'feature-block' }, props: { section: 'feature-block' } },
-    { params: { slug: 'success-story-block' }, props: { section: 'success-story-block' } },
-    { params: { slug: 'key-facts' }, props: { section: 'key-facts' } },
-    { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
-    { params: { slug: 'comparison' }, props: { section: 'comparison' } },
+    { params: { slug: 'product-link' }, props: { section: 'product-link' } },
+    { params: { slug: 'review' }, props: { section: 'review' } },
     { params: { slug: 'review-full' }, props: { section: 'review-full' } },
-    { params: { slug: 'text-image-block' }, props: { section: 'text-image-block' } },
+    { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
+    { params: { slug: 'story-card' }, props: { section: 'story-card' } },
+    { params: { slug: 'success-story-block' }, props: { section: 'success-story-block' } },
     { params: { slug: 'support-section' }, props: { section: 'support-section' } },
+    { params: { slug: 'text-image-block' }, props: { section: 'text-image-block' } },
+    { params: { slug: 'timeline' }, props: { section: 'timeline' } },
   ]
 }
 
@@ -191,38 +236,49 @@ const { section } = Astro.props
 
 const sections = [
   { slug: '', label: 'Обзор' },
-  { slug: 'navigation', label: 'Header' },
-  { slug: 'persons', label: 'PersonCard' },
+  { slug: 'blocks', label: 'Блоки статей' },
+  { slug: 'drawer', label: 'Дровер' },
   { slug: 'typography', label: 'Типографика' },
   { slug: 'colors', label: 'Цвета' },
-  { slug: 'buttons', label: 'Button' },
-  { slug: 'forms', label: 'Form' },
-  { slug: 'form-closing', label: 'FormClosing' },
-  { slug: 'cards', label: 'AdvantageCard' },
   { slug: 'advantage-card', label: 'AdvantageCard' },
-  { slug: 'drawer', label: 'Дровер' },
-  { slug: 'blocks', label: 'Блоки статей' },
-  { slug: 'hero', label: 'Hero Section' },
-  { slug: 'mesh-gradient', label: 'Mesh Gradient' },
-  { slug: 'timeline', label: 'Timeline' },
+  { slug: 'bento', label: 'Bento Grid' },
   { slug: 'blogcard', label: 'Blog Card' },
   { slug: 'blog-cards', label: 'Blog Cards' },
-  { slug: 'island', label: 'Island' },
-  { slug: 'modal-inline-form', label: 'Modal Inline Form' },
-  { slug: 'side-menu', label: 'Side Menu' },
-  { slug: 'story-card', label: 'StoryCard' },
+  { slug: 'blog-grid', label: 'BlogGrid' },
+  { slug: 'buttons', label: 'Button' },
+  { slug: 'clear-glass-bg', label: 'ClearGlassBg' },
+  { slug: 'comparison', label: 'ComparisonSection' },
+  { slug: 'cta', label: 'CTA' },
+  { slug: 'cta-banner', label: 'CTABanner' },
+  { slug: 'developer-block', label: 'DeveloperBlock' },
+  { slug: 'feature-block', label: 'FeatureBlock' },
+  { slug: 'fluted-glass-bg', label: 'FlutedGlassBg' },
+  { slug: 'forms', label: 'Form' },
+  { slug: 'form-closing', label: 'FormClosing' },
+  { slug: 'funnel-section', label: 'FunnelSection' },
+  { slug: 'navigation', label: 'Header' },
+  { slug: 'hero', label: 'Hero Section' },
   { slug: 'input', label: 'Input' },
-  { slug: 'bento', label: 'Bento Grid' },
+  { slug: 'island', label: 'Island' },
+  { slug: 'key-facts', label: 'KeyFacts' },
+  { slug: 'logo-drum', label: 'LogoDrum' },
+  { slug: 'logo-grid', label: 'LogoGrid' },
+  { slug: 'logo-stream', label: 'LogoStream' },
+  { slug: 'mesh-gradient', label: 'Mesh Gradient' },
+  { slug: 'modal-inline-form', label: 'Modal Inline Form' },
+  { slug: 'page-section', label: 'PageSection' },
+  { slug: 'persons', label: 'PersonCard' },
   { slug: 'product-card', label: 'Product Card' },
   { slug: 'product-section', label: 'Product Section' },
-  { slug: 'feature-block', label: 'FeatureBlock' },
-  { slug: 'success-story-block', label: 'SuccessStoryBlock' },
-  { slug: 'key-facts', label: 'KeyFacts' },
-  { slug: 'logo-grid', label: 'LogoGrid' },
-  { slug: 'comparison', label: 'ComparisonSection' },
+  { slug: 'product-link', label: 'ProductLink' },
+  { slug: 'review', label: 'Review' },
   { slug: 'review-full', label: 'ReviewFull' },
-  { slug: 'text-image-block', label: 'TextImageBlock' },
+  { slug: 'side-menu', label: 'Side Menu' },
+  { slug: 'story-card', label: 'StoryCard' },
+  { slug: 'success-story-block', label: 'SuccessStoryBlock' },
   { slug: 'support-section', label: 'SupportSection' },
+  { slug: 'text-image-block', label: 'TextImageBlock' },
+  { slug: 'timeline', label: 'Timeline' },
 ]
 ---
 
@@ -925,59 +981,6 @@ const sections = [
       )}
 
 
-      {section === 'cards' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Карточки</h1>
-          <div class="space-y-12">
-            {/* StoryCard */}
-            <div>
-              <h2 class="text-xl font-semibold mb-4">StoryCard — карточка истории успеха</h2>
-
-              <p class="text-gray-600 mb-4">Карточка с фоновым изображением, слотом для логотипа и встроенной информацией о персоне.</p>
-              <PropsTable props={storyCardMeta.props} class="mb-6" />
-              <div class="max-w-[464px]">
-                <StoryCard
-                  backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
-                  title="Помогли начать обрабатывать на 98% больше заявок"
-                  person={{
-                    name: "Светлана Корнелюк",
-                    jobTitle: "Директор отдела продаж",
-                    photo: { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" }
-                  }}
-                >
-                  <div class="h-6 w-32 bg-white rounded flex items-center justify-center" slot="logo">
-                    <span class="text-xs text-gray-800 font-bold">LOGO</span>
-                  </div>
-                </StoryCard>
-              </div>
-            </div>
-
-            {/* PersonCard */}
-            <div>
-              <h2 class="text-xl font-semibold mb-4">PersonCard — карточка персоны</h2>
-              <p class="text-gray-600 mb-6">Карточка с фото, именем и должностью. Используется для авторов статей и участников.</p>
-              <div class="space-y-4 max-w-sm">
-                <PersonCard
-                  person={{
-                    name: "Алексей Петров",
-                    jobTitle: "Маркетолог",
-                    company: { name: "ДВИЖ" },
-                    photo: { url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" }
-                  }}
-                />
-                <PersonCard
-                  person={{
-                    name: "Мария Иванова",
-                    jobTitle: "Продакт-менеджер"
-                  }}
-                  variant="inline"
-                />
-              </div>
-            </div>
-
-          </div>
-        </div>
-      )}
       {section === 'advantage-card' && (
         <div>
           <h1 class="text-3xl font-bold font-heading mb-2">AdvantageCard</h1>
@@ -2475,73 +2478,6 @@ const sections = [
         </div>
       )}
 
-      {section === 'feature-block' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-2">FeatureBlock</h1>
-          <p class="text-gray-600 mb-8">
-            Секция с авто-переключающимися пунктами (таймер + прогресс-бар) и изображением справа или слева.
-            Desktop: два столбца — текст + изображение. Mobile: изображение появляется inline под активным пунктом.
-          </p>
-          <PropsTable props={featureBlockMeta.props} class="mb-10" />
-
-          <h2 class="text-xl font-semibold mb-2">Базовый</h2>
-          <p class="text-sm text-gray-400 mb-6">
-            <code>{`<FeatureBlock heading="..." features={[...]} />`}</code>
-          </p>
-          <div class="-mx-4 sm:-mx-6 lg:-mx-10 mb-16">
-            <FeatureBlock
-              heading="Повышаем конверсию первичной консультации в 2 раза"
-              features={[
-                { title: 'Расчёт досрочных погашений и рефинансирования' },
-                { title: '40+ банков-партнёров и большой выбор ипотечных программ' },
-                { title: 'Заполнение анкеты через Госуслуги' },
-              ]}
-            />
-          </div>
-
-          <h2 class="text-xl font-semibold mb-2">Полный (description + button + subtitle + review)</h2>
-          <p class="text-sm text-gray-400 mb-6">
-            <code>{`<FeatureBlock heading="..." description="..." button={...} features={[{title, subtitle}]} review={...} />`}</code>
-          </p>
-          <div class="-mx-4 sm:-mx-6 lg:-mx-10 mb-16">
-            <FeatureBlock
-              heading="Повышаем конверсию первичной консультации в 2 раза"
-              description="Подключите ДВИЖ и закрывайте до 26% больше сделок на том же трафике."
-              button={{ label: 'Узнать больше', href: '/ipoteka' }}
-              features={[
-                { title: 'Расчёт досрочных погашений и рефинансирования', subtitle: 'Досрочка, рефинансирование, субсидированные программы' },
-                { title: '40+ банков-партнёров и большой выбор ипотечных программ', subtitle: '15 банков отвечают по API в течение минуты' },
-                { title: 'Заполнение анкеты через Госуслуги', subtitle: 'Клиент заполняет анкету за 10 секунд' },
-              ]}
-              review={{
-                quote: 'С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и значительно повысили процент одобрения',
-                author: 'Екатерина Чурюкина',
-                role: 'Руководитель управления прямых продаж',
-                company: { logo: '/partners/lsr.svg', alt: 'ЛСР' },
-                caseLink: { label: 'Читать кейс', href: '/cases' },
-              }}
-            />
-          </div>
-
-          <h2 class="text-xl font-semibold mb-2">Изображение слева (imageSide="left")</h2>
-          <p class="text-sm text-gray-400 mb-6">
-            <code>{`<FeatureBlock imageSide="left" ... />`}</code>
-          </p>
-          <div class="-mx-4 sm:-mx-6 lg:-mx-10 mb-10">
-            <FeatureBlock
-              imageSide="left"
-              heading="Электронная регистрация без визита в МФЦ"
-              description="Полное сопровождение сделки — от подписания до записи в Росреестре."
-              button={{ label: 'Подробнее', href: '/elektronnaya-registraciya' }}
-              features={[
-                { title: 'Все виды сделок', subtitle: 'ДДУ, переуступка, вторичка' },
-                { title: 'До 30% дешевле конкурентов' },
-                { title: 'Сквозное оформление от ипотеки до регистрации' },
-              ]}
-            />
-          </div>
-        </div>
-      )}
 
       {section === 'support-section' && (
         <div>
@@ -2589,6 +2525,318 @@ const sections = [
                 },
               ]}
             />
+          </div>
+        </div>
+      )}
+
+      {section === 'blog-grid' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">BlogGrid</h1>
+          <p class="text-gray-600 mb-8">
+            Сетка постов блога с фильтром по категориям и пагинацией.
+            Используется в <code>/blog</code>, <code>/category/[slug]</code>, <code>/blog/page/[page]</code>.
+            Реальные данные приходят из Payload CMS — здесь демо с одной заглушечной карточкой.
+          </p>
+          <PropsTable props={blogGridMeta.props} class="mb-10" />
+
+          <div class="-mx-4">
+            <BlogGrid
+              posts={[
+                { title: 'Демо-статья — заглушка для UI Kit', slug: '#', cover: null, publishedAt: '2026-01-01', excerpt: 'Краткое описание поста для предпросмотра карточки.', category: { title: 'Аналитика', slug: 'analytics' }, person: { name: 'Иван Иванов', slug: 'ivan' } }
+              ]}
+              allPosts={[1]}
+              categories={[{ title: 'Аналитика', slug: 'analytics' }, { title: 'Продажи', slug: 'sales' }]}
+              categoryCountMap={{ analytics: 1, sales: 0 }}
+              currentPage={1}
+              totalPages={1}
+              activeCategory={undefined}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'cta' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">CTA</h1>
+          <p class="text-gray-600 mb-8">
+            Призыв к действию. Варианты: <code>dark</code> (тёмный фон), <code>light</code> (светлый), <code>split</code> (с изображением слева).
+            Кнопка может вести по <code>buttonHref</code> или открывать дровер через <code>drawerPreset</code>.
+          </p>
+          <PropsTable props={ctaMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">variant="dark"</p>
+              <CTA
+                title="Запросить демо"
+                description="Покажем, как ДВИЖ поможет вашему бизнесу"
+                buttonText="Запросить демо"
+                drawerPreset="demo"
+                variant="dark"
+              />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">variant="light"</p>
+              <CTA
+                title="Запросить демо"
+                description="Покажем, как ДВИЖ поможет вашему бизнесу"
+                buttonText="Запросить демо"
+                drawerPreset="demo"
+                variant="light"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'cta-banner' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">CTABanner</h1>
+          <p class="text-gray-600 mb-8">
+            Горизонтальная плашка CTA: текст слева, кнопка справа. Скруглённые углы, светлый фон.
+            Используется как компактный призыв внутри секций.
+          </p>
+          <PropsTable props={ctaBannerMeta.props} class="mb-10" />
+
+          <div class="space-y-8">
+            <CTABanner
+              title="Узнайте, сколько вы можете сэкономить"
+              buttonText="Получить расчёт"
+              drawerPreset="lead"
+            />
+            <CTABanner
+              title="Подключите ДВИЖ за 14 дней"
+              buttonText="Запросить демо"
+              drawerPreset="demo"
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'clear-glass-bg' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">ClearGlassBg</h1>
+          <p class="text-gray-600 mb-8">
+            WebGL-эффект «прозрачное рифлёное стекло» поверх изображения в родителе.
+            0 зависимостей, один draw call. Активируется всегда, по hover родителя или через событие.
+          </p>
+          <PropsTable props={clearGlassBgMeta.props} class="mb-10" />
+
+          <div class="relative overflow-hidden h-80 rounded-2xl">
+            <img
+              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop"
+              alt="Background"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+            <ClearGlassBg />
+          </div>
+        </div>
+      )}
+
+      {section === 'developer-block' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">DeveloperBlock</h1>
+          <p class="text-gray-600 mb-8">
+            Секция с авто-переключающимися пунктами слева и изображением справа.
+            Активный пункт раскрывает подпись и показывает прогресс-бар (переключение каждые 5 сек).
+          </p>
+          <PropsTable props={developerBlockMeta.props} class="mb-10" />
+
+          <div class="-mx-4 sm:-mx-6 lg:-mx-10">
+            <DeveloperBlock
+              heading="Повышаем конверсию в 2 раза"
+              features={[
+                { title: '40+ банков-партнёров', subtitle: '15 «быстрых» банков по API' },
+                { title: '«Умный» скоринг покупателя', subtitle: 'До отправки в банк' },
+                { title: 'Встроенный ипотечный калькулятор', subtitle: 'На сайте застройщика' },
+                { title: 'Анкета «0 полей»', subtitle: 'Через Госуслуги' },
+              ]}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'fluted-glass-bg' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">FlutedGlassBg</h1>
+          <p class="text-gray-600 mb-8">
+            Анимированный фон: mesh-градиент + fluted glass в одном WebGL-шейдере.
+            Drop-in замена MeshGradient — тот же API позиционирования (<code>absolute, inset: 0</code>).
+            Автопауза при выходе из viewport и при prefers-reduced-motion.
+          </p>
+          <PropsTable props={flutedGlassBgMeta.props} class="mb-10" />
+
+          <div class="relative overflow-hidden h-80 rounded-2xl">
+            <FlutedGlassBg />
+          </div>
+        </div>
+      )}
+
+      {section === 'funnel-section' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">FunnelSection</h1>
+          <p class="text-gray-600 mb-8">
+            Продукты по этапам сделки в формате воронки. Слева — название этапа, справа — карточки ProductLink.
+            Вертикальная линия с кружками-индикаторами связывает этапы.
+          </p>
+          <PropsTable props={funnelSectionMeta.props} class="mb-10" />
+
+          <div class="-mx-4 sm:-mx-6 lg:-mx-10">
+            <FunnelSection
+              heading="Добиваемся высоких конверсий на каждом этапе сделки"
+              groups={[
+                {
+                  label: 'Лидогенерация',
+                  cards: [
+                    { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
+                    { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
+                  ],
+                },
+                {
+                  label: 'Управление заявками',
+                  cards: [
+                    { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
+                    { title: 'Финансовый скоринг', description: 'Сократите число отказов', href: '/scoring' },
+                  ],
+                },
+                {
+                  label: 'Регистрация',
+                  cards: [
+                    { title: 'Электронная регистрация', description: 'Сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
+                  ],
+                },
+              ]}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'logo-drum' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">LogoDrum</h1>
+          <p class="text-gray-600 mb-8">
+            3D-барабан с логотипами (чистый CSS). Логотипы вращаются вокруг оси X,
+            каждый проходит через «фокусную зону». Ноль JavaScript.
+          </p>
+          <PropsTable props={logoDrumMeta.props} class="mb-10" />
+
+          <div class="h-[500px] bg-white rounded-2xl overflow-hidden">
+            <LogoDrum
+              logos={['/partners/a101.svg', '/partners/ava.svg', '/partners/ganel.svg', '/partners/glorax.svg', '/partners/lsr.svg', '/partners/strana.svg']}
+              duration={35}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'logo-stream' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">LogoStream</h1>
+          <p class="text-gray-600 mb-8">
+            Поток логотипов с эффектом глубины (чистый CSS). Логотипы появляются крупными слева-снизу,
+            проходят фокус и уменьшаются справа-вверху.
+          </p>
+          <PropsTable props={logoStreamMeta.props} class="mb-10" />
+
+          <div class="h-[300px] bg-gray-50 rounded-2xl overflow-hidden">
+            <LogoStream
+              logos={['/partners/a101.svg', '/partners/ava.svg', '/partners/ganel.svg', '/partners/glorax.svg', '/partners/lsr.svg', '/partners/strana.svg']}
+              duration={30}
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'page-section' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">PageSection</h1>
+          <p class="text-gray-600 mb-8">
+            Секция с навигацией слева и контентом справа. Слева — список разделов с активным состоянием,
+            справа — заголовок и список преимуществ.
+          </p>
+          <PropsTable props={pageSectionMeta.props} class="mb-10" />
+
+          <PageSection
+            title="Поможем перевыполнить план продаж на том же трафике"
+            benefits={[
+              'До 96% одобрения ипотечных заявок',
+              'Единая анкета в 40+ банков',
+              'Моментальное заполнение через Госуслуги',
+              'Готовые интеграции с CRM',
+            ]}
+            sections={[
+              { title: 'Цифровая ипотека', active: true },
+              { title: 'Ипотечный калькулятор' },
+              { title: 'Финансовый скоринг' },
+              { title: 'Электронная регистрация' },
+              { title: 'ДВИЖ AI' },
+            ]}
+          />
+        </div>
+      )}
+
+      {section === 'product-link' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">ProductLink</h1>
+          <p class="text-gray-600 mb-8">
+            Ссылка на продукт: иконка 60×60 + заголовок + описание.
+            Hover делает текст оранжевым. Используется внутри FunnelSection.
+          </p>
+          <PropsTable props={productLinkMeta.props} class="mb-10" />
+
+          <div class="space-y-8 max-w-xl">
+            <ProductLink
+              title="Ипотечный калькулятор"
+              description="Собирайте заявки в нерабочее время"
+              href="/ipotechnyy-kalkulyator"
+            />
+            <ProductLink
+              title="Электронная регистрация"
+              description="Сделки онлайн без визита в МФЦ"
+              href="/elektronnaya-registraciya"
+            />
+            <ProductLink
+              title="Финансовый скоринг"
+              description="Оценка заёмщика до отправки в банк"
+              href="/scoring"
+            />
+          </div>
+        </div>
+      )}
+
+      {section === 'review' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Review</h1>
+          <p class="text-gray-600 mb-8">
+            Блок цитаты клиента: иконка-кавычка, цитата, строка автора (логотип компании, имя, должность, кнопка кейса).
+            Используется внутри ReviewFull и ProductCard.
+          </p>
+          <PropsTable props={reviewMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант (default)</p>
+              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
+                <Review
+                  quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет"
+                  author="Анастасия Швед"
+                  role="Руководитель управления прямых продаж"
+                  company={{ logo: 'https://admin.dvizh.cc/api/media/file/talan-logo.svg', alt: 'Талан' }}
+                  caseLink={{ label: 'Читать кейс', href: '#' }}
+                />
+              </div>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Без логотипа компании</p>
+              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
+                <Review
+                  quote="Интеграция с ДВИЖем заняла неделю, а ROI превысил ожидания уже в первый месяц"
+                  author="Елена Козлова"
+                  role="Коммерческий директор"
+                  caseLink={{ label: 'Читать кейс', href: '#' }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
