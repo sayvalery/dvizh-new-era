@@ -1,8 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
-import StatsSection from '../components/ui/StatsSection.astro'
-import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import CTA from '../components/ui/CTA.astro'
 ---
 
@@ -12,38 +10,6 @@ import CTA from '../components/ui/CTA.astro'
     title="Увеличивайте конверсию сайта в 2 раза"
     description="В 2 раза выше конверсия. Платформа, где клиент может посмотреть все квартиры застройщика, сравнить варианты, добавить планировки в избранное и оформить заявку на ипотеку"
     formPreset="demo"
-  />
-
-  <StatsSection
-    cols={2}
-    items={[
-      { value: '99.9%', label: 'Uptime платформы — стабильная работа без перебоев' },
-      { value: 'в 2 раза', label: 'Рост конверсии сайта застройщика' },
-    ]}
-  />
-
-  <!-- Фичи: основные возможности личного кабинета -->
-  <FeaturesGrid
-    badge="Возможности"
-    title="Все инструменты для покупателя в одном месте"
-    description="Личный кабинет объединяет онлайн и офлайн-продажи, давая полный портрет клиента и повышая конверсию на каждом этапе воронки."
-    features={[
-      { icon: 'check', title: 'Сравнение квартир', description: 'Покупатель может сравнить планировки, площади, этажи и цены прямо в кабинете' },
-      { icon: 'globe', title: 'Объединяем онлайн и офлайн-продажи', description: 'Все действия клиента на сайте и в офисе продаж — в единой системе' },
-      { icon: 'database', title: 'Полный портрет клиента', description: 'Застройщик видит всю историю взаимодействия: просмотры, избранное, заявки' },
-    ]}
-    variant="light"
-  />
-
-  <FeaturesGrid
-    badge="Удобство"
-    title="Все предложения — в одном месте"
-    description="Клиенту не нужно переключаться между вкладками и сайтами. Все квартиры застройщика доступны в личном кабинете."
-    features={[
-      { icon: 'building-bank', title: 'Все предложения в одном месте', description: 'Квартиры всех ЖК застройщика собраны в личном кабинете покупателя' },
-      { icon: 'document', title: 'Избранное', description: 'Покупатель сохраняет понравившиеся планировки и возвращается к ним в любой момент' },
-    ]}
-    variant="dark"
   />
 
   <!-- Поддержка -->

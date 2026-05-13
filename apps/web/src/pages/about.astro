@@ -1,6 +1,5 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import StatsSection from '../components/ui/StatsSection.astro'
 import Timeline from '../components/ui/Timeline.astro'
 ---
 
@@ -37,16 +36,6 @@ import Timeline from '../components/ui/Timeline.astro'
       75 из 100 крупнейших застройщиков России используют ДВИЖ. Более 1,5 млн заявок обработано на платформе.
     </p>
   </div>
-
-  <StatsSection
-    cols={4}
-    items={[
-      { value: '75', label: 'Из ТОП-100 крупнейших застройщиков — клиентов' },
-      { value: '1,5 млн+', label: 'Заявок обработано на платформе' },
-      { value: 'x2', label: 'Рост конверсии с продуктами ДВИЖ' },
-      { value: '2018', label: 'Год основания' },
-    ]}
-  />
 
   <Timeline
     badge="История"

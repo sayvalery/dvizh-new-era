@@ -1,8 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro'
-import FeaturesGrid from '../components/ui/FeaturesGrid.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
-import StatsSection from '../components/ui/StatsSection.astro'
 import CTA from '../components/ui/CTA.astro'
 ---
 
@@ -11,77 +9,6 @@ import CTA from '../components/ui/CTA.astro'
     badge="QBR"
     title="QBR — квартальный бизнес-обзор"
     description="Готовый отчёт ипотечного отдела, который помогает привлечь и закрыть больше клиентов"
-  />
-
-  <StatsSection
-    cols={3}
-    items={[
-      { value: '3', label: 'Готовых отчёта в каждом QBR' },
-      { value: 'Отчёт 1', label: 'Аналитика по отделу ипотеки' },
-      { value: 'Отчёт 2', label: 'Аналитика по банкам' },
-      { value: 'Отчёт 3', label: 'Портрет клиента' },
-    ]}
-  />
-
-  <!-- Features Grid 1: управление нагрузкой -->
-  <FeaturesGrid
-    badge="управление командой"
-    title="Распределите нагрузку между менеджерами"
-    description="Анализируйте эффективность каждого менеджера и равномерно распределяйте заявки для максимальной конверсии."
-    features={[
-      { icon: 'check', title: 'Нагрузка по менеджерам', description: 'Видите, кто перегружен, а у кого есть ресурс для новых заявок' },
-      { icon: 'database', title: 'Метрики эффективности', description: 'Отслеживайте конверсию, скорость обработки и качество работы каждого сотрудника' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Features Grid 2: персонализация рекламы -->
-  <FeaturesGrid
-    badge="маркетинг"
-    title="Персонализируйте рекламу"
-    description="Используйте данные портрета клиента для точного таргетинга рекламных кампаний."
-    features={[
-      { icon: 'globe', title: 'Портрет клиента', description: 'Детальный анализ демографии, предпочтений и поведения ваших клиентов' },
-      { icon: 'arrow-path', title: 'Точный таргетинг', description: 'Настраивайте рекламу на основе реальных данных о вашей аудитории' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Features Grid 3: сопоставление с рынком -->
-  <FeaturesGrid
-    badge="аналитика"
-    title="Сопоставьте результаты с рынком"
-    description="Сравнивайте показатели вашего ипотечного отдела с рыночными бенчмарками и находите точки роста."
-    features={[
-      { icon: 'document', title: 'Рыночные бенчмарки', description: 'Сравнение ваших показателей со средними по рынку' },
-      { icon: 'check', title: 'Точки роста', description: 'Конкретные рекомендации по улучшению показателей на основе рыночных данных' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Features Grid 4: одобрение и банки -->
-  <FeaturesGrid
-    badge="работа с банками"
-    title="Увеличьте процент одобрения и выберите лучшие банки"
-    description="Анализируйте статистику одобрений по каждому банку. Направляйте заявки туда, где шанс одобрения выше."
-    features={[
-      { icon: 'building-bank', title: 'Аналитика по банкам', description: 'Процент одобрения, сроки рассмотрения и условия по каждому банку-партнёру' },
-      { icon: 'lock', title: 'Увеличение одобрений', description: 'Рекомендации по выбору банка для каждого типа клиента' },
-      { icon: 'arrow-path', title: 'Сокращение отказов', description: 'Выявляйте причины отказов и устраняйте их до отправки заявки' },
-    ]}
-    variant="light"
-  />
-
-  <!-- Features Grid 5: рекомендации экспертов -->
-  <FeaturesGrid
-    badge="экспертиза"
-    title="Получите рекомендации экспертов"
-    description="К каждому QBR-отчёту прилагаются рекомендации экспертов ДВИЖ по улучшению показателей вашего ипотечного отдела."
-    features={[
-      { icon: 'document', title: 'Экспертный разбор', description: 'Детальный анализ ваших данных с комментариями специалистов ДВИЖ' },
-      { icon: 'check', title: 'План действий', description: 'Конкретные шаги по улучшению конверсии и сокращению отказов' },
-    ]}
-    variant="light"
   />
 
   <!-- CTA -->

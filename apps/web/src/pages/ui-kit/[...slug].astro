@@ -21,18 +21,14 @@ import StoryCard from '../../components/ui/StoryCard.astro'
 import AdvantageCard from '../../components/ui/AdvantageCard.astro'
 import Island from '../../components/ui/Island.astro'
 import ModalInlineForm from '../../components/ui/ModalInlineForm.astro'
-import HeroAI from '../../components/ui/HeroAI.astro'
 import DeveloperBlock from '../../components/ui/DeveloperBlock.astro'
 import SideMenu from '../../components/ui/SideMenu.astro'
 import Button from '../../components/ui/Button.astro'
 import Input from '../../components/ui/Input.astro'
 import BentoGrid from '../../components/ui/BentoGrid.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
-import ProductCardReview from '../../components/ui/ProductCardReview.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
 import FeatureBlock from '../../components/ui/FeatureBlock.astro'
-import ModalCard from '../../components/ui/ModalCard.astro'
-import ModalSection from '../../components/ui/ModalSection.astro'
 import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
 import KeyFacts from '../../components/ui/KeyFacts.astro'
 import LogoGrid from '../../components/ui/LogoGrid.astro'
@@ -41,7 +37,6 @@ import ComparisonSection from '../../components/ui/ComparisonSection.astro'
 import CTABanner from '../../components/ui/CTABanner.astro'
 import ReviewFull from '../../components/ui/ReviewFull.astro'
 import TextImageBlock from '../../components/ui/TextImageBlock.astro'
-import SuccessStoriesCarousel from '../../components/ui/SuccessStoriesCarousel.astro'
 import SupportSection from '../../components/ui/SupportSection.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
@@ -57,23 +52,18 @@ import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
 import islandRaw from '../../components/ui/Island.astro?raw'
-import heroAIRaw from '../../components/ui/HeroAI.astro?raw'
 import developerBlockRaw from '../../components/ui/DeveloperBlock.astro?raw'
 import buttonRaw from '../../components/ui/Button.astro?raw'
 import inputRaw from '../../components/ui/Input.astro?raw'
 import bentoGridRaw from '../../components/ui/BentoGrid.astro?raw'
 import productCardRaw from '../../components/ui/ProductCard.astro?raw'
-import productCardReviewRaw from '../../components/ui/ProductCardReview.astro?raw'
 import productSectionRaw from '../../components/ui/ProductSection.astro?raw'
 import featureBlockRaw from '../../components/ui/FeatureBlock.astro?raw'
-import modalCardRaw from '../../components/ui/ModalCard.astro?raw'
-import modalSectionRaw from '../../components/ui/ModalSection.astro?raw'
 import successStoryBlockRaw from '../../components/ui/SuccessStoryBlock.astro?raw'
 import keyFactsRaw from '../../components/ui/KeyFacts.astro?raw'
 import comparisonSectionRaw from '../../components/ui/ComparisonSection.astro?raw'
 import reviewFullRaw from '../../components/ui/ReviewFull.astro?raw'
 import textImageBlockRaw from '../../components/ui/TextImageBlock.astro?raw'
-import storiesCarouselRaw from '../../components/ui/SuccessStoriesCarousel.astro?raw'
 import supportSectionRaw from '../../components/ui/SupportSection.astro?raw'
 
 interface PropMeta {
@@ -148,25 +138,20 @@ const blogCardsMeta = parseSource(blogCardsRaw)
 const storyCardMeta = parseSource(storyCardRaw)
 const advantageCardMeta = parseSource(advantageCardRaw)
 const islandMeta = parseSource(islandRaw)
-const heroAIMeta = parseSource(heroAIRaw)
 const buttonMeta = parseSource(buttonRaw)
 const inputMeta = parseSource(inputRaw)
 const bentoGridMeta = parseSource(bentoGridRaw)
 const productCardMeta = parseSource(productCardRaw)
-const productCardReviewMeta = parseSource(productCardReviewRaw)
 const productSectionMeta = parseSource(productSectionRaw)
-const aaiHeroMeta = parseSource(heroAIRaw)
 const reviewFullMeta = parseSource(reviewFullRaw)
 const textImageBlockMeta = parseSource(textImageBlockRaw)
 const featureBlockMeta = parseSource(featureBlockRaw)
-const storiesCarouselMeta = parseSource(storiesCarouselRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
   if (import.meta.env.PROD) return []
   return [
     { params: { slug: undefined }, props: { section: 'overview' } },
-    { params: { slug: 'hero-ai' }, props: { section: 'hero-ai' } },
     { params: { slug: 'navigation' }, props: { section: 'navigation' } },
     { params: { slug: 'persons' }, props: { section: 'persons' } },
     { params: { slug: 'typography' }, props: { section: 'typography' } },
@@ -190,20 +175,14 @@ export function getStaticPaths() {
     { params: { slug: 'input' }, props: { section: 'input' } },
     { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'product-card' }, props: { section: 'product-card' } },
-    { params: { slug: 'product-card-review' }, props: { section: 'product-card-review' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
-    { params: { slug: 'aai-hero' }, props: { section: 'aai-hero' } },
     { params: { slug: 'feature-block' }, props: { section: 'feature-block' } },
-    { params: { slug: 'modal-card' }, props: { section: 'modal-card' } },
-    { params: { slug: 'modal-section' }, props: { section: 'modal-section' } },
     { params: { slug: 'success-story-block' }, props: { section: 'success-story-block' } },
     { params: { slug: 'key-facts' }, props: { section: 'key-facts' } },
     { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
     { params: { slug: 'comparison' }, props: { section: 'comparison' } },
     { params: { slug: 'review-full' }, props: { section: 'review-full' } },
     { params: { slug: 'text-image-block' }, props: { section: 'text-image-block' } },
-    { params: { slug: 'feature-block' }, props: { section: 'feature-block' } },
-    { params: { slug: 'stories-carousel' }, props: { section: 'stories-carousel' } },
     { params: { slug: 'support-section' }, props: { section: 'support-section' } },
   ]
 }
@@ -216,7 +195,6 @@ const sections = [
   { slug: 'persons', label: 'PersonCard' },
   { slug: 'typography', label: 'Типографика' },
   { slug: 'colors', label: 'Цвета' },
-  { slug: 'hero-ai', label: 'HeroAI' },
   { slug: 'buttons', label: 'Button' },
   { slug: 'forms', label: 'Form' },
   { slug: 'form-closing', label: 'FormClosing' },
@@ -236,20 +214,14 @@ const sections = [
   { slug: 'input', label: 'Input' },
   { slug: 'bento', label: 'Bento Grid' },
   { slug: 'product-card', label: 'Product Card' },
-  { slug: 'product-card-review', label: 'Product Card Review' },
   { slug: 'product-section', label: 'Product Section' },
-  { slug: 'aai-hero', label: 'HeroAI' },
   { slug: 'feature-block', label: 'FeatureBlock' },
-  { slug: 'modal-card', label: 'ModalCard' },
-  { slug: 'modal-section', label: 'ModalSection' },
   { slug: 'success-story-block', label: 'SuccessStoryBlock' },
   { slug: 'key-facts', label: 'KeyFacts' },
   { slug: 'logo-grid', label: 'LogoGrid' },
   { slug: 'comparison', label: 'ComparisonSection' },
   { slug: 'review-full', label: 'ReviewFull' },
   { slug: 'text-image-block', label: 'TextImageBlock' },
-  { slug: 'feature-block', label: 'FeatureBlock' },
-  { slug: 'stories-carousel', label: 'SuccessStoriesCarousel' },
   { slug: 'support-section', label: 'SupportSection' },
 ]
 ---
@@ -1760,41 +1732,6 @@ const sections = [
           </div>
         </div>
       )}
-      {section === 'hero-ai' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">HeroAI</h1>
-          <p class="text-gray-600 mb-4">
-            Центрированная секция-герой для AI-продукта. Бейдж → заголовок H2 → изображение.
-            Опционально: три карточки BentoGrid ниже.
-          </p>
-          <PropsTable props={heroAIMeta.props} class="mb-10" />
-
-          <div class="space-y-16">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Только герой (без изображения и bento)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<HeroAI heading="Нейросети на службе вашего бизнеса" />`}</code></p>
-              <div class="-mx-10 rounded-2xl overflow-hidden">
-                <HeroAI heading="Нейросети на службе вашего бизнеса" />
-              </div>
-            </div>
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С изображением-заглушкой и BentoGrid</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<HeroAI heading="..." bentoItems={[...3 items...]} />`}</code></p>
-              <div class="-mx-10 rounded-2xl overflow-hidden">
-                <HeroAI
-                  heading="Нейросети на службе вашего бизнеса"
-                  bentoHeading="Что умеет ДВИЖ AI"
-                  bentoItems={[
-                    { title: "Автоматическая обработка заявок", description: "Нейросеть анализирует данные клиента и принимает решения за секунды" },
-                    { title: "Скоринг и прогноз одобрения", description: "Предсказываем вероятность одобрения по 40+ банкам" },
-                    { title: "Персонализированные предложения", description: "AI подбирает оптимальную ипотечную программу под каждого клиента" }
-                  ]}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
       {section === 'side-menu' && (
         <div>
           <h1 class="text-3xl font-bold font-heading mb-2">Side Menu</h1>
@@ -2146,56 +2083,6 @@ const sections = [
         </div>
       )}
 
-      {section === 'product-card-review' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Product Card Review</h1>
-          <p class="text-gray-600 mb-4">
-            Блок цитаты клиента. Используется внутри ProductCard (через prop <code>review</code>) или самостоятельно.
-            Структура: иконка-кавычка + курсивная цитата → строка автора (логотип | разделитель | имя + должность | кнопка кейса).
-          </p>
-          <PropsTable props={productCardReviewMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — цитата + автор + лого + кнопка кейса</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<ProductCardReview quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
-              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
-                <ProductCardReview
-                  quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет"
-                  author="Анастасия Швед"
-                  role="Руководитель управления прямых продаж"
-                  company={{ logo: "https://admin.dvizh.cc/api/media/file/talan-logo.svg", alt: "Талан" }}
-                  caseLink={{ label: "Читать кейс", href: "#" }}
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без логотипа компании</p>
-              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
-                <ProductCardReview
-                  quote="Платформа позволила нам кратно увеличить скорость обработки заявок и повысить конверсию"
-                  author="Максим Петров"
-                  role="Директор по продажам"
-                  caseLink={{ label: "Читать кейс", href: "#" }}
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без кнопки кейса</p>
-              <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
-                <ProductCardReview
-                  quote="Интеграция с ДВИЖем заняла неделю, а ROI превысил ожидания уже в первый месяц"
-                  author="Елена Козлова"
-                  role="Коммерческий директор"
-                  company={{ logo: "https://admin.dvizh.cc/api/media/file/talan-logo.svg", alt: "Талан" }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {section === 'product-section' && (
         <div>
@@ -2227,55 +2114,6 @@ const sections = [
         </div>
       )}
 
-      {section === 'aai-hero' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">HeroAI</h1>
-          <p class="text-gray-600 mb-4">
-            Центрированная секция-герой для AI-продукта. Бейдж → заголовок H2 → изображение.
-            Опционально: три карточки BentoGrid ниже.
-          </p>
-          <PropsTable props={aaiHeroMeta.props} class="mb-10" />
-
-          <div class="space-y-16">
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Только герой (без изображения и bento)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<HeroAI heading="Нейросети на службе вашего бизнеса" />`}</code></p>
-              <div class="-mx-10 rounded-2xl overflow-hidden">
-                <HeroAI
-                  heading="Нейросети на службе вашего бизнеса"
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С изображением-заглушкой и BentoGrid</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<HeroAI heading="..." bentoItems={[...3 items...]} />`}</code></p>
-              <div class="-mx-10 rounded-2xl overflow-hidden">
-                <HeroAI
-                  heading="Нейросети на службе вашего бизнеса"
-                  bentoHeading="Что умеет ДВИЖ AI"
-                  bentoItems={[
-                    {
-                      title: "Автоматическая обработка заявок",
-                      description: "Нейросеть анализирует данные клиента и принимает решения за секунды"
-                    },
-                    {
-                      title: "Скоринг и прогноз одобрения",
-                      description: "Предсказываем вероятность одобрения по 40+ банкам"
-                    },
-                    {
-                      title: "Персонализированные предложения",
-                      description: "AI подбирает оптимальную ипотечную программу под каждого клиента"
-                    }
-                  ]}
-                />
-              </div>
-            </div>
-
-          </div>
-        </div>
-      )}
 
       {section === 'feature-block' && (
         <div>
@@ -2559,110 +2397,7 @@ const sections = [
         </div>
       )}
 
-      {section === 'modal-section' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-2">ModalSection</h1>
-          <p class="text-gray-600 mb-8">
-            Секция с группами карточек продуктов по этапам сделки.
-            Desktop (lg+): подзаголовок-категория слева (500px), карточки справа в сетке 2 колонки.
-            Mobile: подзаголовок сверху, карточки снизу.
-          </p>
-          <PropsTable props={parseSource(modalSectionRaw).props} class="mb-10" />
 
-          <div class="-mx-10">
-            <ModalSection
-              heading="Добиваемся высоких конверсий на каждом этапе сделки"
-              groups={[
-                {
-                  label: 'Лидогенерация',
-                  cards: [
-                    { title: 'Ипотечный калькулятор', description: 'Собирайте заявки в нерабочее время', href: '/ipotechnyy-kalkulyator' },
-                    { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', href: '/lichnyy-kabinet' },
-                    { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', href: '/vitrina' },
-                  ],
-                },
-                {
-                  label: 'Управление заявками',
-                  cards: [
-                    { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', href: '/ipoteka' },
-                    { title: 'Финансовый скоринг', description: 'Сократите число отказов в банках', href: '/scoring' },
-                  ],
-                },
-                {
-                  label: 'Регистрация собственности',
-                  cards: [
-                    { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', href: '/elektronnaya-registraciya' },
-                  ],
-                },
-              ]}
-            />
-          </div>
-        </div>
-      )}
-
-      {section === 'modal-card' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-2">ModalCard</h1>
-          <p class="text-gray-600 mb-2">
-            Компактная карточка модуля/продукта. Default — прозрачный фон, тёмный текст.
-            Hover — фон <code>background/secondary</code>, текст brand-orange. Может быть ссылкой (prop <code>href</code>).
-          </p>
-          <PropsTable props={parseSource(modalCardRaw).props} class="mb-10" />
-
-          <h2 class="text-xl font-semibold mb-4">Default (без изображения)</h2>
-          <p class="text-xs text-gray-400 mb-4">
-            <code>{`<ModalCard title="Ипотечный калькулятор" description="Собирайте заявки в нерабочее время" />`}</code>
-          </p>
-          <div class="flex flex-wrap gap-4 mb-10">
-            <ModalCard
-              title="Ипотечный калькулятор"
-              description="Собирайте заявки в нерабочее время"
-            />
-            <ModalCard
-              title="Электронная регистрация"
-              description="Сделки онлайн без визита в МФЦ"
-            />
-            <ModalCard
-              title="Скоринг покупателя"
-              description="Оценка до отправки в банк"
-            />
-          </div>
-
-          <h2 class="text-xl font-semibold mb-4">Со стоп-кадром (заглушка)</h2>
-          <p class="text-xs text-gray-400 mb-4">
-            <code>{`<ModalCard title="..." description="..." image={{ src: '/placeholder.png', alt: '...' }} />`}</code>
-          </p>
-          <div class="flex flex-wrap gap-4 mb-10">
-            <ModalCard
-              title="Ипотечный калькулятор"
-              description="Собирайте заявки в нерабочее время"
-              image={{ src: '', alt: 'заглушка' }}
-            />
-          </div>
-
-          <h2 class="text-xl font-semibold mb-4">Как ссылка (href)</h2>
-          <p class="text-xs text-gray-400 mb-4">
-            <code>{`<ModalCard title="..." description="..." href="/ipotechnyy-kalkulyator" />`}</code>
-          </p>
-          <div class="flex flex-wrap gap-4 mb-10">
-            <ModalCard
-              title="Ипотечный калькулятор"
-              description="Собирайте заявки в нерабочее время"
-              href="/ipotechnyy-kalkulyator"
-            />
-          </div>
-
-          <h2 class="text-xl font-semibold mb-4">Сетка карточек</h2>
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-2 max-w-2xl">
-            <ModalCard title="Ипотека" description="Цифровые заявки в 40+ банков" />
-            <ModalCard title="Э-регистрация" description="Сделки без МФЦ" />
-            <ModalCard title="Калькулятор" description="Заявки в нерабочее время" />
-            <ModalCard title="Скоринг" description="Оценка до банка" />
-            <ModalCard title="Витрина" description="Умный каталог квартир" />
-            <ModalCard title="Личный кабинет" description="Клиент всегда в курсе" />
-          </div>
-        </div>
-      )}
 
       {section === 'review-full' && (
         <div>
@@ -2804,31 +2539,6 @@ const sections = [
                 { title: 'Сквозное оформление от ипотеки до регистрации' },
               ]}
             />
-          </div>
-        </div>
-      )}
-      {section === 'stories-carousel' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Stories Carousel</h1>
-          <p class="text-gray-600 mb-4">
-            Горизонтальная карусель карточек StoryCard с CSS Scroll Snap. Работает с тач-свайпом и скроллом.
-          </p>
-          <PropsTable props={storiesCarouselMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">3 карточки (mini)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<SuccessStoriesCarousel variant="mini" title="..." stories={[...]} />`}</code></p>
-              <SuccessStoriesCarousel
-                variant="mini"
-                title="70+ историй успеха на рынке девелопмента"
-                stories={[
-                  { title: "Помогли начать обрабатывать на 281% заявок больше, чем в среднем на рынке", person: { name: "Петрова Надежда", jobTitle: "Директор по маркетингу, ЛСР" } },
-                  { title: "Дополнительно продали 96 квартир", person: { name: "Алексей Соколов", jobTitle: "Коммерческий директор, Самолет плюс" } },
-                  { title: "Увеличили объем закрытых сделок с 1116 до 3500 за год", person: { name: "Мария Иванова", jobTitle: "Руководитель отдела продаж" } }
-                ]}
-              />
-            </div>
           </div>
         </div>
       )}
