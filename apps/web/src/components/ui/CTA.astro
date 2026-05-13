@@ -5,25 +5,19 @@
  * Варианты:
  *   dark    — тёмный фон с горизонтальной_layout
  *   light   — светлый фон с горизонтальной_layout
- *   split   — изображение слева на всю высоту, контент справа
  *
  * @example
  * ```astro
  * <CTA
- *   variant="split"
- *   badge="Award winning support"
- *   title="We're here to help"
- *   description="Lorem ipsum dolor sit amet."
- *   buttonText="Visit the help center"
- *   buttonHref="#"
- *   image="/images/stories/example.jpg"
+ *   title="Запросить демо"
+ *   description="Покажем, как ДВИЖ поможет вашему бизнесу"
+ *   buttonText="Запросить демо"
+ *   drawerPreset="demo"
  * />
  * ```
  */
 
 interface Props {
-  /** Мелкий заголовок над основным (для split варианта) */
-  badge?: string
   /** Основной заголовок */
   title: string
   /** Описание под заголовком */
@@ -34,18 +28,17 @@ interface Props {
   buttonHref?: string
   /** Пресет дровера: demo, lead, research, subscribe. Если задан — кнопка открывает дровер */
   drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
-  /** URL изображения (обязателен для split варианта) */
+  /** URL изображения-иконки слева */
   image?: string
   /** Alt-текст для изображения */
   imageAlt?: string
-  /** Вариант оформления: dark (по умолчанию), light или split */
-  variant?: 'dark' | 'light' | 'split'
+  /** Вариант оформления: dark (по умолчанию) или light */
+  variant?: 'dark' | 'light'
   /** Дополнительные CSS классы */
   class?: string
 }
 
 const {
-  badge,
   title,
   description,
   buttonText,
@@ -57,123 +50,78 @@ const {
   class: className = ''
 } = Astro.props
 
-// Split вариант — отдельная разметка
-const isSplit = variant === 'split'
 // Если drawerPreset задан или href="#" — открываем дровер
 const useDrawer = drawerPreset || buttonHref === '#'
 const resolvedPreset = drawerPreset ?? 'demo'
 ---
 
-{isSplit ? (
-  <section class:list={['relative bg-white rounded-[31px] overflow-hidden', className]}>
-    <div class="relative h-80 overflow-hidden bg-gray-200 md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2"></div>
+<section class:list={[
+  variant === 'dark' ? 'bg-[#3a3a3a]' : 'bg-indigo-100',
+  'rounded-[31px]',
+  className
+]}>
+  <div class="px-6 py-10 sm:px-10 sm:py-16 lg:flex lg:items-center lg:justify-between lg:px-12 lg:py-10">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-7 lg:gap-8">
+      <!-- Иконка / Изображение -->
+      {image ? (
+        <img
+          src={image}
+          alt={imageAlt}
+          class="w-[72px] h-[72px] sm:w-[94px] sm:h-[95px] object-contain shrink-0"
+          width="94"
+          height="95"
+        />
+      ) : (
+        <div class="w-[72px] h-[72px] min-w-[72px] max-w-[72px] sm:w-[94px] sm:h-[95px] sm:min-w-[94px] sm:max-w-[94px] shrink-0 flex items-center justify-center rounded-xl bg-white/10">
+          <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182-3.182h8.364a2.25 2.25 0 013.182 3.182L21.75 15.75M6.75 19.5l4.5-4.5m0-4.5l-4.5 4.5M21.75 9l-4.5 4.5M4.5 4.5L4.5 4.5" />
+          </svg>
+        </div>
+      )}
 
-    <div class="relative mx-auto max-w-[1440px] py-16 sm:py-24 lg:px-8 lg:py-24">
-      <div class="pl-6 pr-6 md:ml-auto md:w-2/3 md:pl-16 lg:w-1/2 lg:pl-24 lg:pr-0 xl:pl-32">
-        {badge && (
-          <p class="text-base/7 font-semibold text-brand">
-            {badge}
-          </p>
-        )}
-        <h2 class="mt-2 text-3xl font-semibold text-gray-900 sm:text-4xl">
+      <!-- Заголовок и описание -->
+      <div>
+        <h2 class:list={[
+          variant === 'dark' ? 'text-white' : 'text-gray-900',
+          'max-w-2xl text-2xl font-semibold sm:text-4xl lg:text-[40px]'
+        ]}>
           {title}
         </h2>
         {description && (
-          <p class="mt-6 text-base/7 text-gray-600">
+          <p class:list={[
+            variant === 'dark' ? 'text-[#d3d3d3]' : 'text-gray-600',
+            'mt-2 text-base lg:text-[18px] max-w-lg'
+          ]}>
             <Fragment set:html={description} />
           </p>
         )}
-        <div class="mt-8">
-          {useDrawer ? (
-            <button
-              x-data
-              @click={`$dispatch('open-drawer', { preset: '${resolvedPreset}' })`}
-              class="cta-btn inline-flex rounded-md bg-brand px-3.5 py-2.5 text-btn text-white shadow-sm hover:bg-brand-600 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand cursor-pointer"
-            >
-              {buttonText}
-            </button>
-          ) : (
-            <a
-              href={buttonHref}
-              class="cta-btn inline-flex rounded-md bg-brand px-3.5 py-2.5 text-btn text-white shadow-sm hover:bg-brand-600 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-            >
-              {buttonText}
-            </a>
-          )}
-        </div>
       </div>
     </div>
-  </section>
-) : (
-  // Dark / Light варианты — горизонтальная_layout
-  <section class:list={[
-    variant === 'dark' ? 'bg-[#3a3a3a]' : 'bg-indigo-100',
-    'rounded-[31px]',
-    className
-  ]}>
-    <div class="px-6 py-10 sm:px-10 sm:py-16 lg:flex lg:items-center lg:justify-between lg:px-12 lg:py-10">
-      <div class="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-7 lg:gap-8">
-        <!-- Иконка / Изображение -->
-        {image ? (
-          <img
-            src={image}
-            alt={imageAlt}
-            class="w-[72px] h-[72px] sm:w-[94px] sm:h-[95px] object-contain shrink-0"
-            width="94"
-            height="95"
-          />
-        ) : (
-          <div class="w-[72px] h-[72px] min-w-[72px] max-w-[72px] sm:w-[94px] sm:h-[95px] sm:min-w-[94px] sm:max-w-[94px] shrink-0 flex items-center justify-center rounded-xl bg-white/10">
-            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182-3.182h8.364a2.25 2.25 0 013.182 3.182L21.75 15.75M6.75 19.5l4.5-4.5m0-4.5l-4.5 4.5M21.75 9l-4.5 4.5M4.5 4.5L4.5 4.5" />
-            </svg>
-          </div>
-        )}
 
-        <!-- Заголовок и описание -->
-        <div>
-          <h2 class:list={[
-            variant === 'dark' ? 'text-white' : 'text-gray-900',
-            'max-w-2xl text-2xl font-semibold sm:text-4xl lg:text-[40px]'
-          ]}>
-            {title}
-          </h2>
-          {description && (
-            <p class:list={[
-              variant === 'dark' ? 'text-[#d3d3d3]' : 'text-gray-600',
-              'mt-2 text-base lg:text-[18px] max-w-lg'
-            ]}>
-              <Fragment set:html={description} />
-            </p>
-          )}
-        </div>
-      </div>
-
-      <!-- Кнопка -->
-      <div class="mt-8 flex items-center gap-x-6 lg:mt-0 lg:shrink-0">
-        {useDrawer ? (
-          <button
-            x-data
-            @click={`$dispatch('open-drawer', { preset: '${resolvedPreset}' })`}
-            class:list={[
-              variant === 'dark' ? 'cta-btn bg-brand hover:bg-brand' : 'cta-btn bg-indigo-600 hover:bg-indigo-600',
-              'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer'
-            ]}
-          >
-            {buttonText}
-          </button>
-        ) : (
-          <a
-            href={buttonHref}
-            class:list={[
-              variant === 'dark' ? 'cta-btn bg-brand hover:bg-brand' : 'cta-btn bg-indigo-600 hover:bg-indigo-600',
-              'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
-            ]}
-          >
-            {buttonText}
-          </a>
-        )}
-      </div>
+    <!-- Кнопка -->
+    <div class="mt-8 flex items-center gap-x-6 lg:mt-0 lg:shrink-0">
+      {useDrawer ? (
+        <button
+          x-data
+          @click={`$dispatch('open-drawer', { preset: '${resolvedPreset}' })`}
+          class:list={[
+            variant === 'dark' ? 'cta-btn bg-brand hover:bg-brand' : 'cta-btn bg-indigo-600 hover:bg-indigo-600',
+            'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer'
+          ]}
+        >
+          {buttonText}
+        </button>
+      ) : (
+        <a
+          href={buttonHref}
+          class:list={[
+            variant === 'dark' ? 'cta-btn bg-brand hover:bg-brand' : 'cta-btn bg-indigo-600 hover:bg-indigo-600',
+            'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+          ]}
+        >
+          {buttonText}
+        </a>
+      )}
     </div>
-  </section>
-)}
+  </div>
+</section>

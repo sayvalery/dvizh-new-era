@@ -44,7 +44,6 @@ import ClearGlassBg from '../../components/ui/ClearGlassBg.astro'
 import FlutedGlassBg from '../../components/ui/FlutedGlassBg.astro'
 import FunnelSection from '../../components/ui/FunnelSection.astro'
 import LogoDrum from '../../components/ui/LogoDrum.astro'
-import LogoStream from '../../components/ui/LogoStream.astro'
 import PageSection from '../../components/ui/PageSection.astro'
 import ProductLink from '../../components/ui/ProductLink.astro'
 import Review from '../../components/ui/Review.astro'
@@ -82,7 +81,6 @@ import clearGlassBgRaw from '../../components/ui/ClearGlassBg.astro?raw'
 import flutedGlassBgRaw from '../../components/ui/FlutedGlassBg.astro?raw'
 import funnelSectionRaw from '../../components/ui/FunnelSection.astro?raw'
 import logoDrumRaw from '../../components/ui/LogoDrum.astro?raw'
-import logoStreamRaw from '../../components/ui/LogoStream.astro?raw'
 import pageSectionRaw from '../../components/ui/PageSection.astro?raw'
 import productLinkRaw from '../../components/ui/ProductLink.astro?raw'
 import reviewRaw from '../../components/ui/Review.astro?raw'
@@ -174,7 +172,6 @@ const clearGlassBgMeta = parseSource(clearGlassBgRaw)
 const flutedGlassBgMeta = parseSource(flutedGlassBgRaw)
 const funnelSectionMeta = parseSource(funnelSectionRaw)
 const logoDrumMeta = parseSource(logoDrumRaw)
-const logoStreamMeta = parseSource(logoStreamRaw)
 const pageSectionMeta = parseSource(pageSectionRaw)
 const productLinkMeta = parseSource(productLinkRaw)
 const reviewMeta = parseSource(reviewRaw)
@@ -213,7 +210,6 @@ export function getStaticPaths() {
     { params: { slug: 'key-facts' }, props: { section: 'key-facts' } },
     { params: { slug: 'logo-drum' }, props: { section: 'logo-drum' } },
     { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
-    { params: { slug: 'logo-stream' }, props: { section: 'logo-stream' } },
     { params: { slug: 'mesh-gradient' }, props: { section: 'mesh-gradient' } },
     { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
     { params: { slug: 'page-section' }, props: { section: 'page-section' } },
@@ -263,7 +259,6 @@ const sections = [
   { slug: 'key-facts', label: 'KeyFacts' },
   { slug: 'logo-drum', label: 'LogoDrum' },
   { slug: 'logo-grid', label: 'LogoGrid' },
-  { slug: 'logo-stream', label: 'LogoStream' },
   { slug: 'mesh-gradient', label: 'Mesh Gradient' },
   { slug: 'modal-inline-form', label: 'Modal Inline Form' },
   { slug: 'page-section', label: 'PageSection' },
@@ -2559,7 +2554,7 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-2">CTA</h1>
           <p class="text-gray-600 mb-8">
-            Призыв к действию. Варианты: <code>dark</code> (тёмный фон), <code>light</code> (светлый), <code>split</code> (с изображением слева).
+            Призыв к действию. Варианты: <code>dark</code> (тёмный фон) или <code>light</code> (светлый).
             Кнопка может вести по <code>buttonHref</code> или открывать дровер через <code>drawerPreset</code>.
           </p>
           <PropsTable props={ctaMeta.props} class="mb-10" />
@@ -2724,24 +2719,6 @@ const sections = [
             <LogoDrum
               logos={['/partners/a101.svg', '/partners/ava.svg', '/partners/ganel.svg', '/partners/glorax.svg', '/partners/lsr.svg', '/partners/strana.svg']}
               duration={35}
-            />
-          </div>
-        </div>
-      )}
-
-      {section === 'logo-stream' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-2">LogoStream</h1>
-          <p class="text-gray-600 mb-8">
-            Поток логотипов с эффектом глубины (чистый CSS). Логотипы появляются крупными слева-снизу,
-            проходят фокус и уменьшаются справа-вверху.
-          </p>
-          <PropsTable props={logoStreamMeta.props} class="mb-10" />
-
-          <div class="h-[300px] bg-gray-50 rounded-2xl overflow-hidden">
-            <LogoStream
-              logos={['/partners/a101.svg', '/partners/ava.svg', '/partners/ganel.svg', '/partners/glorax.svg', '/partners/lsr.svg', '/partners/strana.svg']}
-              duration={30}
             />
           </div>
         </div>
