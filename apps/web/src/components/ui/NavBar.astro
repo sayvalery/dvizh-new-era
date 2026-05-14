@@ -100,7 +100,11 @@ const megaSections = megaItem?.sections ?? []
   <div
     @mouseenter="if (megaOpen) clearTimeout(hoverTimeout)"
     @mouseleave="hoverTimeout = setTimeout(() => megaOpen = false, 200)"
-    :class="{ 'bg-background-primary': !clear && !floatingIsland, 'bg-transparent': clear || floatingIsland }"
+    :class="{
+      'bg-background-primary': !clear && !floatingIsland,
+      'bg-transparent': clear || floatingIsland,
+      'rounded-b-3xl overflow-hidden': megaOpen
+    }"
     class="transition-colors duration-200"
   >
     <!-- Island wrapper: content aligns at 1440px, rounded corners extend beyond -->
@@ -128,7 +132,7 @@ const megaSections = megaItem?.sections ?? []
               item.sections?.length ? (
                 /* === MEGA MENU TRIGGER === */
                 <button
-                  class="flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors"
+                  class="flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
                   :class="clear ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-100'"
                   @mouseenter="clearTimeout(hoverTimeout); megaOpen = true"
                 >
@@ -145,7 +149,7 @@ const megaSections = megaItem?.sections ?? []
                   @mouseleave={`menuTimeout = setTimeout(() => openMenu = null, 150)`}
                 >
                   <button
-                    class="flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors"
+                    class="flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
                     :class="clear ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-100'"
                   >
                     {item.label}
@@ -184,7 +188,7 @@ const megaSections = megaItem?.sections ?? []
                 /* === FLAT LINK === */
                 <a
                   href={item.href}
-                  class="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors"
+                  class="inline-flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
                   :class="clear ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-100'"
                 >
                   {item.label}
@@ -207,7 +211,7 @@ const megaSections = megaItem?.sections ?? []
           {secondaryLink && (
             <a
               href={secondaryLink.href}
-              class="hidden sm:block text-sm font-medium opacity-80 transition-colors"
+              class="hidden sm:block text-subhead opacity-80 transition-colors"
               :class="clear ? 'text-white hover:text-white/70' : 'text-gray-500 hover:text-gray-900'"
             >
               {secondaryLink.label}
