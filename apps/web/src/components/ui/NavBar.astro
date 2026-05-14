@@ -103,7 +103,8 @@ const megaSections = megaItem?.sections ?? []
     :class="{
       'bg-background-primary': !clear && !floatingIsland,
       'bg-transparent': clear || floatingIsland,
-      'rounded-b-3xl overflow-hidden': megaOpen
+      'rounded-b-3xl': megaOpen,
+      'overflow-hidden': megaOpen
     }"
     class="transition-colors duration-200"
   >
