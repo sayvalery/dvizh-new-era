@@ -83,7 +83,7 @@ const hasModal = Astro.slots.has('modal-body')
     style={isActive && backgroundImage ? `background-image: url(${backgroundImage})` : ''}
     @click={hasModal ? 'open = true' : ''}
   >
-    <div class:list={['p-6 md:p-8 flex flex-col h-full relative', !isActive && 'justify-between']}>
+    <div class:list={['p-4 lg:p-8 flex flex-col h-full relative', !isActive && 'justify-between']}>
 
       <!-- Логотип: в потоке (default) или абсолютный (active) -->
       {(Astro.slots.has('logo') || logo) && (

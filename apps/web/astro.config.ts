@@ -38,11 +38,10 @@ export default defineConfig({
   integrations: [tailwind({ applyBaseStyles: false }), sitemap()],
   server: {
     host: true, // expose on local network, not just localhost
-    allowedHosts: ['preview.dvizh.cc'],
   },
   vite: {
     server: {
-      allowedHosts: true,
+      allowedHosts: ['preview.dvizh.cc'],
       proxy: {
         '/api': { target: cmsProxy, changeOrigin: true, secure: false },
         '/media': { target: cmsProxy, changeOrigin: true, secure: false },
