@@ -81,7 +81,7 @@ const formFields = fields[preset] ?? ['name', 'email']
   data-cms-url={CLIENT_CMS_URL}
 >
   {layout === 'inline' ? (
-    <div class="flex flex-col sm:flex-row gap-3 items-start">
+    <div class="flex flex-col md:flex-row gap-3 items-start">
       {formFields.map((field) => (
         <Input
           id={`field-${preset}-${field}`}
@@ -97,7 +97,7 @@ const formFields = fields[preset] ?? ['name', 'email']
         type="submit"
         size="md"
         variant={isDark ? 'secondary' : 'primary'}
-        class="w-full sm:w-auto"
+        class="w-full md:w-auto"
       >
         {btnLabel}
       </Button>
