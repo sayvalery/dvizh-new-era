@@ -19,6 +19,7 @@
 
 import BlogCard from './BlogCard.astro'
 import Button from './Button.astro'
+import MegaMenu from './MegaMenu.astro'
 
 export interface NavChild {
   label: string
@@ -257,55 +258,7 @@ const megaSections = megaItem?.sections ?? []
 
     <!-- Mega menu dropdown (inside hover zone, below island) -->
     {megaSections.length > 0 && (
-      <div
-        x-cloak
-        x-show="megaOpen"
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 -translate-y-1"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-150"
-        x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 -translate-y-1"
-        class="border-t border-gray-100"
-      >
-        <div class="mx-auto max-w-[1440px] px-4 py-8">
-          <div class="grid grid-cols-4 gap-8">
-            {megaSections.map(section => (
-              <div>
-                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">{section.title}</p>
-                <ul class="space-y-1">
-                  {section.items.map(child => (
-                    <li>
-                      <a href={child.href} class="block text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md px-2 py-1.5 -mx-2">
-                        {child.label}
-                        {child.description && (
-                          <span class="block text-xs text-gray-400 mt-0.5">{child.description}</span>
-                        )}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-            {blogPosts.length > 0 && (
-              <div>
-                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Блог</p>
-                <div class="space-y-4">
-                  {blogPosts.map(post => (
-                    <BlogCard
-                      title={post.title}
-                      slug={post.slug}
-                      cover={post.cover}
-                      category={post.category}
-                      class="border-0 shadow-none hover:shadow-none"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <MegaMenu sections={megaSections} blogPosts={blogPosts} />
     )}
   </div>
 
@@ -361,7 +314,24 @@ const megaSections = megaItem?.sections ?? []
         <!-- Nav sections -->
         <nav class="flex flex-col gap-5">
           {items.map(item => (
-            item.children?.length ? (
+            item.sections?.length ? (
+              item.sections.map(section => (
+                <div>
+                  <p class="text-side-menu text-gray-400 mb-1">
+                    {section.title}
+                  </p>
+                  {section.items.map(child => (
+                    <a
+                      href={child.href}
+                      @click="mobileOpen = false"
+                      class="block py-2.5 text-body-lg text-gray-900 hover:text-brand transition-colors"
+                    >
+                      {child.label}
+                    </a>
+                  ))}
+                </div>
+              ))
+            ) : item.children?.length ? (
               <div>
                 <p class="text-side-menu text-gray-400 mb-1">
                   {item.label}
