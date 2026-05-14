@@ -34,7 +34,6 @@ import KeyFacts from '../../components/ui/KeyFacts.astro'
 import LogoGrid from '../../components/ui/LogoGrid.astro'
 import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
-import Banner from '../../components/ui/Banner.astro'
 import CTABanner from '../../components/ui/CTABanner.astro'
 import ReviewFull from '../../components/ui/ReviewFull.astro'
 import TextImageBlock from '../../components/ui/TextImageBlock.astro'
@@ -76,7 +75,6 @@ import reviewFullRaw from '../../components/ui/ReviewFull.astro?raw'
 import textImageBlockRaw from '../../components/ui/TextImageBlock.astro?raw'
 import supportSectionRaw from '../../components/ui/SupportSection.astro?raw'
 import blogGridRaw from '../../components/ui/BlogGrid.astro?raw'
-import bannerRaw from '../../components/ui/Banner.astro?raw'
 import ctaRaw from '../../components/ui/CTA.astro?raw'
 import ctaBannerRaw from '../../components/ui/CTABanner.astro?raw'
 import clearGlassBgRaw from '../../components/ui/ClearGlassBg.astro?raw'
@@ -168,7 +166,6 @@ const reviewFullMeta = parseSource(reviewFullRaw)
 const textImageBlockMeta = parseSource(textImageBlockRaw)
 const featureBlockMeta = parseSource(featureBlockRaw)
 const blogGridMeta = parseSource(blogGridRaw)
-const bannerMeta = parseSource(bannerRaw)
 const ctaMeta = parseSource(ctaRaw)
 const ctaBannerMeta = parseSource(ctaBannerRaw)
 const clearGlassBgMeta = parseSource(clearGlassBgRaw)
@@ -198,7 +195,6 @@ export function getStaticPaths() {
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
     { params: { slug: 'clear-glass-bg' }, props: { section: 'clear-glass-bg' } },
     { params: { slug: 'comparison' }, props: { section: 'comparison' } },
-    { params: { slug: 'banner' }, props: { section: 'banner' } },
     { params: { slug: 'cta' }, props: { section: 'cta' } },
     { params: { slug: 'cta-banner' }, props: { section: 'cta-banner' } },
     { params: { slug: 'developer-block' }, props: { section: 'developer-block' } },
@@ -241,7 +237,6 @@ const sections = [
   { slug: 'typography', label: 'Типографика' },
   { slug: 'colors', label: 'Цвета' },
   { slug: 'advantage-card', label: 'AdvantageCard' },
-  { slug: 'banner', label: 'Banner' },
   { slug: 'bento', label: 'Bento Grid' },
   { slug: 'blogcard', label: 'Blog Card' },
   { slug: 'blog-cards', label: 'Blog Cards' },
@@ -2551,93 +2546,6 @@ const sections = [
               totalPages={1}
               activeCategory={undefined}
             />
-          </div>
-        </div>
-      )}
-
-      {section === 'banner' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-2">Banner</h1>
-          <p class="text-gray-600 mb-8">
-            Универсальный CTA-баннер. Части включаются булевыми пропсами — как в Figma:
-            подзаголовок, список пунктов, встроенная форма, боковая кнопка.
-            Фон — любой Tailwind-класс или изображение. Скругление: 24px / 16px.
-          </p>
-          <PropsTable props={bannerMeta.props} class="mb-10" />
-
-          <div class="space-y-8">
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Компактный — заголовок + боковая кнопка (замена CTABanner), rounded="2xl"</p>
-              <Banner
-                title="Узнайте, сколько вы можете сэкономить"
-                showSideButton
-                buttonText="Получить расчёт"
-                buttonDrawerPreset="lead"
-                rounded="2xl"
-                bg="bg-background-secondary"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С подзаголовком и боковой кнопкой, светлый фон (default)</p>
-              <Banner
-                title="Автоматизируйте продажи"
-                subtitle="AI-платформа для застройщиков — 75 из ТОП-100 крупнейших девелоперов России"
-                showSideButton
-                buttonText="Запросить демо"
-                buttonDrawerPreset="demo"
-                bg="bg-background-secondary"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Со списком пунктов и боковой кнопкой</p>
-              <Banner
-                title="Почему выбирают ДВИЖ"
-                subtitle="Всё для роста продаж в одной платформе"
-                paragraphs={[
-                  'До 96% одобрения ипотечных заявок',
-                  'Единая анкета в 40+ банков',
-                  'Готовые интеграции с CRM',
-                ]}
-                showSideButton
-                buttonText="Узнать больше"
-                buttonDrawerPreset="demo"
-                bg="bg-background-secondary"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С встроенной формой и сноской</p>
-              <Banner
-                title="Получите бесплатный расчёт"
-                subtitle="Заполните форму — менеджер свяжется с вами в течение часа"
-                showForm
-                formPreset="lead"
-                formSubmitLabel="Рассчитать"
-                formFootnote="Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности"
-                bg="bg-background-secondary"
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Тёмный фон, bg-gray-900 + dark</p>
-              <Banner
-                title="Запросить демо"
-                subtitle="Покажем, как ДВИЖ помогает автоматизировать ипотеку и увеличить конверсию"
-                paragraphs={[
-                  'Настройка под ваш CRM за 1 день',
-                  'Персональный менеджер',
-                ]}
-                showSideButton
-                buttonText="Запросить демо"
-                buttonDrawerPreset="demo"
-                bg="bg-gray-900"
-                dark
-              />
-            </div>
-
           </div>
         </div>
       )}
