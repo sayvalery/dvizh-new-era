@@ -71,7 +71,7 @@ const {
   class: className = ''
 } = Astro.props
 
-const hasPhoto = !!photo?.src
+const hasPhoto = photo !== undefined
 ---
 
 {hasPhoto ? (
@@ -80,12 +80,16 @@ const hasPhoto = !!photo?.src
 
     <!-- Фото: только lg+ -->
     <div class="hidden lg:block relative lg:w-96 lg:shrink-0">
-      <img
-        src={photo!.src}
-        alt={photo!.alt ?? ''}
-        class="absolute inset-0 w-full h-full object-cover object-top"
-        loading="lazy"
-      />
+      {photo!.src ? (
+        <img
+          src={photo!.src}
+          alt={photo!.alt ?? ''}
+          class="absolute inset-0 w-full h-full object-cover object-top"
+          loading="lazy"
+        />
+      ) : (
+        <div class="absolute inset-0 bg-gray-300" aria-hidden="true" />
+      )}
     </div>
 
     <!-- Цитата -->
