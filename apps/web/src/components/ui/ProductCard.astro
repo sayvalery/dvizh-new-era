@@ -66,6 +66,7 @@ const {
   review,
   class: className = ''
 } = Astro.props
+import Button from './Button.astro'
 ---
 
 <div class:list={['rounded-2xl lg:rounded-3xl bg-stone-100 overflow-hidden', className]}>
@@ -91,12 +92,7 @@ const {
     <!-- Кнопка -->
     {button && (
       <div class="mt-8">
-        <a
-          href={button.href}
-          class="inline-flex items-center rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-700"
-        >
-          {button.label}
-        </a>
+        <Button variant="dark" size="md" href={button.href}>{button.label}</Button>
       </div>
     )}
   </div>
