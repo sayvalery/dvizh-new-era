@@ -226,7 +226,6 @@ export function getStaticPaths() {
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
     { params: { slug: 'product-link' }, props: { section: 'product-link' } },
     { params: { slug: 'review' }, props: { section: 'review' } },
-    { params: { slug: 'review-full' }, props: { section: 'review-full' } },
     { params: { slug: 'side-menu' }, props: { section: 'side-menu' } },
     { params: { slug: 'story-card' }, props: { section: 'story-card' } },
     { params: { slug: 'success-story-block' }, props: { section: 'success-story-block' } },
@@ -277,7 +276,6 @@ const sections = [
   { slug: 'product-section', label: 'Product Section' },
   { slug: 'product-link', label: 'ProductLink' },
   { slug: 'review', label: 'Review' },
-  { slug: 'review-full', label: 'ReviewFull' },
   { slug: 'side-menu', label: 'Side Menu' },
   { slug: 'story-card', label: 'StoryCard' },
   { slug: 'success-story-block', label: 'SuccessStoryBlock' },
@@ -2502,39 +2500,6 @@ const sections = [
 
 
 
-      {section === 'review-full' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">ReviewFull</h1>
-          <p class="text-gray-600 mb-4">
-            Блок отзыва с фото спикера слева и цитатой справа. Обёртка над <code>Review</code>.
-            Фото занимает всю высоту блока; при отсутствии <code>src</code> показывается серая заглушка.
-          </p>
-          <PropsTable props={reviewFullMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">С заглушкой (нет фото) + полный набор атрибутов</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<ReviewFull quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
-              <ReviewFull
-                quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счёт использования стороннего решения мы оптимизируем наши процессы и сокращаем сроки реализации."
-                author="Бурганов Рунар"
-                role="Руководитель отдела ипотеки и финансовых инструментов"
-                company={{ logo: "https://admin.dvizh.cc/api/media/file/kortros-logo.svg", alt: "Кортрос" }}
-                caseLink={{ label: "Читать кейс", href: "#" }}
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без кнопки кейса и логотипа</p>
-              <ReviewFull
-                quote="Интеграция с ДВИЖем заняла неделю, а ROI превысил ожидания уже в первый месяц"
-                author="Елена Козлова"
-                role="Коммерческий директор"
-              />
-            </div>
-          </div>
-        </div>
-      )}
 
       {section === 'text-image-block' && (
         <div>
@@ -2977,14 +2942,16 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-2">Review</h1>
           <p class="text-gray-600 mb-8">
-            Блок цитаты клиента: иконка-кавычка, цитата, строка автора (логотип компании, имя, должность, кнопка кейса).
-            Используется внутри ReviewFull и ProductCard.
+            Блок цитаты клиента. Без <code>photo</code> — компактная цитата (используется внутри ProductCard).
+            С <code>photo</code> — на lg+ фото слева, на мобайле только цитата.
           </p>
           <PropsTable props={reviewMeta.props} class="mb-10" />
 
           <div class="space-y-12">
+
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант (default)</p>
+              <p class="text-sm font-medium text-gray-400 mb-2">Без фото — полный вариант (default)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<Review quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
               <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
                 <Review
                   quote="С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет"
@@ -2995,17 +2962,43 @@ const sections = [
                 />
               </div>
             </div>
+
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Без логотипа компании</p>
+              <p class="text-sm font-medium text-gray-400 mb-2">Без фото — без логотипа</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<Review quote="..." author="..." role="..." />`}</code></p>
               <div class="bg-stone-100 rounded-[32px] p-8 lg:p-10">
                 <Review
                   quote="Интеграция с ДВИЖем заняла неделю, а ROI превысил ожидания уже в первый месяц"
                   author="Елена Козлова"
                   role="Коммерческий директор"
-                  caseLink={{ label: 'Читать кейс', href: '#' }}
                 />
               </div>
             </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">С фото — lg+: фото слева, mobile: только цитата</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<Review photo={{src:"...", alt:"..."}} quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
+              <Review
+                photo={{ src: '', alt: 'Бурганов Рунар' }}
+                quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счёт стороннего решения мы оптимизируем процессы и сокращаем сроки реализации."
+                author="Бурганов Рунар"
+                role="Руководитель отдела ипотеки и финансовых инструментов"
+                company={{ logo: 'https://admin.dvizh.cc/api/media/file/kortros-logo.svg', alt: 'Кортрос' }}
+                caseLink={{ label: 'Читать кейс', href: '#' }}
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">С фото — без кнопки и логотипа</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<Review photo={{src:"...", alt:"..."}} quote="..." author="..." role="..." />`}</code></p>
+              <Review
+                photo={{ src: '', alt: 'Елена Козлова' }}
+                quote="Интеграция с ДВИЖем заняла неделю, а ROI превысил ожидания уже в первый месяц"
+                author="Елена Козлова"
+                role="Коммерческий директор"
+              />
+            </div>
+
           </div>
         </div>
       )}
