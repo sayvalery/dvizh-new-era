@@ -102,8 +102,7 @@ const megaSections = megaItem?.sections ?? []
     @mouseleave="hoverTimeout = setTimeout(() => megaOpen = false, 200)"
     :class="{
       'bg-background-primary': !clear && !floatingIsland,
-      'bg-transparent': clear || floatingIsland,
-      'rounded-b-3xl overflow-hidden': megaOpen
+      'bg-transparent': clear || floatingIsland
     }"
     class="transition-colors duration-200"
   >
