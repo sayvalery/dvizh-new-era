@@ -41,6 +41,8 @@ const {
   kpPreset = 'lead',
   class: className = '',
 } = Astro.props
+
+const hasLogos = Astro.slots.has('logos')
 ---
 
 <section class:list={['relative overflow-hidden bg-background-primary', className]}>
@@ -62,6 +64,11 @@ const {
           <Button variant="ghost" size="lg" drawerPreset={kpPreset} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{kpLabel}</Button>
         </div>
       </div>
+      {hasLogos && (
+        <div class="w-full overflow-x-hidden mt-12 md:mt-16">
+          <slot name="logos" />
+        </div>
+      )}
     </div>
   </div>
 

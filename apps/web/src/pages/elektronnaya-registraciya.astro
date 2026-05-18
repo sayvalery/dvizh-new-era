@@ -15,32 +15,33 @@ import FormClosing from '../components/ui/FormClosing.astro'
   jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Электронная регистрация', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
 >
 
-  {/* ── 1. Hero Section ── */}
+  {/* ── 1. Hero Section + Logos в одном экране ── */}
   <HeroSectionFull
-    title="Регистрируйте все виды сделок с выгодой от 30% до 80%"
-    description="Автоматизируйте этап подготовки документов, ускорьте оформление сделок в Росреестре и сократите затраты на регистрацию"
+    title="Регистрируйте все виды сделок с выгодой до 30%"
+    description="Заводите сделки на регистрацию за 5 минут — все данные по подписантам подтянутся из CRM или ипотечного модуля"
     demoLabel="Записаться на демо"
     kpLabel="Попробовать бесплатно"
-  />
-
-  {/* ── 2. LogoGrid ── */}
-  <LogoGrid
-    logos={[
-      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
-      { src: '/partners/dark/a101.svg', alt: 'A101' },
-      { src: '/partners/dark/strana.svg', alt: 'Страна Девелопмент' },
-      { src: '/partners/dark/glorax.svg', alt: 'Glorax' },
-      { src: '/partners/dark/ganel.svg', alt: 'Ganel' },
-      { src: '/partners/dark/ava.svg', alt: 'AVA' },
-    ]}
-  />
+  >
+    <LogoGrid
+      slot="logos"
+      noPadding
+      logos={[
+        { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+        { src: '/partners/dark/a101.svg', alt: 'A101' },
+        { src: '/partners/dark/strana.svg', alt: 'Страна Девелопмент' },
+        { src: '/partners/dark/glorax.svg', alt: 'Glorax' },
+        { src: '/partners/dark/ganel.svg', alt: 'Ganel' },
+        { src: '/partners/dark/ava.svg', alt: 'AVA' },
+      ]}
+    />
+  </HeroSectionFull>
 
   {/* ── 3. ComparisonSection variant='prices' + CTABanner внутри ── */}
   <ComparisonSection
     class="py-24 lg:py-[120px]"
     variant="prices"
     label="Стоимость"
-    title="Дешевле на каждом этапе"
+    title="Быстрее и выгоднее на каждом этапе"
     leftTitle="Без ДВИЖа"
     priceRows={[
       { label: 'Регистрация', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
@@ -59,7 +60,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <section class="py-24 lg:py-[120px]">
     <div class="page-container">
       <BentoGrid
-        heading="Поможем решить любые вопросы"
+        heading="Закроем все задачи по регистрации"
         description="От сложных сделок до проблем с УЦ — в нашей команде ребята с опытом работы у регистраторов"
         items={[
           {
@@ -83,6 +84,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <section class="py-24 lg:py-[120px]">
     <div class="page-container">
       <ReviewFull
+        photo={{ src: '/api/media/file/shved-review.webp', alt: 'Анастасия Швед' }}
         quote="Раньше мы могли провозиться с регистрацией дома неделю, потому что каждое заявление создавалось вручную. Теперь любое количество объектов мы можем отправить на регистрацию за считанные минуты. К тому же, за счет комплексного предложения (ипотека+регистрация) ДВИЖ выходит на 30% дешевле других рыночных платформ."
         author="Анастасия Швед"
         role="Директор по продажам"
