@@ -26,9 +26,9 @@ interface Tab {
 }
 
 interface Props {
-  /** Первая строка заголовка */
+  /** Хвост заголовка (обычный цвет) */
   title?: string
-  /** Вторая строка заголовка (оранжевая) */
+  /** Начало заголовка (оранжевое) */
   titleAccent?: string
   /** Подзаголовок */
   subtitle?: string
@@ -42,9 +42,9 @@ interface Props {
 }
 
 const {
-  title = 'Не оставим вас одних.',
-  titleAccent = 'Ни на одном этапе',
-  subtitle = 'От внедрения до обучения команды. За каждым тикетом — конкретный человек, который знает ваш проект и знает рынок',
+  title = ' поддерживаем на каждом этапе',
+  titleAccent = 'Не оставим вас одних,',
+  subtitle = 'За каждой задачей — человек, который знает ваш проект и рынок',
   tabs,
   ctaLabel = 'Оставить заявку',
   ctaDrawerPreset = 'demo',
@@ -65,9 +65,8 @@ const {
     <!-- Шапка -->
     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
       <div class="flex flex-col gap-3">
-        <h2 class="text-h2">
-          {title}<br />
-          <span class="text-brand">{titleAccent}</span>
+        <h2 class="text-h2 max-w-[800px]">
+          <span class="text-brand">{titleAccent}</span>{title}
         </h2>
         <p class="text-body-lg text-gray-500 max-w-[620px]">{subtitle}</p>
       </div>
