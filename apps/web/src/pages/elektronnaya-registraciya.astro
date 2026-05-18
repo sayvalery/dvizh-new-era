@@ -18,7 +18,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   {/* ── 1. Hero Section + Logos в одном экране ── */}
   <HeroSectionFull
     title="Регистрируйте все виды сделок с выгодой до 30%"
-    description="Заводите сделки на регистрацию за 5 минут — все данные по подписантам подтянутся из CRM или ипотечного модуля"
+    description="Заводите сделки на регистрацию за 5 минут — все данные по подписантам подтянутся из CRM или ипотечного модуля"
     demoLabel="Записаться на демо"
     kpLabel="Попробовать бесплатно"
   >
@@ -44,14 +44,14 @@ import FormClosing from '../components/ui/FormClosing.astro'
     title="Быстрее и выгоднее на каждом этапе"
     leftTitle="Без ДВИЖа"
     priceRows={[
-      { label: 'Регистрация', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
-      { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
+      { label: 'Регистрация', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
+      { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
     ]}
   >
     <CTABanner
       slot="cta"
       title="Узнайте, сколько вы можете сэкономить"
-      buttonText="Получить расчёт"
+      buttonText="Получить расчет"
       drawerPreset="lead"
     />
   </ComparisonSection>
@@ -85,8 +85,9 @@ import FormClosing from '../components/ui/FormClosing.astro'
     <div class="page-container">
       <ReviewFull
         photo={{ src: '/api/media/file/shved-review.webp', alt: 'Анастасия Швед' }}
-        quote="Раньше мы могли провозиться с регистрацией дома неделю, потому что каждое заявление создавалось вручную. Теперь любое количество объектов мы можем отправить на регистрацию за считанные минуты. К тому же, за счет комплексного предложения (ипотека+регистрация) ДВИЖ выходит на 30% дешевле других рыночных платформ."
+        quote="Раньше мы могли провозиться с регистрацией дома неделю, потому что каждое заявление создавалось вручную. Теперь любое количество объектов мы можем отправить на регистрацию за считанные минуты. К тому же, за счет комплексного предложения (ипотека+регистрация) ДВИЖ выходит на 30% дешевле других рыночных платформ."
         author="Анастасия Швед"
+        company={{ logo: '/api/media/file/talan_color.svg', alt: 'Талан' }}
         role="Директор по продажам"
         caseLink={{ label: 'Читать кейс', href: '/cases' }}
       />
