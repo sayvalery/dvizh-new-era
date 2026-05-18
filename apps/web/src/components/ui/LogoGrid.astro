@@ -23,14 +23,16 @@ interface Props {
   noFade?: boolean
   /** Белые логотипы без opacity (для тёмного/цветного фона) */
   white?: boolean
+  /** Убрать внутренние отступы (padding: 0) */
+  noPadding?: boolean
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const { logos, noFade = false, white = false, class: className = '' } = Astro.props
+const { logos, noFade = false, white = false, noPadding = false, class: className = '' } = Astro.props
 ---
 
-<div class:list={['logo-grid-root', className]}>
+<div class:list={['logo-grid-root', noPadding && 'logo-grid-root--no-padding', className]}>
   {!noFade && <div class="logo-grid-fade logo-grid-fade--left" aria-hidden="true"></div>}
   {!noFade && <div class="logo-grid-fade logo-grid-fade--right" aria-hidden="true"></div>}
 
@@ -57,6 +59,10 @@ const { logos, noFade = false, white = false, class: className = '' } = Astro.pr
     gap: var(--gap);
     padding: 2rem 0;
     position: relative;
+  }
+
+  .logo-grid-root--no-padding {
+    padding: 0;
     user-select: none;
     width: 100%;
     min-width: 0;
