@@ -122,14 +122,14 @@ const {
                   <img
                     src={src}
                     alt=""
-                    class="size-[54px] rounded-[12px] object-cover border-2 border-white"
+                    class="size-[54px] rounded-full object-cover"
                   />
                 ) : (
-                  <div class="size-[54px] rounded-[12px] bg-gray-300 border-2 border-white" />
+                  <div class="size-[54px] rounded-full bg-gray-300" />
                 )
               )}
               {extra > 0 && (
-                <div class="size-[54px] rounded-[12px] bg-white/20 border-2 border-white flex items-center justify-center">
+                <div class="size-[54px] rounded-full bg-white/20 flex items-center justify-center">
                   <span class="text-h5 text-white">+{extra}</span>
                 </div>
               )}
@@ -162,14 +162,14 @@ const {
               <div class="flex gap-1 lg:hidden">
                 {(tab.avatars ?? []).slice(0, 3).map(src =>
                   src ? (
-                    <img src={src} alt="" class="size-[54px] rounded-[12px] object-cover border-2 border-white/50 shrink-0" loading="lazy" />
+                    <img src={src} alt="" class="size-[54px] rounded-full object-cover shrink-0" loading="lazy" />
                   ) : (
-                    <div class="size-[54px] rounded-[12px] bg-gray-300 border-2 border-white/50 shrink-0" />
+                    <div class="size-[54px] rounded-full bg-gray-300 shrink-0" />
                   )
                 )}
                 {(tab.extraCount !== undefined || (tab.avatars ?? []).length > 3) && (
                   <div
-                    class="size-[54px] rounded-[12px] border-2 border-white/50 flex items-center justify-center shrink-0 transition-colors duration-300"
+                    class="size-[54px] rounded-full flex items-center justify-center shrink-0 transition-colors duration-300"
                     :class={`active === ${i} ? 'bg-white/20' : 'bg-gray-200'`}
                   >
                     <span
