@@ -96,7 +96,10 @@ const partnerLogos = [
   </div>
 
   {/* ── 2. Девелоперы с ДВИЖ — 4 AdvantageCard ── */}
-  <section class="py-24 sm:py-32">
+  {/* gap-16 (64px) / sm:gap-20 (80px) / md:gap-24 (96px) / lg:gap-36 (144px) */}
+  <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-36">
+
+  <section>
     <div class="page-container">
       <h2 class="text-h2">Девелоперы с ДВИЖ</h2>
       <div
@@ -141,7 +144,7 @@ const partnerLogos = [
     heading="70+ историй успеха на рынке застройщиков"
     buttonLabel="Получить демо"
     buttonPreset="demo"
-    class="pb-24 lg:pb-[120px]"
+    class="!py-0"
     stories={[
       {
         logo: '/api/media/file/lsr_color.svg',
@@ -169,6 +172,7 @@ const partnerLogos = [
 
   {/* ── 4. Product Section — 5 продуктов ── */}
   <ProductSection
+    class="!py-0"
     sections={[
       {
         number: "01",
@@ -299,6 +303,7 @@ const partnerLogos = [
 
   {/* ── 6. KeyFacts ── */}
   <KeyFacts
+    class="!py-0"
     items={[
       { value: 'Uptime 99,9%', description: 'Uptime платформы 99,9%' },
       { value: 'Безопасность', description: 'Подтверждена отделами ИБ крупнейших застройщиков и банков страны' },
@@ -313,7 +318,7 @@ const partnerLogos = [
       title="Из блога"
       description="Экспертные материалы о цифровизации продаж в девелопменте"
       articles={recentPosts}
-      class="py-24"
+      class="!py-0"
     />
   )}
 
@@ -323,7 +328,9 @@ const partnerLogos = [
     title="Не оставим вас одних"
     description="За каждым клиентом закреплён менеджер, который обучит вашу команду, подключит все виджеты и ответит на ваши вопросы в течение 57 секунд"
     submitLabel="Оставить заявку"
-    class="py-12"
+    class="!py-0"
   />
+
+  </div>
 
 </SiteLayout>
