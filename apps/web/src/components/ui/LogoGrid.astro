@@ -4,12 +4,8 @@
  *
  * @example
  * ```astro
- * <LogoGrid
- *   logos={[
- *     { src: "/partners/dark/lsr.svg", alt: "ЛСР" },
- *     { src: "/partners/dark/a101.svg", alt: "A101" },
- *   ]}
- * />
+ * <LogoGrid logos={[{ src: "/partners/lsr.svg", alt: "ЛСР" }]} />
+ * <LogoGrid logos={[{ src: "/partners/lsr.svg", alt: "ЛСР" }]} noFade white />
  * ```
  */
 
@@ -23,27 +19,28 @@ interface Logo {
 interface Props {
   /** Массив логотипов */
   logos: Logo[]
+  /** Убрать градиенты по бокам */
+  noFade?: boolean
+  /** Белые логотипы без opacity (для тёмного/цветного фона) */
+  white?: boolean
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const { logos, class: className = '' } = Astro.props
+const { logos, noFade = false, white = false, class: className = '' } = Astro.props
 ---
 
 <div class:list={['logo-grid-root', className]}>
-  <!-- Левый блюр -->
-  <div class="logo-grid-fade logo-grid-fade--left" aria-hidden="true"></div>
-  <!-- Правый блюр -->
-  <div class="logo-grid-fade logo-grid-fade--right" aria-hidden="true"></div>
+  {!noFade && <div class="logo-grid-fade logo-grid-fade--left" aria-hidden="true"></div>}
+  {!noFade && <div class="logo-grid-fade logo-grid-fade--right" aria-hidden="true"></div>}
 
-  <!-- 4 копии логотипов в одну строку, анимируется на -25% = ровно 1 копия -->
   <div class="logo-grid-set">
     {[...logos, ...logos, ...logos, ...logos].map((logo, i) => (
       <img
         src={logo.src}
         alt={logo.alt}
         height="32"
-        class="logo-grid-img"
+        class:list={['logo-grid-img', white && 'logo-grid-img--white']}
         loading={i < logos.length ? 'eager' : 'lazy'}
         draggable="false"
         aria-hidden={i >= logos.length ? 'true' : undefined}
@@ -82,8 +79,6 @@ const { logos, class: className = '' } = Astro.props
     background: linear-gradient(to left, #FBF9F6, transparent);
   }
 
-  /* 4 копии логотипов в одной строке.
-     translateX(-25%) сдвигает ровно на 1 копию — бесшовный loop. */
   .logo-grid-set {
     flex-shrink: 0;
     display: flex;
@@ -99,6 +94,10 @@ const { logos, class: className = '' } = Astro.props
     max-width: 7.5rem;
     object-fit: contain;
     filter: grayscale(100%) opacity(45%);
+  }
+
+  .logo-grid-img--white {
+    filter: brightness(0) invert(1);
   }
 
   @keyframes logo-grid-scroll {

@@ -2,6 +2,7 @@
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import LogoDrum from '../components/ui/LogoDrum.astro'
+import LogoGrid from '../components/ui/LogoGrid.astro'
 import Island from '../components/ui/Island.astro'
 import AdvantageCard from '../components/ui/AdvantageCard.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
@@ -103,9 +104,16 @@ const partnerLogos = [
     withGradient
     gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
   >
-    <div slot="right" class="w-full h-[300px] lg:h-[700px]">
+    <div slot="right" class="w-full h-[700px]">
       <LogoDrum logos={partnerLogos} duration={55} />
     </div>
+    <LogoGrid
+      slot="logos"
+      logos={partnerLogos.map(src => ({ src, alt: '' }))}
+      noFade
+      white
+      class="lg:hidden"
+    />
   </HeroSection>
 
   {/* Sentinel для Island (появляется после скролла мимо Hero) */}

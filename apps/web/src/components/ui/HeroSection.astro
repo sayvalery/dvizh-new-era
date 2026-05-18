@@ -176,6 +176,7 @@ const statsGridCols = {
             {withForm && (
               <Form preset={formPreset} layout="inline" variant={withGradient ? 'dark' : 'light'} submitLabel={formSubmitLabel} />
             )}
+            <slot name="logos" />
           </div>
 
           <!-- Правая колонка -->
