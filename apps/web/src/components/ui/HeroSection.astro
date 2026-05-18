@@ -116,7 +116,7 @@ const statsGridCols = {
       </div>
 
       <!-- Контент: прибит к низу слева -->
-      <div class="relative z-10 flex flex-col justify-end flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-10 pb-16 lg:pb-24">
+      <div class="page-container relative z-10 flex flex-col justify-end flex-1 w-full pb-16 lg:pb-24">
         <div class="flex flex-col gap-6 max-w-[1000px]">
           {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
           <h1 class="text-h1 text-gray-900">{title}</h1>
@@ -132,7 +132,7 @@ const statsGridCols = {
   )}
 
   {!isFull && (
-    <div class="relative z-10 max-w-[1440px] mx-auto px-4">
+    <div class="page-container relative z-10">
       {isSplit ? (
         <div class="grid lg:grid-cols-2 gap-16 items-center py-24 lg:py-32">
           <!-- Левая колонка: бейдж и заголовок -->
@@ -184,7 +184,7 @@ const statsGridCols = {
               </div>
               <!-- Логотипы: на lg+ выходят за пределы колонки на всю ширину экрана -->
               {hasLogos && (
-                <div class="w-full overflow-x-hidden lg:w-[min(1408px,calc(100vw-32px))]">
+                <div class="w-full overflow-x-hidden lg:w-[min(1360px,calc(100vw-80px))]">
                   <slot name="logos" />
                 </div>
               )}
