@@ -6,6 +6,8 @@
  * Alpine.js управляет активным табом, фото меняются через crossfade (opacity).
  */
 
+import Button from './Button.astro'
+
 interface Tab {
   /** URL иконки в плашке 56px. Пустая строка — серая заглушка */
   icon?: string
@@ -63,20 +65,15 @@ const {
   <div class="page-container flex flex-col gap-16">
 
     <!-- Шапка -->
-    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
       <div class="flex flex-col gap-3">
         <h2 class="text-h2 max-w-[800px]">
           <span class="text-brand">{titleAccent}</span>{title}
         </h2>
         <p class="text-body-lg text-gray-500 max-w-[620px]">{subtitle}</p>
       </div>
-      <div class="shrink-0" x-data>
-        <button
-          @click={`$dispatch('open-drawer', { preset: '${ctaDrawerPreset}' })`}
-          class="bg-brand text-white rounded-[12px] px-6 py-3 text-btn-lg whitespace-nowrap hover:bg-brand-600 transition-colors duration-200"
-        >
-          {ctaLabel}
-        </button>
+      <div class="shrink-0">
+        <Button size="sm" variant="primary" drawerPreset={ctaDrawerPreset}>{ctaLabel}</Button>
       </div>
     </div>
 
