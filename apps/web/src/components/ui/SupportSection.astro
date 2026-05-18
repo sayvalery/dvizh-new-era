@@ -154,7 +154,7 @@ const {
           <div
             @click={`if(window.innerWidth >= 1024) active = ${i}`}
             :class={`active === ${i} ? 'bg-gray-900' : 'bg-background-secondary lg:hover:bg-gray-200'`}
-            class="rounded-[24px] p-6 flex flex-col gap-8 flex-1 min-h-[220px] lg:cursor-pointer transition-colors duration-300 select-none"
+            class="rounded-[24px] p-6 flex flex-col gap-8 min-h-[220px] lg:cursor-pointer transition-colors duration-300 select-none"
           >
             <!-- Аватарки команды (только мобайл) -->
             {(tab.avatars ?? []).length > 0 && (
