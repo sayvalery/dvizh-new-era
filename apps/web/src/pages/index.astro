@@ -107,13 +107,13 @@ const partnerLogos = [
     <div slot="right" class="w-full h-[700px]">
       <LogoDrum logos={partnerLogos} duration={55} />
     </div>
-    <LogoGrid
-      slot="logos"
-      logos={partnerLogos.map(src => ({ src, alt: '' }))}
-      noFade
-      white
-      class="lg:hidden"
-    />
+    <div slot="logos" class="lg:hidden">
+      <LogoGrid
+        logos={partnerLogos.map(src => ({ src, alt: '' }))}
+        noFade
+        white
+      />
+    </div>
   </HeroSection>
 
   {/* Sentinel для Island (появляется после скролла мимо Hero) */}
