@@ -2,7 +2,6 @@
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
 import LogoDrum from '../components/ui/LogoDrum.astro'
-import LogoGrid from '../components/ui/LogoGrid.astro'
 import Island from '../components/ui/Island.astro'
 import AdvantageCard from '../components/ui/AdvantageCard.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
@@ -105,11 +104,7 @@ const partnerLogos = [
     gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
   >
     <div slot="right" class="w-full h-[300px] lg:h-[700px]">
-      <LogoDrum logos={partnerLogos} duration={55} class="hidden lg:block h-full" />
-      <LogoGrid
-        logos={partnerLogos.map(src => ({ src, alt: '' }))}
-        class="lg:hidden"
-      />
+      <LogoDrum logos={partnerLogos} duration={55} />
     </div>
   </HeroSection>
 
