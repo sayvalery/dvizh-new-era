@@ -107,7 +107,7 @@ const partnerLogos = [
     <div slot="right" class="w-full h-[700px]">
       <LogoDrum logos={partnerLogos} duration={55} />
     </div>
-    <div slot="logos" class="lg:hidden">
+    <div slot="logos" class="lg:hidden w-full overflow-x-hidden">
       <LogoGrid
         logos={partnerLogos.map(src => ({ src, alt: '' }))}
         noFade
