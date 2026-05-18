@@ -104,10 +104,10 @@ const partnerLogos = [
     withGradient
     gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
   >
-    <div slot="right" class="w-full h-[700px] xl:hidden">
+    <div slot="right" class="w-full h-[700px] hidden 2xl:block">
       <LogoDrum logos={partnerLogos} duration={55} />
     </div>
-    <div slot="logos" class="lg:hidden xl:block w-full overflow-x-hidden">
+    <div slot="logos" class="w-full overflow-x-hidden 2xl:hidden">
       <LogoGrid
         logos={partnerLogos.map(src => ({ src, alt: '' }))}
         noFade
