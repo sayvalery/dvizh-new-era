@@ -155,7 +155,7 @@ const statsGridCols = {
       ) : (
         <div class:list={['grid gap-8 items-center', wideTitle ? 'lg:grid-cols-[820px_1fr]' : 'lg:grid-cols-[726px_1fr]', withGradient ? 'min-h-svh lg:max-h-[1100px]' : 'lg:min-h-[800px]']}>
           <!-- Левая колонка: контент -->
-          <div class:list={['flex flex-col justify-center order-1 min-w-0', withGradient ? 'pt-24 lg:pt-0 lg:pb-0' : 'py-16 lg:py-0']}>
+          <div class:list={['flex flex-col justify-center order-1 min-w-0 lg:relative lg:self-stretch', withGradient ? 'pt-24 lg:pt-0 lg:pb-0' : 'py-16 lg:py-0']}>
             <!-- Основной контент: заголовок + форма -->
             <div class="flex flex-col gap-[52px]">
               <div class="flex flex-col gap-9">
@@ -179,8 +179,8 @@ const statsGridCols = {
                 <Form preset={formPreset} layout="inline" variant={withGradient ? 'dark' : 'light'} submitLabel={formSubmitLabel} />
               )}
             </div>
-            <!-- Логотипы: отдельный блок вне gap, со своими отступами -->
-            <div class="w-full overflow-x-hidden pt-12 md:pt-16 pb-12 md:pb-16"><slot name="logos" /></div>
+            <!-- Логотипы: отдельный блок вне gap, со своими отступами; на lg+ позиционируем абсолютно у низа, чтобы не сдвигать центрировку title+form -->
+            <div class="w-full overflow-x-hidden pt-12 md:pt-16 pb-12 md:pb-16 lg:absolute lg:bottom-0 lg:inset-x-0"><slot name="logos" /></div>
           </div>
 
           <!-- Правая колонка -->
