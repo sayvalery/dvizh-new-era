@@ -183,19 +183,19 @@ const {
 
             <!-- Иконка + заголовок -->
             <div class="flex items-center gap-4">
-              <div
-                :class={`active === ${i} ? 'bg-white/10' : 'bg-gray-300'`}
-                class="size-14 rounded-[15px] shrink-0 transition-colors duration-300 hidden lg:flex items-center justify-center"
-              >
-                {tab.icon && (
+              {tab.icon && (
+                <div
+                  :class={`active === ${i} ? 'bg-white/10' : 'bg-gray-300'`}
+                  class="size-14 rounded-[15px] shrink-0 transition-colors duration-300 hidden lg:flex items-center justify-center"
+                >
                   <img
                     src={tab.icon}
                     alt=""
                     :class={`active === ${i} ? 'brightness-0 invert' : ''`}
                     class="size-8 transition-[filter] duration-300"
                   />
-                )}
-              </div>
+                </div>
+              )}
               <h3
                 :class={`active === ${i} ? 'text-white' : 'text-gray-900'`}
                 class="text-h3 transition-colors duration-300"
