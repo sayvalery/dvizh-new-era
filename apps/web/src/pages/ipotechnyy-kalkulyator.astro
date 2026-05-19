@@ -8,39 +8,40 @@ import ReviewFull from '../components/ui/ReviewFull.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
-<SiteLayout title="Ипотечный калькулятор" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="bg-background-primary" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
+<SiteLayout title="Ипотечный калькулятор" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="bg-background-primary" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
   <HeroSectionFull
-    title="Получайте до 20% больше заявок с помощью готового калькулятора"
-    description="ДВИЖ Калькулятор — готовый виджет для вашего сайта, который показывает программы 40+ банков и помогает подобрать лучшие условия клиенту"
-    demoLabel="Записаться на демо"
+    title="Получайте до 20% больше заявок с помощью готового калькулятора"
+    description="ДВИЖ Калькулятор — готовый виджет для вашего сайта, который показывает актуальные программы 40+ банков и помогает подобрать лучшие условия клиенту"
+    demoLabel="Записаться на демо"
     kpLabel="Попробовать бесплатно"
     demoPreset="demo"
     kpPreset="lead"
-  />
+  >
+    <LogoGrid
+      slot="logos"
+      noPadding
+      logos={[
+        { src: '/partners/dark/a101.svg', alt: 'А101' },
+        { src: '/partners/dark/ava.svg', alt: 'AVA' },
+        { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
+        { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
+        { src: '/partners/dark/strana.svg', alt: 'Страна' },
+        { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+      ]}
+    />
+  </HeroSectionFull>
 
   <!-- gap-16 (64px) / sm:gap-20 (80px) / md:gap-24 (96px) / lg:gap-36 (144px) -->
   <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-36">
 
-  <!-- Бегущая строка с логотипами — сразу под Hero -->
-  <LogoGrid
-    logos={[
-      { src: '/partners/dark/a101.svg', alt: 'А101' },
-      { src: '/partners/dark/ava.svg', alt: 'AVA' },
-      { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
-      { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
-      { src: '/partners/dark/strana.svg', alt: 'Страна' },
-      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
-    ]}
-  />
-
   <!-- KeyFacts -->
   <KeyFacts
     class="!pb-0"
-    title="Больше лидов на том же трафике"
+    title="Больше лидов на том же трафике"
     items={[
-      { value: '80% заявок', description: 'приходит в нерабочее время, не теряйте их' },
-      { value: '50% клиентов', description: 'заранее хотят рассчитать ежемесячный платеж' },
-      { value: 'на 20% выше', description: 'конверсия в сделку, когда клиент знает доступный бюджет ипотеки' },
+      { value: '80% заявок', description: 'приходит в нерабочее время, не теряйте их' },
+      { value: '50% клиентов', description: 'заранее хотят рассчитать ежемесячный платеж' },
+      { value: 'на 20% выше', description: 'конверсия в сделку, когда клиент знает доступный бюджет ипотеки' },
     ]}
   />
 
@@ -56,23 +57,23 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   <!-- ComparisonSection -->
   <ComparisonSection
-    title="Выбирайте лучшее"
-    leftTitle="Самописные и рыночные решения"
+    title="Выбор лучших девелоперов"
+    leftTitle="Самописные и рыночные решения"
     leftItems={[
       'Необходимо вручную поддерживать актуальность ставок',
-      'Нельзя рассчитать комбо- и ипотеку с удорожанием стоимости',
+      'Нельзя рассчитать комбо- и ипотеку с удорожанием стоимости',
       'Нет возможности выделить наиболее выгодное предложение',
-      'Нет потенциала для апсейла клиентов',
+      'Нет потенциала для апсейла клиентов',
     ]}
     rightItems={[
       'Ипотечные ставки обновляются автоматически',
-      'Считает все виды ипотек: траншевую, комбо, с удорожанием, субсидированную, рассрочку',
-      'Меняет порядок ипотечных программ и показывает выгодные предложения',
-      'Увеличивает средний чек за счёт персональных предложений',
+      'Считает все виды ипотек: траншевую, комбо, с удорожанием, субсидированную, рассрочку',
+      'Меняет порядок ипотечных программ и показывает выгодные предложения',
+      'Увеличивает средний чек за счет персональных предложений',
     ]}
     rightLogoSrc={`${import.meta.env.PUBLIC_CMS_URL}/api/media/file/dvizh_comp.svg`}
     rightLogoAlt="ДВИЖ"
-    primaryButtonText="Записаться на демо"
+    primaryButtonText="Записаться на демо"
     primaryDrawerPreset="demo"
     secondaryButtonText="Пробовать бесплатно"
     secondaryDrawerPreset="lead"
@@ -82,9 +83,9 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <div class="page-container">
     <ReviewFull
       photo={{ src: `${import.meta.env.PUBLIC_CMS_URL}/api/media/file/calc_person_transp.png`, alt: 'Бурганов Рунар' }}
-      quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счет использования стороннего решения, уже готового и гибко настраиваемого, мы оптимизируем наши процессы и, самое главное, сокращаем в сроке реализации."
+      quote="Разработка отдельного инструмента под каждый проект — это большие трудозатраты и финансовые расходы. За счет использования стороннего решения, уже готового и гибко настраиваемого, мы оптимизируем наши процессы и, самое главное, сокращаем в сроке реализации."
       author="Бурганов Рунар"
-      role="Руководитель отдела ипотеки и финансовых инструментов"
+      role="Руководитель отдела ипотеки и финансовых инструментов"
       company={{ logo: `${import.meta.env.PUBLIC_CMS_URL}/api/media/file/kortross.svg`, alt: 'Кортрос' }}
       caseLink={{ label: 'Читать кейс', href: '/cases/kortros' }}
     />
@@ -94,11 +95,11 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <FormClosing
     mode="form"
     preset="lead"
-    title="Реализация по API – для тех, кто хочет ещё больше"
+    title="Реализация по API — для тех, кто хочет еще больше"
     items={[
       'Адаптируйте ипотечный калькулятор под ваш фирменный стиль',
-      'Встройте расчеты прямо в карточку лота на сайте',
-      'Избавьтесь от рисков и юридических ошибок: следим за соответствием ФЗ',
+      'Встройте расчеты прямо в карточку лота на сайте',
+      'Избавьтесь от рисков и юридических ошибок: следим за соответствием ФЗ',
     ]}
     submitLabel="Попробовать бесплатно"
   />
