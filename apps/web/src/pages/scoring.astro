@@ -21,19 +21,21 @@ import FormClosing from '../components/ui/FormClosing.astro'
     description="Сократите риск отказа до минимума благодаря предварительной оценке клиента по данным из 15 источников"
     demoLabel="Записаться на демо"
     kpLabel="Попробовать бесплатно"
-  />
+  >
+    <LogoGrid
+      slot="logos"
+      noPadding
+      logos={[
+        { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+        { src: '/partners/dark/a101.svg', alt: 'A101' },
+        { src: '/partners/dark/strana.svg', alt: 'Страна Девелопмент' },
+        { src: '/partners/dark/glorax.svg', alt: 'Glorax' },
+        { src: '/partners/dark/ganel.svg', alt: 'Ganel' },
+        { src: '/partners/dark/ava.svg', alt: 'AVA' },
+      ]}
+    />
+  </HeroSectionFull>
 
-  {/* ── 2. LogoGrid ── */}
-  <LogoGrid
-    logos={[
-      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
-      { src: '/partners/dark/a101.svg', alt: 'A101' },
-      { src: '/partners/dark/strana.svg', alt: 'Страна Девелопмент' },
-      { src: '/partners/dark/glorax.svg', alt: 'Glorax' },
-      { src: '/partners/dark/ganel.svg', alt: 'Ganel' },
-      { src: '/partners/dark/ava.svg', alt: 'AVA' },
-    ]}
-  />
 
   {/* ── 3. KeyFacts — 3 пункта ── */}
   <KeyFacts

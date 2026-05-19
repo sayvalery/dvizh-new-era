@@ -38,11 +38,34 @@
       "Bash(git remote:*)",
       "Bash(git reset:*)",
       "Bash(lsof:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(xxd)",
+      "Bash(sed -i '' 's|title=\"Цифровая ипотека — ДВИЖ\"|title=\"Цифровая ипотека\"|' apps/web/src/pages/ipoteka.astro)",
+      "Bash(sed -i '' 's|title=\"Финансовый скоринг — ДВИЖ\"|title=\"Финансовый скоринг\"|' apps/web/src/pages/scoring.astro)",
+      "Bash(sed -i '' 's|title=\"Электронная регистрация сделок — ДВИЖ\"|title=\"Электронная регистрация сделок\"|' apps/web/src/pages/elektronnaya-registraciya.astro)",
+      "Bash(sed -i '' 's|title=\"Для департамента продаж — ДВИЖ\"|title=\"Для департамента продаж\"|' apps/web/src/pages/for-sales-department.astro)",
+      "Bash(sed -i '' 's|title=\"ДВИЖ — цифровые продукты для рынка недвижимости\"|title=\"Цифровые продукты для рынка недвижимости\"|' apps/web/src/pages/index.astro)",
+      "Bash(docker exec *)",
+      "Bash(awk 'NR>=82 && NR<=103' /Users/server/dev/dvizh-new-era/apps/web/src/pages/developers.astro)",
+      "Bash(kill 40602)",
+      "Bash(pnpm dev *)",
+      "Bash(echo \"started pid $!\")",
+      "Bash(awk 'NR==92' apps/web/src/pages/index.astro)",
+      "Bash(awk 'NR==92' /Users/server/dev/dvizh-new-era/apps/web/src/pages/index.astro)",
+      "Bash(awk 'NR==91' /Users/server/dev/dvizh-new-era/apps/web/src/pages/index.astro)",
+      "Bash(git -C /Users/server/dev/dvizh-new-era show HEAD:apps/web/src/pages/index.astro)",
+      "Bash(awk 'NR==46' /Users/server/dev/dvizh-new-era/apps/web/src/pages/index.astro)",
+      "Bash(git -C /Users/server/dev/dvizh-new-era log --oneline --all -i --grep=\"alpine\")",
+      "Bash(git -C /Users/server/dev/dvizh-new-era status -uno)",
+      "Bash(git -C /Users/server/dev/dvizh-new-era diff --stat)",
+      "Bash(git -C /Users/server/dev/dvizh-new-era log --all --oneline -- scripts/start-dev.sh)",
+      "Bash(git -C /Users/server/dev/dvizh-new-era show 17a0d4c:scripts/start-dev.sh)",
+      "Bash(echo \"Started PID: $!\")",
+      "Bash(disown)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "figma"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
