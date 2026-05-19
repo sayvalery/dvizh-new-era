@@ -95,8 +95,8 @@ const hasModal = Astro.slots.has('modal-body')
             )}
           </div>
         ) : (
-          /* default (светлый фон): белая плашка с цветными логотипами из /partners/dark/ */
-          <div class="self-start inline-flex items-center bg-white rounded-full px-5 py-2.5 shadow-sm">
+          /* default (светлый фон): стеклянная плашка с увеличенной непрозрачностью */
+          <div class="self-start inline-flex items-center bg-white/40 backdrop-blur-[8px] rounded-full px-5 py-2.5 ring-1 ring-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
             {Astro.slots.has('logo') ? <slot name="logo" /> : (
               <img src={logo} alt={logoAlt} class="h-5 w-auto object-contain" />
             )}
