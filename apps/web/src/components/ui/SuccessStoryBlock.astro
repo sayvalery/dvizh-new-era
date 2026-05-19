@@ -31,6 +31,8 @@ interface StoryItem {
   logo?: string
   /** Alt логотипа */
   logoAlt?: string
+  /** URL белого логотипа для hover */
+  logoHover?: string
   /** Заголовок карточки с поддержкой HTML (используй <span class="text-brand"> для выделений) */
   titleHtml: string
   /** Имя/название компании (в PersonCard) */
@@ -39,6 +41,10 @@ interface StoryItem {
   personJobTitle?: string
   /** Фото персоны */
   personPhoto?: string
+  /** URL фонового изображения на hover */
+  hoverBackground?: string
+  /** Прозрачная стеклянная плашка на hover (для логотипов с вырезанными буквами) */
+  hoverGlass?: boolean
 }
 
 interface Props {
@@ -84,6 +90,9 @@ const {
             titleHtml={story.titleHtml}
             logo={story.logo}
             logoAlt={story.logoAlt}
+            logoHover={story.logoHover}
+            hoverBackground={story.hoverBackground}
+            hoverGlass={story.hoverGlass}
             person={{
               name: story.personName,
               jobTitle: story.personJobTitle,
