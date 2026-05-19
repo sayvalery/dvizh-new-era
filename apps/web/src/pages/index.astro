@@ -11,7 +11,59 @@ import SupportSection from '../components/ui/SupportSection.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import BlogCards from '../components/ui/BlogCards.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
-import { getBlogPosts, normalizeMediaUrl } from '../lib/payload'
+import { getBlogPost, getBlogPosts, normalizeBodyHtml, normalizeMediaUrl, sanitizeBodyHtml } from '../lib/payload'
+
+// Фетч статьи для модалки AdvantageCard: CMS → fallback dvizh.io
+async function fetchArticleHtml(slug: string): Promise<{ title: string | null, html: string | null }> {
+  // 1. Пробуем CMS
+  try {
+    const post = await getBlogPost(slug)
+    if (post?.bodyHtml) {
+      const html = sanitizeBodyHtml(normalizeBodyHtml(
+        post.bodyHtml
+          .replaceAll('href="https://dvizh.webflow.io/', 'href="/')
+          .replaceAll('href="https://www.dvizh.io/', 'href="/')
+      ))
+      return { title: post.title ?? null, html }
+    }
+  } catch {}
+
+  // 2. Fallback: парсим dvizh.io
+  try {
+    const res = await fetch(`https://www.dvizh.io/blog/${slug}`)
+    const raw = await res.text()
+    const bodyStart = raw.indexOf('class="blog-article-body"')
+    if (bodyStart !== -1) {
+      const tagStart = raw.lastIndexOf('<', bodyStart)
+      const innerStart = raw.indexOf('>', tagStart) + 1
+      const tagName = raw.slice(tagStart + 1).match(/^[a-zA-Z]+/)?.[0] ?? 'section'
+      const openRe = new RegExp(`<${tagName}[\\s>]`, 'gi')
+      const closeRe = new RegExp(`</${tagName}>`, 'gi')
+      let depth = 1, i = innerStart
+      let html: string | null = null
+      while (depth > 0 && i < raw.length) {
+        openRe.lastIndex = i; closeRe.lastIndex = i
+        const nextOpen = openRe.exec(raw)
+        const nextClose = closeRe.exec(raw)
+        if (!nextClose) break
+        if (nextOpen && nextOpen.index < nextClose.index) { depth++; i = nextOpen.index + 1 }
+        else { depth--; i = nextClose.index + 1; if (depth === 0) { html = raw.slice(innerStart, nextClose.index); break } }
+      }
+      const titleMatch = raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)
+      const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '').trim() : null
+      return { title, html }
+    }
+  } catch {}
+
+  return { title: null, html: null }
+}
+
+const [ayaks, granel, lidov, ereg] = await Promise.all([
+  fetchArticleHtml('case-ayaks-dvizh'),
+  fetchArticleHtml('granel-rost-procenta-odobreniya'),
+  fetchArticleHtml('kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti'),
+  fetchArticleHtml('alfavit-polzy-zastroyshchika-elektronnaya-registraciya'),
+])
 
 const blogResult = await getBlogPosts({ limit: 3 })
 const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
@@ -113,28 +165,56 @@ const partnerLogos = [
           stat="+26%"
           label="Сделок на том же трафике"
           expandHref="/blog/case-ayaks-dvizh"
-        />
+        >
+          {ayaks.html && (
+            <div slot="modal-body" class="p-10">
+              {ayaks.title && <h1 class="font-heading text-3xl font-bold mb-8">{ayaks.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={ayaks.html} />
+            </div>
+          )}
+        </AdvantageCard>
         <AdvantageCard
           index={1}
           title="Снизили количество отказов по ипотеке"
           stat="90%"
           label="Одобрений при объеме выше рынка"
           expandHref="/blog/granel-rost-procenta-odobreniya"
-        />
+        >
+          {granel.html && (
+            <div slot="modal-body" class="p-10">
+              {granel.title && <h1 class="font-heading text-3xl font-bold mb-8">{granel.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={granel.html} />
+            </div>
+          )}
+        </AdvantageCard>
         <AdvantageCard
           index={2}
           title="Получают больше выручки на одного менеджера"
           stat="+281%"
           label="Заявок на одного менеджера"
           expandHref="/blog/kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti"
-        />
+        >
+          {lidov.html && (
+            <div slot="modal-body" class="p-10">
+              {lidov.title && <h1 class="font-heading text-3xl font-bold mb-8">{lidov.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={lidov.html} />
+            </div>
+          )}
+        </AdvantageCard>
         <AdvantageCard
           index={3}
           title="Сократили расходы на электронную регистрацию"
           stat="-30%"
           label="Затрат на регистрацию"
           expandHref="/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya"
-        />
+        >
+          {ereg.html && (
+            <div slot="modal-body" class="p-10">
+              {ereg.title && <h1 class="font-heading text-3xl font-bold mb-8">{ereg.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={ereg.html} />
+            </div>
+          )}
+        </AdvantageCard>
       </div>
     </div>
   </section>
