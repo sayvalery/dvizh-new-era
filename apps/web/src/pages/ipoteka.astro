@@ -15,25 +15,26 @@ import FormClosing from '../components/ui/FormClosing.astro'
   bodyClass="bg-background-primary"
 >
 
-  {/* ── 1. Hero Section ── */}
+  {/* ── 1. Hero Section + Logos в одном экране ── */}
   <HeroSectionFull
-    title="Закрывайте до 26% больше сделок на том же трафике"
+    title="Закрывайте до 26% больше сделок на том же трафике"
     description="Ипотечная платформа для современных девелоперов. Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
     demoLabel="Получить демо"
     kpLabel="Получить КП"
-  />
-
-  {/* ── 2. LogoGrid ── */}
-  <LogoGrid
-    logos={[
-      { src: '/partners/dark/a101.svg', alt: 'А101' },
-      { src: '/partners/dark/ava.svg', alt: 'AVA' },
-      { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
-      { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
-      { src: '/partners/dark/strana.svg', alt: 'Страна' },
-      { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
-    ]}
-  />
+  >
+    <LogoGrid
+      slot="logos"
+      noPadding
+      logos={[
+        { src: '/partners/dark/a101.svg', alt: 'А101' },
+        { src: '/partners/dark/ava.svg', alt: 'AVA' },
+        { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
+        { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
+        { src: '/partners/dark/strana.svg', alt: 'Страна' },
+        { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+      ]}
+    />
+  </HeroSectionFull>
 
   {/* ── 3. AdvantageCard — 4 карточки ── */}
   <section class="py-24 sm:py-32">
@@ -48,26 +49,26 @@ import FormClosing from '../components/ui/FormClosing.astro'
           index={0}
           title="Сократили количество отказов по ипотеке"
           stat="+26%"
-          label="Сделок на том же трафике"
+          label="Сделок на том же трафике"
           expandHref="/blog/case-ayaks-dvizh"
         />
         <AdvantageCard
           index={1}
           title="Перестали терять сделки из-за клиентов с низким кредитным рейтингом"
           stat="90%"
-          label="Одобрений при объёме выше рынка"
+          label="Одобрений при объеме выше рынка"
           expandHref="/blog/granel-rost-procenta-odobreniya"
         />
         <AdvantageCard
           index={2}
-          title="Ускорили заполнение анкеты до 10 секунд, а получение одобрения — до 5 минут"
+          title="Ускорили заполнение анкеты до 10 секунд, а получение одобрения — до 5 минут"
           stat="+281%"
           label="Заявок на одного менеджера"
           expandHref="/blog/kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti"
         />
         <AdvantageCard
           index={3}
-          title="Перестали терять сделки из-за клиентов с низким кредитным рейтингом"
+          title="Стали закрывать больше сделок без роста штата"
           stat="-30%"
           label="Затрат на регистрацию"
           expandHref="/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya"
@@ -80,19 +81,18 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <FeatureBlock
     image="/api/media/file/product-calc.webp"
     imageAlt="Ипотечный калькулятор"
-    heading="Повышаем конверсию первичной консультации в 2 раза"
-    description="Какой-то небольшой подзаголовок — подборку статей / кейсов добавим позже"
+    heading="Повышаем конверсию из первичной консультации в 2 раза"
     button={{ label: 'Узнать больше', href: '/ipoteka' }}
     features={[
-      { title: 'Расчёт досрочных погашений и рефинансирования' },
-      { title: '40+ банков-партнёров и большой выбор ипотечных программ' },
+      { title: 'Расчет досрочных погашений и рефинансирования' },
+      { title: '40+ банков партнеров' },
+      { title: 'Большой выбор ипотечных программ' },
     ]}
     review={{
       quote: 'С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и значительно повысили процент одобрения',
       author: 'Екатерина Чурюкина',
       role: 'Руководитель управления прямых продаж',
       company: { logo: '/partners/lsr.svg', alt: 'ФСК' },
-      caseLink: { label: 'Читать кейс', href: '/cases' },
     }}
   />
 
@@ -102,11 +102,10 @@ import FormClosing from '../components/ui/FormClosing.astro'
     image="/api/media/file/product-anketa.webp"
     imageAlt="Анкета клиента"
     heading="Сокращаем время на заполнение анкеты до 10 секунд"
-    description="Подзаголовок будет добавлен позже"
     button={{ label: 'Узнать больше', href: '/ipoteka' }}
     features={[
       { title: 'Распознавание документов от паспорта до 2-НДФЛ' },
-      { title: 'Заполнение анкеты через Госуслуги' },
+      { title: 'Заполнение через Госуслуги' },
       { title: 'Одна анкета в 40+ банков' },
     ]}
     review={{
@@ -114,7 +113,6 @@ import FormClosing from '../components/ui/FormClosing.astro'
       author: 'Екатерина Чурюкина',
       role: 'Руководитель управления прямых продаж',
       company: { logo: '/partners/lsr.svg', alt: 'ФСК' },
-      caseLink: { label: 'Читать кейс', href: '/cases' },
     }}
   />
 
@@ -123,7 +121,6 @@ import FormClosing from '../components/ui/FormClosing.astro'
     image="/api/media/file/product-calc.webp"
     imageAlt="Ипотечный калькулятор"
     heading="Проверяем ваших клиентов по банковским стандартам"
-    description="Подзаголовок будет добавлен позже"
     button={{ label: 'Узнать больше', href: '/scoring' }}
     features={[
       { title: 'Долговая нагрузка и «красные флаги» клиента' },
@@ -131,11 +128,10 @@ import FormClosing from '../components/ui/FormClosing.astro'
       { title: '25,8% клиентов с низким кредитным рейтингом' },
     ]}
     review={{
-      quote: 'Иногда клиент не знает о наличии какой-либо задолженности. Мы исключаем негативные факторы ещё до подачи заявки в банк и увеличиваем шансы клиента получить одобрение по ипотеке',
+      quote: 'Иногда клиент не знает о наличии какой-либо задолженности. Мы исключаем негативные факторы еще до подачи заявки в банк и увеличиваем шансы клиента получить одобрение по ипотеке',
       author: 'Екатерина Чурюкина',
       role: 'Руководитель управления прямых продаж',
       company: { logo: '/partners/lsr.svg', alt: 'ФСК' },
-      caseLink: { label: 'Читать кейс', href: '/cases' },
     }}
   />
 
@@ -145,12 +141,17 @@ import FormClosing from '../components/ui/FormClosing.astro'
     image="/api/media/file/product-anketa.webp"
     imageAlt="Анкета клиента"
     heading="Увеличиваем процент одобрения до 95%"
-    description="Подзаголовок будет добавлен позже"
     button={{ label: 'Узнать больше', href: '/ipoteka' }}
     features={[
       { title: 'Прогноз скорости и вероятности одобрения клиента в банках' },
       { title: 'Отправка заявки сразу в 5+ банков' },
     ]}
+    review={{
+      quote: 'Мы обрабатываем на 281% заявок больше, чем в среднем на рынке, и при этом сохраняем одобрение на уровне 90%',
+      author: 'Александр Рычков',
+      role: 'Начальник отдела ипотеки «ЛСР. Недвижимость — М»',
+      company: { logo: '/partners/lsr.svg', alt: 'ЛСР' },
+    }}
   />
 
   {/* ── 8. BentoGrid — Дополнительные возможности ── */}
@@ -160,7 +161,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
         heading="Дополнительные возможности"
         items={[
           { title: 'Готовые интеграции с популярными системами' },
-          { title: 'Среднее время ответа в чате поддержки — 57 секунд' },
+          { title: 'Среднее время ответа в чате поддержки — 57 секунд' },
           { title: 'Все ключевые показатели в одном готовом дашборде' },
         ]}
       />
@@ -183,7 +184,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
       {
         logo: '/partners/strana.svg',
         logoAlt: 'Страна Девелопмент',
-        titleHtml: 'Увеличили объём закрытых сделок <span class="text-brand">с 1165 до 3500</span> за год',
+        titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500</span> за год',
         personName: 'Светлана Корнелюк',
         personJobTitle: 'Директор отдела продаж',
       },
@@ -192,7 +193,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
         logoAlt: 'Glorax',
         titleHtml: 'Снизили процент отказов по ипотеке <span class="text-brand">до 10%</span> за три месяца',
         personName: 'Анна Смирнова',
-        personJobTitle: 'Ипотечный брокер, Самолёт',
+        personJobTitle: 'Ипотечный брокер, Самолет',
       },
     ]}
   />
@@ -202,8 +203,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
     preset="lead"
     title="Подберем решение под ваши задачи"
     items={[
-      'Найдём потерянные заявки и проанализируем путь клиента',
-      'Проверим, не отстаёте ли вы от рынка, и сравним ваши показатели с бенчмарками',
+      'Найдем потерянные заявки и проанализируем путь клиента',
+      'Проверим, не отстаете ли вы от рынка, и сравним ваши показатели с бенчмарками',
       'Составим рекомендации на основе опыта работы с застройщиками из топ-50',
     ]}
     submitLabel="Оставить заявку"
