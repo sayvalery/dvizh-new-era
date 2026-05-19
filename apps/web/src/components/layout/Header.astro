@@ -21,9 +21,6 @@ const navItems: NavItem[] = [
           { label: 'Электронная регистрация', href: '/elektronnaya-registraciya' },
           { label: 'Скоринг', href: '/scoring' },
           { label: 'Ипотечный калькулятор', href: '/ipotechnyy-kalkulyator' },
-          { label: 'Личный кабинет', href: '/lichnyy-kabinet' },
-          { label: 'Витрина', href: '/vitrina' },
-          { label: 'Бизнес-ревью', href: '/qbr' },
         ],
       },
     ],
@@ -49,10 +46,10 @@ const navItems: NavItem[] = [
   { label: 'О нас', href: '/about' },
 ]
 
-// Последние 2 поста — для правой колонки мегаменю (desktop) и мобильного меню
+// Последний пост — для правой колонки мегаменю (desktop) и мобильного меню
 let blogPosts: { title: string; slug: string; cover?: { url?: string; alt?: string }; category?: string }[] = []
 try {
-  const { docs } = await getBlogPosts({ limit: 2 })
+  const { docs } = await getBlogPosts({ limit: 1 })
   blogPosts = docs.map((post: any) => ({
     title: post.title,
     slug: post.slug,
