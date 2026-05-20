@@ -40,7 +40,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-40">
 
 
-  {/* ── 3. KeyFacts — 3 пункта ── */}
+  {/* ── 3. KeyFacts — 3 пункта ── */}
   <KeyFacts
     class="!py-0"
     title="Зачем вам финансовый скоринг"
@@ -48,11 +48,11 @@ import FormClosing from '../components/ui/FormClosing.astro'
     items={[
       {
         value: 'до 35% заявок',
-        description: 'уходят в автоматический отказ на стороне банков из-за плохого кредитного рейтинга',
+        description: 'уходят в автоматический отказ на стороне банков из-за плохого кредитного рейтинга',
       },
       {
         value: '80% клиентов',
-        description: 'не отправляют запросы в БКИ и не знают, могут ли получить одобрение ипотеки',
+        description: 'не отправляют запросы в БКИ и не знают, могут ли получить одобрение ипотеки',
       },
       {
         value: 'на 20% выше',
@@ -65,7 +65,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <FeatureBlock
     class="!py-0"
     heading="Покажем красные флаги клиента"
-    description="Скоринг охватывает полный финансовый профиль заемщика — от долговой нагрузки до банкротных дел"
+    description="Скоринг охватывает полный финансовый профиль заемщика — от долговой нагрузки до банкротных дел"
     imageSide="left"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
     features={[
@@ -93,7 +93,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
     <div class="page-container">
       <BentoGrid
         variant="four"
-        heading="Как это работает"
+        heading="Как это работает"
         items={[
           {
             title: 'Распознавание',
@@ -102,7 +102,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
           },
           {
             title: 'Дополняем профиль клиента',
-            description: 'Подтягиваем данные из сторонних источников — ФНС, ГИБДД, БКИ',
+            description: 'Подтягиваем данные из сторонних источников — ФНС, ГИБДД, БКИ',
             backgroundImage: '/api/media/file/bento-skoring-2.webp',
           },
           {
@@ -112,7 +112,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
           },
           {
             title: 'Верификация',
-            description: 'Проверяем документ на подлинность еще до ручной обработки',
+            description: 'Проверяем документ на подлинность еще до ручной обработки',
             backgroundImage: '/api/media/file/bento-skoring-4.webp',
           },
         ]}
@@ -124,14 +124,14 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <TextImageBlock
     class="!py-0"
     heading="Заберите готовое решение и одобряйте больше клиентов"
-    subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
+    subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
     buttonText="Забрать решение"
     drawerPreset="demo"
   >
     <img
       slot="image"
       src="/api/media/file/skoring-approve.webp"
-      alt="ДВИЖ Скоринг — одобрение"
+      alt="ДВИЖ Скоринг — одобрение"
       class="w-full h-full object-cover"
     />
   </TextImageBlock>
@@ -139,7 +139,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   {/* ── 7. FormClosing ── */}
   <FormClosing
     preset="lead"
-    title="Реализация по API — для тех, кто хочет еще больше"
+    title="Реализация по API — для тех, кто хочет еще больше"
     description="Адаптируйте калькулятор под фирменный стиль, встройте расчеты в карточку лота и избавьтесь от юридических рисков"
     submitLabel="Попробовать бесплатно"
     class="!py-0"

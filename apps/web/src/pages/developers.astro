@@ -1,6 +1,6 @@
 ---
 /**
- * Для девелоперов — ДВИЖ
+ * Для девелоперов — ДВИЖ
  */
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
@@ -14,10 +14,10 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
 const cms = import.meta.env.PUBLIC_CMS_URL
 ---
 
-<SiteLayout title="Для девелоперов" bodyClass="bg-background-primary">
-  <!-- Hero full layout: контент внизу + слот для анимации -->
+<SiteLayout title="Для девелоперов" bodyClass="bg-background-primary">
+  <!-- Hero full layout: контент внизу + слот для анимации -->
   <HeroSectionFull
-    title="ДВИЖ – платформа полного цикла для роста продаж у девелоперов"
+    title="ДВИЖ – платформа полного цикла для роста продаж у девелоперов"
     description="Позволяет контролировать каждый этап воронки продаж, эффективнее одобрять ипотеку и закрывать до 26% больше сделок без увеличения затрат на маркетинг"
     demoLabel="Записаться на демо"
     kpLabel="Пробовать бесплатно"
@@ -46,30 +46,30 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     heading="Повышаем конверсию в&nbsp;2&nbsp;раза"
     features={[
       {
-        title: '40+ банков-партнёров',
-        subtitle: '15 «быстрых» банков по API',
+        title: '40+ банков-партнеров',
+        subtitle: '15 «быстрых» банков по API',
         image: `${cms}/api/media/file/1st_banks.png`,
         imageMobile: `${cms}/api/media/file/1st_banks_m.png`,
       },
       {
         title: '«Умный» скоринг покупателя',
-        subtitle: 'До отправки в банк',
+        subtitle: 'До отправки в банк',
         image: `${cms}/api/media/file/2nd_scoring.png`,
         imageMobile: `${cms}/api/media/file/2nd_scoring_m.png`,
       },
       {
         title: 'Встроенный ипотечный калькулятор',
-        subtitle: 'На сайте застройщика',
+        subtitle: 'На сайте застройщика',
         image: `${cms}/api/media/file/3d_calc.png`,
         imageMobile: `${cms}/api/media/file/3d_calc_m.png`,
       },
       {
-        title: 'Анкета «0 полей»',
+        title: 'Анкета «0 полей»',
         subtitle: 'Через Госуслуги',
         image: `${cms}/api/media/file/4th_gos.png`,
         imageMobile: `${cms}/api/media/file/4th_gos_m.png`,
       },
-      { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
+      { title: 'Прямая связь с куратором', subtitle: 'На стороне банка' },
       { title: 'Контроль «зависших» обращений 24/7' },
     ]}
   />
@@ -78,7 +78,7 @@ const cms = import.meta.env.PUBLIC_CMS_URL
 
   <!-- SuccessStoryBlock -->
   <SuccessStoryBlock
-    heading="70+ историй успеха на рынке застройщиков"
+    heading="70+ историй успеха на рынке застройщиков"
     buttonLabel="Получить демо"
     buttonPreset="demo"
     class="!py-0"
@@ -89,16 +89,16 @@ const cms = import.meta.env.PUBLIC_CMS_URL
         logoHover: '/api/media/file/lsr_white-1.svg',
         hoverBackground: '/api/media/file/lsr_bg.png',
         hoverGlass: true,
-        titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
+        titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
         personName: 'Группа ЛСР',
-        personJobTitle: 'Один из ведущих строительных холдингов',
+        personJobTitle: 'Один из ведущих строительных холдингов',
       },
       {
         logo: '/api/media/file/tochno_color.svg',
         logoAlt: 'ГК Точно',
         logoHover: '/api/media/file/tochno_white.svg',
         hoverBackground: '/api/media/file/tochno_bg.png',
-        titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
+        titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
         personName: 'ГК «Точно»',
         personJobTitle: 'Крупнейший девелопер Краснодарского края',
       },
@@ -107,36 +107,36 @@ const cms = import.meta.env.PUBLIC_CMS_URL
         logoAlt: 'ГК Самолет',
         logoHover: '/api/media/file/samolet_white.svg',
         hoverBackground: '/api/media/file/samolet_bg.png',
-        titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
+        titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
         personName: 'ГК «Самолет»',
         personJobTitle: 'Крупнейший федеральный девелопер России',
       },
     ]}
   />
 
-  <!-- FunnelSection — воронка по этапам сделки -->
+  <!-- FunnelSection — воронка по этапам сделки -->
   <FunnelSection
-      heading="Добиваемся высоких конверсий на каждом этапе сделки"
+      heading="Добиваемся высоких конверсий на каждом этапе сделки"
       groups={[
         {
           label: 'Лидогенерация',
           cards: [
-            { title: 'Калькулятор ипотеки и рассрочки', description: 'Собирайте заявки в нерабочее время', icon: `${cms}/api/media/file/calc_mini-1.png` },
-            { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', icon: `${cms}/api/media/file/vitrina_mini-1.png` },
-            { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', icon: `${cms}/api/media/file/lk_mini.png` },
+            { title: 'Калькулятор ипотеки и рассрочки', description: 'Собирайте заявки в нерабочее время', icon: `${cms}/api/media/file/calc_mini-1.png` },
+            { title: 'Витрина', description: 'Клиент сам выбирает и бронирует квартиру', icon: `${cms}/api/media/file/vitrina_mini-1.png` },
+            { title: 'Личный кабинет клиента', description: 'Объедините офлайн и онлайн продажи', icon: `${cms}/api/media/file/lk_mini.png` },
           ],
         },
         {
           label: 'Управление заявками',
           cards: [
-            { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', icon: `${cms}/api/media/file/mortgage_mini.png` },
-            { title: 'Финансовый скоринг', description: 'Доведем больше клиентов до одобрения', icon: `${cms}/api/media/file/fin_mini.png` },
+            { title: 'Цифровая ипотека', description: 'Одобряйте до 95% заявок', icon: `${cms}/api/media/file/mortgage_mini.png` },
+            { title: 'Финансовый скоринг', description: 'Доведем больше клиентов до одобрения', icon: `${cms}/api/media/file/fin_mini.png` },
           ],
         },
         {
           label: 'Регистрация собственности',
           cards: [
-            { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', icon: `${cms}/api/media/file/rega_mini.png` },
+            { title: 'Электронная регистрация', description: 'Регистрируйте сделки любого типа и сложности', icon: `${cms}/api/media/file/rega_mini.png` },
           ],
         },
       ]}
@@ -144,21 +144,21 @@ const cms = import.meta.env.PUBLIC_CMS_URL
 
   <!-- ComparisonSection -->
   <ComparisonSection
-    title="Одно решение для всей сделки"
-    leftTitle="Без ДВИЖа"
+    title="Одно решение для всей сделки"
+    leftTitle="Без ДВИЖа"
     leftItems={[
       'Среднее одобрение меньше 60%',
-      'Много продуктов, ошибки при переносе данных',
-      'Менеджер теряет заявки и выполняет KPI по продажам',
+      'Много продуктов, ошибки при переносе данных',
+      'Менеджер теряет заявки и выполняет KPI по продажам',
     ]}
     rightItems={[
-      'Процент одобрения до 95%',
-      'Весь процесс в одном окне: от заявки до регистрации в Росреестре. Без ошибок и переплат',
-      'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейк с коллегами',
+      'Процент одобрения до 95%',
+      'Весь процесс в одном окне: от заявки до регистрации в Росреестре. Без ошибок и переплат',
+      'Менеджер успевает в 2 раза больше, выполняет KPI и не забывает про кофе-брейк с коллегами',
     ]}
     rightLogoSrc={`${cms}/api/media/file/dvizh_comp.svg`}
     rightLogoAlt="ДВИЖ"
-    primaryButtonText="Записаться на демо"
+    primaryButtonText="Записаться на демо"
     primaryDrawerPreset="demo"
     secondaryButtonText="Пробовать бесплатно"
   />
@@ -166,9 +166,9 @@ const cms = import.meta.env.PUBLIC_CMS_URL
   <!-- Form Closing -->
   <FormClosing
     mode="buttons"
-    title="Аудит вашего отдела продаж от аналитиков ДВИЖа"
+    title="Аудит вашего отдела продаж от аналитиков ДВИЖа"
     items={[
-      'Выявим системные ошибки в процессах',
+      'Выявим системные ошибки в процессах',
       'Покажем быстрые точки роста',
       'Предложим решения, которые подойдут именно вам',
     ]}

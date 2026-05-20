@@ -13,7 +13,7 @@ import BlogCards from '../components/ui/BlogCards.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import { getBlogPost, getBlogPosts, normalizeBodyHtml, normalizeMediaUrl, sanitizeBodyHtml } from '../lib/payload'
 
-// Фетч статьи для модалки AdvantageCard: CMS → fallback dvizh.io
+// Фетч статьи для модалки AdvantageCard: CMS → fallback dvizh.io
 async function fetchArticleHtml(slug: string): Promise<{ title: string | null, html: string | null }> {
   // 1. Пробуем CMS
   try {
@@ -120,7 +120,7 @@ const partnerLogos = [
   {/* Sentinel для Island (появляется после скролла мимо Hero) */}
   <div id="hero-sentinel"></div>
 
-  {/* Island — фиксированный CTA внизу экрана */}
+  {/* Island — фиксированный CTA внизу экрана */}
   <div
     x-data="{ visible: false }"
     x-init="
@@ -147,7 +147,7 @@ const partnerLogos = [
     />
   </div>
 
-  {/* ── 2. Девелоперы с ДВИЖ — 4 AdvantageCard ── */}
+  {/* ── 2. Девелоперы с ДВИЖ — 4 AdvantageCard ── */}
   {/* gap-16 (64px) / sm:gap-20 (80px) / md:gap-24 (96px) / lg:gap-40 (160px) */}
   <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-40 pt-16 sm:pt-20 md:pt-24 lg:pt-40">
 
@@ -219,7 +219,7 @@ const partnerLogos = [
     </div>
   </section>
 
-  {/* ── 3. Кейсы — SuccessStoryBlock ── */}
+  {/* ── 3. Кейсы — SuccessStoryBlock ── */}
   <SuccessStoryBlock
     heading="70+ историй успеха на рынке застройщиков"
     buttonLabel="Получить демо"
@@ -257,7 +257,7 @@ const partnerLogos = [
     ]}
   />
 
-  {/* ── 4. Product Section — 5 продуктов ── */}
+  {/* ── 4. Product Section — 5 продуктов ── */}
   <ProductSection
     class="!py-0"
     sections={[
@@ -275,7 +275,7 @@ const partnerLogos = [
         button: { label: "Подробнее", href: "/ipoteka" },
         image: { src: "/api/media/file/ipoteka-index.webp?v=2", alt: "Цифровая ипотека" },
         review: {
-          quote: "С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут. Одобрение выросло до 94% — результат, который раньше казался недостижимым.",
+          quote: "С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут. Одобрение выросло до 94% — результат, который раньше казался недостижимым.",
           author: "Петрова Надежда",
           role: "Директор по маркетингу",
           company: { logo: "/api/media/file/lsr_color.svg", alt: "ЛСР" },
@@ -343,14 +343,14 @@ const partnerLogos = [
     ]}
   />
 
-  {/* ── 5. Поддержка — SupportSection ── */}
+  {/* ── 5. Поддержка — SupportSection ── */}
   <SupportSection
     tabs={[
       {
         title: '15 консультантов поддержки',
         bullets: [
           'Решат технический вопрос прямо в чате',
-          'Доступны 24/7 — не дадим сорваться важным сделкам даже в выходные',
+          'Доступны 24/7 — не дадим сорваться важным сделкам даже в выходные',
           'Знают продукт изнутри и дают конкретные ответы',
         ],
         personName: 'Третьякова Юлия',
@@ -399,7 +399,7 @@ const partnerLogos = [
     variant="large"
   />
 
-  {/* ── 7. Блог — из CMS ── */}
+  {/* ── 7. Блог — из CMS ── */}
   {recentPosts.length > 0 && (
     <BlogCards
       title="ДВИЖ журнал"
