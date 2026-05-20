@@ -107,7 +107,7 @@ const hasHover = !isActive && !!hoverBackground
           /* active (тёмный фон): стеклянная плашка, белые логотипы */
           <div class="self-start inline-flex items-center bg-white/[0.15] backdrop-blur-[8px] rounded-full px-5 py-2.5 ring-1 ring-white/30 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
             {Astro.slots.has('logo') ? <slot name="logo" /> : (
-              <img src={logo} alt={logoAlt} class="h-5 w-auto object-contain" />
+              <img src={logo} alt={logoAlt} class="h-5 w-auto max-w-[140px] object-contain" />
             )}
           </div>
         ) : (
@@ -115,11 +115,11 @@ const hasHover = !isActive && !!hoverBackground
           <div class:list={['self-start inline-flex items-center backdrop-blur-[8px] rounded-full px-5 py-2.5 ring-1 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] transition-[background-color,--tw-ring-color] duration-300', hoverGlass ? 'bg-white/40 ring-white/60 group-hover:bg-white/[0.15] group-hover:ring-white/30' : 'bg-white/40 ring-white/60']}>
             {Astro.slots.has('logo') ? <slot name="logo" /> : logoHover ? (
               <span class="relative inline-flex">
-                <img src={logo} alt={logoAlt} class="h-5 w-auto object-contain block group-hover:invisible" />
+                <img src={logo} alt={logoAlt} class="h-5 w-auto max-w-[140px] object-contain block group-hover:invisible" />
                 <img src={logoHover} alt={logoAlt} class="absolute inset-0 h-full w-full object-contain hidden group-hover:block" aria-hidden="true" />
               </span>
             ) : (
-              <img src={logo} alt={logoAlt} class="h-5 w-auto object-contain" />
+              <img src={logo} alt={logoAlt} class="h-5 w-auto max-w-[140px] object-contain" />
             )}
           </div>
         )
