@@ -80,6 +80,9 @@ interface Props {
   imageSide?: 'left' | 'right'
   /** Интервал переключения в мс (по умолчанию 5000) */
   interval?: number
+  /** Интерактивный режим: авто-переключение пунктов и анимация прогресс-бара (по умолчанию true).
+   *  При `false` — все пункты в активном стиле, разделители просто серые, изображение статичное. */
+  interactive?: boolean
   /** Отзыв под списком пунктов (опционально) */
   review?: ReviewProps
   /** Дополнительные классы */
@@ -96,6 +99,7 @@ const {
   imageAlt = '',
   imageSide = 'right',
   interval = 5000,
+  interactive = true,
   review,
   class: className = '',
 } = Astro.props
@@ -108,7 +112,7 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
   <div class="page-container">
     <div
       class="grid lg:grid-cols-2 gap-16 items-stretch"
-      x-data={`{
+      x-data={interactive ? `{
         active: 0,
         total: ${features.length},
         timer: null,
@@ -123,7 +127,7 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
           this.active = i
           this.startTimer()
         }
-      }`}
+      }` : undefined}
     >
 
       <!-- Текстовая колонка (+ inline image на мобайле) -->
@@ -152,62 +156,79 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
         <ul class="flex flex-col">
           {features.map((feature, i) => (
             <li>
-              <!-- Разделитель с прогресс-баром -->
+              <!-- Разделитель (с прогресс-баром в интерактивном режиме) -->
               <div class="relative h-px bg-gray-300">
-                <div
-                  class="absolute inset-0 bg-brand"
-                  style="transform: scaleX(0); transform-origin: left"
-                  x-show={`active === ${i}`}
-                  x-bind:style={`active === ${i} ? 'transform-origin: left; animation: feature-progress ${interval}ms linear forwards' : 'transform: scaleX(0); transform-origin: left'`}
-                  x-cloak
-                ></div>
+                {interactive && (
+                  <div
+                    class="absolute inset-0 bg-brand"
+                    style="transform: scaleX(0); transform-origin: left"
+                    x-show={`active === ${i}`}
+                    x-bind:style={`active === ${i} ? 'transform-origin: left; animation: feature-progress ${interval}ms linear forwards' : 'transform: scaleX(0); transform-origin: left'`}
+                    x-cloak
+                  ></div>
+                )}
               </div>
 
               <div
-                class="flex gap-3 items-start py-5 cursor-pointer select-none"
-                @click={`select(${i})`}
+                class:list={['flex gap-3 items-start py-5', interactive && 'cursor-pointer select-none']}
+                {...(interactive ? { '@click': `select(${i})` } : {})}
               >
                 <!-- Текст -->
                 <div class="flex-1 min-w-0">
                   <p
-                    class="text-body-lg-bold transition-colors duration-300"
-                    x-bind:class={`active === ${i} ? 'text-gray-900' : 'text-gray-500'`}
+                    class:list={['text-body-lg-bold', interactive ? 'transition-colors duration-300' : 'text-gray-900']}
+                    {...(interactive ? { 'x-bind:class': `active === ${i} ? 'text-gray-900' : 'text-gray-500'` } : {})}
                   >{feature.title}</p>
 
-                  {feature.subtitle && (
+                  {feature.subtitle && (interactive ? (
                     <p
                       class="text-body-lg text-gray-500 overflow-hidden transition-[max-height,opacity,margin-top] duration-300 ease-in-out"
                       style="max-height: 0; opacity: 0; margin-top: 0"
                       x-bind:style={`active === ${i} ? 'max-height: 80px; opacity: 1; margin-top: 0.5rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
                     >{feature.subtitle}</p>
+                  ) : (
+                    <p class="text-body-lg text-gray-500 mt-2">{feature.subtitle}</p>
+                  ))}
+
+                  {interactive && (
+                    <!-- Mobile: изображение под активным пунктом (скрыто на lg+) -->
+                    <div
+                      class="lg:hidden overflow-hidden transition-[max-height,opacity,margin-top] duration-300 ease-in-out"
+                      style="max-height: 0; opacity: 0; margin-top: 0"
+                      x-bind:style={`active === ${i} ? 'max-height: 800px; opacity: 1; margin-top: 1rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
+                    >
+                      {(feature.imageMobile ?? feature.image ?? imageMobile ?? image) ? (
+                        <img
+                          src={feature.imageMobile ?? feature.image ?? imageMobile ?? image}
+                          alt={feature.imageAlt ?? imageAlt}
+                          class="block w-full h-auto rounded-2xl lg:rounded-3xl"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div class="aspect-[4/3] rounded-2xl lg:rounded-3xl bg-background-secondary">
+                          <slot name="image-mobile" />
+                        </div>
+                      )}
+                    </div>
                   )}
-
-                  <!-- Mobile: изображение под активным пунктом (скрыто на lg+) -->
-                  <div
-                    class="lg:hidden overflow-hidden transition-[max-height,opacity,margin-top] duration-300 ease-in-out"
-                    style="max-height: 0; opacity: 0; margin-top: 0"
-                    x-bind:style={`active === ${i} ? 'max-height: 800px; opacity: 1; margin-top: 1rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
-                  >
-                    {(feature.imageMobile ?? feature.image ?? imageMobile ?? image) ? (
-                      <img
-                        src={feature.imageMobile ?? feature.image ?? imageMobile ?? image}
-                        alt={feature.imageAlt ?? imageAlt}
-                        class="block w-full h-auto rounded-2xl lg:rounded-3xl"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div class="aspect-[4/3] rounded-2xl lg:rounded-3xl bg-background-secondary">
-                        <slot name="image-mobile" />
-                      </div>
-                    )}
-
-                  </div>
                 </div>
               </div>
             </li>
           ))}
           <li><div class="h-px bg-gray-300"></div></li>
         </ul>
+
+        {!interactive && (imageMobile ?? image) && (
+          <!-- Mobile: одно изображение для всего блока (скрыто на lg+) -->
+          <div class="lg:hidden">
+            <img
+              src={imageMobile ?? image}
+              alt={imageAlt}
+              class="block w-full h-auto rounded-2xl lg:rounded-3xl"
+              loading="lazy"
+            />
+          </div>
+        )}
 
         {review && (
           <Review
@@ -229,9 +250,9 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
           'hidden lg:block relative rounded-3xl overflow-hidden lg:h-[720px] transition-colors duration-500 bg-background-primary',
           imageLeft && 'lg:order-1'
         ]}
-        x-bind:class={`${JSON.stringify(featuresWithImage)}.includes(active) ? 'bg-background-primary' : 'bg-background-secondary'`}
+        {...(interactive ? { 'x-bind:class': `${JSON.stringify(featuresWithImage)}.includes(active) ? 'bg-background-primary' : 'bg-background-secondary'` } : {})}
       >
-        {features.some(f => f.image) ? (
+        {interactive && features.some(f => f.image) ? (
           features.map((feature, i) => feature.image && (
             <img
               src={feature.image}
