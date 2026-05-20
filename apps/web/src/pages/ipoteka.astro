@@ -36,8 +36,11 @@ import FormClosing from '../components/ui/FormClosing.astro'
     />
   </HeroSectionFull>
 
+  {/* gap-16 (64px) / sm:gap-20 (80px) / md:gap-24 (96px) / lg:gap-40 (160px) */}
+  <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-40">
+
   {/* ── 3. AdvantageCard — 4 карточки ── */}
-  <section class="py-24 sm:py-32">
+  <section>
     <div class="page-container">
       <h2 class="text-h2">Девелоперы с ДВИЖом</h2>
       <div
@@ -79,6 +82,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   {/* ── 4. FeatureBlock — Повышаем конверсию ── */}
   <FeatureBlock
+    class="!py-0"
     image="/api/media/file/product-calc.webp"
     imageAlt="Ипотечный калькулятор"
     heading="Повышаем конверсию из первичной консультации в 2 раза"
@@ -98,6 +102,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   {/* ── 5. FeatureBlock — Сокращаем время ── */}
   <FeatureBlock
+    class="!py-0"
     imageSide="left"
     image="/api/media/file/product-anketa.webp"
     imageAlt="Анкета клиента"
@@ -118,6 +123,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   {/* ── 6. FeatureBlock — Проверяем клиентов ── */}
   <FeatureBlock
+    class="!py-0"
     image="/api/media/file/product-calc.webp"
     imageAlt="Ипотечный калькулятор"
     heading="Проверяем ваших клиентов по банковским стандартам"
@@ -137,6 +143,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   {/* ── 7. FeatureBlock — Увеличиваем одобрение ── */}
   <FeatureBlock
+    class="!py-0"
     imageSide="left"
     image="/api/media/file/product-anketa.webp"
     imageAlt="Анкета клиента"
@@ -155,7 +162,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   />
 
   {/* ── 8. BentoGrid — Дополнительные возможности ── */}
-  <section class="py-24 lg:py-[120px]">
+  <section>
     <div class="page-container">
       <BentoGrid
         heading="Дополнительные возможности"
@@ -208,7 +215,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
       'Составим рекомендации на основе опыта работы с застройщиками из топ-50',
     ]}
     submitLabel="Оставить заявку"
-    class="pt-24 pb-12 lg:pt-[120px]"
   />
+
+  </div>{/* /gap-контейнер */}
 
 </SiteLayout>

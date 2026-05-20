@@ -36,9 +36,13 @@ import FormClosing from '../components/ui/FormClosing.astro'
     />
   </HeroSectionFull>
 
+  {/* gap-16 (64px) / sm:gap-20 (80px) / md:gap-24 (96px) / lg:gap-40 (160px) */}
+  <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 lg:gap-40">
+
 
   {/* ── 3. KeyFacts — 3 пункта ── */}
   <KeyFacts
+    class="!py-0"
     title="Зачем вам финансовый скоринг"
     variant="large"
     items={[
@@ -59,6 +63,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   {/* ── 4. FeatureBlock ── */}
   <FeatureBlock
+    class="!py-0"
     heading="Покажем красные флаги клиента"
     description="Скоринг охватывает полный финансовый профиль заемщика — от долговой нагрузки до банкротных дел"
     imageSide="left"
@@ -84,7 +89,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   />
 
   {/* ── 5. BentoGrid variant="four" ── */}
-  <section class="py-24 lg:py-[120px]">
+  <section class="!py-0">
     <div class="page-container">
       <BentoGrid
         variant="four"
@@ -117,6 +122,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   {/* ── 6. TextImageBlock ── */}
   <TextImageBlock
+    class="!py-0"
     heading="Заберите готовое решение и одобряйте больше клиентов"
     subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
     buttonText="Забрать решение"
@@ -136,7 +142,9 @@ import FormClosing from '../components/ui/FormClosing.astro'
     title="Реализация по API — для тех, кто хочет еще больше"
     description="Адаптируйте калькулятор под фирменный стиль, встройте расчеты в карточку лота и избавьтесь от юридических рисков"
     submitLabel="Попробовать бесплатно"
-    class="py-12"
+    class="!py-0"
   />
+
+  </div>{/* /gap-контейнер */}
 
 </SiteLayout>
