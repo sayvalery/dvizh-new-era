@@ -56,6 +56,8 @@ interface Props {
   buttonPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   /** Карточки историй */
   stories: StoryItem[]
+  /** Показывать аватар персоны (фото или плейсхолдер с инициалом). По умолчанию false. */
+  showPersonPhoto?: boolean
   /** Дополнительные классы */
   class?: string
 }
@@ -65,6 +67,7 @@ const {
   buttonLabel = 'Получить демо',
   buttonPreset = 'demo',
   stories,
+  showPersonPhoto = false,
   class: className = '',
 } = Astro.props
 ---
@@ -98,6 +101,7 @@ const {
               jobTitle: story.personJobTitle,
               photo: story.personPhoto ? { url: story.personPhoto } : undefined,
             }}
+            showPersonPhoto={showPersonPhoto}
             class="min-h-[350px] md:min-h-0 h-full"
           />
         ))}

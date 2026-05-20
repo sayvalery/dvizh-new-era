@@ -60,11 +60,13 @@ interface Props {
   hoverBackground?: string
   /** На hover делать плашку логотипа прозрачно-стеклянной (для логотипов с вырезанными буквами) */
   hoverGlass?: boolean
+  /** Показывать аватар персоны (фото или плейсхолдер с инициалом). По умолчанию false. */
+  showPersonPhoto?: boolean
   /** Дополнительные классы для карточки (например переопределить высоту) */
   class?: string
 }
 
-const { variant = 'active', backgroundImage, title, titleHtml, person, logo, logoAlt = 'Logo', logoHover, hoverBackground, hoverGlass = false, class: className = '' } = Astro.props
+const { variant = 'active', backgroundImage, title, titleHtml, person, logo, logoAlt = 'Logo', logoHover, hoverBackground, hoverGlass = false, showPersonPhoto = false, class: className = '' } = Astro.props
 
 const isActive = variant === 'active'
 const hasModal = Astro.slots.has('modal-body')
@@ -136,7 +138,7 @@ const hasHover = !isActive && !!hoverBackground
           <h3 class:list={['text-h3 transition-colors', isActive ? 'text-white' : 'text-gray-900', hasHover && 'group-hover:text-white']}>{title}</h3>
         )}
 
-        <PersonCard person={person} theme={isActive ? 'dark' : 'light'} showPhoto={false} />
+        <PersonCard person={person} theme={isActive ? 'dark' : 'light'} showPhoto={showPersonPhoto} />
       </div>
     </div>
   </div>
