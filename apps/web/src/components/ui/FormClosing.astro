@@ -27,6 +27,7 @@
  */
 
 import Button from './Button.astro'
+import Input from './Input.astro'
 
 const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
 
@@ -107,9 +108,6 @@ const checkCls      = isDark ? 'text-white/50' : 'text-gray-400'
 const privacyLinkCls = isDark ? 'text-white/40 underline hover:text-white/60' : 'text-gray-400 underline hover:text-gray-600'
 const privacyCls    = isDark ? 'text-white/40' : 'text-gray-400'
 const checkboxBorder = isDark ? 'border-white/20 bg-white/5' : 'border-gray-300/60 bg-gray-100/50'
-const inputCls = isDark
-  ? 'w-full md:flex-1 md:min-w-0 h-16 bg-white/10 rounded-xl px-5 text-base text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/20 transition-all duration-200'
-  : 'w-full md:flex-1 md:min-w-0 h-16 bg-gray-200 rounded-xl px-5 text-base text-gray-900 placeholder:text-gray-700/50 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:bg-white transition-all duration-200'
 const successCls = isDark ? 'text-green-400' : 'text-green-600'
 const errorCls   = isDark ? 'text-red-400'   : 'text-red-500'
 
@@ -147,7 +145,7 @@ const privacyMain = privacyText
   >
 
     <!-- Заголовок + описание -->
-    <div class="max-w-full lg:max-w-[60%]">
+    <div class="max-w-full lg:max-w-[800px]">
       <h2 class:list={['text-h2 font-medium leading-none tracking-tighter', headingCls]}>
         {title}
       </h2>
@@ -161,7 +159,7 @@ const privacyMain = privacyText
 
     <!-- Список пунктов с check circle -->
     {items && items.length > 0 && (
-      <ul class="mt-6 space-y-3">
+      <ul class="mt-6 space-y-3 max-w-full lg:max-w-[800px]">
         {items.map((item) => (
           <li class="flex items-start gap-2">
             <svg
@@ -181,7 +179,7 @@ const privacyMain = privacyText
 
     <!-- Режим: кнопки -->
     {mode === 'buttons' && (
-      <div class="mt-8 flex flex-wrap gap-2">
+      <div class="mt-8 flex flex-wrap gap-2 max-w-full lg:max-w-[800px]">
         {primaryButton && (
           <Button
             variant="primary"
@@ -202,7 +200,7 @@ const privacyMain = privacyText
     <!-- Режим: форма -->
     {mode === 'form' && (
       <form
-        class="mt-8 space-y-3"
+        class="mt-8 space-y-3 max-w-full lg:max-w-[800px]"
         data-form-closing
         data-preset={preset}
         data-cms-url={CLIENT_CMS_URL}
@@ -210,21 +208,25 @@ const privacyMain = privacyText
         <div class="flex flex-col lg:flex-row gap-3">
           <div class="flex flex-col md:flex-row gap-3 w-full lg:w-3/5 flex-shrink-0">
             {formFields.map((field) => (
-              <input
-                type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
+              <Input
                 name={field}
+                type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
                 required={field === 'email' || field === 'name'}
                 placeholder={fieldLabels[field]}
-                class={inputCls}
+                variant={isDark ? 'white' : 'colour'}
+                size="M"
+                class="md:flex-1 md:min-w-0 !py-2 !text-[14px] md:!py-[9px] md:!text-[16px]"
               />
             ))}
           </div>
-          <button
+          <Button
             type="submit"
-            class="h-16 px-8 bg-brand text-white rounded-xl text-btn-lg font-semibold whitespace-nowrap hover:opacity-90 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 shrink-0"
+            variant="primary"
+            size="md"
+            class="shrink-0 !h-9 !px-4 !py-2 md:!h-11 md:!px-6 md:!py-3"
           >
             {btnLabel}
-          </button>
+          </Button>
         </div>
 
         {showPrivacy && (
