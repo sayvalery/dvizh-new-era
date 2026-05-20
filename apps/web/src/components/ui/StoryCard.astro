@@ -136,7 +136,7 @@ const hasHover = !isActive && !!hoverBackground
           <h3 class:list={['text-h3 transition-colors', isActive ? 'text-white' : 'text-gray-900', hasHover && 'group-hover:text-white']}>{title}</h3>
         )}
 
-        <PersonCard person={person} theme={isActive ? 'dark' : 'light'} />
+        <PersonCard person={person} theme={isActive ? 'dark' : 'light'} showPhoto={false} />
       </div>
     </div>
   </div>
