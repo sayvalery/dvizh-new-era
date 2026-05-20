@@ -53,7 +53,7 @@ const hasLogos = Astro.slots.has('logos')
   </div>
 
   <!-- Контент: прибит к низу слева -->
-  <div class="relative z-10 flex flex-col min-h-[100dvh]">
+  <div class="relative z-10 flex flex-col min-h-[calc(100dvh-76px)]">
     <div class="flex flex-col justify-end flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-10 pb-16 sm:pb-20 md:pb-24 lg:pb-40">
       <div class="flex flex-col gap-6 max-w-[1000px]">
         {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
