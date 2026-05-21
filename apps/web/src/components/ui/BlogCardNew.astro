@@ -65,8 +65,8 @@ const hasDateMeta = date || readTime
 {size === 'lg' && layout === 'side' && (
   <a href={`/blog/${slug}`} class:list={['group flex gap-10 w-full', className]}>
 
-    <!-- Изображение: 2/3 ширины -->
-    <div class="relative shrink-0 w-2/3 aspect-[832/532] rounded-3xl overflow-hidden bg-background-secondary">
+    <!-- Изображение: 2/3 ширины. При lg+ если родитель задаёт высоту (lg:flex-1) — фотка тянется на h-full без aspect. -->
+    <div class="relative shrink-0 w-2/3 aspect-[832/532] lg:aspect-auto lg:h-full lg:min-h-0 rounded-3xl overflow-hidden bg-background-secondary">
       {imgSrc && (
         <img src={imgSrc} alt={cover?.alt ?? title}
           class="absolute inset-0 w-full h-full object-cover"
