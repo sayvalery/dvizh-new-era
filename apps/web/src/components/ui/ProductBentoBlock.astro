@@ -52,6 +52,8 @@ interface ProductCard {
   stats?: Stat[]
   /** 'row' — статы вертикально в ряд (по умолчанию), 'inline' — значение и подпись на одной линии */
   statsLayout?: 'row' | 'inline'
+  /** 'bottom' — текст прибит к низу (по умолчанию), 'top' — к верху с отступом от стрелки */
+  textPosition?: 'top' | 'bottom'
 }
 
 interface Props {
@@ -84,9 +86,9 @@ const descColor = (v?: ProductCard['variant']) =>
   v === 'dark' ? 'text-white/60' : v === 'brand' ? 'text-white/80' : 'text-gray-500'
 
 const statValueClass = (highlight?: boolean, v?: ProductCard['variant']) => {
-  if (v === 'brand') return 'text-h2 text-white'
-  if (v === 'dark')  return `text-h2 ${highlight ? 'text-brand' : 'text-white'}`
-  return `text-h2 ${highlight ? 'text-brand' : 'text-gray-900'}`
+  if (v === 'brand') return 'text-h3 text-white'
+  if (v === 'dark')  return `text-h3 ${highlight ? 'text-brand' : 'text-white'}`
+  return `text-h3 ${highlight ? 'text-brand' : 'text-gray-900'}`
 }
 
 const statLabelColor = (v?: ProductCard['variant']) =>
@@ -97,6 +99,11 @@ const arrowColor = (v?: ProductCard['variant']) =>
 
 const arrowHoverColor = (v?: ProductCard['variant']) =>
   v === 'brand' ? 'group-hover:text-white' : 'group-hover:text-brand'
+
+const contentPos = (pos?: 'top' | 'bottom') =>
+  pos === 'top'
+    ? 'absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-auto lg:top-10 lg:left-10 lg:right-10 lg:pr-16'
+    : 'absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10'
 
 const bgStyle = (img?: string) =>
   img ? `background-image: url('${img}'); background-size: cover; background-position: center;` : ''
@@ -136,7 +143,7 @@ const bgStyle = (img?: string) =>
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c1.variant), arrowHoverColor(c1.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
             <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
           </svg>
-          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+          <div class={contentPos(c1.textPosition)}>
             <div class="flex flex-col gap-4 lg:gap-6">
               <h3 class:list={['text-product-card-h', titleColor(c1.variant)]}>{c1.title}</h3>
               <p class:list={['text-body-lg', descColor(c1.variant)]}>{c1.description}</p>
@@ -169,7 +176,7 @@ const bgStyle = (img?: string) =>
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c2.variant), arrowHoverColor(c2.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
             <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
           </svg>
-          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+          <div class={contentPos(c2.textPosition)}>
             <div class="flex flex-col gap-4 lg:gap-6">
               <h3 class:list={['text-product-card-h', titleColor(c2.variant)]}>{c2.title}</h3>
               <p class:list={['text-body-lg', descColor(c2.variant)]}>{c2.description}</p>
@@ -204,7 +211,7 @@ const bgStyle = (img?: string) =>
         <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c3.variant), arrowHoverColor(c3.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
           <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
         </svg>
-        <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+        <div class={contentPos(c3.textPosition)}>
           <div class="flex flex-col gap-4 lg:gap-6">
             <h3 class:list={['text-product-card-h', titleColor(c3.variant)]}>{c3.title}</h3>
             <p class:list={['text-body-lg', descColor(c3.variant)]}>{c3.description}</p>
@@ -240,7 +247,7 @@ const bgStyle = (img?: string) =>
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c4.variant), arrowHoverColor(c4.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
             <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
           </svg>
-          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-6">
+          <div class={contentPos(c4.textPosition)}>
             <h3 class:list={['text-product-card-h', titleColor(c4.variant)]}>{c4.title}</h3>
             <p class:list={['text-body-lg', descColor(c4.variant)]}>{c4.description}</p>
             {c4.stats && c4.stats.length > 0 && (
@@ -271,7 +278,7 @@ const bgStyle = (img?: string) =>
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c5.variant), arrowHoverColor(c5.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
             <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
           </svg>
-          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+          <div class={contentPos(c5.textPosition)}>
             <div class="flex flex-col gap-4 lg:gap-6">
               <h3 class:list={['text-product-card-h', titleColor(c5.variant)]}>{c5.title}</h3>
               <p class:list={['text-body-lg', descColor(c5.variant)]}>{c5.description}</p>
