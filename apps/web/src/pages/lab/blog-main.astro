@@ -1,0 +1,265 @@
+---
+/**
+ * Лабораторная страница: Главная блога ДВИЖ
+ *
+ * Сверстано по Figma-макетам 1536 / 1024 / 768.
+ * Маршрут: /lab/blog-main (только в dev)
+ */
+
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import BlogCard from '../../components/ui/BlogCard.astro'
+import Button from '../../components/ui/Button.astro'
+
+// Заглушки для постов
+const featured = {
+  title: 'Как в 2 раза увеличить поток аудитории к концу 2026 года',
+  slug: 'kak-uvelichit-potok-2026',
+  category: 'Аналитика рынка',
+  date: '14 апреля',
+  readTime: '13 мин',
+  excerpt: 'Сценарии развития событий от Романа Гурова',
+}
+
+const heroSecondary = [
+  { title: 'ДВИЖ и Уралсиб перешли на работу по протоколу API', slug: 'dvizh-uralsib-api', category: 'Новости', date: '12 апреля', readTime: '5 мин' },
+  { title: 'Электронная регистрация: итоги первого квартала 2026', slug: 'ereg-q1-2026', category: 'Продукты', date: '10 апреля', readTime: '8 мин' },
+]
+
+const rules = [
+  { title: 'Застройщик не продаёт квартиры — он продаёт мечту', slug: 'pravilo-mechta', date: '7 апреля', readTime: '4 мин' },
+  { title: 'CRM — это не отчёты, а живая воронка продаж', slug: 'pravilo-crm', date: '5 апреля', readTime: '3 мин' },
+  { title: 'Ипотека одобряется за 15 минут или клиент уходит', slug: 'pravilo-ipoteka', date: '3 апреля', readTime: '4 мин' },
+  { title: 'Цифровая регистрация — конкурентное преимущество, не опция', slug: 'pravilo-ereg', date: '1 апреля', readTime: '3 мин' },
+]
+
+const cases = [
+  { title: 'Как Уралсиб снизил время одобрения ипотеки с 3 дней до 4 часов', slug: 'case-uralsib', category: 'Кейс', date: '8 апреля', readTime: '10 мин' },
+  { title: 'ГК Страна: рост конверсии на 26% после внедрения ДВИЖ', slug: 'case-strana', category: 'Кейс', date: '5 апреля', readTime: '7 мин' },
+  { title: 'Гранель автоматизировала 90% заявок на ипотеку', slug: 'case-granel', category: 'Кейс', date: '2 апреля', readTime: '8 мин' },
+]
+
+const analyticsMain = {
+  title: 'Спасибо, что выжили, или как прошёл 2025 год для девелоперов',
+  slug: 'spasibo-vyzhili-2025',
+  category: 'Аналитика рынка',
+  date: '14 апреля',
+  readTime: '13 мин',
+  excerpt: 'Итоги года, тенденции и прогнозы на 2026 от наших аналитиков',
+}
+
+const analyticsList = [
+  { title: 'Ставки ЦБ и ипотечный рынок: что ждёт девелоперов в Q2', slug: 'stavki-tsb-q2', date: '11 апреля', readTime: '6 мин' },
+  { title: 'Почему клиенты уходят после одобрения ипотеки', slug: 'klienty-uhodyat', date: '9 апреля', readTime: '5 мин' },
+  { title: 'Портрет покупателя новостройки в 2026 году', slug: 'portret-pokupatelya-2026', date: '6 апреля', readTime: '7 мин' },
+  { title: 'Электронная регистрация vs нотариус: выбор рынка', slug: 'ereg-vs-notarius', date: '4 апреля', readTime: '4 мин' },
+  { title: '5 ошибок застройщика при работе с ипотечными заявками', slug: '5-oshibok-zastrojshchika', date: '2 апреля', readTime: '5 мин' },
+]
+
+const events = [
+  { title: 'Форум недвижимости ДВИЖ-2026', slug: 'forum-dvizh-2026', category: 'Конференции', date: '20 мая', readTime: '2 ч' },
+  { title: 'Подкаст: Цифровой девелопмент с Романом Гуровым', slug: 'podcast-tsifrovoy', category: 'Подкасты', date: '15 мая', readTime: '45 мин' },
+  { title: 'Вебинар: Электронная регистрация 2.0', slug: 'webinar-ereg-2', category: 'Вебинары', date: '12 мая', readTime: '1 ч' },
+  { title: 'РЕ Форум: итоги и тренды первого полугодия', slug: 're-forum-2026', category: 'Конференции', date: '8 мая', readTime: '3 ч' },
+]
+
+const articles = [
+  { title: '«Главное изменение — скорость этих изменений»: видение Юлии Файзулиной', slug: 'fayzullina-intervyu', category: 'Интервью', date: '13 апреля', readTime: '9 мин' },
+  { title: 'Персонализация в ипотеке: как ДВИЖ учится понимать клиента', slug: 'personalizatsiya-ipoteka', category: 'Продукты', date: '11 апреля', readTime: '6 мин' },
+  { title: 'Рынок ИЖС в 2026: новые возможности для застройщиков', slug: 'izhs-2026', category: 'Аналитика', date: '9 апреля', readTime: '8 мин' },
+  { title: 'Как мы сократили время выдачи кредита с 14 до 3 дней', slug: 'sokrashchenie-vremeni-vydachi', category: 'Кейс', date: '7 апреля', readTime: '7 мин' },
+  { title: 'Виджет ипотечного калькулятора: кейс GloraX', slug: 'kalkulator-glorax', category: 'Продукты', date: '5 апреля', readTime: '5 мин' },
+  { title: 'Тренды цифровизации продаж недвижимости в 2026', slug: 'trendy-tsifrovizatsii-2026', category: 'Аналитика', date: '3 апреля', readTime: '10 мин' },
+]
+---
+
+<SiteLayout title="Блог — Журнал для современных девелоперов">
+
+  {/* ── HERO: оранжевый блок с заголовком и featured-постом ── */}
+  <section class="bg-brand relative overflow-hidden">
+    {/* Фоновая анимация — заглушка */}
+    <div class="absolute inset-0 opacity-20 pointer-events-none" aria-hidden="true">
+      <div class="absolute inset-0" style="background: linear-gradient(135deg, #ff6b2c 0%, #ff4d00 50%, #c73d00 100%)"></div>
+    </div>
+
+    <div class="relative z-10 page-container pt-16 pb-16 lg:pb-24">
+      <h1 class="text-h1 text-white mb-10 lg:mb-16 max-w-[700px]">
+        Журнал для современных девелоперов
+      </h1>
+
+      {/* Desktop: featured слева ~60% + 2 small справа. Mobile: стек */}
+      <div class="grid grid-cols-1 xl:grid-cols-[3fr_2fr] gap-6 lg:gap-8">
+
+        {/* Featured (lg) */}
+        <BlogCard
+          size="lg"
+          title={featured.title}
+          slug={featured.slug}
+          category={featured.category}
+          date={featured.date}
+          readTime={featured.readTime}
+          excerpt={featured.excerpt}
+        />
+
+        {/* 2 вторичных (s) */}
+        <div class="flex flex-col gap-4 lg:gap-6">
+          {heroSecondary.map(post => (
+            <BlogCard
+              size="s"
+              title={post.title}
+              slug={post.slug}
+              category={post.category}
+              date={post.date}
+              readTime={post.readTime}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── ПРАВИЛА ДЕВЕЛОПЕРА ── */}
+  <section class="page-container py-16 lg:py-20">
+    <div class="flex items-center justify-between mb-8 lg:mb-10">
+      <h2 class="text-h2 text-gray-900">Правила девелопера</h2>
+      <Button variant="ghost" size="sm" href="/blog/category/pravila">Все правила</Button>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+      {rules.map(post => (
+        <BlogCard
+          size="xs"
+          title={post.title}
+          slug={post.slug}
+          date={post.date}
+          readTime={post.readTime}
+        />
+      ))}
+    </div>
+  </section>
+
+  {/* ── КЕЙСЫ ── */}
+  <section class="page-container py-16 lg:py-20 border-t border-gray-100">
+    <div class="flex items-center justify-between mb-8 lg:mb-10">
+      <h2 class="text-h2 text-gray-900">Кейсы</h2>
+      <Button variant="ghost" size="sm" href="/cases">Все кейсы</Button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {cases.map(post => (
+        <BlogCard
+          size="md"
+          title={post.title}
+          slug={post.slug}
+          category={post.category}
+          date={post.date}
+          readTime={post.readTime}
+        />
+      ))}
+    </div>
+  </section>
+
+  {/* ── АНАЛИТИКА ── */}
+  <section class="page-container py-16 lg:py-20 border-t border-gray-100">
+    <div class="flex items-center justify-between mb-8 lg:mb-10">
+      <h2 class="text-h2 text-gray-900">Аналитика</h2>
+      <Button variant="ghost" size="sm" href="/blog/category/analitika">Все статьи</Button>
+    </div>
+
+    {/* Desktop: featured слева + список справа. Mobile: стек */}
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-10">
+
+      {/* Featured */}
+      <BlogCard
+        size="md"
+        title={analyticsMain.title}
+        slug={analyticsMain.slug}
+        category={analyticsMain.category}
+        date={analyticsMain.date}
+        readTime={analyticsMain.readTime}
+        excerpt={analyticsMain.excerpt}
+      />
+
+      {/* Список xs */}
+      <div class="flex flex-col divide-y divide-gray-100">
+        {analyticsList.map(post => (
+          <div class="py-1">
+            <BlogCard
+              size="xs"
+              title={post.title}
+              slug={post.slug}
+              date={post.date}
+              readTime={post.readTime}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── CTA — ОСТАВАЙТЕСЬ НА СВЯЗИ ── */}
+  <section class="bg-brand relative overflow-hidden">
+    <div class="page-container py-16 lg:py-20 relative z-10">
+      <div class="max-w-[600px]">
+        <h2 class="text-h2 text-white mb-4">Оставайтесь на связи</h2>
+        <p class="text-body-lg text-white/70 mb-8">
+          Подпишитесь на еженедельный дайджест — только важное о рынке недвижимости и цифровых продажах.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input
+            type="email"
+            placeholder="Ваш email"
+            class="flex-1 px-5 py-3 rounded-xl bg-white/15 border border-white/30 text-white placeholder:text-white/50 text-subhead focus:outline-none focus:border-white/60"
+          />
+          <Button variant="secondary" size="md">Подписаться</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── КОНФЕРЕНЦИИ, ПОДКАСТЫ И ВЕБИНАРЫ ── */}
+  <section class="page-container py-16 lg:py-20 border-t border-gray-100">
+    <div class="flex items-center justify-between mb-8 lg:mb-10">
+      <h2 class="text-h2 text-gray-900">Конференции,<br class="hidden md:block" /> подкасты и вебинары</h2>
+      <Button variant="ghost" size="sm" href="/blog/category/events">Все события</Button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {events.map(post => (
+        <BlogCard
+          size="s"
+          title={post.title}
+          slug={post.slug}
+          category={post.category}
+          date={post.date}
+          readTime={post.readTime}
+        />
+      ))}
+    </div>
+  </section>
+
+  {/* ── СТАТЬИ БЛОГА ── */}
+  <section class="page-container py-16 lg:py-20 border-t border-gray-100">
+    <div class="flex items-center justify-between mb-8 lg:mb-10">
+      <h2 class="text-h2 text-gray-900">Статьи блога</h2>
+      <Button variant="ghost" size="sm" href="/blog">Все статьи</Button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {articles.map(post => (
+        <BlogCard
+          size="md"
+          title={post.title}
+          slug={post.slug}
+          category={post.category}
+          date={post.date}
+          readTime={post.readTime}
+        />
+      ))}
+    </div>
+
+    <div class="mt-10 text-center">
+      <Button variant="ghost" size="md">Показать ещё</Button>
+    </div>
+  </section>
+
+</SiteLayout>
