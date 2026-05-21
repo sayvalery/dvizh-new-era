@@ -1,0 +1,53 @@
+---
+/**
+ * Tab — таб-кнопка фильтра/навигации
+ *
+ * Три состояния: default (серый), hover (тёмный), selected (brand).
+ * Используется внутри Alpine.js-группы для переключения табов.
+ *
+ * @example одиночная ссылка
+ * ```astro
+ * <Tab label="Маркетинг и продажи" href="/blog/category/marketing" selected />
+ * ```
+ *
+ * @example Alpine.js-группа
+ * ```astro
+ * <div x-data="{ tab: 'all' }" class="flex flex-wrap gap-2">
+ *   <Tab label="Все" :selected="tab === 'all'" @click="tab = 'all'" />
+ *   <Tab label="Кейсы"   :selected="tab === 'cases'" @click="tab = 'cases'" />
+ * </div>
+ * ```
+ */
+
+interface Props {
+  /** Текст таба */
+  label: string
+  /** Активное состояние */
+  selected?: boolean
+  /** Ссылка — если передана, рендерится как <a>, иначе <button> */
+  href?: string
+  /** Дополнительные CSS классы */
+  class?: string
+  [key: string]: unknown
+}
+
+const {
+  label,
+  selected = false,
+  href,
+  class: className = '',
+  ...rest
+} = Astro.props
+
+const base = 'inline-flex items-center justify-center gap-[7px] h-[46px] px-4 py-2 rounded-lg border transition-colors text-body-lg'
+const states = selected
+  ? 'border-[#fecda9] text-brand'
+  : 'border-black/10 text-gray-400 hover:text-gray-900 hover:border-black/20'
+const classes = [base, states, className].filter(Boolean).join(' ')
+---
+
+{href ? (
+  <a href={href} class={classes} {...rest}>{label}</a>
+) : (
+  <button type="button" class={classes} {...rest}>{label}</button>
+)}
