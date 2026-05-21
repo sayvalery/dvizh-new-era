@@ -85,8 +85,8 @@ const descColor = (v?: ProductCard['variant']) =>
 
 const statValueClass = (highlight?: boolean, v?: ProductCard['variant']) => {
   if (v === 'brand') return 'text-h2 text-white'
-  if (v === 'dark')  return `text-h2 ${highlight ? 'text-brand' : 'text-white'}`
-  return `text-h2 ${highlight ? 'text-brand' : 'text-gray-900'}`
+  if (v === 'dark')  return `text-h2 ${highlight ? 'text-brand' : 'text-white'}`
+  return `text-h2 ${highlight ? 'text-brand' : 'text-gray-900'}`
 }
 
 const statLabelColor = (v?: ProductCard['variant']) =>
