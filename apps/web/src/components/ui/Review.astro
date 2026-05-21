@@ -76,7 +76,7 @@ const hasPhoto = photo !== undefined
 
 {hasPhoto ? (
   /* ── С фото: карточка lg:flex-row, фото скрыто на мобайле ── */
-  <div class:list={['flex flex-col lg:flex-row lg:h-[400px] rounded-2xl lg:rounded-3xl overflow-hidden bg-gray-200', className]}>
+  <div class:list={['flex flex-col lg:flex-row rounded-2xl lg:rounded-3xl overflow-hidden bg-gray-200', className]}>
 
     <!-- Фото: только lg+ -->
     <div class="hidden lg:block relative lg:w-96 lg:shrink-0">
@@ -94,11 +94,9 @@ const hasPhoto = photo !== undefined
 
     <!-- Цитата -->
     <div class="flex-1 p-8 lg:p-10 flex flex-col">
-      <div class="flex flex-col gap-8 flex-1 justify-between">
+      <div class="flex flex-col gap-8">
         <div class="flex items-start gap-3">
-          <svg class="w-5 h-5 text-brand shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>
-          </svg>
+          <img src="/api/media/file/quotes.svg" alt="" class="w-5 h-5 shrink-0 mt-0.5" aria-hidden="true" />
           <p class="text-body-lg text-gray-900 flex-1">{quote}</p>
         </div>
         <div class="pl-8">
@@ -136,9 +134,7 @@ const hasPhoto = photo !== undefined
   <div class:list={['flex flex-col gap-8', className]}>
 
     <div class="flex items-start gap-3">
-      <svg class="w-5 h-5 text-brand shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>
-      </svg>
+      <img src="/api/media/file/quotes.svg" alt="" class="w-5 h-5 shrink-0 mt-0.5" aria-hidden="true" />
       <p class="text-body-lg text-gray-900 flex-1">{quote}</p>
     </div>
 
