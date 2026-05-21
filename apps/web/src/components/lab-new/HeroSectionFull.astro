@@ -1,31 +1,31 @@
 ---
 /**
- * HeroSectionFull — лабораторный full-screen hero
+ * HeroSectionFull — лабораторный full-screen hero
  *
- * Контент прибит к низу слева, секция занимает весь экран (100dvh).
- * Слот «background» — для анимации/3D (будет добавлен позже).
+ * Контент прибит к низу слева, секция занимает весь экран (100dvh).
+ * Слот «background» — для анимации/3D (будет добавлен позже).
  *
- * Отличия от HeroSection layout="full":
- *   — min-h-[100dvh] вместо min-h-[680px] lg:min-h-[900px]
- *   — только full-вариант, без default/split
+ * Отличия от HeroSection layout="full":
+ * — min-h-[100dvh] вместо min-h-[680px] lg:min-h-[900px]
+ * — только full-вариант, без default/split
  */
 
 import Button from '../ui/Button.astro'
 
 interface Props {
-  /** Бейдж/надпись над заголовком */
+  /** Бейдж/надпись над заголовком */
   badge?: string
   /** Основной заголовок */
   title: string
-  /** Описание под заголовком */
+  /** Описание под заголовком */
   description?: string
   /** Текст первой кнопки */
   demoLabel?: string
   /** Текст второй кнопки */
   kpLabel?: string
-  /** Пресет дровера для первой кнопки */
+  /** Пресет дровера для первой кнопки */
   demoPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
-  /** Пресет дровера для второй кнопки */
+  /** Пресет дровера для второй кнопки */
   kpPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   /** Дополнительные CSS классы */
   class?: string
@@ -47,14 +47,14 @@ const hasLogos = Astro.slots.has('logos')
 
 <section class:list={['relative overflow-hidden bg-background-primary', className]}>
 
-  <!-- Слот для анимированного фона (3D, частицы и т.д.) -->
+  <!-- Слот для анимированного фона (3D, частицы и т.д.) -->
   <div class="absolute inset-0 z-0" aria-hidden="true">
     <slot name="background" />
   </div>
 
-  <!-- Контент: прибит к низу слева -->
+  <!-- Контент: прибит к низу слева -->
   <div class="relative z-10 flex flex-col min-h-[calc(100dvh-76px)]">
-    <div class="flex flex-col justify-end flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-10 pb-16 sm:pb-20 md:pb-24 lg:pb-40">
+    <div class="flex flex-col justify-end flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-10 pb-24 lg:pb-40">
       <div class="flex flex-col gap-6 max-w-[1000px]">
         {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
         <h1 class="text-h1 text-gray-900">{title}</h1>
