@@ -50,10 +50,16 @@ interface StoryItem {
 interface Props {
   /** Заголовок секции */
   heading?: string
+  /** Подзаголовок под заголовком (text-body-lg, gray-500). Опционально. */
+  subtitle?: string
+  /** Счётчик справа от заголовка (text-h4, opacity-30). Опционально. */
+  counter?: number | string
   /** Текст кнопки */
   buttonLabel?: string
   /** Пресет дровера для кнопки */
   buttonPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** href кнопки (если задан — кнопка ссылка, а не дровер) */
+  buttonHref?: string
   /** Карточки историй */
   stories: StoryItem[]
   /** Показывать аватар персоны (фото или плейсхолдер с инициалом). По умолчанию false. */
@@ -64,8 +70,11 @@ interface Props {
 
 const {
   heading = '70+ историй успеха на рынке застройщиков',
+  subtitle,
+  counter,
   buttonLabel = 'Получить демо',
   buttonPreset = 'demo',
+  buttonHref,
   stories,
   showPersonPhoto = false,
   class: className = '',
@@ -76,11 +85,18 @@ const {
   <div class="page-container">
     <div class="flex flex-col gap-12">
 
-      <!-- Заголовок + кнопка -->
+      <!-- Заголовок + (опц.) счётчик + (опц.) подзаголовок + кнопка -->
       <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-        <h2 class="text-h2 text-gray-900 max-w-[800px] w-full">{heading}</h2>
+        <div class="flex flex-col gap-1 max-w-[800px] w-full">
+          <h2 class="text-h2 text-gray-900">{heading}{counter !== undefined && <span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{counter}</span>}</h2>
+          {subtitle && <p class="text-body-lg text-gray-500">{subtitle}</p>}
+        </div>
         <div class="shrink-0">
-          <Button variant="dark" size="sm" drawerPreset={buttonPreset}>{buttonLabel}</Button>
+          {buttonHref ? (
+            <Button variant="dark" size="sm" href={buttonHref}>{buttonLabel}</Button>
+          ) : (
+            <Button variant="dark" size="sm" drawerPreset={buttonPreset}>{buttonLabel}</Button>
+          )}
         </div>
       </div>
 
