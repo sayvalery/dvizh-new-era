@@ -24,7 +24,7 @@ import Banner from '../../components/ui/Banner.astro'
         title="Как в&#160;2&#160;раза увеличить поток аудитории к&#160;концу 2026&#160;года"
         slug="kak-uvelichit-potok-auditorii"
         date="27&#160;февраля"
-        readTime="9&#160;минут"
+        readTime="9&#160;мин"
         excerpt="Сценарии развития событий от&#160;Романа Гурова"
       />
 
@@ -34,21 +34,21 @@ import Banner from '../../components/ui/Banner.astro'
           title="«Клиент&#160;— самый важный человек в&#160;компании»: ценности Анжелики Альшаевой"
           slug="cennosti-anzheliki-alshaevoy"
           date="13&#160;мая"
-          readTime="15&#160;минут"
+          readTime="15&#160;мин"
         />
         <BlogCardNew
           size="xs"
           title="ДВИЖ и&#160;Банк «РОССИЯ» запустили ускоренный обмен данными по&#160;API"
           slug="dvizh-rossiya-api"
           date="21&#160;апреля"
-          readTime="2&#160;минуты"
+          readTime="2&#160;мин"
         />
         <BlogCardNew
           size="xs"
           title="Итоги апреля"
           slug="itogi-aprelya"
           date="12&#160;мая"
-          readTime="2&#160;минуты"
+          readTime="2&#160;мин"
         />
       </div>
     </div>
@@ -251,6 +251,131 @@ import Banner from '../../components/ui/Banner.astro'
         { label: 'MAX', href: '#' },
       ]}
     />
+
+    {/* ── Блок 7: «Конференции, подкасты и вебинары» ── */}
+    <div class="page-container">
+      <div class="flex flex-col gap-10 md:flex-row md:gap-6 md:items-start">
+
+        <div class="flex flex-col gap-6 md:basis-[calc((100%-1.5rem)/2)] xl:basis-[calc((100%-3rem)/3)] md:shrink-0">
+          <h2 class="text-h2 text-gray-900">Конференции, подкасты и&#160;вебинары<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">12</span></h2>
+          <div>
+            <Button variant="dark" size="sm" href="/events">Смотреть все</Button>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-6 md:flex-1 md:min-w-0">
+          <BlogCardNew
+            size="s"
+            title="Вадим Герасимов о&#160;ситуации с&#160;продажами, идеальном процессе сделки и&#160;подходе Унистроя"
+            slug="gerasimov-situaciya-prodazhi-unistroy"
+            date="24&#160;марта"
+            readTime="13&#160;мин"
+          />
+          <BlogCardNew
+            size="s"
+            title="Вадим Герасимов об&#160;идеальном продавце и&#160;системе обучения в&#160;Унистрое"
+            slug="gerasimov-idealnyy-prodavec-unistroy"
+            date="23&#160;марта"
+            readTime="10&#160;мин"
+          />
+          <BlogCardNew
+            size="s"
+            title="Вадим Герасимов о&#160;своем пути к&#160;должности директора по&#160;продажам"
+            slug="gerasimov-put-k-direktoru-po-prodazham"
+            date="22&#160;марта"
+            readTime="11&#160;мин"
+          />
+          <BlogCardNew
+            size="s"
+            title="Рустам Азизов про&#160;банки и&#160;ипотеку"
+            slug="azizov-banki-ipoteka"
+            date="11&#160;февраля"
+            readTime="14&#160;мин"
+          />
+        </div>
+
+      </div>
+    </div>
+
+    {/* ── Блок 8: «Статьи блога» — 9 md-карточек 3×3 ── */}
+    <div class="page-container flex flex-col gap-16">
+
+      {/* Заголовок + счётчик + кнопка */}
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+        <h2 class="text-h2 text-gray-900 max-w-[800px] w-full">Статьи блога<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">86</span></h2>
+        <div class="shrink-0">
+          <Button variant="dark" size="sm" href="/blog">Смотреть все</Button>
+        </div>
+      </div>
+
+      {/* Сетка 3×3 — 9 md-карточек */}
+      <div class="grid grid-cols-3 gap-x-6 gap-y-10">
+        <BlogCardNew
+          size="md"
+          title="«Главное изменение на&#160;рынке&#160;— скорость этих изменений»: видение Юлии Файзулиной"
+          slug="videnie-yulii-fayzulinoy"
+          date="14&#160;апреля"
+          readTime="13&#160;мин"
+        />
+        <BlogCardNew
+          size="md"
+          title="Итоги марта"
+          slug="itogi-marta"
+          date="10&#160;апреля"
+          readTime="3&#160;мин"
+        />
+        <BlogCardNew
+          size="md"
+          title="Как застройщику не&#160;терять нить в&#160;работе агентов (и&#160;где обычно случаются факапы)"
+          slug="kak-zastroyshchiku-ne-teryat-nit-v-rabote-agentov"
+          date="8&#160;апреля"
+          readTime="10&#160;мин"
+        />
+        <BlogCardNew
+          size="md"
+          title="Абсолют Банк провел API-интеграцию с&#160;платформой ДВИЖ"
+          slug="absolyut-bank-api-integraciya"
+          date="6&#160;апреля"
+          readTime="3&#160;мин"
+        />
+        <BlogCardNew
+          size="md"
+          title="«Победа требует заботы»: ценности Александра Курникова"
+          slug="cennosti-aleksandra-kurnikova"
+          date="19&#160;марта"
+          readTime="16&#160;мин"
+        />
+        <BlogCardNew
+          size="md"
+          title="Как получать больше качественных лидов по&#160;меньшей стоимости"
+          slug="bolshe-kachestvennyh-lidov"
+          date="18&#160;марта"
+          readTime="15&#160;мин"
+        />
+        <BlogCardNew
+          size="md"
+          title="Итоги февраля"
+          slug="itogi-fevralya"
+          date="13&#160;марта"
+          readTime="3&#160;мин"
+        />
+        <BlogCardNew
+          size="md"
+          title="Как в&#160;2&#160;раза увеличить поток аудитории к&#160;концу 2026&#160;года"
+          slug="kak-uvelichit-potok-auditorii"
+          date="26&#160;февраля"
+          readTime="9&#160;мин"
+        />
+        <BlogCardNew
+          size="md"
+          title="«Перепроверять нужно все и&#160;за&#160;всеми»: ценности Анастасии Швед"
+          slug="cennosti-anastasii-shved"
+          date="20&#160;февраля"
+          readTime="15&#160;мин"
+        />
+      </div>
+
+    </div>
 
   </div>
 </SiteLayout>
