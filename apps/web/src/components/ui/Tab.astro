@@ -39,10 +39,10 @@ const {
   ...rest
 } = Astro.props
 
-const base = 'inline-flex items-center justify-center gap-[7px] h-[46px] px-4 py-2 rounded-lg border transition-colors text-body-lg'
+const base = 'inline-flex items-center justify-center gap-[7px] h-9 px-4 py-2 rounded-lg border transition-colors text-btn'
 const states = selected
   ? 'border-[#fecda9] text-brand'
-  : 'border-gray-300 text-gray-400 hover:text-gray-900 hover:border-gray-400'
+  : 'border-gray-300 text-gray-500 hover:text-gray-900 hover:border-gray-400'
 const classes = [base, states, className].filter(Boolean).join(' ')
 ---
 

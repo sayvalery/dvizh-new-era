@@ -8,6 +8,7 @@ import SiteLayout from '../../layouts/SiteLayout.astro'
 import BlogCardNew from '../../components/ui/BlogCardNew.astro'
 import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
 import Button from '../../components/ui/Button.astro'
+import Tab from '../../components/ui/Tab.astro'
 ---
 
 <SiteLayout title="Blog Main · Lab" description="Эксперимент с новым layout блога">
@@ -178,6 +179,61 @@ import Button from '../../components/ui/Button.astro'
             slug="spasibo-chto-vyzhili-2025"
             date="29&#160;декабря"
             readTime="9&#160;мин"
+          />
+        </div>
+
+      </div>
+    </div>
+
+    {/* ── Блок 5: Теги + md-карточки — 2 колонки (1 кейс-карточка + остаток) ── */}
+    <div class="page-container">
+      <div class="flex flex-col gap-10 md:flex-row md:gap-6 md:items-start">
+
+        {/* Левая колонка: теги + кнопка */}
+        <div class="flex flex-col gap-6 md:basis-[calc((100%-1.5rem)/2)] xl:basis-[calc((100%-3rem)/3)] md:shrink-0">
+          <div class="flex flex-wrap gap-2">
+            <Tab label="Правила девелопера" href="/blog/category/pravila" />
+            <Tab label="Подкасты" href="/blog/category/podkasty" />
+            <Tab label="Новости" href="/blog/category/novosti" />
+            <Tab label="Аналитика рынка" href="/blog/category/analitika" />
+            <Tab label="Кейсы" href="/cases" />
+            <Tab label="Маркетинг и продажи" href="/blog/category/marketing" />
+            <Tab label="Инсайты" href="/blog/category/insayty" />
+          </div>
+          <div>
+            <Button variant="primary" size="sm" href="/blog">Смотреть все статьи</Button>
+          </div>
+        </div>
+
+        {/* Правая колонка: 4 md-карточки в сетке 1 → 2 col */}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:flex-1 md:min-w-0">
+          <BlogCardNew
+            size="md"
+            title="Тренды ипотечного рынка 2026"
+            slug="trendy-ipotechnogo-rynka"
+            date="5&#160;марта"
+            readTime="10&#160;мин"
+          />
+          <BlogCardNew
+            size="md"
+            title="Как банки оценивают заявки в&#160;2026&#160;году"
+            slug="kak-banki-otsenivayut"
+            date="28&#160;февраля"
+            readTime="7&#160;мин"
+          />
+          <BlogCardNew
+            size="md"
+            title="Электронная регистрация: что изменилось"
+            slug="elektronnaya-registratsiya"
+            date="20&#160;февраля"
+            readTime="6&#160;мин"
+          />
+          <BlogCardNew
+            size="md"
+            title="ДВИЖ и&#160;Банк «РОССИЯ» запустили ускоренный обмен данными по&#160;API"
+            slug="dvizh-rossiya-api"
+            date="15&#160;февраля"
+            readTime="3&#160;мин"
           />
         </div>
 
