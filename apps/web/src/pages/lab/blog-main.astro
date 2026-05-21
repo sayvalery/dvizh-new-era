@@ -1,0 +1,92 @@
+---
+/**
+ * Lab: Blog Main — экспериментальная страница для нового layout блога
+ *
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/blog-main
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import BlogCardNew from '../../components/ui/BlogCardNew.astro'
+import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
+---
+
+<SiteLayout title="Blog Main · Lab" description="Эксперимент с новым layout блога">
+  <div class="page-container py-24 lg:py-40 flex flex-col gap-24 lg:gap-40">
+
+    {/* ── Блок 1: заголовок + lg-карточка + ряд xs ── */}
+    <div class="flex flex-col gap-16">
+      <h2 class="text-h2 text-gray-900">Журнал для&#160;современных девелоперов</h2>
+
+      <BlogCardNew
+        size="lg"
+        title="Как в&#160;2&#160;раза увеличить поток аудитории к&#160;концу 2026&#160;года"
+        slug="kak-uvelichit-potok-auditorii"
+        date="27&#160;февраля"
+        readTime="9&#160;минут"
+        excerpt="Сценарии развития событий от&#160;Романа Гурова"
+      />
+
+      <div class="grid grid-cols-3 gap-6">
+        <BlogCardNew
+          size="xs"
+          title="«Клиент&#160;— самый важный человек в&#160;компании»: ценности Анжелики Альшаевой"
+          slug="cennosti-anzheliki-alshaevoy"
+          date="13&#160;мая"
+          readTime="15&#160;минут"
+        />
+        <BlogCardNew
+          size="xs"
+          title="ДВИЖ и&#160;Банк «РОССИЯ» запустили ускоренный обмен данными по&#160;API"
+          slug="dvizh-rossiya-api"
+          date="21&#160;апреля"
+          readTime="2&#160;минуты"
+        />
+        <BlogCardNew
+          size="xs"
+          title="Итоги апреля"
+          slug="itogi-aprelya"
+          date="12&#160;мая"
+          readTime="2&#160;минуты"
+        />
+      </div>
+    </div>
+
+    {/* ── Блок 2: SuccessStoryBlock (дубль с главной) ── */}
+    <SuccessStoryBlock
+      heading="Кейсы"
+      buttonLabel="Смотреть все"
+      buttonPreset="demo"
+      class="!py-0"
+      stories={[
+        {
+          logo: '/api/media/file/lsr_color.svg',
+          logoAlt: 'Группа ЛСР',
+          logoHover: '/api/media/file/lsr_white-1.svg',
+          hoverBackground: '/api/media/file/lsr_bg.png',
+          hoverGlass: true,
+          titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на&#160;281% заявок больше,</span> чем в&#160;среднем на&#160;рынке',
+          personName: 'Группа ЛСР',
+          personJobTitle: 'Один из&#160;ведущих строительных холдингов',
+        },
+        {
+          logo: '/api/media/file/tochno_color.svg',
+          logoAlt: 'ГК Точно',
+          logoHover: '/api/media/file/tochno_white.svg',
+          hoverBackground: '/api/media/file/tochno_bg.png',
+          titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с&#160;1165 до&#160;3500 за&#160;год</span>',
+          personName: 'ГК «Точно»',
+          personJobTitle: 'Крупнейший девелопер Краснодарского края',
+        },
+        {
+          logo: '/api/media/file/samolet_color.svg',
+          logoAlt: 'ГК Самолет',
+          logoHover: '/api/media/file/samolet_white.svg',
+          hoverBackground: '/api/media/file/samolet_bg.png',
+          titleHtml: 'Дополнительно продали <span class="text-brand">96&#160;квартир</span>',
+          personName: 'ГК «Самолет»',
+          personJobTitle: 'Крупнейший федеральный девелопер России',
+        },
+      ]}
+    />
+
+  </div>
+</SiteLayout>
