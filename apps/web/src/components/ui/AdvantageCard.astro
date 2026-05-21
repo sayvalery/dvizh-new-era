@@ -2,19 +2,19 @@
 import ModalInlineForm from './ModalInlineForm.astro'
 
 /**
- * AdvantageCard — карточка преимущества с hover-эффектом и модальным окном
+ * AdvantageCard — карточка преимущества с hover-эффектом и модальным окном
  *
- * Дефолт: фон background/secondary (`bg-background-secondary`), курсив на стате только
- *   на мобайле/планшете.
+ * Дефолт: фон background/secondary (`bg-background-secondary`), курсив на стате только
+ *   на мобайле/планшете.
  * Hover: градиентная картинка (`adv_card_bg.png`), все тексты становятся белыми, стат курсивный.
- * Клик: открывает модальное окно 50vw × 80vh с кнопками закрыть и раскрыть.
+ * Клик: открывает модальное окно 50vw × 80vh с кнопками закрыть и раскрыть.
  *
  * @example
  * ```astro
  * <AdvantageCard
- *   title="Закрывают до 26% больше сделок на том же трафике"
+ *   title="Закрывают до 26% больше сделок на том же трафике"
  *   stat="+26%"
- *   label="Сделок на том же трафике"
+ *   label="Сделок на том же трафике"
  * />
  * ```
  */
@@ -24,15 +24,15 @@ interface Props {
   title: string
   /** Крупное числовое значение */
   stat: string
-  /** Подпись под числом */
+  /** Подпись под числом */
   label: string
-  /** URL для кнопки "раскрыть" (открывает в новой вкладке) */
+  /** URL для кнопки "раскрыть" (открывает в новой вкладке) */
   expandHref?: string
   /**
-   * Индекс карточки в группе. Если задан, карточка подключается к Alpine-состоянию
-   * родителя `x-data="{ active: 0 }"`: на mouseenter ставит себя активной,
-   * стили «как при hover» применяются когда `active === index`.
-   * Без этого prop'а — обычный CSS hover.
+   * Индекс карточки в группе. Если задан, карточка подключается к Alpine-состоянию
+   * родителя `x-data="{ active: 0 }"`: на mouseenter ставит себя активной,
+   * стили «как при hover» применяются когда `active === index`.
+   * Без этого prop'а — обычный CSS hover.
    */
   index?: number
   /** Дополнительные CSS классы */
@@ -87,7 +87,7 @@ const grouped = typeof index === 'number'
 
       <!-- Bottom: stat + label -->
       <div>
-        <!-- На мобайле/планшете — курсив по умолчанию, на десктопе — только при hover -->
+        <!-- На мобайле/планшете — курсив по умолчанию, на десктопе — только при hover -->
         <p class="font-heading font-bold leading-none tracking-[-1px] italic lg:not-italic text-[42px] lg:text-[64px] text-gray-900/40 transition-colors duration-300 group-hover:text-brand-500 group-hover:italic group-data-[active=true]:text-brand-500 group-data-[active=true]:italic">{stat}</p>
         <p class="text-body-lg text-gray-500 transition-colors duration-300 group-hover:text-brand-500 group-data-[active=true]:text-brand-500">{label}</p>
       </div>
@@ -109,7 +109,7 @@ const grouped = typeof index === 'number'
     @keydown.escape.window="open = false"
     x-cloak
   >
-    <!-- Панель, прибита к низу по центру -->
+    <!-- Панель, прибита к низу по центру -->
     <div
       class="fixed bottom-0 left-1/2 -translate-x-1/2 w-screen md:w-[540px] lg:w-[50vw] lg:min-w-[600px]"
       @click.stop
@@ -118,7 +118,7 @@ const grouped = typeof index === 'number'
       <div
         class="relative flex flex-col overflow-hidden bg-white h-[90vh] rounded-t-3xl"
       >
-        <!-- Кнопка закрыть — правый верхний угол -->
+        <!-- Кнопка закрыть — правый верхний угол -->
         <button
           @click.stop="open = false"
           class="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-500 hover:bg-gray-100"

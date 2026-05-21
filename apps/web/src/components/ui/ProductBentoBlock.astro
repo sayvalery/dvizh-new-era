@@ -1,29 +1,29 @@
 ---
 /**
- * ProductBentoBlock — секция продуктов в bento-раскладке
+ * ProductBentoBlock — секция продуктов в bento-раскладке
  *
- * Пять карточек в трёх строках: [0]+[1] | [2] | [3]+[4].
- * Текст и статы прижаты к низу карточки (absolute bottom).
- * Верхняя часть карточки — свободна под иллюстрацию (backgroundImage).
+ * Пять карточек в трех строках: [0]+[1] | [2] | [3]+[4].
+ * Текст и статы прижаты к низу карточки (absolute bottom).
+ * Верхняя часть карточки — свободна под иллюстрацию (backgroundImage).
  *
  * Мобайл/планшет: все карточки вертикальным стеком, h-[440px] каждая.
- * Десктоп (lg+): bento с фиксированными высотами строк.
+ * Десктоп (lg+): bento с фиксированными высотами строк.
  *
  * variant карточки:
- *   'default' — bg-background-secondary, тёмный текст
- *   'dark'    — bg-gray-900, белый текст (highlight-статы остаются брендовыми)
- *   'brand'   — bg-brand, белый текст
+ *   'default' — bg-background-secondary, темный текст
+ *   'dark' — bg-gray-900, белый текст (highlight-статы остаются брендовыми)
+ *   'brand' — bg-brand, белый текст
  *
  * @example
  * ```astro
  * <ProductBentoBlock
  *   eyebrow="наши продукты"
  *   headingDark="Гибкие решения"
- *   headingBrand="под любую модель работы"
- *   subtitle="<strong>Растите вместе с продуктом</strong>"
+ *   headingBrand="под любую модель работы"
+ *   subtitle="<strong>Растите вместе с продуктом</strong>"
  *   cards={[
  *     { variant: "dark", title: "Цифровая ипотека", description: "...", stats: [
- *       { value: "до 95%", label: "% одобрения", highlight: true },
+ *       { value: "до 95%", label: "% одобрения", highlight: true },
  *     ]},
  *   ]}
  * />
@@ -40,9 +40,9 @@ interface ProductCard {
   title: string
   description: string
   /**
-   * 'default' — светлый фон, тёмный текст (по умолчанию)
-   * 'dark'    — тёмный фон (#1D1E21), белый текст
-   * 'brand'   — оранжевый фон (#ff4d00), белый текст
+   * 'default' — светлый фон, темный текст (по умолчанию)
+   * 'dark' — темный фон (#1D1E21), белый текст
+   * 'brand' — оранжевый фон (#ff4d00), белый текст
    */
   variant?: 'default' | 'dark' | 'brand'
   /**
@@ -50,7 +50,7 @@ interface ProductCard {
    */
   backgroundImage?: string
   stats?: Stat[]
-  /** 'row' — статы вертикально в ряд (по умолчанию), 'inline' — значение и подпись на одной линии */
+  /** 'row' — статы вертикально в ряд (по умолчанию), 'inline' — значение и подпись на одной линии */
   statsLayout?: 'row' | 'inline'
 }
 
@@ -66,7 +66,7 @@ interface Props {
 const {
   eyebrow = 'наши продукты',
   headingDark = 'Гибкие решения',
-  headingBrand = 'под любую модель работы',
+  headingBrand = 'под любую модель работы',
   subtitle,
   cards,
   class: className = '',
@@ -85,8 +85,8 @@ const descColor = (v?: ProductCard['variant']) =>
 
 const statValueClass = (highlight?: boolean, v?: ProductCard['variant']) => {
   if (v === 'brand') return 'text-h2 text-white'
-  if (v === 'dark')  return `text-h2 ${highlight ? 'text-brand' : 'text-white'}`
-  return `text-h2 ${highlight ? 'text-brand' : 'text-gray-900'}`
+  if (v === 'dark')  return `text-h2 ${highlight ? 'text-brand' : 'text-white'}`
+  return `text-h2 ${highlight ? 'text-brand' : 'text-gray-900'}`
 }
 
 const statLabelColor = (v?: ProductCard['variant']) =>
@@ -195,7 +195,7 @@ const bgStyle = (img?: string) =>
 
     </div>
 
-    <!-- Строка 2: на всю ширину -->
+    <!-- Строка 2: на всю ширину -->
     {c3 && (
       <div
         class:list={['group relative h-[440px] overflow-hidden rounded-4xl lg:rounded-5xl lg:h-[540px] transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c3.variant)]}
