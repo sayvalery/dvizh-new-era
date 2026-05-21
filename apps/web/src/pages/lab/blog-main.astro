@@ -29,7 +29,7 @@ import Banner from '../../components/ui/Banner.astro'
         excerpt="Сценарии развития событий от&#160;Романа Гурова"
       />
 
-      <div class="grid grid-cols-3 gap-6">
+      <div class="hidden sm:grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <BlogCardNew
           size="xs"
           title="«Клиент&#160;— самый важный человек в&#160;компании»: ценности Анжелики Альшаевой"
@@ -50,6 +50,7 @@ import Banner from '../../components/ui/Banner.astro'
           slug="itogi-aprelya"
           date="12&#160;мая"
           readTime="2&#160;мин"
+          class="hidden lg:block"
         />
       </div>
     </div>
@@ -68,8 +69,8 @@ import Banner from '../../components/ui/Banner.astro'
         </div>
       </div>
 
-      {/* Ряд из трёх md-карточек */}
-      <div class="grid grid-cols-3 gap-6">
+      {/* 3 md-карточки */}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <BlogCardNew
           size="md"
           title="«Клиент&#160;— самый важный человек в&#160;компании»: ценности Анжелики Альшаевой"
@@ -137,7 +138,7 @@ import Banner from '../../components/ui/Banner.astro'
     />
 
     {/* ── Блок 4: «Аналитика рынка» — header-row при <xl, 2 колонки 1/3+2/3 при xl+ ── */}
-    <div class="page-container flex flex-col gap-10 xl:flex-row xl:gap-6 xl:items-start lg:!max-w-none lg:!mx-0">
+    <div class="page-container flex flex-col gap-10 xl:flex-row xl:gap-6 xl:items-start !max-w-none !mx-0">
 
         {/* Заголовочная область: <xl — heading+button в одну строку (sm+), xl+ — колонка 1/3 */}
         <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between xl:flex-col xl:gap-6 xl:basis-1/3 xl:shrink-0">
@@ -153,8 +154,8 @@ import Banner from '../../components/ui/Banner.astro'
         {/* Карточки: <xl — под заголовком, xl+ — справа flex-1.
             На lg специально 3 md в ряд (без 4-й), на остальных — 4 s стак. */}
         <div class="xl:flex-1 xl:min-w-0">
-          {/* s-стак: <lg + xl+ */}
-          <div class="flex flex-col gap-6 lg:hidden xl:flex">
+          {/* s-стак: только xl+ */}
+          <div class="hidden xl:flex flex-col gap-6">
             <BlogCardNew
               size="s"
               title="Итоги апреля"
@@ -176,16 +177,9 @@ import Banner from '../../components/ui/Banner.astro'
               date="13&#160;марта"
               readTime="3&#160;мин"
             />
-            <BlogCardNew
-              size="s"
-              title="Спасибо, что выжили, или&#160;как прошёл 2025&#160;год для&#160;девелоперов"
-              slug="spasibo-chto-vyzhili-2025"
-              date="29&#160;декабря"
-              readTime="9&#160;мин"
-            />
           </div>
-          {/* md-ряд: только lg (1024-1279), 3 карточки */}
-          <div class="hidden lg:grid xl:hidden grid-cols-3 gap-6">
+          {/* md-ряд: <xl, 3 md-карточки */}
+          <div class="grid xl:hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <BlogCardNew
               size="md"
               title="Итоги апреля"
@@ -212,12 +206,12 @@ import Banner from '../../components/ui/Banner.astro'
 
     </div>
 
-    {/* ── Блок 5: Теги + md-карточки — 2 колонки (1 кейс-карточка + остаток) ── */}
+    {/* ── Блок 5: Теги + md-карточки — при md и ниже стак на полную ширину, при lg+ 2 колонки */}
     <div class="page-container">
-      <div class="flex flex-col gap-10 md:flex-row md:gap-6 md:items-start">
+      <div class="flex flex-col gap-10 lg:flex-row lg:gap-6 lg:items-start">
 
-        {/* Левая колонка: теги + кнопка */}
-        <div class="flex flex-col gap-6 md:basis-1/3 md:shrink-0">
+        {/* Левая колонка (lg+): теги + кнопка */}
+        <div class="flex flex-col gap-6 lg:basis-1/3 lg:shrink-0">
           <div class="flex flex-wrap gap-2">
             <Tab label="Правила девелопера" href="/blog/category/pravila" />
             <Tab label="Подкасты" href="/blog/category/podkasty" />
@@ -233,7 +227,7 @@ import Banner from '../../components/ui/Banner.astro'
         </div>
 
         {/* Правая колонка: 4 md-карточки в сетке 1 → 2 col */}
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:flex-1 md:min-w-0">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:flex-1 lg:min-w-0">
           <BlogCardNew
             size="md"
             title="ДВИЖ и&#160;Банк «РОССИЯ» запустили ускоренный обмен данными по&#160;API"
@@ -254,13 +248,6 @@ import Banner from '../../components/ui/Banner.astro'
             slug="absolyut-bank-api-integraciya"
             date="6&#160;апреля"
             readTime="3&#160;мин"
-          />
-          <BlogCardNew
-            size="md"
-            title="Взгляд изнутри: как обновился ДВИЖ в&#160;2025"
-            slug="kak-obnovilsya-dvizh-2025"
-            date="14&#160;января"
-            readTime="10&#160;мин"
           />
         </div>
 
@@ -289,8 +276,8 @@ import Banner from '../../components/ui/Banner.astro'
         </div>
 
         <div class="xl:flex-1 xl:min-w-0">
-          {/* s-стак: <lg + xl+ */}
-          <div class="flex flex-col gap-6 lg:hidden xl:flex">
+          {/* s-стак: только xl+ */}
+          <div class="hidden xl:flex flex-col gap-6">
             <BlogCardNew
               size="s"
               title="Вадим Герасимов о&#160;ситуации с&#160;продажами, идеальном процессе сделки и&#160;подходе Унистроя"
@@ -312,16 +299,9 @@ import Banner from '../../components/ui/Banner.astro'
               date="22&#160;марта"
               readTime="11&#160;мин"
             />
-            <BlogCardNew
-              size="s"
-              title="Рустам Азизов про&#160;банки и&#160;ипотеку"
-              slug="azizov-banki-ipoteka"
-              date="11&#160;февраля"
-              readTime="14&#160;мин"
-            />
           </div>
-          {/* md-ряд: только lg (1024-1279), 3 карточки */}
-          <div class="hidden lg:grid xl:hidden grid-cols-3 gap-6">
+          {/* md-ряд: <xl, 3 md-карточки */}
+          <div class="grid xl:hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <BlogCardNew
               size="md"
               title="Вадим Герасимов о&#160;ситуации с&#160;продажами, идеальном процессе сделки и&#160;подходе Унистроя"
@@ -360,7 +340,7 @@ import Banner from '../../components/ui/Banner.astro'
       </div>
 
       {/* Сетка 3×3 — 9 md-карточек */}
-      <div class="grid grid-cols-3 gap-x-6 gap-y-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
         <BlogCardNew
           size="md"
           title="«Главное изменение на&#160;рынке&#160;— скорость этих изменений»: видение Юлии Файзулиной"
