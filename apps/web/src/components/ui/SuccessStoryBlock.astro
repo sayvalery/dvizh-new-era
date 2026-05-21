@@ -60,6 +60,8 @@ interface Props {
   buttonPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   /** href кнопки (если задан — кнопка ссылка, а не дровер) */
   buttonHref?: string
+  /** Вариант кнопки (по умолчанию 'dark') */
+  buttonVariant?: 'primary' | 'secondary' | 'dark' | 'ghost'
   /** Карточки историй */
   stories: StoryItem[]
   /** Показывать аватар персоны (фото или плейсхолдер с инициалом). По умолчанию false. */
@@ -75,6 +77,7 @@ const {
   buttonLabel = 'Получить демо',
   buttonPreset = 'demo',
   buttonHref,
+  buttonVariant = 'dark',
   stories,
   showPersonPhoto = false,
   class: className = '',
@@ -93,9 +96,9 @@ const {
         </div>
         <div class="shrink-0">
           {buttonHref ? (
-            <Button variant="dark" size="sm" href={buttonHref}>{buttonLabel}</Button>
+            <Button variant={buttonVariant} size="sm" href={buttonHref}>{buttonLabel}</Button>
           ) : (
-            <Button variant="dark" size="sm" drawerPreset={buttonPreset}>{buttonLabel}</Button>
+            <Button variant={buttonVariant} size="sm" drawerPreset={buttonPreset}>{buttonLabel}</Button>
           )}
         </div>
       </div>

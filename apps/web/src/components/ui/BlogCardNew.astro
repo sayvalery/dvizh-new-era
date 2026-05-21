@@ -65,8 +65,8 @@ const hasDateMeta = date || readTime
 {size === 'lg' && layout === 'side' && (
   <a href={`/blog/${slug}`} class:list={['group flex gap-10 w-full', className]}>
 
-    <!-- Изображение: 2/3 ширины. При lg+ если родитель задаёт высоту (lg:flex-1) — фотка тянется на h-full без aspect. -->
-    <div class="relative shrink-0 w-2/3 aspect-[832/532] lg:aspect-auto lg:h-full lg:min-h-0 rounded-3xl overflow-hidden bg-background-secondary">
+    <!-- Изображение: 2/3 ширины, пропорции 832:532. -->
+    <div class="relative shrink-0 w-2/3 aspect-[832/532] rounded-3xl overflow-hidden bg-background-secondary">
       {imgSrc && (
         <img src={imgSrc} alt={cover?.alt ?? title}
           class="absolute inset-0 w-full h-full object-cover"
@@ -96,20 +96,20 @@ const hasDateMeta = date || readTime
 )}
 
 {size === 'lg' && layout === 'stacked' && (
-  <a href={`/blog/${slug}`} class:list={['group flex flex-col w-full', className]}>
+  <a href={`/blog/${slug}`} class:list={['group flex flex-col xl:flex-row xl:gap-10 w-full', className]}>
 
-    <!-- Изображение: на всю ширину сверху -->
-    <div class="relative w-full aspect-[832/532] rounded-3xl overflow-hidden bg-background-secondary">
+    <!-- Изображение: <xl сверху на всю ширину, xl+ слева 2/3. Пропорции 832:532 везде. -->
+    <div class="relative w-full xl:w-2/3 xl:shrink-0 aspect-[832/532] rounded-3xl overflow-hidden bg-background-secondary">
       {imgSrc && (
         <img src={imgSrc} alt={cover?.alt ?? title}
           class="absolute inset-0 w-full h-full object-cover"
           loading="lazy" decoding="async"
-          srcset={srcset} sizes="100vw" />
+          srcset={srcset} sizes="(max-width:1280px) 100vw, 67vw" />
       )}
     </div>
 
-    <!-- Текст: под изображением -->
-    <div class="flex flex-col gap-3 mt-8">
+    <!-- Текст: <xl под изображением (mt-8), xl+ справа прижато к низу -->
+    <div class="flex flex-col gap-3 mt-8 shrink-0 xl:mt-0 xl:flex-1 xl:justify-end xl:min-w-0">
       {category && <p class="text-side-menu text-gray-400">{category}</p>}
       {hasDateMeta && (
         <div class="flex items-end gap-1 text-subhead text-gray-500">
