@@ -141,7 +141,7 @@ import Banner from '../../components/ui/Banner.astro'
         {/* Левая колонка: ширина = 1 кейс-карточка из блока «Кейсы» выше.
             При md (Кейсы 2 col) basis = (100% - gap) / 2.
             При xl (Кейсы 3 col) basis = (100% - 2*gap) / 3. */}
-        <div class="flex flex-col gap-6 md:basis-[calc((100%-1.5rem)/2)] xl:basis-[calc((100%-3rem)/3)] md:shrink-0">
+        <div class="flex flex-col gap-6 md:basis-1/3 md:shrink-0">
           <div class="flex flex-col gap-1">
             <h2 class="text-h2 text-gray-900">Аналитика рынка<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">30</span></h2>
             <p class="text-body-lg text-gray-500">Проводим исследования и&#160;делимся инсайтами</p>
@@ -191,7 +191,7 @@ import Banner from '../../components/ui/Banner.astro'
       <div class="flex flex-col gap-10 md:flex-row md:gap-6 md:items-start">
 
         {/* Левая колонка: теги + кнопка */}
-        <div class="flex flex-col gap-6 md:basis-[calc((100%-1.5rem)/2)] xl:basis-[calc((100%-3rem)/3)] md:shrink-0">
+        <div class="flex flex-col gap-6 md:basis-1/3 md:shrink-0">
           <div class="flex flex-wrap gap-2">
             <Tab label="Правила девелопера" href="/blog/category/pravila" />
             <Tab label="Подкасты" href="/blog/category/podkasty" />
@@ -256,7 +256,7 @@ import Banner from '../../components/ui/Banner.astro'
     <div class="page-container">
       <div class="flex flex-col gap-10 md:flex-row md:gap-6 md:items-start">
 
-        <div class="flex flex-col gap-6 md:basis-[calc((100%-1.5rem)/2)] xl:basis-[calc((100%-3rem)/3)] md:shrink-0">
+        <div class="flex flex-col gap-6 md:basis-1/3 md:shrink-0">
           <h2 class="text-h2 text-gray-900">Конференции, подкасты и&#160;вебинары<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">12</span></h2>
           <div>
             <Button variant="dark" size="sm" href="/events">Смотреть все</Button>
