@@ -83,7 +83,7 @@ const hasHover = !isActive && !!hoverBackground
   <!-- Карточка -->
   <div
     class:list={[
-      'w-full rounded-2xl sm:rounded-3xl overflow-hidden relative flex flex-col',
+      'w-full rounded-2xl sm:rounded-3xl overflow-hidden relative flex flex-col transition-transform duration-300 ease-out hover:-translate-y-2',
       !className && 'aspect-[4/3] md:aspect-square',
       isActive ? 'bg-cover bg-center' : 'bg-background-secondary',
       hasModal ? 'cursor-pointer' : '',
