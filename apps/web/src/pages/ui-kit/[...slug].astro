@@ -1591,62 +1591,72 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Blog Card</h1>
           <p class="text-gray-600 mb-4">
-            Карточка блог-поста. Используется в мега-меню навигации, на страницах блога и в категориях.
+            Карточка блог-поста. 4 размера: <code>lg</code> — горизонтальный большой, <code>md</code> — вертикальный (по умолчанию), <code>s</code> — горизонтальный компактный, <code>xs</code> — без обложки.
+            Hover: заголовок → brand; у s/xs — фон bg-background-secondary.
           </p>
           <PropsTable props={blogCardMeta.props} class="mb-10" />
 
-          <div class="space-y-12">
+          <div class="space-y-16">
+
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — обложка, категория, описание</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard title="..." slug="..." cover={{ url: "...", alt: "..." }} category="..." excerpt="..." />`}</code></p>
+              <p class="text-sm font-medium text-gray-400 mb-2">size="lg" — горизонтальный большой, обложка слева ~58%</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard size="lg" title="..." slug="..." category="..." date="..." readTime="..." excerpt="..." />`}</code></p>
+              <BlogCard
+                size="lg"
+                title="Как в 2 раза увеличить поток аудитории к концу 2026 года"
+                slug="kak-uvelichit-potok"
+                category="Маркетинг и продажи"
+                date="14 апреля"
+                readTime="13 мин"
+                excerpt="Сценарии развития событий от Романа Гурова"
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">size="md" — вертикальный стандартный (по умолчанию)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard size="md" title="..." slug="..." category="..." date="..." readTime="..." />`}</code></p>
               <div class="max-w-sm">
                 <BlogCard
-                  title="Как автоматизировать ипотечный процесс"
-                  slug="kak-avtomatizirovat"
-                  cover={{ url: "/api/media/file/blog-cover.jpg", alt: "Обложка статьи" }}
-                  category="Ипотека"
-                  excerpt="Рассказываем, как ДВИЖ помогает застройщикам автоматизировать ипотечный процесс от заявки до выдачи."
+                  size="md"
+                  title="«Главное изменение на рынке — скорость этих изменений»"
+                  slug="glavnoe-izmenenie-na-rynke"
+                  category="Аналитика рынка"
+                  date="14 апреля"
+                  readTime="13 мин"
                 />
               </div>
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Минимальный — без обложки и категории</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard title="..." slug="..." excerpt="..." />`}</code></p>
-              <div class="max-w-sm">
+              <p class="text-sm font-medium text-gray-400 mb-2">size="s" — горизонтальный компактный, обложка 207px</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard size="s" title="..." slug="..." category="..." date="..." readTime="..." />`}</code></p>
+              <div class="max-w-2xl">
                 <BlogCard
-                  title="Новые возможности платформы ДВИЖ"
-                  slug="novye-vozmozhnosti"
-                  excerpt="Обзор последних обновлений платформы."
+                  size="s"
+                  title="Спасибо, что выжили, или как прошёл 2025 год для девелоперов"
+                  slug="spasibo-chto-vyzhili"
+                  category="Аналитика рынка"
+                  date="14 апреля"
+                  readTime="13 мин"
                 />
               </div>
             </div>
 
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Сетка карточек — как на странице блога</p>
-              <div class="grid grid-cols-3 gap-6">
+              <p class="text-sm font-medium text-gray-400 mb-2">size="xs" — без обложки, только текст</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard size="xs" title="..." slug="..." category="..." date="..." readTime="..." />`}</code></p>
+              <div class="max-w-sm">
                 <BlogCard
-                  title="Электронная регистрация сделок"
-                  slug="elektronnaya-registratsiya"
-                  cover={{ url: "", alt: "" }}
-                  category="Продукты"
-                  excerpt="Как перевести регистрацию сделок в полностью цифровой формат."
-                />
-                <BlogCard
-                  title="Ипотечный калькулятор для сайта"
-                  slug="ipotechnyy-kalkulyator"
-                  cover={{ url: "", alt: "" }}
-                  category="Инструменты"
-                  excerpt="Встраиваемый виджет расчёта ипотеки для сайтов застройщиков."
-                />
-                <BlogCard
-                  title="Тренды ипотечного рынка 2025"
-                  slug="trendy-ipotechnogo-rynka"
-                  category="Аналитика"
-                  excerpt="Ключевые изменения на рынке ипотечного кредитования."
+                  size="xs"
+                  title="Уралсиб и ДВИЖ перешли на работу по протоколу API"
+                  slug="uralsib-i-dvizh"
+                  category="Новости"
+                  date="14 апреля"
+                  readTime="13 мин"
                 />
               </div>
             </div>
+
           </div>
         </div>
       )}
