@@ -77,6 +77,16 @@ interface Props {
   /** Текст согласия/сноски под формой */
   formFootnote?: string
 
+  // ─── Группа кнопок (вместо формы) ──────────────────────────────────────────
+  /** Массив кнопок в нижней части левой колонки. По умолчанию size=sm variant=dark. */
+  buttons?: Array<{
+    label: string
+    href?: string
+    drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+    /** URL иконки слева от текста (опционально) */
+    icon?: string
+  }>
+
   // ─── Боковая кнопка ────────────────────────────────────────────────────────
   /** Показывать кнопку справа от контента */
   showSideButton?: boolean
@@ -112,6 +122,7 @@ const {
   formPreset = 'lead',
   formSubmitLabel,
   formFootnote,
+  buttons,
   showSideButton = false,
   buttonText = 'Запросить демо',
   buttonHref,
@@ -134,22 +145,23 @@ const checkCls    = dark ? 'text-white/50' : 'text-gray-500'
 const footnoteCls = dark ? 'text-white/40' : 'text-gray-400'
 ---
 
-<section
-  class:list={[
-    bgImage ? '' : bg,
-    roundedCls,
-    'overflow-hidden p-6 md:p-8',
-    className,
-  ]}
-  style={[
-    bgImage ? `background-image:url('${bgImage}');background-size:cover;background-position:center` : '',
-    minHeight ? `min-height:${minHeight}` : '',
-  ].filter(Boolean).join(';') || undefined}
->
+<section class:list={[className]}>
+  <div class="page-container">
+    <div
+      class:list={[
+        bgImage ? '' : bg,
+        roundedCls,
+        'overflow-hidden p-6 md:p-8',
+      ]}
+      style={[
+        bgImage ? `background-image:url('${bgImage}');background-size:cover;background-position:center` : '',
+        minHeight ? `min-height:${minHeight}` : '',
+      ].filter(Boolean).join(';') || undefined}
+    >
   <div class="flex flex-col gap-6 md:flex-row md:gap-10 md:items-center">
 
     <!-- ── Левая колонка ──────────────────────────────────────────────────── -->
-    <div class="flex-1 flex flex-col gap-6 md:gap-10 min-w-0 max-w-[900px]">
+    <div class:list={['flex-1 flex flex-col gap-6 md:gap-10 min-w-0', showSideButton && 'max-w-[900px]']}>
 
       <!-- Заголовок + подзаголовок -->
       <div class="flex flex-col gap-2">
@@ -180,6 +192,23 @@ const footnoteCls = dark ? 'text-white/40' : 'text-gray-400'
             </li>
           ))}
         </ul>
+      )}
+
+      <!-- Группа кнопок (вместо формы) -->
+      {buttons && buttons.length > 0 && (
+        <div class="flex flex-wrap gap-3">
+          {buttons.map((btn) => (
+            <Button
+              size="sm"
+              variant="dark"
+              drawerPreset={btn.drawerPreset}
+              href={!btn.drawerPreset ? (btn.href ?? '#') : undefined}
+            >
+              {btn.icon && <img src={btn.icon} alt="" class="w-4 h-4 shrink-0" aria-hidden="true" />}
+              {btn.label}
+            </Button>
+          ))}
+        </div>
       )}
 
       <!-- Встроенная форма -->
@@ -215,5 +244,7 @@ const footnoteCls = dark ? 'text-white/40' : 'text-gray-400'
     )}
     <!-- ─────────────────────────────────────────────────────────────────────── -->
 
+  </div>
+    </div>
   </div>
 </section>

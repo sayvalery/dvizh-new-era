@@ -9,6 +9,7 @@ import BlogCardNew from '../../components/ui/BlogCardNew.astro'
 import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
 import Button from '../../components/ui/Button.astro'
 import Tab from '../../components/ui/Tab.astro'
+import Banner from '../../components/ui/Banner.astro'
 ---
 
 <SiteLayout title="Blog Main · Lab" description="Эксперимент с новым layout блога">
@@ -239,6 +240,17 @@ import Tab from '../../components/ui/Tab.astro'
 
       </div>
     </div>
+
+    {/* ── Блок 6: Banner — подписка на каналы ── */}
+    <Banner
+      bg="bg-background-secondary"
+      title="Оставайтесь на&#160;связи"
+      subtitle="Подпишитесь на&#160;наши каналы в&#160;Telegram и&#160;Max, чтобы не&#160;упустить свежие новости и&#160;статьи"
+      buttons={[
+        { label: 'Telegram', href: 'https://t.me/dvizh4realty' },
+        { label: 'MAX', href: '#' },
+      ]}
+    />
 
   </div>
 </SiteLayout>
