@@ -1,0 +1,166 @@
+---
+/**
+ * BlogCard — карточка блог-поста
+ *
+ * Размеры (size):
+ *   lg  — горизонтальный большой (для featured-поста)
+ *   md  — вертикальный стандартный (по умолчанию)
+ *   s   — горизонтальный компактный (изображение 207px)
+ *   xs  — без обложки, только текст
+ *
+ * Типографика: только дизайн-системные классы.
+ * Hover: заголовок → brand; s/xs → фон bg-background-secondary.
+ *
+ * @example
+ * <BlogCard title="..." slug="..." cover={{url:"..."}} size="md"
+ *   category="Маркетинг" date="14 апреля" readTime="13 мин" />
+ */
+
+import { normalizeMediaUrl } from '../../lib/payload'
+
+interface Props {
+  /** Заголовок поста */
+  title: string
+  /** Slug для ссылки /blog/{slug} */
+  slug: string
+  /** Обложка */
+  cover?: { url?: string; alt?: string; sizes?: { card?: { url?: string }; thumbnail?: { url?: string } } }
+  /** Категория — отображается стилем text-side-menu (uppercase, 12px) */
+  category?: string
+  /** Краткое описание (только size=lg) */
+  excerpt?: string
+  /** Дата публикации, например «14 апреля» */
+  date?: string
+  /** Время чтения, например «13 мин» */
+  readTime?: string
+  /** Размер карточки */
+  size?: 'lg' | 'md' | 's' | 'xs'
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  title, slug, cover, category, excerpt,
+  date, readTime,
+  size = 'md',
+  class: className = ''
+} = Astro.props
+
+const coverUrl = normalizeMediaUrl(cover?.url ?? null)
+const cardUrl  = normalizeMediaUrl(cover?.sizes?.card?.url ?? null)
+const thumbUrl = normalizeMediaUrl(cover?.sizes?.thumbnail?.url ?? null)
+const imgSrc   = cardUrl || coverUrl
+const srcset   = [
+  thumbUrl && `${thumbUrl} 400w`,
+  cardUrl  && `${cardUrl} 768w`,
+  coverUrl && `${coverUrl} 1200w`,
+].filter(Boolean).join(', ') || undefined
+
+const hasDateMeta = date || readTime
+---
+
+{size === 'lg' && (
+  <a href={`/blog/${slug}`} class:list={['group flex gap-10 w-full', className]}>
+
+    <!-- Изображение: ~58% ширины -->
+    <div class="relative shrink-0 w-[58%] aspect-[832/532] rounded-3xl overflow-hidden bg-background-secondary">
+      {imgSrc && (
+        <img src={imgSrc} alt={cover?.alt ?? title}
+          class="absolute inset-0 w-full h-full object-cover"
+          loading="lazy" decoding="async"
+          srcset={srcset} sizes="(max-width:1024px) 100vw, 58vw" />
+      )}
+    </div>
+
+    <!-- Текст: прибит к низу -->
+    <div class="flex-1 flex flex-col justify-end min-w-0">
+      <div class="flex flex-col gap-4">
+        {category && <p class="text-side-menu text-gray-400">{category}</p>}
+        {hasDateMeta && (
+          <div class="flex items-end gap-1 opacity-70 text-subhead text-gray-900">
+            {date && <span>{date}</span>}
+            {date && readTime && <span>·</span>}
+            {readTime && <span>{readTime}</span>}
+          </div>
+        )}
+        <div class="flex flex-col gap-2">
+          <h2 class="text-h3 text-gray-900 transition-colors group-hover:text-brand">{title}</h2>
+          {excerpt && <p class="text-body-lg text-gray-900 opacity-80">{excerpt}</p>}
+        </div>
+      </div>
+    </div>
+  </a>
+)}
+
+{size === 'md' && (
+  <a href={`/blog/${slug}`} class:list={['group flex flex-col', className]}>
+
+    <!-- Изображение -->
+    <div class="w-full aspect-[8/5] rounded-3xl overflow-hidden bg-background-secondary shrink-0">
+      {imgSrc && (
+        <img src={imgSrc} alt={cover?.alt ?? title}
+          class="w-full h-full object-cover"
+          loading="lazy" decoding="async"
+          srcset={srcset} sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw" />
+      )}
+    </div>
+
+    <!-- Текст -->
+    <div class="flex flex-col gap-3 mt-6">
+      {category && <p class="text-side-menu text-gray-400">{category}</p>}
+      {hasDateMeta && (
+        <div class="flex items-end gap-1 opacity-70 text-subhead text-gray-500">
+          {date && <span>{date}</span>}
+          {date && readTime && <span>·</span>}
+          {readTime && <span>{readTime}</span>}
+        </div>
+      )}
+      <h2 class="text-h4 text-gray-900 transition-colors group-hover:text-brand">{title}</h2>
+    </div>
+  </a>
+)}
+
+{size === 's' && (
+  <a href={`/blog/${slug}`}
+    class:list={['group flex gap-6 p-4', className]}>
+
+    <!-- Изображение: 207px -->
+    <div class="shrink-0 w-[207px] aspect-[207/130] rounded-xl overflow-hidden bg-background-secondary">
+      {imgSrc && (
+        <img src={imgSrc} alt={cover?.alt ?? title}
+          class="w-full h-full object-cover"
+          loading="lazy" decoding="async"
+          srcset={srcset} sizes="207px" />
+      )}
+    </div>
+
+    <!-- Текст -->
+    <div class="flex-1 flex flex-col gap-3 min-w-0">
+      {category && <p class="text-side-menu text-gray-400">{category}</p>}
+      {hasDateMeta && (
+        <div class="flex items-end gap-1 opacity-70 text-subhead text-gray-500">
+          {date && <span>{date}</span>}
+          {date && readTime && <span>·</span>}
+          {readTime && <span>{readTime}</span>}
+        </div>
+      )}
+      <h2 class="text-h4 text-gray-900 transition-colors group-hover:text-brand">{title}</h2>
+    </div>
+  </a>
+)}
+
+{size === 'xs' && (
+  <a href={`/blog/${slug}`}
+    class:list={['group flex flex-col gap-4 p-6 rounded-3xl transition-colors hover:bg-background-secondary', className]}>
+
+    {category && <p class="text-side-menu text-gray-400">{category}</p>}
+    {hasDateMeta && (
+      <div class="flex items-end gap-1 opacity-70 text-subhead text-gray-500">
+        {date && <span>{date}</span>}
+        {date && readTime && <span>·</span>}
+        {readTime && <span>{readTime}</span>}
+      </div>
+    )}
+    <h2 class="text-h4 text-gray-900 transition-colors group-hover:text-brand">{title}</h2>
+  </a>
+)}
