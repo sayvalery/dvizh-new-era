@@ -81,7 +81,7 @@ const titleColor = (v?: ProductCard['variant']) =>
   v === 'dark' || v === 'brand' ? 'text-white' : 'text-gray-900'
 
 const descColor = (v?: ProductCard['variant']) =>
-  v === 'dark' ? 'text-white/60' : v === 'brand' ? 'text-white/80' : 'text-black/40'
+  v === 'dark' ? 'text-white/60' : v === 'brand' ? 'text-white/80' : 'text-gray-500'
 
 const statValueClass = (highlight?: boolean, v?: ProductCard['variant']) => {
   if (v === 'brand') return 'text-h2 text-white'
@@ -229,7 +229,7 @@ const bgStyle = (img?: string) =>
     )}
 
     <!-- Строка 3: две равные карточки -->
-    <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-2 lg:h-[540px]">
+    <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-2 lg:h-[600px]">
 
       <!-- Карточка 4 -->
       {c4 && (
