@@ -96,7 +96,7 @@ const hasHover = !isActive && !!hoverBackground
     {/* Оверлей hover-фона (только в default + hoverBackground) */}
     {hasHover && (
       <div
-        class="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        class="js-hover-bg absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         style={`background-image: url(${hoverBackground})`}
         aria-hidden="true"
       />
@@ -114,11 +114,11 @@ const hasHover = !isActive && !!hoverBackground
           </div>
         ) : (
           /* default (светлый фон): стеклянная плашка с увеличенной непрозрачностью */
-          <div class:list={['self-start inline-flex items-center backdrop-blur-[8px] rounded-full px-5 py-2.5 ring-1 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] transition-[background-color,--tw-ring-color] duration-300', hoverGlass ? 'bg-white/40 ring-white/60 group-hover:bg-white/[0.15] group-hover:ring-white/30' : 'bg-white/40 ring-white/60']}>
+          <div class:list={['js-logo-glass self-start inline-flex items-center backdrop-blur-[8px] rounded-full px-5 py-2.5 ring-1 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] transition-[background-color,--tw-ring-color] duration-300', hoverGlass ? 'bg-white/40 ring-white/60 group-hover:bg-white/[0.15] group-hover:ring-white/30' : 'bg-white/40 ring-white/60']}>
             {Astro.slots.has('logo') ? <slot name="logo" /> : logoHover ? (
               <span class="relative inline-flex">
-                <img src={logo} alt={logoAlt} class="h-5 w-auto max-w-[140px] object-contain block group-hover:invisible" />
-                <img src={logoHover} alt={logoAlt} class="absolute inset-0 h-full w-full object-contain hidden group-hover:block" aria-hidden="true" />
+                <img src={logo} alt={logoAlt} class="js-logo-default h-5 w-auto max-w-[140px] object-contain block group-hover:invisible" />
+                <img src={logoHover} alt={logoAlt} class="js-logo-hover absolute inset-0 h-full w-full object-contain hidden group-hover:block" aria-hidden="true" />
               </span>
             ) : (
               <img src={logo} alt={logoAlt} class="h-5 w-auto max-w-[140px] object-contain" />
@@ -207,4 +207,81 @@ const hasHover = !isActive && !!hoverBackground
   .story-card-hover:hover :global(.text-gray-500) { color: rgba(255, 255, 255, 0.7); }
   .story-card-hover:hover :global(.text-gray-900) { color: #fff; }
   .story-card-hover:hover :global(.bg-gray-300\/60) { background-color: rgba(255, 255, 255, 0.3); }
+
+  /* Mobile/tablet (<lg): scroll-driven .is-active зеркалит :hover.
+     На lg+ работает обычный pointer-hover, .is-active не применяется. */
+  @media (max-width: 1023px) {
+    .story-card-hover:global(.is-active) :global(.js-hover-bg) { opacity: 1; }
+    .story-card-hover:global(.is-active) :global(h3) { color: #fff; }
+    .story-card-hover:global(.is-active) :global(.js-logo-glass) {
+      background-color: rgba(255, 255, 255, 0.15);
+      --tw-ring-color: rgba(255, 255, 255, 0.3);
+    }
+    .story-card-hover:global(.is-active) :global(.js-logo-default) { visibility: hidden; }
+    .story-card-hover:global(.is-active) :global(.js-logo-hover) { display: block; }
+    .story-card-hover:global(.is-active) :global(.text-brand) { color: #fff; }
+    .story-card-hover:global(.is-active) :global(.text-gray-500) { color: rgba(255, 255, 255, 0.7); }
+    .story-card-hover:global(.is-active) :global(.text-gray-900) { color: #fff; }
+    .story-card-hover:global(.is-active) :global(.bg-gray-300\/60) { background-color: rgba(255, 255, 255, 0.3); }
+  }
 </style>
+
+<script>
+  // Поочерёдная активация StoryCard при скролле на <lg (1024px).
+  // Активна та карточка, центр которой ближе всего к центру viewport.
+  function initStoryCardScrollActive() {
+    const cards = Array.from(document.querySelectorAll('.story-card-hover')) as HTMLElement[]
+    if (!cards.length) return
+
+    const LG = 1024
+    let activeCard: HTMLElement | null = null
+    let ticking = false
+
+    function setActive(card: HTMLElement | null) {
+      if (activeCard === card) return
+      if (activeCard) activeCard.classList.remove('is-active')
+      activeCard = card
+      if (activeCard) activeCard.classList.add('is-active')
+    }
+
+    function update() {
+      ticking = false
+      if (window.innerWidth >= LG) {
+        setActive(null)
+        return
+      }
+      const vh = window.innerHeight
+      const center = vh / 2
+      let best: HTMLElement | null = null
+      let bestDist = Infinity
+      for (const card of cards) {
+        const rect = card.getBoundingClientRect()
+        if (rect.bottom < 0 || rect.top > vh) continue
+        const cardCenter = (rect.top + rect.bottom) / 2
+        const dist = Math.abs(cardCenter - center)
+        if (dist < bestDist) {
+          bestDist = dist
+          best = card
+        }
+      }
+      setActive(best)
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(update)
+        ticking = true
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
+    update()
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStoryCardScrollActive)
+  } else {
+    initStoryCardScrollActive()
+  }
+</script>
