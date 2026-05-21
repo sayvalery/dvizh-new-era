@@ -16,6 +16,7 @@ import MeshGradient from '../../components/ui/MeshGradient.astro'
 import Timeline from '../../components/ui/Timeline.astro'
 import BlogCard from '../../components/ui/BlogCard.astro'
 import BlogCardNew from '../../components/ui/BlogCardNew.astro'
+import Tab from '../../components/ui/Tab.astro'
 import PropsTable from '../../components/ui/PropsTable.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
@@ -62,6 +63,7 @@ import meshGradientRaw from '../../components/ui/MeshGradient.astro?raw'
 import timelineRaw from '../../components/ui/Timeline.astro?raw'
 import blogCardRaw from '../../components/ui/BlogCard.astro?raw'
 import blogCardNewRaw from '../../components/ui/BlogCardNew.astro?raw'
+import tabRaw from '../../components/ui/Tab.astro?raw'
 import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
@@ -160,6 +162,7 @@ const meshGradientMeta = parseSource(meshGradientRaw)
 const timelineMeta = parseSource(timelineRaw)
 const blogCardMeta = parseSource(blogCardRaw)
 const blogCardNewMeta = parseSource(blogCardNewRaw)
+const tabMeta = parseSource(tabRaw)
 const blogCardsMeta = parseSource(blogCardsRaw)
 const storyCardMeta = parseSource(storyCardRaw)
 const advantageCardMeta = parseSource(advantageCardRaw)
@@ -200,6 +203,7 @@ export function getStaticPaths() {
     { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
     { params: { slug: 'blog-card-new' }, props: { section: 'blog-card-new' } },
+    { params: { slug: 'tab' }, props: { section: 'tab' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'blog-grid' }, props: { section: 'blog-grid' } },
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
@@ -252,6 +256,7 @@ const sections = [
   { slug: 'bento', label: 'Bento Grid' },
   { slug: 'blogcard', label: 'Blog Card' },
   { slug: 'blog-card-new', label: 'BlogCardNew (Stacy)' },
+  { slug: 'tab', label: 'Tab (Stacy)' },
   { slug: 'blog-cards', label: 'Blog Cards' },
   { slug: 'blog-grid', label: 'BlogGrid' },
   { slug: 'buttons', label: 'Button' },
@@ -1751,6 +1756,39 @@ const sections = [
                   date="28 марта"
                   readTime="7 мин"
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'tab' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">Tab <span class="text-gray-400 text-base font-normal">(Stacy)</span></h1>
+          <p class="text-gray-600 mb-4">
+            Таб-кнопка фильтра/навигации. Три состояния: default (серый), hover (тёмный), selected (brand с подсветкой бордера). Рендерится как <code>&lt;a&gt;</code> если задан <code>href</code>, иначе <code>&lt;button&gt;</code>.
+          </p>
+          <PropsTable props={tabMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Три состояния</p>
+              <div class="flex flex-wrap gap-2">
+                <Tab label="Default" />
+                <Tab label="Selected" selected />
+                <Tab label="Ссылка-таб" href="/blog" />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Группа табов (Alpine.js)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<div x-data="{ tab: 'all' }"> <Tab :selected="tab === 'all'" @click="tab = 'all'" /> </div>`}</code></p>
+              <div x-data="{ tab: 'all' }" class="flex flex-wrap gap-2">
+                <Tab label="Все" :selected="tab === 'all'" @click="tab = 'all'" />
+                <Tab label="Маркетинг и продажи" :selected="tab === 'marketing'" @click="tab = 'marketing'" />
+                <Tab label="Кейсы" :selected="tab === 'cases'" @click="tab = 'cases'" />
+                <Tab label="Аналитика" :selected="tab === 'analytics'" @click="tab = 'analytics'" />
+                <Tab label="Продукты" :selected="tab === 'products'" @click="tab = 'products'" />
               </div>
             </div>
           </div>
