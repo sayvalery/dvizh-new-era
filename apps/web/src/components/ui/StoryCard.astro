@@ -208,9 +208,9 @@ const hasHover = !isActive && !!hoverBackground
   .story-card-hover:hover :global(.text-gray-900) { color: #fff; }
   .story-card-hover:hover :global(.bg-gray-300\/60) { background-color: rgba(255, 255, 255, 0.3); }
 
-  /* Mobile/tablet (<lg): scroll-driven .is-active зеркалит :hover.
-     На lg+ работает обычный pointer-hover, .is-active не применяется. */
-  @media (max-width: 1023px) {
+  /* Mobile (<md = base/xs/sm, <768px): scroll-driven .is-active зеркалит :hover.
+     На md+ работает обычный pointer-hover, .is-active не применяется. */
+  @media (max-width: 767px) {
     .story-card-hover:global(.is-active) :global(.js-hover-bg) { opacity: 1; }
     .story-card-hover:global(.is-active) :global(h3) { color: #fff; }
     .story-card-hover:global(.is-active) :global(.js-logo-glass) {
@@ -227,13 +227,13 @@ const hasHover = !isActive && !!hoverBackground
 </style>
 
 <script>
-  // Поочерёдная активация StoryCard при скролле на <lg (1024px).
+  // Поочерёдная активация StoryCard при скролле на <md (768px).
   // Активна та карточка, центр которой ближе всего к центру viewport.
   function initStoryCardScrollActive() {
     const cards = Array.from(document.querySelectorAll('.story-card-hover')) as HTMLElement[]
     if (!cards.length) return
 
-    const LG = 1024
+    const MD = 768
     let activeCard: HTMLElement | null = null
     let ticking = false
 
@@ -246,7 +246,7 @@ const hasHover = !isActive && !!hoverBackground
 
     function update() {
       ticking = false
-      if (window.innerWidth >= LG) {
+      if (window.innerWidth >= MD) {
         setActive(null)
         return
       }
