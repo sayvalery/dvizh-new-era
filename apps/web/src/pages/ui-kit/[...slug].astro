@@ -15,6 +15,7 @@ import HeroSection from '../../components/ui/HeroSection.astro'
 import MeshGradient from '../../components/ui/MeshGradient.astro'
 import Timeline from '../../components/ui/Timeline.astro'
 import BlogCard from '../../components/ui/BlogCard.astro'
+import BlogCardNew from '../../components/ui/BlogCardNew.astro'
 import PropsTable from '../../components/ui/PropsTable.astro'
 import BlogCards from '../../components/ui/BlogCards.astro'
 import StoryCard from '../../components/ui/StoryCard.astro'
@@ -60,6 +61,7 @@ import heroSectionRaw from '../../components/ui/HeroSection.astro?raw'
 import meshGradientRaw from '../../components/ui/MeshGradient.astro?raw'
 import timelineRaw from '../../components/ui/Timeline.astro?raw'
 import blogCardRaw from '../../components/ui/BlogCard.astro?raw'
+import blogCardNewRaw from '../../components/ui/BlogCardNew.astro?raw'
 import blogCardsRaw from '../../components/ui/BlogCards.astro?raw'
 import storyCardRaw from '../../components/ui/StoryCard.astro?raw'
 import advantageCardRaw from '../../components/ui/AdvantageCard.astro?raw'
@@ -157,6 +159,7 @@ const heroSectionMeta = parseSource(heroSectionRaw)
 const meshGradientMeta = parseSource(meshGradientRaw)
 const timelineMeta = parseSource(timelineRaw)
 const blogCardMeta = parseSource(blogCardRaw)
+const blogCardNewMeta = parseSource(blogCardNewRaw)
 const blogCardsMeta = parseSource(blogCardsRaw)
 const storyCardMeta = parseSource(storyCardRaw)
 const advantageCardMeta = parseSource(advantageCardRaw)
@@ -196,6 +199,7 @@ export function getStaticPaths() {
     { params: { slug: 'advantage-card' }, props: { section: 'advantage-card' } },
     { params: { slug: 'bento' }, props: { section: 'bento' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
+    { params: { slug: 'blog-card-new' }, props: { section: 'blog-card-new' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'blog-grid' }, props: { section: 'blog-grid' } },
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
@@ -247,6 +251,7 @@ const sections = [
   { slug: 'banner', label: 'Banner' },
   { slug: 'bento', label: 'Bento Grid' },
   { slug: 'blogcard', label: 'Blog Card' },
+  { slug: 'blog-card-new', label: 'BlogCardNew (Stacy)' },
   { slug: 'blog-cards', label: 'Blog Cards' },
   { slug: 'blog-grid', label: 'BlogGrid' },
   { slug: 'buttons', label: 'Button' },
@@ -1644,6 +1649,107 @@ const sections = [
                   slug="trendy-ipotechnogo-rynka"
                   category="Аналитика"
                   excerpt="Ключевые изменения на рынке ипотечного кредитования."
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'blog-card-new' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">BlogCardNew <span class="text-gray-400 text-base font-normal">(Stacy)</span></h1>
+          <p class="text-gray-600 mb-4">
+            Переработанный BlogCard — 4 размера (lg/md/s/xs) и hover-эффекты. Дубль рядом со старым BlogCard для сравнения.
+          </p>
+          <PropsTable props={blogCardNewMeta.props} class="mb-10" />
+
+          <div class="space-y-12">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">size=&quot;lg&quot; — горизонтальный, для featured-поста</p>
+              <BlogCardNew
+                size="lg"
+                title="Как автоматизировать ипотечный процесс"
+                slug="kak-avtomatizirovat"
+                cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png", alt: "Обложка статьи" }}
+                category="ИПОТЕКА"
+                date="14 апреля"
+                readTime="13 мин"
+                excerpt="Рассказываем, как ДВИЖ помогает застройщикам автоматизировать ипотечный процесс от заявки до выдачи."
+              />
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">size=&quot;md&quot; — вертикальный стандартный (по умолчанию)</p>
+              <div class="grid grid-cols-3 gap-6">
+                <BlogCardNew
+                  title="Электронная регистрация сделок"
+                  slug="elektronnaya-registratsiya"
+                  cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png" }}
+                  category="ПРОДУКТЫ"
+                  date="14 апреля"
+                  readTime="8 мин"
+                />
+                <BlogCardNew
+                  title="Ипотечный калькулятор для сайта"
+                  slug="ipotechnyy-kalkulyator"
+                  cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png" }}
+                  category="ИНСТРУМЕНТЫ"
+                  date="10 апреля"
+                  readTime="5 мин"
+                />
+                <BlogCardNew
+                  title="Тренды ипотечного рынка 2025"
+                  slug="trendy-ipotechnogo-rynka"
+                  cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png" }}
+                  category="АНАЛИТИКА"
+                  date="3 апреля"
+                  readTime="11 мин"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">size=&quot;s&quot; — горизонтальный компактный (картинка 207px)</p>
+              <div class="grid grid-cols-2 gap-4">
+                <BlogCardNew
+                  size="s"
+                  title="Скоринг по банковским стандартам"
+                  slug="skoring"
+                  cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png" }}
+                  category="ПРОДУКТЫ"
+                  date="14 апреля"
+                  readTime="4 мин"
+                />
+                <BlogCardNew
+                  size="s"
+                  title="Витрина квартир для застройщиков"
+                  slug="vitrina"
+                  cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png" }}
+                  category="ИНСТРУМЕНТЫ"
+                  date="12 апреля"
+                  readTime="6 мин"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">size=&quot;xs&quot; — только текст, hover-фон</p>
+              <div class="grid grid-cols-2 gap-2 max-w-2xl">
+                <BlogCardNew
+                  size="xs"
+                  title="Новые возможности платформы ДВИЖ"
+                  slug="novye-vozmozhnosti"
+                  category="ОБНОВЛЕНИЯ"
+                  date="2 апреля"
+                />
+                <BlogCardNew
+                  size="xs"
+                  title="Как банки оценивают заявки в 2026"
+                  slug="kak-banki-otsenivayut"
+                  category="АНАЛИТИКА"
+                  date="28 марта"
+                  readTime="7 мин"
                 />
               </div>
             </div>
