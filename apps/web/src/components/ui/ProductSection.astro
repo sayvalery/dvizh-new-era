@@ -1,11 +1,11 @@
 ---
 /**
- * ProductSection — секция продуктов со sticky-меню и скроллом к карточкам
+ * ProductSection — секция продуктов со sticky-меню и скроллом к карточкам
  *
- * Слева — sticky SideMenu с нумерованными пунктами.
- * IntersectionObserver автоматически подсвечивает активный пункт при скролле.
- * Клик по пункту — плавный scroll к соответствующей карточке.
- * Справа — стек ProductCard (по одной карточке на секцию).
+ * Слева — sticky SideMenu с нумерованными пунктами.
+ * IntersectionObserver автоматически подсвечивает активный пункт при скролле.
+ * Клик по пункту — плавный scroll к соответствующей карточке.
+ * Справа — стек ProductCard (по одной карточке на секцию).
  *
  * @example
  * ```astro
@@ -15,7 +15,7 @@
  *       number: "01",
  *       title: "Цифровая ипотека",
  *       cardTitle: "Поможем перевыполнить план продаж",
- *       items: ["До 96% одобрения", "Единая анкета в 40+ банков"],
+ *       items: ["До 96% одобрения", "Единая анкета в 40+ банков"],
  *       button: { label: "Подробнее", href: "/ipoteka" },
  *       image: { src: "/api/media/file/ipoteka.jpg", alt: "Ипотека" }
  *     }
@@ -39,7 +39,7 @@ interface SectionItem {
   title: string
   /** Заголовок карточки */
   cardTitle: string
-  /** Список пунктов на карточке */
+  /** Список пунктов на карточке */
   items?: string[]
   /** Кнопка CTA */
   button?: Button
@@ -72,7 +72,7 @@ const navId = `${componentId}-nav`
   data-psn-count={sections.length}
   class:list={['pb-24', className]}
 >
-  <div class="page-container py-[50px]">
+  <div class="page-container pb-[50px]">
     <div class="flex flex-col gap-6 md:gap-12 lg:flex-row lg:gap-20">
 
       <!-- Sticky SideMenu -->
@@ -113,14 +113,14 @@ const navId = `${componentId}-nav`
       const navId = `${componentId}-nav`
 
       // Обновляем активный пункт SideMenu через window-событие.
-      // SideMenu слушает 'side-menu-set-active' и сверяет navId.
+      // SideMenu слушает 'side-menu-set-active' и сверяет navId.
       function setActive(index: number) {
         window.dispatchEvent(new CustomEvent('side-menu-set-active', {
           detail: { navId, index }
         }))
       }
 
-      // Клик в SideMenu → Alpine диспатчит 'side-menu-change' (всплывает до section) → smooth scroll к карточке
+      // Клик в SideMenu → Alpine диспатчит 'side-menu-change' (всплывает до section) → smooth scroll к карточке
       sectionEl.addEventListener('side-menu-change', (e: Event) => {
         const { index } = (e as CustomEvent).detail
         const target = document.getElementById(`${componentId}-card-${index}`)
@@ -132,8 +132,8 @@ const navId = `${componentId}-nav`
         }
       })
 
-      // IntersectionObserver → автоподсветка при скролле.
-      // Когда несколько карточек видны одновременно — активируем верхнюю (наименьший индекс).
+      // IntersectionObserver → автоподсветка при скролле.
+      // Когда несколько карточек видны одновременно — активируем верхнюю (наименьший индекс).
       const intersecting = new Set<number>()
 
       const observer = new IntersectionObserver(entries => {
