@@ -6,7 +6,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    dependencies:
+      '@rollup/rollup-linux-x64-gnu':
+        specifier: ^4.60.3
+        version: 4.60.3
 
   apps/cms:
     dependencies:
@@ -1414,6 +1418,11 @@ packages:
     cpu: [x64]
     os: [linux]
     libc: [glibc]
+
+  '@rollup/rollup-linux-x64-gnu@4.60.3':
+    resolution: {integrity: sha512-DAZDBHQfG2oQuhY7mc6I3/qB4LU2fQCjRvxbDwd/Jdvb9fypP4IJ4qmtu6lNjes6B531AI8cg1aKC2di97bUxA==}
+    cpu: [x64]
+    os: [linux]
 
   '@rollup/rollup-linux-x64-musl@4.59.0':
     resolution: {integrity: sha512-2UdiwS/9cTAx7qIUZB/fWtToJwvt0Vbo0zmnYt7ED35KPg13Q0ym1g442THLC7VyI6JfYTP4PiSOWyoMdV2/xg==}
@@ -5140,6 +5149,8 @@ snapshots:
 
   '@rollup/rollup-linux-x64-gnu@4.59.0':
     optional: true
+
+  '@rollup/rollup-linux-x64-gnu@4.60.3': {}
 
   '@rollup/rollup-linux-x64-musl@4.59.0':
     optional: true

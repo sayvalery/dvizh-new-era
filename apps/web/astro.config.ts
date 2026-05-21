@@ -42,6 +42,10 @@ export default defineConfig({
   vite: {
     server: {
       allowedHosts: ['preview.dvizh.cc'],
+      watch: {
+        usePolling: true,
+        interval: 300,
+      },
       proxy: {
         '/api': { target: cmsProxy, changeOrigin: true, secure: false },
         '/media': { target: cmsProxy, changeOrigin: true, secure: false },

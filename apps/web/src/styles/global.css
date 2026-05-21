@@ -179,6 +179,22 @@ h1, h2, h3, h4, h5, h6 {
     .text-h3 { font-size: 32px; }
   }
 
+  /* 24px мобайл / 48px десктоп — заголовки product-bento карточек */
+  .text-product-card-h {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -1px;
+  }
+
+  @media (min-width: 1024px) {
+    .text-product-card-h {
+      font-size: 48px;
+      letter-spacing: -2px;
+    }
+  }
+
   /* 24px мобилка / 18px десктоп — для карточек блога */
   .text-card-title {
     font-family: 'Styrene A', system-ui, sans-serif;

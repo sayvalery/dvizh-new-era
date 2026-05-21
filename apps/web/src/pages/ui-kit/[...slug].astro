@@ -27,6 +27,7 @@ import SideMenu from '../../components/ui/SideMenu.astro'
 import Button from '../../components/ui/Button.astro'
 import Input from '../../components/ui/Input.astro'
 import BentoGrid from '../../components/ui/BentoGrid.astro'
+import ProductBentoBlock from '../../components/ui/ProductBentoBlock.astro'
 import ProductCard from '../../components/ui/ProductCard.astro'
 import ProductSection from '../../components/ui/ProductSection.astro'
 import FeatureBlock from '../../components/ui/FeatureBlock.astro'
@@ -226,6 +227,7 @@ export function getStaticPaths() {
     { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
     { params: { slug: 'page-section' }, props: { section: 'page-section' } },
     { params: { slug: 'persons' }, props: { section: 'persons' } },
+    { params: { slug: 'product-bento' }, props: { section: 'product-bento' } },
     { params: { slug: 'product-card' }, props: { section: 'product-card' } },
     { params: { slug: 'product-section' }, props: { section: 'product-section' } },
     { params: { slug: 'product-link' }, props: { section: 'product-link' } },
@@ -277,6 +279,7 @@ const sections = [
   { slug: 'modal-inline-form', label: 'Modal Inline Form' },
   { slug: 'page-section', label: 'PageSection' },
   { slug: 'persons', label: 'PersonCard' },
+  { slug: 'product-bento', label: 'ProductBentoBlock' },
   { slug: 'product-card', label: 'Product Card' },
   { slug: 'product-section', label: 'Product Section' },
   { slug: 'product-link', label: 'ProductLink' },
@@ -2225,6 +2228,63 @@ const sections = [
                 />
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'product-bento' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">ProductBentoBlock</h1>
+          <p class="text-gray-600 mb-10">
+            Секция продуктов в bento-раскладке: заголовок + 5 карточек в трёх строках (2 + 1 + 2).
+            Карточки 0 и 2 — вертикальные статы в ряд; карточки 1 и 4 — строчный стат.
+          </p>
+          <div class="-mx-10 bg-[#fcfcfc] px-10 py-16 rounded-2xl">
+            <ProductBentoBlock
+              eyebrow="наши продукты"
+              headingDark="Гибкие решения"
+              headingBrand="под любую модель работы"
+              subtitle="<strong>Растите вместе с продуктом</strong> — включайте модули по одному, который закрывает вашу самую больную метрику. Дальше расширяйтесь — модули работают по отдельности или в связке"
+              cards={[
+                {
+                  title: "Цифровая ипотека",
+                  description: "40+ банков в одном окне. Анкета «0 полей» через Госуслуги. Параллельная отправка. Авторазбор отказов. Скоринг до отправки в банк.",
+                  stats: [
+                    { value: "до 95%", label: "% одобрения", highlight: true },
+                    { value: "40+", label: "банков-партнёров" },
+                    { value: "3 дня", label: "срок сделки" },
+                  ],
+                },
+                {
+                  title: "Электронная\nрегистрация ДДУ",
+                  description: "Подача в Росреестр прямо из ДВИЖ. Автопроверка. Сделка регистрируется за 24 часа",
+                  statsLayout: "inline",
+                  stats: [
+                    { value: "-30%", label: "затраты на регистрацию", highlight: true },
+                  ],
+                },
+                {
+                  title: "Калькулятор ипотеки",
+                  description: "Актуальные ставки от 40+ банков обновляются автоматически. Клиент сам рассчитывает платёж",
+                  stats: [
+                    { value: "+20% конверсия", label: "когда клиент знает свой бюджет ипотеки", highlight: true },
+                    { value: "80%", label: "вне рабочего времени" },
+                  ],
+                },
+                {
+                  title: "Финансовый скоринг",
+                  description: "Банковский уровень проверки: кредитная история, долговая нагрузка. 15+ источников, менеджер видит финансовый рейтинг клиента",
+                },
+                {
+                  title: "Нейросети на службе отдела продаж",
+                  description: "AI-инструменты для скоринга, прогноза и приоритизации заявок. Менеджер видит, кому звонить первым.",
+                  statsLayout: "inline",
+                  stats: [
+                    { value: "+816 млн ₽", label: "доп. выручка (ГК «Самолет»)", highlight: true },
+                  ],
+                },
+              ]}
+            />
           </div>
         </div>
       )}

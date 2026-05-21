@@ -106,8 +106,9 @@ async function fetchFromCMS<T>(
   }
 
   const url = `${CMS_URL}/api${path}?${params.toString()}`
-  const maxRetries = 3
-  const timeoutMs = 5000
+  const isDev = import.meta.env.DEV
+  const maxRetries = isDev ? 1 : 3
+  const timeoutMs = isDev ? 1000 : 5000
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     const controller = new AbortController()
@@ -126,7 +127,8 @@ async function fetchFromCMS<T>(
       clearTimeout(timeoutId)
 
       if (attempt === maxRetries) {
-        throw new Error(`CMS unavailable after ${maxRetries} attempts: ${url}`)
+        console.warn(`[CMS] Недоступна, возвращаю пустой результат: ${path}`)
+        return { docs: [], totalDocs: 0, hasNextPage: false } as unknown as T
       }
 
       // Exponential backoff: 1s, 2s, 4s
@@ -135,7 +137,7 @@ async function fetchFromCMS<T>(
     }
   }
 
-  throw new Error(`CMS unavailable: ${url}`)
+  return { docs: [], totalDocs: 0, hasNextPage: false } as unknown as T
 }
 
 // Только опубликованный контент

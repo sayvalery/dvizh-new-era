@@ -16,5 +16,8 @@
     "stop:prod": "docker compose -f docker-compose.prod.yml down",
     "build:prod": "bash scripts/build-site.sh",
     "setup:prod": "bash scripts/setup-server.sh"
+  },
+  "dependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.60.3"
   }
 }
