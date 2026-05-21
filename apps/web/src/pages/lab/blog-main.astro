@@ -7,6 +7,7 @@
 import SiteLayout from '../../layouts/SiteLayout.astro'
 import BlogCardNew from '../../components/ui/BlogCardNew.astro'
 import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
+import Button from '../../components/ui/Button.astro'
 ---
 
 <SiteLayout title="Blog Main · Lab" description="Эксперимент с новым layout блога">
@@ -87,6 +88,20 @@ import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
         },
       ]}
     />
+
+    {/* ── Блок 3: «Правила девелопера» — заголовок + подзаголовок + счётчик + кнопка ── */}
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div class="flex flex-col gap-1 max-w-[800px] w-full">
+        <div class="flex items-start gap-3">
+          <h2 class="text-h2 text-gray-900">Правила девелопера</h2>
+          <span class="text-h4 text-gray-900 opacity-30">12</span>
+        </div>
+        <p class="text-body-lg text-gray-500">Реальные истории топов, их&#160;взгляды на&#160;рынок и&#160;профессию</p>
+      </div>
+      <div class="shrink-0">
+        <Button variant="dark" size="sm" href="/blog">Смотреть все</Button>
+      </div>
+    </div>
 
   </div>
 </SiteLayout>
