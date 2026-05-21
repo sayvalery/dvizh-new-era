@@ -1,24 +1,24 @@
 ---
 /**
- * StoryCard — карточка истории успеха
+ * StoryCard — карточка истории успеха
  *
- * Используется для демонстрации кейсов и отзывов.
+ * Используется для демонстрации кейсов и отзывов.
  *
  * Props:
- *   variant        — вариант карточки: 'active' (фоновое фото) | 'default' (светлый фон)
- *   backgroundImage — URL фонового изображения (только для variant='active')
- *   title — основной заголовок карточки
- *   person — объект персоны (имя, должность, фото)
+ *   variant — вариант карточки: 'active' (фоновое фото) | 'default' (светлый фон)
+ *   backgroundImage — URL фонового изображения (только для variant='active')
+ *   title — основной заголовок карточки
+ *   person — объект персоны (имя, должность, фото)
  *
  * Slots:
- *   logo — слот для логотипа компании (сверху над заголовком)
- *   modal-body — содержимое модалки (статья)
+ *   logo — слот для логотипа компании (сверху над заголовком)
+ *   modal-body — содержимое модалки (статья)
  *
  * Пример (active):
  *   <StoryCard
  *     variant="active"
  *     backgroundImage="/images/story-bg.jpg"
- *     title="Помогли начать обрабатывать на 98% больше заявок"
+ *     title="Помогли начать обрабатывать на 98% больше заявок"
  *     person={{ name: "Светлана Корнелюк", jobTitle: "Директор отдела продаж", photo: { url: "/photos/photo.jpg" } }}
  *   >
  *     <img src="/logos/logo.svg" alt="Логотип" slot="logo" />
@@ -27,7 +27,7 @@
  * Пример (default):
  *   <StoryCard
  *     variant="default"
- *     title="Помогли начать обрабатывать на 98% больше заявок"
+ *     title="Помогли начать обрабатывать на 98% больше заявок"
  *     person={{ name: "Светлана Корнелюк", jobTitle: "Директор отдела продаж", photo: { url: "/photos/photo.jpg" } }}
  *   />
  */
@@ -47,22 +47,22 @@ interface Props {
   variant?: 'active' | 'default'
   backgroundImage?: string
   title: string
-  /** HTML-заголовок с поддержкой тегов (например, <span class="text-brand">выделение</span>) */
+  /** HTML-заголовок с поддержкой тегов (например, <span class="text-brand">выделение</span>) */
   titleHtml?: string
   person: Person
   /** URL логотипа компании (альтернатива слоту logo) */
   logo?: string
   /** Alt-текст логотипа */
   logoAlt?: string
-  /** URL белого логотипа для hover-состояния (только для variant='default') */
+  /** URL белого логотипа для hover-состояния (только для variant='default') */
   logoHover?: string
-  /** URL фонового изображения для hover (только для variant='default') */
+  /** URL фонового изображения для hover (только для variant='default') */
   hoverBackground?: string
-  /** На hover делать плашку логотипа прозрачно-стеклянной (для логотипов с вырезанными буквами) */
+  /** На hover делать плашку логотипа прозрачно-стеклянной (для логотипов с вырезанными буквами) */
   hoverGlass?: boolean
-  /** Показывать аватар персоны (фото или плейсхолдер с инициалом). По умолчанию false. */
+  /** Показывать аватар персоны (фото или плейсхолдер с инициалом). По умолчанию false. */
   showPersonPhoto?: boolean
-  /** Дополнительные классы для карточки (например переопределить высоту) */
+  /** Дополнительные классы для карточки (например переопределить высоту) */
   class?: string
 }
 
@@ -83,7 +83,7 @@ const hasHover = !isActive && !!hoverBackground
   <!-- Карточка -->
   <div
     class:list={[
-      'w-full rounded-2xl sm:rounded-3xl overflow-hidden relative flex flex-col',
+      'w-full rounded-2xl sm:rounded-3xl overflow-hidden relative flex flex-col transition-transform duration-300 ease-out hover:-translate-y-2',
       !className && 'aspect-[4/3] md:aspect-square',
       isActive ? 'bg-cover bg-center' : 'bg-background-secondary',
       hasModal ? 'cursor-pointer' : '',
@@ -93,7 +93,7 @@ const hasHover = !isActive && !!hoverBackground
     style={isActive && backgroundImage ? `background-image: url(${backgroundImage})` : ''}
     @click={hasModal ? 'open = true' : ''}
   >
-    {/* Оверлей hover-фона (только в default + hoverBackground) */}
+    {/* Оверлей hover-фона (только в default + hoverBackground) */}
     {hasHover && (
       <div
         class="js-hover-bg absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
@@ -103,17 +103,17 @@ const hasHover = !isActive && !!hoverBackground
     )}
     <div class:list={['p-4 lg:p-8 flex flex-col h-full relative', !isActive && 'justify-between']}>
 
-      <!-- Логотип: в потоке (default) или абсолютный (active) -->
+      <!-- Логотип: в потоке (default) или абсолютный (active) -->
       {(Astro.slots.has('logo') || logo) && (
         isActive ? (
-          /* active (тёмный фон): стеклянная плашка, белые логотипы */
+          /* active (темный фон): стеклянная плашка, белые логотипы */
           <div class="self-start inline-flex items-center bg-white/[0.15] backdrop-blur-[8px] rounded-full px-5 py-2.5 ring-1 ring-white/30 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
             {Astro.slots.has('logo') ? <slot name="logo" /> : (
               <img src={logo} alt={logoAlt} class="h-5 w-auto max-w-[140px] object-contain" />
             )}
           </div>
         ) : (
-          /* default (светлый фон): стеклянная плашка с увеличенной непрозрачностью */
+          /* default (светлый фон): стеклянная плашка с увеличенной непрозрачностью */
           <div class:list={['js-logo-glass self-start inline-flex items-center backdrop-blur-[8px] rounded-full px-5 py-2.5 ring-1 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] transition-[background-color,--tw-ring-color] duration-300', hoverGlass ? 'bg-white/40 ring-white/60 group-hover:bg-white/[0.15] group-hover:ring-white/30' : 'bg-white/40 ring-white/60']}>
             {Astro.slots.has('logo') ? <slot name="logo" /> : logoHover ? (
               <span class="relative inline-flex">
@@ -130,7 +130,7 @@ const hasHover = !isActive && !!hoverBackground
       <!-- Спейсер: растягивается если есть место, но минимум 64px -->
       <div class="flex-1 min-h-16"></div>
 
-      <!-- Нижняя часть с заголовком и PersonCard -->
+      <!-- Нижняя часть с заголовком и PersonCard -->
       <div class:list={['flex flex-col gap-4 lg:gap-8', isActive && 'mt-auto']}>
         {titleHtml ? (
           <h3 class:list={['text-h3 transition-colors', isActive ? 'text-white' : 'text-gray-900', hasHover && 'group-hover:text-white']} set:html={titleHtml} />
@@ -202,14 +202,14 @@ const hasHover = !isActive && !!hoverBackground
 </div>
 
 <style>
-  /* Hover-вариант default-карточки: оранжевые акценты и текст PersonCard становятся белыми */
+  /* Hover-вариант default-карточки: оранжевые акценты и текст PersonCard становятся белыми */
   .story-card-hover:hover :global(.text-brand) { color: #fff; }
   .story-card-hover:hover :global(.text-gray-500) { color: rgba(255, 255, 255, 0.7); }
   .story-card-hover:hover :global(.text-gray-900) { color: #fff; }
   .story-card-hover:hover :global(.bg-gray-300\/60) { background-color: rgba(255, 255, 255, 0.3); }
 
   /* Mobile (<md = base/xs/sm, <768px): scroll-driven .is-active зеркалит :hover.
-     На md+ работает обычный pointer-hover, .is-active не применяется. */
+     На md+ работает обычный pointer-hover, .is-active не применяется. */
   @media (max-width: 767px) {
     .story-card-hover:global(.is-active) :global(.js-hover-bg) { opacity: 1; }
     .story-card-hover:global(.is-active) :global(h3) { color: #fff; }
@@ -227,8 +227,8 @@ const hasHover = !isActive && !!hoverBackground
 </style>
 
 <script>
-  // Поочерёдная активация StoryCard при скролле на <md (768px).
-  // Активна та карточка, центр которой ближе всего к центру viewport.
+  // Поочередная активация StoryCard при скролле на <md (768px).
+  // Активна та карточка, центр которой ближе всего к центру viewport.
   function initStoryCardScrollActive() {
     const cards = Array.from(document.querySelectorAll('.story-card-hover')) as HTMLElement[]
     if (!cards.length) return

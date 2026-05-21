@@ -6,6 +6,7 @@ import LogoGrid from '../components/ui/LogoGrid.astro'
 import Island from '../components/ui/Island.astro'
 import AdvantageCard from '../components/ui/AdvantageCard.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
+import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
 import ProductSection from '../components/ui/ProductSection.astro'
 import SupportSection from '../components/ui/SupportSection.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
@@ -257,88 +258,52 @@ const partnerLogos = [
     ]}
   />
 
-  {/* ── 4. Product Section — 5 продуктов ── */}
-  <ProductSection
-    class="!py-0"
-    sections={[
+
+  {/* ── 4. Продукты — ProductBentoBlock ── */}
+  <ProductBentoBlock
+    eyebrow="наши продукты"
+    headingDark="Гибкие решения"
+    headingBrand="под любую модель работы"
+    subtitle="<strong>Растите вместе с продуктом</strong> — включайте модули по одному, который закрывает вашу самую больную метрику. Дальше расширяйтесь — модули работают по отдельности или в связке"
+    cards={[
       {
-        number: "01",
+        variant: "dark",
         title: "Цифровая ипотека",
-        cardTitle: "Поможем превыполнить план продаж на том же трафике",
-        items: [
-          "До 96% одобрения",
-          "Единая анкета в 40+ банков",
-          "Моментальное заполнение анкеты через Госуслуги",
-          "Готовые интеграции с CRM",
-          "Анализ работы менеджеров",
+        description: "40+ банков в одном окне. Анкета «0 полей» через Госуслуги. Параллельная отправка. Авторазбор отказов. Скоринг до отправки в банк.",
+        stats: [
+          { value: "до 95%", label: "% одобрения", highlight: true },
+          { value: "40+", label: "банков-партнеров" },
+          { value: "3 дня", label: "срок сделки" },
         ],
-        button: { label: "Подробнее", href: "/ipoteka" },
-        image: { src: "/api/media/file/ipoteka-index.webp?v=2", alt: "Цифровая ипотека" },
-        review: {
-          quote: "С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут. Одобрение выросло до 94% — результат, который раньше казался недостижимым.",
-          author: "Петрова Надежда",
-          role: "Директор по маркетингу",
-          company: { logo: "/api/media/file/lsr_color.svg", alt: "ЛСР" },
-          caseLink: { label: "Читать кейс", href: "/blog/case-ayaks-dvizh" },
-        },
       },
       {
-        number: "02",
-        title: "Ипотечный калькулятор",
-        cardTitle: "Приведем больше лидов с сайта",
-        items: [
-          "Расчет рассрочки и досрочного погашения",
-          "Автоматическое обновление ставок и программ",
-          "API для интеграции с вашим сайтом и личным кабинетом",
-          "Брендирование калькулятора под ваши цвета",
+        title: "Электронная регистрация ДДУ",
+        description: "Подача в Росреестр прямо из ДВИЖ. Автопроверка. Сделка регистрируется за 24 часа",
+        statsLayout: "inline",
+        stats: [
+          { value: "-30%", label: "затраты на регистрацию", highlight: true },
         ],
-        button: { label: "Подробнее", href: "/ipotechnyy-kalkulyator" },
-        image: { src: "/api/media/file/calc-index.webp?v=2", alt: "Ипотечный калькулятор" },
-        review: {
-          quote: "Калькулятор ДВИЖ встроили в сайт за один день. Количество заявок с сайта выросло в 2,3 раза уже в первый месяц.",
-          author: "Алексей Громов",
-          role: "Руководитель digital-маркетинга",
-          company: { logo: "/api/media/file/a101_color.svg", alt: "А101" },
-          caseLink: { label: "Читать кейс", href: "/cases" },
-        },
       },
       {
-        number: "03",
+        title: "Калькулятор ипотеки",
+        description: "Актуальные ставки от 40+ банков обновляются автоматически. Клиент сам рассчитывает платеж",
+        stats: [
+          { value: "+20% конверсия", label: "когда клиент знает свой бюджет ипотеки", highlight: true },
+          { value: "80%", label: "вне рабочего времени" },
+        ],
+      },
+      {
         title: "Финансовый скоринг",
-        cardTitle: "Сократим процент отказов по проблемным заемщикам",
-        items: [
-          "Проверка заемщика по 15 источникам",
-          "Ежемесячный скоринг по ДДУ с рассрочкой",
-          "Рекомендации по улучшению кредитной истории",
-        ],
-        button: { label: "Подробнее", href: "/scoring" },
-        image: { src: "/api/media/file/skoring-index.webp?v=2", alt: "Финансовый скоринг" },
-        review: {
-          quote: "Скоринг ДВИЖ помог нам снизить процент отказов с 35% до 10% за три месяца. Менеджеры теперь работают только с перспективными клиентами.",
-          author: "Светлана Корнелюк",
-          role: "Директор отдела продаж",
-          company: { logo: "/api/media/file/glorax_color.svg", alt: "Glorax" },
-          caseLink: { label: "Читать кейс", href: "/blog/granel-rost-procenta-odobreniya" },
-        },
+        description: "Банковский уровень проверки: кредитная история, долговая нагрузка. 15+ источников, менеджер видит финансовый рейтинг клиента",
       },
       {
-        number: "04",
-        title: "Электронная регистрация",
-        cardTitle: "Сократим стоимость регистрации в Росреестре",
-        items: [
-          "Сквозное оформление сделки от ипотеки до регистрации",
-          "До 30% дешевле цены конкурентов",
-          "Все виды сделок",
+        variant: "brand",
+        title: "Нейросети на службе отдела продаж",
+        description: "AI-инструменты для скоринга, прогноза и приоритизации заявок. Менеджер видит, кому звонить первым.",
+        statsLayout: "inline",
+        stats: [
+          { value: "+816 млн ₽", label: "доп. выручка (ГК «Самолет»)", highlight: true },
         ],
-        button: { label: "Подробнее", href: "/elektronnaya-registraciya" },
-        image: { src: "/api/media/file/rega-index.webp?v=2", alt: "Электронная регистрация" },
-        review: {
-          quote: "Электронная регистрация через ДВИЖ сократила наши расходы на 30% и убрала бумажную волокиту. Сделка оформляется в тот же день.",
-          author: "Иван Соколов",
-          role: "Операционный директор",
-          company: { logo: "/api/media/file/ganel_color.svg", alt: "Гранель" },
-          caseLink: { label: "Читать кейс", href: "/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya" },
-        },
       },
     ]}
   />

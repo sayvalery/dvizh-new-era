@@ -7,6 +7,7 @@ import CTABanner from '../components/ui/CTABanner.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
 import ReviewFull from '../components/ui/ReviewFull.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
+import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
 ---
 
 <SiteLayout
@@ -38,6 +39,38 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   {/* gap-24 (96px) base/sm/md / lg:gap-40 (160px) */}
   <div class="flex flex-col gap-24 lg:gap-40">
+
+  {/* ── 2. ProductBentoBlock — 5 карточек ── */}
+  <ProductBentoBlock
+    class="!py-0"
+    eyebrow="электронная регистрация"
+    headingDark="Лучшие девелоперы регистрируют"
+    headingBrand="сделки через ДВИЖ"
+    cards={[
+      {
+        title: 'Сложные сделки',
+        description: 'Регистрация более 10 видов сделок, включая ДДУ, ДКП, ДС, сделок с детьми и иностранцами',
+      },
+      {
+        title: 'Пакетные регистрации',
+        description: 'Чтобы регистрировать квартиру за 15 минут вместо недели',
+        variant: 'dark',
+      },
+      {
+        title: 'Ускоренная подача',
+        description: 'Подключим оплату госпошлины с авансового счета внутри ДВИЖа',
+      },
+      {
+        title: 'Выпуск ЭЦП за 5 минут',
+        description: 'Поддерживаем все технологии: токен, Sign.Me, Госключ',
+        variant: 'brand',
+      },
+      {
+        title: '3 способа выпуска ЭЦП',
+        description: 'Проверяем документ на подлинность еще до ручной обработки',
+      },
+    ]}
+  />
 
   {/* ── 3. ComparisonSection variant='prices' + CTABanner внутри ── */}
   <ComparisonSection

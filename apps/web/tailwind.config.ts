@@ -7,6 +7,10 @@ export default {
       screens: {
         xs: '480px',
       },
+      borderRadius: {
+        '4xl': '32px',
+        '5xl': '40px',
+      },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         heading: ['"Styrene A"', 'system-ui', 'sans-serif'],

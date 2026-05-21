@@ -1,0 +1,303 @@
+---
+/**
+ * ProductBentoBlock — секция продуктов в bento-раскладке
+ *
+ * Пять карточек в трех строках: [0]+[1] | [2] | [3]+[4].
+ * Текст и статы прижаты к низу карточки (absolute bottom).
+ * Верхняя часть карточки — свободна под иллюстрацию (backgroundImage).
+ *
+ * Мобайл/планшет: все карточки вертикальным стеком, h-[440px] каждая.
+ * Десктоп (lg+): bento с фиксированными высотами строк.
+ *
+ * variant карточки:
+ *   'default' — bg-background-secondary, темный текст
+ *   'dark' — bg-gray-900, белый текст (highlight-статы остаются брендовыми)
+ *   'brand' — bg-brand, белый текст
+ *
+ * @example
+ * ```astro
+ * <ProductBentoBlock
+ *   eyebrow="наши продукты"
+ *   headingDark="Гибкие решения"
+ *   headingBrand="под любую модель работы"
+ *   subtitle="<strong>Растите вместе с продуктом</strong>"
+ *   cards={[
+ *     { variant: "dark", title: "Цифровая ипотека", description: "...", stats: [
+ *       { value: "до 95%", label: "% одобрения", highlight: true },
+ *     ]},
+ *   ]}
+ * />
+ * ```
+ */
+
+interface Stat {
+  value: string
+  label: string
+  highlight?: boolean
+}
+
+interface ProductCard {
+  title: string
+  description: string
+  /**
+   * 'default' — светлый фон, темный текст (по умолчанию)
+   * 'dark' — темный фон (#1D1E21), белый текст
+   * 'brand' — оранжевый фон (#ff4d00), белый текст
+   */
+  variant?: 'default' | 'dark' | 'brand'
+  /**
+   * URL фонового изображения. background-size: cover; background-position: center.
+   */
+  backgroundImage?: string
+  stats?: Stat[]
+  /** 'row' — статы вертикально в ряд (по умолчанию), 'inline' — значение и подпись на одной линии */
+  statsLayout?: 'row' | 'inline'
+}
+
+interface Props {
+  eyebrow?: string
+  headingDark?: string
+  headingBrand?: string
+  subtitle?: string
+  cards: ProductCard[]
+  class?: string
+}
+
+const {
+  eyebrow = 'наши продукты',
+  headingDark = 'Гибкие решения',
+  headingBrand = 'под любую модель работы',
+  subtitle,
+  cards,
+  class: className = '',
+} = Astro.props
+
+const [c1, c2, c3, c4, c5] = cards
+
+const cardBg = (v?: ProductCard['variant']) =>
+  v === 'dark' ? 'bg-gray-900' : v === 'brand' ? 'bg-brand' : 'bg-background-secondary'
+
+const titleColor = (v?: ProductCard['variant']) =>
+  v === 'dark' || v === 'brand' ? 'text-white' : 'text-gray-900'
+
+const descColor = (v?: ProductCard['variant']) =>
+  v === 'dark' ? 'text-white/60' : v === 'brand' ? 'text-white/80' : 'text-gray-500'
+
+const statValueClass = (highlight?: boolean, v?: ProductCard['variant']) => {
+  if (v === 'brand') return 'text-h2 text-white'
+  if (v === 'dark')  return `text-h2 ${highlight ? 'text-brand' : 'text-white'}`
+  return `text-h2 ${highlight ? 'text-brand' : 'text-gray-900'}`
+}
+
+const statLabelColor = (v?: ProductCard['variant']) =>
+  v === 'dark' ? 'text-white/60' : v === 'brand' ? 'text-white/80' : 'text-black/40'
+
+const arrowColor = (v?: ProductCard['variant']) =>
+  v === 'dark' ? 'text-white/40' : v === 'brand' ? 'text-white/60' : 'text-gray-400'
+
+const arrowHoverColor = (v?: ProductCard['variant']) =>
+  v === 'brand' ? 'group-hover:text-white' : 'group-hover:text-brand'
+
+const bgStyle = (img?: string) =>
+  img ? `background-image: url('${img}'); background-size: cover; background-position: center;` : ''
+---
+
+<section class:list={[className]}>
+<div class="page-container flex flex-col gap-16 lg:gap-20">
+
+  <!-- Шапка -->
+  <div class="flex flex-col gap-4">
+    {eyebrow && (
+      <p class="text-footnote uppercase tracking-[3px] text-gray-900/40">{eyebrow}</p>
+    )}
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <h2 class="text-h1 font-medium text-gray-900">
+        {headingDark}<br />
+        <span class="text-brand">{headingBrand}</span>
+      </h2>
+      {subtitle && (
+        <p class="text-body-lg text-gray-900 lg:max-w-[400px] xl:max-w-[510px]" set:html={subtitle} />
+      )}
+    </div>
+  </div>
+
+  <!-- Сетка -->
+  <div class="flex flex-col gap-4 lg:gap-6">
+
+    <!-- Строка 1: широкая карточка + узкая -->
+    <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-[61fr_39fr] lg:h-[600px]">
+
+      <!-- Карточка 1 -->
+      {c1 && (
+        <div
+          class:list={['group relative h-[440px] overflow-hidden rounded-4xl lg:rounded-5xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c1.variant)]}
+          style={bgStyle(c1.backgroundImage)}
+        >
+          <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c1.variant), arrowHoverColor(c1.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
+            <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
+          </svg>
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+            <div class="flex flex-col gap-4 lg:gap-6">
+              <h3 class:list={['text-product-card-h', titleColor(c1.variant)]}>{c1.title}</h3>
+              <p class:list={['text-body-lg', descColor(c1.variant)]}>{c1.description}</p>
+            </div>
+            {c1.stats && c1.stats.length > 0 && (
+              <div class:list={['flex flex-wrap', c1.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-6 lg:gap-10']}>
+                {c1.stats.map(s => c1.statsLayout === 'inline' ? (
+                  <Fragment>
+                    <p class={statValueClass(s.highlight, c1.variant)}>{s.value}</p>
+                    <p class:list={['text-body-lg', statLabelColor(c1.variant)]}>{s.label}</p>
+                  </Fragment>
+                ) : (
+                  <div class="flex flex-col gap-1 lg:gap-2">
+                    <p class={statValueClass(s.highlight, c1.variant)}>{s.value}</p>
+                    <p class:list={['text-body-lg', statLabelColor(c1.variant)]}>{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      <!-- Карточка 2 -->
+      {c2 && (
+        <div
+          class:list={['group relative h-[440px] overflow-hidden rounded-4xl lg:rounded-5xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c2.variant)]}
+          style={bgStyle(c2.backgroundImage)}
+        >
+          <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c2.variant), arrowHoverColor(c2.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
+            <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
+          </svg>
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+            <div class="flex flex-col gap-4 lg:gap-6">
+              <h3 class:list={['text-product-card-h', titleColor(c2.variant)]}>{c2.title}</h3>
+              <p class:list={['text-body-lg', descColor(c2.variant)]}>{c2.description}</p>
+            </div>
+            {c2.stats && c2.stats.length > 0 && (
+              <div class:list={['flex flex-wrap', c2.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-6 lg:gap-10']}>
+                {c2.stats.map(s => c2.statsLayout === 'inline' ? (
+                  <Fragment>
+                    <p class={statValueClass(s.highlight, c2.variant)}>{s.value}</p>
+                    <p class:list={['text-body-lg', statLabelColor(c2.variant)]}>{s.label}</p>
+                  </Fragment>
+                ) : (
+                  <div class="flex flex-col gap-1 lg:gap-2">
+                    <p class={statValueClass(s.highlight, c2.variant)}>{s.value}</p>
+                    <p class:list={['text-body-lg', statLabelColor(c2.variant)]}>{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+    </div>
+
+    <!-- Строка 2: на всю ширину -->
+    {c3 && (
+      <div
+        class:list={['group relative h-[440px] overflow-hidden rounded-4xl lg:rounded-5xl lg:h-[540px] transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c3.variant)]}
+        style={bgStyle(c3.backgroundImage)}
+      >
+        <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c3.variant), arrowHoverColor(c3.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
+          <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
+        </svg>
+        <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+          <div class="flex flex-col gap-4 lg:gap-6">
+            <h3 class:list={['text-product-card-h', titleColor(c3.variant)]}>{c3.title}</h3>
+            <p class:list={['text-body-lg', descColor(c3.variant)]}>{c3.description}</p>
+          </div>
+          {c3.stats && c3.stats.length > 0 && (
+            <div class:list={['flex flex-wrap', c3.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-6 lg:gap-10']}>
+              {c3.stats.map(s => c3.statsLayout === 'inline' ? (
+                <Fragment>
+                  <p class={statValueClass(s.highlight, c3.variant)}>{s.value}</p>
+                  <p class:list={['text-body-lg', statLabelColor(c3.variant)]}>{s.label}</p>
+                </Fragment>
+              ) : (
+                <div class="flex flex-col gap-1 lg:gap-2">
+                  <p class={statValueClass(s.highlight, c3.variant)}>{s.value}</p>
+                  <p class:list={['text-body-lg', statLabelColor(c3.variant)]}>{s.label}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    )}
+
+    <!-- Строка 3: две равные карточки -->
+    <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-2 lg:h-[600px]">
+
+      <!-- Карточка 4 -->
+      {c4 && (
+        <div
+          class:list={['group relative h-[440px] overflow-hidden rounded-4xl lg:rounded-5xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c4.variant)]}
+          style={bgStyle(c4.backgroundImage)}
+        >
+          <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c4.variant), arrowHoverColor(c4.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
+            <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
+          </svg>
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-6">
+            <h3 class:list={['text-product-card-h', titleColor(c4.variant)]}>{c4.title}</h3>
+            <p class:list={['text-body-lg', descColor(c4.variant)]}>{c4.description}</p>
+            {c4.stats && c4.stats.length > 0 && (
+              <div class:list={['flex flex-wrap mt-2', c4.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-6 lg:gap-10']}>
+                {c4.stats.map(s => c4.statsLayout === 'inline' ? (
+                  <Fragment>
+                    <p class={statValueClass(s.highlight, c4.variant)}>{s.value}</p>
+                    <p class:list={['text-body-lg', statLabelColor(c4.variant)]}>{s.label}</p>
+                  </Fragment>
+                ) : (
+                  <div class="flex flex-col gap-1 lg:gap-2">
+                    <p class={statValueClass(s.highlight, c4.variant)}>{s.value}</p>
+                    <p class:list={['text-body-lg', statLabelColor(c4.variant)]}>{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      <!-- Карточка 5 -->
+      {c5 && (
+        <div
+          class:list={['group relative h-[440px] overflow-hidden rounded-4xl lg:rounded-5xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c5.variant)]}
+          style={bgStyle(c5.backgroundImage)}
+        >
+          <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c5.variant), arrowHoverColor(c5.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
+            <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
+          </svg>
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+            <div class="flex flex-col gap-4 lg:gap-6">
+              <h3 class:list={['text-product-card-h', titleColor(c5.variant)]}>{c5.title}</h3>
+              <p class:list={['text-body-lg', descColor(c5.variant)]}>{c5.description}</p>
+            </div>
+            {c5.stats && c5.stats.length > 0 && (
+              <div class:list={['flex flex-wrap', c5.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-6 lg:gap-10']}>
+                {c5.stats.map(s => c5.statsLayout === 'inline' ? (
+                  <Fragment>
+                    <p class={statValueClass(s.highlight, c5.variant)}>{s.value}</p>
+                    <p class:list={['text-body-lg', statLabelColor(c5.variant)]}>{s.label}</p>
+                  </Fragment>
+                ) : (
+                  <div class="flex flex-col gap-1 lg:gap-2">
+                    <p class={statValueClass(s.highlight, c5.variant)}>{s.value}</p>
+                    <p class:list={['text-body-lg', statLabelColor(c5.variant)]}>{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+    </div>
+
+  </div>
+
+</div>
+</section>
