@@ -16,7 +16,7 @@ import Banner from '../../components/ui/Banner.astro'
   <div class="pt-24 flex flex-col gap-24 lg:gap-40">
 
     {/* ── Блок 1: заголовок + lg-карточка + ряд xs (lg+: помещается в viewport) ── */}
-    <div class="page-container flex flex-col gap-16">
+    <div class="page-container flex flex-col gap-16 md:gap-10 lg:gap-16">
       <h2 class="text-h2 text-gray-900">Журнал для&#160;современных девелоперов</h2>
 
       <BlogCardNew
@@ -29,7 +29,7 @@ import Banner from '../../components/ui/Banner.astro'
         excerpt="Сценарии развития событий от&#160;Романа Гурова"
       />
 
-      <div class="hidden sm:grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      <div class="hidden sm:grid gap-6 sm:grid-cols-2 xl:grid-cols-3 md:-mt-2 lg:-mt-8">
         <BlogCardNew
           size="xs"
           title="«Клиент&#160;— самый важный человек в&#160;компании»: ценности Анжелики Альшаевой"
@@ -56,7 +56,7 @@ import Banner from '../../components/ui/Banner.astro'
     </div>
 
     {/* ── Блок 2: «Правила девелопера» ── */}
-    <div class="page-container flex flex-col gap-16">
+    <div class="page-container flex flex-col gap-16 md:gap-10 lg:gap-16">
 
       {/* Заголовок + подзаголовок + счётчик + кнопка */}
       <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
@@ -250,7 +250,7 @@ import Banner from '../../components/ui/Banner.astro'
         </div>
 
         {/* Правая колонка: 4 md-карточки в сетке 1 → 2 col */}
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:flex-1 lg:min-w-0">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6 lg:gap-y-10 lg:flex-1 lg:min-w-0">
           <BlogCardNew
             size="md"
             title="ДВИЖ и&#160;Банк «РОССИЯ» запустили ускоренный обмен данными по&#160;API"
@@ -375,7 +375,7 @@ import Banner from '../../components/ui/Banner.astro'
     </div>
 
     {/* ── Блок 8: «Статьи блога» — 9 md-карточек 3×3 ── */}
-    <div class="page-container flex flex-col gap-16">
+    <div class="page-container flex flex-col gap-16 md:gap-10 lg:gap-16">
 
       {/* Заголовок + счётчик + кнопка */}
       <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
