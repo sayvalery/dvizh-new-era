@@ -148,8 +148,40 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
 
     {/* ── Контейнер 2: TOC + обложка/тело (заполняется в Task 2-4) ── */}
     <div class="grid grid-cols-[340px_1fr] gap-x-10 mt-16">
-      <aside class="self-start">
-        {/* TOC — Task 2 */}
+      <aside class="sticky top-24 self-start">
+        {toc.length > 0 && (
+          <nav aria-label="Содержание статьи">
+            <p class="text-footnote uppercase tracking-wide text-gray-400 mb-4">Содержание</p>
+            <ul class="flex flex-col gap-3 text-subhead">
+              {toc.map((item) => (
+                <li>
+                  <a
+                    href={`#${item.id}`}
+                    data-toc-id={item.id}
+                    class="block text-gray-900 hover:text-brand transition-colors"
+                  >
+                    {item.text}
+                  </a>
+                  {item.children.length > 0 && (
+                    <ul class="mt-2 ml-4 flex flex-col gap-2 text-footnote">
+                      {item.children.map((child) => (
+                        <li>
+                          <a
+                            href={`#${child.id}`}
+                            data-toc-id={child.id}
+                            class="block text-gray-500 hover:text-brand transition-colors"
+                          >
+                            {child.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </aside>
       <div>
         {coverUrl && (
@@ -169,3 +201,10 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
 
   </article>
 </SiteLayout>
+
+<style is:global>
+  /* Локально для lab-страницы, чтобы не трогать глобальный CSS */
+  html { scroll-behavior: smooth; }
+  /* Отступ при скролле к якорю, чтобы заголовок не прятался под шапкой */
+  article h2[id], article h3[id] { scroll-margin-top: 96px; }
+</style>
