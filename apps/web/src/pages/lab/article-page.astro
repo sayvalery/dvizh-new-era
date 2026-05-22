@@ -148,7 +148,7 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
 
     {/* ── Контейнер 2: TOC + обложка/тело (заполняется в Task 2-4) ── */}
     <div class="grid grid-cols-[340px_1fr] gap-x-10 mt-16">
-      <aside class="sticky top-24 self-start">
+      <aside class="sticky top-24 self-start" x-data="articleToc()">
         {toc.length > 0 && (
           <nav aria-label="Содержание статьи">
             <p class="text-footnote uppercase tracking-wide text-gray-400 mb-4">Содержание</p>
@@ -158,7 +158,8 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
                   <a
                     href={`#${item.id}`}
                     data-toc-id={item.id}
-                    class="block text-gray-900 hover:text-brand transition-colors"
+                    class="block transition-colors"
+                    :class={`activeId === '${item.id}' ? 'text-brand' : 'text-gray-900 hover:text-brand'`}
                   >
                     {item.text}
                   </a>
@@ -169,7 +170,8 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
                           <a
                             href={`#${child.id}`}
                             data-toc-id={child.id}
-                            class="block text-gray-500 hover:text-brand transition-colors"
+                            class="block transition-colors"
+                            :class={`activeId === '${child.id}' ? 'text-brand' : 'text-gray-500 hover:text-brand'`}
                           >
                             {child.text}
                           </a>
@@ -201,6 +203,37 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
 
   </article>
 </SiteLayout>
+
+<script is:inline>
+  document.addEventListener('alpine:init', () => {
+    window.Alpine.data('articleToc', () => ({
+      activeId: null,
+      init() {
+        const headings = document.querySelectorAll('article h2[id], article h3[id]')
+        if (headings.length === 0) return
+
+        this.activeId = headings[0].id
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((e) => e.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+            if (visible.length > 0) {
+              this.activeId = visible[0].target.id
+            }
+          },
+          {
+            rootMargin: '-15% 0px -70% 0px',
+            threshold: 0,
+          }
+        )
+
+        headings.forEach((h) => observer.observe(h))
+      },
+    }))
+  })
+</script>
 
 <style is:global>
   /* Локально для lab-страницы, чтобы не трогать глобальный CSS */
