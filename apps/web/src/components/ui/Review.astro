@@ -42,10 +42,10 @@ interface Props {
   photo?: { src: string; alt?: string }
   /** Текст цитаты */
   quote: string
-  /** Имя автора */
-  author: string
+  /** Имя автора. Если не передано (и нет company/caseLink) — футер не рендерится */
+  author?: string
   /** Должность / роль автора */
-  role: string
+  role?: string
   /** Логотип компании. Если не передан — разделитель скрывается */
   company?: Company
   /** Ссылка на кейс. label по умолчанию — «Читать кейс» */
@@ -72,6 +72,7 @@ const {
 } = Astro.props
 
 const hasPhoto = photo !== undefined
+const hasFooter = !!(author || company || caseLink)
 ---
 
 {hasPhoto ? (
@@ -99,32 +100,36 @@ const hasPhoto = photo !== undefined
           <img src="/api/media/file/quotes.svg" alt="" class="w-5 h-5 shrink-0 mt-0.5" aria-hidden="true" />
           <p class="text-body-lg text-gray-900 flex-1">{quote}</p>
         </div>
-        <div class="pl-8">
-          <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div class="flex items-center gap-4 min-w-0 flex-1">
-              {company && (
-                <img
-                  src={company.logo}
-                  alt={company.alt ?? ''}
-                  class="w-auto shrink-0 object-contain h-[37px] max-w-[80px]"
-                  loading="lazy"
-                />
-              )}
-              {company && (
-                <div class="w-px self-stretch bg-gray-300/60 shrink-0" aria-hidden="true" />
-              )}
-              <div class="flex flex-col min-w-0">
-                <span class="text-h6 text-gray-900 leading-snug">{author}</span>
-                <span class="text-subhead text-gray-500 leading-snug">{role}</span>
+        {hasFooter && (
+          <div class="pl-8">
+            <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div class="flex items-center gap-4 min-w-0 flex-1">
+                {company && (
+                  <img
+                    src={company.logo}
+                    alt={company.alt ?? ''}
+                    class="w-auto shrink-0 object-contain h-[37px] max-w-[80px]"
+                    loading="lazy"
+                  />
+                )}
+                {company && (
+                  <div class="w-px self-stretch bg-gray-300/60 shrink-0" aria-hidden="true" />
+                )}
+                {(author || role) && (
+                  <div class="flex flex-col min-w-0">
+                    {author && <span class="text-h6 text-gray-900 leading-snug">{author}</span>}
+                    {role && <span class="text-subhead text-gray-500 leading-snug">{role}</span>}
+                  </div>
+                )}
               </div>
+              {caseLink && (
+                <Button href={caseLink.href} size="sm" variant="dark" class="w-full shrink-0 sm:w-auto">
+                  {caseLink.label ?? 'Читать кейс'}
+                </Button>
+              )}
             </div>
-            {caseLink && (
-              <Button href={caseLink.href} size="sm" variant="dark" class="w-full shrink-0 sm:w-auto">
-                {caseLink.label ?? 'Читать кейс'}
-              </Button>
-            )}
           </div>
-        </div>
+        )}
       </div>
     </div>
 
@@ -138,37 +143,41 @@ const hasPhoto = photo !== undefined
       <p class="text-body-lg text-gray-900 flex-1">{quote}</p>
     </div>
 
-    <div class="pl-8">
-      <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div class="flex items-center gap-4 min-w-0 flex-1">
-          {company && (
-            <img
-              src={company.logo}
-              alt={company.alt ?? ''}
-              class="w-auto shrink-0 object-contain h-[37px] max-w-[80px]"
-              loading="lazy"
-            />
-          )}
-          {company && (
-            <div class="w-px self-stretch bg-gray-300/60 shrink-0" aria-hidden="true" />
-          )}
-          <div class="flex flex-col min-w-0">
-            <span class="text-h6 text-gray-900 leading-snug">{author}</span>
-            <span class="text-subhead text-gray-500 leading-snug">{role}</span>
+    {hasFooter && (
+      <div class="pl-8">
+        <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex items-center gap-4 min-w-0 flex-1">
+            {company && (
+              <img
+                src={company.logo}
+                alt={company.alt ?? ''}
+                class="w-auto shrink-0 object-contain h-[37px] max-w-[80px]"
+                loading="lazy"
+              />
+            )}
+            {company && (
+              <div class="w-px self-stretch bg-gray-300/60 shrink-0" aria-hidden="true" />
+            )}
+            {(author || role) && (
+              <div class="flex flex-col min-w-0">
+                {author && <span class="text-h6 text-gray-900 leading-snug">{author}</span>}
+                {role && <span class="text-subhead text-gray-500 leading-snug">{role}</span>}
+              </div>
+            )}
           </div>
+          {caseLink && (
+            <Button
+              href={caseLink.href}
+              size="sm"
+              variant={variant === 'dark' ? 'dark' : 'primary'}
+              class="w-full shrink-0 sm:w-auto"
+            >
+              {caseLink.label ?? 'Читать кейс'}
+            </Button>
+          )}
         </div>
-        {caseLink && (
-          <Button
-            href={caseLink.href}
-            size="sm"
-            variant={variant === 'dark' ? 'dark' : 'primary'}
-            class="w-full shrink-0 sm:w-auto"
-          >
-            {caseLink.label ?? 'Читать кейс'}
-          </Button>
-        )}
       </div>
-    </div>
+    )}
 
   </div>
 )}

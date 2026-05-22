@@ -10,6 +10,8 @@
  */
 import SiteLayout from '../../layouts/SiteLayout.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
+import SideMenu from '../../components/ui/SideMenu.astro'
+import Review from '../../components/ui/Review.astro'
 import { getBlogPost, normalizeMediaUrl, normalizeBodyHtml, sanitizeBodyHtml } from '../../lib/payload'
 
 const post = await getBlogPost('case-ayaks-dvizh')
@@ -102,6 +104,51 @@ const rawBody = normalizeBodyHtml(
 
 const { toc, htmlWithIds } = extractToc(rawBody)
 const bodyHtml = sanitizeBodyHtml(htmlWithIds)
+
+// Плоский список пунктов для SideMenu (H2 и H3 в одну колонку)
+const tocFlat: Array<{ id: string; text: string }> = []
+for (const item of toc) {
+  tocFlat.push({ id: item.id, text: item.text })
+  for (const child of item.children) {
+    tocFlat.push({ id: child.id, text: child.text })
+  }
+}
+const tocIds = tocFlat.map((i) => i.id)
+
+// ─── Разбиение тела статьи на сегменты (текст + цитаты) ───────────
+type BodySegment = { type: 'html'; content: string } | { type: 'quote'; quote: string }
+
+function splitByBlockquote(html: string | null): BodySegment[] {
+  if (!html) return []
+  const segments: BodySegment[] = []
+  const re = /<blockquote[^>]*>([\s\S]*?)<\/blockquote>/gi
+  let lastIndex = 0
+  let m: RegExpExecArray | null
+  while ((m = re.exec(html)) !== null) {
+    if (m.index > lastIndex) {
+      segments.push({ type: 'html', content: html.slice(lastIndex, m.index) })
+    }
+    const plain = m[1]
+      .replace(/<br\s*\/?>/gi, ' ')
+      .replace(/<[^>]+>/g, '')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/\s+/g, ' ')
+      .trim()
+    segments.push({ type: 'quote', quote: plain })
+    lastIndex = m.index + m[0].length
+  }
+  if (lastIndex < html.length) {
+    segments.push({ type: 'html', content: html.slice(lastIndex) })
+  }
+  return segments
+}
+
+const bodySegments = splitByBlockquote(bodyHtml)
 ---
 
 <SiteLayout
@@ -113,8 +160,8 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
     {/* ── Контейнер 1: мета + заголовок ── */}
     <div class="grid" style="grid-template-columns: 340px 1fr; column-gap: 40px;">
       {/* Левая колонка — мета */}
-      <aside class="flex flex-col gap-4 text-subhead text-gray-500">
-        <nav class="text-footnote">
+      <aside class="flex flex-col justify-between h-full text-subhead text-gray-500">
+        <nav class="text-subhead">
           <a href="/blog" class="hover:text-gray-900">Блог</a>
           {post.category?.title && (
             <>
@@ -124,17 +171,24 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
           )}
         </nav>
 
-        {primaryAuthor && <PersonCard person={primaryAuthor} variant="inline" />}
+        <div class="flex flex-col gap-3">
+          {primaryAuthor && <PersonCard person={primaryAuthor} variant="inline" />}
 
-        {post.publishedAt && (
-          <time datetime={post.publishedAt}>
-            {new Date(post.publishedAt).toLocaleDateString('ru-RU', {
-              day: 'numeric', month: 'long', year: 'numeric',
-            })}
-          </time>
-        )}
-
-        <span>{readingTime} мин чтения</span>
+          {(() => {
+            const date = post.publishedAt
+              ? new Date(post.publishedAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })
+              : null
+            const readTime = `${readingTime} мин`
+            const hasDateMeta = date || readTime
+            return hasDateMeta && (
+              <div class="flex items-end gap-1 text-subhead text-gray-500">
+                {date && <span>{date}</span>}
+                {date && readTime && <span>·</span>}
+                {readTime && <span>{readTime}</span>}
+              </div>
+            )
+          })()}
+        </div>
       </aside>
 
       {/* Правая колонка — заголовок */}
@@ -148,41 +202,13 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
 
     {/* ── Контейнер 2: TOC + обложка/тело ── */}
     <div class="grid mt-16" style="grid-template-columns: 340px 1fr; column-gap: 40px;">
-      <aside class="sticky top-24 self-start" x-data="articleToc()">
-        {toc.length > 0 && (
-          <nav aria-label="Содержание статьи">
-            <p class="text-footnote uppercase tracking-wide text-gray-400 mb-4">Содержание</p>
-            <ul class="flex flex-col gap-3 text-subhead">
-              {toc.map((item) => (
-                <li>
-                  <a
-                    href={`#${item.id}`}
-                    data-toc-id={item.id}
-                    class="block transition-colors"
-                    :class={`activeId === '${item.id}' ? 'text-brand' : 'text-gray-900 hover:text-brand'`}
-                  >
-                    {item.text}
-                  </a>
-                  {item.children.length > 0 && (
-                    <ul class="mt-2 ml-4 flex flex-col gap-2 text-footnote">
-                      {item.children.map((child) => (
-                        <li>
-                          <a
-                            href={`#${child.id}`}
-                            data-toc-id={child.id}
-                            class="block transition-colors"
-                            :class={`activeId === '${child.id}' ? 'text-brand' : 'text-gray-500 hover:text-brand'`}
-                          >
-                            {child.text}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </nav>
+      <aside
+        class="sticky top-24 self-start"
+        x-data={`articleToc(${JSON.stringify(tocIds)})`}
+        @side-menu-change="onClick($event.detail.index)"
+      >
+        {tocFlat.length > 0 && (
+          <SideMenu navId="article-toc" items={tocFlat.map((i) => ({ title: i.text }))} />
         )}
       </aside>
       <div>
@@ -197,7 +223,17 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
             decoding="async"
           />
         )}
-        {bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />}
+        {bodySegments.length > 0 ? (
+          <div class="flex flex-col gap-8">
+            {bodySegments.map((seg) => (
+              seg.type === 'quote'
+                ? <Review quote={seg.quote} class="bg-gray-200 rounded-3xl p-8 lg:p-10" />
+                : <div class="prose prose-lg max-w-none" set:html={seg.content} />
+            ))}
+          </div>
+        ) : (
+          bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />
+        )}
       </div>
     </div>
 
@@ -206,13 +242,35 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
 
 <script is:inline>
   document.addEventListener('alpine:init', () => {
-    window.Alpine.data('articleToc', () => ({
-      activeId: null,
+    window.Alpine.data('articleToc', (ids) => ({
+      ids: ids || [],
+      navId: 'article-toc',
+
+      setActive(index) {
+        window.dispatchEvent(new CustomEvent('side-menu-set-active', {
+          detail: { navId: this.navId, index }
+        }))
+      },
+
+      onClick(index) {
+        const id = this.ids[index]
+        if (!id) return
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      },
+
       init() {
-        const headings = document.querySelectorAll('article h2[id], article h3[id]')
+        if (this.ids.length === 0) return
+
+        const headings = this.ids
+          .map((id) => document.getElementById(id))
+          .filter(Boolean)
         if (headings.length === 0) return
 
-        this.activeId = headings[0].id
+        const indexById = new Map(this.ids.map((id, i) => [id, i]))
+
+        // По умолчанию подсветить первый
+        this.setActive(0)
 
         const observer = new IntersectionObserver(
           (entries) => {
@@ -220,7 +278,8 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
               .filter((e) => e.isIntersecting)
               .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
             if (visible.length > 0) {
-              this.activeId = visible[0].target.id
+              const idx = indexById.get(visible[0].target.id)
+              if (idx !== undefined) this.setActive(idx)
             }
           },
           {
