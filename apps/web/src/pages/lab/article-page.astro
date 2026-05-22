@@ -111,7 +111,7 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
   <article class="page-container pt-12 lg:pt-16">
 
     {/* ── Контейнер 1: мета + заголовок ── */}
-    <div class="grid grid-cols-[340px_1fr] gap-x-10">
+    <div class="grid" style="grid-template-columns: 340px 1fr; column-gap: 40px;">
       {/* Левая колонка — мета */}
       <aside class="flex flex-col gap-4 text-subhead text-gray-500">
         <nav class="text-footnote">
@@ -146,8 +146,8 @@ const bodyHtml = sanitizeBodyHtml(htmlWithIds)
       </div>
     </div>
 
-    {/* ── Контейнер 2: TOC + обложка/тело (заполняется в Task 2-4) ── */}
-    <div class="grid grid-cols-[340px_1fr] gap-x-10 mt-16">
+    {/* ── Контейнер 2: TOC + обложка/тело ── */}
+    <div class="grid mt-16" style="grid-template-columns: 340px 1fr; column-gap: 40px;">
       <aside class="sticky top-24 self-start" x-data="articleToc()">
         {toc.length > 0 && (
           <nav aria-label="Содержание статьи">
