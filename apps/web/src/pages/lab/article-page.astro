@@ -1,0 +1,243 @@
+---
+/**
+ * Lab: Article Page — эксперимент с новым layout страницы статьи
+ *
+ * Источник контента: пост `case-ayaks-dvizh` из CMS.
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/article-page
+ *
+ * Текущая итерация: только viewport ≥ 1280px (xl, 2xl).
+ * Адаптация sm/md/lg — отдельной итерацией.
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import PersonCard from '../../components/ui/PersonCard.astro'
+import { getBlogPost, normalizeMediaUrl, normalizeBodyHtml, sanitizeBodyHtml } from '../../lib/payload'
+
+const post = await getBlogPost('case-ayaks-dvizh')
+if (!post) return Astro.redirect('/404')
+
+const coverUrl = normalizeMediaUrl(post.cover?.url)
+const primaryAuthor = post.primaryAuthor ?? null
+
+// Время чтения
+const textContent = (post.bodyHtml as string | null | undefined)?.replace(/<[^>]+>/g, '') ?? ''
+const wordCount = textContent.split(/\s+/).filter(Boolean).length
+const readingTime = Math.max(1, Math.ceil(wordCount / 200))
+
+// ─── Slugify ──────────────────────────────────────────────────────
+// Транслитерация кириллицы + lowercase + замена не-alnum на дефис.
+const translitMap: Record<string, string> = {
+  а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'y',
+  к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',
+  х:'h',ц:'c',ч:'ch',ш:'sh',щ:'sch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya',
+}
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .split('')
+    .map((c) => translitMap[c] ?? c)
+    .join('')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&[a-z]+;/gi, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    || 'section'
+}
+
+// ─── Извлечение TOC из bodyHtml ───────────────────────────────────
+type TocChild = { id: string; text: string }
+type TocItem = { id: string; text: string; children: TocChild[] }
+
+function extractToc(html: string | null | undefined): { toc: TocItem[]; htmlWithIds: string } {
+  if (!html) return { toc: [], htmlWithIds: '' }
+
+  type Raw = { level: 2 | 3; text: string; id: string; match: string }
+  const raw: Raw[] = []
+  const usedIds = new Set<string>()
+  const ensureUnique = (base: string) => {
+    let id = base
+    let n = 2
+    while (usedIds.has(id)) id = `${base}-${n++}`
+    usedIds.add(id)
+    return id
+  }
+
+  const re = /<(h2|h3)\b([^>]*)>([\s\S]*?)<\/\1>/gi
+  let m: RegExpExecArray | null
+  while ((m = re.exec(html)) !== null) {
+    const level = m[1].toLowerCase() === 'h2' ? 2 : 3
+    const text = m[3].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+    if (!text) continue
+    const id = ensureUnique(slugify(text))
+    raw.push({ level, text, id, match: m[0] })
+  }
+
+  const toc: TocItem[] = []
+  for (const r of raw) {
+    if (r.level === 2) {
+      toc.push({ id: r.id, text: r.text, children: [] })
+    } else if (toc.length > 0) {
+      toc[toc.length - 1].children.push({ id: r.id, text: r.text })
+    }
+  }
+
+  let htmlWithIds = html
+  for (const r of raw) {
+    const tag = r.level === 2 ? 'h2' : 'h3'
+    const inner = r.match.replace(/^<h[23]\b[^>]*>/i, '').replace(/<\/h[23]>$/i, '')
+    const replacement = `<${tag} id="${r.id}">${inner}</${tag}>`
+    htmlWithIds = htmlWithIds.replace(r.match, replacement)
+  }
+
+  return { toc, htmlWithIds }
+}
+
+// Сырой bodyHtml после нормализации ссылок и media-URL
+const rawBody = normalizeBodyHtml(
+  (post.bodyHtml as string | null | undefined)
+    ?.replaceAll('href="https://dvizh.webflow.io/', 'href="/')
+    .replaceAll('href="https://www.dvizh.io/', 'href="/')
+)
+
+const { toc, htmlWithIds } = extractToc(rawBody)
+const bodyHtml = sanitizeBodyHtml(htmlWithIds)
+---
+
+<SiteLayout
+  title={`${post.title} · Lab`}
+  description={post.excerpt ?? ''}
+>
+  <article class="page-container pt-12 lg:pt-16">
+
+    {/* ── Контейнер 1: мета + заголовок ── */}
+    <div class="grid" style="grid-template-columns: 340px 1fr; column-gap: 40px;">
+      {/* Левая колонка — мета */}
+      <aside class="flex flex-col gap-4 text-subhead text-gray-500">
+        <nav class="text-footnote">
+          <a href="/blog" class="hover:text-gray-900">Блог</a>
+          {post.category?.title && (
+            <>
+              <span class="mx-1">›</span>
+              <a href={`/category/${post.category.slug}`} class="hover:text-gray-900">{post.category.title}</a>
+            </>
+          )}
+        </nav>
+
+        {primaryAuthor && <PersonCard person={primaryAuthor} variant="inline" />}
+
+        {post.publishedAt && (
+          <time datetime={post.publishedAt}>
+            {new Date(post.publishedAt).toLocaleDateString('ru-RU', {
+              day: 'numeric', month: 'long', year: 'numeric',
+            })}
+          </time>
+        )}
+
+        <span>{readingTime} мин чтения</span>
+      </aside>
+
+      {/* Правая колонка — заголовок */}
+      <div class="flex flex-col gap-4">
+        <h2 class="text-h2 text-gray-900">{post.title}</h2>
+        {post.excerpt && (
+          <p class="text-body-lg text-gray-500">{post.excerpt}</p>
+        )}
+      </div>
+    </div>
+
+    {/* ── Контейнер 2: TOC + обложка/тело ── */}
+    <div class="grid mt-16" style="grid-template-columns: 340px 1fr; column-gap: 40px;">
+      <aside class="sticky top-24 self-start" x-data="articleToc()">
+        {toc.length > 0 && (
+          <nav aria-label="Содержание статьи">
+            <p class="text-footnote uppercase tracking-wide text-gray-400 mb-4">Содержание</p>
+            <ul class="flex flex-col gap-3 text-subhead">
+              {toc.map((item) => (
+                <li>
+                  <a
+                    href={`#${item.id}`}
+                    data-toc-id={item.id}
+                    class="block transition-colors"
+                    :class={`activeId === '${item.id}' ? 'text-brand' : 'text-gray-900 hover:text-brand'`}
+                  >
+                    {item.text}
+                  </a>
+                  {item.children.length > 0 && (
+                    <ul class="mt-2 ml-4 flex flex-col gap-2 text-footnote">
+                      {item.children.map((child) => (
+                        <li>
+                          <a
+                            href={`#${child.id}`}
+                            data-toc-id={child.id}
+                            class="block transition-colors"
+                            :class={`activeId === '${child.id}' ? 'text-brand' : 'text-gray-500 hover:text-brand'`}
+                          >
+                            {child.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+      </aside>
+      <div>
+        {coverUrl && (
+          <img
+            src={coverUrl}
+            alt={post.cover?.alt ?? post.title}
+            class="w-full rounded-xl aspect-video object-cover mb-10"
+            width="1200"
+            height="675"
+            loading="eager"
+            decoding="async"
+          />
+        )}
+        {bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />}
+      </div>
+    </div>
+
+  </article>
+</SiteLayout>
+
+<script is:inline>
+  document.addEventListener('alpine:init', () => {
+    window.Alpine.data('articleToc', () => ({
+      activeId: null,
+      init() {
+        const headings = document.querySelectorAll('article h2[id], article h3[id]')
+        if (headings.length === 0) return
+
+        this.activeId = headings[0].id
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((e) => e.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+            if (visible.length > 0) {
+              this.activeId = visible[0].target.id
+            }
+          },
+          {
+            rootMargin: '-15% 0px -70% 0px',
+            threshold: 0,
+          }
+        )
+
+        headings.forEach((h) => observer.observe(h))
+      },
+    }))
+  })
+</script>
+
+<style is:global>
+  /* Локально для lab-страницы, чтобы не трогать глобальный CSS */
+  html { scroll-behavior: smooth; }
+  /* Отступ при скролле к якорю, чтобы заголовок не прятался под шапкой */
+  article h2[id], article h3[id] { scroll-margin-top: 96px; }
+</style>
