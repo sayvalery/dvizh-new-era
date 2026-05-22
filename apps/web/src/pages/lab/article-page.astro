@@ -1,0 +1,98 @@
+---
+/**
+ * Lab: Article Page — эксперимент с новым layout страницы статьи
+ *
+ * Источник контента: пост `case-ayaks-dvizh` из CMS.
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/article-page
+ *
+ * Текущая итерация: только viewport ≥ 1280px (xl, 2xl).
+ * Адаптация sm/md/lg — отдельной итерацией.
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import PersonCard from '../../components/ui/PersonCard.astro'
+import { getBlogPost, normalizeMediaUrl, normalizeBodyHtml, sanitizeBodyHtml } from '../../lib/payload'
+
+const post = await getBlogPost('case-ayaks-dvizh')
+if (!post) return Astro.redirect('/404')
+
+const coverUrl = normalizeMediaUrl(post.cover?.url)
+const primaryAuthor = post.primaryAuthor ?? null
+
+// Время чтения
+const textContent = (post.bodyHtml as string | null | undefined)?.replace(/<[^>]+>/g, '') ?? ''
+const wordCount = textContent.split(/\s+/).filter(Boolean).length
+const readingTime = Math.max(1, Math.ceil(wordCount / 200))
+
+// Тело статьи: bodyHtml через стандартный pipeline (id-инъекция — в Task 2)
+const bodyHtml = sanitizeBodyHtml(normalizeBodyHtml(
+  (post.bodyHtml as string | null | undefined)
+    ?.replaceAll('href="https://dvizh.webflow.io/', 'href="/')
+    .replaceAll('href="https://www.dvizh.io/', 'href="/')
+))
+---
+
+<SiteLayout
+  title={`${post.title} · Lab`}
+  description={post.excerpt ?? ''}
+>
+  <article class="page-container pt-12 lg:pt-16">
+
+    {/* ── Контейнер 1: мета + заголовок ── */}
+    <div class="grid grid-cols-[340px_1fr] gap-x-10">
+      {/* Левая колонка — мета */}
+      <aside class="flex flex-col gap-4 text-subhead text-gray-500">
+        <nav class="text-footnote">
+          <a href="/blog" class="hover:text-gray-900">Блог</a>
+          {post.category?.title && (
+            <>
+              <span class="mx-1">›</span>
+              <a href={`/category/${post.category.slug}`} class="hover:text-gray-900">{post.category.title}</a>
+            </>
+          )}
+        </nav>
+
+        {primaryAuthor && <PersonCard person={primaryAuthor} variant="inline" />}
+
+        {post.publishedAt && (
+          <time datetime={post.publishedAt}>
+            {new Date(post.publishedAt).toLocaleDateString('ru-RU', {
+              day: 'numeric', month: 'long', year: 'numeric',
+            })}
+          </time>
+        )}
+
+        <span>{readingTime} мин чтения</span>
+      </aside>
+
+      {/* Правая колонка — заголовок */}
+      <div class="flex flex-col gap-4">
+        <h2 class="text-h2 text-gray-900">{post.title}</h2>
+        {post.excerpt && (
+          <p class="text-body-lg text-gray-500">{post.excerpt}</p>
+        )}
+      </div>
+    </div>
+
+    {/* ── Контейнер 2: TOC + обложка/тело (заполняется в Task 2-4) ── */}
+    <div class="grid grid-cols-[340px_1fr] gap-x-10 mt-16">
+      <aside class="self-start">
+        {/* TOC — Task 2 */}
+      </aside>
+      <div>
+        {coverUrl && (
+          <img
+            src={coverUrl}
+            alt={post.cover?.alt ?? post.title}
+            class="w-full rounded-xl aspect-video object-cover mb-10"
+            width="1200"
+            height="675"
+            loading="eager"
+            decoding="async"
+          />
+        )}
+        {bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />}
+      </div>
+    </div>
+
+  </article>
+</SiteLayout>
