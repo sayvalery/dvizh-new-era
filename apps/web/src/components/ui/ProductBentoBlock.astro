@@ -79,6 +79,8 @@ const {
 
 const [c1, c2, c3, c4, c5] = cards
 
+const subtitleHtml = subtitle?.replace(/<strong(\s|>)/g, '<strong class="text-gray-900"$1')
+
 const cardBg = (v?: ProductCard['variant']) =>
   v === 'dark' ? 'bg-gray-900' : v === 'brand' ? 'bg-brand' : 'bg-background-secondary'
 
@@ -126,7 +128,7 @@ const bgStyle = (img?: string) =>
         <span class="text-brand">{headingBrand}</span>
       </h2>
       {subtitle && (
-        <p class="text-body-lg text-gray-900 lg:max-w-[400px] xl:max-w-[510px]" set:html={subtitle} />
+        <p class="text-body-lg text-gray-500 lg:max-w-[400px] xl:max-w-[510px]" set:html={subtitleHtml} />
       )}
     </div>
   </div>
