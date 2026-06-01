@@ -83,7 +83,7 @@ const hasHover = !isActive && !!hoverBackground
   <!-- Карточка -->
   <div
     class:list={[
-      'w-full rounded-2xl sm:rounded-3xl overflow-hidden relative flex flex-col transition-transform duration-300 ease-out hover:-translate-y-2',
+      'w-full rounded-2xl sm:rounded-3xl overflow-hidden relative flex flex-col transform-gpu transition-transform duration-300 ease-out hover:-translate-y-2',
       !className && 'aspect-[4/3] md:aspect-square',
       isActive ? 'bg-cover bg-center' : 'bg-background-secondary',
       hasModal ? 'cursor-pointer' : '',
@@ -96,7 +96,7 @@ const hasHover = !isActive && !!hoverBackground
     {/* Оверлей hover-фона (только в default + hoverBackground) */}
     {hasHover && (
       <div
-        class="js-hover-bg absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        class="js-hover-bg absolute inset-0 rounded-2xl sm:rounded-3xl bg-cover bg-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         style={`background-image: url(${hoverBackground})`}
         aria-hidden="true"
       />
