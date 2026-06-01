@@ -9,7 +9,6 @@ import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
 import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
 import ProductSection from '../components/ui/ProductSection.astro'
 import SupportSection from '../components/ui/SupportSection.astro'
-import KeyFacts from '../components/ui/KeyFacts.astro'
 import BlogCards from '../components/ui/BlogCards.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import { getBlogPost, getBlogPosts, normalizeBodyHtml, normalizeMediaUrl, sanitizeBodyHtml } from '../lib/payload'
@@ -353,16 +352,37 @@ const partnerLogos = [
     ]}
   />
 
-  {/* ── 6. KeyFacts ── */}
-  <KeyFacts
-    class="!py-0"
-    items={[
-      { value: 'Uptime 99,9%', description: 'Uptime платформы 99,9%' },
-      { value: 'Безопасность', description: 'Подтверждена отделами ИБ крупнейших застройщиков и банков страны' },
-      { value: '152 ФЗ', description: 'Соответствие стандартам 152 ФЗ' },
-    ]}
-    variant="large"
-  />
+  {/* ── 5.1. Стабильное решение ── */}
+  <section>
+    <div class="page-container flex flex-col" style="gap:128px">
+      <h2 class="text-h2 text-gray-900 text-center">
+        Стабильное решение, которое <span class="text-brand">не подводит</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+        <div class="flex flex-col items-center text-center gap-6">
+          <div class="shrink-0 rounded-3xl bg-gray-300" style="width:120px;height:120px"></div>
+          <div class="flex flex-col gap-2">
+            <h3 class="text-h3 text-gray-900">Результат</h3>
+            <p class="text-body-lg text-gray-500">Uptime платформы 99,9%</p>
+          </div>
+        </div>
+        <div class="flex flex-col items-center text-center gap-6">
+          <div class="shrink-0 rounded-3xl bg-gray-300" style="width:120px;height:120px"></div>
+          <div class="flex flex-col gap-2">
+            <h3 class="text-h3 text-gray-900">Безопасность</h3>
+            <p class="text-body-lg text-gray-500">Подтверждена отделами ИБ крупнейших застройщиков и банков страны</p>
+          </div>
+        </div>
+        <div class="flex flex-col items-center text-center gap-6">
+          <div class="shrink-0 rounded-3xl bg-gray-300" style="width:120px;height:120px"></div>
+          <div class="flex flex-col gap-2">
+            <h3 class="text-h3 text-gray-900">Конфиденциальность</h3>
+            <p class="text-body-lg text-gray-500">Соответствие стандартам 152 ФЗ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   {/* ── 7. Блог — из CMS ── */}
   {recentPosts.length > 0 && (
