@@ -7,9 +7,7 @@ import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
-import AdvantageCard from '../components/ui/AdvantageCard.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
-import ReviewFull from '../components/ui/ReviewFull.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
 
@@ -18,8 +16,8 @@ const cms = import.meta.env.PUBLIC_CMS_URL
 
 <SiteLayout title="Для агентств недвижимости — ДВИЖ" description="Ипотечная платформа для агентств недвижимости. Подбор программ, подача заявок в банки и электронная регистрация в одном окне." bodyClass="bg-background-primary">
   <HeroSectionFull
-    title="Закрывайте сложные сделки и&#160;зарабатывайте на&#160;ипотеке"
-    description="ДВИЖ — платформа для&#160;увеличения продаж у&#160;агентств недвижимости. Закрываем весь цикл сделки: от&#160;одобрения ипотеки до&#160;регистрации в&#160;Росреестре"
+    title="Закрывайте сложные сделки и зарабатывайте на ипотеке"
+    description="ДВИЖ — платформа для увеличения продаж у агентств недвижимости. Закрываем весь цикл сделки: от одобрения ипотеки до регистрации в Росреестре"
     demoLabel="Получить демо"
     kpLabel="Получить КП"
     demoPreset="demo"
@@ -50,179 +48,71 @@ const cms = import.meta.env.PUBLIC_CMS_URL
       ]}
     />
 
-    <!-- FormClosing -->
-    <FormClosing
-      mode="buttons"
-      title="Каждая третья ипотека"
-      description="на первичном рынке России выдается с&#160;помощью ДВИЖа"
-      primaryButton={{ label: 'Больше о нас', href: '/about' }}
-    />
-
-    <!-- Мы помогаем -->
-    <div class="page-container">
-      <h2 class="text-h2">Мы помогаем</h2>
-      <div
-        x-data="{ active: 0 }"
-        @mouseleave="active = 0"
-        class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6"
-      >
-        <AdvantageCard
-          index={0}
-          title="Наполнить воронку качественными лидами"
-          stat="+281%"
-          label="Заявок на&#160;одного менеджера"
-        />
-        <AdvantageCard
-          index={1}
-          title="Закрыть клиентов быстрее, чем конкуренты"
-          stat="×16"
-          label="Одна заявка вместо шестнадцати писем"
-        />
-        <AdvantageCard
-          index={2}
-          title="Увеличить средний чек и&#160;допродажи"
-          stat="×3"
-          label="Сделок без&#160;увеличения штата"
-        />
-        <AdvantageCard
-          index={3}
-          title="Увидеть результат работы каждого сотрудника"
-          stat="90%"
-          label="Одобрений при&#160;объеме выше рынка"
-        />
-      </div>
-    </div>
-
-    <!-- Повышаем качество лидов -->
+    <!-- Ускоряем выход на сделку -->
     <FeatureBlock
       class="!py-0"
-      heading="Повышаем качество лидов"
-      description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
-      button={{ label: 'Узнать больше', href: '/blog' }}
+      heading="Ускоряем выход на сделку"
       image="https://admin.dvizh.cc/api/media/file/calc_widget_vert.png"
       imageMobile="https://admin.dvizh.cc/api/media/file/calc_widget_horiz.png"
       imageAlt="Калькулятор виджет"
       features={[
-        { title: 'Форма на сайт для проверки кредитного рейтинга', subtitle: 'Приведем надежных клиентов' },
-        { title: 'Скоринг по банковским стандартам' },
-        { title: 'Ипотечный калькулятор для сайта' },
+        { title: 'Единая анкета', subtitle: 'Заполняйте одну анкету сразу во все банки за 5 минут' },
+        { title: '40+ банков партнеров', subtitle: 'Подбирайте ипотечную программу под любого клиента' },
+        { title: 'Скоринг «ДВИЖ.Спектр»', subtitle: 'Проверяйте покупателей по крупнейшим кредитным бюро до отправки заявки в банк' },
+        { title: 'Контроль сделок', subtitle: 'Отслеживайте все ключевые показатели ипотечного отдела в готовом дашборде' },
+        { title: 'ДВИЖ AI', subtitle: 'Выбирайте банки, в которых клиента точно одобрят' },
       ]}
     />
 
-    <!-- Помогаем закрывать даже сложных клиентов + отзыв -->
-    <div class="flex flex-col gap-16">
-      <FeatureBlock
-        class="!py-0"
-        heading="Помогаем закрывать даже сложных клиентов…"
-        description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
-        imageSide="left"
-        image="https://admin.dvizh.cc/api/media/file/anketa_vert.png"
-        imageMobile="https://admin.dvizh.cc/api/media/file/anketa_horiz.png"
-        imageAlt="Анкета"
-        button={{ label: 'Узнать больше', href: '/blog' }}
-        features={[
-          { title: 'Финансовый скоринг', subtitle: 'Покажет, как улучшить портрет клиента до отправки заявки в банк' },
-          { title: '40+ банков-партнеров' },
-          { title: 'ДВИЖ AI' },
-        ]}
-      />
-      <div class="page-container">
-        <ReviewFull
-          photo={{ src: "https://admin.dvizh.cc/api/media/file/sh.png", alt: "Анастасия Швед" }}
-          quote="С появлением ДВИЖа мы ускорили подачу заявок с&#160;часа до&#160;5&#160;минут и&#160;минимизировали ошибки в&#160;заполнении анкет"
-          author="Анастасия Швед"
-          role="Директор по продажам"
-          company={{ logo: '/api/media/file/talan-logo.svg', alt: 'Талан' }}
-          caseLink={{ label: 'Читать кейс', href: '/cases/talan' }}
-        />
-      </div>
-    </div>
-
-    <!-- … и делать это быстрее конкурентов + отзыв -->
-    <div class="flex flex-col gap-16">
-      <FeatureBlock
-        class="!py-0"
-        heading="… и делать это быстрее конкурентов"
-        description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
-        imageSide="left"
-        image="https://admin.dvizh.cc/api/media/file/calc_widget_vert.png"
-        imageMobile="https://admin.dvizh.cc/api/media/file/calc_widget_horiz.png"
-        imageAlt="Калькулятор виджет"
-        button={{ label: 'Узнать больше', href: '/blog' }}
-        features={[
-          { title: 'Актуальные статусы по сделке в CRM', subtitle: 'Контроль каждого этапа в карточке клиента' },
-          { title: 'Одна анкета для всех этапов' },
-          { title: 'Все в одном месте' },
-          { title: 'Пакетное распознавание документов' },
-          { title: 'Заполнение анкеты через Госуслуги за 30 секунд' },
-        ]}
-      />
-      <div class="page-container">
-        <ReviewFull
-          photo={{ src: "https://admin.dvizh.cc/api/media/file/ch.png", alt: "Екатерина Чурюкина" }}
-          quote="С появлением ДВИЖа мы ускорили подачу заявок с&#160;часа до&#160;5&#160;минут и&#160;минимизировали ошибки в&#160;заполнении анкет"
-          author="Екатерина Чурюкина"
-          role="Руководитель управления прямых продаж ГК ФСК"
-          caseLink={{ label: 'Читать кейс', href: '/cases/fsk' }}
-        />
-      </div>
-    </div>
-
-    <!-- Раскрываем финансовый потенциал клиентов -->
+    <!-- … и помогаем довести ее до конца -->
     <FeatureBlock
       class="!py-0"
-      heading="Раскрываем финансовый потенциал клиентов"
-      description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
-      image="https://admin.dvizh.cc/api/media/file/anketa_vert.png"
-      imageMobile="https://admin.dvizh.cc/api/media/file/anketa_horiz.png"
-      imageAlt="Анкета"
-      button={{ label: 'Узнать больше', href: '/blog' }}
-      features={[
-        { title: 'Финансовый скоринг', subtitle: 'Покажет, как улучшить портрет клиента до отправки заявки в банк' },
-        { title: 'Расчет ПДН' },
-      ]}
-    />
-
-    <!-- Делаем работу менеджеров управляемой -->
-    <FeatureBlock
-      class="!py-0"
-      heading="Делаем работу менеджеров управляемой"
-      description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
+      heading="… и помогаем довести ее до конца"
+      description="Регистрируйте сделки любой сложности"
       imageSide="left"
       image="https://admin.dvizh.cc/api/media/file/anketa_vert.png"
       imageMobile="https://admin.dvizh.cc/api/media/file/anketa_horiz.png"
       imageAlt="Анкета"
-      button={{ label: 'Узнать больше', href: '/blog' }}
       features={[
-        { title: 'Контроль всех этапов через CRM', subtitle: 'Покажем, как быстро менеджер взял сделку в работу' },
-        { title: 'Отображаем статусы сделки в CRM' },
-        { title: 'Актуальная статистика' },
+        { title: 'Быстрое заполнение данных' },
+        { title: 'Пакетные регистрации' },
+        { title: 'Актуальные статусы' },
+        { title: 'Выпуск ЭЦП' },
+        { title: 'Бесшовный процесс' },
       ]}
     />
 
     <!-- SuccessStoryBlock -->
     <SuccessStoryBlock
-      heading="70+ историй успеха на&#160;рынке застройщиков"
+      heading="70+ историй успеха на рынке застройщиков"
       buttonLabel="Получить демо"
       buttonPreset="demo"
+      class="!py-0"
       stories={[
         {
-          logo: '/api/media/file/lsr_color.svg',
-          logoAlt: 'Группа ЛСР',
-          titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на&#160;281% заявок больше,</span> чем&#160;в среднем на&#160;рынке',
-          personName: 'Группа ЛСР',
-          personJobTitle: 'Один из ведущих строительных холдингов',
+          logo: '/api/media/file/ayaks_color.svg',
+          logoAlt: '«Аякс»',
+          logoHover: '/api/media/file/ayaks_white.svg',
+          hoverBackground: '/api/media/file/ayaks_bg.png',
+          hoverGlass: true,
+          titleHtml: 'Сократили время одобрения в 4 раза и <span class="text-brand">повысили конверсию на 3-5%</span>',
+          personName: '«Аякс»',
+          personJobTitle: 'Агентство недвижимости',
         },
         {
           logo: '/api/media/file/tochno_color.svg',
           logoAlt: 'ГК Точно',
-          titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с&#160;1165 до&#160;3500 за&#160;год</span>',
+          logoHover: '/api/media/file/tochno_white.svg',
+          hoverBackground: '/api/media/file/tochno_bg.png',
+          titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
           personName: 'ГК «Точно»',
           personJobTitle: 'Крупнейший девелопер Краснодарского края',
         },
         {
           logo: '/api/media/file/samolet_color.svg',
           logoAlt: 'ГК Самолет',
+          logoHover: '/api/media/file/samolet_white.svg',
+          hoverBackground: '/api/media/file/samolet_bg.png',
           titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
           personName: 'ГК «Самолет»',
           personJobTitle: 'Крупнейший федеральный девелопер России',
@@ -232,7 +122,7 @@ const cms = import.meta.env.PUBLIC_CMS_URL
 
     <!-- ComparisonSection -->
     <ComparisonSection
-      title="Одно решение для&#160;всей сделки"
+      title="Одно решение для всей сделки"
       leftTitle="Без ДВИЖа"
       leftItems={[
         'Данные клиента теряются, сделка застревает между отделами',
@@ -258,14 +148,14 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     <!-- FormClosing -->
     <FormClosing
       preset="lead"
-      title="Попробуйте ДВИЖ в&#160;деле"
+      title="Попробуйте ДВИЖ в деле"
       items={[
         'Менеджер ответит на любые вопросы',
         'Среднее время ответа техподдержки — 57 сек',
         'Помогаем увеличивать продажи',
       ]}
       submitLabel="Получить демо"
-      privacyText="Нажимая кнопку «Получить демо», вы даете согласие на&#160;обработку ваших персональных данных и&#160;подтверждаете, что ознакомлены с&#160;Политикой обработки персональных данных"
+      privacyText="Нажимая кнопку «Получить демо», вы даете согласие на обработку ваших персональных данных и подтверждаете, что ознакомлены с Политикой обработки персональных данных"
     />
 
   </div>
