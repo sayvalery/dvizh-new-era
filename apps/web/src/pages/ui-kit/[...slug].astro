@@ -342,7 +342,6 @@ const sections = [
           <PropsTable props={navBarMeta.props} class="mb-8" />
 
           <div class="space-y-10">
-
             <div>
               <p class="text-sm font-medium text-gray-400 mb-3">Основной сайт — с дропдаунами</p>
               <div class="-mx-10 border-y border-gray-200">
@@ -366,6 +365,20 @@ const sections = [
                     { label: 'О нас', href: '#' },
                   ]}
                   cta={{ label: 'Запросить демо', preset: 'demo' }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Блог / ДВИЖ Инсайты — с вторичной ссылкой</p>
+              <div class="-mx-10 border-y border-gray-200">
+                <NavBar
+                  logo={{ label: 'ДВИЖ Инсайты', href: '#', image: '/logo-dvizh-insights.svg' }}
+                  items={[
+                    { label: 'Блог', href: '#' },
+                    { label: 'Словарь девелопера', href: '#' },
+                  ]}
+                  secondaryLink={{ label: '← dvizh.io', href: '#' }}
                 />
               </div>
             </div>
