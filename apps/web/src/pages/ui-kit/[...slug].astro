@@ -35,7 +35,6 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
 import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import MegaMenu from '../../components/ui/MegaMenu.astro'
 import megaMenuRaw from '../../components/ui/MegaMenu.astro?raw'
-import Header from '../../components/layout/Header.astro'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
 import Banner from '../../components/ui/Banner.astro'
 import CTABanner from '../../components/ui/CTABanner.astro'
@@ -196,7 +195,6 @@ export function getStaticPaths() {
     { params: { slug: 'colors' }, props: { section: 'colors' } },
     { params: { slug: 'advantage-card' }, props: { section: 'advantage-card' } },
     { params: { slug: 'bento' }, props: { section: 'bento' } },
-    { params: { slug: 'header-blog' }, props: { section: 'header-blog' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'blog-grid' }, props: { section: 'blog-grid' } },
@@ -248,7 +246,6 @@ const sections = [
   { slug: 'advantage-card', label: 'AdvantageCard' },
   { slug: 'banner', label: 'Banner' },
   { slug: 'bento', label: 'Bento Grid' },
-  { slug: 'header-blog', label: 'Header Blog' },
   { slug: 'blogcard', label: 'Blog Card' },
   { slug: 'blog-cards', label: 'Blog Cards' },
   { slug: 'blog-grid', label: 'BlogGrid' },
@@ -1590,32 +1587,6 @@ const sections = [
         </div>
       )}
 
-      {section === 'header-blog' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-2">Header Blog</h1>
-          <p class="text-gray-600 mb-8">
-            Хедер блога/инсайтов ДВИЖ. Все элементы белые — всегда на тёмном фоне.
-            При скролле появляется <code>backdrop-blur + bg-white/20</code>.
-            Брейкпоинты: <code>lg+</code> — полный, <code>sm-md</code> — гамбургер, <code>xs</code> — только лого + гамбургер.
-          </p>
-
-          <div class="space-y-8">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-3">На тёмном фоне — <code>&lt;Header variant="blog" /&gt;</code></p>
-              <div class="rounded-2xl overflow-hidden bg-gray-900 relative h-24">
-                <Header variant="blog" />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-3">На оранжевом фоне (как hero блога)</p>
-              <div class="rounded-2xl overflow-hidden bg-brand relative h-24">
-                <Header variant="blog" />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {section === 'blogcard' && (
         <div>
