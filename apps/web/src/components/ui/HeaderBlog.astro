@@ -46,7 +46,7 @@ const navLinks: NavLink[] = [
   x-init="lastY = window.scrollY"
   @scroll.window.throttle.100ms="onScroll()"
   :class="{ '-translate-y-full': hidden && !mobileOpen, 'z-50': mobileOpen, 'z-40': !mobileOpen }"
-  class="fixed top-0 left-0 right-0 transition-transform duration-300"
+  class="sticky top-0 transition-transform duration-300"
 >
   <div class="max-w-[1440px] mx-auto px-4 pt-3 pb-2">
     <nav
