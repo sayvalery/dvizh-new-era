@@ -6,9 +6,11 @@ import { getBlogPosts, normalizeMediaUrl } from '../../lib/payload'
 interface Props {
   /** Прозрачный режим навигации (для страниц с цветным hero) */
   transparent?: boolean
+  /** Вариант хедера: default — основной сайт, blog — блог/инсайты */
+  variant?: 'default' | 'blog'
 }
 
-const { transparent = false } = Astro.props
+const { transparent = false, variant = 'default' } = Astro.props
 
 const navItems: NavItem[] = [
   {
@@ -64,7 +66,8 @@ try {
   logo={{ label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg', imageLight: '/logo-dvizh-white.svg' }}
   items={navItems}
   blogPosts={blogPosts}
-  secondaryLink={{ label: '+7 495 032 10 47', href: 'tel:+74950321047' }}
-  cta={{ label: 'Получить расчет', preset: 'demo' }}
-  transparent={transparent}
+  secondaryLink={variant === 'blog' ? { label: 'На сайт ДВИЖ', href: '/' } : { label: '+7 495 032 10 47', href: 'tel:+74950321047' }}
+  cta={variant === 'blog' ? { label: 'Стать автором', href: '/contacts', chevron: true } : { label: 'Получить расчет', preset: 'demo' }}
+  transparent={variant === 'blog' ? true : transparent}
+  variant={variant}
 />

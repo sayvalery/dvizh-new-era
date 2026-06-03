@@ -52,11 +52,14 @@ interface Props {
   items?: NavItem[]
   blogPosts?: BlogPost[]
   secondaryLink?: { label: string; href: string }
-  cta?: { label: string; preset?: string }
+  cta?: { label: string; preset?: string; href?: string; chevron?: boolean }
   transparent?: boolean
+  /** Вариант: default — основной сайт, blog — блог/инсайты (белые элементы + поиск) */
+  variant?: 'default' | 'blog'
 }
 
-const { logo, items = [], blogPosts = [], secondaryLink, cta, transparent = false } = Astro.props
+const { logo, items = [], blogPosts = [], secondaryLink, cta, transparent = false, variant = 'default' } = Astro.props
+const isBlog = variant === 'blog'
 
 // Мега-пункты (Продукты, Решения) — рендерят отдельные дропдауны
 const megaItems = items.filter(i => i.sections?.length)
@@ -127,6 +130,17 @@ const megaItems = items.filter(i => i.sections?.length)
               <span class="font-bold text-xl">{logo.label}</span>
             )}
           </a>
+
+          {/* Поиск — только blog-вариант, lg+ */}
+          {isBlog && (
+            <div class="hidden lg:flex items-center gap-3 h-9 px-4 rounded-full bg-white/20 w-60">
+              <span class="text-subhead text-white/70 flex-1 whitespace-nowrap">Ищите в инсайтах</span>
+              <svg class="w-4 h-4 text-white/70 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+              </svg>
+            </div>
+          )}
+
           <div class="hidden lg:flex lg:gap-x-1">
             {items.map(item => (
               item.sections?.length ? (
@@ -218,8 +232,23 @@ const megaItems = items.filter(i => i.sections?.length)
             </a>
           )}
 
+          <!-- CTA: blog-вариант — белая кнопка со стрелкой (sm+) -->
+          {cta && isBlog && (
+            <a
+              href={cta.href ?? '/contacts'}
+              class="hidden sm:inline-flex items-center gap-1 h-9 px-4 bg-white text-gray-900 text-btn font-semibold rounded-lg whitespace-nowrap hover:bg-white/90 transition-colors"
+            >
+              {cta.label}
+              {cta.chevron && (
+                <svg class="w-3.5 h-3.5 -rotate-90 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              )}
+            </a>
+          )}
+
           <!-- CTA text button: xs+ to lg (hidden below xs and on lg+ handled separately) -->
-          {cta && (
+          {cta && !isBlog && (
             <Button
               variant="dark"
               size="sm"
@@ -230,7 +259,7 @@ const megaItems = items.filter(i => i.sections?.length)
           )}
 
           <!-- CTA text button: lg+ desktop -->
-          {cta && (
+          {cta && !isBlog && (
             <Button
               variant="dark"
               size="sm"
