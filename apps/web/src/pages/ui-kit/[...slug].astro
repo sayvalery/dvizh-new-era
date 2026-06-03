@@ -35,6 +35,7 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
 import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import MegaMenu from '../../components/ui/MegaMenu.astro'
 import megaMenuRaw from '../../components/ui/MegaMenu.astro?raw'
+import HeaderBlog from '../../components/ui/HeaderBlog.astro'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
 import Banner from '../../components/ui/Banner.astro'
 import CTABanner from '../../components/ui/CTABanner.astro'
@@ -195,6 +196,7 @@ export function getStaticPaths() {
     { params: { slug: 'colors' }, props: { section: 'colors' } },
     { params: { slug: 'advantage-card' }, props: { section: 'advantage-card' } },
     { params: { slug: 'bento' }, props: { section: 'bento' } },
+    { params: { slug: 'header-blog' }, props: { section: 'header-blog' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'blog-grid' }, props: { section: 'blog-grid' } },
@@ -246,6 +248,7 @@ const sections = [
   { slug: 'advantage-card', label: 'AdvantageCard' },
   { slug: 'banner', label: 'Banner' },
   { slug: 'bento', label: 'Bento Grid' },
+  { slug: 'header-blog', label: 'Header Blog' },
   { slug: 'blogcard', label: 'Blog Card' },
   { slug: 'blog-cards', label: 'Blog Cards' },
   { slug: 'blog-grid', label: 'BlogGrid' },
@@ -1582,6 +1585,59 @@ const sections = [
                   { year: 'Q3', title: 'Масштабирование' },
                 ]}
               />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'header-blog' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Header Blog</h1>
+          <p class="text-gray-600 mb-8">
+            Хедер блога/инсайтов ДВИЖ. Все элементы белые — всегда на тёмном фоне.
+            При скролле появляется <code>backdrop-blur + bg-white/20</code>.
+            Брейкпоинты: <code>lg+</code> — полный, <code>sm-md</code> — гамбургер, <code>xs</code> — только лого + гамбургер.
+          </p>
+
+          <div class="space-y-8">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Default — прозрачный (до скролла)</p>
+              <div class="rounded-2xl overflow-hidden bg-gray-900 relative h-24">
+                <HeaderBlog />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Transparent — с blur (после скролла), симуляция через класс</p>
+              <div class="rounded-2xl overflow-hidden bg-gray-900 relative h-24">
+                <div class="max-w-[1440px] mx-auto px-4 pt-3 pb-2">
+                  <div class="flex items-center justify-between h-14 px-6 rounded-2xl bg-white/20 backdrop-blur-[10px] transition-all duration-300">
+                    <div class="flex items-center gap-6 h-full">
+                      <img src="/logo-dvizh-white.svg" alt="ДВИЖ Инсайты" class="h-7 w-auto" />
+                      <div class="hidden lg:flex items-center gap-3 ml-2">
+                        <div class="flex items-center gap-3 h-9 px-4 rounded-full bg-white/20 w-60">
+                          <span class="text-subhead text-white/70 flex-1">Ищите в инсайтах</span>
+                          <svg class="w-4 h-4 text-white/70 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" /></svg>
+                        </div>
+                        <div class="flex items-center gap-1">
+                          {['Статьи', 'Кейсы', 'Подкасты'].map(l => <span class="px-3 py-2 text-subhead text-white rounded-lg">{l}</span>)}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                      <span class="hidden sm:block text-subhead text-white font-semibold">На сайт ДВИЖ</span>
+                      <span class="hidden sm:inline-flex items-center gap-1 h-9 px-4 bg-white text-gray-900 text-btn rounded-lg font-semibold">Стать автором</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">На оранжевом фоне (как hero блога)</p>
+              <div class="rounded-2xl overflow-hidden bg-brand relative h-24">
+                <HeaderBlog />
+              </div>
             </div>
           </div>
         </div>
