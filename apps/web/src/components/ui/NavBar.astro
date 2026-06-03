@@ -87,7 +87,7 @@ const megaItems = items.filter(i => i.sections?.length)
   }`}
   x-init="lastY = window.scrollY"
   @scroll.window.throttle.100ms="onScroll()"
-  class:list={[transparent ? 'fixed top-0 left-0 right-0' : 'sticky top-0']}
+  class:list={[isBlog ? 'sticky top-0' : transparent ? 'fixed top-0 left-0 right-0' : 'sticky top-0']}
   :class="{
     '-translate-y-full': hidden && !mobileOpen && !megaOpen && !openMenu,
     'z-50': openMenu || megaOpen || mobileOpen,
