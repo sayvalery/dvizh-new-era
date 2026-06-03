@@ -965,6 +965,23 @@ const sections = [
             </div>
 
             <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">mode="buttons" + HTML-выделение в items (font-semibold)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`items={['<span class="font-semibold">Шаг:</span> описание']}`}</code> — пункты поддерживают HTML</p>
+              <div class="-mx-10">
+                <FormClosing
+                  mode="buttons"
+                  primaryButton={{ label: 'Оставить заявку', drawerPreset: 'lead' }}
+                  title="Бесплатно проверим 5 клиентов, которые получили отказ"
+                  items={[
+                    '<span class="font-semibold">Вы присылаете 5 отказников:</span> заявки, которые банк не одобрил',
+                    '<span class="font-semibold">Мы проводим скоринг:</span> проверяем по бюро и подбираем банк',
+                    '<span class="font-semibold">Вы получаете отчет за день:</span> причина отказа и сумма одобрения',
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div>
               <p class="text-sm font-medium text-gray-400 mb-1">mode="form" базовый (description)</p>
               <p class="text-xs text-gray-400 mb-6"><code>{`<FormClosing preset="lead" title="..." description="..." />`}</code></p>
               <div class="-mx-10">
@@ -1769,7 +1786,7 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Tab <span class="text-gray-400 text-base font-normal">(Stacy)</span></h1>
           <p class="text-gray-600 mb-4">
-            Таб-кнопка фильтра/навигации. Три состояния: default (серый), hover (тёмный), selected (brand с подсветкой бордера). Рендерится как <code>&lt;a&gt;</code> если задан <code>href</code>, иначе <code>&lt;button&gt;</code>.
+            Таб-кнопка фильтра/навигации. Три состояния: default (серый), hover (темный), selected (brand с подсветкой бордера). Рендерится как <code>&lt;a&gt;</code> если задан <code>href</code>, иначе <code>&lt;button&gt;</code>.
           </p>
           <PropsTable props={tabMeta.props} class="mb-10" />
 
@@ -1788,7 +1805,7 @@ const sections = [
               <p class="text-xs text-gray-400 mb-6"><code>{`<div x-data="{ tab: 'all' }"> <Tab :selected="tab === 'all'" @click="tab = 'all'" /> </div>`}</code></p>
               <div x-data="{ tab: 'all' }" class="flex flex-wrap gap-2">
                 <Tab label="Все" :selected="tab === 'all'" @click="tab = 'all'" />
-                <Tab label="Маркетинг и продажи" :selected="tab === 'marketing'" @click="tab = 'marketing'" />
+                <Tab label="Маркетинг и продажи" :selected="tab === 'marketing'" @click="tab = 'marketing'" />
                 <Tab label="Кейсы" :selected="tab === 'cases'" @click="tab = 'cases'" />
                 <Tab label="Аналитика" :selected="tab === 'analytics'" @click="tab = 'analytics'" />
                 <Tab label="Продукты" :selected="tab === 'products'" @click="tab = 'products'" />

@@ -7,6 +7,7 @@
  *   buttons — две кнопки вместо формы (primary + secondary)
  *
  * Пункты списка `items` отображаются с иконкой check circle.
+ * Поддерживают HTML (напр. <span class="font-semibold">…</span> для выделения).
  *
  * @example
  * <!-- Форма с пунктами -->
@@ -171,7 +172,7 @@ const privacyMain = privacyText
               <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
               <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span class:list={['text-body-lg leading-snug', listTextCls]}>{item}</span>
+            <span class:list={['text-body-lg leading-snug', listTextCls]} set:html={item} />
           </li>
         ))}
       </ul>
