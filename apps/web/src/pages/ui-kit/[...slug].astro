@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import NavBar from '../../components/ui/NavBar.astro'
+import Header from '../../components/layout/Header.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
 import Form from '../../components/ui/Form.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
@@ -379,6 +380,23 @@ const sections = [
                   ]}
                   secondaryLink={{ label: '← dvizh.io', href: '#' }}
                 />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-1">
+                Blog-вариант — <code>&lt;Header variant="blog" /&gt;</code>
+              </p>
+              <p class="text-xs text-gray-400 mb-3">Статьи / Кейсы / Подкасты + поиск (lg+) + «На сайт ДВИЖ» + «Стать автором»</p>
+              <div class="-mx-10 overflow-hidden bg-gray-900">
+                <Header variant="blog" />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Blog-вариант на оранжевом фоне</p>
+              <div class="-mx-10 overflow-hidden bg-brand">
+                <Header variant="blog" />
               </div>
             </div>
           </div>
