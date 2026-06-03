@@ -10,6 +10,75 @@ import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
 import Button from '../../components/ui/Button.astro'
 import Tab from '../../components/ui/Tab.astro'
 import Banner from '../../components/ui/Banner.astro'
+import { getBlogPosts } from '../../lib/payload'
+
+// Все опубликованные посты. Пересортировка: посты без publishedAt — в конец,
+// иначе CMS (-publishedAt) ставит запись с пустой датой первой и она «угоняет» геро-слот.
+const { docs: rawPosts } = await getBlogPosts({ limit: 200, depth: 2 })
+const allPosts = [...rawPosts].sort((a: any, b: any) => {
+  const ta = a.publishedAt ? Date.parse(a.publishedAt) : -Infinity
+  const tb = b.publishedAt ? Date.parse(b.publishedAt) : -Infinity
+  return tb - ta
+})
+
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+
+/** ISO-дата → «27 февраля» (день + месяц) */
+function ruDate(iso?: string): string | undefined {
+  if (!iso) return undefined
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return undefined
+  return `${d.getDate()}\u00A0${MONTHS[d.getMonth()]}`
+}
+
+/** Рекурсивно собирает текст из Lexical-узла (root/children/text) */
+function lexicalText(node: any): string {
+  if (!node) return ''
+  if (typeof node.text === 'string') return node.text
+  const kids = node.children ?? node.root?.children
+  return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
+}
+
+/**
+ * Время чтения из объёма текста (≈200 слов/мин) → «9 мин».
+ * Webflow-посты — в bodyHtml; CMS-нативные — в content (Lexical).
+ */
+function readTime(post: any): string {
+  let text = ''
+  if (post.bodyHtml) {
+    text = String(post.bodyHtml).replace(/<[^>]+>/g, ' ')
+  } else if (Array.isArray(post.content)) {
+    text = post.content.map((b: any) => lexicalText(b.richText)).join(' ')
+  }
+  text = text.replace(/\s+/g, ' ').trim()
+  const words = text ? text.split(' ').length : 0
+  const min = Math.max(1, Math.round(words / 200))
+  return `${min}\u00A0мин`
+}
+
+/** Пост CMS → пропсы BlogCardNew */
+function card(post: any) {
+  return {
+    title: post.title,
+    slug: post.slug,
+    cover: post.cover,
+    excerpt: post.excerpt,
+    date: ruDate(post.publishedAt),
+    readTime: readTime(post),
+  }
+}
+
+const byCat = (slug: string) => allPosts.filter((p: any) => p.category?.slug === slug)
+const count = (slug: string) => byCat(slug).length
+
+// Подборки по блокам
+const featured = allPosts[0]                              // Блок 1: главная карточка
+const recent = allPosts.slice(1, 4)                       // Блок 1: 3 xs-карточки
+const pravila = byCat('pravila-developera').slice(0, 4)   // Блок 2
+const analitika = byCat('statistika').slice(0, 4)         // Блок 4 (Аналитика рынка)
+const novosti = byCat('pro-dvizh').slice(0, 4)            // Блок 5 (Новости)
+const podkasty = byCat('podcasts').slice(0, 4)            // Блок 7 (Подкасты)
+const statyi = allPosts.slice(0, 10)                      // Блок 8: последние 9 (+1 добивочная для sm)
 ---
 
 <SiteLayout title="Blog Main · Lab" description="Эксперимент с новым layout блога">
@@ -19,39 +88,12 @@ import Banner from '../../components/ui/Banner.astro'
     <div class="page-container flex flex-col gap-10 lg:gap-16">
       <h2 class="text-h2 text-gray-900 md:mb-6 lg:mb-0">Журнал для&#160;современных девелоперов</h2>
 
-      <BlogCardNew
-        size="lg"
-        layout="stacked"
-        title="Как в&#160;2&#160;раза увеличить поток аудитории к&#160;концу 2026&#160;года"
-        slug="kak-uvelichit-potok-auditorii"
-        date="27&#160;февраля"
-        readTime="9&#160;мин"
-        excerpt="Сценарии развития событий от&#160;Романа Гурова"
-      />
+      {featured && <BlogCardNew size="lg" layout="stacked" {...card(featured)} />}
 
       <div class="hidden md:grid gap-6 sm:grid-cols-2 xl:grid-cols-3 sm:-mt-2 lg:-mt-8">
-        <BlogCardNew
-          size="xs"
-          title="«Клиент&#160;— самый важный человек в&#160;компании»: ценности Анжелики Альшаевой"
-          slug="cennosti-anzheliki-alshaevoy"
-          date="13&#160;мая"
-          readTime="15&#160;мин"
-        />
-        <BlogCardNew
-          size="xs"
-          title="ДВИЖ и&#160;Банк «РОССИЯ» запустили ускоренный обмен данными по&#160;API"
-          slug="dvizh-rossiya-api"
-          date="21&#160;апреля"
-          readTime="2&#160;мин"
-        />
-        <BlogCardNew
-          size="xs"
-          title="Итоги апреля"
-          slug="itogi-aprelya"
-          date="12&#160;мая"
-          readTime="2&#160;мин"
-          class="hidden xl:block"
-        />
+        {recent.map((post: any, i: number) => (
+          <BlogCardNew size="xs" {...card(post)} class={i === 2 ? 'hidden xl:block' : ''} />
+        ))}
       </div>
     </div>
 
@@ -61,7 +103,7 @@ import Banner from '../../components/ui/Banner.astro'
       {/* Заголовок + подзаголовок + счётчик + кнопка */}
       <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
         <div class="flex flex-col gap-1 max-w-[800px] w-full">
-          <h2 class="text-h2 text-gray-900">Правила девелопера<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">12</span></h2>
+          <h2 class="text-h2 text-gray-900">Правила девелопера<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{count('pravila-developera')}</span></h2>
           <p class="text-body-lg text-gray-500">Реальные истории топов, их&#160;взгляды на&#160;рынок и&#160;профессию</p>
         </div>
         <div class="shrink-0">
@@ -69,37 +111,11 @@ import Banner from '../../components/ui/Banner.astro'
         </div>
       </div>
 
-      {/* 3 md-карточки */}
+      {/* 3 md-карточки (4-я только sm/md) */}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
-        <BlogCardNew
-          size="md"
-          title="«Клиент&#160;— самый важный человек в&#160;компании»: ценности Анжелики Альшаевой"
-          slug="cennosti-anzheliki-alshaevoy"
-          date="13&#160;мая"
-          readTime="15&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="«Главное изменение на&#160;рынке&#160;— скорость этих изменений»: видение Юлии Файзулиной"
-          slug="videnie-yulii-fayzulinoy"
-          date="14&#160;апреля"
-          readTime="13&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="«Победа требует заботы»: ценности Александра Курникова"
-          slug="cennosti-aleksandra-kurnikova"
-          date="19&#160;марта"
-          readTime="16&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="«Перепроверять нужно все и&#160;за&#160;всеми»: ценности Анастасии Швед"
-          slug="cennosti-anastasii-shved"
-          date="20&#160;марта"
-          readTime="15&#160;мин"
-          class="hidden sm:block lg:hidden"
-        />
+        {pravila.map((post: any, i: number) => (
+          <BlogCardNew size="md" {...card(post)} class={i === 3 ? 'hidden sm:block lg:hidden' : ''} />
+        ))}
       </div>
 
     </div>
@@ -151,7 +167,7 @@ import Banner from '../../components/ui/Banner.astro'
         {/* Заголовочная область: <xl — heading+button в одну строку (sm+), xl+ — колонка 1/3 */}
         <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between xl:flex-col xl:gap-6 xl:basis-1/3 xl:shrink xl:min-w-0">
           <div class="flex flex-col gap-1">
-            <h2 class="text-h2 text-gray-900">Аналитика рынка<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">30</span></h2>
+            <h2 class="text-h2 text-gray-900">Аналитика рынка<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{count('statistika')}</span></h2>
             <p class="text-body-lg text-gray-500">Проводим исследования и&#160;делимся инсайтами</p>
           </div>
           <div class="shrink-0">
@@ -164,66 +180,15 @@ import Banner from '../../components/ui/Banner.astro'
         <div class="xl:basis-2/3 xl:shrink xl:min-w-0">
           {/* s-стак: только xl+ */}
           <div class="hidden xl:flex flex-col gap-6">
-            <BlogCardNew
-              size="s"
-              title="Итоги апреля"
-              slug="itogi-aprelya"
-              date="12&#160;мая"
-              readTime="2&#160;мин"
-            />
-            <BlogCardNew
-              size="s"
-              title="Итоги марта"
-              slug="itogi-marta"
-              date="10&#160;апреля"
-              readTime="3&#160;мин"
-            />
-            <BlogCardNew
-              size="s"
-              title="Итоги февраля"
-              slug="itogi-fevralya"
-              date="13&#160;марта"
-              readTime="3&#160;мин"
-            />
-            <BlogCardNew
-              size="s"
-              title="Спасибо, что выжили, или&#160;как прошел 2025&#160;год для&#160;девелоперов"
-              slug="spasibo-chto-vyzhili-2025"
-              date="29&#160;декабря"
-              readTime="9&#160;мин"
-            />
+            {analitika.map((post: any) => (
+              <BlogCardNew size="s" {...card(post)} />
+            ))}
           </div>
-          {/* md-ряд: <xl, 3 md-карточки */}
+          {/* md-ряд: <xl, 3 md-карточки (4-я только sm/md) */}
           <div class="grid xl:hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
-            <BlogCardNew
-              size="md"
-              title="Итоги апреля"
-              slug="itogi-aprelya"
-              date="12&#160;мая"
-              readTime="2&#160;мин"
-            />
-            <BlogCardNew
-              size="md"
-              title="Итоги марта"
-              slug="itogi-marta"
-              date="10&#160;апреля"
-              readTime="3&#160;мин"
-            />
-            <BlogCardNew
-              size="md"
-              title="Итоги февраля"
-              slug="itogi-fevralya"
-              date="13&#160;марта"
-              readTime="3&#160;мин"
-            />
-            <BlogCardNew
-              size="md"
-              title="Спасибо, что выжили, или&#160;как прошел 2025&#160;год для&#160;девелоперов"
-              slug="spasibo-chto-vyzhili-2025"
-              date="29&#160;декабря"
-              readTime="9&#160;мин"
-              class="hidden sm:block lg:hidden"
-            />
+            {analitika.map((post: any, i: number) => (
+              <BlogCardNew size="md" {...card(post)} class={i === 3 ? 'hidden sm:block lg:hidden' : ''} />
+            ))}
           </div>
         </div>
 
@@ -236,50 +201,24 @@ import Banner from '../../components/ui/Banner.astro'
         {/* Левая колонка (lg+): теги + кнопка */}
         <div class="flex flex-col gap-6 lg:basis-1/3 lg:shrink lg:min-w-0">
           <div class="flex flex-wrap gap-2">
-            <Tab label="Правила девелопера" href="/blog/category/pravila" />
-            <Tab label="Подкасты" href="/blog/category/podkasty" />
-            <Tab label="Новости" href="/blog/category/novosti" selected />
-            <Tab label="Аналитика рынка" href="/blog/category/analitika" />
+            <Tab label="Правила девелопера" href="/category/pravila-developera" />
+            <Tab label="Подкасты" href="/category/podcasts" />
+            <Tab label="Новости" href="/category/pro-dvizh" selected />
+            <Tab label="Аналитика рынка" href="/category/statistika" />
             <Tab label="Кейсы" href="/cases" />
-            <Tab label="Маркетинг и продажи" href="/blog/category/marketing" />
-            <Tab label="Инсайты" href="/blog/category/insayty" />
+            <Tab label="Маркетинг и продажи" href="/category/marketing-prodazhi" />
+            <Tab label="Инсайты" href="/category/insights" />
           </div>
           <div>
             <Button variant="primary" size="sm" href="/blog">Смотреть все статьи</Button>
           </div>
         </div>
 
-        {/* Правая колонка: 4 md-карточки в сетке 1 → 2 col */}
+        {/* Правая колонка: 4 md-карточки в сетке 1 → 2 col (4-я только sm+) */}
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 lg:basis-2/3 lg:shrink lg:min-w-0">
-          <BlogCardNew
-            size="md"
-            title="ДВИЖ и&#160;Банк «РОССИЯ» запустили ускоренный обмен данными по&#160;API"
-            slug="dvizh-rossiya-api"
-            date="21&#160;апреля"
-            readTime="2&#160;мин"
-          />
-          <BlogCardNew
-            size="md"
-            title="Уралсиб и&#160;ДВИЖ перешли на&#160;работу по&#160;протоколу API"
-            slug="uralsib-dvizh-api"
-            date="14&#160;апреля"
-            readTime="2&#160;мин"
-          />
-          <BlogCardNew
-            size="md"
-            title="Абсолют Банк провел API-интеграцию с&#160;платформой ДВИЖ"
-            slug="absolyut-bank-api-integraciya"
-            date="6&#160;апреля"
-            readTime="3&#160;мин"
-          />
-          <BlogCardNew
-            size="md"
-            title="Взгляд изнутри: как&#160;обновился ДВИЖ в&#160;2025"
-            slug="vzglyad-iznutri-dvizh-2025"
-            date="14&#160;января"
-            readTime="10&#160;мин"
-            class="hidden sm:block"
-          />
+          {novosti.map((post: any, i: number) => (
+            <BlogCardNew size="md" {...card(post)} class={i === 3 ? 'hidden sm:block' : ''} />
+          ))}
         </div>
 
       </div>
@@ -300,7 +239,7 @@ import Banner from '../../components/ui/Banner.astro'
     <div class="page-container flex flex-col gap-10 xl:flex-row xl:gap-6 xl:items-start">
 
         <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between xl:flex-col xl:gap-6 xl:basis-1/3 xl:shrink xl:min-w-0">
-          <h2 class="text-h2 text-gray-900">Конференции, подкасты и&#160;вебинары<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">12</span></h2>
+          <h2 class="text-h2 text-gray-900">Конференции, подкасты и&#160;вебинары<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{count('podcasts')}</span></h2>
           <div class="shrink-0">
             <Button variant="primary" size="sm" href="/events">Смотреть все</Button>
           </div>
@@ -309,66 +248,15 @@ import Banner from '../../components/ui/Banner.astro'
         <div class="xl:basis-2/3 xl:shrink xl:min-w-0">
           {/* s-стак: только xl+ */}
           <div class="hidden xl:flex flex-col gap-6">
-            <BlogCardNew
-              size="s"
-              title="Вадим Герасимов о&#160;ситуации с&#160;продажами, идеальном процессе сделки и&#160;подходе Унистроя"
-              slug="gerasimov-situaciya-prodazhi-unistroy"
-              date="24&#160;марта"
-              readTime="13&#160;мин"
-            />
-            <BlogCardNew
-              size="s"
-              title="Вадим Герасимов об&#160;идеальном продавце и&#160;системе обучения в&#160;Унистрое"
-              slug="gerasimov-idealnyy-prodavec-unistroy"
-              date="23&#160;марта"
-              readTime="10&#160;мин"
-            />
-            <BlogCardNew
-              size="s"
-              title="Вадим Герасимов о&#160;своем пути к&#160;должности директора по&#160;продажам"
-              slug="gerasimov-put-k-direktoru-po-prodazham"
-              date="22&#160;марта"
-              readTime="11&#160;мин"
-            />
-            <BlogCardNew
-              size="s"
-              title="Рустам Азизов про&#160;банки и&#160;ипотеку"
-              slug="rustam-azizov-banki-ipoteka"
-              date="11&#160;марта"
-              readTime="14&#160;мин"
-            />
+            {podkasty.map((post: any) => (
+              <BlogCardNew size="s" {...card(post)} />
+            ))}
           </div>
-          {/* md-ряд: <xl, 3 md-карточки */}
+          {/* md-ряд: <xl, 3 md-карточки (4-я только sm/md) */}
           <div class="grid xl:hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
-            <BlogCardNew
-              size="md"
-              title="Вадим Герасимов о&#160;ситуации с&#160;продажами, идеальном процессе сделки и&#160;подходе Унистроя"
-              slug="gerasimov-situaciya-prodazhi-unistroy"
-              date="24&#160;марта"
-              readTime="13&#160;мин"
-            />
-            <BlogCardNew
-              size="md"
-              title="Вадим Герасимов об&#160;идеальном продавце и&#160;системе обучения в&#160;Унистрое"
-              slug="gerasimov-idealnyy-prodavec-unistroy"
-              date="23&#160;марта"
-              readTime="10&#160;мин"
-            />
-            <BlogCardNew
-              size="md"
-              title="Вадим Герасимов о&#160;своем пути к&#160;должности директора по&#160;продажам"
-              slug="gerasimov-put-k-direktoru-po-prodazham"
-              date="22&#160;марта"
-              readTime="11&#160;мин"
-            />
-            <BlogCardNew
-              size="md"
-              title="Рустам Азизов про&#160;банки и&#160;ипотеку"
-              slug="rustam-azizov-banki-ipoteka"
-              date="11&#160;марта"
-              readTime="14&#160;мин"
-              class="hidden sm:block lg:hidden"
-            />
+            {podkasty.map((post: any, i: number) => (
+              <BlogCardNew size="md" {...card(post)} class={i === 3 ? 'hidden sm:block lg:hidden' : ''} />
+            ))}
           </div>
         </div>
 
@@ -379,85 +267,17 @@ import Banner from '../../components/ui/Banner.astro'
 
       {/* Заголовок + счётчик + кнопка */}
       <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-        <h2 class="text-h2 text-gray-900 max-w-[800px] w-full">Статьи блога<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">86</span></h2>
+        <h2 class="text-h2 text-gray-900 max-w-[800px] w-full">Статьи блога<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{allPosts.length}</span></h2>
         <div class="shrink-0">
           <Button variant="primary" size="sm" href="/blog">Смотреть все</Button>
         </div>
       </div>
 
-      {/* Сетка 3×3 — 9 md-карточек */}
+      {/* Сетка 3×3 — 9 md-карточек (10-я только sm/md, чтобы добить ряд) */}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
-        <BlogCardNew
-          size="md"
-          title="«Главное изменение на&#160;рынке&#160;— скорость этих изменений»: видение Юлии Файзулиной"
-          slug="videnie-yulii-fayzulinoy"
-          date="14&#160;апреля"
-          readTime="13&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="Итоги марта"
-          slug="itogi-marta"
-          date="10&#160;апреля"
-          readTime="3&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="Как застройщику не&#160;терять нить в&#160;работе агентов (и&#160;где обычно случаются факапы)"
-          slug="kak-zastroyshchiku-ne-teryat-nit-v-rabote-agentov"
-          date="8&#160;апреля"
-          readTime="10&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="Абсолют Банк провел API-интеграцию с&#160;платформой ДВИЖ"
-          slug="absolyut-bank-api-integraciya"
-          date="6&#160;апреля"
-          readTime="3&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="«Победа требует заботы»: ценности Александра Курникова"
-          slug="cennosti-aleksandra-kurnikova"
-          date="19&#160;марта"
-          readTime="16&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="Как получать больше качественных лидов по&#160;меньшей стоимости"
-          slug="bolshe-kachestvennyh-lidov"
-          date="18&#160;марта"
-          readTime="15&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="Итоги февраля"
-          slug="itogi-fevralya"
-          date="13&#160;марта"
-          readTime="3&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="Как в&#160;2&#160;раза увеличить поток аудитории к&#160;концу 2026&#160;года"
-          slug="kak-uvelichit-potok-auditorii"
-          date="26&#160;февраля"
-          readTime="9&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="«Перепроверять нужно все и&#160;за&#160;всеми»: ценности Анастасии Швед"
-          slug="cennosti-anastasii-shved"
-          date="20&#160;февраля"
-          readTime="15&#160;мин"
-        />
-        <BlogCardNew
-          size="md"
-          title="Почему девелопер развивает город и&#160;как это влияет на&#160;продажи. Часть&#160;1"
-          slug="pochemu-developer-razvivaet-gorod-1"
-          date="30&#160;января"
-          readTime="11&#160;мин"
-          class="hidden sm:block lg:hidden"
-        />
+        {statyi.map((post: any, i: number) => (
+          <BlogCardNew size="md" {...card(post)} class={i === 9 ? 'hidden sm:block lg:hidden' : ''} />
+        ))}
       </div>
 
     </div>
