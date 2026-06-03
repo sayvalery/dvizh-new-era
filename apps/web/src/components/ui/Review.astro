@@ -48,6 +48,8 @@ interface Props {
   role?: string
   /** Логотип компании. Если не передан — разделитель скрывается */
   company?: Company
+  /** Круглый аватар автора. Показывается в футере вместо логотипа, если company не передан */
+  avatar?: { src: string; alt?: string }
   /** Ссылка на кейс. label по умолчанию — «Читать кейс» */
   caseLink?: { label?: string; href: string }
   /**
@@ -66,13 +68,14 @@ const {
   author,
   role,
   company,
+  avatar,
   caseLink,
   variant = 'default',
   class: className = ''
 } = Astro.props
 
 const hasPhoto = photo !== undefined
-const hasFooter = !!(author || company || caseLink)
+const hasFooter = !!(author || company || avatar || caseLink)
 ---
 
 {hasPhoto ? (
@@ -157,6 +160,14 @@ const hasFooter = !!(author || company || caseLink)
             )}
             {company && (
               <div class="w-px self-stretch bg-gray-300/60 shrink-0" aria-hidden="true" />
+            )}
+            {!company && avatar && (
+              <img
+                src={avatar.src}
+                alt={avatar.alt ?? ''}
+                class="w-12 h-12 rounded-full object-cover shrink-0"
+                loading="lazy"
+              />
             )}
             {(author || role) && (
               <div class="flex flex-col min-w-0">

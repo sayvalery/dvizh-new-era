@@ -2,16 +2,19 @@
 /**
  * QuoteBlock — цитата внутри статьи
  *
- * Оформлена как blockquote с чёрной боковой полосой.
+ * Рендерится через компонент Review (no-photo вариант) в карточке с фоном.
+ * Если у компании есть логотип — показывается он; иначе фото автора как
+ * круглый аватар в футере.
  *
  * CMS-поля (блок 'quote' в BlogPosts → content):
- *   text    → текст цитаты (обязательно)
- *   author  → имя автора
- *   company → название компании
- *   photo   → upload (Media). photo.url — абсолютный URL
+ *   text    → текст цитаты (обязательно) → Review.quote
+ *   author  → имя автора                 → Review.author
+ *   company → должность / роль автора     → Review.role
+ *   photo   → upload (Media), фото автора → Review.avatar (круглое)
  *
  * Рендерится через BlockRenderer.astro при blockType === 'quote'.
  */
+import Review from '../ui/Review.astro'
 import { normalizeMediaUrl } from '../../lib/payload'
 
 interface Props {
@@ -20,17 +23,15 @@ interface Props {
 
 const { block } = Astro.props
 const photoUrl = normalizeMediaUrl(block.photo?.url) ?? null
+const avatar = photoUrl ? { src: photoUrl, alt: block.author ?? '' } : undefined
 ---
 
-<blockquote class="my-8 border-l-4 border-black pl-6">
-  <p class="text-lg italic text-gray-700 mb-4">"{block.text}"</p>
-  <footer class="flex items-center gap-3">
-    {photoUrl && (
-      <img src={photoUrl} alt={block.author ?? ''} class="w-10 h-10 rounded-full object-cover" />
-    )}
-    <div>
-      {block.author && <p class="font-medium text-sm">{block.author}</p>}
-      {block.company && <p class="text-sm text-gray-500">{block.company}</p>}
-    </div>
-  </footer>
-</blockquote>
+<div class="my-8">
+  <Review
+    quote={block.text}
+    author={block.author ?? undefined}
+    role={block.company ?? undefined}
+    avatar={avatar}
+    class="bg-gray-200 rounded-3xl p-8 lg:p-10"
+  />
+</div>

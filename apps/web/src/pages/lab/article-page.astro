@@ -2,17 +2,17 @@
 /**
  * Lab: Article Page — эксперимент с новым layout страницы статьи
  *
- * Источник контента: пост `case-ayaks-dvizh` из CMS.
- * Доступна только в dev-режиме: preview.dvizh.cc/lab/article-page
+ * Источник контента: пост `case-ayaks-dvizh` из CMS, тело — из блоков `content`
+ * (как на реальной странице /blog/[slug]). Доступна только в dev-режиме.
  *
- * Текущая итерация: только viewport ≥ 1280px (xl, 2xl).
- * Адаптация sm/md/lg — отдельной итерацией.
+ * Цель макета: довести дизайн здесь, затем перенести на /blog/[slug].astro.
  */
 import SiteLayout from '../../layouts/SiteLayout.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
 import SideMenu from '../../components/ui/SideMenu.astro'
-import Review from '../../components/ui/Review.astro'
-import { getBlogPost, normalizeMediaUrl, normalizeBodyHtml, sanitizeBodyHtml } from '../../lib/payload'
+import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
+import { getBlogPost, normalizeMediaUrl } from '../../lib/payload'
+import { serializeLexical, createIdGenerator, buildTocFromContent, lexicalNodeText } from '../../lib/lexical'
 
 const post = await getBlogPost('case-ayaks-dvizh')
 if (!post) return Astro.redirect('/404')
@@ -20,135 +20,29 @@ if (!post) return Astro.redirect('/404')
 const coverUrl = normalizeMediaUrl(post.cover?.url)
 const primaryAuthor = post.primaryAuthor ?? null
 
-// Время чтения
-const textContent = (post.bodyHtml as string | null | undefined)?.replace(/<[^>]+>/g, '') ?? ''
+// Тело статьи — из CMS-блоков content (как на реальной странице /blog/[slug])
+const content: any[] = post.content ?? []
+
+// Время чтения — из текста richText-блоков
+const textContent = content
+  .filter((b) => b.blockType === 'richText')
+  .map((b) => lexicalNodeText(b.content?.root))
+  .join(' ')
 const wordCount = textContent.split(/\s+/).filter(Boolean).length
 const readingTime = Math.max(1, Math.ceil(wordCount / 200))
 
-// ─── Slugify ──────────────────────────────────────────────────────
-// Транслитерация кириллицы + lowercase + замена не-alnum на дефис.
-const translitMap: Record<string, string> = {
-  а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'y',
-  к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',
-  х:'h',ц:'c',ч:'ch',ш:'sh',щ:'sch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya',
-}
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .split('')
-    .map((c) => translitMap[c] ?? c)
-    .join('')
-    .replace(/<[^>]+>/g, '')
-    .replace(/&[a-z]+;/gi, '')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    || 'section'
-}
-
-// ─── Извлечение TOC из bodyHtml ───────────────────────────────────
-type TocChild = { id: string; text: string }
-type TocItem = { id: string; text: string; children: TocChild[] }
-
-function extractToc(html: string | null | undefined): { toc: TocItem[]; htmlWithIds: string } {
-  if (!html) return { toc: [], htmlWithIds: '' }
-
-  type Raw = { level: 2 | 3; text: string; id: string; match: string }
-  const raw: Raw[] = []
-  const usedIds = new Set<string>()
-  const ensureUnique = (base: string) => {
-    let id = base
-    let n = 2
-    while (usedIds.has(id)) id = `${base}-${n++}`
-    usedIds.add(id)
-    return id
-  }
-
-  const re = /<(h2|h3)\b([^>]*)>([\s\S]*?)<\/\1>/gi
-  let m: RegExpExecArray | null
-  while ((m = re.exec(html)) !== null) {
-    const level = m[1].toLowerCase() === 'h2' ? 2 : 3
-    const text = m[3].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
-    if (!text) continue
-    const id = ensureUnique(slugify(text))
-    raw.push({ level, text, id, match: m[0] })
-  }
-
-  const toc: TocItem[] = []
-  for (const r of raw) {
-    if (r.level === 2) {
-      toc.push({ id: r.id, text: r.text, children: [] })
-    } else if (toc.length > 0) {
-      toc[toc.length - 1].children.push({ id: r.id, text: r.text })
-    }
-  }
-
-  let htmlWithIds = html
-  for (const r of raw) {
-    const tag = r.level === 2 ? 'h2' : 'h3'
-    const inner = r.match.replace(/^<h[23]\b[^>]*>/i, '').replace(/<\/h[23]>$/i, '')
-    const replacement = `<${tag} id="${r.id}">${inner}</${tag}>`
-    htmlWithIds = htmlWithIds.replace(r.match, replacement)
-  }
-
-  return { toc, htmlWithIds }
-}
-
-// Сырой bodyHtml после нормализации ссылок и media-URL
-const rawBody = normalizeBodyHtml(
-  (post.bodyHtml as string | null | undefined)
-    ?.replaceAll('href="https://dvizh.webflow.io/', 'href="/')
-    .replaceAll('href="https://www.dvizh.io/', 'href="/')
-)
-
-const { toc, htmlWithIds } = extractToc(rawBody)
-const bodyHtml = sanitizeBodyHtml(htmlWithIds)
-
-// Плоский список пунктов для SideMenu (H2 и H3 в одну колонку)
-const tocFlat: Array<{ id: string; text: string }> = []
-for (const item of toc) {
-  tocFlat.push({ id: item.id, text: item.text })
-  for (const child of item.children) {
-    tocFlat.push({ id: child.id, text: child.text })
-  }
-}
+// Оглавление (h2/h3) из заголовков content
+const tocFlat = buildTocFromContent(content)
 const tocIds = tocFlat.map((i) => i.id)
 
-// ─── Разбиение тела статьи на сегменты (текст + цитаты) ───────────
-type BodySegment = { type: 'html'; content: string } | { type: 'quote'; quote: string }
-
-function splitByBlockquote(html: string | null): BodySegment[] {
-  if (!html) return []
-  const segments: BodySegment[] = []
-  const re = /<blockquote[^>]*>([\s\S]*?)<\/blockquote>/gi
-  let lastIndex = 0
-  let m: RegExpExecArray | null
-  while ((m = re.exec(html)) !== null) {
-    if (m.index > lastIndex) {
-      segments.push({ type: 'html', content: html.slice(lastIndex, m.index) })
-    }
-    const plain = m[1]
-      .replace(/<br\s*\/?>/gi, ' ')
-      .replace(/<[^>]+>/g, '')
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'")
-      .replace(/\s+/g, ' ')
-      .trim()
-    segments.push({ type: 'quote', quote: plain })
-    lastIndex = m.index + m[0].length
-  }
-  if (lastIndex < html.length) {
-    segments.push({ type: 'html', content: html.slice(lastIndex) })
-  }
-  return segments
-}
-
-const bodySegments = splitByBlockquote(bodyHtml)
+// Пре-рендер блоков: richText → HTML с id на заголовках (тот же порядок генератора,
+// что в buildTocFromContent → якоря TOC совпадают); прочие блоки → через BlockRenderer.
+const renderGen = createIdGenerator()
+const renderedBlocks = content.map((block: any) =>
+  block.blockType === 'richText'
+    ? { kind: 'html' as const, html: serializeLexical(block.content, { makeHeadingId: renderGen }) }
+    : { kind: 'block' as const, block }
+)
 ---
 
 <SiteLayout
@@ -223,17 +117,11 @@ const bodySegments = splitByBlockquote(bodyHtml)
             decoding="async"
           />
         )}
-        {bodySegments.length > 0 ? (
-          <div class="flex flex-col gap-8">
-            {bodySegments.map((seg) => (
-              seg.type === 'quote'
-                ? <Review quote={seg.quote} class="bg-gray-200 rounded-3xl p-8 lg:p-10" />
-                : <div class="prose prose-lg max-w-none" set:html={seg.content} />
-            ))}
-          </div>
-        ) : (
-          bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />
-        )}
+        {renderedBlocks.map((b) => (
+          b.kind === 'html'
+            ? <div class="prose prose-lg max-w-none" set:html={b.html} />
+            : <BlockRenderer blocks={[b.block]} />
+        ))}
       </div>
     </div>
 

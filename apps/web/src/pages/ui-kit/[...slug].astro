@@ -3114,6 +3114,19 @@ const sections = [
             </div>
 
             <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">Без фото с круглым аватаром (когда нет логотипа)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<Review quote="..." author="..." role="..." avatar={{src:"...", alt:"..."}} />`}</code></p>
+              <div class="bg-gray-200 rounded-[32px] p-8 lg:p-10">
+                <Review
+                  quote="В нашей партнёрской сети внедрены и успешно функционируют стандартизированные форматы и процессы работы с клиентами"
+                  author="Ольга Макагон"
+                  role="Руководитель Ипотечного центра, офиса-партнёра компании «Аякс»"
+                  avatar={{ src: 'https://admin.dvizh.cc/api/media/file/makagon.jpg', alt: 'Ольга Макагон' }}
+                />
+              </div>
+            </div>
+
+            <div>
               <p class="text-sm font-medium text-gray-400 mb-2">С фото — lg+: фото слева, mobile: только цитата</p>
               <p class="text-xs text-gray-400 mb-6"><code>{`<Review photo={{src:"...", alt:"..."}} quote="..." author="..." role="..." company={{...}} caseLink={{...}} />`}</code></p>
               <Review
