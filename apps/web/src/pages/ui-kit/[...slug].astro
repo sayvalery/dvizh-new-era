@@ -15,6 +15,7 @@ import HeroSection from '../../components/ui/HeroSection.astro'
 import MeshGradient from '../../components/ui/MeshGradient.astro'
 import Timeline from '../../components/ui/Timeline.astro'
 import BlogCard from '../../components/ui/BlogCard.astro'
+import Search from '../../components/ui/Search.astro'
 import BlogCardNew from '../../components/ui/BlogCardNew.astro'
 import Tab from '../../components/ui/Tab.astro'
 import PropsTable from '../../components/ui/PropsTable.astro'
@@ -202,6 +203,7 @@ export function getStaticPaths() {
     { params: { slug: 'colors' }, props: { section: 'colors' } },
     { params: { slug: 'advantage-card' }, props: { section: 'advantage-card' } },
     { params: { slug: 'bento' }, props: { section: 'bento' } },
+    { params: { slug: 'search' }, props: { section: 'search' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
     { params: { slug: 'blog-card-new' }, props: { section: 'blog-card-new' } },
     { params: { slug: 'tab' }, props: { section: 'tab' } },
@@ -256,6 +258,7 @@ const sections = [
   { slug: 'advantage-card', label: 'AdvantageCard' },
   { slug: 'banner', label: 'Banner' },
   { slug: 'bento', label: 'Bento Grid' },
+  { slug: 'search', label: 'Search' },
   { slug: 'blogcard', label: 'Blog Card' },
   { slug: 'blog-card-new', label: 'BlogCardNew (Stacy)' },
   { slug: 'tab', label: 'Tab (Stacy)' },
@@ -1617,198 +1620,65 @@ const sections = [
         </div>
       )}
 
+      {section === 'search' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Search</h1>
+          <p class="text-gray-600 mb-8">
+            Строка поиска блога. Всегда на тёмном фоне — элементы белые.
+            Default: <code>bg-white/20</code>. Active (фокус): + <code>border border-white</code>.
+          </p>
+          <div class="space-y-6">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Default и Active (кликни внутрь)</p>
+              <div class="flex flex-wrap gap-6 p-8 rounded-2xl bg-gray-900">
+                <Search placeholder="Ищите в инсайтах" />
+                <Search placeholder="Ищите в инсайтах" class="w-80" />
+              </div>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">На оранжевом фоне</p>
+              <div class="flex gap-6 p-8 rounded-2xl bg-brand">
+                <Search placeholder="Ищите в инсайтах" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {section === 'blogcard' && (
         <div>
           <h1 class="text-3xl font-bold font-heading mb-6">Blog Card</h1>
           <p class="text-gray-600 mb-4">
-            Карточка блог-поста. Используется в мега-меню навигации, на страницах блога и в категориях.
+            Карточка блог-поста. 4 размера: <code>lg</code> — горизонтальный большой, <code>md</code> — вертикальный (по умолчанию), <code>s</code> — горизонтальный компактный, <code>xs</code> — без обложки.
+            Hover: заголовок → brand; у s/xs — фон bg-background-secondary.
           </p>
           <PropsTable props={blogCardMeta.props} class="mb-10" />
 
-          <div class="space-y-12">
+          <div class="space-y-16">
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Полный вариант — обложка, категория, описание</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard title="..." slug="..." cover={{ url: "...", alt: "..." }} category="..." excerpt="..." />`}</code></p>
+              <p class="text-sm font-medium text-gray-400 mb-2">size="lg" — горизонтальный большой, обложка слева ~58%</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard size="lg" ... />`}</code></p>
+              <BlogCard size="lg" title="Как в 2 раза увеличить поток аудитории к концу 2026 года" slug="kak-uvelichit-potok" category="Маркетинг и продажи" date="14 апреля" readTime="13 мин" excerpt="Сценарии развития событий от Романа Гурова" />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">size="md" — вертикальный стандартный (по умолчанию)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard size="md" ... />`}</code></p>
               <div class="max-w-sm">
-                <BlogCard
-                  title="Как автоматизировать ипотечный процесс"
-                  slug="kak-avtomatizirovat"
-                  cover={{ url: "/api/media/file/blog-cover.jpg", alt: "Обложка статьи" }}
-                  category="Ипотека"
-                  excerpt="Рассказываем, как ДВИЖ помогает застройщикам автоматизировать ипотечный процесс от заявки до выдачи."
-                />
+                <BlogCard size="md" title="«Главное изменение на рынке — скорость этих изменений»" slug="glavnoe-izmenenie-na-rynke" category="Аналитика рынка" date="14 апреля" readTime="13 мин" />
               </div>
             </div>
-
             <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Минимальный — без обложки и категории</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard title="..." slug="..." excerpt="..." />`}</code></p>
+              <p class="text-sm font-medium text-gray-400 mb-2">size="s" — горизонтальный компактный, обложка 207px</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard size="s" ... />`}</code></p>
+              <div class="max-w-2xl">
+                <BlogCard size="s" title="Спасибо, что выжили, или как прошёл 2025 год для девелоперов" slug="spasibo-chto-vyzhili" category="Аналитика рынка" date="14 апреля" readTime="13 мин" />
+              </div>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">size="xs" — без обложки, только текст</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BlogCard size="xs" ... />`}</code></p>
               <div class="max-w-sm">
-                <BlogCard
-                  title="Новые возможности платформы ДВИЖ"
-                  slug="novye-vozmozhnosti"
-                  excerpt="Обзор последних обновлений платформы."
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Сетка карточек — как на странице блога</p>
-              <div class="grid grid-cols-3 gap-6">
-                <BlogCard
-                  title="Электронная регистрация сделок"
-                  slug="elektronnaya-registratsiya"
-                  cover={{ url: "", alt: "" }}
-                  category="Продукты"
-                  excerpt="Как перевести регистрацию сделок в полностью цифровой формат."
-                />
-                <BlogCard
-                  title="Ипотечный калькулятор для сайта"
-                  slug="ipotechnyy-kalkulyator"
-                  cover={{ url: "", alt: "" }}
-                  category="Инструменты"
-                  excerpt="Встраиваемый виджет расчета ипотеки для сайтов застройщиков."
-                />
-                <BlogCard
-                  title="Тренды ипотечного рынка 2025"
-                  slug="trendy-ipotechnogo-rynka"
-                  category="Аналитика"
-                  excerpt="Ключевые изменения на рынке ипотечного кредитования."
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {section === 'blog-card-new' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">BlogCardNew <span class="text-gray-400 text-base font-normal">(Stacy)</span></h1>
-          <p class="text-gray-600 mb-4">
-            Переработанный BlogCard — 4 размера (lg/md/s/xs) и hover-эффекты. Дубль рядом со старым BlogCard для сравнения.
-          </p>
-          <PropsTable props={blogCardNewMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">size=&quot;lg&quot; — горизонтальный, для featured-поста</p>
-              <BlogCardNew
-                size="lg"
-                title="Как автоматизировать ипотечный процесс"
-                slug="kak-avtomatizirovat"
-                cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png", alt: "Обложка статьи" }}
-                category="ИПОТЕКА"
-                date="14 апреля"
-                readTime="13 мин"
-                excerpt="Рассказываем, как ДВИЖ помогает застройщикам автоматизировать ипотечный процесс от заявки до выдачи."
-              />
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">size=&quot;md&quot; — вертикальный стандартный (по умолчанию)</p>
-              <div class="grid grid-cols-3 gap-6">
-                <BlogCardNew
-                  title="Электронная регистрация сделок"
-                  slug="elektronnaya-registratsiya"
-                  cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png" }}
-                  category="ПРОДУКТЫ"
-                  date="14 апреля"
-                  readTime="8 мин"
-                />
-                <BlogCardNew
-                  title="Ипотечный калькулятор для сайта"
-                  slug="ipotechnyy-kalkulyator"
-                  cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png" }}
-                  category="ИНСТРУМЕНТЫ"
-                  date="10 апреля"
-                  readTime="5 мин"
-                />
-                <BlogCardNew
-                  title="Тренды ипотечного рынка 2025"
-                  slug="trendy-ipotechnogo-rynka"
-                  cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png" }}
-                  category="АНАЛИТИКА"
-                  date="3 апреля"
-                  readTime="11 мин"
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">size=&quot;s&quot; — горизонтальный компактный (картинка 207px)</p>
-              <div class="grid grid-cols-2 gap-4">
-                <BlogCardNew
-                  size="s"
-                  title="Скоринг по банковским стандартам"
-                  slug="skoring"
-                  cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png" }}
-                  category="ПРОДУКТЫ"
-                  date="14 апреля"
-                  readTime="4 мин"
-                />
-                <BlogCardNew
-                  size="s"
-                  title="Витрина квартир для застройщиков"
-                  slug="vitrina"
-                  cover={{ url: "/api/media/file/28684990-8f38-4e46-b68c-3485d4491474-768x480.png" }}
-                  category="ИНСТРУМЕНТЫ"
-                  date="12 апреля"
-                  readTime="6 мин"
-                />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">size=&quot;xs&quot; — только текст, hover-фон</p>
-              <div class="grid grid-cols-2 gap-2 max-w-2xl">
-                <BlogCardNew
-                  size="xs"
-                  title="Новые возможности платформы ДВИЖ"
-                  slug="novye-vozmozhnosti"
-                  category="ОБНОВЛЕНИЯ"
-                  date="2 апреля"
-                />
-                <BlogCardNew
-                  size="xs"
-                  title="Как банки оценивают заявки в 2026"
-                  slug="kak-banki-otsenivayut"
-                  category="АНАЛИТИКА"
-                  date="28 марта"
-                  readTime="7 мин"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {section === 'tab' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Tab <span class="text-gray-400 text-base font-normal">(Stacy)</span></h1>
-          <p class="text-gray-600 mb-4">
-            Таб-кнопка фильтра/навигации. Три состояния: default (серый), hover (темный), selected (brand с подсветкой бордера). Рендерится как <code>&lt;a&gt;</code> если задан <code>href</code>, иначе <code>&lt;button&gt;</code>.
-          </p>
-          <PropsTable props={tabMeta.props} class="mb-10" />
-
-          <div class="space-y-12">
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Три состояния</p>
-              <div class="flex flex-wrap gap-2">
-                <Tab label="Default" />
-                <Tab label="Selected" selected />
-                <Tab label="Ссылка-таб" href="/blog" />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-sm font-medium text-gray-400 mb-4">Группа табов (Alpine.js)</p>
-              <p class="text-xs text-gray-400 mb-6"><code>{`<div x-data="{ tab: 'all' }"> <Tab :selected="tab === 'all'" @click="tab = 'all'" /> </div>`}</code></p>
-              <div x-data="{ tab: 'all' }" class="flex flex-wrap gap-2">
-                <Tab label="Все" :selected="tab === 'all'" @click="tab = 'all'" />
-                <Tab label="Маркетинг и продажи" :selected="tab === 'marketing'" @click="tab = 'marketing'" />
-                <Tab label="Кейсы" :selected="tab === 'cases'" @click="tab = 'cases'" />
-                <Tab label="Аналитика" :selected="tab === 'analytics'" @click="tab = 'analytics'" />
-                <Tab label="Продукты" :selected="tab === 'products'" @click="tab = 'products'" />
+                <BlogCard size="xs" title="Уралсиб и ДВИЖ перешли на работу по протоколу API" slug="uralsib-i-dvizh" category="Новости" date="14 апреля" readTime="13 мин" />
               </div>
             </div>
           </div>
