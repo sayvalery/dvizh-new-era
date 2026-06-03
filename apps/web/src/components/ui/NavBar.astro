@@ -20,6 +20,7 @@
 import BlogCard from './BlogCard.astro'
 import Button from './Button.astro'
 import MegaMenu from './MegaMenu.astro'
+import Search from './Search.astro'
 
 export interface NavChild {
   label: string
@@ -133,12 +134,7 @@ const megaItems = items.filter(i => i.sections?.length)
 
           {/* Поиск — только blog-вариант, lg+ */}
           {isBlog && (
-            <div class="hidden lg:flex items-center gap-3 h-9 px-4 rounded-full bg-white/20 w-60">
-              <span class="text-subhead text-white/70 flex-1 whitespace-nowrap">Ищите в инсайтах</span>
-              <svg class="w-4 h-4 text-white/70 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-              </svg>
-            </div>
+            <Search class="hidden lg:block w-60" action="/blog/search" />
           )}
 
           <div class="hidden lg:flex lg:gap-x-1">
