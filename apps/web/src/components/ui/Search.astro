@@ -1,0 +1,57 @@
+---
+/**
+ * Search — строка поиска блога/инсайтов
+ *
+ * Всегда на тёмном/цветном фоне — элементы белые.
+ * Default: bg-white/20, без рамки.
+ * Active (фокус): + border border-white.
+ *
+ * @example
+ * ```astro
+ * <Search placeholder="Ищите в инсайтах" name="q" />
+ * ```
+ */
+
+interface Props {
+  /** Текст-заглушка */
+  placeholder?: string
+  /** Имя поля для формы */
+  name?: string
+  /** action формы */
+  action?: string
+  /** Дополнительные CSS классы */
+  class?: string
+}
+
+const {
+  placeholder = 'Ищите в инсайтах',
+  name = 'q',
+  action = '/blog/search',
+  class: className = '',
+} = Astro.props
+---
+
+<form
+  action={action}
+  method="get"
+  x-data="{ active: false }"
+  class:list={['group relative', className]}
+>
+  <label class="flex items-center gap-3 h-[38px] px-4 rounded-full bg-white/20 transition-all duration-150 cursor-text"
+    :class="active ? 'border border-white' : 'border border-transparent'"
+  >
+    <input
+      type="search"
+      name={name}
+      placeholder={placeholder}
+      @focus="active = true"
+      @blur="active = false"
+      class="flex-1 min-w-0 bg-transparent text-subhead text-white placeholder:text-white/50 focus:outline-none"
+    />
+    <button type="submit" class="shrink-0 text-white/70 hover:text-white transition-colors" aria-label="Найти">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+      </svg>
+    </button>
+  </label>
+</form>
