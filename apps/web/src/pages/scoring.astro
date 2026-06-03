@@ -5,7 +5,6 @@ import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
-import TextImageBlock from '../components/ui/TextImageBlock.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
@@ -120,28 +119,16 @@ import FormClosing from '../components/ui/FormClosing.astro'
     </div>
   </section>
 
-  {/* ── 6. TextImageBlock ── */}
-  <TextImageBlock
-    class="!py-0"
-    heading="Заберите готовое решение и одобряйте больше клиентов"
-    subheading="Наш скоринг заменяет самописные модели — и поднимает одобрение без роста риска."
-    buttonText="Забрать решение"
-    drawerPreset="demo"
-  >
-    <img
-      slot="image"
-      src="/api/media/file/skoring-approve.webp"
-      alt="ДВИЖ Скоринг — одобрение"
-      class="w-full h-full object-cover"
-    />
-  </TextImageBlock>
-
   {/* ── 7. FormClosing ── */}
   <FormClosing
-    preset="lead"
-    title="Реализация по API — для тех, кто хочет еще больше"
-    description="Адаптируйте калькулятор под фирменный стиль, встройте расчеты в карточку лота и избавьтесь от юридических рисков"
-    submitLabel="Попробовать бесплатно"
+    mode="buttons"
+    primaryButton={{ label: 'Оставить заявку', drawerPreset: 'lead' }}
+    title="Бесплатно проверим 5 ваших клиентов, которые уже получили отказ"
+    items={[
+      'Вы присылаете 5 отказников: любые заявки, которые банк не одобрил за последний месяц',
+      'Мы проводим скоринг: проверяем клиента по кредитным бюро и базам, подбираем банк, который бы одобрил заявку',
+      'Вы получаете отчет в течение дня: по каждой заявке — причина отказа, рекомендации, которые спасли бы сделку, и сумма возможного одобрения',
+    ]}
     class="!py-0"
   />
 
