@@ -388,21 +388,20 @@ const sections = [
               <p class="text-xs text-gray-400 mb-3">Статьи / Кейсы / Подкасты + поиск (lg+) + «На сайт ДВИЖ» + «Стать автором»</p>
               <div class="-mx-10 bg-gray-900 px-10 flex items-center justify-between h-14">
                 <div class="flex items-center gap-6">
-                  <img src="/logo-dvizh-white.svg" alt="ДВИЖ" class="h-7 w-auto" />
+                  <a href="/" class="shrink-0"><img src="/dvizh-insight.svg" alt="ДВИЖ Инсайты" class="h-7 w-auto" /></a>
                   <div class="hidden lg:flex items-center gap-3">
-                    <div class="flex items-center gap-3 h-9 px-4 rounded-full bg-white/20 w-52">
-                      <span class="text-subhead text-white/50 flex-1">Ищите в инсайтах</span>
-                      <svg class="w-4 h-4 text-white/50 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/></svg>
-                    </div>
+                    <Search placeholder="Ищите в инсайтах" class="w-52" />
                     <div class="flex items-center gap-1">
-                      {['Статьи', 'Кейсы', 'Подкасты'].map(l => <span class="px-3 py-2 text-subhead text-white rounded-md">{l}</span>)}
+                      {[{ label: 'Статьи', href: '/blog' }, { label: 'Кейсы', href: '/cases' }, { label: 'Подкасты', href: '/blog/category/podcasts' }].map(i => (
+                        <a href={i.href} class="px-3 py-2 text-subhead text-white rounded-md hover:bg-white/10 transition-colors">{i.label}</a>
+                      ))}
                     </div>
                   </div>
                 </div>
                 <div class="flex items-center gap-4">
-                  <span class="hidden sm:block text-subhead text-white font-semibold">На сайт ДВИЖ</span>
-                  <span class="hidden sm:flex h-9 px-4 bg-white text-gray-900 text-btn font-semibold rounded-lg items-center gap-1">Стать автором ›</span>
-                  <span class="flex lg:hidden items-center justify-center w-9 h-9 bg-white rounded-lg"><svg class="w-4 h-4 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg></span>
+                  <a href="/" class="hidden sm:block text-subhead text-white font-semibold hover:text-white/80 transition-colors">На сайт ДВИЖ</a>
+                  <a href="/contacts" class="hidden sm:flex h-9 px-4 bg-white text-gray-900 text-btn font-semibold rounded-lg items-center gap-1 hover:bg-white/90 transition-colors">Стать автором ›</a>
+                  <button type="button" class="flex lg:hidden items-center justify-center w-9 h-9 bg-white rounded-lg"><svg class="w-4 h-4 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg></button>
                 </div>
               </div>
             </div>
@@ -411,21 +410,20 @@ const sections = [
               <p class="text-sm font-medium text-gray-400 mb-3">Blog-вариант (оранжевый фон)</p>
               <div class="-mx-10 bg-brand px-10 flex items-center justify-between h-14">
                 <div class="flex items-center gap-6">
-                  <img src="/logo-dvizh-white.svg" alt="ДВИЖ" class="h-7 w-auto" />
+                  <a href="/" class="shrink-0"><img src="/dvizh-insight.svg" alt="ДВИЖ Инсайты" class="h-7 w-auto" /></a>
                   <div class="hidden lg:flex items-center gap-3">
-                    <div class="flex items-center gap-3 h-9 px-4 rounded-full bg-white/20 w-52">
-                      <span class="text-subhead text-white/50 flex-1">Ищите в инсайтах</span>
-                      <svg class="w-4 h-4 text-white/50 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/></svg>
-                    </div>
+                    <Search placeholder="Ищите в инсайтах" class="w-52" />
                     <div class="flex items-center gap-1">
-                      {['Статьи', 'Кейсы', 'Подкасты'].map(l => <span class="px-3 py-2 text-subhead text-white rounded-md">{l}</span>)}
+                      {[{ label: 'Статьи', href: '/blog' }, { label: 'Кейсы', href: '/cases' }, { label: 'Подкасты', href: '/blog/category/podcasts' }].map(i => (
+                        <a href={i.href} class="px-3 py-2 text-subhead text-white rounded-md hover:bg-white/10 transition-colors">{i.label}</a>
+                      ))}
                     </div>
                   </div>
                 </div>
                 <div class="flex items-center gap-4">
-                  <span class="hidden sm:block text-subhead text-white font-semibold">На сайт ДВИЖ</span>
-                  <span class="hidden sm:flex h-9 px-4 bg-white text-gray-900 text-btn font-semibold rounded-lg items-center gap-1">Стать автором ›</span>
-                  <span class="flex lg:hidden items-center justify-center w-9 h-9 bg-white rounded-lg"><svg class="w-4 h-4 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg></span>
+                  <a href="/" class="hidden sm:block text-subhead text-white font-semibold hover:text-white/80 transition-colors">На сайт ДВИЖ</a>
+                  <a href="/contacts" class="hidden sm:flex h-9 px-4 bg-white text-gray-900 text-btn font-semibold rounded-lg items-center gap-1 hover:bg-white/90 transition-colors">Стать автором ›</a>
+                  <button type="button" class="flex lg:hidden items-center justify-center w-9 h-9 bg-white rounded-lg"><svg class="w-4 h-4 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg></button>
                 </div>
               </div>
             </div>
