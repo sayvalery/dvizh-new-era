@@ -4,7 +4,6 @@ import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
 import CTABanner from '../components/ui/CTABanner.astro'
-import BentoGrid from '../components/ui/BentoGrid.astro'
 import ReviewFull from '../components/ui/ReviewFull.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
@@ -66,8 +65,8 @@ import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
         variant: 'brand',
       },
       {
-        title: '3 способа выпуска ЭЦП',
-        description: 'Проверяем документ на подлинность еще до ручной обработки',
+        title: 'Всегда рядом с вами',
+        description: 'Поможем зарегистрировать сложные сделки: с иностранными гражданами или военной ипотекой',
       },
     ]}
   />
@@ -92,30 +91,6 @@ import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
       drawerPreset="lead"
     />
   </ComparisonSection>
-
-  {/* ── 4. BentoGrid ── */}
-  <section class="!py-0">
-    <div class="page-container">
-      <BentoGrid
-        heading="Закроем все задачи по регистрации"
-        description="От сложных сделок до проблем с УЦ — в нашей команде ребята с опытом работы у регистраторов"
-        items={[
-          {
-            title: 'Выпуск подписи за 5 минут',
-            description: 'Поддерживаем все технологии: токен, Sign.Me, Госключ',
-          },
-          {
-            title: 'Ускорим подачу заявления',
-            description: 'Подключим оплату госпошлины с авансового счета внутри ДВИЖа',
-          },
-          {
-            title: 'Всегда рядом с вами',
-            description: 'Поможем зарегистрировать сложные сделки: с иностранными гражданами или военной ипотекой',
-          },
-        ]}
-      />
-    </div>
-  </section>
 
   {/* ── 5. ReviewFull ── */}
   <section class="!py-0">
