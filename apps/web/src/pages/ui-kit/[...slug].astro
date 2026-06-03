@@ -35,6 +35,7 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
 import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import MegaMenu from '../../components/ui/MegaMenu.astro'
 import megaMenuRaw from '../../components/ui/MegaMenu.astro?raw'
+import Search from '../../components/ui/Search.astro'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
 import Banner from '../../components/ui/Banner.astro'
 import CTABanner from '../../components/ui/CTABanner.astro'
@@ -195,6 +196,7 @@ export function getStaticPaths() {
     { params: { slug: 'colors' }, props: { section: 'colors' } },
     { params: { slug: 'advantage-card' }, props: { section: 'advantage-card' } },
     { params: { slug: 'bento' }, props: { section: 'bento' } },
+    { params: { slug: 'search' }, props: { section: 'search' } },
     { params: { slug: 'blogcard' }, props: { section: 'blogcard' } },
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'blog-grid' }, props: { section: 'blog-grid' } },
@@ -246,6 +248,7 @@ const sections = [
   { slug: 'advantage-card', label: 'AdvantageCard' },
   { slug: 'banner', label: 'Banner' },
   { slug: 'bento', label: 'Bento Grid' },
+  { slug: 'search', label: 'Search' },
   { slug: 'blogcard', label: 'Blog Card' },
   { slug: 'blog-cards', label: 'Blog Cards' },
   { slug: 'blog-grid', label: 'BlogGrid' },
@@ -1587,6 +1590,32 @@ const sections = [
         </div>
       )}
 
+
+      {section === 'search' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">Search</h1>
+          <p class="text-gray-600 mb-8">
+            Строка поиска блога. Всегда на тёмном фоне — элементы белые.
+            Default: <code>bg-white/20</code>. Active (фокус): + <code>border border-white</code>.
+          </p>
+
+          <div class="space-y-6">
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">Default и Active (кликни внутрь)</p>
+              <div class="flex flex-wrap gap-6 p-8 rounded-2xl bg-gray-900">
+                <Search placeholder="Ищите в инсайтах" />
+                <Search placeholder="Ищите в инсайтах" class="w-80" />
+              </div>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">На оранжевом фоне</p>
+              <div class="flex gap-6 p-8 rounded-2xl bg-brand">
+                <Search placeholder="Ищите в инсайтах" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {section === 'blogcard' && (
         <div>
