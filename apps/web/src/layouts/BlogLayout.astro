@@ -18,9 +18,11 @@ interface Props {
   description?: string
   ogImage?: string
   jsonLd?: object | object[]
+  /** Хедер «ДВИЖ Инсайты»: transparent-режим (бел. вверху → фрост на скролле) + insight-логотип */
+  insightsHeader?: boolean
 }
 
-const { ...baseProps } = Astro.props
+const { insightsHeader = false, ...baseProps } = Astro.props
 ---
 
 <BaseLayout {...baseProps}>
@@ -30,13 +32,14 @@ const { ...baseProps } = Astro.props
     <FlutedGlassBg grain={0.05} />
   </div>
 
-  <!-- Хедер блога (sticky, поверх фона) -->
+  <!-- Хедер блога (sticky, поверх фона). insightsHeader → transparent + insight-брендинг. -->
   <div class="sticky top-0" style="z-index:50">
-    <Header variant="blog" />
+    {insightsHeader ? <Header variant="blog" transparent insights /> : <Header variant="blog" />}
   </div>
 
-  <!-- Белая карточка контента: перекрывает низ хедера -->
-  <main class="relative bg-background-primary rounded-t-3xl -mt-6 flex-1" style="z-index:10">
+  <!-- Белая карточка контента. insights — отступ под плавающим хедером (симметрия с pt-3 = 12px);
+       обычный blog — наезд -mt-6 (карточка под хедер). -->
+  <main class:list={['relative bg-background-primary rounded-t-3xl flex-1', insightsHeader ? 'mt-1' : '-mt-6']} style="z-index:10">
     <slot />
   </main>
 
@@ -47,9 +50,10 @@ const { ...baseProps } = Astro.props
     </div>
   )}
 
-  <!-- Футер в белой карточке -->
+  <!-- Футер в белой карточке. Гасим SiteLayout-овый mt-24/40 и border-t: -->
+  <!-- внутри карточки они дают пустую полосу и лишнюю линию. Отступ задаёт сам Footer (py-12). -->
   <div class="relative px-4 pb-6" style="z-index:10">
-    <div class="bg-background-primary rounded-3xl overflow-hidden">
+    <div class="bg-background-primary rounded-3xl overflow-hidden [&>footer]:!mt-0 [&>footer]:!border-t-0">
       <Footer />
     </div>
   </div>

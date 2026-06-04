@@ -8,9 +8,16 @@ interface Props {
   transparent?: boolean
   /** Вариант хедера: default — основной сайт, blog — блог/инсайты */
   variant?: 'default' | 'blog'
+  /** Брендинг «ДВИЖ Инсайты» (логотип insight вместо основного) */
+  insights?: boolean
 }
 
-const { transparent = false, variant = 'default' } = Astro.props
+const { transparent = false, variant = 'default', insights = false } = Astro.props
+
+// Логотип: insight-версия (бел./цвет. свап в transparent) или основной ДВИЖ
+const logo = insights
+  ? { label: 'ДВИЖ Инсайты', href: '/', image: '/logo-dvizh-insights.svg', imageLight: '/dvizh-insight.svg' }
+  : { label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg', imageLight: '/logo-dvizh-white.svg' }
 
 const navItems: NavItem[] = [
   {
@@ -72,7 +79,7 @@ if (variant !== 'blog') {
 ---
 
 <NavBar
-  logo={{ label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg', imageLight: '/logo-dvizh-white.svg' }}
+  logo={logo}
   items={variant === 'blog' ? blogNavItems : navItems}
   blogPosts={blogPosts}
   secondaryLink={variant === 'blog' ? { label: 'На сайт ДВИЖ', href: '/' } : { label: '+7 495 032 10 47', href: 'tel:+74950321047' }}

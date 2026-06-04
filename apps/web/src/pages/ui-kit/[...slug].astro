@@ -1671,8 +1671,11 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-2">Search</h1>
           <p class="text-gray-600 mb-8">
-            Строка поиска блога. Всегда на тёмном фоне — элементы белые.
-            Default: <code>bg-white/20</code>. Active (фокус): + <code>border border-white</code>.
+            Строка поиска блога. По умолчанию — на тёмном/цветном фоне, элементы белые
+            (<code>bg-white/20</code>, фокус: <code>border border-white</code>).
+            С <code>adaptive</code> — синхронизируется с blog-хедером (transparent): белая при <code>clear</code>
+            (вверху над оранжевым), тёмная при <code>!clear</code> (фрост над телом: <code>bg-gray-300</code>,
+            текст/иконка <code>#1D1E21</code> @50%, бордер в active).
           </p>
           <div class="space-y-6">
             <div>
@@ -1686,6 +1689,23 @@ const sections = [
               <p class="text-sm font-medium text-gray-400 mb-3">На оранжевом фоне</p>
               <div class="flex gap-6 p-8 rounded-2xl bg-brand">
                 <Search placeholder="Ищите в инсайтах" />
+              </div>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-3">
+                Адаптивная — <code>{`<Search adaptive />`}</code> (как в blog-хедере). Переключатель имитирует скролл.
+              </p>
+              <div x-data="{ clear: true }">
+                <button
+                  type="button"
+                  @click="clear = !clear"
+                  class="mb-3 inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-md bg-gray-900 text-white"
+                >
+                  Состояние: <span class="font-mono" x-text="clear ? 'clear (вверху, белая)' : '!clear (фрост, тёмная)'"></span>
+                </button>
+                <div class="flex flex-wrap gap-6 p-8 rounded-2xl transition-colors duration-200" :class="clear ? 'bg-brand' : 'bg-gray-100'">
+                  <Search placeholder="Ищите в инсайтах" class="w-80" adaptive />
+                </div>
               </div>
             </div>
           </div>
