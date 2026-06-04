@@ -49,7 +49,7 @@ interface BlogPost {
 }
 
 interface Props {
-  logo: { label: string; href: string; image?: string; imageLight?: string }
+  logo: { label: string; href: string; image?: string; imageLight?: string; lightFilter?: boolean }
   items?: NavItem[]
   blogPosts?: BlogPost[]
   secondaryLink?: { label: string; href: string }
@@ -139,7 +139,7 @@ const navIslandClass = (isBlog && !transparent)
             {logo.image && logo.imageLight && transparent ? (
               <>
                 <img src={logo.image} alt={logo.label} class="h-7 w-auto" x-show="!clear" x-cloak />
-                <img src={logo.imageLight} alt={logo.label} class="h-7 w-auto" x-show="clear" />
+                <img src={logo.imageLight} alt={logo.label} class:list={['h-7 w-auto', logo.lightFilter && 'brightness-0 invert']} x-show="clear" />
               </>
             ) : logo.image ? (
               <img src={logo.image} alt={logo.label} class="h-7 w-auto" />

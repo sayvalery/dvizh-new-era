@@ -14,9 +14,10 @@ interface Props {
 
 const { transparent = false, variant = 'default', insights = false } = Astro.props
 
-// Логотип: insight-версия (бел./цвет. свап в transparent) или основной ДВИЖ
+// Логотип: insight-версия или основной ДВИЖ. Пары цвет/белый одной геометрии (нет скачка),
+// белая версия insights — настоящий SVG с вырезами-стрелками (не CSS-фильтр).
 const logo = insights
-  ? { label: 'ДВИЖ Инсайты', href: '/', image: '/logo-dvizh-insights.svg', imageLight: '/dvizh-insight.svg' }
+  ? { label: 'ДВИЖ Инсайты', href: '/', image: '/logo-dvizh-insights.svg', imageLight: '/logo-dvizh-insights-white.svg' }
   : { label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg', imageLight: '/logo-dvizh-white.svg' }
 
 const navItems: NavItem[] = [
