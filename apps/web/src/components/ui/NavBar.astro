@@ -244,8 +244,26 @@ const navIslandClass = (isBlog && !transparent)
             </a>
           )}
 
-          <!-- CTA: blog-вариант — белая кнопка со стрелкой (sm+) -->
-          {cta && isBlog && (
+          <!-- CTA blog (transparent/insights): dark-кнопка из UI-кита, инверсия в белую при clear, шеврон вправо -->
+          {cta && isBlog && transparent && (
+            <Button
+              href={cta.href ?? '/contacts'}
+              variant="dark"
+              size="sm"
+              class="hidden sm:inline-flex"
+              x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
+            >
+              {cta.label}
+              {cta.chevron && (
+                <svg slot="icon-right" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              )}
+            </Button>
+          )}
+
+          <!-- CTA blog (непрозрачный, прод /blog): прежняя белая кнопка -->
+          {cta && isBlog && !transparent && (
             <a
               href={cta.href ?? '/contacts'}
               class="hidden sm:inline-flex items-center gap-1 h-9 px-4 bg-white text-gray-900 text-btn font-semibold rounded-lg whitespace-nowrap hover:bg-white/90 transition-colors"
