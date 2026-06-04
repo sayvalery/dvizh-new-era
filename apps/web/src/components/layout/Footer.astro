@@ -6,6 +6,21 @@
  * между основным сайтом и блогом.
  */
 
+interface Props {
+  /** Светлая (frost) версия: белый текст для тёмного/цветного фона (блог/инсайты) */
+  light?: boolean
+}
+
+const { light = false } = Astro.props
+
+// Цвета под светлую/обычную версию
+const headingCls    = light ? 'text-white' : ''
+const linkCls       = light ? 'text-white hover:text-white/80' : 'text-gray-600 hover:text-gray-900'
+const legalCls      = light ? 'text-white/50' : 'text-gray-500'
+const legalMutedCls = light ? 'text-white/50' : 'text-gray-400'
+const policyHover   = light ? 'hover:text-white/80' : 'hover:text-gray-600'
+const dividerCls    = light ? 'border-white/15' : 'border-gray-100'
+
 const currentYear = new Date().getFullYear()
 
 const columns = [
@@ -49,15 +64,15 @@ const columns = [
 ---
 
 <footer class="border-t border-gray-200 mt-24 lg:mt-40">
-  <div class="page-container py-12">
+  <div class:list={['page-container', light ? 'py-4 sm:py-6 lg:py-10' : 'py-12']}>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
       {columns.map((col) => (
         <div>
-          <h3 class="font-semibold text-sm mb-3">{col.title}</h3>
+          <h3 class:list={['font-semibold text-sm mb-3', headingCls]}>{col.title}</h3>
           <ul class="space-y-2">
             {col.links.map((link) => (
               <li>
-                <a href={link.href} class="text-sm text-gray-600 hover:text-gray-900">
+                <a href={link.href} class:list={['text-sm', linkCls]}>
                   {link.label}
                 </a>
               </li>
@@ -67,19 +82,19 @@ const columns = [
       ))}
     </div>
 
-    <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-      <div class="text-sm text-gray-500">
+    <div class:list={['border-t pt-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4', dividerCls]}>
+      <div class:list={['text-sm', legalCls]}>
         <p>© 2018–{currentYear} ООО «Цифровые продажи»</p>
         <p class="mt-1">ОГРН 1187746227020 · ИНН 7716899078 · КПП 772501001 · ОКПО 26023731</p>
       </div>
-      <div class="text-sm text-gray-400 text-right">
+      <div class:list={['text-sm text-right', legalMutedCls]}>
         <p>Новодмитровская 2к2, Москва, 127015</p>
-        <p class="mt-1"><a href="https://cdn.dvizh.io/policy.pdf" class="hover:text-gray-600" target="_blank" rel="noopener">Политика конфиденциальности</a></p>
+        <p class="mt-1"><a href="https://cdn.dvizh.io/policy.pdf" class:list={[policyHover]} target="_blank" rel="noopener">Политика конфиденциальности</a></p>
       </div>
     </div>
 
-    <div class="border-t border-gray-100 pt-6 mt-2">
-      <p class="text-xs text-gray-400 max-w-[50%]">
+    <div class:list={['border-t pt-6 mt-2', dividerCls]}>
+      <p class:list={['text-xs max-w-[50%]', legalMutedCls]}>
         ПО «Цифровая ипотека» включено в Реестр российского программного обеспечения. Реестровая запись №12683 произведена на основании поручения Министерства цифрового развития, связи и массовых коммуникаций Российской Федерации от 28.01.2022 по протоколу заседания экспертного совета от 24.01.2022 №86пр.
       </p>
     </div>
