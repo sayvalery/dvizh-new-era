@@ -137,13 +137,17 @@ const renderedBlocks = content.map((block: any) =>
           {/* Категория | хештеги ........ Поделиться */}
           <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
             <div class="flex items-center text-subhead text-gray-500">
-              {post.category?.title && <span>{post.category.title}</span>}
+              {post.category?.title && (
+                <a href={`/category/${post.category.slug}`} class="hover:text-gray-900 transition-colors">{post.category.title}</a>
+              )}
               {post.category?.title && tags.length > 0 && (
-                <span class="mx-3 h-4 w-px bg-gray-300" aria-hidden="true"></span>
+                <span class="mx-3 h-4 w-0.5 bg-gray-300" aria-hidden="true"></span>
               )}
               {tags.length > 0 && (
-                <div class="flex flex-wrap gap-x-3 gap-y-1">
-                  {tags.map((t: any) => <span>#{t.title ?? t.name ?? t.slug}</span>)}
+                <div class="flex flex-wrap gap-3">
+                  {tags.map((t: any) => (
+                    <a href={t.slug ? `/tag/${t.slug}` : '#'} class="text-brand hover:text-brand-600 transition-colors">#{t.title ?? t.name ?? t.slug}</a>
+                  ))}
                 </div>
               )}
             </div>
@@ -161,10 +165,10 @@ const renderedBlocks = content.map((block: any) =>
             </div>
           </div>
 
-          {/* Над статьёй работали */}
+          {/* Над статьей работали */}
           {contributors.length > 0 && (
             <>
-              <h5 class="text-h5 text-gray-900 mt-10">Над статьёй работали:</h5>
+              <h5 class="text-h5 text-gray-900 mt-10">Над статьей работали:</h5>
               <div class="flex flex-wrap justify-between gap-6 mt-4">
                 {contributors.map((p: any) => <PersonCard person={p} variant="full" />)}
               </div>
