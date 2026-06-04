@@ -12,7 +12,8 @@ import PersonCard from '../../components/ui/PersonCard.astro'
 import SideMenu from '../../components/ui/SideMenu.astro'
 import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
 import Button from '../../components/ui/Button.astro'
-import { getBlogPost, normalizeMediaUrl } from '../../lib/payload'
+import BlogCardNew from '../../components/ui/BlogCardNew.astro'
+import { getBlogPost, getBlogPosts, normalizeMediaUrl } from '../../lib/payload'
 import { serializeLexical, createIdGenerator, buildTocFromContent, lexicalNodeText } from '../../lib/lexical'
 
 const post = await getBlogPost('case-ayaks-dvizh')
@@ -25,6 +26,38 @@ const primaryAuthor = post.primaryAuthor ?? null
 const tags = Array.isArray(post.tags) ? post.tags : []
 const coAuthors = Array.isArray(post.coAuthors) ? post.coAuthors : []
 const contributors = [primaryAuthor, ...coAuthors].filter(Boolean)
+
+// «Читайте еще» — статьи от новых к старым, кроме текущей (структура как «Правила девелопера»)
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+function ruDate(iso?: string): string | undefined {
+  if (!iso) return undefined
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return undefined
+  return `${d.getDate()} ${MONTHS[d.getMonth()]}`
+}
+function lexicalText(node: any): string {
+  if (!node) return ''
+  if (typeof node.text === 'string') return node.text
+  const kids = node.children ?? node.root?.children
+  return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
+}
+function readTimeOf(p: any): string {
+  let text = ''
+  if (p.bodyHtml) text = String(p.bodyHtml).replace(/<[^>]+>/g, ' ')
+  else if (Array.isArray(p.content)) text = p.content.map((b: any) => lexicalText(b.richText)).join(' ')
+  text = text.replace(/\s+/g, ' ').trim()
+  const words = text ? text.split(' ').length : 0
+  return `${Math.max(1, Math.round(words / 200))} мин`
+}
+function card(p: any) {
+  return { title: p.title, slug: p.slug, cover: p.cover, excerpt: p.excerpt, date: ruDate(p.publishedAt), readTime: readTimeOf(p) }
+}
+
+const { docs: rawRelated } = await getBlogPosts({ limit: 50, depth: 2 })
+const relatedPosts = [...rawRelated]
+  .sort((a: any, b: any) => (b.publishedAt ? Date.parse(b.publishedAt) : -Infinity) - (a.publishedAt ? Date.parse(a.publishedAt) : -Infinity))
+  .filter((p: any) => p.slug !== post.slug)
+  .slice(0, 4)
 
 // Тело статьи — из CMS-блоков content (как на реальной странице /blog/[slug])
 const content: any[] = post.content ?? []
@@ -56,7 +89,7 @@ const renderedBlocks = content.map((block: any) =>
   description={post.excerpt ?? ''}
   insightsHeader
 >
-  <article class="page-container py-10 md:py-16">
+  <article class="page-container pt-10 md:pt-16">
 
     {/* ── Контейнер 1: мета + заголовок ── */}
     <div class="grid grid-cols-1 gap-y-8 xl:grid-cols-[340px_1fr] xl:gap-x-10 xl:gap-y-0">
@@ -129,56 +162,73 @@ const renderedBlocks = content.map((block: any) =>
             ? <div class="prose prose-lg max-w-none" set:html={b.html} />
             : <BlockRenderer blocks={[b.block]} />
         ))}
+      </div>
+    </div>
 
-        {/* ── Низ статьи: категория + хештеги + «Поделиться», участники ── */}
-        <div class="mt-12">
-          <hr class="border-gray-200" />
+    {/* ── Низ статьи: вне колонки тела (выровнен через col-start-2),
+         чтобы sticky-оглавление отлипало в конце тела статьи ── */}
+    <div class="grid grid-cols-1 mt-12 xl:grid-cols-[340px_1fr] xl:gap-x-10">
+      <div class="xl:col-start-2">
+        <hr class="border-gray-200" />
 
-          {/* Категория | хештеги ........ Поделиться */}
-          <div class="flex flex-wrap items-center justify-between gap-4 mt-10">
-            <div class="flex items-center text-subhead text-gray-500">
-              {post.category?.title && (
-                <a href={`/category/${post.category.slug}`} class="hover:text-gray-900 transition-colors">{post.category.title}</a>
-              )}
-              {post.category?.title && tags.length > 0 && (
-                <span class="mx-3 h-4 w-0.5 bg-gray-300" aria-hidden="true"></span>
-              )}
-              {tags.length > 0 && (
-                <div class="flex flex-wrap gap-3">
-                  {tags.map((t: any) => (
-                    <a href={t.slug ? `/tag/${t.slug}` : '#'} class="text-brand hover:text-brand-600 transition-colors">#{t.title ?? t.name ?? t.slug}</a>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div x-data="{ copied: false, timer: null }" class="shrink-0">
-              <Button
-                variant="primary"
-                size="md"
-                type="button"
-                @click="navigator.clipboard.writeText(window.location.href); copied = true; clearTimeout(timer); timer = setTimeout(() => copied = false, 2000)"
-              >
-                <span x-show="!copied">Поделиться</span>
-                <span x-show="copied" x-cloak>Скопировано</span>
-              </Button>
-            </div>
+        {/* Категория | хештеги ........ Поделиться */}
+        <div class="flex flex-wrap items-center justify-between gap-4 mt-10">
+          <div class="flex items-center text-subhead text-gray-500">
+            {post.category?.title && (
+              <a href={`/category/${post.category.slug}`} class="hover:text-gray-900 transition-colors">{post.category.title}</a>
+            )}
+            {post.category?.title && tags.length > 0 && (
+              <span class="mx-3 h-4 w-0.5 bg-gray-300" aria-hidden="true"></span>
+            )}
+            {tags.length > 0 && (
+              <div class="flex flex-wrap gap-3">
+                {tags.map((t: any) => (
+                  <a href={t.slug ? `/tag/${t.slug}` : '#'} class="text-brand hover:text-brand-600 transition-colors">#{t.title ?? t.name ?? t.slug}</a>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Над статьей работали */}
-          {contributors.length > 0 && (
-            <>
-              <h5 class="text-h5 text-gray-900 mt-10">Над статьей работали:</h5>
-              <div class="flex flex-wrap justify-between gap-6 mt-4">
-                {contributors.map((p: any) => <PersonCard person={p} variant="full" />)}
-              </div>
-            </>
-          )}
+          <div x-data="{ copied: false, timer: null }" class="shrink-0">
+            <Button
+              variant="primary"
+              size="md"
+              type="button"
+              @click="navigator.clipboard.writeText(window.location.href); copied = true; clearTimeout(timer); timer = setTimeout(() => copied = false, 2000)"
+            >
+              <span x-show="!copied">Поделиться</span>
+              <span x-show="copied" x-cloak>Скопировано</span>
+            </Button>
+          </div>
         </div>
+
+        {/* Над статьей работали */}
+        {contributors.length > 0 && (
+          <>
+            <h5 class="text-h5 text-gray-900 mt-10">Над статьей работали:</h5>
+            <div class="flex flex-wrap justify-between gap-6 mt-4">
+              {contributors.map((p: any) => <PersonCard person={p} variant="full" />)}
+            </div>
+          </>
+        )}
       </div>
     </div>
 
   </article>
+
+  {/* ── Читайте еще — блок-сетка (структура как «Правила девелопера») ── */}
+  {relatedPosts.length > 0 && (
+    <section class="page-container mt-[120px] pb-10 md:pb-16">
+      <div class="flex flex-col gap-10 lg:gap-16">
+        <h2 class="text-h2 text-gray-900">Читайте еще</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+          {relatedPosts.map((p: any, i: number) => (
+            <BlogCardNew size="md" {...card(p)} class={i === 3 ? 'hidden sm:block lg:hidden' : ''} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 </BlogLayout>
 
 <script is:inline>
