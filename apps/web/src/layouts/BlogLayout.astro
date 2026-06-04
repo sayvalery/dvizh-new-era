@@ -2,9 +2,9 @@
 /**
  * BlogLayout — лейаут для страниц блога/инсайтов
  *
- * Оранжевый фон (bg-brand + FlutedGlassBg) на весь экран.
+ * Оранжевый фон (bg-brand + FlutedGlassBg fixed) на весь экран.
  * Header variant="blog", контент в белой карточке rounded-t-3xl,
- * футер в белой карточке на оранжевом фоне.
+ * слот cta между контентом и футером, футер в белой карточке.
  */
 
 import BaseLayout from './BaseLayout.astro'
@@ -23,32 +23,32 @@ interface Props {
 const { ...baseProps } = Astro.props
 ---
 
-<BaseLayout {...baseProps} bodyClass="bg-brand">
+<BaseLayout {...baseProps}>
 
-  <!-- Анимированный оранжевый фон на всю страницу -->
-  <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+  <!-- Фиксированный анимированный фон на весь viewport -->
+  <div class="fixed inset-0" style="z-index:0; background:#ff4d00">
     <FlutedGlassBg grain={0.05} />
   </div>
 
-  <!-- Хедер блога -->
-  <div class="relative z-10">
+  <!-- Хедер блога (sticky, поверх фона) -->
+  <div class="sticky top-0" style="z-index:50">
     <Header variant="blog" />
   </div>
 
-  <!-- Белая карточка контента: rounded-t-3xl, перекрывает низ хедера -->
-  <main class="relative z-10 bg-background-primary rounded-t-3xl -mt-6 flex-1">
+  <!-- Белая карточка контента: перекрывает низ хедера -->
+  <main class="relative bg-background-primary rounded-t-3xl -mt-6 flex-1" style="z-index:10">
     <slot />
   </main>
 
-  <!-- CTA-слот на оранжевом фоне (между контентом и футером) -->
+  <!-- CTA-слот на оранжевом фоне -->
   {Astro.slots.has('cta') && (
-    <div class="relative z-10 px-4 py-8">
+    <div class="relative px-4 py-8" style="z-index:10">
       <slot name="cta" />
     </div>
   )}
 
   <!-- Футер в белой карточке -->
-  <div class="relative z-10 px-4 pb-4">
+  <div class="relative px-4 pb-6" style="z-index:10">
     <div class="bg-background-primary rounded-3xl overflow-hidden">
       <Footer />
     </div>
