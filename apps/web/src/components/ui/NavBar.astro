@@ -84,6 +84,7 @@ const navIslandClass = (isBlog && !transparent)
     openMenu: null,
     menuTimeout: null,
     hoverTimeout: null,
+    settleTimer: null,
     lastY: 0,
     hidden: false,
     get clear() { return ${transparent} && !this.megaOpen && !this.mobileOpen && this.lastY < ${clearThreshold} },
@@ -94,6 +95,10 @@ const navIslandClass = (isBlog && !transparent)
       else if (y < this.lastY - 5) { this.hidden = false }
       else if (y > this.lastY + 5) { this.hidden = true }
       this.lastY = y;
+      // throttle роняет trailing-событие — дочитываем финальную позицию после остановки,
+      // иначе lastY застревает выше порога и clear не возвращается в true у самого верха
+      clearTimeout(this.settleTimer);
+      this.settleTimer = setTimeout(() => { this.lastY = window.scrollY }, 120);
     }
   }`}
   x-init="lastY = window.scrollY"
