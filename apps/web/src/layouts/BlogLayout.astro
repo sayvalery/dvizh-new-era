@@ -1,30 +1,59 @@
 ---
+/**
+ * BlogLayout — лейаут для страниц блога/инсайтов
+ *
+ * Оранжевый фон (bg-brand + FlutedGlassBg) на весь экран.
+ * Header variant="blog", контент в белой карточке rounded-t-3xl,
+ * футер в белой карточке на оранжевом фоне.
+ */
+
 import BaseLayout from './BaseLayout.astro'
-import NavBar from '../components/ui/NavBar.astro'
+import Header from '../components/layout/Header.astro'
 import Footer from '../components/layout/Footer.astro'
 import Drawer from '../components/ui/Drawer.astro'
+import FlutedGlassBg from '../components/ui/FlutedGlassBg.astro'
 
 interface Props {
   title?: string
   description?: string
   ogImage?: string
-  ogType?: string
-  jsonLd?: any
+  jsonLd?: object | object[]
 }
+
+const { ...baseProps } = Astro.props
 ---
 
-<BaseLayout {...Astro.props}>
-  <NavBar
-    logo={{ label: 'ДВИЖ Инсайты', href: '/blog', image: '/logo-dvizh-insights.svg' }}
-    items={[
-      { label: 'Блог', href: '/blog' },
-      { label: 'Словарь девелопера', href: '/slovar-developera' },
-    ]}
-    secondaryLink={{ label: '← dvizh.io', href: '/' }}
-  />
-  <main class="flex-1">
+<BaseLayout {...baseProps} bodyClass="bg-brand">
+
+  <!-- Анимированный оранжевый фон на всю страницу -->
+  <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+    <FlutedGlassBg grain={0.05} />
+  </div>
+
+  <!-- Хедер блога -->
+  <div class="relative z-10">
+    <Header variant="blog" />
+  </div>
+
+  <!-- Белая карточка контента: rounded-t-3xl, перекрывает низ хедера -->
+  <main class="relative z-10 bg-background-primary rounded-t-3xl -mt-6 flex-1">
     <slot />
   </main>
-  <Footer />
+
+  <!-- CTA-слот на оранжевом фоне (между контентом и футером) -->
+  {Astro.slots.has('cta') && (
+    <div class="relative z-10 px-4 py-8">
+      <slot name="cta" />
+    </div>
+  )}
+
+  <!-- Футер в белой карточке -->
+  <div class="relative z-10 px-4 pb-4">
+    <div class="bg-background-primary rounded-3xl overflow-hidden">
+      <Footer />
+    </div>
+  </div>
+
   <Drawer />
+
 </BaseLayout>

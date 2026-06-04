@@ -7,7 +7,7 @@
  *
  * Цель макета: довести дизайн здесь, затем перенести на /blog/[slug].astro.
  */
-import SiteLayout from '../../layouts/SiteLayout.astro'
+import BlogLayout from '../../layouts/BlogLayout.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
 import SideMenu from '../../components/ui/SideMenu.astro'
 import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
@@ -45,7 +45,7 @@ const renderedBlocks = content.map((block: any) =>
 )
 ---
 
-<SiteLayout
+<BlogLayout
   title={`${post.title} · Lab`}
   description={post.excerpt ?? ''}
 >
@@ -126,7 +126,7 @@ const renderedBlocks = content.map((block: any) =>
     </div>
 
   </article>
-</SiteLayout>
+</BlogLayout>
 
 <script is:inline>
   document.addEventListener('alpine:init', () => {
