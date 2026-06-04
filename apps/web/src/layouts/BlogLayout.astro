@@ -12,6 +12,7 @@ import Header from '../components/layout/Header.astro'
 import Footer from '../components/layout/Footer.astro'
 import Drawer from '../components/ui/Drawer.astro'
 import FlutedGlassBg from '../components/ui/FlutedGlassBg.astro'
+import FormClosing from '../components/ui/FormClosing.astro'
 
 interface Props {
   title?: string
@@ -48,6 +49,17 @@ const { insightsHeader = false, ...baseProps } = Astro.props
     <div class="relative px-4 py-8" style="z-index:10">
       <slot name="cta" />
     </div>
+  )}
+
+  <!-- Баннер подписки на рассылку (insights, перед футером) — стандартный FormClosing, ширина = футер. -->
+  {insightsHeader && (
+    <FormClosing
+      preset="subscribe"
+      title="Подпишитесь на рассылку"
+      description="В нашей рассылке все материалы выходят раньше, чем на сайте"
+      submitLabel="Подписаться"
+      class="relative z-10 mt-16"
+    />
   )}
 
   <!-- Футер в белой карточке. Гасим SiteLayout-овый mt-24/40 и border-t: -->
