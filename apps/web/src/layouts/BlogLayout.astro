@@ -39,7 +39,7 @@ const { insightsHeader = false, ...baseProps } = Astro.props
 
   <!-- Белая карточка контента. insights — отступ под плавающим хедером (симметрия с pt-3 = 12px);
        обычный blog — наезд -mt-6 (карточка под хедер). -->
-  <main class:list={['relative bg-background-primary rounded-t-3xl flex-1', insightsHeader ? 'mt-1' : '-mt-6']} style="z-index:10">
+  <main class:list={['relative bg-background-primary flex-1', insightsHeader ? 'rounded-3xl mt-1' : 'rounded-t-3xl -mt-6']} style="z-index:10">
     <slot />
   </main>
 

@@ -82,15 +82,15 @@ const statyi = allPosts.slice(0, 10)                      // Блок 8: пос�
 ---
 
 <BlogLayout title="Blog Main · Lab" description="Эксперимент с новым layout блога" insightsHeader>
-  <div class="pt-12 sm:pt-16 lg:pt-24 flex flex-col gap-24 lg:gap-40">
+  <div class="py-10 md:py-16 flex flex-col gap-24 lg:gap-40">
 
     {/* ── Блок 1: заголовок + lg-карточка + ряд xs (lg+: помещается в viewport) ── */}
-    <div class="page-container flex flex-col gap-10 lg:gap-16">
-      <h2 class="text-h2 text-gray-900 md:mb-6 lg:mb-0">Журнал для&#160;современных девелоперов</h2>
+    <div class="page-container flex flex-col gap-8 md:gap-10">
+      <h2 class="text-h2 text-gray-900">Журнал для&#160;современных девелоперов</h2>
 
       {featured && <BlogCardNew size="lg" layout="stacked" {...card(featured)} />}
 
-      <div class="hidden md:grid gap-6 sm:grid-cols-2 xl:grid-cols-3 sm:-mt-2 lg:-mt-8">
+      <div class="hidden md:grid gap-6 sm:grid-cols-2 xl:grid-cols-3 sm:-mt-2">
         {recent.map((post: any, i: number) => (
           <BlogCardNew size="xs" {...card(post)} class={i === 2 ? 'hidden xl:block' : ''} />
         ))}
