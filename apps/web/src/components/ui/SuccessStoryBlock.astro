@@ -54,6 +54,8 @@ interface Props {
   subtitle?: string
   /** Счётчик справа от заголовка (text-h4, opacity-30). Опционально. */
   counter?: number | string
+  /** Если задан — заголовок становится ссылкой с ховером (text-brand). Опционально. */
+  headingHref?: string
   /** Текст кнопки */
   buttonLabel?: string
   /** Пресет дровера для кнопки */
@@ -74,6 +76,7 @@ const {
   heading = '70+ историй успеха на рынке застройщиков',
   subtitle,
   counter,
+  headingHref,
   buttonLabel = 'Получить демо',
   buttonPreset = 'demo',
   buttonHref,
@@ -91,7 +94,13 @@ const {
       <!-- Заголовок + (опц.) счётчик + (опц.) подзаголовок + кнопка -->
       <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
         <div class="flex flex-col gap-1 max-w-[800px] w-full">
-          <h2 class="text-h2 text-gray-900">{heading}{counter !== undefined && <span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{counter}</span>}</h2>
+          {headingHref ? (
+            <a href={headingHref} class="group w-fit">
+              <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">{heading}{counter !== undefined && <span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{counter}</span>}</h2>
+            </a>
+          ) : (
+            <h2 class="text-h2 text-gray-900">{heading}{counter !== undefined && <span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{counter}</span>}</h2>
+          )}
           {subtitle && <p class="text-body-lg text-gray-500">{subtitle}</p>}
         </div>
         <div class="shrink-0">

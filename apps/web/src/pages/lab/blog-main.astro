@@ -103,7 +103,9 @@ const statyi = allPosts.slice(0, 10)                      // Блок 8: пос�
       {/* Заголовок + подзаголовок + счётчик + кнопка */}
       <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
         <div class="flex flex-col gap-1 max-w-[800px] w-full">
-          <h2 class="text-h2 text-gray-900">Правила девелопера<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{count('pravila-developera')}</span></h2>
+          <a href="/lab/category-page/pravila-developera" class="group w-fit">
+            <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">Правила девелопера<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{count('pravila-developera')}</span></h2>
+          </a>
           <p class="text-body-lg text-gray-500">Реальные истории топов, их&#160;взгляды на&#160;рынок и&#160;профессию</p>
         </div>
         <div class="shrink-0">
@@ -124,6 +126,7 @@ const statyi = allPosts.slice(0, 10)                      // Блок 8: пос�
     <SuccessStoryBlock
       heading="Кейсы"
       counter={20}
+      headingHref="/lab/category-page/cases"
       subtitle="Истории успеха на&#160;рынке застройщиков"
       buttonLabel="Смотреть все"
       buttonHref="/cases"
@@ -167,7 +170,9 @@ const statyi = allPosts.slice(0, 10)                      // Блок 8: пос�
         {/* Заголовочная область: <xl — heading+button в одну строку (sm+), xl+ — колонка 1/3 */}
         <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between xl:flex-col xl:gap-6 xl:basis-1/3 xl:shrink xl:min-w-0">
           <div class="flex flex-col gap-1">
-            <h2 class="text-h2 text-gray-900">Аналитика рынка<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{count('statistika')}</span></h2>
+            <a href="/lab/category-page/statistika" class="group w-fit">
+              <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">Аналитика рынка<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{count('statistika')}</span></h2>
+            </a>
             <p class="text-body-lg text-gray-500">Проводим исследования и&#160;делимся инсайтами</p>
           </div>
           <div class="shrink-0">
@@ -239,7 +244,9 @@ const statyi = allPosts.slice(0, 10)                      // Блок 8: пос�
     <div class="page-container flex flex-col gap-10 xl:flex-row xl:gap-6 xl:items-start">
 
         <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between xl:flex-col xl:gap-6 xl:basis-1/3 xl:shrink xl:min-w-0">
-          <h2 class="text-h2 text-gray-900">Конференции, подкасты и&#160;вебинары<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{count('podcasts')}</span></h2>
+          <a href="/lab/category-page/podcasts" class="group w-fit">
+            <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">Конференции, подкасты и&#160;вебинары<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{count('podcasts')}</span></h2>
+          </a>
           <div class="shrink-0">
             <Button variant="primary" size="sm" href="/events">Смотреть все</Button>
           </div>
