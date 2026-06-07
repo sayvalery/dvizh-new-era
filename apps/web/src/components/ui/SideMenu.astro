@@ -151,8 +151,8 @@ const xData = `{
                   type="button"
                   x-show={`open || active === ${index}`}
                   x-cloak
-                  class="w-full flex items-center gap-2 pr-8 text-left transition-opacity hover:opacity-70"
-                  :class={`active === ${index} ? 'text-brand' : 'text-gray-500'`}
+                  class="w-full flex items-center gap-2 pr-8 text-left transition-opacity"
+                  :class={`active === ${index} ? 'text-brand' : 'text-gray-500 hover:opacity-70'`}
                   @click={`active === ${index} ? (open = !open) : (active = ${index}, open = false, $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} }))`}
                 >
                   <span
