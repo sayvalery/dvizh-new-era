@@ -1,0 +1,94 @@
+---
+/**
+ * Lab: Category Page — шаблонная страница категории блога
+ *
+ * Верхний заголовок (название категории + счётчик статей) и под ним
+ * сетка-шахматка из карточек ВСЕХ статей категории. Логика показа и
+ * адаптив сетки — как у блока «Статьи блога» на lab-главной (blog-main).
+ *
+ * Пример: категория «Аналитика рынка» (slug `statistika`).
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/category-page
+ */
+import BlogLayout from '../../layouts/BlogLayout.astro'
+import BlogCardNew from '../../components/ui/BlogCardNew.astro'
+import { getBlogPosts } from '../../lib/payload'
+
+// Пример категории (в реальном шаблоне придёт из getStaticPaths)
+const CATEGORY_TITLE = 'Аналитика рынка'
+const CATEGORY_SLUG = 'statistika'
+
+// Все опубликованные посты, новые → старые (посты без даты — в конец)
+const { docs: rawPosts } = await getBlogPosts({ limit: 200, depth: 2 })
+const allPosts = [...rawPosts].sort((a: any, b: any) => {
+  const ta = a.publishedAt ? Date.parse(a.publishedAt) : -Infinity
+  const tb = b.publishedAt ? Date.parse(b.publishedAt) : -Infinity
+  return tb - ta
+})
+
+// Статьи текущей категории
+const posts = allPosts.filter((p: any) => p.category?.slug === CATEGORY_SLUG)
+
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+
+/** ISO-дата → «27 февраля» (день + месяц) */
+function ruDate(iso?: string): string | undefined {
+  if (!iso) return undefined
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return undefined
+  return `${d.getDate()} ${MONTHS[d.getMonth()]}`
+}
+
+/** Рекурсивно собирает текст из Lexical-узла (root/children/text) */
+function lexicalText(node: any): string {
+  if (!node) return ''
+  if (typeof node.text === 'string') return node.text
+  const kids = node.children ?? node.root?.children
+  return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
+}
+
+/** Время чтения из объёма текста (≈200 слов/мин) → «9 мин» */
+function readTime(post: any): string {
+  let text = ''
+  if (post.bodyHtml) {
+    text = String(post.bodyHtml).replace(/<[^>]+>/g, ' ')
+  } else if (Array.isArray(post.content)) {
+    text = post.content.map((b: any) => lexicalText(b.richText)).join(' ')
+  }
+  text = text.replace(/\s+/g, ' ').trim()
+  const words = text ? text.split(' ').length : 0
+  const min = Math.max(1, Math.round(words / 200))
+  return `${min} мин`
+}
+
+/** Пост CMS → пропсы BlogCardNew */
+function card(post: any) {
+  return {
+    title: post.title,
+    slug: post.slug,
+    cover: post.cover,
+    excerpt: post.excerpt,
+    date: ruDate(post.publishedAt),
+    readTime: readTime(post),
+  }
+}
+---
+
+<BlogLayout title={`${CATEGORY_TITLE} · Lab`} description={`Статьи категории «${CATEGORY_TITLE}»`} insightsHeader>
+  <div class="py-10 md:py-16">
+
+    <div class="page-container flex flex-col gap-10 lg:gap-16">
+
+      {/* Верхний заголовок + счётчик статей категории */}
+      <h2 class="text-h2 text-gray-900">{CATEGORY_TITLE}<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{posts.length}</span></h2>
+
+      {/* Шахматка карточек: 1 → 2 → 3 колонки (как блок «Статьи блога») */}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+        {posts.map((post: any) => (
+          <BlogCardNew size="md" {...card(post)} />
+        ))}
+      </div>
+
+    </div>
+
+  </div>
+</BlogLayout>
