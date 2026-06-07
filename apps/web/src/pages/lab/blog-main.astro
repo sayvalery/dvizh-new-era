@@ -76,9 +76,21 @@ const featured = allPosts[0]                              // Блок 1: гла�
 const recent = allPosts.slice(1, 4)                       // Блок 1: 3 xs-карточки
 const pravila = byCat('pravila-developera').slice(0, 4)   // Блок 2
 const analitika = byCat('statistika').slice(0, 4)         // Блок 4 (Аналитика рынка)
-const novosti = byCat('pro-dvizh').slice(0, 4)            // Блок 5 (Новости)
 const podkasty = byCat('podcasts').slice(0, 4)            // Блок 7 (Подкасты)
 const statyi = allPosts.slice(0, 10)                      // Блок 8: последние 9 (+1 добивочная для sm)
+
+// Блок 5: теги-фильтры. Категории, реально присутствующие в постах, по алфавиту.
+// Клик по тегу не ведёт на страницу категории, а переключает карточки справа (Alpine).
+const catMap = new Map<string, { slug: string; title: string; posts: any[] }>()
+for (const p of allPosts as any[]) {
+  const c = p.category
+  if (!c?.slug) continue
+  if (!catMap.has(c.slug)) catMap.set(c.slug, { slug: c.slug, title: String(c.title ?? c.slug).trim(), posts: [] })
+  catMap.get(c.slug)!.posts.push(p)
+}
+const tagCats = [...catMap.values()].sort((a, b) => a.title.localeCompare(b.title, 'ru'))
+// По умолчанию предвыбраны «Новости» (pro-dvizh); если их нет — первая категория.
+const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (tagCats[0]?.slug ?? '')
 ---
 
 <BlogLayout title="Blog Main · Lab" description="Эксперимент с новым layout блога" insightsHeader>
@@ -199,30 +211,39 @@ const statyi = allPosts.slice(0, 10)                      // Блок 8: пос�
 
     </div>
 
-    {/* ── Блок 5: Теги + md-карточки — при md и ниже стак на полную ширину, при lg+ 2 колонки */}
-    <div class="page-container">
+    {/* ── Блок 5: Теги-фильтры + md-карточки — клик по тегу переключает карточки справа (Alpine).
+            При md и ниже стак на полную ширину, при lg+ 2 колонки. */}
+    <div class="page-container" x-data={`{ cat: '${defaultCat}' }`}>
       <div class="flex flex-col gap-10 lg:flex-row lg:gap-6 lg:items-start">
 
-        {/* Левая колонка (lg+): теги + кнопка */}
-        <div class="flex flex-col gap-6 lg:basis-1/3 lg:shrink lg:min-w-0">
+        {/* Левая колонка (lg+): теги (фильтр) + кнопка. Залипает при скролле. */}
+        <div class="flex flex-col gap-6 lg:basis-1/3 lg:shrink lg:min-w-0 lg:sticky lg:top-24 lg:self-start">
           <div class="flex flex-wrap gap-2">
-            <Tab label="Правила девелопера" href="/category/pravila-developera" />
-            <Tab label="Подкасты" href="/category/podcasts" />
-            <Tab label="Новости" href="/category/pro-dvizh" selected />
-            <Tab label="Аналитика рынка" href="/category/statistika" />
-            <Tab label="Кейсы" href="/cases" />
-            <Tab label="Маркетинг и продажи" href="/category/marketing-prodazhi" />
-            <Tab label="Инсайты" href="/category/insights" />
+            {tagCats.map((c) => (
+              <Tab
+                label={c.title}
+                x-on:click={`cat = '${c.slug}'`}
+                x-bind:class={`cat === '${c.slug}' ? '!border-[#fecda9] !text-brand' : ''`}
+              />
+            ))}
           </div>
           <div>
-            <Button variant="primary" size="sm" href="/blog">Смотреть все статьи</Button>
+            <Button variant="primary" size="sm" href="/blog" x-bind:href={`'/lab/category-page/' + cat`}>Смотреть все статьи</Button>
           </div>
         </div>
 
-        {/* Правая колонка: 4 md-карточки в сетке 1 → 2 col (4-я только sm+) */}
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 lg:basis-2/3 lg:shrink lg:min-w-0">
-          {novosti.map((post: any, i: number) => (
-            <BlogCardNew size="md" {...card(post)} class={i === 3 ? 'hidden sm:block' : ''} />
+        {/* Правая колонка: карточки выбранной категории (до 4, 4-я только sm+) */}
+        <div class="lg:basis-2/3 lg:shrink lg:min-w-0">
+          {tagCats.map((c) => (
+            <div
+              x-show={`cat === '${c.slug}'`}
+              x-cloak
+              class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10"
+            >
+              {c.posts.slice(0, 4).map((post: any, i: number) => (
+                <BlogCardNew size="md" {...card(post)} class={i === 3 ? 'hidden sm:block' : ''} />
+              ))}
+            </div>
           ))}
         </div>
 
