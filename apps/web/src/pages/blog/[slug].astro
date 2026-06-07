@@ -1,9 +1,24 @@
 ---
+/**
+ * Страница статьи блога /blog/[slug]
+ *
+ * Лейаут перенесён из эксперимента /lab/article-page:
+ *   - две колонки (мета/оглавление 340px + тело)
+ *   - sticky-оглавление (SideMenu variant=panel) из заголовков h2/h3
+ *   - низ статьи: категория | хештеги … Поделиться; «Над статьей работали»
+ *   - блок «Читайте еще»
+ *
+ * Тело поддерживает оба источника: CMS-блоки `content` (Lexical) и `bodyHtml`
+ * (импорт из Webflow). TOC строится из заголовков соответствующего источника.
+ */
 import BlogLayout from '../../layouts/BlogLayout.astro'
 import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
-import BlogCard from '../../components/ui/BlogCard.astro'
+import SideMenu from '../../components/ui/SideMenu.astro'
+import Button from '../../components/ui/Button.astro'
+import BlogCardNew from '../../components/ui/BlogCardNew.astro'
 import { getBlogPosts, getBlogPost, normalizeMediaUrl, normalizeBodyHtml, sanitizeBodyHtml } from '../../lib/payload'
+import { serializeLexical, createIdGenerator, buildTocFromContent, buildTocFromHtml, lexicalNodeText } from '../../lib/lexical'
 
 export async function getStaticPaths() {
   const allDocs: any[] = []
@@ -21,7 +36,6 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params
 const post = await getBlogPost(slug!)
-
 
 if (!post) return Astro.redirect('/404')
 
@@ -61,30 +75,52 @@ const jsonLd = [
   },
 ]
 
-// Исправляем bodyHtml: ссылки из Webflow + нормализация медиа-URL + санитизация
-const bodyHtml = sanitizeBodyHtml(normalizeBodyHtml(
+// ─── Тело статьи + оглавление: два источника ──────────────────────────────
+const content: any[] = post.content ?? []
+const hasBlocks = content.length > 0
+
+// bodyHtml (Webflow): ссылки → относительные + нормализация медиа + санитизация
+const rawBodyHtml = hasBlocks ? '' : sanitizeBodyHtml(normalizeBodyHtml(
   post.bodyHtml
     ?.replaceAll('href="https://dvizh.webflow.io/', 'href="/')
     .replaceAll('href="https://www.dvizh.io/', 'href="/')
-))
+)) ?? ''
+
+let tocFlat: Array<{ id: string; text: string; level: 2 | 3 }> = []
+let renderedBlocks: Array<{ kind: 'html'; html: string } | { kind: 'block'; block: any }> = []
+
+if (hasBlocks) {
+  // CMS-блоки: TOC из заголовков content, рендер richText → HTML с теми же id
+  tocFlat = buildTocFromContent(content)
+  const renderGen = createIdGenerator()
+  renderedBlocks = content.map((block: any) =>
+    block.blockType === 'richText'
+      ? { kind: 'html' as const, html: serializeLexical(block.content, { makeHeadingId: renderGen }) }
+      : { kind: 'block' as const, block }
+  )
+} else if (rawBodyHtml) {
+  // Webflow HTML: проставляем id заголовкам и строим TOC из них
+  const { html, toc } = buildTocFromHtml(rawBodyHtml)
+  tocFlat = toc
+  renderedBlocks = [{ kind: 'html' as const, html }]
+}
+const tocIds = tocFlat.map((i) => i.id)
 
 // Время чтения
-const textContent = post.bodyHtml?.replace(/<[^>]+>/g, '') ?? post.content?.map((b: any) => b.richText?.root?.children?.map((c: any) => c.text || '').join(' ')).join(' ') ?? ''
+const textContent = post.bodyHtml?.replace(/<[^>]+>/g, '')
+  ?? content.filter((b) => b.blockType === 'richText').map((b) => lexicalNodeText(b.content?.root)).join(' ')
+  ?? ''
 const wordCount = textContent.split(/\s+/).filter(Boolean).length
 const readingTime = Math.max(1, Math.ceil(wordCount / 200))
 
-// Основной автор из relation
+// ─── Авторы ───────────────────────────────────────────────────────────────
 const primaryAuthor = post.primaryAuthor ?? null
-// Соавторы без дублирования primaryAuthor
-const coAuthors = (post.coAuthors ?? []).filter(
-  (a: any) => a.id !== primaryAuthor?.id
-)
+const coAuthors = (post.coAuthors ?? []).filter((a: any) => a.id !== primaryAuthor?.id)
+const contributors = [primaryAuthor, ...coAuthors].filter(Boolean)
+const tags = Array.isArray(post.tags) ? post.tags : []
 
-// Связанные посты: гибридная логика — ручные + авто-добор из той же категории.
-// 1. Ручные связанные (из поля post.relatedPosts)
+// ─── Связанные посты: ручные + авто-добор из той же категории ──────────────
 const manualRelated = (post.relatedPosts ?? []).filter((p: any) => p?.id && p.id !== post.id)
-
-// 2. Авто-добор из той же категории, исключая текущую и manual
 let autoRelated: any[] = []
 const slotsLeft = 3 - manualRelated.length
 if (slotsLeft > 0 && post.category?.slug) {
@@ -102,6 +138,32 @@ if (slotsLeft > 0 && post.category?.slug) {
   autoRelated = docs
 }
 const relatedPosts = [...manualRelated, ...autoRelated].slice(0, 3)
+
+// Хелперы карточек «Читайте еще»
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+function ruDate(iso?: string): string | undefined {
+  if (!iso) return undefined
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return undefined
+  return `${d.getDate()} ${MONTHS[d.getMonth()]}`
+}
+function lexicalText(node: any): string {
+  if (!node) return ''
+  if (typeof node.text === 'string') return node.text
+  const kids = node.children ?? node.root?.children
+  return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
+}
+function readTimeOf(p: any): string {
+  let text = ''
+  if (p.bodyHtml) text = String(p.bodyHtml).replace(/<[^>]+>/g, ' ')
+  else if (Array.isArray(p.content)) text = p.content.map((b: any) => lexicalText(b.richText)).join(' ')
+  text = text.replace(/\s+/g, ' ').trim()
+  const words = text ? text.split(' ').length : 0
+  return `${Math.max(1, Math.round(words / 200))} мин`
+}
+function card(p: any) {
+  return { title: p.title, slug: p.slug, cover: p.cover, excerpt: p.excerpt, date: ruDate(p.publishedAt), readTime: readTimeOf(p) }
+}
 ---
 
 <BlogLayout
@@ -110,147 +172,206 @@ const relatedPosts = [...manualRelated, ...autoRelated].slice(0, 3)
   ogImage={ogImage}
   ogType="article"
   jsonLd={jsonLd}
+  insightsHeader
 >
-  <article class="max-w-3xl mx-auto px-4 py-16">
-    <!-- Хлебные крошки -->
-    <nav class="text-sm text-gray-500 mb-6">
-      <a href="/blog" class="hover:underline">Блог</a>
-      {post.category?.title && (
-        <>
-          <span class="mx-2">›</span>
-          <a href={`/category/${post.category.slug}`} class="hover:underline">
-            {post.category.title}
-          </a>
-        </>
-      )}
-    </nav>
+  <article class="page-container pt-10 md:pt-16">
 
-    <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
+    {/* ── Контейнер 1: мета + заголовок ── */}
+    <div class="grid grid-cols-1 gap-y-8 xl:grid-cols-[340px_1fr] xl:gap-x-10 xl:gap-y-0">
+      {/* Левая колонка — мета (на xl+; на lg и меньше — стек: крошки → автор/дата) */}
+      <aside class="flex flex-col gap-8 xl:gap-0 xl:h-full xl:justify-between text-subhead text-gray-500">
+        <nav class="text-subhead">
+          <a href="/blog" class="hover:text-gray-900">Блог</a>
+          {post.category?.title && (
+            <>
+              <span class="mx-1">›</span>
+              <a href={`/category/${post.category.slug}`} class="hover:text-gray-900">{post.category.title}</a>
+            </>
+          )}
+        </nav>
 
-    {post.excerpt && (
-      <p class="text-xl text-gray-600 mb-6">{post.excerpt}</p>
-    )}
+        <div class="flex flex-col gap-3 xs:flex-row xs:items-center xs:justify-between xl:flex-col xl:items-start">
+          {primaryAuthor && <PersonCard person={primaryAuthor} variant="inline" />}
 
-    <!-- Мета: автор + дата + время чтения -->
-    <div class="flex flex-wrap items-center gap-4 mb-10">
-      {primaryAuthor && (
-        <PersonCard person={primaryAuthor} variant="inline" />
-      )}
+          {(() => {
+            const date = post.publishedAt
+              ? new Date(post.publishedAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })
+              : null
+            const readTime = `${readingTime} мин`
+            const hasDateMeta = date || readTime
+            return hasDateMeta && (
+              <div class="flex items-end gap-1 text-subhead text-gray-500">
+                {date && <span>{date}</span>}
+                {date && readTime && <span>·</span>}
+                {readTime && <span>{readTime}</span>}
+              </div>
+            )
+          })()}
+        </div>
+      </aside>
 
-      {post.publishedAt && (
-        <time datetime={post.publishedAt} class="text-sm text-gray-400">
-          {new Date(post.publishedAt).toLocaleDateString('ru-RU', {
-            day: 'numeric', month: 'long', year: 'numeric',
-          })}
-        </time>
-      )}
-
-      <span class="text-sm text-gray-400">{readingTime} мин чтения</span>
-
-      {post.category?.title && (
-        <a href={`/category/${post.category.slug}`} class="text-sm text-gray-400 hover:text-gray-600">
-          {post.category.title}
-        </a>
-      )}
+      {/* Правая колонка — заголовок */}
+      <div class="flex flex-col gap-4">
+        <h1 class="text-h2 text-gray-900">{post.title}</h1>
+        {post.excerpt && (
+          <p class="text-body-lg text-gray-500">{post.excerpt}</p>
+        )}
+      </div>
     </div>
 
-    {/* Теги */}
-    {post.tags?.length > 0 && (
-      <div class="flex flex-wrap gap-2 mb-8">
-        {post.tags.map((tag: any) => (
-          tag.slug ? (
-            <a
-              href={`/tag/${tag.slug}`}
-              class="px-2.5 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full hover:bg-gray-200 transition-colors"
-            >
-              {tag.title || tag.name || tag}
-            </a>
-          ) : (
-            <span class="px-2.5 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">
-              {tag.title || tag.name || tag}
-            </span>
-          )
+    {/* ── Контейнер 2: TOC + обложка/тело ── */}
+    <div class="grid grid-cols-1 gap-y-8 mt-16 xl:grid-cols-[340px_1fr] xl:gap-x-10 xl:gap-y-0">
+      <aside
+        class="self-start xl:sticky xl:top-24"
+        x-data={`articleToc(${JSON.stringify(tocIds)})`}
+        @side-menu-change="onClick($event.detail.index)"
+      >
+        {tocFlat.length > 0 && (
+          <SideMenu navId="article-toc" variant="panel" items={tocFlat.map((i) => ({ title: i.text }))} />
+        )}
+      </aside>
+      <div>
+        {coverUrl && (
+          <img
+            src={coverUrl}
+            alt={post.cover?.alt ?? post.title}
+            class="w-full rounded-xl aspect-video object-cover mb-10"
+            width="1200"
+            height="675"
+            loading="eager"
+            decoding="async"
+          />
+        )}
+        {renderedBlocks.map((b) => (
+          b.kind === 'html'
+            ? <div class="prose prose-lg max-w-none" set:html={b.html} />
+            : <BlockRenderer blocks={[b.block]} />
         ))}
       </div>
-    )}
+    </div>
 
-    {coverUrl && (
-      <img
-        src={coverUrl}
-        alt={post.cover?.alt ?? post.title}
-        class="w-full rounded-xl mb-10 aspect-video object-cover"
-        width="768"
-        height="432"
-        loading="eager"
-        decoding="async"
-      />
-    )}
+    {/* ── Низ статьи: вне колонки тела (выровнен через col-start-2),
+         чтобы sticky-оглавление отлипало в конце тела статьи ── */}
+    <div class="grid grid-cols-1 mt-12 xl:grid-cols-[340px_1fr] xl:gap-x-10">
+      <div class="xl:col-start-2">
+        <hr class="border-gray-200" />
 
-    {post.content?.length > 0
-      ? <BlockRenderer blocks={post.content} />
-      : bodyHtml && <div class="prose prose-lg max-w-none" set:html={bodyHtml} />
-    }
+        {/* Категория | хештеги ........ Поделиться */}
+        <div class="flex flex-wrap items-center justify-between gap-4 mt-10">
+          <div class="flex items-center text-subhead text-gray-500">
+            {post.category?.title && (
+              <a href={`/category/${post.category.slug}`} class="hover:text-gray-900 transition-colors">{post.category.title}</a>
+            )}
+            {post.category?.title && tags.length > 0 && (
+              <span class="mx-3 h-4 w-0.5 bg-gray-300" aria-hidden="true"></span>
+            )}
+            {tags.length > 0 && (
+              <div class="flex flex-wrap gap-3">
+                {tags.map((t: any) => (
+                  <a href={t.slug ? `/tag/${t.slug}` : '#'} class="text-brand hover:text-brand-600 transition-colors">#{t.title ?? t.name ?? t.slug}</a>
+                ))}
+              </div>
+            )}
+          </div>
 
-    <!-- Авторы внизу статьи (полные карточки) -->
-    {(primaryAuthor || coAuthors.length > 0) && (
-      <div class="mt-16 pt-8 border-t border-gray-200">
-        <p class="text-xs uppercase tracking-wide text-gray-400 mb-4">
-          {coAuthors.length > 0 ? 'Авторы' : 'Автор'}
-        </p>
-        <div class="space-y-4">
-          {primaryAuthor && <PersonCard person={primaryAuthor} variant="full" />}
-          {coAuthors.map((author: any) => (
-            <PersonCard person={author} variant="full" />
+          <div x-data="{ copied: false, timer: null }" class="shrink-0">
+            <Button
+              variant="primary"
+              size="md"
+              type="button"
+              @click="navigator.clipboard.writeText(window.location.href); copied = true; clearTimeout(timer); timer = setTimeout(() => copied = false, 2000)"
+            >
+              <span x-show="!copied">Поделиться</span>
+              <span x-show="copied" x-cloak>Скопировано</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Над статьей работали */}
+        {contributors.length > 0 && (
+          <>
+            <h5 class="text-h5 text-gray-900 mt-10">Над статьей работали:</h5>
+            <div class="flex flex-wrap justify-between gap-6 mt-4">
+              {contributors.map((p: any) => <PersonCard person={p} variant="full" />)}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+
+  </article>
+
+  {/* ── Читайте еще — блок-сетка (структура как «Правила девелопера») ── */}
+  {relatedPosts.length > 0 && (
+    <section class="page-container mt-[120px] pb-10 md:pb-16">
+      <div class="flex flex-col gap-10 lg:gap-16">
+        <h2 class="text-h2 text-gray-900">Читайте еще</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+          {relatedPosts.map((p: any, i: number) => (
+            <BlogCardNew size="md" {...card(p)} class={i === 3 ? 'hidden sm:block lg:hidden' : ''} />
           ))}
         </div>
       </div>
-    )}
-    {/* Шаринг */}
-    <div class="mt-12 pt-8 border-t border-gray-200">
-      <p class="text-xs uppercase tracking-wide text-gray-400 mb-3">Поделиться</p>
-      <div class="flex gap-3">
-        <a
-          href={`https://t.me/share/url?url=${encodeURIComponent(Astro.url.href)}&text=${encodeURIComponent(post.title)}`}
-          target="_blank"
-          rel="noopener"
-          class="px-4 py-2 bg-gray-100 rounded-lg text-sm text-gray-700 hover:bg-gray-200 transition-colors"
-        >
-          Telegram
-        </a>
-        <a
-          href={`https://vk.com/share.php?url=${encodeURIComponent(Astro.url.href)}&title=${encodeURIComponent(post.title)}`}
-          target="_blank"
-          rel="noopener"
-          class="px-4 py-2 bg-gray-100 rounded-lg text-sm text-gray-700 hover:bg-gray-200 transition-colors"
-        >
-          VK
-        </a>
-        <button
-          onclick="navigator.clipboard.writeText(window.location.href); this.textContent = 'Скопировано!'; setTimeout(() => this.textContent = 'Копировать ссылку', 2000)"
-          class="px-4 py-2 bg-gray-100 rounded-lg text-sm text-gray-700 hover:bg-gray-200 transition-colors"
-        >
-          Копировать ссылку
-        </button>
-      </div>
-    </div>
-  </article>
-
-  {/* Связанные статьи */}
-  {relatedPosts.length > 0 && (
-    <div class="max-w-[1440px] mx-auto px-4 pb-16">
-      <h2 class="text-2xl font-bold mb-6">Читайте также</h2>
-      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {relatedPosts.map((rp: any) => (
-          <BlogCard
-            title={rp.title}
-            slug={rp.slug}
-            cover={rp.cover}
-            category={rp.category?.title}
-            excerpt={rp.excerpt}
-            tags={rp.tags}
-          />
-        ))}
-      </div>
-    </div>
+    </section>
   )}
 </BlogLayout>
+
+<script is:inline>
+  document.addEventListener('alpine:init', () => {
+    window.Alpine.data('articleToc', (ids) => ({
+      ids: ids || [],
+      navId: 'article-toc',
+
+      setActive(index) {
+        window.dispatchEvent(new CustomEvent('side-menu-set-active', {
+          detail: { navId: this.navId, index }
+        }))
+      },
+
+      onClick(index) {
+        const id = this.ids[index]
+        if (!id) return
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      },
+
+      init() {
+        if (this.ids.length === 0) return
+
+        const headings = this.ids
+          .map((id) => document.getElementById(id))
+          .filter(Boolean)
+        if (headings.length === 0) return
+
+        const indexById = new Map(this.ids.map((id, i) => [id, i]))
+
+        // По умолчанию подсветить первый
+        this.setActive(0)
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((e) => e.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+            if (visible.length > 0) {
+              const idx = indexById.get(visible[0].target.id)
+              if (idx !== undefined) this.setActive(idx)
+            }
+          },
+          {
+            rootMargin: '-15% 0px -70% 0px',
+            threshold: 0,
+          }
+        )
+
+        headings.forEach((h) => observer.observe(h))
+      },
+    }))
+  })
+</script>
+
+<style is:global>
+  html { scroll-behavior: smooth; }
+  /* Отступ при скролле к якорю, чтобы заголовок не прятался под шапкой */
+  article h2[id], article h3[id] { scroll-margin-top: 96px; }
+</style>

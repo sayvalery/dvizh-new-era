@@ -117,6 +117,32 @@ function serializeNode(node: any, opts: SerializeOptions): string {
 }
 
 /**
+ * Строит оглавление (h2/h3) из готового HTML (например, bodyHtml из Webflow) и
+ * проставляет заголовкам id (если их ещё нет), чтобы якоря TOC и заголовки совпадали.
+ * Возвращает модифицированный html и плоский список пунктов TOC.
+ */
+export function buildTocFromHtml(html: string): { html: string; toc: Array<{ id: string; text: string; level: 2 | 3 }> } {
+  if (!html) return { html: '', toc: [] }
+  const gen = createIdGenerator()
+  const toc: Array<{ id: string; text: string; level: 2 | 3 }> = []
+  const out = html.replace(/<(h2|h3)\b([^>]*)>([\s\S]*?)<\/\1>/gi, (m: string, tag: string, attrs: string, inner: string) => {
+    const text = inner
+      .replace(/<[^>]+>/g, '')
+      .replace(/&nbsp;/gi, ' ')
+      .replace(/&[a-z]+;/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+    if (!text) return m
+    const existing = attrs.match(/\sid=["']([^"']*)["']/i)
+    const id = existing ? existing[1] : gen(text)
+    const newAttrs = existing ? attrs : `${attrs} id="${id}"`
+    toc.push({ id, text, level: tag.toLowerCase() === 'h2' ? 2 : 3 })
+    return `<${tag}${newAttrs}>${inner}</${tag}>`
+  })
+  return { html: out, toc }
+}
+
+/**
  * Строит плоское оглавление (h2/h3) из массива content-блоков.
  * id генерируются тем же способом, что и при рендере (createIdGenerator),
  * проход — в порядке документа, поэтому якоря совпадут.
