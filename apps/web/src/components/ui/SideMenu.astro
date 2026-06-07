@@ -1,15 +1,26 @@
 ---
 /**
- * SideMenu — боковое меню (горизонтальная карусель до lg, вертикальное с lg)
+ * SideMenu — боковое меню оглавления
  *
- * До lg: горизонтальная карусель с scroll-snap и скроллом без полосы прокрутки.
- * С lg и выше: вертикальный стек пунктов.
+ * variant="default" (по умолчанию):
+ *   До lg — горизонтальная карусель (scroll-snap, без полосы прокрутки).
+ *   С lg — вертикальный стек пунктов.
+ *
+ * variant="panel":
+ *   С xl — вертикальный sticky-стек (как default на lg+).
+ *   xs–lg — фиксированная внизу плашка с названием активного раздела и шевроном.
+ *     Тап по плашке раскрывает список пунктов вверх (без затемнения).
+ *     Тап по пункту — плавный скролл к нему. Плашка видна только в пределах
+ *     ближайшего <article> (IntersectionObserver).
+ *
  * Активный пункт выделяется оранжевым.
  * Клик переключает активный пункт и вызывает callback через Alpine.js событие.
  *
  * @example
  * ```astro
  * <SideMenu
+ *   navId="article-toc"
+ *   variant="panel"
  *   items={[
  *     { title: 'Цифровая ипотека', active: true },
  *     { title: 'Калькулятор' },
@@ -26,7 +37,7 @@ interface MenuItem {
 
 interface Props {
   items: MenuItem[]
-  /** Дополнительные CSS классы */
+  /** Дополнительные CSS классы (применяются к вертикальному стеку) */
   class?: string
   /**
    * ID для внешнего управления активным пунктом.
@@ -34,50 +45,146 @@ interface Props {
    * с `detail: { navId, index }`. Используется в ProductSection.
    */
   navId?: string
+  /** Поведение на брейкпойнтах xs–lg: 'default' — карусель, 'panel' — нижняя плашка */
+  variant?: 'default' | 'panel'
 }
 
-const { items, class: className = '', navId = '' } = Astro.props
----
+const { items, class: className = '', navId = '', variant = 'default' } = Astro.props
 
-<nav
-  x-data={`{
-    active: ${Math.max(0, items.findIndex(i => i.active))},
-    init() {
-      const id = '${navId}';
-      if (!id) return;
+const initialActive = Math.max(0, items.findIndex((i) => i.active))
+
+// Alpine-состояние. Для panel дополнительно: open (раскрыт список), visible (плашка в зоне статьи).
+const xData = `{
+  active: ${initialActive},
+  open: false,
+  visible: false,
+  titles: ${JSON.stringify(items.map((i) => i.title))},
+  init() {
+    const id = '${navId}';
+    if (id) {
       window.addEventListener('side-menu-set-active', e => {
         if (e.detail && e.detail.navId === id) this.active = e.detail.index;
       });
     }
-  }`}
-  class:list={[
-    'flex flex-row gap-0 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory',
-    'lg:flex-col lg:overflow-visible lg:gap-6',
-    className
-  ]}
->
-  {items.map((item, index) => (
-    <button
-      class="flex-shrink-0 snap-start text-left transition-colors hover:opacity-70
-             flex flex-col items-start px-5 py-2
-             lg:flex-row lg:items-center lg:gap-2 lg:px-0 lg:py-0"
-      :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
-      @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
-    >
-      {/* Левая черта: lg+, высота = line-height текста (self-stretch) */}
-      <span
-        class="hidden lg:block w-0.5 self-stretch flex-shrink-0 transition-colors"
-        :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
-      ></span>
-      {/* Текст + нижняя черта для мобиля */}
-      <span class="inline-flex flex-col gap-1">
-        <span class="text-side-menu whitespace-nowrap">{item.title}</span>
-        {/* Нижняя черта: < lg, ширина = ширина текста (inline-flex) */}
+    ${variant === 'panel' ? `
+    const article = this.$el.closest('article');
+    if (article && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        entries => { this.visible = entries[0]?.isIntersecting ?? false; if (!this.visible) this.open = false; },
+        { rootMargin: '0px', threshold: 0 }
+      );
+      io.observe(article);
+    } else {
+      this.visible = true;
+    }` : ''}
+  }
+}`
+
+// Кнопки вертикального стека (xl+ для panel, lg+ для default)
+---
+
+{variant === 'default' ? (
+  <nav
+    x-data={xData}
+    class:list={[
+      'flex flex-row gap-0 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory',
+      'lg:flex-col lg:overflow-visible lg:gap-6',
+      className
+    ]}
+  >
+    {items.map((item, index) => (
+      <button
+        class="flex-shrink-0 snap-start text-left transition-colors hover:opacity-70
+               flex flex-col items-start px-5 py-2
+               lg:flex-row lg:items-center lg:gap-2 lg:px-0 lg:py-0"
+        :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
+        @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
+      >
         <span
-          class="lg:hidden h-0.5 transition-colors"
+          class="hidden lg:block w-0.5 self-stretch flex-shrink-0 transition-colors"
           :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
         ></span>
-      </span>
-    </button>
-  ))}
-</nav>
+        <span class="inline-flex flex-col gap-1">
+          <span class="text-side-menu whitespace-nowrap">{item.title}</span>
+          <span
+            class="lg:hidden h-0.5 transition-colors"
+            :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+          ></span>
+        </span>
+      </button>
+    ))}
+  </nav>
+) : (
+  <div x-data={xData}>
+    {/* ── xl+ : вертикальный sticky-стек (как default lg+) ── */}
+    <nav class:list={['hidden xl:flex xl:flex-col xl:gap-6', className]}>
+      {items.map((item, index) => (
+        <button
+          class="text-left transition-colors hover:opacity-70 flex flex-row items-center gap-2"
+          :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
+          @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
+        >
+          <span
+            class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
+            :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+          ></span>
+          <span class="text-side-menu">{item.title}</span>
+        </button>
+      ))}
+    </nav>
+
+    {/* ── xs–lg : фиксированная нижняя плашка (full-width, без тени/обводки) ── */}
+    <div
+      x-show="visible"
+      x-cloak
+      x-transition.opacity
+      class="fixed bottom-0 inset-x-0 z-30 xl:hidden"
+    >
+      {/* Список пунктов — раскрывается вверх над плашкой, без затемнения */}
+      <div x-show="open" x-cloak x-transition.origin.bottom class="bg-gray-100">
+        <div class="page-container max-h-[60vh] overflow-y-auto">
+          <div class="flex flex-col py-2">
+            {items.map((item, index) => (
+              <button
+                class="flex flex-row items-center gap-2 text-left transition-opacity py-3 hover:opacity-70"
+                :class={`active === ${index} ? 'text-brand' : 'text-gray-900'`}
+                @click={`active = ${index}; open = false; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
+              >
+                <span
+                  class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
+                  :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+                ></span>
+                <span class="text-side-menu">{item.title}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Плашка с текущим разделом + шеврон (оранжевые), дивайдер по ширине контента */}
+      <div class="bg-gray-100">
+        <div class="page-container">
+          <button
+            type="button"
+            @click="open = !open"
+            class="w-full flex items-center justify-between gap-4 border-t border-gray-900/10 py-[24px] text-left text-brand"
+          >
+            <span class="flex items-center gap-2 min-w-0">
+              <span class="block w-0.5 self-stretch flex-shrink-0 bg-brand"></span>
+              <span class="text-side-menu truncate" x-text="titles[active] ?? ''"></span>
+            </span>
+            <svg
+              class="flex-shrink-0 transition-transform duration-200"
+              :class="open ? '-rotate-90' : 'rotate-0'"
+              width="20" height="20" viewBox="0 0 16 16" fill="none"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M6 4l4 4-4 4"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}

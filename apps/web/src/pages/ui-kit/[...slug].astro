@@ -1938,6 +1938,18 @@ const sections = [
         <div>
           <h1 class="text-3xl font-bold font-heading mb-2">Side Menu</h1>
           <p class="text-gray-600 mb-8">Вертикальное боковое меню. Активный пункт выделяется оранжевым, переключается кликом.</p>
+
+          <div class="mb-8 rounded-xl border border-gray-200 bg-gray-100 p-5">
+            <p class="text-sm font-medium text-gray-900 mb-1">variant="panel" (xs–lg)</p>
+            <p class="text-sm text-gray-500">
+              На xl+ — обычный вертикальный sticky-стек. На xs–lg вместо стека — фиксированная внизу плашка
+              с названием активного раздела и шевроном; тап раскрывает список вверх, тап по пункту скроллит к нему.
+              Плашка видна только в пределах ближайшего <code class="bg-gray-200 px-1 rounded text-xs">&lt;article&gt;</code>.
+              Так как она <code class="bg-gray-200 px-1 rounded text-xs">position: fixed</code>, живое демо —
+              на странице <a href="/lab/article-page" class="text-brand hover:text-brand-600 underline">/lab/article-page</a> (сузьте окно ниже 1280px).
+            </p>
+          </div>
+
           <div class="space-y-8">
             <div>
               <p class="text-sm font-medium text-gray-400 mb-4">5 пунктов</p>
