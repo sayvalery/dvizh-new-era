@@ -58,7 +58,6 @@ const xData = `{
   active: ${initialActive},
   open: false,
   visible: false,
-  titles: ${JSON.stringify(items.map((i) => i.title))},
   init() {
     const id = '${navId}';
     if (id) {
@@ -140,49 +139,49 @@ const xData = `{
       x-transition.opacity
       class="fixed bottom-0 inset-x-0 z-30 xl:hidden"
     >
-      {/* Список пунктов — раскрывается вверх над плашкой, без затемнения */}
-      <div x-show="open" x-cloak x-transition.origin.bottom class="bg-gray-100">
-        <div class="page-container max-h-[60vh] overflow-y-auto">
-          <div class="flex flex-col py-2">
-            {items.map((item, index) => (
-              <button
-                class="flex flex-row items-center gap-2 text-left transition-opacity py-3 hover:opacity-70"
-                :class={`active === ${index} ? 'text-brand' : 'text-gray-900'`}
-                @click={`active = ${index}; open = false; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
-              >
-                <span
-                  class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
-                  :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
-                ></span>
-                <span class="text-side-menu">{item.title}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Плашка с текущим разделом + шеврон (оранжевые), дивайдер по ширине контента */}
+      {/* Единый список. Закрыто — виден только активный пункт (плашка-якорь).
+           Открыто — все пункты в естественном порядке, активный выделен.
+           Шеврон зафиксирован справа сверху — общий тоггл, не привязан к пункту. */}
       <div class="bg-gray-100">
         <div class="page-container">
-          <button
-            type="button"
-            @click="open = !open"
-            class="w-full flex items-center justify-between gap-4 border-t border-gray-900/10 py-[24px] text-left text-brand"
-          >
-            <span class="flex items-center gap-2 min-w-0">
-              <span class="block w-0.5 self-stretch flex-shrink-0 bg-brand"></span>
-              <span class="text-side-menu truncate" x-text="titles[active] ?? ''"></span>
-            </span>
-            <svg
-              class="flex-shrink-0 transition-transform duration-200"
-              :class="open ? '-rotate-90' : 'rotate-0'"
-              width="20" height="20" viewBox="0 0 16 16" fill="none"
-              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-              aria-hidden="true"
+          <div class="relative border-t border-gray-900/10">
+            <div class="flex flex-col gap-6 py-[24px] max-h-[60vh] overflow-y-auto">
+              {items.map((item, index) => (
+                <button
+                  type="button"
+                  x-show={`open || active === ${index}`}
+                  x-cloak
+                  class="w-full flex items-center gap-2 pr-8 text-left transition-opacity hover:opacity-70"
+                  :class={`active === ${index} ? 'text-brand' : 'text-gray-500'`}
+                  @click={`active === ${index} ? (open = !open) : (active = ${index}, open = false, $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} }))`}
+                >
+                  <span
+                    class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
+                    :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+                  ></span>
+                  <span class="text-side-menu truncate">{item.title}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Шеврон — всегда справа сверху, выровнен по первой строке */}
+            <button
+              type="button"
+              @click="open = !open"
+              class="absolute right-0 top-[24px] flex h-[17px] items-center justify-end text-brand"
+              aria-label="Оглавление"
             >
-              <path d="M6 4l4 4-4 4"/>
-            </svg>
-          </button>
+              <svg
+                class="transition-transform duration-200"
+                :class="open ? '-rotate-90' : 'rotate-0'"
+                width="20" height="20" viewBox="0 0 16 16" fill="none"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M6 4l4 4-4 4"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
