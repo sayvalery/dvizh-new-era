@@ -98,7 +98,7 @@ function card(post: any) {
 
       {/* ── Шапка: круглый аватар по высоте текстовой колонки (имя + должность) ──
            Размер круга (ширина = высоте) проставляем из реальной высоты текста через
-           Alpine + ResizeObserver. Минимум — высота блока «имя + должность» (~58/78px),
+           Alpine + ResizeObserver. Минимум — высота блока «имя + должность» (~60/78px),
            задан через min-w/min-h (и тот же размер — no-JS фолбэк); если должность
            переносится на 2 строки, круг растёт выше минимума. */}
       <div
@@ -107,7 +107,7 @@ function card(post: any) {
         class="flex items-start gap-4 sm:gap-5"
       >
         <div
-          class="shrink-0 h-[58px] w-[58px] min-h-[58px] min-w-[58px] lg:h-[78px] lg:w-[78px] lg:min-h-[78px] lg:min-w-[78px] rounded-full overflow-hidden bg-gray-200 flex items-center justify-center"
+          class="shrink-0 h-[60px] w-[60px] min-h-[60px] min-w-[60px] lg:h-[78px] lg:w-[78px] lg:min-h-[78px] lg:min-w-[78px] rounded-full overflow-hidden bg-gray-200 flex items-center justify-center"
           :style="s ? `width:${s}px;height:${s}px` : null"
         >
           {photoUrl ? (
@@ -121,7 +121,7 @@ function card(post: any) {
         <div x-ref="txt" class="flex flex-col gap-2">
           <h1 class="text-h2 text-gray-900">{person.name}</h1>
           {person.jobTitle && (
-            <p class="text-subhead text-gray-500">{person.jobTitle}{person.company && (person.company.slug
+            <p class="text-body-lg text-gray-500">{person.jobTitle}{person.company && (person.company.slug
               ? <>, <a href={`/companies/${person.company.slug}`} class="transition-colors hover:text-brand">{person.company.name}</a></>
               : <>, {person.company.name}</>
             )}</p>
