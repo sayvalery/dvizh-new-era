@@ -1,6 +1,17 @@
 ---
+/**
+ * Страница компании /companies/[slug]
+ *
+ * Шаблон по образцу страницы категории (lab/category-page):
+ *   BlogLayout insightsHeader → page-container, дизайн-токены, заголовок text-h2.
+ *
+ * Шапка: логотип компании (вписан в скруглённый квадрат по высоте заголовка)
+ * слева от названия; под названием — описание (company.description) и ссылка
+ * на сайт. Ниже — раздел «Люди» (персоны компании) и «Материалы» (её статьи).
+ */
 import BlogLayout from '../../layouts/BlogLayout.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
+import BlogCardNew from '../../components/ui/BlogCardNew.astro'
 import { getCompanies, getCompany, getPersonsByCompany, getPostsByCompany, normalizeMediaUrl } from '../../lib/payload'
 
 export async function getStaticPaths() {
@@ -34,93 +45,114 @@ const jsonLd = {
   ...(logoUrl ? { logo: logoUrl } : {}),
   ...(company.link ? { url: company.link } : {}),
 }
+
+// ─── Хелперы карточек «Материалы» (как на шаблоне категории) ─────────────────
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+
+/** ISO-дата → «27 февраля» */
+function ruDate(iso?: string): string | undefined {
+  if (!iso) return undefined
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return undefined
+  return `${d.getDate()} ${MONTHS[d.getMonth()]}`
+}
+
+/** Рекурсивно собирает текст из Lexical-узла */
+function lexicalText(node: any): string {
+  if (!node) return ''
+  if (typeof node.text === 'string') return node.text
+  const kids = node.children ?? node.root?.children
+  return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
+}
+
+/** Время чтения (≈200 слов/мин) → «9 мин» */
+function readTime(post: any): string {
+  let text = ''
+  if (post.bodyHtml) text = String(post.bodyHtml).replace(/<[^>]+>/g, ' ')
+  else if (Array.isArray(post.content)) text = post.content.map((b: any) => lexicalText(b.richText)).join(' ')
+  text = text.replace(/\s+/g, ' ').trim()
+  const words = text ? text.split(' ').length : 0
+  return `${Math.max(1, Math.round(words / 200))} мин`
+}
+
+/** Пост CMS → пропсы BlogCardNew */
+function card(post: any) {
+  return {
+    title: post.title,
+    slug: post.slug,
+    cover: post.cover,
+    excerpt: post.excerpt,
+    date: ruDate(post.publishedAt),
+    readTime: readTime(post),
+  }
+}
 ---
 
 <BlogLayout
   title={`${company.name} — ДВИЖ`}
   description={company.description}
   jsonLd={jsonLd}
+  insightsHeader
 >
-  <div class="max-w-4xl mx-auto px-4 py-16">
+  <div class="py-10 md:py-16">
+    <div class="page-container flex flex-col gap-10 lg:gap-16">
 
-    <!-- Шапка компании -->
-    <div class="flex items-center gap-6 mb-12">
-      {logoUrl ? (
-        <img
-          src={logoUrl}
-          alt={company.name}
-          class="w-16 h-16 object-contain rounded-xl border border-gray-100 p-2 shrink-0"
-        />
-      ) : (
-        <div class="w-16 h-16 rounded-xl bg-gray-100 shrink-0 flex items-center justify-center">
-          <span class="text-xl text-gray-500 font-bold">{company.name[0]}</span>
+      {/* ── Шапка: логотип + название/описание/ссылка ── */}
+      <div class="flex items-start gap-4 sm:gap-5">
+        {/* Логотип в скруглённом квадрате по высоте заголовка (text-h2) */}
+        <div class="shrink-0 h-[30px] w-[30px] sm:h-8 sm:w-8 lg:h-12 lg:w-12 rounded-lg lg:rounded-xl border border-gray-200 bg-white flex items-center justify-center overflow-hidden">
+          {logoUrl ? (
+            <img src={logoUrl} alt={company.name} class="max-h-full max-w-full object-contain" />
+          ) : (
+            <span class="text-h6 text-gray-500">{company.name[0]}</span>
+          )}
         </div>
-      )}
-      <div>
-        <h1 class="text-3xl font-bold mb-1">{company.name}</h1>
-        {company.description && (
-          <p class="text-gray-600">{company.description}</p>
-        )}
-        {company.link && (
-          <a
-            href={company.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-sm text-gray-500 hover:text-gray-900 mt-1 inline-block"
-          >
-            {company.linkText ?? company.link} ↗
-          </a>
-        )}
+
+        <div class="flex flex-col gap-2">
+          {/* Заголовок (название компании) + описание */}
+          <div class="flex flex-col gap-2">
+            <h1 class="text-h2 text-gray-900">{company.name}</h1>
+            {company.description && (
+              <p class="text-body-lg text-gray-500">{company.description}</p>
+            )}
+          </div>
+          {company.link && (
+            <a
+              href={company.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-subhead text-brand hover:opacity-70 transition-opacity w-fit"
+            >
+              {company.linkText ?? company.link} ↗
+            </a>
+          )}
+        </div>
       </div>
-    </div>
 
-    <!-- Люди -->
-    {persons.length > 0 && (
-      <section class="mb-12">
-        <h2 class="text-xl font-bold mb-6">Люди</h2>
-        <div class="grid sm:grid-cols-2 gap-4">
-          {persons.map((person: any) => (
-            <div class="p-4 border border-gray-200 rounded-xl">
+      {/* ── Люди ── */}
+      {persons.length > 0 && (
+        <section class="flex flex-col gap-6 lg:gap-10">
+          <h2 class="text-h3 text-gray-900">Люди</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+            {persons.map((person: any) => (
               <PersonCard person={person} variant="full" />
-            </div>
-          ))}
-        </div>
-      </section>
-    )}
+            ))}
+          </div>
+        </section>
+      )}
 
-    <!-- Статьи -->
-    {posts.length > 0 && (
-      <section>
-        <h2 class="text-xl font-bold mb-6">Материалы</h2>
-        <div class="space-y-4">
-          {posts.map((post: any) => {
-            const coverUrl = normalizeMediaUrl(post.cover?.url)
-            return (
-              <a
-                href={`/blog/${post.slug}`}
-                class="flex gap-4 p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
-              >
-                {coverUrl && (
-                  <img
-                    src={coverUrl}
-                    alt={post.title}
-                    class="w-24 h-16 object-cover rounded-lg shrink-0"
-                  />
-                )}
-                <div>
-                  {post.category?.title && (
-                    <span class="text-xs text-gray-400 uppercase tracking-wide">{post.category.title}</span>
-                  )}
-                  <h3 class="font-semibold text-sm mt-0.5">{post.title}</h3>
-                  {post.excerpt && (
-                    <p class="text-sm text-gray-500 mt-1 line-clamp-2">{post.excerpt}</p>
-                  )}
-                </div>
-              </a>
-            )
-          })}
-        </div>
-      </section>
-    )}
+      {/* ── Материалы ── */}
+      {posts.length > 0 && (
+        <section class="flex flex-col gap-6 lg:gap-10">
+          <h2 class="text-h3 text-gray-900">Материалы</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+            {posts.map((post: any) => (
+              <BlogCardNew size="md" {...card(post)} />
+            ))}
+          </div>
+        </section>
+      )}
+
+    </div>
   </div>
 </BlogLayout>
