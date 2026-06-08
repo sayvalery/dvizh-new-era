@@ -102,10 +102,21 @@ function card(post: any) {
   <div class="py-10 md:py-16">
     <div class="page-container flex flex-col gap-10 lg:gap-16">
 
-      {/* ── Шапка: логотип + название/описание/ссылка ── */}
-      <div class="flex items-start gap-4 sm:gap-5">
-        {/* Логотип в скруглённом квадрате по высоте заголовка (text-h2) */}
-        <div class="shrink-0 h-[30px] w-[30px] sm:h-8 sm:w-8 lg:h-12 lg:w-12 rounded-lg lg:rounded-xl border border-gray-200 bg-white flex items-center justify-center overflow-hidden">
+      {/* ── Шапка: логотип + название/описание/ссылка ──
+           Логотип-квадрат по той же логике, что аватар на странице персоны:
+           размер (ширина = высоте) из реальной высоты блока «название + описание»
+           через Alpine + ResizeObserver. Минимум — высота этого блока (~60/78px),
+           задан через min-w/min-h (и тот же размер — no-JS фолбэк); если описание
+           переносится, квадрат растёт выше минимума. */}
+      <div
+        x-data="{ s: 0, sync() { this.s = this.$refs.txt.offsetHeight } }"
+        x-init="$nextTick(() => sync()); new ResizeObserver(() => sync()).observe($refs.txt)"
+        class="flex items-start gap-4 sm:gap-5"
+      >
+        <div
+          class="shrink-0 h-[60px] w-[60px] min-h-[60px] min-w-[60px] lg:h-[78px] lg:w-[78px] lg:min-h-[78px] lg:min-w-[78px] rounded-lg lg:rounded-xl border border-gray-200 bg-white flex items-center justify-center overflow-hidden"
+          :style="s ? `width:${s}px;height:${s}px` : null"
+        >
           {logoUrl ? (
             <img src={logoUrl} alt={company.name} class="max-h-full max-w-full object-contain" />
           ) : (
@@ -115,7 +126,7 @@ function card(post: any) {
 
         <div class="flex flex-col gap-2">
           {/* Заголовок (название компании) + описание */}
-          <div class="flex flex-col gap-2">
+          <div x-ref="txt" class="flex flex-col gap-2">
             <h1 class="text-h2 text-gray-900">{company.name}</h1>
             {company.description && (
               <p class="text-body-lg text-gray-500">{company.description}</p>
