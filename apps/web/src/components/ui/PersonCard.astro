@@ -106,18 +106,8 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
     </div>
   )
 ) : (
-  <div class="flex items-center gap-3">
-    {showPhoto && (personHref ? (
-      <a href={personHref} class="shrink-0 hover:opacity-80 transition-opacity">
-        {photoUrl ? (
-          <img src={photoUrl} alt={person.photo?.alt ?? person.name} class="w-10 h-10 rounded-full object-cover" />
-        ) : (
-          <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
-            <span class="text-base text-gray-500 font-medium">{person.name[0]}</span>
-          </div>
-        )}
-      </a>
-    ) : (
+  <div class="relative flex items-center gap-3">
+    {showPhoto && (
       <div class="shrink-0">
         {photoUrl ? (
           <img src={photoUrl} alt={person.photo?.alt ?? person.name} class="w-10 h-10 rounded-full object-cover" />
@@ -127,10 +117,11 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
           </div>
         )}
       </div>
-    ))}
+    )}
     <div>
       {personHref ? (
-        <a href={personHref} class:list={['text-h6 hover:underline', isDark ? 'text-white' : 'text-gray-900']}>{person.name}</a>
+        // Растянутая ссылка: ::after покрывает всю карточку → клик/ховер по любой её области
+        <a href={personHref} class:list={["text-h6 transition-colors hover:text-brand after:absolute after:inset-0 after:content-['']", isDark ? 'text-white' : 'text-gray-900']}>{person.name}</a>
       ) : (
         <p class:list={['text-h6', isDark ? 'text-white' : 'text-gray-900']}>{person.name}</p>
       )}
@@ -140,7 +131,8 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
           {person.company && (
             <>
               {companyHref ? (
-                <>, <a href={companyHref} class="hover:underline">{person.company.name}</a></>
+                // relative z-10 — поверх растянутой ссылки персоны, остаётся отдельно кликабельной
+                <>, <a href={companyHref} class="relative z-10 transition-colors hover:text-brand">{person.company.name}</a></>
               ) : (
                 <>, {person.company.name}</>
               )}

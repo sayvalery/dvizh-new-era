@@ -1,6 +1,16 @@
 ---
+/**
+ * Страница персоны /person/[slug]
+ *
+ * Шаблон по образцу страницы компании:
+ *   BlogLayout insightsHeader → page-container, дизайн-токены, заголовок text-h2.
+ *
+ * Шапка: круглый аватар (по высоте блока «имя + должность») слева от имени;
+ * под именем — должность и ссылка на компанию (brand-ховер), ниже шапки —
+ * био (description). Затем раздел «Материалы» (статьи персоны, BlogCardNew).
+ */
 import BlogLayout from '../../layouts/BlogLayout.astro'
-import PersonCard from '../../components/ui/PersonCard.astro'
+import BlogCardNew from '../../components/ui/BlogCardNew.astro'
 import { getPersons, getPerson, getPostsByPerson, normalizeMediaUrl } from '../../lib/payload'
 
 export async function getStaticPaths() {
@@ -21,95 +31,118 @@ if (!person) return Astro.redirect('/404')
 
 const { docs: posts } = await getPostsByPerson(slug!)
 
+const photoUrl = normalizeMediaUrl(person.photo?.url)
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: person.name,
   ...(person.jobTitle ? { jobTitle: person.jobTitle } : {}),
   ...(person.description ? { description: person.description } : {}),
-  ...(normalizeMediaUrl(person.photo?.url) ? { image: normalizeMediaUrl(person.photo?.url) } : {}),
+  ...(photoUrl ? { image: photoUrl } : {}),
   url: Astro.url.href,
   ...(person.company ? { worksFor: { '@type': 'Organization', name: person.company.name, url: `${Astro.site}companies/${person.company.slug}` } } : {}),
+}
+
+// ─── Хелперы карточек «Материалы» (как на странице компании / шаблоне категории) ──
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+
+/** ISO-дата → «27 февраля» */
+function ruDate(iso?: string): string | undefined {
+  if (!iso) return undefined
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return undefined
+  return `${d.getDate()} ${MONTHS[d.getMonth()]}`
+}
+
+/** Рекурсивно собирает текст из Lexical-узла */
+function lexicalText(node: any): string {
+  if (!node) return ''
+  if (typeof node.text === 'string') return node.text
+  const kids = node.children ?? node.root?.children
+  return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
+}
+
+/** Время чтения (≈200 слов/мин) → «9 мин» */
+function readTime(post: any): string {
+  let text = ''
+  if (post.bodyHtml) text = String(post.bodyHtml).replace(/<[^>]+>/g, ' ')
+  else if (Array.isArray(post.content)) text = post.content.map((b: any) => lexicalText(b.richText)).join(' ')
+  text = text.replace(/\s+/g, ' ').trim()
+  const words = text ? text.split(' ').length : 0
+  return `${Math.max(1, Math.round(words / 200))} мин`
+}
+
+/** Пост CMS → пропсы BlogCardNew */
+function card(post: any) {
+  return {
+    title: post.title,
+    slug: post.slug,
+    cover: post.cover,
+    excerpt: post.excerpt,
+    date: ruDate(post.publishedAt),
+    readTime: readTime(post),
+  }
 }
 ---
 
 <BlogLayout
   title={`${person.name} — ДВИЖ`}
   description={person.description ?? person.jobTitle}
-  ogImage={normalizeMediaUrl(person.photo?.url) ?? undefined}
+  ogImage={photoUrl ?? undefined}
   jsonLd={jsonLd}
+  insightsHeader
 >
-  <div class="max-w-4xl mx-auto px-4 py-16">
+  <div class="py-10 md:py-16">
+    <div class="page-container flex flex-col gap-10 lg:gap-16">
 
-    <!-- Шапка персоны -->
-    <div class="flex items-start gap-6 mb-12">
-      {normalizeMediaUrl(person.photo?.url) ? (
-        <img
-          src={normalizeMediaUrl(person.photo?.url)!}
-          alt={person.photo?.alt ?? person.name}
-          class="w-24 h-24 rounded-full object-cover shrink-0"
-        />
-      ) : (
-        <div class="w-24 h-24 rounded-full bg-gray-200 shrink-0 flex items-center justify-center">
-          <span class="text-3xl text-gray-500 font-medium">{person.name[0]}</span>
+      {/* ── Шапка: круглый аватар по высоте текстовой колонки (имя + должность) ──
+           Размер круга (ширина = высоте) проставляем из реальной высоты текста через
+           Alpine + ResizeObserver. Минимум — высота блока «имя + должность» (~58/78px),
+           задан через min-w/min-h (и тот же размер — no-JS фолбэк); если должность
+           переносится на 2 строки, круг растёт выше минимума. */}
+      <div
+        x-data="{ s: 0, sync() { this.s = this.$refs.txt.offsetHeight } }"
+        x-init="$nextTick(() => sync()); new ResizeObserver(() => sync()).observe($refs.txt)"
+        class="flex items-start gap-4 sm:gap-5"
+      >
+        <div
+          class="shrink-0 h-[58px] w-[58px] min-h-[58px] min-w-[58px] lg:h-[78px] lg:w-[78px] lg:min-h-[78px] lg:min-w-[78px] rounded-full overflow-hidden bg-gray-200 flex items-center justify-center"
+          :style="s ? `width:${s}px;height:${s}px` : null"
+        >
+          {photoUrl ? (
+            <img src={photoUrl} alt={person.photo?.alt ?? person.name} class="h-full w-full object-cover" />
+          ) : (
+            <span class="text-h4 text-gray-500">{person.name[0]}</span>
+          )}
         </div>
-      )}
-      <div class="pt-2">
-        <h1 class="text-3xl font-bold mb-1">{person.name}</h1>
-        {person.jobTitle && (
-          <p class="text-gray-600 mb-2">
-            {person.jobTitle}
-            {person.company && (
-              <>, <a
-                href={`/companies/${person.company.slug}`}
-                class="hover:underline"
-              >{person.company.name}</a></>
-            )}
-          </p>
-        )}
-        {person.description && (
-          <p class="text-gray-600 mt-3 max-w-xl">{person.description}</p>
-        )}
+
+        {/* Измеряемая колонка: имя + должность/компания */}
+        <div x-ref="txt" class="flex flex-col gap-2">
+          <h1 class="text-h2 text-gray-900">{person.name}</h1>
+          {person.jobTitle && (
+            <p class="text-subhead text-gray-500">{person.jobTitle}{person.company && (person.company.slug
+              ? <>, <a href={`/companies/${person.company.slug}`} class="transition-colors hover:text-brand">{person.company.name}</a></>
+              : <>, {person.company.name}</>
+            )}</p>
+          )}
+        </div>
       </div>
+
+      {/* ── Материалы ── */}
+      {posts.length > 0 ? (
+        <section class="flex flex-col gap-6 lg:gap-10">
+          <h2 class="text-h3 text-gray-900">Материалы</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+            {posts.map((post: any) => (
+              <BlogCardNew size="md" {...card(post)} />
+            ))}
+          </div>
+        </section>
+      ) : (
+        <p class="text-body-lg text-gray-500">Материалов пока нет.</p>
+      )}
+
     </div>
-
-    <!-- Статьи -->
-    {posts.length > 0 && (
-      <section>
-        <h2 class="text-xl font-bold mb-6">Материалы</h2>
-        <div class="space-y-4">
-          {posts.map((post: any) => {
-            const coverUrl = normalizeMediaUrl(post.cover?.url)
-            return (
-              <a
-                href={`/blog/${post.slug}`}
-                class="flex gap-4 p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
-              >
-                {coverUrl && (
-                  <img
-                    src={coverUrl}
-                    alt={post.title}
-                    class="w-24 h-16 object-cover rounded-lg shrink-0"
-                  />
-                )}
-                <div>
-                  {post.category?.title && (
-                    <span class="text-xs text-gray-400 uppercase tracking-wide">{post.category.title}</span>
-                  )}
-                  <h3 class="font-semibold text-sm mt-0.5">{post.title}</h3>
-                  {post.excerpt && (
-                    <p class="text-sm text-gray-500 mt-1 line-clamp-2">{post.excerpt}</p>
-                  )}
-                </div>
-              </a>
-            )
-          })}
-        </div>
-      </section>
-    )}
-
-    {posts.length === 0 && (
-      <p class="text-gray-500">Материалов пока нет.</p>
-    )}
   </div>
 </BlogLayout>

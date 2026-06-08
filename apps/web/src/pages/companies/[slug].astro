@@ -37,6 +37,11 @@ const [{ docs: persons }, { docs: posts }] = await Promise.all([
 
 const logoUrl = normalizeMediaUrl(company.logo?.url)
 
+/** URL → отображаемый адрес без протокола/www/хвостового слэша: «https://dvizh.io/» → «dvizh.io» */
+const linkLabel = company.link
+  ? company.link.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, '')
+  : ''
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -123,7 +128,7 @@ function card(post: any) {
               rel="noopener noreferrer"
               class="text-subhead text-brand hover:opacity-70 transition-opacity w-fit"
             >
-              {company.linkText ?? company.link} ↗
+              {linkLabel} ↗
             </a>
           )}
         </div>
