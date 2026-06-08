@@ -62,15 +62,21 @@ interface Props {
   hoverGlass?: boolean
   /** Показывать аватар персоны (фото или плейсхолдер с инициалом). По умолчанию false. */
   showPersonPhoto?: boolean
+  /** Ссылка: если задана (и нет модалки) — корень карточки рендерится как <a>. */
+  href?: string
   /** Дополнительные классы для карточки (например переопределить высоту) */
   class?: string
 }
 
-const { variant = 'active', backgroundImage, title, titleHtml, person, logo, logoAlt = 'Logo', logoHover, hoverBackground, hoverGlass = false, showPersonPhoto = false, class: className = '' } = Astro.props
+const { variant = 'active', backgroundImage, title, titleHtml, person, logo, logoAlt = 'Logo', logoHover, hoverBackground, hoverGlass = false, showPersonPhoto = false, href, class: className = '' } = Astro.props
 
 const isActive = variant === 'active'
 const hasModal = Astro.slots.has('modal-body')
 const hasHover = !isActive && !!hoverBackground
+
+// Если задан href и нет модалки — корень карточки делаем ссылкой <a>.
+const cardHref = !hasModal ? href : undefined
+const CardTag = cardHref ? 'a' : 'div'
 ---
 
 <div
@@ -81,7 +87,8 @@ const hasHover = !isActive && !!hoverBackground
   "
 >
   <!-- Карточка -->
-  <div
+  <CardTag
+    href={cardHref}
     class:list={[
       'w-full rounded-2xl sm:rounded-3xl overflow-hidden relative flex flex-col transform-gpu transition-transform duration-300 ease-out hover:-translate-y-2',
       !className && 'aspect-[4/3] md:aspect-square',
@@ -141,7 +148,7 @@ const hasHover = !isActive && !!hoverBackground
         <PersonCard person={person} theme={isActive ? 'dark' : 'light'} showPhoto={showPersonPhoto} />
       </div>
     </div>
-  </div>
+  </CardTag>
 
   <!-- Модальное окно -->
   {hasModal && (

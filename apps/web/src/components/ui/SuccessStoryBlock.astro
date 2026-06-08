@@ -45,6 +45,8 @@ interface StoryItem {
   hoverBackground?: string
   /** Прозрачная стеклянная плашка на hover (для логотипов с вырезанными буквами) */
   hoverGlass?: boolean
+  /** Ссылка карточки: если задана — вся карточка кликабельна */
+  href?: string
 }
 
 interface Props {
@@ -117,6 +119,7 @@ const {
         {stories.map((story) => (
           <StoryCard
             variant="default"
+            href={story.href}
             title={story.titleHtml}
             titleHtml={story.titleHtml}
             logo={story.logo}
