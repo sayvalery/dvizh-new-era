@@ -24,14 +24,24 @@ interface Props {
 const { block } = Astro.props
 const photoUrl = normalizeMediaUrl(block.photo?.url) ?? null
 const avatar = photoUrl ? { src: photoUrl, alt: block.author ?? '' } : undefined
+
+// Если у цитаты нет ни автора, ни подписи, ни фото — это просто выделенный
+// текст: показываем его в серой плашке без иконки-кавычек и футера.
+const hasAttribution = !!(block.author || block.company || photoUrl)
 ---
 
 <div class="my-8">
-  <Review
-    quote={block.text}
-    author={block.author ?? undefined}
-    role={block.company ?? undefined}
-    avatar={avatar}
-    class="bg-gray-200 rounded-3xl p-8 lg:p-10"
-  />
+  {hasAttribution ? (
+    <Review
+      quote={block.text}
+      author={block.author ?? undefined}
+      role={block.company ?? undefined}
+      avatar={avatar}
+      class="bg-gray-200 rounded-3xl p-8 lg:p-10"
+    />
+  ) : (
+    <div class="bg-gray-200 rounded-3xl p-8 lg:p-10">
+      <p class="text-body-lg text-gray-900">{block.text}</p>
+    </div>
+  )}
 </div>
