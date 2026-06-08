@@ -49,7 +49,7 @@ const breadcrumbLd = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Блог', item: `${Astro.site}blog` },
-    ...(post.category?.title ? [{ '@type': 'ListItem', position: 2, name: post.category.title, item: `${Astro.site}category/${post.category.slug}` }] : []),
+    ...(post.category?.title ? [{ '@type': 'ListItem', position: 2, name: post.category.title, item: `${Astro.site}blog/category/${post.category.slug}` }] : []),
     { '@type': 'ListItem', position: post.category ? 3 : 2, name: post.title },
   ],
 }
@@ -185,7 +185,7 @@ function card(p: any) {
           {post.category?.title && (
             <>
               <span class="mx-1">›</span>
-              <a href={`/category/${post.category.slug}`} class="hover:text-gray-900">{post.category.title}</a>
+              <a href={`/blog/category/${post.category.slug}`} class="hover:text-gray-900">{post.category.title}</a>
             </>
           )}
         </nav>
@@ -260,7 +260,7 @@ function card(p: any) {
         <div class="flex flex-wrap items-center justify-between gap-4 mt-10">
           <div class="flex items-center text-subhead text-gray-500">
             {post.category?.title && (
-              <a href={`/category/${post.category.slug}`} class="hover:text-gray-900 transition-colors">{post.category.title}</a>
+              <a href={`/blog/category/${post.category.slug}`} class="hover:text-gray-900 transition-colors">{post.category.title}</a>
             )}
             {post.category?.title && tags.length > 0 && (
               <span class="mx-3 h-4 w-0.5 bg-gray-300" aria-hidden="true"></span>

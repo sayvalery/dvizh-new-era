@@ -1,38 +1,318 @@
 ---
+/**
+ * Главная блога /blog
+ *
+ * Лендинг блога: геро-карточка + тематические блоки (Правила девелопера,
+ * Кейсы, Аналитика рынка, теги-фильтр, Подкасты, Статьи блога).
+ * Перенесено из эксперимента /lab/blog-main.
+ */
 import BlogLayout from '../../layouts/BlogLayout.astro'
-import BlogGrid from '../../components/ui/BlogGrid.astro'
-import { getBlogPosts, getCategories } from '../../lib/payload'
+import BlogCardNew from '../../components/ui/BlogCardNew.astro'
+import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
+import Button from '../../components/ui/Button.astro'
+import Tab from '../../components/ui/Tab.astro'
+import Banner from '../../components/ui/Banner.astro'
+import { getBlogPosts } from '../../lib/payload'
 
-const POSTS_PER_PAGE = 12
+// Все опубликованные посты. Пересортировка: посты без publishedAt — в конец,
+// иначе CMS (-publishedAt) ставит запись с пустой датой первой и она «угоняет» геро-слот.
+const { docs: rawPosts } = await getBlogPosts({ limit: 200, depth: 2 })
+const allPosts = [...rawPosts].sort((a: any, b: any) => {
+  const ta = a.publishedAt ? Date.parse(a.publishedAt) : -Infinity
+  const tb = b.publishedAt ? Date.parse(b.publishedAt) : -Infinity
+  return tb - ta
+})
 
-const allPostsResult = await getBlogPosts({ limit: 200 })
-const allPosts = allPostsResult.docs
-const { docs: categories } = await getCategories()
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
 
-const categoryCountMap: Record<string, number> = {}
-for (const post of allPosts) {
-  const catSlug = post.category?.slug
-  if (catSlug) {
-    categoryCountMap[catSlug] = (categoryCountMap[catSlug] ?? 0) + 1
+/** ISO-дата → «27 февраля» (день + месяц) */
+function ruDate(iso?: string): string | undefined {
+  if (!iso) return undefined
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return undefined
+  return `${d.getDate()} ${MONTHS[d.getMonth()]}`
+}
+
+/** Рекурсивно собирает текст из Lexical-узла (root/children/text) */
+function lexicalText(node: any): string {
+  if (!node) return ''
+  if (typeof node.text === 'string') return node.text
+  const kids = node.children ?? node.root?.children
+  return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
+}
+
+/**
+ * Время чтения из объёма текста (≈200 слов/мин) → «9 мин».
+ * Webflow-посты — в bodyHtml; CMS-нативные — в content (Lexical).
+ */
+function readTime(post: any): string {
+  let text = ''
+  if (post.bodyHtml) {
+    text = String(post.bodyHtml).replace(/<[^>]+>/g, ' ')
+  } else if (Array.isArray(post.content)) {
+    text = post.content.map((b: any) => lexicalText(b.richText)).join(' ')
+  }
+  text = text.replace(/\s+/g, ' ').trim()
+  const words = text ? text.split(' ').length : 0
+  const min = Math.max(1, Math.round(words / 200))
+  return `${min} мин`
+}
+
+/** Пост CMS → пропсы BlogCardNew */
+function card(post: any) {
+  return {
+    title: post.title,
+    slug: post.slug,
+    cover: post.cover,
+    excerpt: post.excerpt,
+    date: ruDate(post.publishedAt),
+    readTime: readTime(post),
   }
 }
 
-const posts = allPosts.slice(0, POSTS_PER_PAGE)
-const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE)
+const byCat = (slug: string) => allPosts.filter((p: any) => p.category?.slug === slug)
+const count = (slug: string) => byCat(slug).length
+
+// Подборки по блокам
+const featured = allPosts[0]                              // Блок 1: главная карточка
+const recent = allPosts.slice(1, 4)                       // Блок 1: 3 xs-карточки
+const pravila = byCat('pravila-developera').slice(0, 4)   // Блок 2
+const analitika = byCat('statistika').slice(0, 4)         // Блок 4 (Аналитика рынка)
+const podkasty = byCat('podcasts').slice(0, 4)            // Блок 7 (Подкасты)
+const statyi = allPosts.slice(0, 10)                      // Блок 8: последние 9 (+1 добивочная для sm)
+
+// Блок 5: теги-фильтры. Категории, реально присутствующие в постах, по алфавиту.
+// Клик по тегу не ведёт на страницу категории, а переключает карточки справа (Alpine).
+const catMap = new Map<string, { slug: string; title: string; posts: any[] }>()
+for (const p of allPosts as any[]) {
+  const c = p.category
+  if (!c?.slug) continue
+  if (!catMap.has(c.slug)) catMap.set(c.slug, { slug: c.slug, title: String(c.title ?? c.slug).trim(), posts: [] })
+  catMap.get(c.slug)!.posts.push(p)
+}
+const tagCats = [...catMap.values()].sort((a, b) => a.title.localeCompare(b.title, 'ru'))
+// По умолчанию предвыбраны «Новости» (pro-dvizh); если их нет — первая категория.
+const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (tagCats[0]?.slug ?? '')
 ---
 
-<BlogLayout title="Блог — ДВИЖ">
-  <div class="max-w-[1440px] mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold mb-2">Блог</h1>
-    <p class="text-gray-400 text-sm mb-8">{allPosts.length} статей</p>
+<BlogLayout title="Блог — ДВИЖ" description="Журнал для современных девелоперов" insightsHeader>
+  <div class="py-10 md:py-16 flex flex-col gap-24 lg:gap-40">
 
-    <BlogGrid
-      posts={posts}
-      allPosts={allPosts}
-      categories={categories}
-      categoryCountMap={categoryCountMap}
-      currentPage={1}
-      totalPages={totalPages}
+    {/* ── Блок 1: заголовок + lg-карточка + ряд xs (lg+: помещается в viewport) ── */}
+    <div class="page-container flex flex-col gap-8 md:gap-10">
+      <h2 class="text-h2 text-gray-900">Журнал для&#160;современных девелоперов</h2>
+
+      {featured && <BlogCardNew size="lg" layout="stacked" {...card(featured)} />}
+
+      <div class="hidden md:grid gap-6 sm:grid-cols-2 xl:grid-cols-3 sm:-mt-2">
+        {recent.map((post: any, i: number) => (
+          <BlogCardNew size="xs" {...card(post)} class={i === 2 ? 'hidden xl:block' : ''} />
+        ))}
+      </div>
+    </div>
+
+    {/* ── Блок 2: «Правила девелопера» ── */}
+    <div class="page-container flex flex-col gap-10 lg:gap-16">
+
+      {/* Заголовок + подзаголовок + счётчик + кнопка */}
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+        <div class="flex flex-col gap-1 max-w-[800px] w-full">
+          <a href="/blog/category/pravila-developera" class="group w-fit">
+            <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">Правила девелопера<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{count('pravila-developera')}</span></h2>
+          </a>
+          <p class="text-body-lg text-gray-500">Реальные истории топов, их&#160;взгляды на&#160;рынок и&#160;профессию</p>
+        </div>
+        <div class="shrink-0">
+          <Button variant="primary" size="sm" href="/blog/category/pravila-developera">Смотреть все</Button>
+        </div>
+      </div>
+
+      {/* 3 md-карточки (4-я только sm/md) */}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+        {pravila.map((post: any, i: number) => (
+          <BlogCardNew size="md" {...card(post)} class={i === 3 ? 'hidden sm:block lg:hidden' : ''} />
+        ))}
+      </div>
+
+    </div>
+
+    {/* ── Блок 3: SuccessStoryBlock «Кейсы» ── */}
+    <SuccessStoryBlock
+      heading="Кейсы"
+      counter={20}
+      headingHref="/blog/category/cases"
+      subtitle="Истории успеха на&#160;рынке застройщиков"
+      buttonLabel="Смотреть все"
+      buttonHref="/blog/category/cases"
+      buttonVariant="primary"
+      class="!py-0"
+      stories={[
+        {
+          logo: '/api/media/file/lsr_color.svg',
+          logoAlt: 'Группа ЛСР',
+          logoHover: '/api/media/file/lsr_white-1.svg',
+          hoverBackground: '/api/media/file/lsr_bg.png',
+          hoverGlass: true,
+          titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на&#160;281% заявок больше,</span> чем в&#160;среднем на&#160;рынке',
+          personName: 'Группа ЛСР',
+          personJobTitle: 'Один из&#160;ведущих строительных холдингов',
+        },
+        {
+          logo: '/api/media/file/tochno_color.svg',
+          logoAlt: 'ГК Точно',
+          logoHover: '/api/media/file/tochno_white.svg',
+          hoverBackground: '/api/media/file/tochno_bg.png',
+          titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с&#160;1165 до&#160;3500 за&#160;год</span>',
+          personName: 'ГК «Точно»',
+          personJobTitle: 'Крупнейший девелопер Краснодарского края',
+        },
+        {
+          logo: '/api/media/file/samolet_color.svg',
+          logoAlt: 'ГК Самолет',
+          logoHover: '/api/media/file/samolet_white.svg',
+          hoverBackground: '/api/media/file/samolet_bg.png',
+          titleHtml: 'Дополнительно продали <span class="text-brand">96&#160;квартир</span>',
+          personName: 'ГК «Самолет»',
+          personJobTitle: 'Крупнейший федеральный девелопер России',
+        },
+      ]}
     />
+
+    {/* ── Блок 4: «Аналитика рынка» — header-row при <xl, 2 колонки 1/3+2/3 при xl+ ── */}
+    <div class="page-container flex flex-col gap-10 xl:flex-row xl:gap-6 xl:items-start">
+
+        {/* Заголовочная область: <xl — heading+button в одну строку (sm+), xl+ — колонка 1/3 */}
+        <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between xl:flex-col xl:gap-6 xl:basis-1/3 xl:shrink xl:min-w-0">
+          <div class="flex flex-col gap-1">
+            <a href="/blog/category/statistika" class="group w-fit">
+              <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">Аналитика рынка<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{count('statistika')}</span></h2>
+            </a>
+            <p class="text-body-lg text-gray-500">Проводим исследования и&#160;делимся инсайтами</p>
+          </div>
+          <div class="shrink-0">
+            <Button variant="primary" size="sm" href="/research">Смотреть все</Button>
+          </div>
+        </div>
+
+        {/* Карточки: <xl — под заголовком, xl+ — справа 2/3.
+            На lg специально 3 md в ряд (без 4-й), на остальных — 4 s стак. */}
+        <div class="xl:basis-2/3 xl:shrink xl:min-w-0">
+          {/* s-стак: только xl+ */}
+          <div class="hidden xl:flex flex-col gap-6">
+            {analitika.map((post: any) => (
+              <BlogCardNew size="s" {...card(post)} />
+            ))}
+          </div>
+          {/* md-ряд: <xl, 3 md-карточки (4-я только sm/md) */}
+          <div class="grid xl:hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+            {analitika.map((post: any, i: number) => (
+              <BlogCardNew size="md" {...card(post)} class={i === 3 ? 'hidden sm:block lg:hidden' : ''} />
+            ))}
+          </div>
+        </div>
+
+    </div>
+
+    {/* ── Блок 5: Теги-фильтры + md-карточки — клик по тегу переключает карточки справа (Alpine).
+            При md и ниже стак на полную ширину, при lg+ 2 колонки. */}
+    <div class="page-container" x-data={`{ cat: '${defaultCat}' }`}>
+      <div class="flex flex-col gap-10 lg:flex-row lg:gap-6 lg:items-start">
+
+        {/* Левая колонка (lg+): теги (фильтр) + кнопка. Залипает при скролле. */}
+        <div class="flex flex-col gap-6 lg:basis-1/3 lg:shrink lg:min-w-0 lg:sticky lg:top-24 lg:self-start">
+          <div class="flex flex-wrap gap-2">
+            {tagCats.map((c) => (
+              <Tab
+                label={c.title}
+                x-on:click={`cat = '${c.slug}'`}
+                x-bind:class={`cat === '${c.slug}' ? '!border-[#fecda9] !text-brand' : ''`}
+              />
+            ))}
+          </div>
+          <div>
+            <Button variant="primary" size="sm" href="/blog" x-bind:href={`'/blog/category/' + cat`}>Смотреть все статьи</Button>
+          </div>
+        </div>
+
+        {/* Правая колонка: карточки выбранной категории (до 4, 4-я только sm+) */}
+        <div class="lg:basis-2/3 lg:shrink lg:min-w-0">
+          {tagCats.map((c) => (
+            <div
+              x-show={`cat === '${c.slug}'`}
+              x-cloak
+              class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10"
+            >
+              {c.posts.slice(0, 4).map((post: any, i: number) => (
+                <BlogCardNew size="md" {...card(post)} class={i === 3 ? 'hidden sm:block' : ''} />
+              ))}
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>
+
+    {/* ── Блок 6: Banner — подписка на каналы ── */}
+    <Banner
+      bg="bg-background-secondary"
+      title="Оставайтесь на&#160;связи"
+      subtitle="Подпишитесь на&#160;наши каналы в&#160;Telegram и&#160;Max, чтобы не&#160;упустить свежие новости и&#160;статьи"
+      buttons={[
+        { label: 'Telegram', href: 'https://t.me/dvizh4realty' },
+        { label: 'MAX', href: '#' },
+      ]}
+    />
+
+    {/* ── Блок 7: «Конференции, подкасты и вебинары» — header-row при <xl, 2 колонки 1/3+2/3 при xl+ ── */}
+    <div class="page-container flex flex-col gap-10 xl:flex-row xl:gap-6 xl:items-start">
+
+        <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between xl:flex-col xl:gap-6 xl:basis-1/3 xl:shrink xl:min-w-0">
+          <a href="/blog/category/podcasts" class="group w-fit">
+            <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">Конференции, подкасты и&#160;вебинары<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{count('podcasts')}</span></h2>
+          </a>
+          <div class="shrink-0">
+            <Button variant="primary" size="sm" href="/events">Смотреть все</Button>
+          </div>
+        </div>
+
+        <div class="xl:basis-2/3 xl:shrink xl:min-w-0">
+          {/* s-стак: только xl+ */}
+          <div class="hidden xl:flex flex-col gap-6">
+            {podkasty.map((post: any) => (
+              <BlogCardNew size="s" {...card(post)} />
+            ))}
+          </div>
+          {/* md-ряд: <xl, 3 md-карточки (4-я только sm/md) */}
+          <div class="grid xl:hidden grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+            {podkasty.map((post: any, i: number) => (
+              <BlogCardNew size="md" {...card(post)} class={i === 3 ? 'hidden sm:block lg:hidden' : ''} />
+            ))}
+          </div>
+        </div>
+
+    </div>
+
+    {/* ── Блок 8: «Статьи блога» — 9 md-карточек 3×3 ── */}
+    <div class="page-container flex flex-col gap-10 lg:gap-16">
+
+      {/* Заголовок + счётчик + кнопка */}
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+        <a href="/blog/articles" class="group w-fit max-w-[800px]">
+          <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">Статьи блога<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{allPosts.length}</span></h2>
+        </a>
+        <div class="shrink-0">
+          <Button variant="primary" size="sm" href="/blog/articles">Смотреть все</Button>
+        </div>
+      </div>
+
+      {/* Сетка 3×3 — 9 md-карточек (10-я только sm/md, чтобы добить ряд) */}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+        {statyi.map((post: any, i: number) => (
+          <BlogCardNew size="md" {...card(post)} class={i === 9 ? 'hidden sm:block lg:hidden' : ''} />
+        ))}
+      </div>
+
+    </div>
+
   </div>
 </BlogLayout>

@@ -149,7 +149,7 @@ function card(post: any) {
       {persons.length > 0 && (
         <section class="flex flex-col gap-6 lg:gap-10">
           <h2 class="text-h3 text-gray-900">Люди</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 items-start">
             {persons.map((person: any) => (
               <PersonCard person={person} variant="full" />
             ))}

@@ -1,61 +1,37 @@
 ---
-import BlogLayout from '../../layouts/BlogLayout.astro'
-import BlogCard from '../../components/ui/BlogCard.astro'
-import { getCategories, getBlogPosts } from '../../lib/payload'
+/**
+ * Редирект-страница /category/[category] → /blog/category/[category]
+ *
+ * Старый маршрут категории сохранён только для совместимости со ссылками,
+ * которые ещё ведут на /category/<slug> (напр. с главной index.astro).
+ * Сама страница категории живёт под /blog/category/[cat].
+ *
+ * Слаги генерируются по категориям, встречающимся у постов — те же, что у
+ * /blog/category, чтобы цель редиректа существовала.
+ */
+import { getBlogPosts } from '../../lib/payload'
 
 export async function getStaticPaths() {
-  const { docs: categories } = await getCategories()
-  return categories.map((cat: any) => ({
-    params: { category: cat.slug },
-    props: { category: cat },
-  }))
+  const { docs } = await getBlogPosts({ limit: 200, depth: 2 })
+  const slugs = [...new Set(docs.map((p: any) => p.category?.slug).filter(Boolean))]
+  return slugs.map((slug) => ({ params: { category: slug } }))
 }
 
-const { category } = Astro.props
-
-const breadcrumbLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Блог', item: `${Astro.site}blog` },
-    { '@type': 'ListItem', position: 2, name: category.title },
-  ],
-}
-
-const { docs: posts } = await getBlogPosts({
-  where: {
-    _status: { equals: 'published' },
-    'category.slug': { equals: category.slug },
-  },
-  limit: 200,
-})
+const { category } = Astro.params
+const target = `/blog/category/${category}`
 ---
 
-<BlogLayout title={`${category.title} — Блог`} jsonLd={breadcrumbLd}>
-  <div class="max-w-[1440px] mx-auto px-4 py-16">
-    <nav class="text-sm text-gray-500 mb-4">
-      <a href="/blog" class="hover:underline">Блог</a>
-      <span class="mx-2">›</span>
-      <span>{category.title}</span>
-    </nav>
-    <h1 class="text-4xl font-bold mb-2">{category.title}</h1>
-    <p class="text-gray-400 text-sm mb-10">{posts.length} статей</p>
-
-    {posts.length === 0 ? (
-      <p class="text-gray-500">В этой категории пока нет статей.</p>
-    ) : (
-      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {posts.map((post: any) => (
-          <BlogCard
-            title={post.title}
-            slug={post.slug}
-            cover={post.cover}
-            category={post.category?.title}
-            excerpt={post.excerpt}
-            tags={post.tags}
-          />
-        ))}
-      </div>
-    )}
-  </div>
-</BlogLayout>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <meta name="robots" content="noindex" />
+    <title>Перенаправление…</title>
+    <script is:inline set:html={`location.replace(${JSON.stringify(target)})`}></script>
+  </head>
+  <body>
+    <p>Страница переехала: <a href={target}>{target}</a></p>
+  </body>
+</html>
