@@ -227,7 +227,7 @@ function card(p: any) {
         @side-menu-change="onClick($event.detail.index)"
       >
         {tocFlat.length > 0 && (
-          <SideMenu navId="article-toc" variant="panel" items={tocFlat.map((i) => ({ title: i.text }))} />
+          <SideMenu navId="article-toc" variant="panel" items={tocFlat.map((i) => ({ title: i.text, level: i.level }))} />
         )}
       </aside>
       <div>

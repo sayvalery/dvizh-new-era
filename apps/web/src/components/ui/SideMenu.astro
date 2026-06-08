@@ -22,9 +22,9 @@
  *   navId="article-toc"
  *   variant="panel"
  *   items={[
- *     { title: 'Цифровая ипотека', active: true },
- *     { title: 'Калькулятор' },
- *     { title: 'Скоринг' },
+ *     { title: 'Цифровая ипотека', level: 2, active: true },
+ *     { title: 'Калькулятор', level: 3 },
+ *     { title: 'Скоринг', level: 2 },
  *   ]}
  * />
  * ```
@@ -33,6 +33,8 @@
 interface MenuItem {
   title: string
   active?: boolean
+  /** Уровень заголовка: 2 — верхний (h2), 3 — вложенный (h3, с отступом слева) */
+  level?: number
 }
 
 interface Props {
@@ -93,9 +95,12 @@ const xData = `{
   >
     {items.map((item, index) => (
       <button
-        class="flex-shrink-0 snap-start text-left transition-colors hover:opacity-70
-               flex flex-col items-start px-5 py-2
-               lg:flex-row lg:items-center lg:gap-2 lg:px-0 lg:py-0"
+        class:list={[
+          `flex-shrink-0 snap-start text-left transition-colors hover:opacity-70
+           flex flex-col items-start px-5 py-2
+           lg:flex-row lg:items-center lg:gap-2 lg:px-0 lg:py-0`,
+          (item.level ?? 2) >= 3 && 'lg:pl-4',
+        ]}
         :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
         @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
       >
@@ -119,7 +124,10 @@ const xData = `{
     <nav class:list={['hidden xl:flex xl:flex-col xl:gap-6', className]}>
       {items.map((item, index) => (
         <button
-          class="text-left transition-colors hover:opacity-70 flex flex-row items-center gap-2"
+          class:list={[
+            'text-left transition-colors hover:opacity-70 flex flex-row items-center gap-2',
+            (item.level ?? 2) >= 3 && 'pl-4',
+          ]}
           :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
           @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
         >
@@ -151,7 +159,10 @@ const xData = `{
                   type="button"
                   x-show={`open || active === ${index}`}
                   x-cloak
-                  class="w-full flex items-center gap-2 pr-8 text-left transition-opacity"
+                  class:list={[
+                    'w-full flex items-center gap-2 pr-8 text-left transition-opacity',
+                    (item.level ?? 2) >= 3 && 'pl-4',
+                  ]}
                   :class={`active === ${index} ? 'text-brand' : 'text-gray-500 hover:opacity-70'`}
                   @click={`active === ${index} ? (open = !open) : (active = ${index}, open = false, $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} }))`}
                 >
