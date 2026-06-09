@@ -61,7 +61,7 @@ async function fetchArticleHtml(slug: string): Promise<{ title: string | null, h
 const [ayaks, granel, lidov, ereg] = await Promise.all([
   fetchArticleHtml('case-ayaks-dvizh'),
   fetchArticleHtml('granel-rost-procenta-odobreniya'),
-  fetchArticleHtml('kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti'),
+  fetchArticleHtml('keys-lsr-dvizh'),
   fetchArticleHtml('alfavit-polzy-zastroyshchika-elektronnaya-registraciya'),
 ])
 
@@ -192,7 +192,7 @@ const partnerLogos = [
           title="Получают больше выручки на одного менеджера"
           stat="+281%"
           label="Заявок на одного менеджера"
-          expandHref="/blog/kak-poluchat-bolshe-kachestvennyh-lidov-po-menshey-stoimosti"
+          expandHref="/blog/keys-lsr-dvizh"
         >
           {lidov.html && (
             <div slot="modal-body" class="p-10">
