@@ -408,6 +408,51 @@ h1, h2, h3, h4, h5, h6 {
   @apply text-subhead text-gray-500 leading-snug m-0;
 }
 
+/* Промо на другую статью в legacy bodyHtml (Webflow b-card) →
+   как BlogCardNew size="s": обложка 207px слева, инфо справа, заголовок h4,
+   hover → brand, без фона карточки.
+   <div data-rt-embed-type><a href="/blog/..">
+     <img class="b-card-cover-block"><div class="b-card-text-block _2">
+       <p class="paragraph-4">Заголовок</p>
+       <div class="b-text-button _2"><div class="b-headline2 blue">Читать статью</div>
+       <img class="image-24 _2"></div></div></a></div> */
+.prose [data-rt-embed-type]:has(.b-card-cover-block) {
+  @apply my-8;
+}
+
+.prose [data-rt-embed-type]:has(.b-card-cover-block) > a {
+  @apply flex items-center gap-6 p-4 no-underline;
+}
+
+.prose img.b-card-cover-block {
+  @apply w-[140px] sm:w-[207px] aspect-[207/130] rounded-xl object-cover shrink-0 m-0 bg-background-secondary;
+}
+
+.prose .b-card-text-block {
+  @apply flex-1 flex flex-col gap-3 min-w-0;
+}
+
+.prose .b-card-text-block .paragraph-4 {
+  @apply text-h4 text-gray-900 m-0 transition-colors;
+}
+
+.prose [data-rt-embed-type]:has(.b-card-cover-block) > a:hover .paragraph-4 {
+  @apply text-brand;
+}
+
+.prose .b-text-button {
+  @apply flex items-center gap-2;
+}
+
+.prose .b-text-button .b-headline2 {
+  @apply text-subhead text-brand m-0;
+}
+
+/* Прячем синий шеврон-стрелку — оставляем только текст «Читать статью» */
+.prose .b-text-button img.image-24 {
+  display: none;
+}
+
 .prose figure {
   margin: 2rem 0;
 }
