@@ -14,6 +14,10 @@ interface Logo {
   src: string
   /** Alt-текст */
   alt: string
+  /** Ширина исходника (для monochrome — задаёт aspect-ratio спана без async-сайзера) */
+  w?: number
+  /** Высота исходника */
+  h?: number
 }
 
 interface Props {
@@ -43,13 +47,16 @@ const { logos, noFade = false, white = false, monochrome = false, noPadding = fa
       monochrome ? (
         <span
           class="logo-grid-img logo-grid-img--mono"
-          style={`-webkit-mask-image:url("${logo.src}");mask-image:url("${logo.src}")`}
+          style={`-webkit-mask-image:url("${logo.src}");mask-image:url("${logo.src}")` +
+            (logo.w && logo.h ? `;aspect-ratio:${logo.w}/${logo.h}` : '')}
           role="img"
           aria-label={i < logos.length ? logo.alt : undefined}
           aria-hidden={i >= logos.length ? 'true' : undefined}
         >
-          <img src={logo.src} alt="" height="32" class="logo-grid-mono-sizer"
-            loading={i < logos.length ? 'eager' : 'lazy'} draggable="false" />
+          {!(logo.w && logo.h) && (
+            <img src={logo.src} alt="" height="32" class="logo-grid-mono-sizer"
+              loading="eager" draggable="false" />
+          )}
         </span>
       ) : (
         <img
@@ -128,7 +135,9 @@ const { logos, noFade = false, white = false, monochrome = false, noPadding = fa
      совпадающий с серыми логотипами в partners/dark/. */
   .logo-grid-img--mono {
     display: inline-block;
+    height: 2rem;
     width: auto;
+    max-width: none;
     background-color: #374151;
     filter: opacity(45%);
     -webkit-mask-repeat: no-repeat;
