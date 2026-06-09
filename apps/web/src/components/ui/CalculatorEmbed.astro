@@ -11,17 +11,10 @@
  * без скругления. Корень виджета прозрачный (html/body/#app), внутри белая карточка —
  * поэтому белый фон обёртки сливается с виджетом, и padding читается как внутренний.
  *
- * ВАЖНО (состояние на 2026-06-09): встраиваемый виджет в iframe всегда требует
- * хост-хендшейк (шлёт `embedReady`, ждёт от хоста `embedSyncAuth` v1.0 ≤15 сек),
- * причём origin хоста сверяется с allowlist на их стороне, который СЕЙЧАС ПУСТ.
- * Пока команда калькулятора не добавит наш origin в allowlist (или не соберёт
- * standalone-вариант без хендшейка), виджет рендерится узко и через 15 сек
- * показывает «Не удалось установить связь с хостом». Полноценный хендшейк
- * с нашей стороны добавим, когда origin будет разрешён (и при необходимости —
- * с токеном от команды калькулятора).
- *
- * Resize-ready: ниже уже висит listener на `embedResize` — как только виджет
- * начнёт слать высоту, авто-высота включится без правок у нас.
+ * Хост-хендшейк (см. <script> ниже, сниппет от команды калькулятора): виджет шлёт
+ * `embedReady`, мы отвечаем `embedSyncAuth` v1.0 с пустым токеном (анонимно) → связь
+ * установлена, результаты грузятся. На `embedResize` подгоняем высоту iframe (авто-высота).
+ * Требует, чтобы наш origin был в allowlist на стороне калькулятора (настроено их командой).
  */
 interface Props {
   /** URL встраиваемого калькулятора */
@@ -62,27 +55,33 @@ const allowedOrigin = new URL(src).origin
 </div>
 
 <script>
-  // Resize-ready: подгоняем высоту iframe под контент, когда виджет начнёт
-  // сообщать свою высоту через postMessage (type: "embedResize").
+  // Хост-хендшейк embed-протокола v1.0 (сниппет от команды калькулятора):
+  // на embedReady отвечаем embedSyncAuth (анонимно, token: '') → виджет устанавливает
+  // связь и грузит результаты; на embedResize подгоняем высоту iframe (авто-высота).
+  const PROTOCOL_VERSION = '1.0'
+  const fingerprint = crypto.randomUUID()
+
   document.querySelectorAll<HTMLElement>('[data-calc-embed]').forEach((wrapper) => {
     const iframe = wrapper.querySelector('iframe')
     const allowedOrigin = wrapper.dataset.allowedOrigin
-    if (!iframe) return
+    if (!iframe || !allowedOrigin) return
+
+    let sequenceNumber = 0
 
     window.addEventListener('message', (event) => {
-      if (allowedOrigin && event.origin !== allowedOrigin) return
-      if (event.source !== iframe.contentWindow) return
+      if (event.source !== iframe.contentWindow || event.origin !== allowedOrigin) return
 
       const data = event.data
       if (!data || typeof data !== 'object') return
 
-      // Авто-высота: виджет сообщает свою высоту при изменении контента.
-      // Заработает, когда команда калькулятора начнёт эмитить embedResize.
-      if (data.type === 'embedResize') {
-        const height = data.height ?? data.size?.height ?? data.payload?.height
-        if (typeof height === 'number' && height > 0) {
-          iframe.style.height = `${Math.ceil(height)}px`
-        }
+      if (data.type === 'embedReady') {
+        sequenceNumber += 1
+        iframe.contentWindow?.postMessage(
+          { type: 'embedSyncAuth', protocolVersion: PROTOCOL_VERSION, sequenceNumber, token: '', fingerprint },
+          allowedOrigin,
+        )
+      } else if (data.type === 'embedResize' && typeof data.height === 'number' && data.height > 0) {
+        iframe.style.height = `${Math.ceil(data.height)}px`
       }
     })
   })
