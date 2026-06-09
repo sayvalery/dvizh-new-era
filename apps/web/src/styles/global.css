@@ -340,11 +340,72 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Prose enhancements for Webflow legacy content (bodyHtml) */
+/* Цитаты в legacy bodyHtml — как QuoteBlock без автора: серая плашка без кавычек */
 .prose blockquote {
-  border-left: 3px solid #ff4d00;
-  padding-left: 1.25rem;
+  @apply bg-gray-200 rounded-3xl p-8 lg:p-10 my-8 text-body-lg text-gray-900;
+  border-left: none;
   font-style: normal;
-  color: #374151;
+  font-weight: 400;
+  quotes: none;
+}
+
+.prose blockquote p {
+  margin: 0;
+}
+
+.prose blockquote p:first-of-type::before,
+.prose blockquote p:last-of-type::after {
+  content: none;
+}
+
+/* Цитаты с персоной в legacy bodyHtml (Webflow rich-text embed):
+   <div data-rt-embed-type><div><p class="paragraph-2">текст</p>
+     <div class="blog-category-list-wrapper"><a>
+       <div class="b-category-list-image"><img class="image-23"></div>
+       <div class="flex-block-13"><div class="b-headline2">Имя</div>
+         <div class="blog-category-list-desc"><div>Должность</div></div></div>
+     </a></div></div></div>
+   Приводим к виду Review (без фото): серая карточка + текст + футер автора.
+   :has() — чтобы не задеть другие data-rt-embed-type (таблицы, iframe и т.п.) */
+.prose [data-rt-embed-type]:has(.blog-category-list-wrapper) {
+  @apply bg-gray-200 rounded-3xl p-8 lg:p-10 my-8;
+}
+
+/* Текст цитаты с SVG-кавычками слева (flex icon + text, как в Review).
+   У плашек-текстов без автора кавычек нет. */
+.prose [data-rt-embed-type]:has(.blog-category-list-wrapper) .paragraph-2 {
+  @apply text-body-lg text-gray-900 m-0 mb-8 flex items-start gap-4;
+}
+
+.prose [data-rt-embed-type]:has(.blog-category-list-wrapper) .paragraph-2::before {
+  content: '';
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMuMjg0MjEgMEg5LjA5NDc0QzcuMDEwNTMgMy43MjYzMiA1LjE3ODk1IDguMDIxMDUgNC45ODk0NyAxMi4zMTU4SDkuNDEwNTNWMjIuMTA1M0gwVjEzLjM4OTVDMCA3Ljg5NDc0IDEuNTE1NzkgMy4zNDczNyAzLjI4NDIxIDBaTTE3Ljg3MzcgMEgyMy42ODQyQzIxLjYgMy43MjYzMiAxOS43Njg0IDguMDIxMDUgMTkuNTc4OSAxMi4zMTU4SDI0VjIyLjEwNTNIMTQuNTI2M1YxMy4zODk1QzE0LjUyNjMgNy44OTQ3NCAxNi4wNDIxIDMuMzQ3MzcgMTcuODczNyAwWiIgZmlsbD0iI0ZGNEQwMCIvPgo8L3N2Zz4K') no-repeat center / contain;
+}
+
+/* Футер автора выровнен под текст (отступ = ширина иконки + gap) */
+.prose .blog-category-list-wrapper {
+  padding-left: 2.25rem;
+}
+
+.prose .blog-category-list-wrapper a {
+  @apply flex items-center gap-4 no-underline;
+}
+
+.prose .blog-category-list-wrapper img {
+  @apply w-12 h-12 rounded-full object-cover shrink-0 m-0;
+}
+
+.prose .blog-category-list-wrapper .b-headline2 {
+  @apply text-h6 text-gray-900 leading-snug;
+}
+
+.prose .blog-category-list-wrapper .blog-category-list-desc,
+.prose .blog-category-list-wrapper .blog-category-list-desc div {
+  @apply text-subhead text-gray-500 leading-snug m-0;
 }
 
 .prose figure {
