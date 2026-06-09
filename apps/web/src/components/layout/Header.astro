@@ -17,7 +17,7 @@ const { transparent = false, variant = 'default', insights = false } = Astro.pro
 // Логотип: insight-версия или основной ДВИЖ. Пары цвет/белый одной геометрии (нет скачка),
 // белая версия insights — настоящий SVG с вырезами-стрелками (не CSS-фильтр).
 const logo = insights
-  ? { label: 'ДВИЖ Инсайты', href: '/', image: '/logo-dvizh-insights.svg', imageLight: '/logo-dvizh-insights-white.svg' }
+  ? { label: 'ДВИЖ Инсайты', href: '/blog', image: '/logo-dvizh-insights.svg', imageLight: '/logo-dvizh-insights-white.svg' }
   : { label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg', imageLight: '/logo-dvizh-white.svg' }
 
 const navItems: NavItem[] = [
@@ -56,7 +56,7 @@ const navItems: NavItem[] = [
 
 // Пункты меню для блог-варианта — плоские ссылки без мегаменю
 const blogNavItems: NavItem[] = [
-  { label: 'Статьи', href: '/blog' },
+  { label: 'Статьи', href: '/blog/articles' },
   { label: 'Кейсы', href: '/blog/category/cases' },
   { label: 'Подкасты', href: '/blog/category/podcasts' },
 ]
