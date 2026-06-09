@@ -48,7 +48,9 @@ import CalculatorEmbed from '../components/ui/CalculatorEmbed.astro'
   />
 
   <!-- Виджет калькулятора — живое демо -->
-  <div class="page-container">
+  <!-- w-full на page-container: внутри flex-col его margin:auto отключает stretch,
+       и контейнер сжимается по интринсик-ширине iframe (300px) — w-full это ломает -->
+  <div class="page-container w-full">
     <CalculatorEmbed />
   </div>
 
