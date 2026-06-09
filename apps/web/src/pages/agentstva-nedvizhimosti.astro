@@ -26,13 +26,13 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     <LogoGrid
       slot="logos"
       noPadding
+      monochrome
       logos={[
-        { src: '/partners/dark/a101.svg', alt: 'А101' },
-        { src: '/partners/dark/ava.svg', alt: 'AVA' },
-        { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
-        { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
-        { src: '/partners/dark/strana.svg', alt: 'Страна' },
-        { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+        { src: `${cms}/api/media/file/samolet%20plus.svg`, alt: 'Самолёт Плюс' },
+        { src: `${cms}/api/media/file/ayaks_color.svg`, alt: 'Аякс' },
+        { src: `${cms}/api/media/file/estatet.svg`, alt: 'Est-a-Tet' },
+        { src: `${cms}/api/media/file/ndvru-1.svg`, alt: 'НДВ' },
+        { src: `${cms}/api/media/file/pn.svg`, alt: 'Петербургская Недвижимость' },
       ]}
     />
   </HeroSectionFull>

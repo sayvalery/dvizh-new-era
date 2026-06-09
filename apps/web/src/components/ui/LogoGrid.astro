@@ -23,13 +23,15 @@ interface Props {
   noFade?: boolean
   /** Белые логотипы без opacity (для тёмного/цветного фона) */
   white?: boolean
+  /** Плоский ровный серый (#374151) через CSS-маску — для разноцветных оригиналов */
+  monochrome?: boolean
   /** Убрать внутренние отступы (padding: 0) */
   noPadding?: boolean
   /** Дополнительные CSS классы */
   class?: string
 }
 
-const { logos, noFade = false, white = false, noPadding = false, class: className = '' } = Astro.props
+const { logos, noFade = false, white = false, monochrome = false, noPadding = false, class: className = '' } = Astro.props
 ---
 
 <div class:list={['logo-grid-root', noPadding && 'logo-grid-root--no-padding', className]}>
@@ -38,15 +40,28 @@ const { logos, noFade = false, white = false, noPadding = false, class: classNam
 
   <div class="logo-grid-set">
     {[...logos, ...logos, ...logos, ...logos].map((logo, i) => (
-      <img
-        src={logo.src}
-        alt={logo.alt}
-        height="32"
-        class:list={['logo-grid-img', white && 'logo-grid-img--white']}
-        loading={i < logos.length ? 'eager' : 'lazy'}
-        draggable="false"
-        aria-hidden={i >= logos.length ? 'true' : undefined}
-      />
+      monochrome ? (
+        <span
+          class="logo-grid-img logo-grid-img--mono"
+          style={`-webkit-mask-image:url("${logo.src}");mask-image:url("${logo.src}")`}
+          role="img"
+          aria-label={i < logos.length ? logo.alt : undefined}
+          aria-hidden={i >= logos.length ? 'true' : undefined}
+        >
+          <img src={logo.src} alt="" height="32" class="logo-grid-mono-sizer"
+            loading={i < logos.length ? 'eager' : 'lazy'} draggable="false" />
+        </span>
+      ) : (
+        <img
+          src={logo.src}
+          alt={logo.alt}
+          height="32"
+          class:list={['logo-grid-img', white && 'logo-grid-img--white']}
+          loading={i < logos.length ? 'eager' : 'lazy'}
+          draggable="false"
+          aria-hidden={i >= logos.length ? 'true' : undefined}
+        />
+      )
     ))}
   </div>
 </div>
@@ -106,6 +121,31 @@ const { logos, noFade = false, white = false, noPadding = false, class: classNam
 
   .logo-grid-img--white {
     filter: brightness(0) invert(1);
+  }
+
+  /* Плоский ровный серый через маску: любой логотип красится в один цвет по форме.
+     Внутренний <img> задаёт размеры (пропорции лого), сам скрыт. #374151 — тон,
+     совпадающий с серыми логотипами в partners/dark/. */
+  .logo-grid-img--mono {
+    display: inline-block;
+    width: auto;
+    background-color: #374151;
+    filter: opacity(45%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  .logo-grid-mono-sizer {
+    display: block;
+    height: 2rem;
+    width: auto;
+    max-width: 7.5rem;
+    object-fit: contain;
+    visibility: hidden;
   }
 
   @keyframes logo-grid-scroll {
