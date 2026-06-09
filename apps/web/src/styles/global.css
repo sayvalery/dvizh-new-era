@@ -371,18 +371,25 @@ h1, h2, h3, h4, h5, h6 {
   @apply bg-gray-200 rounded-3xl p-8 lg:p-10 my-8;
 }
 
-/* Текст цитаты с SVG-кавычками слева (flex icon + text, как в Review).
-   У плашек-текстов без автора кавычек нет. */
+/* Текст цитаты: SVG-кавычка слева, но ТОЛЬКО на первом абзаце (а не на каждом).
+   Все абзацы выровнены одинаковым отступом слева под кавычку. У плашек-текстов
+   без автора кавычек нет. */
 .prose [data-rt-embed-type]:has(.blog-category-list-wrapper) .paragraph-2 {
-  @apply text-body-lg text-gray-900 m-0 mb-8 flex items-start gap-4;
+  @apply text-body-lg text-gray-900 m-0 mb-4 relative;
+  padding-left: 2.25rem;
 }
 
-.prose [data-rt-embed-type]:has(.blog-category-list-wrapper) .paragraph-2::before {
+.prose [data-rt-embed-type]:has(.blog-category-list-wrapper) .paragraph-2:last-of-type {
+  @apply mb-8;
+}
+
+.prose [data-rt-embed-type]:has(.blog-category-list-wrapper) .paragraph-2:first-of-type::before {
   content: '';
-  flex: none;
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
   width: 1.25rem;
   height: 1.25rem;
-  margin-top: 0.125rem;
   background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMuMjg0MjEgMEg5LjA5NDc0QzcuMDEwNTMgMy43MjYzMiA1LjE3ODk1IDguMDIxMDUgNC45ODk0NyAxMi4zMTU4SDkuNDEwNTNWMjIuMTA1M0gwVjEzLjM4OTVDMCA3Ljg5NDc0IDEuNTE1NzkgMy4zNDczNyAzLjI4NDIxIDBaTTE3Ljg3MzcgMEgyMy42ODQyQzIxLjYgMy43MjYzMiAxOS43Njg0IDguMDIxMDUgMTkuNTc4OSAxMi4zMTU4SDI0VjIyLjEwNTNIMTQuNTI2M1YxMy4zODk1QzE0LjUyNjMgNy44OTQ3NCAxNi4wNDIxIDMuMzQ3MzcgMTcuODczNyAwWiIgZmlsbD0iI0ZGNEQwMCIvPgo8L3N2Zz4K') no-repeat center / contain;
 }
 
