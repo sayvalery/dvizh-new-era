@@ -1,0 +1,84 @@
+---
+/**
+ * CalculatorEmbed — живое демо ипотечного калькулятора ДВИЖ во встраиваемом iframe.
+ *
+ * Виджет (SPA на nfront.dvizh.tech) встраивается напрямую через <iframe src>.
+ * Высота по умолчанию фиксированная и адаптивная (см. minHeight/minHeightDesktop),
+ * при нехватке высоты внутри iframe появляется собственный скролл.
+ *
+ * ВАЖНО (состояние на 2026-06-09): встраиваемый виджет в iframe всегда требует
+ * хост-хендшейк (шлёт `embedReady`, ждёт от хоста `embedSyncAuth` v1.0 ≤15 сек),
+ * причём origin хоста сверяется с allowlist на их стороне, который СЕЙЧАС ПУСТ.
+ * Пока команда калькулятора не добавит наш origin в allowlist (или не соберёт
+ * standalone-вариант без хендшейка), виджет рендерится узко и через 15 сек
+ * показывает «Не удалось установить связь с хостом». Полноценный хендшейк
+ * с нашей стороны добавим, когда origin будет разрешён (и при необходимости —
+ * с токеном от команды калькулятора).
+ *
+ * Resize-ready: ниже уже висит listener на `embedResize` — как только виджет
+ * начнёт слать высоту, авто-высота включится без правок у нас.
+ */
+interface Props {
+  /** URL встраиваемого калькулятора */
+  src?: string
+  /** Заголовок iframe для доступности */
+  title?: string
+  /** Стартовая высота на мобильных, px */
+  minHeight?: number
+  /** Стартовая высота на десктопе (lg+), px */
+  minHeightDesktop?: number
+  class?: string
+}
+
+const {
+  src = 'https://nfront.dvizh.tech/embed/b2c/ganymede/calculator',
+  title = 'Ипотечный калькулятор ДВИЖ',
+  minHeight = 640,
+  minHeightDesktop = 760,
+  class: className = '',
+} = Astro.props
+
+// origin виджета — только от него принимаем postMessage
+const allowedOrigin = new URL(src).origin
+---
+
+<div
+  class:list={['dvizh-calc-embed', className]}
+  data-calc-embed
+  data-allowed-origin={allowedOrigin}
+  style={`--calc-h-mobile:${minHeight}px;--calc-h-desktop:${minHeightDesktop}px`}
+>
+  <iframe
+    src={src}
+    title={title}
+    loading="lazy"
+    class="w-full block rounded-2xl lg:rounded-3xl border-0 h-[var(--calc-h-mobile)] lg:h-[var(--calc-h-desktop)]"
+  ></iframe>
+</div>
+
+<script>
+  // Resize-ready: подгоняем высоту iframe под контент, когда виджет начнёт
+  // сообщать свою высоту через postMessage (type: "embedResize").
+  document.querySelectorAll<HTMLElement>('[data-calc-embed]').forEach((wrapper) => {
+    const iframe = wrapper.querySelector('iframe')
+    const allowedOrigin = wrapper.dataset.allowedOrigin
+    if (!iframe) return
+
+    window.addEventListener('message', (event) => {
+      if (allowedOrigin && event.origin !== allowedOrigin) return
+      if (event.source !== iframe.contentWindow) return
+
+      const data = event.data
+      if (!data || typeof data !== 'object') return
+
+      // Авто-высота: виджет сообщает свою высоту при изменении контента.
+      // Заработает, когда команда калькулятора начнёт эмитить embedResize.
+      if (data.type === 'embedResize') {
+        const height = data.height ?? data.size?.height ?? data.payload?.height
+        if (typeof height === 'number' && height > 0) {
+          iframe.style.height = `${Math.ceil(height)}px`
+        }
+      }
+    })
+  })
+</script>

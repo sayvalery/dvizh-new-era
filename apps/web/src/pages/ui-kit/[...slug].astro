@@ -55,6 +55,7 @@ import LogoDrum from '../../components/ui/LogoDrum.astro'
 import PageSection from '../../components/ui/PageSection.astro'
 import ProductLink from '../../components/ui/ProductLink.astro'
 import Review from '../../components/ui/Review.astro'
+import CalculatorEmbed from '../../components/ui/CalculatorEmbed.astro'
 
 // --- Исходники компонентов для парсинга пропсов (Vite ?raw import) ---
 import navBarRaw from '../../components/ui/NavBar.astro?raw'
@@ -82,6 +83,7 @@ import successStoryBlockRaw from '../../components/ui/SuccessStoryBlock.astro?ra
 import keyFactsRaw from '../../components/ui/KeyFacts.astro?raw'
 import comparisonSectionRaw from '../../components/ui/ComparisonSection.astro?raw'
 import reviewFullRaw from '../../components/ui/ReviewFull.astro?raw'
+import calculatorEmbedRaw from '../../components/ui/CalculatorEmbed.astro?raw'
 import textImageBlockRaw from '../../components/ui/TextImageBlock.astro?raw'
 import supportSectionRaw from '../../components/ui/SupportSection.astro?raw'
 import blogGridRaw from '../../components/ui/BlogGrid.astro?raw'
@@ -211,6 +213,7 @@ export function getStaticPaths() {
     { params: { slug: 'blog-cards' }, props: { section: 'blog-cards' } },
     { params: { slug: 'blog-grid' }, props: { section: 'blog-grid' } },
     { params: { slug: 'buttons' }, props: { section: 'buttons' } },
+    { params: { slug: 'calculator-embed' }, props: { section: 'calculator-embed' } },
     { params: { slug: 'clear-glass-bg' }, props: { section: 'clear-glass-bg' } },
     { params: { slug: 'comparison' }, props: { section: 'comparison' } },
     { params: { slug: 'banner' }, props: { section: 'banner' } },
@@ -266,6 +269,7 @@ const sections = [
   { slug: 'blog-cards', label: 'Blog Cards' },
   { slug: 'blog-grid', label: 'BlogGrid' },
   { slug: 'buttons', label: 'Button' },
+  { slug: 'calculator-embed', label: 'CalculatorEmbed' },
   { slug: 'clear-glass-bg', label: 'ClearGlassBg' },
   { slug: 'comparison', label: 'ComparisonSection' },
   { slug: 'cta', label: 'CTA' },
@@ -2668,8 +2672,25 @@ const sections = [
         </div>
       )}
 
+      {section === 'calculator-embed' && (
+        <div class="space-y-10">
+          <div>
+            <h1 class="text-3xl font-bold font-heading mb-6">CalculatorEmbed</h1>
+            <p class="text-gray-600 mb-4">
+              Живое демо ипотечного калькулятора ДВИЖ во встраиваемом <code>&lt;iframe&gt;</code>.
+              Высота стартово фиксированная и адаптивная (мобайл/десктоп). Resize-ready: когда
+              приложение калькулятора начнёт слать <code>postMessage</code> с типом
+              <code>embedResize</code>, высота станет автоматической без правок на нашей стороне.
+            </p>
+            <PropsTable props={parseSource(calculatorEmbedRaw).props} class="mb-10" />
+          </div>
 
-
+          <div>
+            <p class="text-sm font-medium text-gray-400 mb-4">По умолчанию — продакшн-калькулятор</p>
+            <CalculatorEmbed />
+          </div>
+        </div>
+      )}
 
       {section === 'text-image-block' && (
         <div>

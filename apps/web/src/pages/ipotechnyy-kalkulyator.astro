@@ -6,6 +6,7 @@ import KeyFacts from '../components/ui/KeyFacts.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
 import ReviewFull from '../components/ui/ReviewFull.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
+import CalculatorEmbed from '../components/ui/CalculatorEmbed.astro'
 ---
 
 <SiteLayout title="Ипотечный калькулятор" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="bg-background-primary" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
@@ -46,14 +47,9 @@ import FormClosing from '../components/ui/FormClosing.astro'
     ]}
   />
 
-  <!-- Виджет калькулятора -->
+  <!-- Виджет калькулятора — живое демо -->
   <div class="page-container">
-    <img
-      src={`${import.meta.env.PUBLIC_CMS_URL}/api/media/file/calc.png`}
-      alt="Ипотечный калькулятор ДВИЖ"
-      class="w-full h-auto rounded-2xl lg:rounded-3xl"
-      loading="lazy"
-    />
+    <CalculatorEmbed />
   </div>
 
   <!-- ComparisonSection -->
