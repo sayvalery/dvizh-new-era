@@ -81,7 +81,18 @@ const allowedOrigin = new URL(src).origin
           allowedOrigin,
         )
       } else if (data.type === 'embedResize' && typeof data.height === 'number' && data.height > 0) {
+        // Авто-высота + компенсация скролла: при уменьшении высоты iframe
+        // подкручиваем страницу на ту же дельту, чтобы вьюпорт не «прыгал».
+        const prevClientHeight = iframe.clientHeight
         iframe.style.height = `${Math.ceil(data.height)}px`
+        const delta = iframe.clientHeight - prevClientHeight
+        if (delta < 0) {
+          const rect = iframe.getBoundingClientRect()
+          if (rect.bottom > 0 && rect.top < window.innerHeight) {
+            const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight)
+            window.scrollTo(0, Math.min(Math.max(0, window.scrollY + delta), maxScroll))
+          }
+        }
       }
     })
   })
