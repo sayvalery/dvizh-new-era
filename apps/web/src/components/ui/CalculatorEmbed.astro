@@ -6,6 +6,11 @@
  * Высота по умолчанию фиксированная и адаптивная (см. minHeight/minHeightDesktop),
  * при нехватке высоты внутри iframe появляется собственный скролл.
  *
+ * Отступы «внутри виджета»: настоящий padding живёт в DOM калькулятора (cross-origin,
+ * недоступен). Эмулируем — обёртка bg-white + скругление + p-8/lg:p-10, iframe прозрачный
+ * без скругления. Корень виджета прозрачный (html/body/#app), внутри белая карточка —
+ * поэтому белый фон обёртки сливается с виджетом, и padding читается как внутренний.
+ *
  * ВАЖНО (состояние на 2026-06-09): встраиваемый виджет в iframe всегда требует
  * хост-хендшейк (шлёт `embedReady`, ждёт от хоста `embedSyncAuth` v1.0 ≤15 сек),
  * причём origin хоста сверяется с allowlist на их стороне, который СЕЙЧАС ПУСТ.
@@ -43,7 +48,7 @@ const allowedOrigin = new URL(src).origin
 ---
 
 <div
-  class:list={['dvizh-calc-embed w-full', className]}
+  class:list={['dvizh-calc-embed w-full bg-white rounded-2xl lg:rounded-3xl overflow-hidden p-8 lg:p-10', className]}
   data-calc-embed
   data-allowed-origin={allowedOrigin}
   style={`--calc-h-mobile:${minHeight}px;--calc-h-desktop:${minHeightDesktop}px`}
@@ -52,7 +57,7 @@ const allowedOrigin = new URL(src).origin
     src={src}
     title={title}
     loading="lazy"
-    class="w-full block rounded-2xl lg:rounded-3xl border-0 h-[var(--calc-h-mobile)] lg:h-[var(--calc-h-desktop)]"
+    class="w-full block border-0 bg-transparent h-[var(--calc-h-mobile)] lg:h-[var(--calc-h-desktop)]"
   ></iframe>
 </div>
 
