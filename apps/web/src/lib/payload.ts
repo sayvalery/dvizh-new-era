@@ -55,6 +55,12 @@ export function sanitizeBodyHtml(html: string | null | undefined): string | null
   result = result.replace(/\s+class="[^"]*(?:b-article|w-embed|w-richtext|w-inline-block)[^"]*"/g, '')
   // Убираем inline styles
   result = result.replace(/\s+style="[^"]*"/g, '')
+  // Сворачиваем отступы-переносы между тегами (Webflow pretty-print). Внутри
+  // flex-блоков (карточка автора цитаты) пробельные узлы между flex-элементами
+  // распирают вёрстку — имя/должность «едут», плашка цитаты растягивается.
+  // Берём только пробелы С переносом строки, чтобы не склеить инлайн-текст
+  // (пробел между <strong>/<em>/<a> — это одиночный пробел без \n).
+  result = result.replace(/>\s*\n\s*</g, '><')
   return result
 }
 
