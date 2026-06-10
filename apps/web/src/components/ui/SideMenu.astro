@@ -135,7 +135,7 @@ const xData = `{
             class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
             :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
           ></span>
-          <span class="text-side-menu">{item.title}</span>
+          <span class:list={['text-side-menu', (item.level ?? 2) >= 3 && 'normal-case']}>{item.title}</span>
         </button>
       ))}
     </nav>
@@ -170,7 +170,7 @@ const xData = `{
                     class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
                     :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
                   ></span>
-                  <span class="text-side-menu truncate">{item.title}</span>
+                  <span class:list={['text-side-menu truncate', (item.level ?? 2) >= 3 && 'normal-case']}>{item.title}</span>
                 </button>
               ))}
             </div>
