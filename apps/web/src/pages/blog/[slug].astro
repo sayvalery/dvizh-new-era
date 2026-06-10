@@ -145,7 +145,7 @@ function ruDate(iso?: string): string | undefined {
   if (!iso) return undefined
   const d = new Date(iso)
   if (isNaN(d.getTime())) return undefined
-  return `${d.getDate()} ${MONTHS[d.getMonth()]}`
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`
 }
 function lexicalText(node: any): string {
   if (!node) return ''
