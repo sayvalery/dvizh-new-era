@@ -233,7 +233,7 @@ const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (
             ))}
           </div>
           <div>
-            <Button variant="primary" size="sm" href="/blog" x-bind:href={`'/blog/category/' + cat`}>Смотреть все статьи</Button>
+            <Button variant="primary" size="sm" href="/blog/articles" x-bind:href={`'/blog/articles?cat=' + cat`}>Смотреть все статьи</Button>
           </div>
         </div>
 

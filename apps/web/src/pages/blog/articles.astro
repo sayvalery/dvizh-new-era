@@ -79,7 +79,7 @@ const tagCats = [...catMap.values()].sort((a, b) => a.title.localeCompare(b.titl
 <BlogLayout title={`${TITLE} — ДВИЖ`} description="Все статьи блога" insightsHeader>
   <div class="py-10 md:py-16">
 
-    <div class="page-container flex flex-col gap-10 lg:gap-16" x-data="{ cat: 'all' }">
+    <div class="page-container flex flex-col gap-10 lg:gap-16" x-data="{ cat: new URLSearchParams(window.location.search).get('cat') || 'all' }">
 
       {/* Верхний заголовок + счётчик статей */}
       <h2 class="text-h2 text-gray-900">{TITLE}<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{allPosts.length}</span></h2>
