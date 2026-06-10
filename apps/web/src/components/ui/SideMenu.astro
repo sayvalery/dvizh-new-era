@@ -65,6 +65,16 @@ const gapClass = (index: number) => {
   return prev <= 2 ? 'mt-4' : 'mt-3'
 }
 
+// Подсветка активного: h3 — точное совпадение; h2 — пока active в диапазоне его секции
+// (т.е. одновременно подсвечиваются и сам h2, и текущая h3 внутри него).
+const sectionEnd = (i: number) => {
+  let e = i + 1
+  while (e < items.length && (items[e]?.level ?? 2) > 2) e++
+  return e
+}
+const activeExpr = (i: number) =>
+  (items[i]?.level ?? 2) <= 2 ? `(active >= ${i} && active < ${sectionEnd(i)})` : `active === ${i}`
+
 // Alpine-состояние. Для panel дополнительно: open (раскрыт список), visible (плашка в зоне статьи).
 const xData = `{
   active: ${initialActive},
@@ -139,13 +149,13 @@ const xData = `{
             (item.level ?? 2) >= 3 && 'pl-4',
             gapClass(index),
           ]}
-          :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
+          :class={`${activeExpr(index)} ? 'text-brand' : 'text-[#858585]'`}
           @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
         >
           {(item.level ?? 2) <= 2 && (
             <span
               class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
-              :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+              :class={`${activeExpr(index)} ? 'bg-brand' : 'bg-transparent'`}
             ></span>
           )}
           <span class:list={[(item.level ?? 2) >= 3 ? 'text-footnote' : 'text-side-menu']}>{item.title}</span>
@@ -176,13 +186,13 @@ const xData = `{
                     'w-full flex items-center gap-2 pr-8 text-left transition-opacity',
                     (item.level ?? 2) >= 3 && 'pl-4',
                   ]}
-                  :class={`{ 'text-brand': active === ${index}, 'text-gray-500 hover:opacity-70': active !== ${index}${gapClass(index) ? `, '${gapClass(index)}': open` : ''} }`}
+                  :class={`{ 'text-brand': ${activeExpr(index)}, 'text-gray-500 hover:opacity-70': !(${activeExpr(index)})${gapClass(index) ? `, '${gapClass(index)}': open` : ''} }`}
                   @click={`active === ${index} ? (open = !open) : (active = ${index}, open = false, $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} }))`}
                 >
                   {(item.level ?? 2) <= 2 && (
                     <span
                       class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
-                      :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+                      :class={`${activeExpr(index)} ? 'bg-brand' : 'bg-transparent'`}
                     ></span>
                   )}
                   <span class:list={[(item.level ?? 2) >= 3 ? 'text-footnote' : 'text-side-menu', 'min-w-0']}>{item.title}</span>
