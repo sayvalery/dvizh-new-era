@@ -60,14 +60,12 @@ const post = blogPosts[0]
   {/* Полноразмерная карточка последней статьи */}
   {post && (
     <div class="w-[360px] border-l border-gray-100 pl-6">
-      <p class="text-xs font-semibold text-gray-400 uppercase tracking-[1px] px-1 mb-3">Блог</p>
       <BlogCard
         title={post.title}
         slug={post.slug}
         cover={post.cover}
         category={post.category}
         size="md"
-        class="border-0 shadow-none hover:shadow-none"
       />
     </div>
   )}
