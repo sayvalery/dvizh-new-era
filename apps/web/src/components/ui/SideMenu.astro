@@ -55,6 +55,16 @@ const { items, class: className = '', navId = '', variant = 'default' } = Astro.
 
 const initialActive = Math.max(0, items.findIndex((i) => i.active))
 
+// Вертикальный интервал между пунктами оглавления (panel, xl-стек): зависит от уровней.
+// перед h2 — 24px (mt-6), h3 после h2 — 16px (mt-4), h3 после h3 — 12px (mt-3).
+const gapClass = (index: number) => {
+  if (index === 0) return ''
+  const cur = items[index]?.level ?? 2
+  const prev = items[index - 1]?.level ?? 2
+  if (cur <= 2) return 'mt-6'
+  return prev <= 2 ? 'mt-4' : 'mt-3'
+}
+
 // Alpine-состояние. Для panel дополнительно: open (раскрыт список), visible (плашка в зоне статьи).
 const xData = `{
   active: ${initialActive},
@@ -121,12 +131,13 @@ const xData = `{
 ) : (
   <div x-data={xData}>
     {/* ── xl+ : вертикальный sticky-стек (как default lg+) ── */}
-    <nav class:list={['hidden xl:flex xl:flex-col xl:gap-6', className]}>
+    <nav class:list={['hidden xl:flex xl:flex-col', className]}>
       {items.map((item, index) => (
         <button
           class:list={[
             'text-left transition-colors hover:opacity-70 flex flex-row items-center gap-2',
             (item.level ?? 2) >= 3 && 'pl-4',
+            gapClass(index),
           ]}
           :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
           @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
