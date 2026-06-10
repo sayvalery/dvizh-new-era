@@ -1,10 +1,11 @@
 ---
 /**
- * MegaMenu — дропдаун навигации (desktop).
+ * MegaMenu — компактный дропдаун навигации (desktop).
  *
- * Управляется снаружи через showExpression (Alpine x-show).
- * Лейаут: 2 колонки — данные (sections[0]) + блог.
- * Пункты без описаний, gap-1.5 между ними.
+ * Управляется снаружи через x-show в NavBar — позиционируется absolute
+ * под конкретным пунктом, не на всю ширину.
+ * Лейаут: список ссылок раздела + одна небольшая карточка блога (~ширина одной из трёх).
+ * Скругление rounded-2xl — как у острова навбара (по системе).
  */
 
 import BlogCard from './BlogCard.astro'
@@ -35,49 +36,40 @@ interface Props {
 const { sections, blogPosts = [] } = Astro.props
 
 const section = sections[0]
+const post = blogPosts[0]
 ---
 
-<div>
-  <div class="mx-auto max-w-[1440px] p-10">
-    <div class="grid grid-cols-2 gap-10">
+<div class="flex gap-6 w-max bg-background-primary border border-gray-200 rounded-2xl shadow-xl p-6">
 
-      {/* Левая колонка: пункты раздела */}
-      {section && (
-        <div class="flex flex-col gap-4">
-          <p class="text-xs font-semibold text-gray-400 uppercase tracking-[1px]">{section.title}</p>
-          <ul class="flex flex-col gap-1.5 w-fit">
-            {section.items.map(child => (
-              <li>
-                <a
-                  href={child.href}
-                  class="block p-2 text-subhead text-gray-700 rounded-md hover:bg-background-secondary transition-colors"
-                >
-                  {child.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+  {/* Пункты раздела — одна широкая колонка */}
+  {section && (
+    <ul class="flex flex-col gap-0.5 w-[360px]">
+      {section.items.map(child => (
+        <li>
+          <a
+            href={child.href}
+            class="block whitespace-nowrap px-3 py-2 text-subhead text-gray-700 rounded-lg hover:bg-background-secondary hover:text-gray-900 transition-colors"
+          >
+            {child.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
 
-      {/* Правая колонка: блог */}
-      {blogPosts.length > 0 && (
-        <div class="flex flex-col gap-4">
-          <p class="text-xs font-semibold text-gray-400 uppercase tracking-[1px]">Блог</p>
-          <div class="flex flex-col gap-3">
-            {blogPosts.map(post => (
-              <BlogCard
-                title={post.title}
-                slug={post.slug}
-                cover={post.cover}
-                category={post.category}
-                class="border-0 shadow-none hover:shadow-none"
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
+  {/* Полноразмерная карточка последней статьи */}
+  {post && (
+    <div class="w-[360px] border-l border-gray-100 pl-6">
+      <p class="text-xs font-semibold text-gray-400 uppercase tracking-[1px] px-1 mb-3">Блог</p>
+      <BlogCard
+        title={post.title}
+        slug={post.slug}
+        cover={post.cover}
+        category={post.category}
+        size="md"
+        class="border-0 shadow-none hover:shadow-none"
+      />
     </div>
-  </div>
+  )}
+
 </div>
