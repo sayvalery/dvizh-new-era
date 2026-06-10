@@ -39,6 +39,8 @@ interface Props {
   layout?: 'side' | 'stacked'
   /** Дополнительные CSS классы */
   class?: string
+  /** Доп. классы для контейнера изображения (например vh-ограничение высоты для влезания во вьюпорт). Только size=lg/stacked. */
+  imgClass?: string
 }
 
 const {
@@ -46,7 +48,8 @@ const {
   date, readTime,
   size = 'md',
   layout = 'side',
-  class: className = ''
+  class: className = '',
+  imgClass = ''
 } = Astro.props
 
 const coverUrl = normalizeMediaUrl(cover?.url ?? null)
@@ -98,8 +101,10 @@ const hasDateMeta = date || readTime
 {size === 'lg' && layout === 'stacked' && (
   <a href={`/blog/${slug}`} class:list={['group flex flex-col xl:flex-row xl:gap-10 w-full', className]}>
 
-    <!-- Изображение: <xl сверху на всю ширину, xl+ слева 2/3. Пропорции 832:532 везде. -->
-    <div class="relative w-full xl:w-2/3 xl:shrink-0 aspect-[832/532] rounded-3xl overflow-hidden bg-background-secondary">
+    <!-- Изображение: <xl сверху на всю ширину, xl+ слева 2/3. Пропорции 832:532 везде.
+         imgClass — опц. vh-ограничение высоты (бэкстоп для влезания во вьюпорт): на высоких
+         окнах не срабатывает (пропорции сохранены), на низких слегка кадрирует по высоте. -->
+    <div class:list={['relative w-full xl:w-2/3 xl:shrink-0 aspect-[832/532] rounded-3xl overflow-hidden bg-background-secondary', imgClass]}>
       {imgSrc && (
         <img src={imgSrc} alt={cover?.alt ?? title}
           class="absolute inset-0 w-full h-full object-cover"

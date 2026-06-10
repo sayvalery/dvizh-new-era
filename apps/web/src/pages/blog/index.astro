@@ -102,7 +102,7 @@ const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (
     <div class="page-container flex flex-col gap-8 md:gap-10">
       <h2 class="text-h2 text-gray-900">Журнал для&#160;современных девелоперов</h2>
 
-      {featured && <BlogCardNew size="lg" layout="stacked" {...card(featured)} />}
+      {featured && <BlogCardNew size="lg" layout="stacked" {...card(featured)} imgClass="lg:max-h-[calc(100svh_-_360px)] xl:max-h-[calc(100svh_-_250px)]" />}
 
       <div class="hidden md:grid gap-6 sm:grid-cols-2 xl:grid-cols-3 sm:-mt-2">
         {recent.map((post: any, i: number) => (
