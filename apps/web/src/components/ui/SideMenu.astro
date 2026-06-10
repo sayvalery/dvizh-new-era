@@ -184,7 +184,7 @@ const xData = `{
             /* Группа h3 — единый контейнер, плавно раскрывается сверху вниз (grid 0fr↔1fr) */
             <div
               x-cloak
-              class="grid transition-[grid-template-rows] duration-300 ease-out"
+              class="grid transition-[grid-template-rows] duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
               :class={`${sec.index >= 0 ? `(active >= ${sec.index} && active < ${sectionEnd(sec.index)})` : 'true'} ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'`}
             >
               <div class="overflow-hidden">
