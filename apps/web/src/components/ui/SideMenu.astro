@@ -87,6 +87,17 @@ const sectionRangeExpr = (i: number) => {
   return p < 0 ? 'true' : `(active >= ${p} && active < ${sectionEnd(p)})`
 }
 
+// Группы для аккордеона: h2 + его h3-дети. h3-группу рендерим одним контейнером,
+// чтобы раскрытие шло сверху вниз единым блоком (а не каждый пункт сам по себе).
+const sections: any[] = []
+items.forEach((it, i) => {
+  if ((it.level ?? 2) <= 2) sections.push({ h2: it, index: i, children: [] })
+  else {
+    if (!sections.length) sections.push({ h2: null, index: -1, children: [] })
+    sections[sections.length - 1].children.push({ item: it, index: i })
+  }
+})
+
 // Alpine-состояние. Для panel дополнительно: open (раскрыт список), visible (плашка в зоне статьи).
 const xData = `{
   active: ${initialActive},
@@ -154,37 +165,42 @@ const xData = `{
   <div x-data={xData}>
     {/* ── xl+ : вертикальный sticky-стек (как default lg+) ── */}
     <nav class:list={['hidden xl:flex xl:flex-col', className]}>
-      {items.map((item, index) => (
-        (item.level ?? 2) >= 3 ? (
-          /* h3 — плавно сворачивается/раскрывается по активности секции (grid 0fr↔1fr) */
-          <div
-            x-cloak
-            class="grid transition-[grid-template-rows] duration-300 ease-out"
-            :class={`${sectionRangeExpr(index)} ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'`}
-          >
-            <div class="overflow-hidden">
-              <button
-                class:list={['text-left transition-colors hover:opacity-70 flex flex-row items-center pl-4', gapClass(index)]}
-                :class={`${activeExpr(index)} ? 'text-brand' : 'text-[#858585]'`}
-                @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
-              >
-                <span class="text-footnote">{item.title}</span>
-              </button>
+      {sections.map((sec) => (
+        <Fragment>
+          {sec.h2 && (
+            <button
+              class:list={['text-left transition-colors hover:opacity-70 flex flex-row items-center gap-2', gapClass(sec.index)]}
+              :class={`${activeExpr(sec.index)} ? 'text-brand' : 'text-[#858585]'`}
+              @click={`active = ${sec.index}; $dispatch('side-menu-change', { index: ${sec.index}, item: ${JSON.stringify(sec.h2)} })`}
+            >
+              <span
+                class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
+                :class={`${activeExpr(sec.index)} ? 'bg-brand' : 'bg-transparent'`}
+              ></span>
+              <span class="text-side-menu">{sec.h2.title}</span>
+            </button>
+          )}
+          {sec.children.length > 0 && (
+            /* Группа h3 — единый контейнер, плавно раскрывается сверху вниз (grid 0fr↔1fr) */
+            <div
+              x-cloak
+              class="grid transition-[grid-template-rows] duration-300 ease-out"
+              :class={`${sec.index >= 0 ? `(active >= ${sec.index} && active < ${sectionEnd(sec.index)})` : 'true'} ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'`}
+            >
+              <div class="overflow-hidden">
+                {sec.children.map((c: any) => (
+                  <button
+                    class:list={['text-left transition-colors hover:opacity-70 flex flex-row items-center pl-4', gapClass(c.index)]}
+                    :class={`${activeExpr(c.index)} ? 'text-brand' : 'text-[#858585]'`}
+                    @click={`active = ${c.index}; $dispatch('side-menu-change', { index: ${c.index}, item: ${JSON.stringify(c.item)} })`}
+                  >
+                    <span class="text-footnote">{c.item.title}</span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        ) : (
-          <button
-            class:list={['text-left transition-colors hover:opacity-70 flex flex-row items-center gap-2', gapClass(index)]}
-            :class={`${activeExpr(index)} ? 'text-brand' : 'text-[#858585]'`}
-            @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
-          >
-            <span
-              class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
-              :class={`${activeExpr(index)} ? 'bg-brand' : 'bg-transparent'`}
-            ></span>
-            <span class="text-side-menu">{item.title}</span>
-          </button>
-        )
+          )}
+        </Fragment>
       ))}
     </nav>
 
