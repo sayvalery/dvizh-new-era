@@ -14,7 +14,7 @@
  *   dark      — чёрный фон, белый текст
  *
  * Иконки передаются через именованные слоты: icon-left, icon-right.
- * Расстояние иконка ↔ текст — 4px (gap-1).
+ * Расстояние иконка ↔ текст — 8px (gap-2).
  *
  * iconOnly — кнопка только из иконки, всегда квадратная (w = h = высота размера).
  * При iconOnly передавай иконку через слот icon-left.
@@ -115,7 +115,7 @@ const isLink = !!href
     {...rest}
     class:list={[
       'inline-flex items-center justify-center rounded-lg',
-      'gap-1 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98]',
+      'gap-2 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98]',
       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
       sizeCls, text, variantMap[variant], disabledMap[variant], className,
     ]}
@@ -142,7 +142,7 @@ const isLink = !!href
     {...rest}
     class:list={[
       'inline-flex items-center justify-center rounded-lg',
-      'gap-1 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98] cursor-pointer',
+      'gap-2 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98] cursor-pointer',
       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
       sizeCls, text, variantMap[variant], disabledMap[variant], className,
     ]}
@@ -166,7 +166,7 @@ const isLink = !!href
     {...rest}
     class:list={[
       'inline-flex items-center justify-center rounded-lg',
-      'gap-1 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98] cursor-pointer',
+      'gap-2 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98] cursor-pointer',
       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
       sizeCls, text, variantMap[variant], disabledMap[variant], className,
     ]}
