@@ -106,11 +106,17 @@ if (hasBlocks) {
 }
 const tocIds = tocFlat.map((i) => i.id)
 
-// В оглавлении заголовки h3 — sentence-case (первая буква заглавная, остальные строчные).
-// h2 оставляем как есть.
+// В оглавлении заголовки h3 — sentence-case: первая буква заглавная, остальные строчные,
+// но слова целиком из заглавных (аббревиатуры — ЖК, НДС, CRM…) сохраняются. h2 как есть.
 const sentenceCase = (s: string) => {
   const t = s.trim()
-  return t ? t.charAt(0).toUpperCase() + t.slice(1).toLowerCase() : t
+  if (!t) return t
+  const lowered = t.replace(/\S+/g, (w) => {
+    const hasLetter = w.toLowerCase() !== w.toUpperCase()
+    const isAcronym = hasLetter && w === w.toUpperCase()
+    return isAcronym ? w : w.toLowerCase()
+  })
+  return lowered.charAt(0).toUpperCase() + lowered.slice(1)
 }
 const tocItems = tocFlat.map((i) => ({
   title: i.level === 3 ? sentenceCase(i.text) : i.text,
