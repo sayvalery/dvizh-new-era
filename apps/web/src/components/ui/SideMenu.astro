@@ -142,10 +142,12 @@ const xData = `{
           :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
           @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
         >
-          <span
-            class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
-            :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
-          ></span>
+          {(item.level ?? 2) <= 2 && (
+            <span
+              class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
+              :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+            ></span>
+          )}
           <span class:list={[(item.level ?? 2) >= 3 ? 'text-footnote' : 'text-side-menu']}>{item.title}</span>
         </button>
       ))}
@@ -177,10 +179,12 @@ const xData = `{
                   :class={`{ 'text-brand': active === ${index}, 'text-gray-500 hover:opacity-70': active !== ${index}${gapClass(index) ? `, '${gapClass(index)}': open` : ''} }`}
                   @click={`active === ${index} ? (open = !open) : (active = ${index}, open = false, $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} }))`}
                 >
-                  <span
-                    class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
-                    :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
-                  ></span>
+                  {(item.level ?? 2) <= 2 && (
+                    <span
+                      class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
+                      :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
+                    ></span>
+                  )}
                   <span class:list={[(item.level ?? 2) >= 3 ? 'text-footnote' : 'text-side-menu', 'min-w-0']}>{item.title}</span>
                 </button>
               ))}
