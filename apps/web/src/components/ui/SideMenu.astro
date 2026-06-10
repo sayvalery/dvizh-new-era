@@ -155,24 +155,36 @@ const xData = `{
     {/* ── xl+ : вертикальный sticky-стек (как default lg+) ── */}
     <nav class:list={['hidden xl:flex xl:flex-col', className]}>
       {items.map((item, index) => (
-        <button
-          class:list={[
-            'text-left transition-colors hover:opacity-70 flex flex-row items-center gap-2',
-            (item.level ?? 2) >= 3 && 'pl-4',
-            gapClass(index),
-          ]}
-          {...((item.level ?? 2) >= 3 ? { 'x-show': sectionRangeExpr(index), 'x-cloak': true } : {})}
-          :class={`${activeExpr(index)} ? 'text-brand' : 'text-[#858585]'`}
-          @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
-        >
-          {(item.level ?? 2) <= 2 && (
+        (item.level ?? 2) >= 3 ? (
+          /* h3 — плавно сворачивается/раскрывается по активности секции (grid 0fr↔1fr) */
+          <div
+            x-cloak
+            class="grid transition-[grid-template-rows] duration-300 ease-out"
+            :class={`${sectionRangeExpr(index)} ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'`}
+          >
+            <div class="overflow-hidden">
+              <button
+                class:list={['text-left transition-colors hover:opacity-70 flex flex-row items-center pl-4', gapClass(index)]}
+                :class={`${activeExpr(index)} ? 'text-brand' : 'text-[#858585]'`}
+                @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
+              >
+                <span class="text-footnote">{item.title}</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            class:list={['text-left transition-colors hover:opacity-70 flex flex-row items-center gap-2', gapClass(index)]}
+            :class={`${activeExpr(index)} ? 'text-brand' : 'text-[#858585]'`}
+            @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
+          >
             <span
               class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
               :class={`${activeExpr(index)} ? 'bg-brand' : 'bg-transparent'`}
             ></span>
-          )}
-          <span class:list={[(item.level ?? 2) >= 3 ? 'text-footnote' : 'text-side-menu']}>{item.title}</span>
-        </button>
+            <span class="text-side-menu">{item.title}</span>
+          </button>
+        )
       ))}
     </nav>
 
