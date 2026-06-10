@@ -301,8 +301,12 @@ function card(p: any) {
         {contributors.length > 0 && (
           <>
             <h5 class="text-h5 text-gray-900 mt-10">Над статьей работали:</h5>
-            <div class="flex flex-wrap justify-between gap-6 mt-4">
-              {contributors.map((p: any) => <PersonCard person={p} variant="full" />)}
+            <div class="flex flex-col sm:flex-row gap-6 mt-4">
+              {contributors.map((p: any) => (
+                <div class="sm:flex-1 sm:min-w-0">
+                  <PersonCard person={p} variant="full" />
+                </div>
+              ))}
             </div>
           </>
         )}
