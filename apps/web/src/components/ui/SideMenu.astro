@@ -181,7 +181,7 @@ const xData = `{
                     class="block w-0.5 self-stretch flex-shrink-0 transition-colors"
                     :class={`active === ${index} ? 'bg-brand' : 'bg-transparent'`}
                   ></span>
-                  <span class:list={[(item.level ?? 2) >= 3 ? 'text-footnote' : 'text-side-menu', 'truncate']}>{item.title}</span>
+                  <span class:list={[(item.level ?? 2) >= 3 ? 'text-footnote' : 'text-side-menu', 'min-w-0']}>{item.title}</span>
                 </button>
               ))}
             </div>
