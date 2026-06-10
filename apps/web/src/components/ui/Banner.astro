@@ -204,7 +204,13 @@ const footnoteCls = dark ? 'text-white/40' : 'text-gray-400'
               drawerPreset={btn.drawerPreset}
               href={!btn.drawerPreset ? (btn.href ?? '#') : undefined}
             >
-              {btn.icon && <img src={btn.icon} alt="" class="w-4 h-4 shrink-0" aria-hidden="true" />}
+              {btn.icon && (
+                <span
+                  class="w-4 h-4 shrink-0 bg-current"
+                  style={`-webkit-mask:url('${btn.icon}') center / contain no-repeat;mask:url('${btn.icon}') center / contain no-repeat`}
+                  aria-hidden="true"
+                ></span>
+              )}
               {btn.label}
             </Button>
           ))}
