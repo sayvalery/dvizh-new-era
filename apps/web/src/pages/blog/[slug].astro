@@ -106,6 +106,17 @@ if (hasBlocks) {
 }
 const tocIds = tocFlat.map((i) => i.id)
 
+// В оглавлении заголовки h3 — sentence-case (первая буква заглавная, остальные строчные).
+// h2 оставляем как есть.
+const sentenceCase = (s: string) => {
+  const t = s.trim()
+  return t ? t.charAt(0).toUpperCase() + t.slice(1).toLowerCase() : t
+}
+const tocItems = tocFlat.map((i) => ({
+  title: i.level === 3 ? sentenceCase(i.text) : i.text,
+  level: i.level,
+}))
+
 // Время чтения
 const textContent = post.bodyHtml?.replace(/<[^>]+>/g, '')
   ?? content.filter((b) => b.blockType === 'richText').map((b) => lexicalNodeText(b.content?.root)).join(' ')
@@ -225,7 +236,7 @@ function card(p: any) {
         @side-menu-change="onClick($event.detail.index)"
       >
         {tocFlat.length > 0 && (
-          <SideMenu navId="article-toc" variant="panel" items={tocFlat.map((i) => ({ title: i.text, level: i.level }))} />
+          <SideMenu navId="article-toc" variant="panel" items={tocItems} />
         )}
       </aside>
       <div>
