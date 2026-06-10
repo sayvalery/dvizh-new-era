@@ -40,6 +40,8 @@ import LogoGrid from '../../components/ui/LogoGrid.astro'
 import logoGridRaw from '../../components/ui/LogoGrid.astro?raw'
 import MegaMenu from '../../components/ui/MegaMenu.astro'
 import megaMenuRaw from '../../components/ui/MegaMenu.astro?raw'
+import MenuPosts from '../../components/ui/MenuPosts.astro'
+import menuPostsRaw from '../../components/ui/MenuPosts.astro?raw'
 import ComparisonSection from '../../components/ui/ComparisonSection.astro'
 import Banner from '../../components/ui/Banner.astro'
 import CTABanner from '../../components/ui/CTABanner.astro'
@@ -194,6 +196,7 @@ const reviewMeta = parseSource(reviewRaw)
 const developerBlockMeta = parseSource(developerBlockRaw)
 const supportSectionMeta = parseSource(supportSectionRaw)
 const megaMenuMeta = parseSource(megaMenuRaw)
+const menuPostsMeta = parseSource(menuPostsRaw)
 
 // В продакшн-билде страница не генерируется
 export function getStaticPaths() {
@@ -233,6 +236,7 @@ export function getStaticPaths() {
     { params: { slug: 'logo-drum' }, props: { section: 'logo-drum' } },
     { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
     { params: { slug: 'mega-menu' }, props: { section: 'mega-menu' } },
+    { params: { slug: 'menu-posts' }, props: { section: 'menu-posts' } },
     { params: { slug: 'mesh-gradient' }, props: { section: 'mesh-gradient' } },
     { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
     { params: { slug: 'page-section' }, props: { section: 'page-section' } },
@@ -288,6 +292,7 @@ const sections = [
   { slug: 'logo-drum', label: 'LogoDrum' },
   { slug: 'logo-grid', label: 'LogoGrid' },
   { slug: 'mega-menu', label: 'MegaMenu' },
+  { slug: 'menu-posts', label: 'MenuPosts' },
   { slug: 'mesh-gradient', label: 'Mesh Gradient' },
   { slug: 'modal-inline-form', label: 'Modal Inline Form' },
   { slug: 'page-section', label: 'PageSection' },
@@ -1600,6 +1605,30 @@ const sections = [
                 />
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {section === 'menu-posts' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-6">MenuPosts</h1>
+          <p class="text-gray-600 mb-4">
+            Выпадашка навигации со списком из 3 горизонтальных карточек (картинка слева, заголовок справа — <code class="text-sm bg-gray-100 px-1.5 py-0.5 rounded">BlogCard size="s"</code>, без категории/даты).
+            Используется для пунктов «Блог» и «Кейсы» в <code class="text-sm bg-gray-100 px-1.5 py-0.5 rounded">NavBar.astro</code>:
+            передаётся через поле <code class="text-sm bg-gray-100 px-1.5 py-0.5 rounded">posts</code> элемента <code class="text-sm bg-gray-100 px-1.5 py-0.5 rounded">items</code>.
+            Клик по пункту ведёт на страницу, ховер открывает выпадашку. Ширина — как у мегаменю.
+          </p>
+          <PropsTable props={menuPostsMeta.props} class="mb-8" />
+
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">3 свежих статьи</p>
+            <MenuPosts
+              posts={[
+                { title: 'Как ИИ меняет работу отдела продаж застройщика', slug: 'ai-sales' },
+                { title: 'Электронная регистрация: что изменилось в 2026', slug: 'e-reg-2026' },
+                { title: 'Скоринг заёмщика без бюро: миф или реальность', slug: 'scoring' },
+              ]}
+            />
           </div>
         </div>
       )}

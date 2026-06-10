@@ -20,6 +20,7 @@
 import BlogCard from './BlogCard.astro'
 import Button from './Button.astro'
 import MegaMenu from './MegaMenu.astro'
+import MenuPosts from './MenuPosts.astro'
 import Search from './Search.astro'
 
 export interface NavChild {
@@ -33,11 +34,19 @@ export interface NavSection {
   items: NavChild[]
 }
 
+export interface MenuPost {
+  title: string
+  slug: string
+  cover?: any
+}
+
 export interface NavItem {
   label: string
   href?: string
   children?: NavChild[]
   sections?: NavSection[]
+  /** Выпадашка с 3 горизонтальными карточками (Блог, Кейсы) */
+  posts?: MenuPost[]
   badge?: 'dot'
 }
 
@@ -151,7 +160,45 @@ const navIslandClass = (isBlog && !transparent)
 
           <div class="hidden lg:flex lg:gap-x-1">
             {items.map(item => (
-              item.sections?.length ? (
+              item.posts?.length ? (
+                /* === POSTS DROPDOWN (Блог / Кейсы) — клик ведёт на страницу, ховер открывает === */
+                <div
+                  class="relative h-full flex items-center"
+                  @mouseenter={`clearTimeout(hoverTimeout); megaOpen = '${item.label}'`}
+                >
+                  <a
+                    href={item.href}
+                    class="inline-flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
+                    :class={`{
+                      'text-white hover:bg-white/10': clear,
+                      'bg-white/10': clear && megaOpen === '${item.label}',
+                      'text-gray-700 hover:bg-gray-100': !clear,
+                      'bg-gray-100': !clear && megaOpen === '${item.label}'
+                    }`}
+                  >
+                    {item.label}
+                    {item.badge === 'dot' && (
+                      <span
+                        class="w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors"
+                        :class="clear ? 'bg-white' : 'bg-red-500'"
+                      />
+                    )}
+                  </a>
+                  <div
+                    x-cloak
+                    x-show={`megaOpen === '${item.label}'`}
+                    x-transition:enter="transition-[clip-path,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] duration-[400ms]"
+                    x-transition:enter-start="opacity-0 [clip-path:inset(0_0_40%_0)]"
+                    x-transition:enter-end="opacity-100 [clip-path:inset(0_0_0_0)]"
+                    x-transition:leave="transition-[clip-path,opacity] ease-in duration-[50ms]"
+                    x-transition:leave-start="opacity-100 [clip-path:inset(0_0_0_0)]"
+                    x-transition:leave-end="opacity-0 [clip-path:inset(0_0_40%_0)]"
+                    class="absolute top-full left-0 pt-2 z-50"
+                  >
+                    <MenuPosts posts={item.posts ?? []} />
+                  </div>
+                </div>
+              ) : item.sections?.length ? (
                 /* === MEGA MENU (компактный дропдаун под пунктом) === */
                 <div
                   class="relative h-full flex items-center"

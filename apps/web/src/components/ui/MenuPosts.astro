@@ -1,0 +1,30 @@
+---
+/**
+ * MenuPosts — выпадашка навигации со списком из 3 горизонтальных карточек.
+ *
+ * Используется для пунктов «Блог» и «Кейсы»: картинка слева, заголовок справа
+ * (BlogCard size="s", без категории/даты). Содержимое — последние свежие статьи / кейсы.
+ * Ширина и скругление — как у мегаменю «Продукты»/«Решения» (по системе).
+ */
+
+import BlogCard from './BlogCard.astro'
+import type { MenuPost } from './NavBar.astro'
+
+interface Props {
+  posts?: MenuPost[]
+}
+
+const { posts = [] } = Astro.props
+---
+
+<div class="flex flex-col gap-0.5 w-[792px] bg-background-primary border border-gray-200 rounded-2xl shadow-xl p-2">
+  {posts.map(post => (
+    <BlogCard
+      size="s"
+      title={post.title}
+      slug={post.slug}
+      cover={post.cover}
+      class="w-full rounded-xl transition-colors hover:bg-background-secondary"
+    />
+  ))}
+</div>

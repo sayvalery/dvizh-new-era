@@ -20,6 +20,47 @@ const logo = insights
   ? { label: 'ДВИЖ Инсайты', href: '/blog', image: '/logo-dvizh-insights.svg', imageLight: '/logo-dvizh-insights-white.svg' }
   : { label: 'ДВИЖ', href: '/', image: '/logo-dvizh.svg', imageLight: '/logo-dvizh-white.svg' }
 
+// Свежие посты для выпадашек «Блог»/«Кейсы», карточки мегаменю и мобильного меню (только default-вариант).
+
+/** Пост CMS → пропсы карточки выпадашки (cover передаём сырым — BlogCard сам нормализует + srcset) */
+function toCard(post: any) {
+  return {
+    title: post.title,
+    slug: post.slug,
+    cover: post.cover,
+  }
+}
+
+let latestPosts: any[] = []
+let caseDocs: any[] = []
+if (variant !== 'blog') {
+  try {
+    // Блог: 3 свежих поста (+ 1-й для карточки мегаменю)
+    const { docs } = await getBlogPosts({ limit: 3, depth: 2 })
+    latestPosts = docs
+    // Кейсы: целевой запрос по категории (кейсы редкие, в общую выборку не попадают)
+    const cases = await getBlogPosts({
+      where: { _status: { equals: 'published' }, 'category.slug': { equals: 'cases' } },
+      limit: 3,
+      depth: 2,
+    })
+    caseDocs = cases.docs
+  } catch {
+    // CMS недоступен при сборке — меню работает без карточек
+  }
+}
+
+const blogCards = latestPosts.slice(0, 3).map(toCard)
+const caseCards = caseDocs.slice(0, 3).map(toCard)
+
+// Последний пост — для правой колонки мегаменю (Продукты/Решения) и мобильного меню
+const blogPosts = latestPosts.slice(0, 1).map((post: any) => ({
+  title: post.title,
+  slug: post.slug,
+  cover: post.cover ? { url: normalizeMediaUrl(post.cover.url) ?? undefined, alt: post.cover.alt } : undefined,
+  category: post.category?.title,
+}))
+
 const navItems: NavItem[] = [
   {
     label: 'Продукты',
@@ -50,8 +91,8 @@ const navItems: NavItem[] = [
       },
     ],
   },
-  { label: 'Блог', href: '/blog', badge: 'dot' },
-  { label: 'Кейсы', href: '/blog/category/cases' },
+  { label: 'Блог', href: '/blog', badge: 'dot', posts: blogCards },
+  { label: 'Кейсы', href: '/blog/category/cases', posts: caseCards },
 ]
 
 // Пункты меню для блог-варианта — плоские ссылки без мегаменю
@@ -60,22 +101,6 @@ const blogNavItems: NavItem[] = [
   { label: 'Кейсы', href: '/blog/category/cases' },
   { label: 'Подкасты', href: '/blog/category/podcasts' },
 ]
-
-// Последний пост — для правой колонки мегаменю и мобильного меню (только default-вариант)
-let blogPosts: { title: string; slug: string; cover?: { url?: string; alt?: string }; category?: string }[] = []
-if (variant !== 'blog') {
-  try {
-    const { docs } = await getBlogPosts({ limit: 1 })
-    blogPosts = docs.map((post: any) => ({
-      title: post.title,
-      slug: post.slug,
-      cover: post.cover ? { url: normalizeMediaUrl(post.cover.url) ?? undefined, alt: post.cover.alt } : undefined,
-      category: post.category?.title,
-    }))
-  } catch {
-    // CMS недоступен при сборке — меню работает без блог-карточек
-  }
-}
 ---
 
 <NavBar
