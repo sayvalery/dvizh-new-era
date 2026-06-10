@@ -109,9 +109,7 @@ const renderedBlocks = content.map((block: any) =>
           {primaryAuthor && <PersonCard person={primaryAuthor} variant="inline" />}
 
           {(() => {
-            const date = post.publishedAt
-              ? new Date(post.publishedAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })
-              : null
+            const date = ruDate(post.publishedAt)
             const readTime = `${readingTime} мин`
             const hasDateMeta = date || readTime
             return hasDateMeta && (
