@@ -75,6 +75,18 @@ const sectionEnd = (i: number) => {
 const activeExpr = (i: number) =>
   (items[i]?.level ?? 2) <= 2 ? `(active >= ${i} && active < ${sectionEnd(i)})` : `active === ${i}`
 
+// Индекс родительского h2 для пункта (ближайший предшествующий level<=2; -1 если нет).
+const parentH2 = (i: number) => {
+  let p = i
+  while (p >= 0 && (items[p]?.level ?? 2) > 2) p--
+  return p
+}
+// h3 видна, только когда активна её секция (active в диапазоне родительского h2).
+const sectionRangeExpr = (i: number) => {
+  const p = parentH2(i)
+  return p < 0 ? 'true' : `(active >= ${p} && active < ${sectionEnd(p)})`
+}
+
 // Alpine-состояние. Для panel дополнительно: open (раскрыт список), visible (плашка в зоне статьи).
 const xData = `{
   active: ${initialActive},
@@ -149,6 +161,7 @@ const xData = `{
             (item.level ?? 2) >= 3 && 'pl-4',
             gapClass(index),
           ]}
+          {...((item.level ?? 2) >= 3 ? { 'x-show': sectionRangeExpr(index), 'x-cloak': true } : {})}
           :class={`${activeExpr(index)} ? 'text-brand' : 'text-[#858585]'`}
           @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
         >
@@ -180,7 +193,9 @@ const xData = `{
               {items.map((item, index) => (
                 <button
                   type="button"
-                  x-show={`open || active === ${index}`}
+                  x-show={(item.level ?? 2) >= 3
+                    ? `active === ${index} || (open && ${sectionRangeExpr(index)})`
+                    : `open || active === ${index}`}
                   x-cloak
                   class:list={[
                     'w-full flex items-center gap-2 pr-8 text-left transition-opacity',
