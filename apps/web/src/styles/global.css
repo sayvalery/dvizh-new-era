@@ -490,8 +490,13 @@ h1, h2, h3, h4, h5, h6 {
   @apply text-body-lg text-gray-500 m-0;
 }
 
+/* Кнопка — как <Button variant="primary" size="sm">: залитая бренд-кнопка,
+   а не текст-ссылка (единообразно с новым CTABlock) */
 .prose .cta-company-card__btn {
-  @apply text-subhead text-brand no-underline transition-colors hover:text-brand-600;
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg
+         px-4 py-2 h-9 text-btn bg-brand text-white no-underline
+         transition-all duration-300 ease-out hover:bg-brand-600 hover:text-white
+         hover:scale-[1.03] active:scale-[0.98];
 }
 
 .prose figure {
