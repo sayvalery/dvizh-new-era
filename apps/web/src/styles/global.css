@@ -460,6 +460,40 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
+/* Legacy CTA-баннер «компания» (b-article-company-card в bodyHtml) пересобирается
+   в .cta-company-card функцией transformLegacyCompanyCard() в payload.ts.
+   Рендерим как наш блоговый CTA-баннер: bg-gray-200, скругление, картинка слева,
+   описание + бренд-кнопка справа. Встречается в ~27 статьях. Картинка — из Webflow
+   (внешний логотип ДВИЖ .svg → contain, либо фото компании из медиа → cover). */
+.prose .cta-company-card {
+  @apply my-8 flex flex-col gap-6 sm:flex-row sm:items-center p-4 md:p-6 bg-gray-200 rounded-2xl lg:rounded-3xl;
+}
+
+.prose .cta-company-card__media {
+  @apply block shrink-0 w-[207px] aspect-[207/130] rounded-xl overflow-hidden bg-white;
+}
+
+.prose .cta-company-card__media img {
+  @apply w-full h-full object-cover m-0;
+}
+
+/* Логотип (.svg) — вписываем целиком с воздухом, без обрезки */
+.prose .cta-company-card__media.is-logo img {
+  @apply object-contain p-6;
+}
+
+.prose .cta-company-card__body {
+  @apply flex-1 flex flex-col items-start gap-3 min-w-0;
+}
+
+.prose .cta-company-card__desc {
+  @apply text-body-lg text-gray-500 m-0;
+}
+
+.prose .cta-company-card__btn {
+  @apply text-subhead text-brand no-underline transition-colors hover:text-brand-600;
+}
+
 .prose figure {
   margin: 2rem 0;
 }

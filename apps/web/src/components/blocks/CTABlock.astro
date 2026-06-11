@@ -6,6 +6,7 @@
  * Кнопка может открывать дровер с формой или вести по ссылке.
  *
  * CMS-поля (блок 'cta' в BlogPosts → content):
+ *   image        → upload (Media) — изображение слева от текста (опционально)
  *   heading      → текст заголовка (обязательно)
  *   description  → текст под заголовком
  *   buttonText   → текст кнопки (обязательно)
@@ -13,24 +14,52 @@
  *   formPreset   → 'lead' | 'subscribe' | 'demo' | 'research' (если buttonAction = sidebarForm)
  *   link         → URL (если buttonAction = link)
  *
+ * Лейаут: с картинкой — изображение слева (скругление), текст справа;
+ * на мобильном — стопкой. Без картинки — обычный текстовый баннер.
+ *
  * Рендерится через BlockRenderer.astro при blockType === 'cta'.
  */
 import Button from '../ui/Button.astro'
+import { normalizeMediaUrl } from '../../lib/payload'
 
 interface Props {
   block: any
 }
 
 const { block } = Astro.props
+// Разрешение картинки ограничиваем уровнем компактной карточки статьи (size=s):
+// максимум — вариант card 768×480, оригинал/cover не грузим.
+const cardUrl = normalizeMediaUrl(block.image?.sizes?.card?.url ?? null)
+const thumbUrl = normalizeMediaUrl(block.image?.sizes?.thumbnail?.url ?? null)
+const imageUrl = cardUrl || normalizeMediaUrl(block.image?.url ?? null)
+const srcset = [
+  thumbUrl && `${thumbUrl} 400w`,
+  cardUrl && `${cardUrl} 768w`,
+].filter(Boolean).join(', ') || undefined
+const imageAlt = block.image?.alt || block.heading || ''
 ---
 
-<div class="my-8 p-8 bg-brand text-white rounded-2xl lg:rounded-3xl">
-  {block.heading && <h3 class="text-h4 mb-2">{block.heading}</h3>}
-  {block.description && <p class="text-footnote text-white/80 mb-4">{block.description}</p>}
-
-  {block.buttonAction === 'link' ? (
-    <Button href={block.link ?? '#'} size="sm" variant="secondary">{block.buttonText}</Button>
-  ) : (
-    <Button size="sm" variant="secondary" drawerPreset={block.formPreset ?? 'lead'}>{block.buttonText}</Button>
+<div class:list={[
+  'my-8 p-4 md:p-6 bg-gray-200 text-gray-900 rounded-2xl lg:rounded-3xl',
+  imageUrl && 'flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-6',
+]}>
+  {imageUrl && (
+    <div class="shrink-0 w-[207px] aspect-[207/130] rounded-xl overflow-hidden bg-background-secondary">
+      <img src={imageUrl} alt={imageAlt}
+        class="w-full h-full object-cover"
+        srcset={srcset} sizes="207px"
+        loading="lazy" decoding="async" />
+    </div>
   )}
+
+  <div class="min-w-0">
+    {block.heading && <h3 class="text-h4 mb-2">{block.heading}</h3>}
+    {block.description && <p class="text-body-lg text-gray-500 mb-4">{block.description}</p>}
+
+    {block.buttonAction === 'link' ? (
+      <Button href={block.link ?? '#'} size="sm" variant="primary">{block.buttonText}</Button>
+    ) : (
+      <Button size="sm" variant="primary" drawerPreset={block.formPreset ?? 'lead'}>{block.buttonText}</Button>
+    )}
+  </div>
 </div>

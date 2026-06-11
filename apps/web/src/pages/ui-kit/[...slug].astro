@@ -1254,7 +1254,10 @@ const sections = [
             <div>
               <p class="text-sm font-medium text-gray-400 mb-1">CTABlock — CTA-баннер</p>
               <p class="text-xs text-gray-400 mb-2">
-                blockType: <code>cta</code> · поля: <code>heading</code>, <code>description</code>, <code>buttonText</code>, <code>buttonAction</code>, <code>formPreset</code> / <code>link</code>
+                blockType: <code>cta</code> · поля: <code>image</code>, <code>heading</code>, <code>description</code>, <code>buttonText</code>, <code>buttonAction</code>, <code>formPreset</code> / <code>link</code>
+              </p>
+              <p class="text-xs text-gray-400 mb-2">
+                <code>image</code> (опц.) — изображение слева от текста, на мобильном стопкой
               </p>
               <p class="text-xs text-gray-400 mb-4">
                 buttonAction: <code>sidebarForm</code> — открывает дровер, <code>link</code> — переход по ссылке
@@ -1272,6 +1275,14 @@ const sections = [
                   buttonText: 'Перейти в блог',
                   buttonAction: 'link',
                   link: '/blog',
+                }} />
+                <CTABlock block={{
+                  image: { url: '/og-default.jpg', alt: 'Превью' },
+                  heading: 'С изображением слева',
+                  description: 'Изображение со скруглением слева, текст и кнопка справа. На мобильном — стопкой.',
+                  buttonText: 'Запросить демо',
+                  buttonAction: 'sidebarForm',
+                  formPreset: 'demo',
                 }} />
               </div>
             </div>

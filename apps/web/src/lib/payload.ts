@@ -37,7 +37,42 @@ export function normalizeBodyHtml(html: string | null | undefined): string | nul
 }
 
 /**
+ * Legacy Webflow CTA-баннер «компания» (b-article-company-card) в bodyHtml.
+ * Структура: лого/картинка как background-image на <a>, описание <p>, кнопка-ссылка.
+ * Картинка различается от статьи к статье (внешний логотип ДВИЖ или наша медиа
+ * /api/media/...), поэтому её URL берём из разметки, а не подставляем фиксированный.
+ *
+ * Проблема: санитайзер ниже срезает inline style (с background-image) и
+ * Webflow-классы (b-article-*, w-inline-block) — картинка и зацепки для CSS
+ * пропадают. Поэтому ДО санитайзера пересобираем блок в чистую разметку с
+ * настоящим <img> и собственными классами (.cta-company-card), которые санитайзер
+ * не трогает. Стили — в global.css. Захватываем: 1=картинка, 2=ссылка-компания,
+ * 3=описание, 4=ссылка-кнопка, 5=текст кнопки.
+ */
+const LEGACY_COMPANY_CARD_RE =
+  /<div[^>]*data-rt-embed-type[^>]*>\s*<div[^>]*b-article-company-card[^>]*>\s*<a[^>]*background-image:url\((?:&quot;|["'])?(.*?)(?:&quot;|["'])?\)[^>]*href="([^"]*)"[^>]*>\s*<\/a>\s*<div[^>]*b-card-text-block[^>]*>\s*<p>([\s\S]*?)<\/p>\s*<a[^>]*href="([^"]*)"[^>]*>\s*<div[^>]*b-headline2[^>]*>\s*([\s\S]*?)\s*<\/div>[\s\S]*?<\/a>\s*<\/div>\s*<\/div>\s*<\/div>/g
+
+function transformLegacyCompanyCard(html: string): string {
+  return html.replace(
+    LEGACY_COMPANY_CARD_RE,
+    (_m, img: string, companyHref: string, desc: string, btnHref: string, btnText: string) => {
+      const isLogo = /\.svg(\?|$)/i.test(img)
+      return (
+        '<div class="cta-company-card">' +
+        `<a class="cta-company-card__media${isLogo ? ' is-logo' : ''}" href="${companyHref}">` +
+        `<img src="${img}" alt="" loading="lazy" /></a>` +
+        '<div class="cta-company-card__body">' +
+        `<p class="cta-company-card__desc">${desc.trim()}</p>` +
+        `<a class="cta-company-card__btn" href="${btnHref}">${btnText.trim()}</a>` +
+        '</div></div>'
+      )
+    },
+  )
+}
+
+/**
  * Очищает HTML из Webflow (bodyHtml):
+ * - Пересобирает legacy CTA-баннеры «компания» в чистую разметку (до срезания классов/стилей)
  * - Убирает пустые id="" атрибуты
  * - Убирает Webflow-специфичные классы и атрибуты
  * - Убирает inline style=""
@@ -46,6 +81,8 @@ export function normalizeBodyHtml(html: string | null | undefined): string | nul
 export function sanitizeBodyHtml(html: string | null | undefined): string | null {
   if (!html) return null
   let result = html
+  // Пересобираем legacy company-card ДО срезания style/классов (иначе теряем картинку)
+  result = transformLegacyCompanyCard(result)
   // Убираем пустые id=""
   result = result.replace(/\s+id=""/g, '')
   // Убираем Webflow data-* атрибуты

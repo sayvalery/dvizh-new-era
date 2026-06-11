@@ -5,6 +5,12 @@ export const CTABlock: Block = {
   labels: { singular: 'CTA-баннер', plural: 'CTA-баннеры' },
   fields: [
     {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Изображение (слева от текста)',
+    },
+    {
       name: 'heading',
       type: 'text',
       label: 'Заголовок',
