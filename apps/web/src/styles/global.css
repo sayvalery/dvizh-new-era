@@ -460,6 +460,30 @@ h1, h2, h3, h4, h5, h6 {
          hover:scale-[1.03] active:scale-[0.98];
 }
 
+/* Выноски в bodyHtml (b-article-card text-title / bare) → серая плашка как у
+   цитаты (QuoteBlock), но без кавычек и персоны. Пересобираются в .article-callout
+   функцией transformArticleCallouts() в payload.ts. text-title — с заголовком <h4>,
+   bare — только абзац(ы). */
+.prose .article-callout {
+  @apply my-8 bg-gray-200 rounded-3xl p-8 lg:p-10;
+}
+
+.prose .article-callout h4 {
+  @apply text-h4 text-gray-900 mt-0 mb-3;
+}
+
+.prose .article-callout p {
+  @apply text-body-lg text-gray-900;
+}
+
+.prose .article-callout > :first-child {
+  @apply mt-0;
+}
+
+.prose .article-callout > :last-child {
+  @apply mb-0;
+}
+
 .prose figure {
   margin: 2rem 0;
 }

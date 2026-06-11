@@ -97,6 +97,27 @@ function transformLegacyArticleCard(html: string): string {
 }
 
 /**
+ * Legacy Webflow выноски в bodyHtml → серая плашка .article-callout (как плашка
+ * цитаты QuoteBlock, но без кавычек/персоны). Два вида:
+ *   - b-article-card text-title — заголовок (<h4>) + текст (внутри .b-copy-item)
+ *   - b-article-card (bare)      — просто текст (один абзац)
+ * Класс b-article-card срезается санитайзером, поэтому пересобираем ДО него,
+ * сохраняя внутреннее содержимое (заголовок, абзацы, списки-<br>, ссылки).
+ */
+const TEXT_TITLE_CALLOUT_RE =
+  /<div[^>]*data-rt-embed-type[^>]*>\s*<div[^>]*class="b-article-card text-title"[^>]*>\s*<div[^>]*class="b-copy-item"[^>]*>([\s\S]*?)<\/div>\s*<\/div>\s*<\/div>/g
+const BARE_CALLOUT_RE =
+  /<div[^>]*data-rt-embed-type[^>]*>\s*<div class="b-article-card">([\s\S]*?)<\/div>\s*<\/div>/g
+
+function transformArticleCallouts(html: string): string {
+  let out = html.replace(TEXT_TITLE_CALLOUT_RE, (_m, inner: string) =>
+    `<div class="article-callout">${inner}</div>`)
+  out = out.replace(BARE_CALLOUT_RE, (_m, inner: string) =>
+    `<div class="article-callout">${inner}</div>`)
+  return out
+}
+
+/**
  * Очищает HTML из Webflow (bodyHtml):
  * - Пересобирает legacy CTA-баннеры «компания» в чистую разметку (до срезания классов/стилей)
  * - Убирает пустые id="" атрибуты
@@ -110,6 +131,7 @@ export function sanitizeBodyHtml(html: string | null | undefined): string | null
   // Пересобираем legacy-баннеры ДО срезания style/классов (иначе теряем картинку/зацепки)
   result = transformLegacyCompanyCard(result)
   result = transformLegacyArticleCard(result)
+  result = transformArticleCallouts(result)
   // Убираем пустые id=""
   result = result.replace(/\s+id=""/g, '')
   // Убираем Webflow data-* атрибуты
