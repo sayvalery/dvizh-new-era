@@ -73,6 +73,30 @@ function transformLegacyCompanyCard(html: string): string {
 }
 
 /**
+ * Legacy Webflow промо-карточка на другую статью/видео (b-article-article-card).
+ * Структура: обложка <img>, заголовок <p>, кнопка-текст «Читать статью / Смотреть
+ * запись». Рендерим так же, как CTA-баннер (.cta-company-card), но заголовок — как
+ * заголовок баннера (__heading, text-h4). Захватываем: 1=ссылка, 2=обложка,
+ * 3=заголовок, 4=текст кнопки. Вся карточка ведёт по одной ссылке.
+ */
+const LEGACY_ARTICLE_CARD_RE =
+  /<div[^>]*data-rt-embed-type[^>]*>\s*<a[^>]*href="([^"]*)"[^>]*b-article-article-card[^>]*>\s*<img[^>]*src="([^"]*)"[^>]*>\s*<div[^>]*b-card-text-block[^>]*>\s*<p[^>]*>([\s\S]*?)<\/p>\s*<div[^>]*b-text-button[^>]*>\s*<div[^>]*b-headline2[^>]*>\s*([\s\S]*?)\s*<\/div>[\s\S]*?<\/a>\s*<\/div>/g
+
+function transformLegacyArticleCard(html: string): string {
+  return html.replace(
+    LEGACY_ARTICLE_CARD_RE,
+    (_m, href: string, img: string, title: string, btnText: string) => (
+      '<div class="cta-company-card">' +
+      `<a class="cta-company-card__media" href="${href}"><img src="${img}" alt="" loading="lazy" /></a>` +
+      '<div class="cta-company-card__body">' +
+      `<a class="cta-company-card__heading" href="${href}">${title.trim()}</a>` +
+      `<a class="cta-company-card__btn" href="${href}">${btnText.trim()}</a>` +
+      '</div></div>'
+    ),
+  )
+}
+
+/**
  * Очищает HTML из Webflow (bodyHtml):
  * - Пересобирает legacy CTA-баннеры «компания» в чистую разметку (до срезания классов/стилей)
  * - Убирает пустые id="" атрибуты
@@ -83,8 +107,9 @@ function transformLegacyCompanyCard(html: string): string {
 export function sanitizeBodyHtml(html: string | null | undefined): string | null {
   if (!html) return null
   let result = html
-  // Пересобираем legacy company-card ДО срезания style/классов (иначе теряем картинку)
+  // Пересобираем legacy-баннеры ДО срезания style/классов (иначе теряем картинку/зацепки)
   result = transformLegacyCompanyCard(result)
+  result = transformLegacyArticleCard(result)
   // Убираем пустые id=""
   result = result.replace(/\s+id=""/g, '')
   // Убираем Webflow data-* атрибуты

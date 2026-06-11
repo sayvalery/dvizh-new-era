@@ -415,65 +415,12 @@ h1, h2, h3, h4, h5, h6 {
   @apply text-subhead text-gray-500 leading-snug m-0;
 }
 
-/* Промо на другую статью (Webflow b-article-article-card) → как наш CTA-баннер:
-   bg-gray-200, скругление, обложка 207px слева, заголовок + залитая бренд-кнопка
-   «Читать статью» справа. Классы переживают санитайзер, стилизуем напрямую.
-   ВАЖНО: .b-headline2 / .b-text-button встречаются и в других блоках —
-   поэтому все правила скоуплены под :has(.b-card-cover-block).
-   <div data-rt-embed-type><a href="/blog/..">
-     <img class="b-card-cover-block"><div class="b-card-text-block _2">
-       <p class="paragraph-4">Заголовок</p>
-       <div class="b-text-button _2"><div class="b-headline2 blue">Читать статью</div>
-       <img class="image-24 _2"></div></div></a></div> */
-.prose [data-rt-embed-type]:has(.b-card-cover-block) {
-  @apply my-8;
-}
-
-.prose [data-rt-embed-type]:has(.b-card-cover-block) > a {
-  @apply flex flex-col gap-6 sm:flex-row sm:items-center p-4 md:p-6 bg-gray-200 rounded-2xl lg:rounded-3xl no-underline;
-}
-
-.prose img.b-card-cover-block {
-  @apply shrink-0 w-[207px] aspect-[207/130] rounded-xl object-cover m-0 bg-background-secondary;
-}
-
-.prose [data-rt-embed-type]:has(.b-card-cover-block) .b-card-text-block {
-  @apply flex-1 flex flex-col items-start gap-3 min-w-0;
-}
-
-.prose [data-rt-embed-type]:has(.b-card-cover-block) .paragraph-4 {
-  @apply text-h4 text-gray-900 m-0 transition-colors;
-}
-
-.prose [data-rt-embed-type]:has(.b-card-cover-block) > a:hover .paragraph-4 {
-  @apply text-brand;
-}
-
-/* «Читать статью» → залитая бренд-кнопка (как Button variant=primary size=sm) */
-.prose [data-rt-embed-type]:has(.b-card-cover-block) .b-text-button {
-  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg
-         px-4 py-2 h-9 text-btn bg-brand text-white
-         transition-all duration-300 ease-out;
-}
-
-.prose [data-rt-embed-type]:has(.b-card-cover-block) > a:hover .b-text-button {
-  @apply bg-brand-600;
-}
-
-.prose [data-rt-embed-type]:has(.b-card-cover-block) .b-text-button .b-headline2 {
-  @apply text-white text-btn m-0;
-}
-
-/* Прячем синий шеврон-стрелку — оставляем только текст «Читать статью» */
-.prose [data-rt-embed-type]:has(.b-card-cover-block) .b-text-button img.image-24 {
-  display: none;
-}
-
-/* Legacy CTA-баннер «компания» (b-article-company-card в bodyHtml) пересобирается
-   в .cta-company-card функцией transformLegacyCompanyCard() в payload.ts.
+/* Legacy-баннеры в bodyHtml пересобираются в .cta-company-card в payload.ts:
+   - b-article-company-card (CTA «компания», ~27 ст.) → media + __desc + __btn
+   - b-article-article-card (промо на статью/видео, ~49 ст.) → media + __heading + __btn
    Рендерим как наш блоговый CTA-баннер: bg-gray-200, скругление, картинка слева,
-   описание + бренд-кнопка справа. Встречается в ~27 статьях. Картинка — из Webflow
-   (внешний логотип ДВИЖ .svg → contain, либо фото компании из медиа → cover). */
+   текст + залитая бренд-кнопка справа. Картинка — из Webflow (логотип .svg → contain,
+   фото/обложка → cover). */
 .prose .cta-company-card {
   @apply my-8 flex flex-col gap-6 sm:flex-row sm:items-center p-4 md:p-6 bg-gray-200 rounded-2xl lg:rounded-3xl;
 }
@@ -497,6 +444,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .prose .cta-company-card__desc {
   @apply text-body-lg text-gray-500 m-0;
+}
+
+/* Заголовок-ссылка (промо на статью/видео): акцентный, hover → brand */
+.prose .cta-company-card__heading {
+  @apply text-h4 text-gray-900 m-0 no-underline transition-colors hover:text-brand;
 }
 
 /* Кнопка — как <Button variant="primary" size="sm">: залитая бренд-кнопка,
