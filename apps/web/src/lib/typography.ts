@@ -121,11 +121,20 @@ export function typografHtml(html: string | null | undefined): string | null {
 }
 
 // Ключи, значения которых НЕ типографим (идентификаторы, URL, технические поля).
+// author / company — имена собственные в постах и цитатах (строковые значения).
 const SKIP_KEYS = new Set([
   'slug', 'url', 'href', 'src', 'link', 'id', 'blockType', '_status',
   'filename', 'mimeType', 'hash', 'prefix', 'thumbnailURL',
   'createdAt', 'updatedAt', 'publishedAt', 'value',
+  'author', 'company',
 ])
+
+// Признак объекта-сущности (person / company) — у них `name` это имя собственное,
+// которое типографить не нужно (напр. не превращать «Фёдоров» → «Федоров»).
+// Глоссарий тоже имеет поле `name`, но это термин — у него этих маркеров нет.
+function isNamedEntity(obj: Record<string, unknown>): boolean {
+  return 'jobTitle' in obj || 'linkText' in obj || 'logo' in obj
+}
 
 /**
  * Глубоко обойти документ из CMS и применить typograf() к человекочитаемым
@@ -147,7 +156,9 @@ export function typografDoc<T>(node: T, key = ''): T {
   if (node && typeof node === 'object') {
     // Lexical code-блок — не типографим содержимое
     if ((node as any).type === 'code') return node
+    const skipName = isNamedEntity(node as Record<string, unknown>)
     for (const k of Object.keys(node as Record<string, unknown>)) {
+      if (skipName && k === 'name') continue // имя person/company — не трогаем
       ;(node as any)[k] = typografDoc((node as any)[k], k)
     }
     return node
