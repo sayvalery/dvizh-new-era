@@ -11,6 +11,11 @@ typo-fix.py — типографика для русских .astro файлов
   6. NBSP перед — (em dash)
   7. Дубликаты NBSP схлопываются
 
+Правила применяются ТОЛЬКО к контенту (HTML-текстовым узлам). Frontmatter
+(--- ... ---), теги с их атрибутами (включая class и выражения {...}),
+<script>/<style> и комментарии не трогаются — иначе NBSP попадает в код
+(например, ломает разбивку Tailwind-классов).
+
 Usage:
   python3 scripts/typo-fix.py [--dry-run|--write] [--all] [files...]
 
@@ -83,6 +88,108 @@ def apply_rules(text: str) -> str:
     return text
 
 
+_QUOTES = ('"', "'", '`')
+
+
+def _scan_tag(s: str, i: int) -> int:
+    """s[i] == '<'. Вернуть индекс ПОСЛЕ закрывающего '>', уважая кавычки.
+    Внутри тега есть class-атрибуты и выражения {...} — это всё код."""
+    n = len(s)
+    quote = None
+    i += 1
+    while i < n:
+        c = s[i]
+        if quote:
+            if c == quote:
+                quote = None
+        elif c in _QUOTES:
+            quote = c
+        elif c == '>':
+            return i + 1
+        i += 1
+    return n
+
+
+def _scan_expr(s: str, i: int) -> int:
+    """s[i] == '{'. Вернуть индекс ПОСЛЕ парной '}', уважая строки и вложенность.
+    Astro/JSX-выражение (тернарники с class-строками, шаблонные литералы) — код."""
+    n = len(s)
+    depth = 0
+    quote = None
+    while i < n:
+        c = s[i]
+        if quote:
+            if c == '\\':
+                i += 2
+                continue
+            if c == quote:
+                quote = None
+        elif c in _QUOTES:
+            quote = c
+        elif c == '{':
+            depth += 1
+        elif c == '}':
+            depth -= 1
+            if depth == 0:
+                return i + 1
+        i += 1
+    return n
+
+
+def _segment(s: str):
+    """Разбить шаблон на куски (kind, text): 'text' — HTML-текстовый узел
+    (применяем типографику), 'code' — тег / выражение / script / style / коммент."""
+    i, n = 0, len(s)
+    out = []
+    while i < n:
+        c = s[i]
+        if c == '<':
+            if s.startswith('<!--', i):
+                j = s.find('-->', i + 4)
+                j = j + 3 if j != -1 else n
+            else:
+                m = re.match(r'<(script|style)\b', s[i:], re.IGNORECASE)
+                if m:
+                    tag = m.group(1)
+                    close = re.search(r'</' + tag + r'\s*>', s[i:], re.IGNORECASE)
+                    j = i + close.end() if close else n
+                else:
+                    j = _scan_tag(s, i)
+            out.append(('code', s[i:j]))
+            i = j
+        elif c == '{':
+            j = _scan_expr(s, i)
+            out.append(('code', s[i:j]))
+            i = j
+        else:
+            j = i
+            while j < n and s[j] not in '<{':
+                j += 1
+            out.append(('text', s[i:j]))
+            i = j
+    return out
+
+
+_FRONTMATTER_RE = re.compile(r'^---\r?\n.*?\r?\n---', re.DOTALL)
+
+
+def apply_to_content(text: str) -> str:
+    """Применить типографику ТОЛЬКО к контенту (HTML-текстовым узлам).
+    Frontmatter (--- ... ---) и код внутри тегов/выражений не трогаем —
+    NBSP в class-атрибутах ломает разбивку Tailwind-классов."""
+    frontmatter = ''
+    body = text
+    m = _FRONTMATTER_RE.match(text)
+    if m:
+        frontmatter = text[:m.end()]
+        body = text[m.end():]
+    pieces = [
+        apply_rules(seg) if kind == 'text' else seg
+        for kind, seg in _segment(body)
+    ]
+    return frontmatter + ''.join(pieces)
+
+
 def count_changes(before: str, after: str) -> dict:
     """Посчитать что именно поменялось."""
     yo_count = before.count('ё') + before.count('Ё')
@@ -127,7 +234,7 @@ def process_file(path: Path, write: bool, show_diff: bool) -> "dict | None":
         print(f'  ! не могу прочитать {relpath(path)}: {e}', file=sys.stderr)
         return None
 
-    new = apply_rules(original)
+    new = apply_to_content(original)
     if new == original:
         return None
 
