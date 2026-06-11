@@ -1,3 +1,5 @@
+import { typografHtml, typografDoc } from './typography'
+
 const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
 const PUBLIC_CMS_URL = import.meta.env.PUBLIC_CMS_URL || ''
 
@@ -98,6 +100,8 @@ export function sanitizeBodyHtml(html: string | null | undefined): string | null
   // Берём только пробелы С переносом строки, чтобы не склеить инлайн-текст
   // (пробел между <strong>/<em>/<a> — это одиночный пробел без \n).
   result = result.replace(/>\s*\n\s*</g, '><')
+  // Русская типографика (NBSP + ё→е) — только текстовые узлы, теги не трогаем.
+  result = typografHtml(result) ?? result
   return result
 }
 
@@ -165,7 +169,12 @@ async function fetchFromCMS<T>(
         throw new Error(`CMS fetch failed: ${res.status} ${url}`)
       }
 
-      return res.json() as Promise<T>
+      const json = await res.json()
+      // Русская типографика (NBSP + ё→е) для всех текстовых полей CMS-контента.
+      if (json && Array.isArray(json.docs)) {
+        json.docs = json.docs.map((d: unknown) => typografDoc(d))
+      }
+      return json as T
     } catch (err) {
       clearTimeout(timeoutId)
 
