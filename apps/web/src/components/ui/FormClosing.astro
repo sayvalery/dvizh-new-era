@@ -72,6 +72,8 @@ interface Props {
   showPrivacy?: boolean
   /** Текст согласия */
   privacyText?: string
+  /** Показывать обводку карточки (border). По умолчанию true */
+  bordered?: boolean
   /** Дополнительные CSS-классы */
   class?: string
 }
@@ -92,6 +94,7 @@ const {
   textColor = 'text-gray-900',
   showPrivacy = true,
   privacyText,
+  bordered = true,
   class: className = '',
 } = Astro.props
 
@@ -144,7 +147,7 @@ const privacyMain = privacyText
 <section class:list={['', className]}>
   <div class="page-container">
   <div
-    class="relative overflow-hidden rounded-2xl lg:rounded-3xl border border-neutral-100 px-8 py-10 md:px-10 md:py-12"
+    class:list={['relative overflow-hidden rounded-2xl lg:rounded-3xl px-8 py-10 md:px-10 md:py-12', bordered && 'border border-neutral-100']}
     style={cardStyle}
   >
 
