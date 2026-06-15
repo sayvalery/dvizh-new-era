@@ -1,4 +1,4 @@
----
+﻿---
 /**
  * Для департамента продаж — ДВИЖ
  */
@@ -105,13 +105,20 @@ const cms = import.meta.env.PUBLIC_CMS_URL
       heading="Повышаем качество лидов"
       description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
       button={{ label: 'Узнать больше', href: '/blog' }}
-      image="https://admin.dvizh.cc/api/media/file/calc_widget_vert.png"
-      imageMobile="https://admin.dvizh.cc/api/media/file/calc_widget_horiz.png"
-      imageAlt="Калькулятор виджет"
       features={[
-        { title: 'Форма на сайт для проверки кредитного рейтинга', subtitle: 'Приведем надежных клиентов' },
-        { title: 'Скоринг по банковским стандартам' },
-        { title: 'Ипотечный калькулятор для сайта' },
+        {
+          title: 'Форма на сайт для проверки кредитного рейтинга',
+          subtitle: 'Приведем надежных клиентов',
+          image: '/api/media/file/sales_lead-quality_credit-form-embed.webp',
+        },
+        {
+          title: 'Скоринг по банковским стандартам',
+          image: '/api/media/file/sales_lead-quality_score.webp',
+        },
+        {
+          title: 'Ипотечный калькулятор для сайта',
+          image: '/api/media/file/sales_lead-quality_mortgage-calculator.webp',
+        },
       ]}
     />
 
@@ -121,36 +128,56 @@ const cms = import.meta.env.PUBLIC_CMS_URL
       heading="Помогаем закрывать даже сложных клиентов…"
       description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
       imageSide="left"
-      image="https://admin.dvizh.cc/api/media/file/anketa_vert.png"
-      imageMobile="https://admin.dvizh.cc/api/media/file/anketa_horiz.png"
-      imageAlt="Анкета"
       button={{ label: 'Узнать больше', href: '/blog' }}
       features={[
-        { title: 'Финансовый скоринг', subtitle: 'Покажет, как улучшить портрет клиента до отправки заявки в банк' },
-        { title: '40+ банков-партнеров' },
-        { title: 'ДВИЖ AI' },
+        {
+          title: 'Финансовый скоринг',
+          subtitle: 'Покажет, как улучшить портрет клиента до отправки заявки в банк',
+          image: '/api/media/file/sales_difficult-clients_score.webp',
+        },
+        {
+          title: '40+ банков-партнеров',
+          image: '/api/media/file/sales_difficult-clients_banks-grid.webp',
+        },
+        {
+          title: 'ДВИЖ AI',
+          image: '/api/media/file/sales_difficult-clients_ai-prognosis.webp',
+        },
       ]}
     />
 
     <!-- … и делать это быстрее конкурентов + отзыв -->
     <div class="flex flex-col gap-16">
-      <FeatureBlock
-        class="!py-0"
-        heading="… и делать это быстрее конкурентов"
-        description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
-        imageSide="left"
-        image="https://admin.dvizh.cc/api/media/file/calc_widget_vert.png"
-        imageMobile="https://admin.dvizh.cc/api/media/file/calc_widget_horiz.png"
-        imageAlt="Калькулятор виджет"
-        button={{ label: 'Узнать больше', href: '/blog' }}
-        features={[
-          { title: 'Актуальные статусы по сделке в CRM', subtitle: 'Контроль каждого этапа в карточке клиента' },
-          { title: 'Одна анкета для всех этапов' },
-          { title: 'Все в одном месте' },
-          { title: 'Пакетное распознавание документов' },
-          { title: 'Заполнение анкеты через Госуслуги за 30 секунд' },
-        ]}
-      />
+    <FeatureBlock
+      class="!py-0"
+      heading="… и делать это быстрее конкурентов"
+      description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
+      imageSide="left"
+      button={{ label: 'Узнать больше', href: '/blog' }}
+      features={[
+        {
+          title: 'Актуальные статусы по сделке в CRM',
+          subtitle: 'Контроль каждого этапа в карточке клиента',
+          image: '/api/media/file/sales_faster-competitors_crm-dashboard.webp',
+        },
+        {
+          title: 'Одна анкета для всех этапов',
+          image: '/api/media/file/sales_faster-competitors_unified-form.webp',
+        },
+        {
+          title: 'Все в одном месте',
+          image: '/api/media/file/sales_faster-competitors_seamless-timeline.webp',
+        },
+        {
+          title: 'Пакетное распознавание документов',
+          image: '/api/media/file/sales_faster-competitors_doc-recognition.webp',
+        },
+        {
+          title: 'Заполнение анкеты через Госуслуги за 30 секунд',
+          image: '/api/media/file/sales_faster-competitors_gosuslugi-form.webp',
+        },
+      ]}
+    />
       <div class="page-container">
         <ReviewFull
           photo={{ src: "https://admin.dvizh.cc/api/media/file/ch.png", alt: "Екатерина Чурюкина" }}
@@ -168,33 +195,44 @@ const cms = import.meta.env.PUBLIC_CMS_URL
       class="!py-0"
       heading="Раскрываем финансовый потенциал клиентов"
       description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
-      image="https://admin.dvizh.cc/api/media/file/anketa_vert.png"
-      imageMobile="https://admin.dvizh.cc/api/media/file/anketa_horiz.png"
-      imageAlt="Анкета"
       button={{ label: 'Узнать больше', href: '/blog' }}
       features={[
-        { title: 'Финансовый скоринг', subtitle: 'Покажет, как улучшить портрет клиента до отправки заявки в банк' },
-        { title: 'Расчет ПДН' },
+        {
+          title: 'Финансовый скоринг',
+          subtitle: 'Покажет, как улучшить портрет клиента до отправки заявки в банк',
+          image: '/api/media/file/sales_financial-potential_score-recommendations.webp',
+        },
+        {
+          title: 'Расчет ПДН',
+          image: '/api/media/file/sales_financial-potential_pdn-calculation.webp',
+        },
       ]}
     />
 
     <!-- Делаем работу менеджеров управляемой + отзыв -->
     <div class="flex flex-col gap-16">
-      <FeatureBlock
-        class="!py-0"
-        heading="Делаем работу менеджеров управляемой"
-        description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
-        imageSide="left"
-        image="https://admin.dvizh.cc/api/media/file/anketa_vert.png"
-        imageMobile="https://admin.dvizh.cc/api/media/file/anketa_horiz.png"
-        imageAlt="Анкета"
-        button={{ label: 'Узнать больше', href: '/blog' }}
-        features={[
-          { title: 'Контроль всех этапов через CRM', subtitle: 'Покажем, как быстро менеджер взял сделку в работу' },
-          { title: 'Отображаем статусы сделки в CRM' },
-          { title: 'Актуальная статистика' },
-        ]}
-      />
+    <FeatureBlock
+      class="!py-0"
+      heading="Делаем работу менеджеров управляемой"
+      description="Какой-то небольшой подзаголовок + ссылка на&#160;блог на&#160;какую-то определенную подборку статей / кейсов?"
+      imageSide="left"
+      button={{ label: 'Узнать больше', href: '/blog' }}
+      features={[
+        {
+          title: 'Контроль всех этапов через CRM',
+          subtitle: 'Покажем, как быстро менеджер взял сделку в работу',
+          image: '/api/media/file/sales_manager-control_seamless-timeline.webp',
+        },
+        {
+          title: 'Отображаем статусы сделки в CRM',
+          image: '/api/media/file/sales_manager-control_crm-dashboard.webp',
+        },
+        {
+          title: 'Актуальная статистика',
+          image: '/api/media/file/sales_manager-control_weekly-stats.webp',
+        },
+      ]}
+    />
       <div class="page-container">
         <ReviewFull
           photo={{ src: "https://admin.dvizh.cc/api/media/file/sh.png", alt: "Лилия Шаповалова" }}
