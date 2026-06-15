@@ -83,7 +83,7 @@ const hasFooter = !!(author || company || avatar || caseLink)
   <div class:list={['flex flex-col lg:flex-row lg:min-h-[400px] rounded-2xl lg:rounded-3xl overflow-hidden bg-gray-200', className]}>
 
     <!-- Фото: только lg+ -->
-    <div class="hidden lg:block relative lg:w-96 lg:shrink-0">
+    <div class="hidden lg:block relative lg:w-[520px] lg:shrink-0">
       {photo!.src ? (
         <img
           src={photo!.src}
