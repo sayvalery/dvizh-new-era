@@ -188,11 +188,11 @@ const navIslandClass = (isBlog && !transparent)
                     x-cloak
                     x-show={`megaOpen === '${item.label}'`}
                     x-transition:enter="transition-[clip-path,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] duration-[400ms]"
-                    x-transition:enter-start="opacity-0 [clip-path:inset(0_0_40%_0)]"
-                    x-transition:enter-end="opacity-100 [clip-path:inset(0_0_0_0)]"
+                    x-transition:enter-start="opacity-0 [clip-path:inset(0_-48px_40%_-48px)]"
+                    x-transition:enter-end="opacity-100 [clip-path:inset(-48px_-48px_-48px_-48px)]"
                     x-transition:leave="transition-[clip-path,opacity] ease-in duration-[50ms]"
-                    x-transition:leave-start="opacity-100 [clip-path:inset(0_0_0_0)]"
-                    x-transition:leave-end="opacity-0 [clip-path:inset(0_0_40%_0)]"
+                    x-transition:leave-start="opacity-100 [clip-path:inset(-48px_-48px_-48px_-48px)]"
+                    x-transition:leave-end="opacity-0 [clip-path:inset(0_-48px_40%_-48px)]"
                     class="absolute top-full left-0 pt-2 z-50"
                   >
                     <MenuPosts posts={item.posts ?? []} />
@@ -222,11 +222,11 @@ const navIslandClass = (isBlog && !transparent)
                     x-cloak
                     x-show={`megaOpen === '${item.label}'`}
                     x-transition:enter="transition-[clip-path,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] duration-[400ms]"
-                    x-transition:enter-start="opacity-0 [clip-path:inset(0_0_40%_0)]"
-                    x-transition:enter-end="opacity-100 [clip-path:inset(0_0_0_0)]"
+                    x-transition:enter-start="opacity-0 [clip-path:inset(0_-48px_40%_-48px)]"
+                    x-transition:enter-end="opacity-100 [clip-path:inset(-48px_-48px_-48px_-48px)]"
                     x-transition:leave="transition-[clip-path,opacity] ease-in duration-[50ms]"
-                    x-transition:leave-start="opacity-100 [clip-path:inset(0_0_0_0)]"
-                    x-transition:leave-end="opacity-0 [clip-path:inset(0_0_40%_0)]"
+                    x-transition:leave-start="opacity-100 [clip-path:inset(-48px_-48px_-48px_-48px)]"
+                    x-transition:leave-end="opacity-0 [clip-path:inset(0_-48px_40%_-48px)]"
                     class="absolute top-full left-0 pt-2 z-50"
                   >
                     <MegaMenu sections={item.sections ?? []} blogPosts={blogPosts} />
