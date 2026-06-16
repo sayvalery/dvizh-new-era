@@ -67,6 +67,9 @@ const allowedOrigin = new URL(src).origin
     if (!iframe || !allowedOrigin) return
 
     let sequenceNumber = 0
+    // Высота «обычного состояния» — фиксируем при первом embedResize (до взаимодействия)
+    // и не даём iframe схлопываться ниже неё, чтобы окно не прыгало.
+    let baselineHeight = 0
 
     window.addEventListener('message', (event) => {
       if (event.source !== iframe.contentWindow || event.origin !== allowedOrigin) return
@@ -81,13 +84,18 @@ const allowedOrigin = new URL(src).origin
           allowedOrigin,
         )
       } else if (data.type === 'embedResize' && typeof data.height === 'number' && data.height > 0) {
+        // Высота «обычного состояния» = первый сообщённый размер; iframe не опускается ниже.
+        const h = Math.ceil(data.height)
+        if (!baselineHeight) baselineHeight = h
+        const target = Math.max(h, baselineHeight)
+
         // Авто-высота + компенсация скролла: состояние снимаем ДО изменения высоты,
         // при уменьшении подкручиваем страницу на дельту, чтобы вьюпорт не «прыгал».
         const prevScrollY = window.scrollY
         const rectBefore = iframe.getBoundingClientRect()
         const prevClientHeight = iframe.clientHeight
 
-        iframe.style.height = `${Math.ceil(data.height)}px`
+        iframe.style.height = `${target}px`
         const delta = iframe.clientHeight - prevClientHeight
         if (delta < 0 && rectBefore.top < window.innerHeight) {
           const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight)
