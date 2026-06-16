@@ -26,11 +26,20 @@ const titles: Record<string, string> = {
   research:  'Получить исследование',
   subscribe: 'Подписаться на обновления',
 }
+
+// Пункты по умолчанию для форм-заявок (demo/lead). Переданные через open-drawer
+// detail.points переопределяют их. research/subscribe — без пунктов.
+const defaultPoints = [
+  'Покажем, как решали задачи у застройщиков',
+  'Рассчитаем ROMI и экономический эффект',
+  'Разберем ваши задачи',
+]
+const defaultPointsJson = JSON.stringify({ demo: defaultPoints, lead: defaultPoints })
 ---
 
 <div
-  x-data="{ open: false, preset: 'demo', points: [] }"
-  @open-drawer.window="preset = $event.detail.preset ?? 'demo'; points = $event.detail.points ?? []; open = true"
+  x-data={`{ open: false, preset: 'demo', points: [], defaults: ${defaultPointsJson} }`}
+  @open-drawer.window="preset = $event.detail.preset ?? 'demo'; points = $event.detail.points ?? defaults[preset] ?? []; open = true"
   x-init="$watch('open', v => document.body.classList.toggle('overflow-hidden', v))"
 >
   <!-- Backdrop -->
