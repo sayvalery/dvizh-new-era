@@ -61,7 +61,7 @@ interface Props {
   logo: { label: string; href: string; image?: string; imageLight?: string; lightFilter?: boolean }
   items?: NavItem[]
   blogPosts?: BlogPost[]
-  secondaryLink?: { label: string; href: string }
+  secondaryLink?: { label: string; href: string; arrow?: 'left' }
   cta?: { label: string; preset?: string; href?: string }
   transparent?: boolean
   /** Вариант: default — основной сайт, blog — блог/инсайты (белые элементы + поиск) */
@@ -302,9 +302,14 @@ const navIslandClass = (isBlog && !transparent)
           {secondaryLink && (
             <a
               href={secondaryLink.href}
-              class="hidden sm:block text-subhead opacity-80 transition-colors"
+              class="hidden sm:inline-flex items-center gap-1.5 text-subhead opacity-80 transition-colors group"
               :class="clear ? 'text-white hover:text-white/70' : 'text-gray-500 hover:text-gray-900'"
             >
+              {secondaryLink.arrow === 'left' && (
+                <svg class="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 7H2M6 3L2 7l4 4" />
+                </svg>
+              )}
               {secondaryLink.label}
             </a>
           )}
@@ -497,8 +502,13 @@ const navIslandClass = (isBlog && !transparent)
             <a
               href={secondaryLink.href}
               @click="mobileOpen = false"
-              class="text-btn text-gray-500 opacity-80 whitespace-nowrap hover:text-gray-900 transition-colors"
+              class="inline-flex items-center gap-1.5 text-btn text-gray-500 opacity-80 whitespace-nowrap hover:text-gray-900 transition-colors"
             >
+              {secondaryLink.arrow === 'left' && (
+                <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 7H2M6 3L2 7l4 4" />
+                </svg>
+              )}
               {secondaryLink.label}
             </a>
           )}
