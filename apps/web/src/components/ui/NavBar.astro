@@ -495,31 +495,33 @@ const navIslandClass = (isBlog && !transparent)
 
       </div>
 
-      <!-- Bottom bar: phone + CTA -->
+      <!-- Bottom bar: на base/xs/sm — вертикально (CTA сверху), на md — горизонтально (ghost слева, CTA справа) -->
       {(secondaryLink || cta) && (
-        <div class="flex-shrink-0 flex items-center gap-4 px-8 py-4 border-t border-gray-200">
-          {secondaryLink && (
-            <a
-              href={secondaryLink.href}
-              @click="mobileOpen = false"
-              class="inline-flex items-center gap-1.5 text-btn text-gray-500 opacity-80 whitespace-nowrap hover:text-gray-900 transition-colors"
-            >
-              {secondaryLink.arrow === 'left' && (
-                <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M12 7H2M6 3L2 7l4 4" />
-                </svg>
-              )}
-              {secondaryLink.label}
-            </a>
-          )}
+        <div class="flex-shrink-0 flex flex-col md:flex-row-reverse items-stretch md:items-center gap-3 px-8 py-4 border-t border-gray-200">
           {cta && (
             <Button
               variant="dark"
               size="sm"
               drawerPreset={cta.preset ?? 'demo'}
-              class="flex-1"
+              class="w-full md:flex-1"
               @click="mobileOpen = false"
             >{cta.label}</Button>
+          )}
+          {secondaryLink && (
+            <Button
+              variant="ghost"
+              size="sm"
+              href={secondaryLink.href}
+              class="w-full md:flex-1"
+              @click="mobileOpen = false"
+            >
+              {secondaryLink.arrow === 'left' && (
+                <svg slot="icon-left" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 7H2M6 3L2 7l4 4" />
+                </svg>
+              )}
+              {secondaryLink.label}
+            </Button>
           )}
         </div>
       )}
