@@ -9,6 +9,7 @@
  */
 import SiteLayout from '../../layouts/SiteLayout.astro'
 import Button from '../../components/ui/Button.astro'
+import FlutedGlassBg from '../../components/ui/FlutedGlassBg.astro'
 
 const contacts = [
   { label: 'Телефон', value: '+7 495 032 10 47', href: 'tel:+74950321047' },
@@ -25,9 +26,11 @@ const contacts = [
   headerClearAt={40}
 >
   <section class="px-2 sm:px-4 pb-2 sm:pb-4 pt-[84px] sm:pt-[92px]">
-    <div class="bg-brand rounded-2xl sm:rounded-3xl min-h-[calc(100svh-92px)] sm:min-h-[calc(100svh-108px)] flex items-center justify-center px-6 py-16 text-center">
+    <div class="relative overflow-hidden bg-brand rounded-2xl sm:rounded-3xl min-h-[calc(100svh-92px)] sm:min-h-[calc(100svh-108px)] flex items-center justify-center px-6 py-16 text-center">
 
-      <div class="flex flex-col items-center gap-16">
+      <FlutedGlassBg grain={0.05} />
+
+      <div class="relative z-10 flex flex-col items-center gap-16">
 
         <h1 class="text-h1 font-medium text-white">Наши контакты</h1>
 
