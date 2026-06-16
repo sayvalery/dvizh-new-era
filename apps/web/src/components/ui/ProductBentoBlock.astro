@@ -56,6 +56,8 @@ interface ProductCard {
   textPosition?: 'top' | 'bottom'
   /** Пресет дровера для этой карточки. Перекрывает общий drawerPreset блока. */
   drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** Ссылка: если задана — карточка ведёт на страницу (а не открывает дровер с формой). */
+  href?: string
 }
 
 interface Props {
@@ -87,6 +89,20 @@ const [c1, c2, c3, c4, c5] = cards
 // Выражение для открытия дровера с формой (как у кнопок «Получить расчёт»/«Получить демо»).
 const openDrawer = (c?: ProductCard) =>
   `$dispatch('open-drawer', { preset: '${c?.drawerPreset ?? drawerPreset}' })`
+
+// Карточка без href открывает дровер по клику/Enter/Space. С href — навигацию даёт
+// ссылка-оверлей <a class="absolute inset-0"> внутри карточки (root остаётся <div>).
+const cardAttrs = (c?: ProductCard) =>
+  c?.href
+    ? {}
+    : {
+        'x-data': '',
+        role: 'button',
+        tabindex: '0',
+        '@click': openDrawer(c),
+        '@keydown.enter': openDrawer(c),
+        '@keydown.space.prevent': openDrawer(c),
+      }
 
 const subtitleHtml = subtitle?.replace(/<strong(\s|>)/g, '<strong class="text-gray-900"$1')
 
@@ -151,15 +167,11 @@ const bgStyle = (img?: string) =>
       <!-- Карточка 1 -->
       {c1 && (
         <div
-          x-data
-          role="button"
-          tabindex="0"
-          @click={openDrawer(c1)}
-          @keydown.enter={openDrawer(c1)}
-          @keydown.space.prevent={openDrawer(c1)}
+          {...cardAttrs(c1)}
           class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c1.variant)]}
           style={bgStyle(c1.backgroundImage)}
         >
+          {c1.href && <a href={c1.href} class="absolute inset-0 z-10" aria-label={c1.title} />}
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c1.variant), arrowHoverColor(c1.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
             <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
           </svg>
@@ -190,15 +202,11 @@ const bgStyle = (img?: string) =>
       <!-- Карточка 2 -->
       {c2 && (
         <div
-          x-data
-          role="button"
-          tabindex="0"
-          @click={openDrawer(c2)}
-          @keydown.enter={openDrawer(c2)}
-          @keydown.space.prevent={openDrawer(c2)}
+          {...cardAttrs(c2)}
           class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c2.variant)]}
           style={bgStyle(c2.backgroundImage)}
         >
+          {c2.href && <a href={c2.href} class="absolute inset-0 z-10" aria-label={c2.title} />}
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c2.variant), arrowHoverColor(c2.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
             <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
           </svg>
@@ -231,15 +239,11 @@ const bgStyle = (img?: string) =>
     <!-- Строка 2: на всю ширину -->
     {c3 && (
       <div
-        x-data
-        role="button"
-        tabindex="0"
-        @click={openDrawer(c3)}
-        @keydown.enter={openDrawer(c3)}
-        @keydown.space.prevent={openDrawer(c3)}
+        {...cardAttrs(c3)}
         class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-[540px] transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c3.variant)]}
         style={bgStyle(c3.backgroundImage)}
       >
+        {c3.href && <a href={c3.href} class="absolute inset-0 z-10" aria-label={c3.title} />}
         <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c3.variant), arrowHoverColor(c3.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
           <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
         </svg>
@@ -273,15 +277,11 @@ const bgStyle = (img?: string) =>
       <!-- Карточка 4 -->
       {c4 && (
         <div
-          x-data
-          role="button"
-          tabindex="0"
-          @click={openDrawer(c4)}
-          @keydown.enter={openDrawer(c4)}
-          @keydown.space.prevent={openDrawer(c4)}
+          {...cardAttrs(c4)}
           class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c4.variant)]}
           style={bgStyle(c4.backgroundImage)}
         >
+          {c4.href && <a href={c4.href} class="absolute inset-0 z-10" aria-label={c4.title} />}
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c4.variant), arrowHoverColor(c4.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
             <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
           </svg>
@@ -312,15 +312,11 @@ const bgStyle = (img?: string) =>
       <!-- Карточка 5 -->
       {c5 && (
         <div
-          x-data
-          role="button"
-          tabindex="0"
-          @click={openDrawer(c5)}
-          @keydown.enter={openDrawer(c5)}
-          @keydown.space.prevent={openDrawer(c5)}
+          {...cardAttrs(c5)}
           class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c5.variant)]}
           style={bgStyle(c5.backgroundImage)}
         >
+          {c5.href && <a href={c5.href} class="absolute inset-0 z-10" aria-label={c5.title} />}
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c5.variant), arrowHoverColor(c5.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
             <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
           </svg>
