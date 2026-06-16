@@ -94,7 +94,7 @@ const navIslandClass = (isBlog && !transparent)
     lastY: 0,
     hidden: false,
     get clear() { return ${transparent} && !this.mobileOpen && this.lastY < ${clearThreshold} },
-    get floatingIsland() { return ${transparent} && !this.clear && !this.megaOpen && !this.mobileOpen },
+    get floatingIsland() { return ${transparent} && !this.clear && !this.mobileOpen },
     onScroll() {
       const y = window.scrollY;
       if (y < 100) { this.hidden = false }
