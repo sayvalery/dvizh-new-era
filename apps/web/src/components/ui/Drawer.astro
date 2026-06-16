@@ -29,8 +29,8 @@ const titles: Record<string, string> = {
 ---
 
 <div
-  x-data="{ open: false, preset: 'demo' }"
-  @open-drawer.window="preset = $event.detail.preset ?? 'demo'; open = true"
+  x-data="{ open: false, preset: 'demo', points: [] }"
+  @open-drawer.window="preset = $event.detail.preset ?? 'demo'; points = $event.detail.points ?? []; open = true"
   x-init="$watch('open', v => document.body.classList.toggle('overflow-hidden', v))"
 >
   <!-- Backdrop -->
@@ -60,7 +60,7 @@ const titles: Record<string, string> = {
     style="display:none"
   >
     <!-- Header -->
-    <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 shrink-0">
+    <div class="flex items-center justify-between px-6 pt-5 pb-0 border-b border-gray-100 shrink-0">
       <div>
         {presets.map(p => (
           <h2
@@ -85,6 +85,17 @@ const titles: Record<string, string> = {
 
     <!-- Forms (все пресеты pre-rendered, Alpine показывает нужный) -->
     <div class="flex-1 overflow-y-auto px-6 py-6">
+      {/* Чек-лист пунктов (передаётся через open-drawer detail.points) */}
+      <ul x-show="points.length" class="flex flex-col gap-3 mb-6" style="display:none">
+        <template x-for="point in points" :key="point">
+          <li class="flex gap-3 items-start">
+            <svg class="w-5 h-5 shrink-0 mt-0.5 text-brand" viewBox="0 0 19.5 19.5" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6.03754 9.13629C5.74465 8.8434 5.26977 8.8434 4.97688 9.13629C4.68398 9.42918 4.68398 9.90406 4.97688 10.1969L5.50721 9.66662L6.03754 9.13629ZM8.33564 12.495L7.80531 13.0254C8.0982 13.3183 8.57307 13.3183 8.86596 13.0254L8.33564 12.495ZM14.5228 7.36852C14.8157 7.07563 14.8157 6.60076 14.5228 6.30786C14.2299 6.01497 13.7551 6.01497 13.4622 6.30786L13.9925 6.83819L14.5228 7.36852ZM18.75 9.75H18C18 14.3063 14.3063 18 9.75 18V18.75V19.5C15.1348 19.5 19.5 15.1348 19.5 9.75H18.75ZM9.75 18.75V18C5.19365 18 1.5 14.3063 1.5 9.75H0.75H0C0 15.1348 4.36522 19.5 9.75 19.5V18.75ZM0.75 9.75H1.5C1.5 5.19365 5.19365 1.5 9.75 1.5V0.75V0C4.36522 0 0 4.36522 0 9.75H0.75ZM9.75 0.75V1.5C14.3063 1.5 18 5.19365 18 9.75H18.75H19.5C19.5 4.36522 15.1348 0 9.75 0V0.75ZM5.50721 9.66662L4.97688 10.1969L7.80531 13.0254L8.33564 12.495L8.86596 11.9647L6.03754 9.13629L5.50721 9.66662ZM8.33564 12.495L8.86596 13.0254L14.5228 7.36852L13.9925 6.83819L13.4622 6.30786L7.80531 11.9647L8.33564 12.495Z" fill="currentColor" />
+            </svg>
+            <span class="text-subhead text-gray-700" x-text="point"></span>
+          </li>
+        </template>
+      </ul>
       {presets.map(p => (
         <div x-show={`preset === '${p}'`} style="display:none">
           <Form preset={p} layout="labels-left" />

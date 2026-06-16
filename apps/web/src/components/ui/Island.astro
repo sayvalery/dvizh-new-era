@@ -25,6 +25,8 @@ interface Props {
   buttonHref?: string
   /** Пресет дровера: demo, lead, research, subscribe */
   drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** Пункты с галочками, показываемые в форме дровера */
+  points?: string[]
   /** Дополнительные CSS классы */
   class?: string
 }
@@ -34,11 +36,17 @@ const {
   buttonText,
   buttonHref = '#',
   drawerPreset,
+  points = [],
   class: className = ''
 } = Astro.props
 
 const useDrawer = !!drawerPreset || buttonHref === '#'
 const resolvedPreset = drawerPreset ?? 'demo'
+const hasPoints = useDrawer && points.length > 0
+
+// Когда есть пункты — открываем дровер вручную, передавая points в detail.
+const pointsLiteral = '[' + points.map(p => `'${p.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`).join(', ') + ']'
+const openExpr = `$dispatch('open-drawer', { preset: '${resolvedPreset}', points: ${pointsLiteral} })`
 ---
 
 <div class:list={[
@@ -51,7 +59,8 @@ const resolvedPreset = drawerPreset ?? 'demo'
     size="md"
     variant="primary"
     href={useDrawer ? undefined : buttonHref}
-    drawerPreset={useDrawer ? resolvedPreset : undefined}
+    drawerPreset={useDrawer && !hasPoints ? resolvedPreset : undefined}
+    {...(hasPoints ? { 'x-data': '', '@click': openExpr } : {})}
   >
     {buttonText}
     <svg slot="icon-right" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
