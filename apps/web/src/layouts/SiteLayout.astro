@@ -11,17 +11,21 @@ interface Props {
   jsonLd?: object | object[]
   /** Прозрачный хедер поверх контента */
   transparentHeader?: boolean
+  /** Инвертировать триггер белой версии хедера (тёмный вверху, белый после скролла над цветным блоком) */
+  headerInvertClear?: boolean
+  /** Кастомный порог переключения белой версии хедера (px) */
+  headerClearAt?: number
   /** CSS-класс для <body> — применяется ко всей странице включая футер */
   bodyClass?: string
   /** CSS-класс для <main> (например bg-background-primary) */
   mainClass?: string
 }
 
-const { transparentHeader = false, mainClass = '', ...baseProps } = Astro.props
+const { transparentHeader = false, headerInvertClear = false, headerClearAt, mainClass = '', ...baseProps } = Astro.props
 ---
 
 <BaseLayout {...baseProps}>
-  <Header transparent={transparentHeader} />
+  <Header transparent={transparentHeader} invertClear={headerInvertClear} clearAt={headerClearAt} />
   <main class:list={['flex-1', mainClass]}>
     <slot />
   </main>

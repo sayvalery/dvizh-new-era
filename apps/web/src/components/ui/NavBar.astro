@@ -66,15 +66,25 @@ interface Props {
   transparent?: boolean
   /** Вариант: default — основной сайт, blog — блог/инсайты (белые элементы + поиск) */
   variant?: 'default' | 'blog'
+  /**
+   * Инвертировать триггер «clear» (белая версия): по умолчанию белый ВВЕРХУ
+   * (lastY < threshold). При invertClear=true — наоборот: тёмный вверху, белый
+   * ПОСЛЕ скролла (lastY >= threshold). Для страниц со светлой шапкой над цветным блоком.
+   */
+  invertClear?: boolean
+  /** Кастомный порог переключения clear (px). По умолчанию 450 (24 для blog). */
+  clearAt?: number
 }
 
-const { logo, items = [], blogPosts = [], secondaryLink, cta, transparent = false, variant = 'default' } = Astro.props
+const { logo, items = [], blogPosts = [], secondaryLink, cta, transparent = false, variant = 'default', invertClear = false, clearAt } = Astro.props
 const isBlog = variant === 'blog'
 
 // Порог переключения «прозрачная → фрост» версии (lastY < threshold = прозрачная).
 // Блог-герой маленький (оранжевая полоса под хедером), поэтому переключаемся почти сразу;
 // на обычных transparent-страницах (главная) — после высокого hero.
-const clearThreshold = isBlog ? 24 : 450
+const clearThreshold = clearAt ?? (isBlog ? 24 : 450)
+// Сравнение для clear: обычно белый вверху (<), при invertClear — белый после скролла (>=).
+const clearCmp = invertClear ? '>=' : '<'
 
 // Фон острова при скролле. transparent (главная и blog) — фрост как на главной, привязан к clear.
 // Непрозрачный blog (текущий прод /blog) — прежний bg-white/20 по lastY.
@@ -93,7 +103,7 @@ const navIslandClass = (isBlog && !transparent)
     settleTimer: null,
     lastY: 0,
     hidden: false,
-    get clear() { return ${transparent} && !this.mobileOpen && this.lastY < ${clearThreshold} },
+    get clear() { return ${transparent} && !this.mobileOpen && this.lastY ${clearCmp} ${clearThreshold} },
     get floatingIsland() { return ${transparent} && !this.clear && !this.mobileOpen },
     onScroll() {
       const y = window.scrollY;

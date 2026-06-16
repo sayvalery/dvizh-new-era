@@ -10,9 +10,13 @@ interface Props {
   variant?: 'default' | 'blog'
   /** Брендинг «ДВИЖ Инсайты» (логотип insight вместо основного) */
   insights?: boolean
+  /** Инвертировать триггер белой версии (тёмный вверху, белый после скролла) */
+  invertClear?: boolean
+  /** Кастомный порог переключения белой версии (px) */
+  clearAt?: number
 }
 
-const { transparent = false, variant = 'default', insights = false } = Astro.props
+const { transparent = false, variant = 'default', insights = false, invertClear = false, clearAt } = Astro.props
 
 // Логотип: insight-версия или основной ДВИЖ. Пары цвет/белый одной геометрии (нет скачка),
 // белая версия insights — настоящий SVG с вырезами-стрелками (не CSS-фильтр).
@@ -116,4 +120,6 @@ const blogNavItems: NavItem[] = [
   cta={variant === 'blog' ? { label: 'Стать автором', href: '/contacts' } : { label: 'Получить расчет', preset: 'demo' }}
   transparent={transparent}
   variant={variant}
+  invertClear={invertClear}
+  clearAt={clearAt}
 />
