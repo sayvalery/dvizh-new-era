@@ -215,48 +215,82 @@ const CardTag = cardHref ? 'a' : 'div'
   .story-card-hover:hover :global(.text-gray-900) { color: #fff; }
   .story-card-hover:hover :global(.bg-gray-300\/60) { background-color: rgba(255, 255, 255, 0.3); }
 
-  /* Mobile (<md = base/xs/sm, <768px): scroll-driven .is-active зеркалит :hover.
-     На md+ работает обычный pointer-hover, .is-active не применяется. */
-  @media (max-width: 767px) {
-    .story-card-hover:global(.is-active) :global(.js-hover-bg) { opacity: 1; }
-    .story-card-hover:global(.is-active) :global(h3) { color: #fff; }
-    .story-card-hover:global(.is-active) :global(.js-logo-glass) {
-      background-color: rgba(255, 255, 255, 0.15);
-      --tw-ring-color: rgba(255, 255, 255, 0.3);
-    }
-    .story-card-hover:global(.is-active) :global(.js-logo-default) { visibility: hidden; }
-    .story-card-hover:global(.is-active) :global(.js-logo-hover) { display: block; }
-    .story-card-hover:global(.is-active) :global(.text-brand) { color: #fff; }
-    .story-card-hover:global(.is-active) :global(.text-gray-500) { color: rgba(255, 255, 255, 0.7); }
-    .story-card-hover:global(.is-active) :global(.text-gray-900) { color: #fff; }
-    .story-card-hover:global(.is-active) :global(.bg-gray-300\/60) { background-color: rgba(255, 255, 255, 0.3); }
+  /* .is-active зеркалит :hover-вид:
+     <md (768px): scroll-driven (карточка ближе к центру viewport);
+     md+: первая карточка группы подсвечена по умолчанию, снимается при наведении на другую. */
+  .story-card-hover:global(.is-active) :global(.js-hover-bg) { opacity: 1; }
+  .story-card-hover:global(.is-active) :global(h3) { color: #fff; }
+  .story-card-hover:global(.is-active) :global(.js-logo-glass) {
+    background-color: rgba(255, 255, 255, 0.15);
+    --tw-ring-color: rgba(255, 255, 255, 0.3);
   }
+  .story-card-hover:global(.is-active) :global(.js-logo-default) { visibility: hidden; }
+  .story-card-hover:global(.is-active) :global(.js-logo-hover) { display: block; }
+  .story-card-hover:global(.is-active) :global(.text-brand) { color: #fff; }
+  .story-card-hover:global(.is-active) :global(.text-gray-500) { color: rgba(255, 255, 255, 0.7); }
+  .story-card-hover:global(.is-active) :global(.text-gray-900) { color: #fff; }
+  .story-card-hover:global(.is-active) :global(.bg-gray-300\/60) { background-color: rgba(255, 255, 255, 0.3); }
 </style>
 
 <script>
-  // Поочередная активация StoryCard при скролле на <md (768px).
-  // Активна та карточка, центр которой ближе всего к центру viewport.
-  function initStoryCardScrollActive() {
+  // Активация StoryCard (класс .is-active зеркалит :hover-вид).
+  //  • md+ (>=768px): первая карточка каждой группы подсвечена по умолчанию;
+  //    подсветка снимается, когда курсор наведён на другую карточку группы.
+  //  • <md (768px): scroll-driven — активна карточка ближе всего к центру viewport.
+  function initStoryCardActive() {
     const cards = Array.from(document.querySelectorAll('.story-card-hover')) as HTMLElement[]
     if (!cards.length) return
 
     const MD = 768
-    let activeCard: HTMLElement | null = null
-    let ticking = false
+    const isMobile = () => window.innerWidth < MD
 
-    function setActive(card: HTMLElement | null) {
-      if (activeCard === card) return
-      if (activeCard) activeCard.classList.remove('is-active')
-      activeCard = card
-      if (activeCard) activeCard.classList.add('is-active')
+    // Группировка по контейнеру-сетке: .story-card-hover -> wrapper(x-data) -> grid
+    const groups = new Map<HTMLElement, HTMLElement[]>()
+    for (const card of cards) {
+      const container = (card.parentElement?.parentElement ?? document.body) as HTMLElement
+      if (!groups.has(container)) groups.set(container, [])
+      groups.get(container)!.push(card)
     }
 
-    function update() {
+    function clearActive() {
+      for (const card of cards) card.classList.remove('is-active')
+    }
+
+    // ── md+: первая карточка группы активна по умолчанию ──
+    function applyDesktopDefault() {
+      for (const [, items] of groups) items[0]?.classList.add('is-active')
+    }
+
+    for (const [container, items] of groups) {
+      const first = items[0]
+      if (!first) continue
+      container.addEventListener('mouseover', (e) => {
+        if (isMobile()) return
+        const hovered = (e.target as HTMLElement).closest('.story-card-hover')
+        // В зазоре между карточками (hovered === null) состояние не трогаем,
+        // иначе первая моргает при переходе курсора с карточки на карточку.
+        if (!hovered) return
+        // Подсветка на первой — только если курсор на самой первой; иначе снимаем.
+        first.classList.toggle('is-active', hovered === first)
+      })
+      container.addEventListener('mouseleave', () => {
+        if (isMobile()) return
+        first.classList.add('is-active')
+      })
+    }
+
+    // ── <md: scroll-driven, активна карточка ближе к центру viewport ──
+    let mobileActive: HTMLElement | null = null
+    let ticking = false
+    function setMobileActive(card: HTMLElement | null) {
+      if (mobileActive === card) return
+      if (mobileActive) mobileActive.classList.remove('is-active')
+      mobileActive = card
+      if (mobileActive) mobileActive.classList.add('is-active')
+    }
+    function updateMobile() {
       ticking = false
-      if (window.innerWidth >= MD) {
-        setActive(null)
-        return
-      }
+      if (!isMobile()) return
       const vh = window.innerHeight
       const center = vh / 2
       let best: HTMLElement | null = null
@@ -271,24 +305,31 @@ const CardTag = cardHref ? 'a' : 'div'
           best = card
         }
       }
-      setActive(best)
+      setMobileActive(best)
     }
-
     function onScroll() {
       if (!ticking) {
-        requestAnimationFrame(update)
+        requestAnimationFrame(updateMobile)
         ticking = true
       }
     }
 
+    // Переключение режима по ширине: чистим состояние и применяем нужное.
+    function applyMode() {
+      clearActive()
+      mobileActive = null
+      if (isMobile()) updateMobile()
+      else applyDesktopDefault()
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-    update()
+    window.addEventListener('resize', applyMode, { passive: true })
+    applyMode()
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initStoryCardScrollActive)
+    document.addEventListener('DOMContentLoaded', initStoryCardActive)
   } else {
-    initStoryCardScrollActive()
+    initStoryCardActive()
   }
 </script>
