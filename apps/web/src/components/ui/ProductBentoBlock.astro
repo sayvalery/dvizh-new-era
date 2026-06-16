@@ -54,6 +54,8 @@ interface ProductCard {
   statsLayout?: 'row' | 'inline'
   /** 'bottom' — текст прибит к низу (по умолчанию), 'top' — к верху с отступом от стрелки */
   textPosition?: 'top' | 'bottom'
+  /** Пресет дровера для этой карточки. Перекрывает общий drawerPreset блока. */
+  drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
 }
 
 interface Props {
@@ -64,6 +66,8 @@ interface Props {
   headingBrand?: string
   subtitle?: string
   cards: ProductCard[]
+  /** Пресет дровера, открываемого по клику на карточку. По умолчанию 'demo'. */
+  drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   class?: string
 }
 
@@ -74,10 +78,15 @@ const {
   headingBrand = 'под любую модель работы',
   subtitle,
   cards,
+  drawerPreset = 'demo',
   class: className = '',
 } = Astro.props
 
 const [c1, c2, c3, c4, c5] = cards
+
+// Выражение для открытия дровера с формой (как у кнопок «Получить расчёт»/«Получить демо»).
+const openDrawer = (c?: ProductCard) =>
+  `$dispatch('open-drawer', { preset: '${c?.drawerPreset ?? drawerPreset}' })`
 
 const subtitleHtml = subtitle?.replace(/<strong(\s|>)/g, '<strong class="text-gray-900"$1')
 
@@ -142,7 +151,13 @@ const bgStyle = (img?: string) =>
       <!-- Карточка 1 -->
       {c1 && (
         <div
-          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c1.variant)]}
+          x-data
+          role="button"
+          tabindex="0"
+          @click={openDrawer(c1)}
+          @keydown.enter={openDrawer(c1)}
+          @keydown.space.prevent={openDrawer(c1)}
+          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c1.variant)]}
           style={bgStyle(c1.backgroundImage)}
         >
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c1.variant), arrowHoverColor(c1.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
@@ -175,7 +190,13 @@ const bgStyle = (img?: string) =>
       <!-- Карточка 2 -->
       {c2 && (
         <div
-          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c2.variant)]}
+          x-data
+          role="button"
+          tabindex="0"
+          @click={openDrawer(c2)}
+          @keydown.enter={openDrawer(c2)}
+          @keydown.space.prevent={openDrawer(c2)}
+          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c2.variant)]}
           style={bgStyle(c2.backgroundImage)}
         >
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c2.variant), arrowHoverColor(c2.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
@@ -210,7 +231,13 @@ const bgStyle = (img?: string) =>
     <!-- Строка 2: на всю ширину -->
     {c3 && (
       <div
-        class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-[540px] transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c3.variant)]}
+        x-data
+        role="button"
+        tabindex="0"
+        @click={openDrawer(c3)}
+        @keydown.enter={openDrawer(c3)}
+        @keydown.space.prevent={openDrawer(c3)}
+        class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-[540px] transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c3.variant)]}
         style={bgStyle(c3.backgroundImage)}
       >
         <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c3.variant), arrowHoverColor(c3.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
@@ -246,7 +273,13 @@ const bgStyle = (img?: string) =>
       <!-- Карточка 4 -->
       {c4 && (
         <div
-          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c4.variant)]}
+          x-data
+          role="button"
+          tabindex="0"
+          @click={openDrawer(c4)}
+          @keydown.enter={openDrawer(c4)}
+          @keydown.space.prevent={openDrawer(c4)}
+          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c4.variant)]}
           style={bgStyle(c4.backgroundImage)}
         >
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c4.variant), arrowHoverColor(c4.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
@@ -279,7 +312,13 @@ const bgStyle = (img?: string) =>
       <!-- Карточка 5 -->
       {c5 && (
         <div
-          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2', cardBg(c5.variant)]}
+          x-data
+          role="button"
+          tabindex="0"
+          @click={openDrawer(c5)}
+          @keydown.enter={openDrawer(c5)}
+          @keydown.space.prevent={openDrawer(c5)}
+          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c5.variant)]}
           style={bgStyle(c5.backgroundImage)}
         >
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c5.variant), arrowHoverColor(c5.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
