@@ -11,15 +11,15 @@ import SiteLayout from '../../layouts/SiteLayout.astro'
 import Button from '../../components/ui/Button.astro'
 
 const contacts = [
-  { label: 'Телефон', value: 'Всегда с вами на связи' },
+  { label: 'Телефон', value: '+7 495 032 10 47', href: 'tel:+74950321047' },
   { label: 'Email', value: 'make@dvizh.io', href: 'mailto:make@dvizh.io' },
   { label: 'Telegram', value: '@dvizh4reality', href: 'https://t.me/dvizh4reality' },
 ]
 ---
 
-<SiteLayout title="Контакты — ДВИЖ" description="Наши контакты: телефон, email, Telegram, адрес">
+<SiteLayout title="Контакты — ДВИЖ" description="Наши контакты: телефон, email, Telegram, адрес" transparentHeader>
   <section class="p-2 sm:p-4">
-    <div class="bg-brand rounded-2xl sm:rounded-3xl min-h-[100svh] flex items-center justify-center px-6 py-16 text-center">
+    <div class="bg-brand rounded-2xl sm:rounded-3xl min-h-[calc(100svh-16px)] sm:min-h-[calc(100svh-32px)] flex items-center justify-center px-6 py-16 text-center">
 
       <div class="flex flex-col items-center gap-16">
 
@@ -30,7 +30,7 @@ const contacts = [
           <div class="flex flex-col gap-8 sm:flex-row">
             {contacts.map((c) => (
               <div class="flex flex-col gap-1">
-                <span class="text-subhead text-white/50">{c.label}</span>
+                <span class="text-h4 text-white/50">{c.label}</span>
                 {c.href ? (
                   <a href={c.href} class="text-h4 text-white transition-opacity hover:opacity-80">{c.value}</a>
                 ) : (
@@ -41,7 +41,7 @@ const contacts = [
           </div>
 
           <div class="flex flex-col gap-1">
-            <span class="text-subhead text-white/50">Адрес</span>
+            <span class="text-h4 text-white/50">Адрес</span>
             <span class="text-h4 text-white">Москва, Новодмитровская 2к2</span>
           </div>
         </div>
