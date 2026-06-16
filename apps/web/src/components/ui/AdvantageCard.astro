@@ -23,9 +23,15 @@ interface Props {
   /** Заголовок карточки */
   title: string
   /** Крупное числовое значение */
-  stat: string
+  stat?: string
   /** Подпись под числом */
-  label: string
+  label?: string
+  /** titleBottom — заголовок внизу карточки (на месте цифры), без stat/label */
+  titleBottom?: boolean
+  /** plain — статичная карточка: без ховер-эффекта и без модалки по клику */
+  plain?: boolean
+  /** drawerPreset — по клику открывать боковой Drawer с формой (вместо внутренней модалки) */
+  drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   /** URL для кнопки "раскрыть" (открывает в новой вкладке) */
   expandHref?: string
   /**
@@ -39,8 +45,10 @@ interface Props {
   class?: string
 }
 
-const { title, stat, label, expandHref, index, class: className = '' } = Astro.props
-const grouped = typeof index === 'number'
+const { title, stat, label, titleBottom = false, plain = false, drawerPreset, expandHref, index, class: className = '' } = Astro.props
+const grouped = typeof index === 'number' && !plain
+
+const titleCls = 'font-sans font-medium leading-none tracking-[-1px] text-[22px] sm:text-[24px] lg:text-[32px] text-gray-900'
 ---
 
 <div
@@ -55,28 +63,31 @@ const grouped = typeof index === 'number'
   <!-- Карточка -->
   <div
     class:list={[
-      'group relative flex flex-col overflow-hidden cursor-pointer h-full transition-transform duration-300 ease-out hover:-translate-y-2',
+      'relative flex flex-col overflow-hidden h-full',
+      !plain && 'group cursor-pointer transition-transform duration-300 ease-out hover:-translate-y-2',
       'rounded-2xl sm:rounded-3xl',
       'p-4 sm:p-6 lg:p-8',
       'min-h-[300px] sm:min-h-[320px] lg:min-h-[360px]',
       'bg-background-secondary',
       className
     ]}
-    @click="open = true"
-    {...grouped ? { '@mouseenter': `active = ${index}`, ':data-active': `active === ${index}` } : {}}
+    {...(drawerPreset ? { '@click': `$dispatch('open-drawer', { preset: '${drawerPreset}' })` } : !plain ? { '@click': 'open = true' } : {})}
+    {...(grouped ? { '@mouseenter': `active = ${index}`, ':data-active': `active === ${index}` } : {})}
   >
 
     <!-- Hover background (градиент) -->
-    <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-data-[active=true]:opacity-100" aria-hidden="true">
-      <div class="absolute inset-0 bg-[url('/adv_card_bg.png')] bg-cover bg-center"></div>
-    </div>
+    {!plain && (
+      <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-data-[active=true]:opacity-100" aria-hidden="true">
+        <div class="absolute inset-0 bg-[url('/adv_card_bg.png')] bg-cover bg-center"></div>
+      </div>
+    )}
 
     <!-- Content -->
     <div class="relative flex flex-1 flex-col justify-between">
 
       <!-- Top: title + arrow icon -->
-      <div class="flex items-start justify-between gap-3">
-        <p class="font-sans font-medium leading-none tracking-[-1px] text-[22px] sm:text-[24px] lg:text-[32px] lg:max-w-[75%] text-gray-900">{title}</p>
+      <div class:list={['flex items-start gap-3', titleBottom ? 'justify-end' : 'justify-between']}>
+        {!titleBottom && <p class:list={[titleCls, 'lg:max-w-[75%]']}>{title}</p>}
         <svg
           class="shrink-0 w-7 h-7 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-gray-400 transition-colors duration-300 group-hover:text-brand group-data-[active=true]:text-brand rotate-[-45deg]"
           viewBox="0 0 21 32" fill="currentColor" aria-hidden="true"
@@ -85,17 +96,21 @@ const grouped = typeof index === 'number'
         </svg>
       </div>
 
-      <!-- Bottom: stat + label -->
-      <div>
-        <!-- На мобайле/планшете — курсив по умолчанию, на десктопе — только при hover -->
-        <p class="font-heading font-bold leading-none tracking-[-1px] italic lg:not-italic text-[42px] lg:text-[64px] text-gray-900/40 transition-colors duration-300 group-hover:text-brand-500 group-hover:italic group-data-[active=true]:text-brand-500 group-data-[active=true]:italic">{stat}</p>
-        <p class="mt-2 text-body-lg text-gray-500 transition-colors duration-300 group-hover:text-brand-500 group-data-[active=true]:text-brand-500">{label}</p>
-      </div>
+      <!-- Bottom: заголовок (titleBottom) или stat + label -->
+      {titleBottom ? (
+        <p class={titleCls}>{title}</p>
+      ) : (stat || label) && (
+        <div>
+          {stat && <p class="font-heading font-bold leading-none tracking-[-1px] italic lg:not-italic text-[42px] lg:text-[64px] text-gray-900/40 transition-colors duration-300 group-hover:text-brand-500 group-hover:italic group-data-[active=true]:text-brand-500 group-data-[active=true]:italic">{stat}</p>}
+          {label && <p class:list={['text-body-lg text-gray-500 transition-colors duration-300 group-hover:text-brand-500 group-data-[active=true]:text-brand-500', stat && 'mt-2']}>{label}</p>}
+        </div>
+      )}
 
     </div>
   </div>
 
   <!-- Модальное окно -->
+  {!plain && !drawerPreset && (
   <div
     x-show="open"
     x-transition:enter="transition duration-200 ease-out"
@@ -134,10 +149,12 @@ const grouped = typeof index === 'number'
           <slot name="modal-body">
             <div class="p-10">
               <p class="text-medium-32 text-gray-900">{title}</p>
-              <div class="mt-16">
-                <p class="text-h1 text-gray-900">{stat}</p>
-                <p class="mt-1 text-body-lg text-gray-500">{label}</p>
-              </div>
+              {(stat || label) && (
+                <div class="mt-16">
+                  {stat && <p class="text-h1 text-gray-900">{stat}</p>}
+                  {label && <p class:list={['text-body-lg text-gray-500', stat && 'mt-1']}>{label}</p>}
+                </div>
+              )}
             </div>
           </slot>
         </div>
@@ -159,5 +176,6 @@ const grouped = typeof index === 'number'
       </div>
     </div>
   </div>
+  )}
 
 </div>
