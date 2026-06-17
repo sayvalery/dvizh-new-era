@@ -1,0 +1,496 @@
+﻿---
+/**
+ * Lab: копия боевой главной (index.astro) для экспериментов.
+ * Доступна в dev: preview.dvizh.cc/lab/glavnaya
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import HeroSection from '../../components/ui/HeroSection.astro'
+import LogoDrum from '../../components/ui/LogoDrum.astro'
+import LogoGrid from '../../components/ui/LogoGrid.astro'
+import Island from '../../components/ui/Island.astro'
+import AdvantageCard from '../../components/ui/AdvantageCard.astro'
+import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
+import ProductBentoBlock from '../../components/ui/ProductBentoBlock.astro'
+import ProductSection from '../../components/ui/ProductSection.astro'
+import SupportSection from '../../components/ui/SupportSection.astro'
+import BlogCards from '../../components/ui/BlogCards.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+import { getBlogPost, getBlogPosts, normalizeBodyHtml, normalizeMediaUrl, sanitizeBodyHtml } from '../../lib/payload'
+
+// Фетч статьи для модалки AdvantageCard: CMS → fallback dvizh.io
+async function fetchArticleHtml(slug: string): Promise<{ title: string | null, html: string | null }> {
+  // 1. Пробуем CMS
+  try {
+    const post = await getBlogPost(slug)
+    if (post?.bodyHtml) {
+      const html = sanitizeBodyHtml(normalizeBodyHtml(
+        post.bodyHtml
+          .replaceAll('href="https://dvizh.webflow.io/', 'href="/')
+          .replaceAll('href="https://www.dvizh.io/', 'href="/')
+      ))
+      return { title: post.title ?? null, html }
+    }
+  } catch {}
+
+  // 2. Fallback: парсим dvizh.io
+  try {
+    const res = await fetch(`https://www.dvizh.io/blog/${slug}`)
+    const raw = await res.text()
+    const bodyStart = raw.indexOf('class="blog-article-body"')
+    if (bodyStart !== -1) {
+      const tagStart = raw.lastIndexOf('<', bodyStart)
+      const innerStart = raw.indexOf('>', tagStart) + 1
+      const tagName = raw.slice(tagStart + 1).match(/^[a-zA-Z]+/)?.[0] ?? 'section'
+      const openRe = new RegExp(`<${tagName}[\\s>]`, 'gi')
+      const closeRe = new RegExp(`</${tagName}>`, 'gi')
+      let depth = 1, i = innerStart
+      let html: string | null = null
+      while (depth > 0 && i < raw.length) {
+        openRe.lastIndex = i; closeRe.lastIndex = i
+        const nextOpen = openRe.exec(raw)
+        const nextClose = closeRe.exec(raw)
+        if (!nextClose) break
+        if (nextOpen && nextOpen.index < nextClose.index) { depth++; i = nextOpen.index + 1 }
+        else { depth--; i = nextClose.index + 1; if (depth === 0) { html = raw.slice(innerStart, nextClose.index); break } }
+      }
+      const titleMatch = raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)
+      const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '').trim() : null
+      return { title, html }
+    }
+  } catch {}
+
+  return { title: null, html: null }
+}
+
+const [ayaks, granel, lidov, ereg] = await Promise.all([
+  fetchArticleHtml('case-ayaks-dvizh'),
+  fetchArticleHtml('granel-rost-procenta-odobreniya'),
+  fetchArticleHtml('keys-lsr-dvizh'),
+  fetchArticleHtml('alfavit-polzy-zastroyshchika-elektronnaya-registraciya'),
+])
+
+const blogResult = await getBlogPosts({ limit: 3 })
+const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
+  image: normalizeMediaUrl(post.cover?.url) ?? '/og-default.jpg',
+  imageAlt: post.cover?.alt ?? post.title,
+  date: post.publishedAt ?? '',
+  category: post.category?.title ?? '',
+  categoryHref: post.category?.slug ? `/category/${post.category.slug}` : undefined,
+  title: post.title ?? '',
+  description: post.excerpt ?? '',
+  href: `/blog/${post.slug}`,
+}))
+
+const partnerLogos = [
+  '/partners/a101.svg',
+  '/partners/ava.svg',
+  '/partners/ganel.svg',
+  '/partners/glorax.svg',
+  '/partners/lsr.svg',
+  '/partners/strana.svg',
+  '/logo-dvizh-white.svg',
+]
+---
+
+<SiteLayout
+  title="/lab Цифровые продукты для рынка недвижимости"
+  description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
+  bodyClass="fluid-page"
+  transparentHeader
+>
+
+  {/* ── 1. Hero Section ── */}
+  <HeroSection
+    title={"ДВИЖ выжимает максимум на рынке, где мало заявок"}
+    description={"Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"}
+    formPreset="lead"
+    formSubmitLabel="Получить демо"
+    wideTitle
+    withGradient
+    gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
+  >
+    <div slot="right" class="w-full h-[700px] hidden xl:block">
+      <LogoDrum logos={partnerLogos} duration={55} />
+    </div>
+    <div slot="logos" class="w-full overflow-x-hidden xl:hidden">
+      <LogoGrid
+        logos={partnerLogos.map(src => ({ src, alt: '' }))}
+        noFade
+        white
+        noPadding
+      />
+    </div>
+  </HeroSection>
+
+  {/* Sentinel для Island (появляется после скролла мимо Hero) */}
+  <div id="hero-sentinel"></div>
+
+  {/* Island — фиксированный CTA внизу экрана */}
+  <div
+    x-data="{ visible: false }"
+    x-init="
+      const sentinel = document.getElementById('hero-sentinel');
+      if (sentinel) {
+        const obs = new IntersectionObserver(([e]) => { visible = !e.isIntersecting }, { threshold: 0 });
+        obs.observe(sentinel);
+      }
+    "
+    x-show="visible"
+    x-transition:enter="transition duration-300 ease-out"
+    x-transition:enter-start="opacity-0 translate-y-4"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition duration-200 ease-in"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 translate-y-4"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40"
+    x-cloak
+  >
+    <Island
+      label="Пора делать ДВИЖ"
+      buttonText="Оставить заявку"
+      drawerPreset="lead"
+      points={[
+        'Покажем, как решали задачи у застройщиков',
+        'Рассчитаем ROMI и экономический эффект',
+        'Разберем ваши задачи',
+      ]}
+    />
+  </div>
+
+  {/* ── 2. Девелоперы с ДВИЖ — 4 AdvantageCard ── */}
+  {/* gap-24 (96px) base/sm/md / lg:gap-40 (160px) */}
+  <div class="flex flex-col" style="gap:clamp(96px, 2.5rem + 9.375vw, 220px); padding-top:clamp(96px, 2.5rem + 9.375vw, 220px)">
+
+  <section>
+    <div class="page-container">
+      <h2 class="text-h2">Девелоперы с ДВИЖом</h2>
+      <div
+        x-data="{ active: 0 }"
+        @mouseleave="active = 0"
+        class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6"
+      >
+        <AdvantageCard
+          index={0}
+          title="Закрыли до 26% больше сделок на том же трафике"
+          stat="+26%"
+          label="сделок на том же трафике"
+          expandHref="/blog/case-ayaks-dvizh"
+        >
+          {ayaks.html && (
+            <div slot="modal-body" class="p-10">
+              {ayaks.title && <h1 class="font-heading text-3xl font-bold mb-8">{ayaks.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={ayaks.html} />
+            </div>
+          )}
+        </AdvantageCard>
+        <AdvantageCard
+          index={1}
+          title="Снизили количество отказов по ипотеке"
+          stat="до 90%"
+          label="одобрений при среднем уровне в 49%"
+          expandHref="/blog/granel-rost-procenta-odobreniya"
+        >
+          {granel.html && (
+            <div slot="modal-body" class="p-10">
+              {granel.title && <h1 class="font-heading text-3xl font-bold mb-8">{granel.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={granel.html} />
+            </div>
+          )}
+        </AdvantageCard>
+        <AdvantageCard
+          index={2}
+          title="Получили больше выручки на одного менеджера"
+          stat="+281%"
+          label="заявок, чем в среднем на рынке"
+          expandHref="/blog/keys-lsr-dvizh"
+        >
+          {lidov.html && (
+            <div slot="modal-body" class="p-10">
+              {lidov.title && <h1 class="font-heading text-3xl font-bold mb-8">{lidov.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={lidov.html} />
+            </div>
+          )}
+        </AdvantageCard>
+        <AdvantageCard
+          index={3}
+          title="Сократили расходы на электронную регистрацию"
+          stat="-30%"
+          label="затрат на регистрацию"
+          expandHref="/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya"
+        >
+          {ereg.html && (
+            <div slot="modal-body" class="p-10">
+              {ereg.title && <h1 class="font-heading text-3xl font-bold mb-8">{ereg.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={ereg.html} />
+            </div>
+          )}
+        </AdvantageCard>
+      </div>
+    </div>
+  </section>
+
+  {/* ── 3. Кейсы — SuccessStoryBlock ── */}
+  <SuccessStoryBlock
+    heading="70+ историй успеха на рынке застройщиков"
+    buttonLabel="Получить демо"
+    buttonPreset="demo"
+    class="!py-0"
+    stories={[
+      {
+        logo: '/api/media/file/lsr_color.svg',
+        logoAlt: 'Группа ЛСР',
+        logoHover: '/api/media/file/lsr_white-1.svg',
+        hoverBackground: '/api/media/file/lsr_bg.png',
+        hoverGlass: true,
+        href: '/blog/keys-lsr-dvizh',
+        titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
+        personName: 'Группа ЛСР',
+        personJobTitle: 'Один из ведущих строительных холдингов',
+      },
+      {
+        logo: '/api/media/file/tochno_color.svg',
+        logoAlt: 'ГК Точно',
+        logoHover: '/api/media/file/tochno_white.svg',
+        hoverBackground: '/api/media/file/tochno_bg.png',
+        href: '/blog/keys-gk-tochno-i-dvizha',
+        titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
+        personName: 'ГК «Точно»',
+        personJobTitle: 'Крупнейший девелопер Краснодарского края',
+      },
+      {
+        logo: '/api/media/file/samolet_color.svg',
+        logoAlt: 'ГК Самолет',
+        logoHover: '/api/media/file/samolet_white.svg',
+        hoverBackground: '/api/media/file/samolet_bg.png',
+        href: '/blog/samolet-ai-u-developera',
+        titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
+        personName: 'ГК «Самолет»',
+        personJobTitle: 'Крупнейший федеральный девелопер России',
+      },
+    ]}
+  />
+
+
+  {/* ── 4. Продукты — ProductBentoBlock ── */}
+  <ProductBentoBlock
+    eyebrow="наши продукты"
+    showEyebrow={false}
+    headingDark="Гибкие решения"
+    headingBrand="под любую модель работы"
+    subtitle="<strong>Растите вместе с продуктом</strong> — включайте модули по одному, который закрывает вашу самую больную метрику. Дальше расширяйтесь — модули работают по отдельности или в связке"
+    cards={[
+      {
+        variant: "dark",
+        title: "Цифровая ипотека",
+        href: "/ipoteka",
+        description: "40+ банков в одном окне. Анкета «0 полей» через Госуслуги. Параллельная отправка. Авторазбор отказов. Скоринг до отправки в банк.",
+        backgroundImage: "/api/media/file/home_bento_digital-mortgage.webp",
+        stats: [
+          { value: "до 95%", label: "процент одобрения", highlight: true },
+          { value: "40+", label: "банков-партнеров" },
+          { value: "3 дня", label: "срок сделки" },
+        ],
+      },
+      {
+        title: "Электронная регистрация",
+        href: "/elektronnaya-registraciya",
+        description: "Подача в Росреестр прямо из ДВИЖ. Автопроверка. Сделка регистрируется за 24 часа",
+        backgroundImage: "/api/media/file/home_bento_e-reg-stages.webp",
+        stats: [
+          { value: "-30%", label: "затраты на регистрацию", highlight: true },
+        ],
+      },
+      {
+        title: "Калькулятор ипотеки",
+        href: "/ipotechnyy-kalkulyator",
+        description: "Актуальные ставки от 40+ банков обновляются автоматически. Клиент сам рассчитывает платеж",
+        backgroundImage: "/api/media/file/home_bento_mortgage-calculator.webp",
+        stats: [
+          { value: "+20% конверсия", label: "когда клиент знает свой бюджет ипотеки", highlight: true },
+          { value: "80%", label: "вне рабочего времени" },
+        ],
+      },
+      {
+        title: "Финансовый скоринг",
+        href: "/scoring",
+        description: "Банковский уровень проверки: кредитная история, долговая нагрузка. 15+ источников, менеджер видит финансовый рейтинг клиента",
+        backgroundImage: "/api/media/file/home_bento_score.webp",
+        textPosition: "top",
+      },
+      {
+        variant: "brand",
+        title: "Нейросети на службе отдела продаж",
+        description: "AI-инструменты для скоринга, прогноза и приоритизации заявок. Менеджер видит, кому звонить первым.",
+        backgroundImage: "/api/media/file/home_bento_dvizh-ai.webp",
+        stats: [
+          { value: "+816 млн ₽", label: "доп. выручка (ГК «Самолет»)", highlight: true },
+        ],
+      },
+    ]}
+  />
+
+  {/* ── 5. Поддержка — SupportSection ── */}
+  <SupportSection
+    tabs={[
+      {
+        title: '15 консультантов поддержки',
+        bullets: [
+          'Решат технический вопрос прямо в чате',
+          'Доступны 24/7 — не дадим сорваться важным сделкам даже в выходные',
+          'Знают продукт изнутри и дают конкретные ответы',
+        ],
+        personName: 'Третьякова Юлия',
+        personTitle: 'Руководитель отдела ипотеки и финансовых инструментов',
+        photo: '/api/media/file/sup1.webp',
+        avatars: ['/api/media/file/sup-small2.jpg', '/api/media/file/sup-small1.jpg'],
+        extraCount: 12,
+      },
+      {
+        title: '7 менеджеров успеха',
+        bullets: [
+          'Настроят платформу под ваши процессы',
+          'Проведут обучение для команды',
+          'Вовремя подскажут, как решить ваши задачи',
+        ],
+        personName: 'Иванов Сергей',
+        personTitle: 'Руководитель направления Customer Success',
+        photo: '/api/media/file/sup2.webp',
+        avatars: ['/api/media/file/sup-small3.jpg', '/api/media/file/sup-small2.jpg'],
+        extraCount: 4,
+      },
+      {
+        title: '8 аналитиков',
+        bullets: [
+          'Покажут, какие этапы воронки усилить, чтобы закрыть больше сделок',
+          'Соберут и проанализируют портрет целевого клиента',
+          'Дадут рекомендации: не выводы, а конкретные шаги',
+        ],
+        personName: 'Козлова Анна',
+        personTitle: 'Руководитель аналитического отдела',
+        photo: '/api/media/file/sup3.webp',
+        avatars: ['/api/media/file/sup-small1.jpg', '/api/media/file/sup-small3.jpg'],
+        extraCount: 5,
+      },
+    ]}
+  />
+
+  {/* ── 5.1. Стабильное решение ── */}
+  <section>
+    <div class="page-container flex flex-col gap-16 md:gap-20 xl:gap-32">
+      <h2 class="text-h2 text-gray-900 text-center">
+        Стабильное решение, которое <span class="text-brand">не подводит</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
+        <div class="flex flex-col items-center text-center gap-6">
+          <div class="shrink-0 rounded-3xl bg-gray-300" style="width:120px;height:120px"></div>
+          <div class="flex flex-col gap-2">
+            <h3 class="text-h3 text-gray-900">Результат</h3>
+            <p class="text-body-lg text-gray-500">Uptime платформы 99,9%</p>
+          </div>
+        </div>
+        <div class="flex flex-col items-center text-center gap-6">
+          <div class="shrink-0 rounded-3xl bg-gray-300" style="width:120px;height:120px"></div>
+          <div class="flex flex-col gap-2">
+            <h3 class="text-h3 text-gray-900">Безопасность</h3>
+            <p class="text-body-lg text-gray-500">Подтверждена отделами ИБ крупнейших застройщиков и банков страны</p>
+          </div>
+        </div>
+        <div class="flex flex-col items-center text-center gap-6">
+          <div class="shrink-0 rounded-3xl bg-gray-300" style="width:120px;height:120px"></div>
+          <div class="flex flex-col gap-2">
+            <h3 class="text-h3 text-gray-900">Конфиденциальность</h3>
+            <p class="text-body-lg text-gray-500">Соответствие стандартам 152 ФЗ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── 7. Блог — из CMS ── */}
+  {recentPosts.length > 0 && (
+    <BlogCards
+      title="ДВИЖ Инсайты"
+      description="Экспертные материалы о цифровизации продаж в девелопменте"
+      articles={recentPosts}
+      class="!py-0"
+    />
+  )}
+
+  {/* ── 8. FormClosing ── */}
+  <FormClosing
+    preset="lead"
+    title="Попробуйте ДВИЖ в деле"
+    items={[
+      'Покажем, как решали задачи у клиентов',
+      'Рассчитаем ROMI и экономический эффект',
+      'Разберем ваши задачи',
+    ]}
+    submitLabel="Оставить заявку"
+    class="!py-0"
+  />
+
+  </div>
+
+  {/*
+    Полностраничный флюид-эксперимент. Скоуп .fluid-page живёт на <body>
+    ТОЛЬКО этой страницы (через bodyClass SiteLayout), поэтому дотягивается
+    и до хэдера, и до контента — но остальной сайт не задевает.
+    is:global + unlayered перебивает @layer components из global.css.
+    Формулы clamp() построены из наших же ступеней; preferred = rem + vw,
+    чтобы не ломать зум браузера (WCAG 1.4.4).
+  */}
+  <style is:global>
+    /*
+      Типографика. Шкала растянута до 1920px: на ~1280px значения совпадают
+      с текущими десктопными, дальше растут до больших потолков. */
+    .fluid-page .text-h1,
+    .fluid-page .text-h1-italic { font-size: clamp(28px, 1rem + 3.75vw, 78px); } /* потолок 78 (не 88): шрифт капается ~с 1653px и не перерастает колонку → заголовок держит 3 строки на широких */
+    .fluid-page .text-h2 { font-size: clamp(30px, 1rem + 2.5vw, 64px); }
+    .fluid-page .text-h3 { font-size: clamp(24px, 0.75rem + 1.56vw, 42px); }
+    .fluid-page .text-product-card-h { font-size: clamp(24px, 1rem + 2.5vw, 64px); }
+    .fluid-page .text-h4 { font-size: clamp(18px, 0.75rem + 0.94vw, 30px); }
+    .fluid-page .text-h5 { font-size: clamp(16px, 0.88rem + 0.31vw, 20px); }
+    .fluid-page .text-h6 { font-size: clamp(14px, 0.75rem + 0.31vw, 18px); }
+
+    /* Тело текста */
+    .fluid-page .text-body-lg,
+    .fluid-page .text-body-lg-italic,
+    .fluid-page .text-body-lg-bold { font-size: clamp(16px, 0.88rem + 0.31vw, 20px); }
+    .fluid-page .text-subhead { font-size: clamp(14px, 0.75rem + 0.31vw, 18px); }
+    .fluid-page .text-medium-32 { font-size: clamp(18px, 0.5rem + 1.25vw, 32px); }
+
+    /*
+      Ширина контента растёт на широких экранах: max-width плавно 1440 → 1680px
+      (на ≤1280px = 1440, как сейчас). ОДНА формула на контейнер И хэдер — оба
+      центрированы (mx-auto), поэтому боксы совпадают и растут синхронно, не
+      расходясь. Горизонтальные отступы контейнера НЕ трогаем — штатные 16/24/40.
+    */
+    .fluid-page .page-container,
+    .fluid-page header .max-w-\[1440px\] { max-width: clamp(1440px, 60rem + 37.5vw, 1680px); }
+
+    /*
+      Hero: левая колонка (заголовок+форма) была фикс 820px — вся доп. ширина
+      уходила в правый LogoDrum. Делаем её растущей: minmax(820px, 1.6fr) держит
+      820px до ~1445px (как сейчас), дальше колонка растёт пропорционально.
+      Только в lg+ — на мобиле сетка одноколоночная, её не трогаем.
+    */
+    @media (min-width: 1024px) {
+      .fluid-page .lg\:grid-cols-\[820px_1fr\] { grid-template-columns: minmax(820px, 1.6fr) 1fr; }
+    }
+
+    /*
+      LogoDrum: ротор (240px) центрировался в широкой правой колонке → лого висели
+      по центру, не доходя до края. Прижимаем барабан вправо, к линии контента.
+      Барабан 3D: передний логотип увеличен (radius 380 / perspective 1200 → ×1.46),
+      поэтому наплыв выходит за футпринт ~на 56px с каждой стороны. Чтобы видимый
+      край встал на линию контента, а не вылез за хэдер:
+        • width:240px      — контейнер = футпринту ротора (центр совпадает с ротором
+                             → perspective-origin: center остаётся верным, без перекоса);
+        • margin-left:auto — прижать вправо в ячейке;
+        • margin-right:56px — отступ ровно на величину 3D-наплыва.
+      body.fluid-page — чтобы перебить scoped-стиль самого LogoDrum по специфичности.
+    */
+    body.fluid-page .logo-drum { width: 240px; margin-left: auto; margin-right: 56px; }
+  </style>
+
+</SiteLayout>
