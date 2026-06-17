@@ -110,7 +110,7 @@ const partnerLogos = [
     gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
   >
     <div slot="right" class="w-full h-[700px] hidden xl:block">
-      <LogoDrum logos={partnerLogos} duration={55} />
+      <LogoDrum logos={partnerLogos} duration={55} radius={400} />
     </div>
     <div slot="logos" class="w-full overflow-x-hidden xl:hidden">
       <LogoGrid
@@ -480,25 +480,25 @@ const partnerLogos = [
     }
 
     /*
-      LogoDrum: ротор (240px) центрировался в широкой правой колонке → лого висели
-      по центру, не доходя до края. Прижимаем барабан вправо, к линии контента.
-      Барабан 3D: передний логотип увеличен (radius 380 / perspective 1200 → ×1.46),
-      поэтому наплыв выходит за футпринт ~на 56px с каждой стороны. Чтобы видимый
-      край встал на линию контента, а не вылез за хэдер:
-        • width:240px      — контейнер = футпринту ротора (центр совпадает с ротором
-                             → perspective-origin: center остаётся верным, без перекоса);
-        • margin-left:auto — прижать вправо в ячейке;
-        • margin-right:56px — отступ ровно на величину 3D-наплыва.
-      body.fluid-page — чтобы перебить scoped-стиль самого LogoDrum по специфичности.
-    */
-    body.fluid-page .logo-drum { width: 240px; margin-left: auto; margin-right: 56px; }
-
-    /*
       Hero: блок формы (поля + кнопка) по умолчанию тянется на всю левую колонку,
       а она у нас растёт. Ограничиваем форму 640px, чтобы поля не разъезжались.
       .gap-[52px] — обёртка контента hero (на этой странице только в HeroSection).
     */
     .fluid-page .gap-\[52px\] form { max-width: 640px; }
+
+    /*
+      Hero LogoDrum увеличен ~2×, чтобы заполнить правую часть и убрать «дыру»
+      между текстом и барабаном. Правый край остаётся пришпилен к линии кнопки.
+      radius={400} задан на инстансе (mag = 1200/800 = 1.5×).
+      margin-right ~115px компенсирует 3D-наплыв переднего лого (≈ (1.5-1)/2 × 460).
+      Числа подбираются на preview.
+    */
+    body.fluid-page .logo-drum { width: 380px; margin-left: auto; margin-right: 0; }
+    body.fluid-page .logo-drum-rotor { width: 380px; height: 110px; }
+    body.fluid-page .logo-drum-img { max-height: 74px; }
+    /* ДВИЖ — широкий вордмарк (~4:1), по высоте смотрится громадным рядом с компактными
+       значками партнёров. Адресно уменьшаем именно его. */
+    body.fluid-page .logo-drum-img[src*="logo-dvizh"] { max-height: 54px; }
   </style>
 
 </SiteLayout>
