@@ -216,6 +216,16 @@ const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (
 
     </div>
 
+    {/* ── Баннер: «Станьте автором» ── */}
+    <Banner
+      bg="bg-background-secondary"
+      title="Станьте автором ДВИЖ&#160;Инсайты"
+      subtitle="Поделитесь своим опытом с&#160;топами рынка недвижимости"
+      buttons={[
+        { label: 'Стать автором', drawerPreset: 'lead' },
+      ]}
+    />
+
     {/* ── Блок 5: Теги-фильтры + md-карточки — клик по тегу переключает карточки справа (Alpine).
             При md и ниже стак на полную ширину, при lg+ 2 колонки. */}
     <div class="page-container" x-data={`{ cat: '${defaultCat}' }`}>
