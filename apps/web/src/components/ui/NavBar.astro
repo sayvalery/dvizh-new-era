@@ -141,11 +141,11 @@ const navIslandClass = (isBlog && !transparent)
     }`}
     class="transition-colors duration-200"
   >
-    <!-- Island wrapper: content aligns at 1440px, rounded corners extend beyond -->
-    <!-- blog: горизонтальные паддинги = боковым отступам страницы (.page-container 16/24/40) -->
-    <div class:list={['max-w-[1440px] mx-auto pt-3 pb-2', isBlog ? 'px-4 sm:px-6 lg:px-10' : 'px-4']}>
+    <!-- Island wrapper: горизонтальные паддинги = боковым отступам страницы (.page-container 16/24/40). -->
+    <!-- Единые гаттеры для всех вариантов (сайт = блог) → лого/кнопка совпадают с краями контента, хэдер не «скачет» при переходе сайт↔блог. -->
+    <div class:list={['max-w-[1440px] mx-auto pt-3 pb-2', 'px-4 sm:px-6 lg:px-10']}>
       <nav
-        class:list={['flex items-center justify-between h-14 rounded-2xl transition-all duration-200', isBlog ? '-mx-4 px-4 sm:-mx-6 sm:px-6' : '-mx-2 px-6']}
+        class:list={['flex items-center justify-between h-14 rounded-2xl transition-all duration-200', '-mx-4 px-4 sm:-mx-6 sm:px-6']}
         :class={navIslandClass}
       >
         <!-- Left: logo + desktop nav -->
