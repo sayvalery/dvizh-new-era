@@ -4,6 +4,7 @@
  * Доступна в dev: preview.dvizh.cc/lab/glavnaya
  */
 import SiteLayout from '../../layouts/SiteLayout.astro'
+import FluidStyles from '../../components/lab-new/FluidStyles.astro'
 import HeroSection from '../../components/ui/HeroSection.astro'
 import LogoDrum from '../../components/ui/LogoDrum.astro'
 import LogoGrid from '../../components/ui/LogoGrid.astro'
@@ -433,43 +434,14 @@ const partnerLogos = [
 
   {/*
     Полностраничный флюид-эксперимент. Скоуп .fluid-page живёт на <body>
-    ТОЛЬКО этой страницы (через bodyClass SiteLayout), поэтому дотягивается
-    и до хэдера, и до контента — но остальной сайт не задевает.
-    is:global + unlayered перебивает @layer components из global.css.
-    Формулы clamp() построены из наших же ступеней; preferred = rem + vw,
-    чтобы не ломать зум браузера (WCAG 1.4.4).
+    ТОЛЬКО этой страницы (через bodyClass SiteLayout). Общая флюид-система
+    (типографика + ширина контейнера 1440→1920) вынесена в FluidStyles —
+    тот же компонент на /lab/ipoteka-apex, обе страницы синхронны по построению.
+    Ниже в <style> — только специфичное для главной (hero-сетка, LogoDrum, карточки).
   */}
+  <FluidStyles />
+
   <style is:global>
-    /*
-      Типографика. Шкала растянута до 1920px: на ~1280px значения совпадают
-      с текущими десктопными, дальше растут до больших потолков. */
-    .fluid-page .text-h1,
-    .fluid-page .text-h1-italic { font-size: clamp(28px, 1rem + 3.75vw, 78px); } /* потолок 78 (не 88): шрифт капается ~с 1653px и не перерастает колонку → заголовок держит 3 строки на широких */
-    .fluid-page .text-h2 { font-size: clamp(30px, 1rem + 2.5vw, 64px); }
-    .fluid-page .text-h3 { font-size: clamp(24px, 0.75rem + 1.56vw, 42px); }
-    .fluid-page .text-product-card-h { font-size: clamp(24px, 1rem + 2.5vw, 64px); }
-    .fluid-page .text-h4 { font-size: clamp(18px, 0.75rem + 0.94vw, 30px); }
-    .fluid-page .text-h5 { font-size: clamp(16px, 0.88rem + 0.31vw, 20px); }
-    .fluid-page .text-h6 { font-size: clamp(14px, 0.75rem + 0.31vw, 18px); }
-
-    /* Тело текста */
-    .fluid-page .text-body-lg,
-    .fluid-page .text-body-lg-italic,
-    .fluid-page .text-body-lg-bold { font-size: clamp(16px, 0.88rem + 0.31vw, 20px); }
-    .fluid-page .text-subhead { font-size: clamp(14px, 0.75rem + 0.31vw, 18px); }
-    .fluid-page .text-medium-32 { font-size: clamp(18px, 0.5rem + 1.25vw, 32px); }
-
-    /*
-      Ширина контента растёт на широких экранах: max-width плавно 1440 → 1920px
-      (на ≤1280px = 1440, как сейчас; потолок 1920 достигается ~с 2560px вьюпорта).
-      ОДНА формула на контейнер И хэдер — оба центрированы (mx-auto), поэтому
-      боксы совпадают и растут синхронно, не расходясь. Горизонтальные отступы
-      контейнера НЕ трогаем — штатные 16/24/40.
-    */
-    .fluid-page .page-container,
-    .fluid-page header .max-w-\[1440px\] { max-width: clamp(1440px, 60rem + 37.5vw, 1920px); }
-
-
     /*
       Hero: левая колонка (заголовок+форма) была фикс 820px — вся доп. ширина
       уходила в правый LogoDrum. Делаем её растущей: minmax(820px, 1.6fr) держит
