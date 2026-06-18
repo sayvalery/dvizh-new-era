@@ -160,6 +160,17 @@ const formFields = fields[preset] ?? ['name', 'email']
     <input name="_honeypot" tabindex="-1" autocomplete="off" />
   </div>
 
+  {layout !== 'inline' && (
+    <Button
+      type="submit"
+      size="md"
+      variant={isDark ? 'secondary' : 'primary'}
+      class="mt-5 w-full"
+    >
+      {btnLabel}
+    </Button>
+  )}
+
   {showPrivacy && (
     <label class="flex items-start gap-2 cursor-pointer mt-4">
       <div class="relative mt-[2px] w-4 h-4 shrink-0">
@@ -186,17 +197,6 @@ const formFields = fields[preset] ?? ['name', 'email']
         {privacyMain}<a href="/privacy" class={privacyLinkCls}>Политикой&nbsp;обработки персональных&nbsp;данных</a>
       </span>
     </label>
-  )}
-
-  {layout !== 'inline' && (
-    <Button
-      type="submit"
-      size="md"
-      variant={isDark ? 'secondary' : 'primary'}
-      class="mt-5 w-full"
-    >
-      {btnLabel}
-    </Button>
   )}
 
   <p class:list={['form-success hidden mt-3 text-sm', successClasses]}>Спасибо! Мы свяжемся с вами.</p>
