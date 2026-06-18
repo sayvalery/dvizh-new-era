@@ -11,6 +11,7 @@ import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
 
 <SiteLayout
   title="Электронная регистрация сделок"
+  bodyClass="fluid-page"
   description="Сократите затраты на регистрацию на 30%. Электронная регистрация сделок с недвижимостью."
   jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Электронная регистрация', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
 >
@@ -36,8 +37,8 @@ import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
     />
   </HeroSectionFull>
 
-  {/* gap-24 (96px) base/sm/md / lg:gap-40 (160px) */}
-  <div class="flex flex-col gap-24 lg:gap-40">
+  {/* gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок (флюид) */}
+  <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
   {/* ── 2. ProductBentoBlock — 5 карточек ── */}
   <ProductBentoBlock

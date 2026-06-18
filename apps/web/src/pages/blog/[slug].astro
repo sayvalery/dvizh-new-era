@@ -185,6 +185,7 @@ function card(p: any) {
   ogType="article"
   jsonLd={jsonLd}
   insightsHeader
+  bodyClass="fluid-page"
 >
   <article class="page-container pt-10 md:pt-16">
 
@@ -388,4 +389,14 @@ function card(p: any) {
   html { scroll-behavior: smooth; }
   /* Отступ при скролле к якорю, чтобы заголовок не прятался под шапкой */
   article h2[id], article h3[id] { scroll-margin-top: 96px; }
+
+  /* Флюид (рецепт /lab/blog-article-fluid): колонка мета/оглавления xl:grid-cols-[340px_1fr]
+     тянется пропорционально контейнеру (340→453, формула как у карточек главной),
+     баланс двух колонок постоянен 1440→1920. Типографика+ширина — из global.css.
+     Прозу (.prose из set:html) система не масштабирует — сырые теги typography. */
+  @media (min-width: 1280px) {
+    .fluid-page .xl\:grid-cols-\[340px_1fr\] {
+      grid-template-columns: clamp(340px, 14.167rem + 8.854vw, 453px) 1fr;
+    }
+  }
 </style>

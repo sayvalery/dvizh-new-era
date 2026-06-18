@@ -95,14 +95,17 @@ const tagCats = [...catMap.values()].sort((a, b) => a.title.localeCompare(b.titl
 const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (tagCats[0]?.slug ?? '')
 ---
 
-<BlogLayout title="Блог — ДВИЖ" description="Журнал для современных девелоперов" insightsHeader>
+<BlogLayout title="Блог — ДВИЖ" description="Журнал для современных девелоперов" insightsHeader bodyClass="fluid-page">
   <div class="py-10 md:py-16 flex flex-col gap-24 lg:gap-40">
 
     {/* ── Блок 1: заголовок + lg-карточка + ряд xs (lg+: помещается в viewport) ── */}
     <div class="page-container flex flex-col gap-8 md:gap-10">
       <h2 class="text-h2 text-gray-900">Журнал для&#160;современных девелоперов</h2>
 
-      {featured && <BlogCardNew size="lg" layout="stacked" {...card(featured)} imgClass="lg:max-h-[calc(100svh_-_360px)] xl:max-h-[calc(100svh_-_250px)]" />}
+      {/* Без vh-ограничения (max-h): приоритет — пропорция изображения (aspect-[832/532]
+          держится всегда), а не «влезание» во вьюпорт. С max-h на 1024–1280 коробка
+          становилась широкой и низкой (object-cover кропил). */}
+      {featured && <BlogCardNew size="lg" layout="stacked" {...card(featured)} />}
 
       <div class="hidden md:grid gap-6 sm:grid-cols-2 xl:grid-cols-3 sm:-mt-2">
         {recent.map((post: any, i: number) => (
@@ -327,4 +330,21 @@ const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (
     </div>
 
   </div>
+
+  {/*
+    Флюид-вёрстка главной блога (рецепт обкатан в /lab/blog-fluid). Скоуп .fluid-page
+    на <body> через bodyClass → BlogLayout → BaseLayout. Общая система (clamp-типографика
+    + ширина .page-container 1440→1920) — в global.css. Ниже — только специфика блога:
+    1) превью size="s" (w-[207px]) — единственный фикс-px, тянем пропорционально контейнеру.
+    2) карточки кейсов (StoryCard, md:min-h-0 h-full) — флюид-min-height на lg+, чтобы
+       пропорция держалась на 1440→1920. Формула как у карточек главной: base×60/1440 rem
+       + base×37.5/1440 vw, потолок base×1.333. Селектор .md:min-h-0 уникален этим карточкам.
+  */}
+  <style is:global>
+    .fluid-page .w-\[207px\] { width: clamp(207px, 8.625rem + 5.391vw, 276px); }
+
+    @media (min-width: 1024px) {
+      .fluid-page .md\:min-h-0 { min-height: clamp(350px, 14.583rem + 9.115vw, 467px); }
+    }
+  </style>
 </BlogLayout>

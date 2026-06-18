@@ -91,6 +91,7 @@ const partnerLogos = [
 <SiteLayout
   title="Цифровые продукты для рынка недвижимости"
   description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
+  bodyClass="fluid-page"
   transparentHeader
 >
 
@@ -105,7 +106,7 @@ const partnerLogos = [
     gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
   >
     <div slot="right" class="w-full h-[700px] hidden xl:block">
-      <LogoDrum logos={partnerLogos} duration={55} />
+      <LogoDrum logos={partnerLogos} duration={55} radius={400} />
     </div>
     <div slot="logos" class="w-full overflow-x-hidden xl:hidden">
       <LogoGrid
@@ -154,7 +155,7 @@ const partnerLogos = [
 
   {/* ── 2. Девелоперы с ДВИЖ — 4 AdvantageCard ── */}
   {/* gap-24 (96px) base/sm/md / lg:gap-40 (160px) */}
-  <div class="flex flex-col gap-24 lg:gap-40 pt-24 lg:pt-40">
+  <div class="flex flex-col" style="gap:clamp(96px, 2.5rem + 9.375vw, 220px); padding-top:clamp(96px, 2.5rem + 9.375vw, 220px)">
 
   <section>
     <div class="page-container">
@@ -425,5 +426,57 @@ const partnerLogos = [
   />
 
   </div>
+
+  {/*
+    Флюид-вёрстка главной (та же система, что на /lab/glavnaya и /lab/ipoteka-apex).
+    Скоуп .fluid-page живёт на <body> ТОЛЬКО этой страницы (через bodyClass SiteLayout).
+    Общая флюид-система (типографика + ширина контейнера 1440→1920) — в global.css,
+    скоуп .fluid-page. Ниже в <style> — только специфичное для главной
+    (hero-сетка, LogoDrum, высоты карточек).
+  */}
+
+  <style is:global>
+    /*
+      Hero: левая колонка (заголовок+форма) была фикс 820px — вся доп. ширина
+      уходила в правый LogoDrum. Делаем её растущей: minmax(820px, 1.6fr) держит
+      820px до ~1445px (как сейчас), дальше колонка растёт пропорционально.
+      Только в lg+ — на мобиле сетка одноколоночная, её не трогаем.
+    */
+    @media (min-width: 1024px) {
+      .fluid-page .lg\:grid-cols-\[820px_1fr\] { grid-template-columns: minmax(820px, 1.6fr) 1fr; }
+    }
+
+    /*
+      Hero: блок формы (поля + кнопка) по умолчанию тянется на всю левую колонку,
+      а она у нас растёт. Ограничиваем форму 640px, чтобы поля не разъезжались.
+      .gap-[52px] — обёртка контента hero (на этой странице только в HeroSection).
+    */
+    .fluid-page .gap-\[52px\] form { max-width: 640px; }
+
+    /*
+      Hero LogoDrum увеличен ~2×, чтобы заполнить правую часть и убрать «дыру»
+      между текстом и барабаном. Правый край остаётся пришпилен к линии кнопки.
+      radius={400} задан на инстансе (mag = 1200/800 = 1.5×).
+    */
+    body.fluid-page .logo-drum { width: 380px; margin-left: auto; margin-right: 0; }
+    body.fluid-page .logo-drum-rotor { width: 380px; height: 110px; }
+    body.fluid-page .logo-drum-img { max-height: 74px; }
+    /* ДВИЖ — широкий вордмарк (~4:1), по высоте смотрится громадным рядом с компактными
+       значками партнёров. Адресно уменьшаем именно его. */
+    body.fluid-page .logo-drum-img[src*="logo-dvizh"] { max-height: 54px; }
+
+    /*
+      Карточки сохраняют пропорции при флюид-скейле. Контейнер растёт
+      clamp(1440px → 1920px) — это ×1.333. Высоты тянем тем же темпом: наклон
+      (rem + vw) пропорционален ширине, а потолок = база × 1.333 → высота/ширина
+      постоянна на всём диапазоне. Только lg+ — на мобиле высоты свои, не трогаем.
+    */
+    @media (min-width: 1024px) {
+      .fluid-page .lg\:h-\[600px\] { height: clamp(600px, 25rem + 15.625vw, 800px); }      /* бенто-сетки */
+      .fluid-page .lg\:h-\[540px\] { height: clamp(540px, 22.5rem + 14.063vw, 720px); }    /* бенто c3 */
+      .fluid-page .lg\:min-h-\[360px\] { min-height: clamp(360px, 15rem + 9.375vw, 480px); } /* AdvantageCard */
+      .fluid-page .min-h-\[480px\] { min-height: clamp(480px, 20rem + 12.5vw, 640px); }     /* фото-панель поддержки */
+    }
+  </style>
 
 </SiteLayout>

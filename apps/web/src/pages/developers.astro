@@ -14,7 +14,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
 const cms = import.meta.env.PUBLIC_CMS_URL
 ---
 
-<SiteLayout title="Для девелоперов" bodyClass="bg-background-primary">
+<SiteLayout title="Для девелоперов" bodyClass="fluid-page">
   <!-- Hero full layout: контент внизу + слот для анимации -->
   <HeroSectionFull
     title="ДВИЖ – платформа полного цикла для роста продаж у девелоперов"
@@ -37,8 +37,8 @@ const cms = import.meta.env.PUBLIC_CMS_URL
       ]}
     />
   </HeroSectionFull>
-  <!-- gap-24 (96px) base/sm/md / lg:gap-40 (160px) -->
-  <div class="flex flex-col gap-24 lg:gap-40">
+  <!-- gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок (флюид) -->
+  <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
   <!-- DeveloperBlock -->
   <FeatureBlock

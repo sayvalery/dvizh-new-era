@@ -9,7 +9,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 import CalculatorEmbed from '../components/ui/CalculatorEmbed.astro'
 ---
 
-<SiteLayout title="Ипотечный калькулятор" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="bg-background-primary" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
+<SiteLayout title="Ипотечный калькулятор" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="fluid-page" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
   <HeroSectionFull
     title="Получайте до 20% больше заявок с помощью готового калькулятора"
     description="ДВИЖ Калькулятор — готовый виджет для вашего сайта, который показывает актуальные программы 40+ банков и помогает подобрать лучшие условия клиенту"
@@ -32,8 +32,8 @@ import CalculatorEmbed from '../components/ui/CalculatorEmbed.astro'
     />
   </HeroSectionFull>
 
-  <!-- gap-24 (96px) base/sm/md / lg:gap-40 (160px) -->
-  <div class="flex flex-col gap-24 lg:gap-40">
+  <!-- gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок (флюид) -->
+  <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
   <!-- KeyFacts -->
   <KeyFacts

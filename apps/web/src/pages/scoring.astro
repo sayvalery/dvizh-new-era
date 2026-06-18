@@ -10,6 +10,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
 <SiteLayout
   title="Финансовый скоринг"
+  bodyClass="fluid-page"
   description="Проверяйте платежеспособность покупателей на банковском уровне до подписания договора"
   jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Скоринг', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'RUB' }, provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
 >
@@ -40,8 +41,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
     />
   </HeroSectionFull>
 
-  {/* gap-24 (96px) base/sm/md / lg:gap-40 (160px) */}
-  <div class="flex flex-col gap-24 lg:gap-40">
+  {/* gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок (флюид) */}
+  <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
 
   {/* ── 3. KeyFacts — 3 пункта ── */}

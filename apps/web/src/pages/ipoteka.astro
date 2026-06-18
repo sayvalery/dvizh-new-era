@@ -11,7 +11,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 <SiteLayout
   title="Цифровая ипотека"
   description="Ипотечная платформа для современных девелоперов. Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
-  bodyClass="bg-background-primary"
+  bodyClass="fluid-page"
 >
 
   {/* ── 1. Hero Section + Logos в одном экране ── */}
@@ -25,7 +25,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
       slot="right"
       src="https://admin.dvizh.cc/api/media/file/rega-hero.webp"
       alt=""
-      class="h-[85dvh] w-auto object-contain animate-hero-float"
+      class="h-[106dvh] w-auto object-contain animate-hero-float"
       style="max-width: none"
       loading="eager"
     />
@@ -43,8 +43,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
     />
   </HeroSectionFull>
 
-  {/* gap-24 (96px) base/sm/md / lg:gap-40 (160px) */}
-  <div class="flex flex-col gap-24 lg:gap-40">
+  {/* gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок (флюид) */}
+  <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
   {/* ── 4. FeatureBlock — Повышаем конверсию ── */}
   <FeatureBlock

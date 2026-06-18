@@ -14,7 +14,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
 const cms = import.meta.env.PUBLIC_CMS_URL
 ---
 
-<SiteLayout title="Для агентств недвижимости — ДВИЖ" description="Ипотечная платформа для агентств недвижимости. Подбор программ, подача заявок в банки и электронная регистрация в одном окне." bodyClass="bg-background-primary">
+<SiteLayout title="Для агентств недвижимости — ДВИЖ" description="Ипотечная платформа для агентств недвижимости. Подбор программ, подача заявок в банки и электронная регистрация в одном окне." bodyClass="fluid-page">
   <HeroSectionFull
     title="Закрывайте сложные сделки и зарабатывайте на ипотеке"
     description="ДВИЖ — платформа для увеличения продаж у агентств недвижимости. Закрываем весь цикл сделки: от одобрения ипотеки до регистрации в Росреестре"
@@ -36,7 +36,8 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     />
   </HeroSectionFull>
 
-  <div class="flex flex-col gap-24 lg:gap-40">
+  {/* mt-24 lg:mt-32 — воздух на стыке hero↔первый блок (флюид) */}
+  <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
     <KeyFacts
       class="!pb-0"
       variant="large"
