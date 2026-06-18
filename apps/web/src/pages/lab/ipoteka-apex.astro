@@ -1,0 +1,264 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import HeroSectionFull from '../../components/lab-new/HeroSectionFull.astro'
+import LogoGrid from '../../components/ui/LogoGrid.astro'
+import FeatureBlock from '../../components/ui/FeatureBlock.astro'
+import BentoGrid from '../../components/ui/BentoGrid.astro'
+import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
+import FormClosing from '../../components/ui/FormClosing.astro'
+---
+
+{/*
+  Fluid typography — встроена в страницу, не зависит от global.css ветки.
+  В Astro SSG <style is:global> попадает только в HTML этой страницы.
+  Диапазон clamp: 375px (мобилка) → 1440px (десктоп).
+*/}
+<style is:global>
+  /* ── Fluid headings ── */
+  .text-h1, .text-h1-italic {
+    font-size: clamp(28px, 3.38vw + 15.33px, 64px);
+    text-wrap: balance;
+  }
+  @media (max-width: 639px) {
+    .text-h1, .text-h1-italic { font-size: 28px; }
+  }
+
+  .text-h2 {
+    font-size: clamp(30px, 1.69vw + 23.66px, 48px);
+  }
+  @media (max-width: 639px) {
+    .text-h2 { font-size: 30px; }
+  }
+
+  .text-h3 {
+    font-size: clamp(24px, 0.75vw + 21.19px, 32px);
+  }
+  @media (max-width: 639px) {
+    .text-h3 { font-size: 24px; }
+  }
+
+  .text-h4 {
+    font-size: clamp(18px, 0.56vw + 15.9px, 24px);
+  }
+
+  .text-h5 {
+    font-size: clamp(16px, 0.19vw + 15.3px, 18px);
+  }
+
+  .text-h6 {
+    font-size: clamp(14px, 0.19vw + 13.3px, 16px);
+  }
+
+  .text-product-card-h {
+    font-size: clamp(24px, 2.25vw + 15.56px, 48px);
+    letter-spacing: clamp(-1px, -0.094vw + -0.65px, -2px);
+  }
+  @media (max-width: 639px) {
+    .text-product-card-h { font-size: 24px; }
+  }
+
+  .text-card-title {
+    font-size: clamp(20px, -0.38vw + 21.41px, 24px);
+  }
+
+  /* ── Hero float animation ── */
+  @keyframes hero-float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-20px); }
+  }
+  .animate-hero-float {
+    animation: hero-float 6s ease-in-out infinite;
+  }
+</style>
+
+<SiteLayout
+  title="Цифровая ипотека"
+  description="Ипотечная платформа для современных девелоперов. Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
+  bodyClass="bg-background-primary"
+>
+
+  {/* ── 1. Hero Section + Logos в одном экране ── */}
+  <HeroSectionFull
+    title="Закрывайте до 26% больше сделок на том же трафике"
+    description="Ипотечная платформа для современных девелоперов. Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
+    demoLabel="Получить демо"
+    kpLabel="Получить КП"
+  >
+    <img
+      slot="right"
+      src="https://admin.dvizh.cc/api/media/file/rega-hero.webp"
+      alt=""
+      class="h-[85dvh] w-auto object-contain animate-hero-float"
+      style="max-width: none"
+      loading="eager"
+    />
+    <LogoGrid
+      slot="logos"
+      noPadding
+      logos={[
+        { src: '/partners/dark/a101.svg', alt: 'А101' },
+        { src: '/partners/dark/ava.svg', alt: 'AVA' },
+        { src: '/partners/dark/glorax.svg', alt: 'Глоракс' },
+        { src: '/partners/dark/ganel.svg', alt: 'Гранель' },
+        { src: '/partners/dark/strana.svg', alt: 'Страна' },
+        { src: '/partners/dark/lsr.svg', alt: 'ЛСР' },
+      ]}
+    />
+  </HeroSectionFull>
+
+  {/* gap-24 (96px) base/sm/md / lg:gap-40 (160px) */}
+  <div class="flex flex-col gap-24 lg:gap-40">
+
+  {/* ── 4. FeatureBlock — Повышаем конверсию ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    image="/api/media/file/mortgage_bento_ai-prognosis.webp"
+    imageAlt="Ипотечный калькулятор"
+    heading="Повышаем конверсию из первичной консультации в 2 раза"
+    button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
+    features={[
+      { title: 'Расчет досрочных погашений и рефинансирования' },
+      { title: '40+ банков партнеров' },
+      { title: 'Большой выбор ипотечных программ' },
+    ]}
+    review={{
+      quote: 'В ДВИЖе мы можем оперативно добавлять новые банки Краснодарского края и сразу же отправлять в них заявки',
+      author: 'Гульсина Шакова',
+      role: 'Начальник отдела ипотечного кредитования',
+      company: { logo: '/api/media/file/tochno_color.svg', alt: 'Точно' },
+    }}
+  />
+
+  {/* ── 5. FeatureBlock — Сокращаем время ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    imageSide="left"
+    image="/api/media/file/mortgage_bento_unified-form.webp"
+    imageAlt="Анкета клиента"
+    heading="Сокращаем время на заполнение анкеты до 10 секунд"
+    button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
+    features={[
+      { title: 'Распознавание документов от паспорта до 2-НДФЛ' },
+      { title: 'Заполнение через Госуслуги' },
+      { title: 'Одна анкета в 40+ банков' },
+    ]}
+    review={{
+      quote: 'С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет',
+      author: 'Екатерина Чурюкина',
+      role: 'Руководитель управления прямых продаж',
+      company: { logo: '/api/media/file/fsk_color.svg', alt: 'ФСК' },
+    }}
+  />
+
+  {/* ── 6. FeatureBlock — Проверяем клиентов ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    image="/api/media/file/mortgage_bento_score.webp"
+    imageAlt="Ипотечный калькулятор"
+    heading="Проверяем ваших клиентов по банковским стандартам"
+    button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
+    features={[
+      { title: 'Долговая нагрузка и «красные флаги» клиента' },
+      { title: 'Рекомендации по улучшению рейтинга клиента' },
+      { title: '25,8% клиентов с низким кредитным рейтингом' },
+    ]}
+    review={{
+      quote: 'Иногда клиент не знает о наличии какой-либо задолженности. Мы исключаем негативные факторы еще до подачи заявки в банк и увеличиваем шансы клиента получить одобрение по ипотеке',
+      author: 'Екатерина Чурюкина',
+      role: 'Руководитель управления прямых продаж',
+      company: { logo: '/api/media/file/fsk_color.svg', alt: 'ФСК' },
+    }}
+  />
+
+  {/* ── 7. FeatureBlock — Увеличиваем одобрение ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    imageSide="left"
+    image="/api/media/file/mortgage_bento_score_2.webp"
+    imageAlt="Анкета клиента"
+    heading="Увеличиваем процент одобрения до 95%"
+    button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
+    features={[
+      { title: 'Прогноз скорости и вероятности одобрения клиента в банках' },
+      { title: 'Отправка заявки сразу в 5+ банков' },
+    ]}
+    review={{
+      quote: 'Мы обрабатываем на 281% заявок больше, чем в среднем на рынке, и при этом сохраняем одобрение на уровне 90%',
+      author: 'Александр Рычков',
+      role: 'Начальник отдела ипотеки «ЛСР. Недвижимость — М»',
+      company: { logo: '/api/media/file/lsr_color.svg', alt: 'ЛСР' },
+    }}
+  />
+
+  {/* ── 8. BentoGrid — Дополнительные возможности ── */}
+  <section>
+    <div class="page-container">
+      <BentoGrid
+        heading="Дополнительные возможности"
+        items={[
+          { title: 'Готовые интеграции с популярными системами', backgroundImage: '/api/media/file/mortgage_extras_crm-integrations.webp' },
+          { title: 'Среднее время ответа в чате поддержки — 57 секунд', backgroundImage: '/api/media/file/mortgage_extras_chat-57sec.webp' },
+          { title: 'Все ключевые показатели в одном готовом дашборде', backgroundImage: '/api/media/file/mortgage_extras_crm-dashboard.webp' },
+        ]}
+      />
+    </div>
+  </section>
+
+  {/* ── 9. SuccessStoryBlock ── */}
+  <SuccessStoryBlock
+    heading="70+ историй успеха на рынке девелопмента"
+    buttonLabel="Получить демо"
+    buttonPreset="demo"
+    stories={[
+      {
+        logo: '/api/media/file/lsr_color.svg',
+        logoAlt: 'ЛСР',
+        logoHover: '/api/media/file/lsr_white-1.svg',
+        hoverBackground: '/api/media/file/lsr_bg.png',
+        hoverGlass: true,
+        href: '/blog/keys-lsr-dvizh',
+        titleHtml: 'Помогли начать обрабатывать на <span class="text-brand">281% заявок больше</span>, чем в среднем на рынке',
+        personName: 'Группа ЛСР',
+        personJobTitle: 'Один из ведущих строительных холдингов',
+      },
+      {
+        logo: '/api/media/file/6550fa1efdbf390e34cc72af_strana_logo.svg',
+        logoAlt: 'Страна Девелопмент',
+        logoHover: '/api/media/file/strana_white.svg',
+        hoverBackground: '/api/media/file/strana_bg2.png',
+        href: '/blog/category/cases',
+        titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500</span> за год',
+        personName: 'ГК Страна Девелопмент',
+        personJobTitle: 'Федеральный девелопер',
+      },
+      {
+        logo: '/api/media/file/glorax_color.svg',
+        logoAlt: 'Glorax',
+        logoHover: '/api/media/file/glorax_white.svg',
+        hoverBackground: '/api/media/file/glorax_bg.png',
+        titleHtml: 'Снизили процент отказов по ипотеке <span class="text-brand">до 10%</span> за три месяца',
+        personName: 'ГК Glorax',
+        personJobTitle: 'Федеральный застройщик',
+      },
+    ]}
+  />
+
+  {/* ── 10. FormClosing ── */}
+  <FormClosing
+    preset="lead"
+    title="Подберем решение под ваши задачи"
+    items={[
+      'Найдем потерянные заявки и проанализируем путь клиента',
+      'Проверим, не отстаете ли вы от рынка, и сравним ваши показатели с бенчмарками',
+      'Составим рекомендации на основе опыта работы с застройщиками из топ-50',
+    ]}
+    submitLabel="Оставить заявку"
+  />
+
+  </div>{/* /gap-контейнер */}
+
+</SiteLayout>
