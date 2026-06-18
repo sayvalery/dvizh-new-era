@@ -507,3 +507,12 @@ h1, h2, h3, h4, h5, h6 {
 .prose table th {
   background-color: #f9fafb;
 }
+
+/* ── Hero float animation ── */
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-20px); }
+}
+.animate-hero-float {
+  animation: hero-float 6s ease-in-out infinite;
+}
