@@ -63,7 +63,12 @@ const hasRight = Astro.slots.has('right')
       {hasRight ? (
 
         /* ── Двухколоночный вариант: текст слева, изображение справа ── */
-        <div class="grid lg:grid-cols-[58%_42%] min-h-[calc(100dvh-76px)]">
+        /*
+         * lg:h-[calc(100dvh-76px)] фиксирует высоту на десктопе — иначе высокое
+         * изображение в правой колонке раздувает grid-строку и смещает pb-40 за фолд.
+         * min-h сохраняет рост на мобилках (правая колонка там скрыта).
+         */
+        <div class="grid min-h-[calc(100dvh-76px)] lg:h-[calc(100dvh-76px)] lg:grid-cols-[58%_42%]">
 
           <!-- Левая колонка: текст прибит к низу, z-10 чтобы быть поверх картинки -->
           <div class="relative z-10 flex flex-col justify-end pb-24 lg:pb-40">
@@ -83,9 +88,14 @@ const hasRight = Astro.slots.has('right')
             )}
           </div>
 
-          <!-- Правая колонка: изображение по высоте hero, скрыто на мобилках -->
-          <div class="hidden lg:flex items-start justify-center -mt-8" aria-hidden="true">
-            <slot name="right" />
+          <!-- Правая колонка: контейнер растягивается на высоту грида (stretch по умолчанию).
+               Внутри — absolute-обёртка: изображение не влияет на layout-высоту предков,
+               но визуально выходит за пределы колонки влево/вправо.
+               Вертикальный клип — overflow-hidden на <section>. -->
+          <div class="hidden lg:block relative -mt-8" aria-hidden="true">
+            <div class="absolute -top-[100px] left-0 right-0 bottom-0 flex items-start justify-center">
+              <slot name="right" />
+            </div>
           </div>
 
         </div>
