@@ -1,22 +1,23 @@
 ---
 /**
- * BentoGrid — секция с bento-раскладкой карточек
+ * BentoGrid — секция с bento-раскладкой карточек
  *
- * Карточки в обоих вариантах поддерживают `backgroundImage` — растягивается на всю
- * площадь карточки (background-size: cover; background-position: center). Текст лежит
- * абсолютом поверх — учитывай читаемость при подборе картинки.
+ * Карточки в обоих вариантах поддерживают `backgroundImage` — растягивается на всю
+ * площадь карточки через <img object-cover>. Текст лежит абсолютом поверх —
+ * учитывай читаемость при подборе картинки.
+ * Позиция фокуса управляется через `imagePosition` (CSS object-position, default: 'center').
  *
- * ## Вариант 'three' (по умолчанию)
+ * ## Вариант 'three' (по умолчанию)
  * xs–lg включительно: три карточки вертикальным стеком, текст всегда снизу-слева.
- * xl+: bento — слева стек из двух, справа большая. Позиции текста: card1 — верх-лево,
- *      card2 — низ-лево, card3 — верх-лево.
+ * xl+: bento — слева стек из двух, справа большая. Позиции текста: card1 — верх-лево,
+ *      card2 — низ-лево, card3 — верх-лево.
  *
  * @example variant='three'
  * ```astro
  * <BentoGrid
  *   heading="Другие причины выбрать ДВИЖ"
  *   items={[
- *     { title: "Выпуск подписи за 5 минут", description: "...", backgroundImage: "/img/sign.png" },
+ *     { title: "Выпуск подписи за 5 минут", description: "...", backgroundImage: "/img/sign.png" },
  *     { title: "Ускорим подачу заявления", description: "...", backgroundImage: "/img/gosuslugi.png" },
  *     { title: "Расчет вероятности одобрения", description: "...", backgroundImage: "/img/scoring.png" }
  *   ]}
@@ -24,19 +25,19 @@
  * ```
  *
  * ## Вариант 'four'
- * Две строки по две карточки с разными пропорциями:
- * - Строка 1: широкая (≈77%) + узкая (≈23%), текст внизу/вверху соответственно
- * - Строка 2: узкая (≈40%) + широкая (≈60%), текст внизу у обеих
+ * Две строки по две карточки с разными пропорциями:
+ * - Строка 1: широкая (≈62%) + узкая (≈38%), текст внизу/вверху соответственно
+ * - Строка 2: узкая (≈40%) + широкая (≈60%), текст внизу у обеих
  *
  * @example variant='four'
  * ```astro
  * <BentoGrid
  *   variant="four"
  *   items={[
- *     { title: "Распознавание", description: "Определяем тип документа автоматически" },
- *     { title: "Дополняем профиль клиента", description: "Данные из ФНС, ГИБДД, БКИ" },
+ *     { title: "Распознавание", description: "Определяем тип документа автоматически", imagePosition: "top" },
+ *     { title: "Дополняем профиль клиента", description: "Данные из ФНС, ГИБДД, БКИ" },
  *     { title: "Антифрод", description: "Ищем признаки мошенничества" },
- *     { title: "Верификация", description: "Проверяем документ на подлинность" },
+ *     { title: "Верификация", description: "Проверяем документ на подлинность" },
  *   ]}
  * />
  * ```
@@ -45,21 +46,26 @@
 interface BentoItem {
   /** Заголовок карточки */
   title: string
-  /** Подпись под заголовком */
+  /** Подпись под заголовком */
   description?: string
   /**
-   * URL фонового изображения на всю карточку.
-   * Растягивается на весь размер карточки (background-size: cover; background-position: center).
+   * URL фонового изображения на всю карточку.
+   * Растягивается на весь размер карточки (object-fit: cover).
    */
   backgroundImage?: string
+  /**
+   * Позиция фокуса изображения. Значение CSS object-position.
+   * Примеры: 'center' (по умолчанию), 'top', 'bottom', 'left', 'right', '50% 20%'
+   */
+  imagePosition?: string
 }
 
 interface Props {
-  /** Вариант раскладки: 'three' — 3 карточки (по умолчанию), 'four' — 4 карточки в 2 строках */
+  /** Вариант раскладки: 'three' — 3 карточки (по умолчанию), 'four' — 4 карточки в 2 строках */
   variant?: 'three' | 'four'
-  /** Заголовок секции над сеткой */
+  /** Заголовок секции над сеткой */
   heading?: string
-  /** Описание под заголовком (опционально) */
+  /** Описание под заголовком (опционально) */
   description?: string
   /**
    * Карточки сетки.
@@ -67,7 +73,7 @@ interface Props {
    * variant='four':  [0] строка1-широкая, [1] строка1-узкая, [2] строка2-узкая, [3] строка2-широкая.
    */
   items: BentoItem[]
-  /** Дополнительные CSS классы на секцию */
+  /** Дополнительные CSS классы на секцию */
   class?: string
 }
 
@@ -96,8 +102,8 @@ const isFour = variant === 'four'
   <!--
     ═══ VARIANT THREE ═══
     xs–lg (включая lg): все карточки вертикальным стеком, текст всегда снизу-слева.
-    xl+: bento — две колонки, слева стек из двух карточек, справа большая;
-         позиции текста: card1 — верх-лево, card2 — низ-лево, card3 — верх-лево.
+    xl+: bento — две колонки, слева стек из двух карточек, справа большая;
+         позиции текста: card1 — верх-лево, card2 — низ-лево, card3 — верх-лево.
   -->
   {isThree && (
     <div class="flex flex-col gap-6 xl:h-[738px] xl:flex-row">
@@ -105,11 +111,17 @@ const isFour = variant === 'four'
       <!-- Левая колонка (xl+): два равных элемента -->
       <div class="flex flex-col gap-6 xl:flex-1">
 
-        <!-- Карточка 1: текст снизу-слева до xl, сверху-слева на xl+ -->
-        <div
-          class="relative min-h-[350px] flex-1 overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0"
-          style={card1.backgroundImage ? `background-image: url('${card1.backgroundImage}'); background-size: cover; background-position: center;` : ''}
-        >
+        <!-- Карточка 1: текст снизу-слева до xl, сверху-слева на xl+ -->
+        <div class="relative min-h-[350px] flex-1 overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0">
+          {card1.backgroundImage && (
+            <img
+              src={card1.backgroundImage}
+              alt=""
+              class="absolute inset-0 w-full h-full object-cover"
+              style={card1.imagePosition ? `object-position: ${card1.imagePosition}` : ''}
+              loading="lazy"
+            />
+          )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 xl:bottom-auto xl:top-10 xl:max-w-[48%]">
             <h3 class="text-h3 text-gray-900">{card1.title}</h3>
             {card1.description && (
@@ -118,11 +130,17 @@ const isFour = variant === 'four'
           </div>
         </div>
 
-        <!-- Карточка 2: текст снизу-слева на всех брейкпойнтах -->
-        <div
-          class="relative min-h-[350px] flex-1 overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0"
-          style={card2.backgroundImage ? `background-image: url('${card2.backgroundImage}'); background-size: cover; background-position: center;` : ''}
-        >
+        <!-- Карточка 2: текст снизу-слева на всех брейкпойнтах -->
+        <div class="relative min-h-[350px] flex-1 overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0">
+          {card2.backgroundImage && (
+            <img
+              src={card2.backgroundImage}
+              alt=""
+              class="absolute inset-0 w-full h-full object-cover"
+              style={card2.imagePosition ? `object-position: ${card2.imagePosition}` : ''}
+              loading="lazy"
+            />
+          )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 xl:max-w-[48%]">
             <h3 class="text-h3 text-gray-900">{card2.title}</h3>
             {card2.description && (
@@ -133,11 +151,17 @@ const isFour = variant === 'four'
 
       </div>
 
-      <!-- Правая колонка (xl+): один большой элемент. Текст снизу-слева до xl, сверху-слева на xl+ -->
-      <div
-        class="relative min-h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0 xl:flex-1"
-        style={card3.backgroundImage ? `background-image: url('${card3.backgroundImage}'); background-size: cover; background-position: center;` : ''}
-      >
+      <!-- Правая колонка (xl+): один большой элемент. Текст снизу-слева до xl, сверху-слева на xl+ -->
+      <div class="relative min-h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0 xl:flex-1">
+        {card3.backgroundImage && (
+          <img
+            src={card3.backgroundImage}
+            alt=""
+            class="absolute inset-0 w-full h-full object-cover"
+            style={card3.imagePosition ? `object-position: ${card3.imagePosition}` : ''}
+            loading="lazy"
+          />
+        )}
         <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 xl:bottom-auto xl:top-10">
           <h3 class="text-h3 text-gray-900">{card3.title}</h3>
           {card3.description && (
@@ -151,10 +175,10 @@ const isFour = variant === 'four'
 
   <!--
     ═══ VARIANT FOUR ═══
-    Две строки с разными пропорциями карточек.
-    Строка 1 (высокая): широкая (≈77%) + узкая (≈23%)
+    Две строки с разными пропорциями карточек.
+    Строка 1 (высокая): широкая (≈62%) + узкая (≈38%)
     Строка 2 (пониже):  узкая (≈40%) + широкая (≈60%)
-    Карточки поддерживают backgroundImage — растягивается на всю площадь карточки.
+    Карточки поддерживают backgroundImage — растягивается на всю площадь карточки.
   -->
   {isFour && (
     <div class="flex flex-col gap-6">
@@ -163,10 +187,16 @@ const isFour = variant === 'four'
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-[62fr_38fr] lg:h-[488px]">
 
         <!-- Карточка 1: широкая, текст внизу-слева -->
-        <div
-          class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto"
-          style={card1.backgroundImage ? `background-image: url('${card1.backgroundImage}'); background-size: cover; background-position: center;` : ''}
-        >
+        <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
+          {card1.backgroundImage && (
+            <img
+              src={card1.backgroundImage}
+              alt=""
+              class="absolute inset-0 w-full h-full object-cover"
+              style={card1.imagePosition ? `object-position: ${card1.imagePosition}` : ''}
+              loading="lazy"
+            />
+          )}
           <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
             <h3 class="text-h3 text-gray-900">{card1.title}</h3>
             {card1.description && (
@@ -175,11 +205,17 @@ const isFour = variant === 'four'
           </div>
         </div>
 
-        <!-- Карточка 2: узкая, текст вверху-слева на десктопе / внизу-слева на мобайле -->
-        <div
-          class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto"
-          style={card2.backgroundImage ? `background-image: url('${card2.backgroundImage}'); background-size: cover; background-position: center;` : ''}
-        >
+        <!-- Карточка 2: узкая, текст вверху-слева на десктопе / внизу-слева на мобайле -->
+        <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
+          {card2.backgroundImage && (
+            <img
+              src={card2.backgroundImage}
+              alt=""
+              class="absolute inset-0 w-full h-full object-cover"
+              style={card2.imagePosition ? `object-position: ${card2.imagePosition}` : ''}
+              loading="lazy"
+            />
+          )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:top-10 lg:bottom-auto lg:left-10 lg:right-10">
             <h3 class="text-h3 text-gray-900">{card2.title}</h3>
             {card2.description && (
@@ -194,10 +230,16 @@ const isFour = variant === 'four'
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-[40fr_60fr] lg:h-[360px]">
 
         <!-- Карточка 3: узкая, текст внизу-слева -->
-        <div
-          class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto"
-          style={card3.backgroundImage ? `background-image: url('${card3.backgroundImage}'); background-size: cover; background-position: center;` : ''}
-        >
+        <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
+          {card3.backgroundImage && (
+            <img
+              src={card3.backgroundImage}
+              alt=""
+              class="absolute inset-0 w-full h-full object-cover"
+              style={card3.imagePosition ? `object-position: ${card3.imagePosition}` : ''}
+              loading="lazy"
+            />
+          )}
           <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
             <h3 class="text-h3 text-gray-900">{card3.title}</h3>
             {card3.description && (
@@ -207,10 +249,16 @@ const isFour = variant === 'four'
         </div>
 
         <!-- Карточка 4: широкая, текст внизу-слева -->
-        <div
-          class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto"
-          style={card4.backgroundImage ? `background-image: url('${card4.backgroundImage}'); background-size: cover; background-position: center;` : ''}
-        >
+        <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
+          {card4.backgroundImage && (
+            <img
+              src={card4.backgroundImage}
+              alt=""
+              class="absolute inset-0 w-full h-full object-cover"
+              style={card4.imagePosition ? `object-position: ${card4.imagePosition}` : ''}
+              loading="lazy"
+            />
+          )}
           <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
             <h3 class="text-h3 text-gray-900">{card4.title}</h3>
             {card4.description && (

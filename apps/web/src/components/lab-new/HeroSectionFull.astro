@@ -1,33 +1,36 @@
 ---
 /**
- * HeroSectionFull — лабораторный full-screen hero
+ * HeroSectionFull — full-screen hero для продуктовых страниц
  *
- * Контент прибит к низу слева, секция занимает весь экран (100dvh).
- * Слот «background» — для анимации/3D (будет добавлен позже).
+ * Слои (снизу вверх):
+ *   1. slot="background" — абсолютный, inset-0, z-0: паттерн стрелочек, частицы и т.д.
+ *      Покрывает ВСЮ секцию целиком.
+ *   2. Двухколоночный грид (z-10):
+ *      — левая колонка (55%): заголовок + описание + кнопки, прибиты к низу
+ *      — правая колонка (45%): slot="right" — 3D-изображение, по центру
+ *      Если slot="right" не передан — контент на всю ширину (оригинальный вариант).
+ *   3. slot="logos" — строка логотипов под текстом в левой колонке
  *
- * Отличия от HeroSection layout="full":
- * — min-h-[100dvh] вместо min-h-[680px] lg:min-h-[900px]
- * — только full-вариант, без default/split
+ * @example с изображением
+ * ```astro
+ * <HeroSectionFull title="Заголовок" description="...">
+ *   <PixelArrowPattern slot="background" />
+ *   <img slot="right" src="/hero.webp" class="w-full animate-hero-float" />
+ *   <LogoGrid slot="logos" />
+ * </HeroSectionFull>
+ * ```
  */
 
 import Button from '../ui/Button.astro'
 
 interface Props {
-  /** Бейдж/надпись над заголовком */
   badge?: string
-  /** Основной заголовок */
   title: string
-  /** Описание под заголовком */
   description?: string
-  /** Текст первой кнопки */
   demoLabel?: string
-  /** Текст второй кнопки */
   kpLabel?: string
-  /** Пресет дровера для первой кнопки */
   demoPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
-  /** Пресет дровера для второй кнопки */
   kpPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
-  /** Дополнительные CSS классы */
   class?: string
 }
 
@@ -43,33 +46,94 @@ const {
 } = Astro.props
 
 const hasLogos = Astro.slots.has('logos')
+const hasRight = Astro.slots.has('right')
 ---
 
 <section class:list={['relative overflow-hidden bg-background-primary', className]}>
 
-  <!-- Слот для анимированного фона (3D, частицы и т.д.) -->
+  <!-- Слой 1: паттерн / фон — на всю секцию -->
   <div class="absolute inset-0 z-0" aria-hidden="true">
     <slot name="background" />
   </div>
 
-  <!-- Контент: прибит к низу слева -->
+  <!-- Слой 2: контент поверх фона -->
   <div class="relative z-10 flex flex-col min-h-[calc(100dvh-76px)]">
-    <div class="flex flex-col justify-end flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-10 pb-24 lg:pb-40">
-      <div class="flex flex-col gap-6 max-w-[1000px]">
-        {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
-        <h1 class="text-h1 text-gray-900">{title}</h1>
-        {description && <p class="text-body-lg text-gray-500">{description}</p>}
-        <div class="flex flex-col xs:flex-row gap-4 pt-2">
-          <Button variant="primary" size="lg" drawerPreset={demoPreset} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{demoLabel}</Button>
-          <Button variant="ghost" size="lg" drawerPreset={kpPreset} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{kpLabel}</Button>
+    <div class="flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-10">
+
+      {hasRight ? (
+
+        /* ── Двухколоночный вариант: текст флюидный, картинка абсолютная ── */
+        <>
+          <!-- Текст: в потоке, ширина ограничена hero-left-col через CSS clamp -->
+          <div class="hero-left-col relative z-10 flex flex-col justify-end pb-24 lg:pb-40 min-h-[calc(100dvh-76px)]">
+            <div class="flex flex-col gap-6">
+              {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
+              <h1 class="text-h1 text-gray-900">{title}</h1>
+              {description && <p class="text-body-lg text-gray-500">{description}</p>}
+              <div class="flex flex-col xs:flex-row gap-4 pt-2">
+                <Button variant="primary" size="lg" drawerPreset={demoPreset} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{demoLabel}</Button>
+                <Button variant="ghost"   size="lg" drawerPreset={kpPreset}  class="w-full xs:flex-1 lg:flex-none lg:w-auto">{kpLabel}</Button>
+              </div>
+            </div>
+            {hasLogos && (
+              <div class="w-full overflow-x-hidden mt-12 md:mt-16">
+                <slot name="logos" />
+              </div>
+            )}
+          </div>
+
+          <!-- Картинка: абсолютная, прибита к правому краю — не зависит от ширины текста -->
+          <div class="hero-right-col absolute top-0 right-0 h-full hidden lg:flex items-start justify-center" aria-hidden="true">
+            <slot name="right" />
+          </div>
+        </>
+
+      ) : (
+
+        /* ── Оригинальный вариант: только текст, на всю ширину ── */
+        <div class="flex flex-col justify-end flex-1 pb-24 lg:pb-40 min-h-[calc(100dvh-76px)]">
+          <div class="flex flex-col gap-6 max-w-[1000px]">
+            {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
+            <h1 class="text-h1 text-gray-900">{title}</h1>
+            {description && <p class="text-body-lg text-gray-500">{description}</p>}
+            <div class="flex flex-col xs:flex-row gap-4 pt-2">
+              <Button variant="primary" size="lg" drawerPreset={demoPreset} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{demoLabel}</Button>
+              <Button variant="ghost"   size="lg" drawerPreset={kpPreset}  class="w-full xs:flex-1 lg:flex-none lg:w-auto">{kpLabel}</Button>
+            </div>
+          </div>
+          {hasLogos && (
+            <div class="w-full overflow-x-hidden mt-12 md:mt-16">
+              <slot name="logos" />
+            </div>
+          )}
         </div>
-      </div>
-      {hasLogos && (
-        <div class="w-full overflow-x-hidden mt-12 md:mt-16">
-          <slot name="logos" />
-        </div>
+
       )}
+
     </div>
   </div>
 
 </section>
+
+<style>
+  /*
+   * Текстовая колонка: флюидная max-width через clamp.
+   * 1024px → 65% / 1440px → 58% (% от ширины контейнера)
+   * slope = (58 - 65) / (1440 - 1024) = -1.68 vw
+   * intercept = 65 + 1.68 × 10.24 = 82.23%
+   *
+   * Картинка абсолютная (hero-right-col) — не зависит от ширины текста,
+   * всегда прибита к правому краю секции, занимает 45vw.
+   */
+  @media (min-width: 1024px) {
+    .hero-left-col {
+      max-width: clamp(58%, -1.68vw + 82.23%, 65%);
+    }
+    .hero-right-col {
+      width: 45vw;
+      /* на широких мониторах (>1440px) прибиваемся к правому краю контент-области,
+         а не вьюпорта: right = половина бокового отступа */
+      right: max(0px, calc((100vw - 1440px) / 3));
+    }
+  }
+</style>
