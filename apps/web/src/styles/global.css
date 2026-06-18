@@ -439,6 +439,18 @@ body.fluid-page .hero-left-col {
 .fluid-page .hero-badge img { width: clamp(14px, 0.219rem + 0.729vw, 17.5px); height: clamp(14px, 0.219rem + 0.729vw, 17.5px); }
 .fluid-page .hero-badge span { font-size: clamp(14px, 0.219rem + 0.729vw, 17.5px); }
 
+/* Island-пилюля (ui/Island.astro .island): контейнер (паддинг/gap/радиус) + лейбл.
+   Кнопка внутри (.btn-md) и стрелка (.btn-icon) масштабируются своими правилами. */
+.fluid-page .island {
+  gap: clamp(12px, 0.1875rem + 0.625vw, 15px);
+  padding-left: clamp(16px, 0.25rem + 0.833vw, 20px);
+  padding-right: clamp(12px, 0.1875rem + 0.625vw, 15px);
+  padding-top: clamp(12px, 0.1875rem + 0.625vw, 15px);
+  padding-bottom: clamp(12px, 0.1875rem + 0.625vw, 15px);
+  border-radius: clamp(16px, 0.25rem + 0.833vw, 20px);
+}
+.fluid-page .island > span { font-size: clamp(14px, 0.219rem + 0.729vw, 17.5px); }
+
 /* Prose enhancements for Webflow legacy content (bodyHtml) */
 /* Цитаты в legacy bodyHtml — как QuoteBlock без автора: серая плашка без кавычек */
 .prose blockquote {
