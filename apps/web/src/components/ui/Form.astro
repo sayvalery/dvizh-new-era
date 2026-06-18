@@ -36,10 +36,14 @@ interface Props {
   /** light — для светлого фона, dark — для тёмного (FormClosing и т.п.) */
   variant?: 'light' | 'dark'
   submitLabel?: string
+  /** Показывать чекбокс согласия на обработку персональных данных */
+  showPrivacy?: boolean
+  /** Текст согласия перед ссылкой на Политику (по умолчанию — стандартный) */
+  privacyText?: string
   class?: string
 }
 
-const { preset, layout = 'stacked', variant = 'light', submitLabel, class: className } = Astro.props
+const { preset, layout = 'stacked', variant = 'light', submitLabel, showPrivacy = true, privacyText, class: className } = Astro.props
 
 const isDark = variant === 'dark'
 
@@ -49,6 +53,12 @@ const labelClasses = isDark
 
 const successClasses = isDark ? 'text-green-400' : 'text-green-600'
 const errorClasses = isDark ? 'text-red-400' : 'text-red-600'
+
+// Согласие на обработку ПД — визуал/тема как в FormClosing (единообразие по сайту)
+const privacyLinkCls = isDark ? 'text-white/40 underline hover:text-white/60' : 'text-gray-400 underline hover:text-gray-600'
+const privacyCls = isDark ? 'text-white/40' : 'text-gray-400'
+const checkboxBorder = isDark ? 'border-white/20 bg-white/5' : 'border-gray-300/60 bg-gray-100/50'
+const privacyMain = privacyText ?? 'Я даю согласие на обработку персональных данных и ознакомлен с '
 
 const fields: Record<string, string[]> = {
   lead:     ['name', 'phone'],
@@ -149,6 +159,34 @@ const formFields = fields[preset] ?? ['name', 'email']
   <div class="hidden">
     <input name="_honeypot" tabindex="-1" autocomplete="off" />
   </div>
+
+  {showPrivacy && (
+    <label class="flex items-start gap-2 cursor-pointer mt-4">
+      <div class="relative mt-[2px] w-4 h-4 shrink-0">
+        <input
+          type="checkbox"
+          required
+          class="peer absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+        />
+        <div class:list={[
+          'absolute inset-0 rounded-[4px] border-2 transition-colors duration-150',
+          'peer-checked:bg-brand peer-checked:border-brand',
+          checkboxBorder,
+        ]}></div>
+        <svg
+          class="absolute inset-0 w-full h-full p-[3px] text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-150 pointer-events-none"
+          viewBox="0 0 10 8"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M1.5 4L3.5 6.5L8.5 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class:list={['text-[13px] leading-snug', privacyCls]}>
+        {privacyMain}<a href="/privacy" class={privacyLinkCls}>Политикой&nbsp;обработки персональных&nbsp;данных</a>
+      </span>
+    </label>
+  )}
 
   {layout !== 'inline' && (
     <Button
