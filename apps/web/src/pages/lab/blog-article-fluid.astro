@@ -1,0 +1,386 @@
+---
+/**
+ * Lab: копия боевой статьи блога (/blog/[slug] → blog/[slug].astro) — флюид-вёрстка.
+ * Доступна в dev: preview.dvizh.cc/lab/blog-article-fluid
+ *
+ * Та же флюид-система, что у /lab/blog-fluid, /lab/glavnaya, /lab/ipoteka-apex:
+ *   - bodyClass="fluid-page" → общая типографика (clamp) + ширина .page-container 1440→1920 из global.css
+ *   - локальный <style is:global> — только специфичное для статьи (фикс-px колонки 340px)
+ *
+ * Отличие от боевой страницы: боевая — динамический роут (getStaticPaths по всем
+ * постам). Лаб-версия СТАТИЧЕСКАЯ — сама выбирает одну показательную статью
+ * (с оглавлением + автором + обложкой), чтобы не плодить сотни лаб-страниц.
+ */
+import BlogLayout from '../../layouts/BlogLayout.astro'
+import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
+import PersonCard from '../../components/ui/PersonCard.astro'
+import SideMenu from '../../components/ui/SideMenu.astro'
+import Button from '../../components/ui/Button.astro'
+import BlogCardNew from '../../components/ui/BlogCardNew.astro'
+import { getBlogPosts, getBlogPost, normalizeMediaUrl, normalizeBodyHtml, sanitizeBodyHtml } from '../../lib/payload'
+import { serializeLexical, createIdGenerator, buildTocFromContent, buildTocFromHtml, lexicalNodeText } from '../../lib/lexical'
+
+// ─── Выбор показательной статьи (статическая лаб-версия) ───────────────────
+// Берём свежие посты, для каждого тянем полные данные и проверяем «качество»
+// демо: есть оглавление (h2/h3), есть автор и обложка. Первый подходящий —
+// показываем. Если ни один из первых N не подходит — fallback на самый свежий.
+function tocLen(p: any): number {
+  const content: any[] = p?.content ?? []
+  if (content.length > 0) return buildTocFromContent(content).length
+  if (p?.bodyHtml) {
+    const html = sanitizeBodyHtml(normalizeBodyHtml(p.bodyHtml)) ?? ''
+    return html ? buildTocFromHtml(html).toc.length : 0
+  }
+  return 0
+}
+
+const { docs: rawPosts } = await getBlogPosts({ limit: 200 })
+const sorted = [...rawPosts].sort((a: any, b: any) => {
+  const ta = a.publishedAt ? Date.parse(a.publishedAt) : -Infinity
+  const tb = b.publishedAt ? Date.parse(b.publishedAt) : -Infinity
+  return tb - ta
+})
+
+let post: any = null
+for (const candidate of sorted.slice(0, 12)) {
+  const full = await getBlogPost(candidate.slug)
+  if (full && tocLen(full) > 0 && full.primaryAuthor && full.cover) {
+    post = full
+    break
+  }
+}
+// Fallback: самый свежий пост целиком
+if (!post && sorted[0]) post = await getBlogPost(sorted[0].slug)
+if (!post) return Astro.redirect('/404')
+
+const coverUrl = normalizeMediaUrl(post.cover?.url)
+const ogImage = normalizeMediaUrl(post.meta?.image?.url) ?? normalizeMediaUrl(post.cover?.url) ?? undefined
+
+// ─── Тело статьи + оглавление: два источника ──────────────────────────────
+const content: any[] = post.content ?? []
+const hasBlocks = content.length > 0
+
+const rawBodyHtml = hasBlocks ? '' : sanitizeBodyHtml(normalizeBodyHtml(
+  post.bodyHtml
+    ?.replaceAll('href="https://dvizh.webflow.io/', 'href="/')
+    .replaceAll('href="https://www.dvizh.io/', 'href="/')
+)) ?? ''
+
+let tocFlat: Array<{ id: string; text: string; level: 2 | 3 }> = []
+let renderedBlocks: Array<{ kind: 'html'; html: string } | { kind: 'block'; block: any }> = []
+
+if (hasBlocks) {
+  tocFlat = buildTocFromContent(content)
+  const renderGen = createIdGenerator()
+  renderedBlocks = content.map((block: any) =>
+    block.blockType === 'richText'
+      ? { kind: 'html' as const, html: serializeLexical(block.content, { makeHeadingId: renderGen }) }
+      : { kind: 'block' as const, block }
+  )
+} else if (rawBodyHtml) {
+  const { html, toc } = buildTocFromHtml(rawBodyHtml)
+  tocFlat = toc
+  renderedBlocks = [{ kind: 'html' as const, html }]
+}
+const tocIds = tocFlat.map((i) => i.id)
+
+const sentenceCase = (s: string) => {
+  const t = s.trim()
+  return t ? t.charAt(0).toUpperCase() + t.slice(1) : t
+}
+const tocItems = tocFlat.map((i) => ({
+  title: i.level === 3 ? sentenceCase(i.text) : i.text,
+  level: i.level,
+}))
+
+// Время чтения
+const textContent = post.bodyHtml?.replace(/<[^>]+>/g, '')
+  ?? content.filter((b) => b.blockType === 'richText').map((b) => lexicalNodeText(b.content?.root)).join(' ')
+  ?? ''
+const wordCount = textContent.split(/\s+/).filter(Boolean).length
+const readingTime = Math.max(1, Math.ceil(wordCount / 200))
+
+// ─── Авторы ───────────────────────────────────────────────────────────────
+const primaryAuthor = post.primaryAuthor ?? null
+const coAuthors = (post.coAuthors ?? []).filter((a: any) => a.id !== primaryAuthor?.id)
+const contributors = [primaryAuthor, ...coAuthors].filter(Boolean)
+const tags = Array.isArray(post.tags) ? post.tags : []
+
+// ─── Связанные посты: ручные + авто-добор из той же категории ──────────────
+const manualRelated = (post.relatedPosts ?? []).filter((p: any) => p?.id && p.id !== post.id)
+let autoRelated: any[] = []
+const slotsLeft = 3 - manualRelated.length
+if (slotsLeft > 0 && post.category?.slug) {
+  const excludeIds = [post.id, ...manualRelated.map((p: any) => p.id)]
+  const { docs } = await getBlogPosts({
+    where: {
+      _status: { equals: 'published' },
+      'category.slug': { equals: post.category.slug },
+      id: { not_in: excludeIds },
+    },
+    sort: '-publishedAt',
+    limit: slotsLeft,
+    depth: 2,
+  })
+  autoRelated = docs
+}
+const relatedPosts = [...manualRelated, ...autoRelated].slice(0, 3)
+
+// Хелперы карточек «Читайте еще»
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+function ruDate(iso?: string): string | undefined {
+  if (!iso) return undefined
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return undefined
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`
+}
+function lexicalText(node: any): string {
+  if (!node) return ''
+  if (typeof node.text === 'string') return node.text
+  const kids = node.children ?? node.root?.children
+  return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
+}
+function readTimeOf(p: any): string {
+  let text = ''
+  if (p.bodyHtml) text = String(p.bodyHtml).replace(/<[^>]+>/g, ' ')
+  else if (Array.isArray(p.content)) text = p.content.map((b: any) => lexicalText(b.richText)).join(' ')
+  text = text.replace(/\s+/g, ' ').trim()
+  const words = text ? text.split(' ').length : 0
+  return `${Math.max(1, Math.round(words / 200))} мин`
+}
+function card(p: any) {
+  return { title: p.title, slug: p.slug, cover: p.cover, excerpt: p.excerpt, date: ruDate(p.publishedAt), readTime: readTimeOf(p) }
+}
+---
+
+<BlogLayout
+  title={`/lab · ${post.meta?.title ?? post.title}`}
+  description={post.meta?.description ?? post.excerpt}
+  ogImage={ogImage}
+  ogType="article"
+  insightsHeader
+  bodyClass="fluid-page"
+>
+  <article class="page-container pt-10 md:pt-16">
+
+    {/* ── Контейнер 1: мета + заголовок ── */}
+    <div class="grid grid-cols-1 gap-y-8 xl:grid-cols-[340px_1fr] xl:gap-x-10 xl:gap-y-0">
+      {/* Левая колонка — мета (на xl+; на lg и меньше — стек: крошки → автор/дата) */}
+      <aside class="flex flex-col gap-8 xl:gap-0 xl:h-full xl:justify-between text-subhead text-gray-500">
+        <nav class="text-subhead">
+          <a href="/blog" class="hover:text-gray-900">Блог</a>
+          {post.category?.title && (
+            <>
+              <span class="mx-1">›</span>
+              <a href={`/blog/category/${post.category.slug}`} class="hover:text-gray-900">{post.category.title}</a>
+            </>
+          )}
+        </nav>
+
+        <div class="flex flex-col gap-1 xs:flex-row xs:items-center xs:justify-between xl:flex-col xl:items-start">
+          {primaryAuthor && <PersonCard person={primaryAuthor} variant="inline" />}
+
+          {(() => {
+            const date = ruDate(post.publishedAt)
+            const readTime = `${readingTime} мин`
+            const hasDateMeta = date || readTime
+            return hasDateMeta && (
+              <div class="flex items-end gap-1 text-subhead text-gray-500">
+                {date && <span>{date}</span>}
+                {date && readTime && <span>·</span>}
+                {readTime && <span>{readTime}</span>}
+              </div>
+            )
+          })()}
+        </div>
+      </aside>
+
+      {/* Правая колонка — заголовок */}
+      <div class="flex flex-col gap-4">
+        <h1 class="text-h2 text-gray-900">{post.title}</h1>
+        {post.excerpt && (
+          <p class="text-body-lg text-gray-500">{post.excerpt}</p>
+        )}
+      </div>
+    </div>
+
+    {/* ── Контейнер 2: TOC + обложка/тело ── */}
+    <div class="grid grid-cols-1 gap-y-8 mt-16 xl:grid-cols-[340px_1fr] xl:gap-x-10 xl:gap-y-0">
+      <aside
+        class="self-start xl:sticky xl:top-24"
+        x-data={`articleToc(${JSON.stringify(tocIds)})`}
+        @side-menu-change="onClick($event.detail.index)"
+      >
+        {tocFlat.length > 0 && (
+          <SideMenu navId="article-toc" variant="panel" items={tocItems} />
+        )}
+      </aside>
+      <div>
+        {coverUrl && (
+          <img
+            src={coverUrl}
+            alt={post.cover?.alt ?? post.title}
+            class="w-full rounded-xl aspect-video object-cover mb-10"
+            width="1200"
+            height="675"
+            loading="eager"
+            decoding="async"
+          />
+        )}
+        {renderedBlocks.map((b) => (
+          b.kind === 'html'
+            ? <div class="prose prose-lg max-w-none" set:html={b.html} />
+            : <BlockRenderer blocks={[b.block]} />
+        ))}
+      </div>
+    </div>
+
+    {/* ── Низ статьи: вне колонки тела (выровнен через col-start-2),
+         чтобы sticky-оглавление отлипало в конце тела статьи ── */}
+    <div class="grid grid-cols-1 mt-12 xl:grid-cols-[340px_1fr] xl:gap-x-10">
+      <div class="xl:col-start-2">
+        <hr class="border-gray-200" />
+
+        {/* Категория | хештеги ........ Поделиться */}
+        <div class="flex flex-wrap items-center justify-between gap-4 mt-10">
+          <div class="flex items-center text-subhead text-gray-500">
+            {post.category?.title && (
+              <a href={`/blog/category/${post.category.slug}`} class="hover:text-gray-900 transition-colors">{post.category.title}</a>
+            )}
+            {post.category?.title && tags.length > 0 && (
+              <span class="mx-3 h-4 w-0.5 bg-gray-300" aria-hidden="true"></span>
+            )}
+            {tags.length > 0 && (
+              <div class="flex flex-wrap gap-3">
+                {tags.map((t: any) => (
+                  <a href={t.slug ? `/tag/${t.slug}` : '#'} class="text-brand hover:text-brand-600 transition-colors">#{t.title ?? t.name ?? t.slug}</a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div x-data="{ copied: false, timer: null }" class="shrink-0">
+            <Button
+              variant="primary"
+              size="md"
+              type="button"
+              @click="navigator.clipboard.writeText(window.location.href); copied = true; clearTimeout(timer); timer = setTimeout(() => copied = false, 2000)"
+            >
+              <span x-show="!copied">Поделиться</span>
+              <span x-show="copied" x-cloak>Скопировано</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Над статьей работали */}
+        {contributors.length > 0 && (
+          <>
+            <h5 class="text-h5 text-gray-900 mt-10">Над статьей работали:</h5>
+            <div class="flex flex-col sm:flex-row gap-6 mt-4">
+              {contributors.map((p: any) => (
+                <div class="sm:flex-1 sm:min-w-0">
+                  <PersonCard person={p} variant="full" />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+
+  </article>
+
+  {/* ── Читайте еще — блок-сетка (структура как «Правила девелопера») ── */}
+  {relatedPosts.length > 0 && (
+    <section class="page-container mt-[120px] pb-10 md:pb-16">
+      <div class="flex flex-col gap-10 lg:gap-16">
+        <h2 class="text-h2 text-gray-900">Читайте еще</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+          {relatedPosts.map((p: any, i: number) => (
+            <BlogCardNew size="md" {...card(p)} class={i === 3 ? 'hidden sm:block lg:hidden' : ''} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/*
+    Флюид-эксперимент статьи блога. Скоуп .fluid-page живёт на <body> ТОЛЬКО этой
+    страницы (через bodyClass → BlogLayout → BaseLayout). Общая флюид-система
+    (типографика clamp + ширина .page-container 1440→1920) — в global.css, скоуп
+    .fluid-page, поэтому инертна на боевом /blog/[slug].
+
+    Специфика статьи: единственный фикс-px в лейауте — левая колонка
+    xl:grid-cols-[340px_1fr] (мета/оглавление). Тянем её той же формулой, что и
+    высоты карточек на /lab/glavnaya: base × 60/1440 rem + base × 37.5/1440 vw,
+    потолок base × 1.333 (340 → 453) — пропорция двух колонок постоянна 1440→1920.
+    Обложка (aspect-video) и текст на ДС-классах (text-h2/body-lg/subhead)
+    флюидятся сами. Прозу (.prose из set:html) система НЕ трогает — это сырые
+    теги @tailwindcss/typography, не утилиты .text-*.
+  */}
+  <style is:global>
+    html { scroll-behavior: smooth; }
+    /* Отступ при скролле к якорю, чтобы заголовок не прятался под шапкой */
+    article h2[id], article h3[id] { scroll-margin-top: 96px; }
+
+    @media (min-width: 1280px) {
+      .fluid-page .xl\:grid-cols-\[340px_1fr\] {
+        grid-template-columns: clamp(340px, 14.167rem + 8.854vw, 453px) 1fr;
+      }
+    }
+  </style>
+</BlogLayout>
+
+<script is:inline>
+  document.addEventListener('alpine:init', () => {
+    window.Alpine.data('articleToc', (ids) => ({
+      ids: ids || [],
+      navId: 'article-toc',
+
+      setActive(index) {
+        window.dispatchEvent(new CustomEvent('side-menu-set-active', {
+          detail: { navId: this.navId, index }
+        }))
+      },
+
+      onClick(index) {
+        const id = this.ids[index]
+        if (!id) return
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      },
+
+      init() {
+        if (this.ids.length === 0) return
+
+        const headings = this.ids
+          .map((id) => document.getElementById(id))
+          .filter(Boolean)
+        if (headings.length === 0) return
+
+        const indexById = new Map(this.ids.map((id, i) => [id, i]))
+
+        // По умолчанию подсветить первый
+        this.setActive(0)
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((e) => e.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+            if (visible.length > 0) {
+              const idx = indexById.get(visible[0].target.id)
+              if (idx !== undefined) this.setActive(idx)
+            }
+          },
+          {
+            rootMargin: '-15% 0px -70% 0px',
+            threshold: 0,
+          }
+        )
+
+        headings.forEach((h) => observer.observe(h))
+      },
+    }))
+  })
+</script>
