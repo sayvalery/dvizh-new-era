@@ -70,9 +70,10 @@ const hasRight = Astro.slots.has('right')
          */
         <div class="grid min-h-[calc(100dvh-76px)] lg:h-[calc(100dvh-76px)] lg:grid-cols-[58%_42%]">
 
-          <!-- Левая колонка: текст прибит к низу, z-10 чтобы быть поверх картинки -->
-          <div class="relative z-10 flex flex-col justify-end pb-24 lg:pb-40">
-            <div class="flex flex-col gap-6 max-w-[780px]">
+          <!-- Левая колонка: текст прибит к низу, z-10 чтобы быть поверх картинки.
+               hero-left-col: на .fluid-page (лаб) pb становится флюидным (см. global.css). -->
+          <div class="hero-left-col relative z-10 flex flex-col justify-end pb-24 lg:pb-40">
+            <div class="flex flex-col gap-6">
               {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
               <h1 class="text-h1 text-gray-900">{title}</h1>
               {description && <p class="text-body-lg text-gray-500">{description}</p>}
@@ -103,7 +104,7 @@ const hasRight = Astro.slots.has('right')
       ) : (
 
         /* ── Оригинальный вариант: только текст, на всю ширину ── */
-        <div class="flex flex-col justify-end flex-1 pb-24 lg:pb-40 min-h-[calc(100dvh-76px)]">
+        <div class="hero-left-col flex flex-col justify-end flex-1 pb-24 lg:pb-40 min-h-[calc(100dvh-76px)]">
           <div class="flex flex-col gap-6 max-w-[1000px]">
             {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
             <h1 class="text-h1 text-gray-900">{title}</h1>

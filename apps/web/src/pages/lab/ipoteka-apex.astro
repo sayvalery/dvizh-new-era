@@ -1,7 +1,6 @@
 ---
 // lab: цифровая ипотека (флюид-эксперимент)
 import SiteLayout from '../../layouts/SiteLayout.astro'
-import FluidStyles from '../../components/lab-new/FluidStyles.astro'
 import HeroSectionFull from '../../components/lab-new/HeroSectionFull.astro'
 import LogoGrid from '../../components/ui/LogoGrid.astro'
 import FeatureBlock from '../../components/ui/FeatureBlock.astro'
@@ -10,12 +9,8 @@ import SuccessStoryBlock from '../../components/ui/SuccessStoryBlock.astro'
 import FormClosing from '../../components/ui/FormClosing.astro'
 ---
 
-{/* Флюид-система (типографика + ширина контейнера 1440→1920) — общий
-    компонент, тот же на /lab/glavnaya, обе страницы синхронны по построению.
-    Активируется классом fluid-page на <body> (bodyClass ниже).
-    Анимация hero-float вынесена в global.css (класс animate-hero-float). */}
-<FluidStyles />
-
+{/* Флюид-система (типографика + ширина контейнера 1440→1920) — в global.css,
+    скоуп .fluid-page. Активируется классом fluid-page на <body> (bodyClass ниже). */}
 <SiteLayout
   title="/lab · Цифровая ипотека"
   description="Ипотечная платформа для современных девелоперов. Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
@@ -51,8 +46,10 @@ import FormClosing from '../../components/ui/FormClosing.astro'
     />
   </HeroSectionFull>
 
-  {/* gap-24 (96px) base/sm/md / lg:gap-40 (160px) */}
-  <div class="flex flex-col gap-24 lg:gap-40">
+  {/* gap-24 (96px) base/sm/md / lg:gap-40 (160px) между блоками.
+      mt-24 lg:mt-32 (96/128px) — доп. воздух на стыке hero↔первый блок
+      (hero отделяет только свой нижний паддинг, gap здесь не работает). */}
+  <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
   {/* ── 4. FeatureBlock — Повышаем конверсию ── */}
   <FeatureBlock

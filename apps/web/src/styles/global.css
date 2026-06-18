@@ -334,6 +334,63 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
+/* ─── Флюид-система лаб-страниц (.fluid-page) ──────────────────────────────────
+ * Активируется классом `fluid-page` на <body> (через `bodyClass` в SiteLayout).
+ * Все правила скоупятся под .fluid-page → на прод-страницах (без класса) инертны.
+ *
+ * Раньше жила в компоненте FluidStyles.astro (<style is:global>). Перенесена сюда,
+ * потому что styles-only компонент не инжектится Astro на странице без своего
+ * <style>-якоря (после рефактора HeroSectionFull /lab/ipoteka-apex терял ширину
+ * 1440→1920). global.css грузится всегда — доставка гарантирована.
+ *
+ * Что внутри:
+ *   1. Типографика — clamp() без брейкпойнтов (на ~1280px = ДС-десктоп, дальше растёт).
+ *   2. Ширина контента — плавно 1440 → 1920px (контейнер/хэдер/hero синхронно).
+ *   3. Hero (HeroSectionFull) — отступы и позиция картинки под флюид-ширину.
+ */
+
+/* 1. Типографика (без мобильных фиксов — непрерывный флюид) */
+.fluid-page .text-h1,
+.fluid-page .text-h1-italic { font-size: clamp(28px, 1rem + 3.75vw, 68px); } /* потолок 68 (капается ~с 1386px); на 1280px = 64 (ДС-десктоп) */
+.fluid-page .text-h2 { font-size: clamp(30px, 1rem + 2.5vw, 64px); }
+.fluid-page .text-h3 { font-size: clamp(24px, 0.75rem + 1.56vw, 42px); }
+.fluid-page .text-product-card-h { font-size: clamp(24px, 1rem + 2.5vw, 64px); }
+.fluid-page .text-h4 { font-size: clamp(18px, 0.75rem + 0.94vw, 30px); }
+.fluid-page .text-h5 { font-size: clamp(16px, 0.88rem + 0.31vw, 20px); }
+.fluid-page .text-h6 { font-size: clamp(14px, 0.75rem + 0.31vw, 18px); }
+.fluid-page .text-card-title { font-size: clamp(20px, 1.15rem + 0.44vw, 24px); } /* мелкий лейбл карточки — капается на ДС-десктопе (24), выше не растим */
+
+/* Тело текста */
+.fluid-page .text-body-lg,
+.fluid-page .text-body-lg-italic,
+.fluid-page .text-body-lg-bold { font-size: clamp(16px, 0.88rem + 0.31vw, 20px); }
+.fluid-page .text-subhead { font-size: clamp(14px, 0.75rem + 0.31vw, 18px); }
+.fluid-page .text-medium-32 { font-size: clamp(18px, 0.5rem + 1.25vw, 32px); }
+
+/* 2. Ширина контента: 1440 → 1920px (одна формула на контейнер/хэдер/hero) */
+.fluid-page .page-container,
+.fluid-page header .max-w-\[1440px\],
+.fluid-page section .max-w-\[1440px\] { max-width: clamp(1440px, 60rem + 37.5vw, 1920px); }
+
+/* 3. Hero (HeroSectionFull) под .fluid-page — только продуктовые лаб-страницы.
+   body.fluid-page для специфичности выше scoped-стилей компонента. */
+
+/* Фикс: класс min-h-[calc(100dvh-76px)] не генерит CSS — calc без пробелов
+   вокруг «-» невалиден, минификатор выкидывает правило, и hero теряет высоту
+   (контент не прижимается к низу). Возвращаем min-height валидным calc. */
+body.fluid-page .min-h-\[calc\(100dvh-76px\)\] {
+  min-height: calc(100dvh - 76px);
+}
+
+/* Нижний отступ hero — флюидный вместо ступенчатого pb-24/lg:pb-40 (96/160).
+   64px на мобилке (~375) → 96px на планшете (~768), дальше потолок 96px.
+   На небольших экранах фикс-160 визуально центрировал заголовок+кнопки —
+   флюид прижимает их ближе к низу. (Ширина колонок hero теперь задаётся grid
+   в самом HeroSectionFull — старые max-width/right-col правила убраны.) */
+body.fluid-page .hero-left-col {
+  padding-bottom: clamp(64px, 33.5px + 8.14vw, 96px);
+}
+
 /* Prose enhancements for Webflow legacy content (bodyHtml) */
 /* Цитаты в legacy bodyHtml — как QuoteBlock без автора: серая плашка без кавычек */
 .prose blockquote {

@@ -4,7 +4,6 @@
  * Доступна в dev: preview.dvizh.cc/lab/glavnaya
  */
 import SiteLayout from '../../layouts/SiteLayout.astro'
-import FluidStyles from '../../components/lab-new/FluidStyles.astro'
 import HeroSection from '../../components/ui/HeroSection.astro'
 import LogoDrum from '../../components/ui/LogoDrum.astro'
 import LogoGrid from '../../components/ui/LogoGrid.astro'
@@ -435,11 +434,10 @@ const partnerLogos = [
   {/*
     Полностраничный флюид-эксперимент. Скоуп .fluid-page живёт на <body>
     ТОЛЬКО этой страницы (через bodyClass SiteLayout). Общая флюид-система
-    (типографика + ширина контейнера 1440→1920) вынесена в FluidStyles —
-    тот же компонент на /lab/ipoteka-apex, обе страницы синхронны по построению.
+    (типографика + ширина контейнера 1440→1920) — в global.css, скоуп .fluid-page,
+    та же на /lab/ipoteka-apex, обе страницы синхронны по построению.
     Ниже в <style> — только специфичное для главной (hero-сетка, LogoDrum, карточки).
   */}
-  <FluidStyles />
 
   <style is:global>
     /*
