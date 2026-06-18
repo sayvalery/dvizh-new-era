@@ -106,7 +106,7 @@ const resolvedPreset = drawerPreset ?? 'demo'
           @click={`$dispatch('open-drawer', { preset: '${resolvedPreset}' })`}
           class:list={[
             variant === 'dark' ? 'cta-btn bg-brand hover:bg-brand' : 'cta-btn bg-indigo-600 hover:bg-indigo-600',
-            'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer'
+            'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm hover:scale-[1.03] active:scale-[0.98] transition duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer'
           ]}
         >
           {buttonText}
@@ -116,7 +116,7 @@ const resolvedPreset = drawerPreset ?? 'demo'
           href={buttonHref}
           class:list={[
             variant === 'dark' ? 'cta-btn bg-brand hover:bg-brand' : 'cta-btn bg-indigo-600 hover:bg-indigo-600',
-            'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+            'inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white shadow-sm hover:scale-[1.03] active:scale-[0.98] transition duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
           ]}
         >
           {buttonText}
