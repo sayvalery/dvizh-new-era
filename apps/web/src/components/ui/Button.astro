@@ -86,6 +86,10 @@ const sizeMap = {
 const { padding, square, text, icon: iconSize } = sizeMap[size]
 const sizeCls = iconOnly ? square : padding
 
+// Маркер-классы для флюид-скейла (.fluid-page .btn-* в global.css). На прод-страницах
+// без .fluid-page инертны — служат только хуком для clamp-масштабирования контролов.
+const markerCls = `btn btn-${size}`
+
 // Варианты оформления
 const variantMap = {
   primary:      'bg-brand text-white hover:bg-brand-600 focus-visible:outline-brand',
@@ -117,18 +121,18 @@ const isLink = !!href
       'inline-flex items-center justify-center rounded-lg',
       'gap-2 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98]',
       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
-      sizeCls, text, variantMap[variant], disabledMap[variant], className,
+      sizeCls, text, variantMap[variant], disabledMap[variant], markerCls, className,
     ]}
     aria-disabled={disabled || undefined}
   >
     {hasIconLeft && (
-      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+      <span class:list={['btn-icon flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
         <slot name="icon-left" />
       </span>
     )}
     {!iconOnly && <slot />}
     {hasIconRight && (
-      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+      <span class:list={['btn-icon flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
         <slot name="icon-right" />
       </span>
     )}
@@ -144,17 +148,17 @@ const isLink = !!href
       'inline-flex items-center justify-center rounded-lg',
       'gap-2 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98] cursor-pointer',
       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
-      sizeCls, text, variantMap[variant], disabledMap[variant], className,
+      sizeCls, text, variantMap[variant], disabledMap[variant], markerCls, className,
     ]}
   >
     {hasIconLeft && (
-      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+      <span class:list={['btn-icon flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
         <slot name="icon-left" />
       </span>
     )}
     {!iconOnly && <slot />}
     {hasIconRight && (
-      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+      <span class:list={['btn-icon flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
         <slot name="icon-right" />
       </span>
     )}
@@ -168,17 +172,17 @@ const isLink = !!href
       'inline-flex items-center justify-center rounded-lg',
       'gap-2 whitespace-nowrap transition-all duration-300 ease-out hover:scale-[1.03] active:scale-[0.98] cursor-pointer',
       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
-      sizeCls, text, variantMap[variant], disabledMap[variant], className,
+      sizeCls, text, variantMap[variant], disabledMap[variant], markerCls, className,
     ]}
   >
     {hasIconLeft && (
-      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+      <span class:list={['btn-icon flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
         <slot name="icon-left" />
       </span>
     )}
     {!iconOnly && <slot />}
     {hasIconRight && (
-      <span class:list={['flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+      <span class:list={['btn-icon flex-shrink-0 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full', iconSize]}>
         <slot name="icon-right" />
       </span>
     )}

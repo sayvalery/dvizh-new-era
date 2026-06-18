@@ -391,6 +391,54 @@ body.fluid-page .hero-left-col {
   padding-bottom: clamp(64px, 33.5px + 8.14vw, 96px);
 }
 
+/* 4. Контролы под .fluid-page — кнопки, инпуты, бейджи и их иконки.
+   Растут ×1.25 к 1920px (как body-текст), плоско до 1440px: clamp сам гейтит —
+   ниже 1440 preferred < базы → берётся min, мобилки/ноуты не трогаются.
+   Формула на каждую базу B(px): min=B, preferred=(B/64)rem + (B·0.05208)vw, max=1.25·B
+   → ровно B на 1440px, 1.25·B на 1920px.
+   Хуки — маркер-классы компонентов (btn/field/cta-btn/hero-badge), без .fluid-page инертны.
+   Правила unlayered → перебивают @layer components (text-btn, rounded-* и т.п.). */
+
+/* Button (ui/Button.astro): высота + горизонт. паддинг + текст; gap/радиус — общие */
+.fluid-page .btn { gap: clamp(8px, 0.125rem + 0.417vw, 10px); border-radius: clamp(8px, 0.125rem + 0.417vw, 10px); }
+.fluid-page .btn-sm { height: clamp(36px, 0.5625rem + 1.875vw, 45px); padding-left: clamp(16px, 0.25rem + 0.833vw, 20px); padding-right: clamp(16px, 0.25rem + 0.833vw, 20px); font-size: clamp(14px, 0.219rem + 0.729vw, 17.5px); }
+.fluid-page .btn-md { height: clamp(44px, 0.6875rem + 2.292vw, 55px); padding-left: clamp(24px, 0.375rem + 1.25vw, 30px); padding-right: clamp(24px, 0.375rem + 1.25vw, 30px); font-size: clamp(14px, 0.219rem + 0.729vw, 17.5px); }
+.fluid-page .btn-lg { height: clamp(52px, 0.8125rem + 2.708vw, 65px); padding-left: clamp(24px, 0.375rem + 1.25vw, 30px); padding-right: clamp(24px, 0.375rem + 1.25vw, 30px); font-size: clamp(16px, 0.25rem + 0.833vw, 20px); }
+/* Иконки внутри кнопок (span.btn-icon) — тянутся вместе с кнопкой */
+.fluid-page .btn-sm .btn-icon { width: clamp(16px, 0.25rem + 0.833vw, 20px); height: clamp(16px, 0.25rem + 0.833vw, 20px); }
+.fluid-page .btn-md .btn-icon { width: clamp(18px, 0.281rem + 0.938vw, 22.5px); height: clamp(18px, 0.281rem + 0.938vw, 22.5px); }
+.fluid-page .btn-lg .btn-icon { width: clamp(20px, 0.3125rem + 1.042vw, 25px); height: clamp(20px, 0.3125rem + 1.042vw, 25px); }
+/* iconOnly — квадратная: ширина = высоте (перебиваем фикс w-9/w-11/w-[52px]) */
+.fluid-page .btn-sm.w-9 { width: clamp(36px, 0.5625rem + 1.875vw, 45px); }
+.fluid-page .btn-md.w-11 { width: clamp(44px, 0.6875rem + 2.292vw, 55px); }
+.fluid-page .btn-lg.w-\[52px\] { width: clamp(52px, 0.8125rem + 2.708vw, 65px); }
+
+/* CTA-кнопка (ui/CTA.astro .cta-btn): px-8 py-4 rounded-xl text-base */
+.fluid-page .cta-btn {
+  padding-left: clamp(32px, 0.5rem + 1.667vw, 40px);
+  padding-right: clamp(32px, 0.5rem + 1.667vw, 40px);
+  padding-top: clamp(16px, 0.25rem + 0.833vw, 20px);
+  padding-bottom: clamp(16px, 0.25rem + 0.833vw, 20px);
+  font-size: clamp(16px, 0.25rem + 0.833vw, 20px);
+  border-radius: clamp(12px, 0.1875rem + 0.625vw, 15px);
+}
+
+/* Input (ui/Input.astro .field): px + радиус общие; py + текст по размеру */
+.fluid-page .field { padding-left: clamp(16px, 0.25rem + 0.833vw, 20px); padding-right: clamp(16px, 0.25rem + 0.833vw, 20px); border-radius: clamp(8px, 0.125rem + 0.417vw, 10px); }
+.fluid-page .field-m { padding-top: clamp(9px, 0.141rem + 0.469vw, 11.25px); padding-bottom: clamp(9px, 0.141rem + 0.469vw, 11.25px); font-size: clamp(16px, 0.25rem + 0.833vw, 20px); }
+.fluid-page .field-s { padding-top: clamp(8px, 0.125rem + 0.417vw, 10px); padding-bottom: clamp(8px, 0.125rem + 0.417vw, 10px); font-size: clamp(14px, 0.219rem + 0.729vw, 17.5px); }
+
+/* Бейдж-пилюля (lab-new/HeroBadge.astro .hero-badge): паддинг + gap + иконка + текст */
+.fluid-page .hero-badge {
+  gap: clamp(6px, 0.094rem + 0.313vw, 7.5px);
+  padding-left: clamp(12px, 0.1875rem + 0.625vw, 15px);
+  padding-right: clamp(12px, 0.1875rem + 0.625vw, 15px);
+  padding-top: clamp(6px, 0.094rem + 0.313vw, 7.5px);
+  padding-bottom: clamp(6px, 0.094rem + 0.313vw, 7.5px);
+}
+.fluid-page .hero-badge img { width: clamp(14px, 0.219rem + 0.729vw, 17.5px); height: clamp(14px, 0.219rem + 0.729vw, 17.5px); }
+.fluid-page .hero-badge span { font-size: clamp(14px, 0.219rem + 0.729vw, 17.5px); }
+
 /* Prose enhancements for Webflow legacy content (bodyHtml) */
 /* Цитаты в legacy bodyHtml — как QuoteBlock без автора: серая плашка без кавычек */
 .prose blockquote {
