@@ -29,6 +29,7 @@
 
 import Button from './Button.astro'
 import Input from './Input.astro'
+import { PRIVACY_POLICY_URL } from '../../lib/links'
 
 const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
 
@@ -259,7 +260,7 @@ const privacyMain = privacyText
               </svg>
             </div>
             <span class:list={['text-[13px] leading-snug', privacyCls]}>
-              {privacyMain}<a href="/privacy" class={privacyLinkCls}>Политикой&nbsp;обработки персональных&nbsp;данных</a>
+              {privacyMain}<a href={PRIVACY_POLICY_URL} target="_blank" rel="noopener" class={privacyLinkCls}>Политикой&nbsp;обработки персональных&nbsp;данных</a>
             </span>
           </label>
         )}

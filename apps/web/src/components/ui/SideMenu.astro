@@ -144,7 +144,7 @@ const xData = `{
            lg:flex-row lg:items-center lg:gap-2 lg:px-0 lg:py-0`,
           (item.level ?? 2) >= 3 && 'lg:pl-4',
         ]}
-        :class={`active === ${index} ? 'text-brand' : 'text-[#858585]'`}
+        :class={`active === ${index} ? 'text-brand' : 'text-gray-500'`}
         @click={`active = ${index}; $dispatch('side-menu-change', { index: ${index}, item: ${JSON.stringify(item)} })`}
       >
         <span
@@ -170,7 +170,7 @@ const xData = `{
           {sec.h2 && (
             <button
               class:list={['text-left transition-colors hover:opacity-70 flex flex-row items-center gap-2', gapClass(sec.index)]}
-              :class={`${activeExpr(sec.index)} ? 'text-brand' : 'text-[#858585]'`}
+              :class={`${activeExpr(sec.index)} ? 'text-brand' : 'text-gray-500'`}
               @click={`active = ${sec.index}; $dispatch('side-menu-change', { index: ${sec.index}, item: ${JSON.stringify(sec.h2)} })`}
             >
               <span
@@ -191,7 +191,7 @@ const xData = `{
                 {sec.children.map((c: any) => (
                   <button
                     class:list={['text-left transition-colors hover:opacity-70 flex flex-row items-center pl-4', gapClass(c.index)]}
-                    :class={`${activeExpr(c.index)} ? 'text-brand' : 'text-[#858585]'`}
+                    :class={`${activeExpr(c.index)} ? 'text-brand' : 'text-gray-500'`}
                     @click={`active = ${c.index}; $dispatch('side-menu-change', { index: ${c.index}, item: ${JSON.stringify(c.item)} })`}
                   >
                     <span class="text-footnote">{c.item.title}</span>

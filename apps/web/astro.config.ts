@@ -35,7 +35,15 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://dvizh.io',
   output: 'static',
   prefetch: true,
-  integrations: [tailwind({ applyBaseStyles: false }), sitemap()],
+  integrations: [
+    tailwind({ applyBaseStyles: false }),
+    sitemap({
+      // Dev-only и служебные страницы не должны попадать в sitemap (и в прод-индексацию).
+      filter: (page) =>
+        !/\/(lab|sales|ui-kit|thanks)(\/|$)/.test(page) &&
+        !/\/404(\/|$)/.test(page),
+    }),
+  ],
   server: {
     host: true, // expose on local network, not just localhost
   },

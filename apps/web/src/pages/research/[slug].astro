@@ -1,7 +1,7 @@
 ---
 import SiteLayout from '../../layouts/SiteLayout.astro'
 import BlockRenderer from '../../components/blocks/BlockRenderer.astro'
-import { getResearch, getResearchItem } from '../../lib/payload'
+import { getResearch, getResearchItem, normalizeMediaUrl } from '../../lib/payload'
 
 export async function getStaticPaths() {
   const { docs } = await getResearch({ limit: 100 })
@@ -12,7 +12,7 @@ const { slug } = Astro.params
 const item = await getResearchItem(slug!)
 if (!item) return Astro.redirect('/404')
 
-const fileUrl = item.file?.url ?? null
+const fileUrl = normalizeMediaUrl(item.file?.url) ?? null
 ---
 
 <SiteLayout title={item.meta?.title ?? item.title} description={item.meta?.description ?? item.description}>

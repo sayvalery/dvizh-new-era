@@ -241,7 +241,7 @@ const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (
               <Tab
                 label={c.title}
                 x-on:click={`cat = '${c.slug}'`}
-                x-bind:class={`cat === '${c.slug}' ? '!border-[#fecda9] !text-brand' : ''`}
+                x-bind:class={`cat === '${c.slug}' ? '!border-brand-200 !text-brand' : ''`}
               />
             ))}
           </div>
@@ -286,7 +286,7 @@ const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (
             <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">Конференции, подкасты и&#160;вебинары<span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{count('podcasts')}</span></h2>
           </a>
           <div class="shrink-0">
-            <Button variant="primary" size="sm" href="/events">Смотреть все</Button>
+            <Button variant="primary" size="sm" href="/blog/category/podcasts">Смотреть все</Button>
           </div>
         </div>
 

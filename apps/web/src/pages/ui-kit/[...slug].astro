@@ -13,7 +13,6 @@ import QuoteBlock from '../../components/blocks/QuoteBlock.astro'
 import FormBlock from '../../components/blocks/FormBlock.astro'
 import RichTextBlock from '../../components/blocks/RichTextBlock.astro'
 import HeroSection from '../../components/ui/HeroSection.astro'
-import MeshGradient from '../../components/ui/MeshGradient.astro'
 import Timeline from '../../components/ui/Timeline.astro'
 import BlogCard from '../../components/ui/BlogCard.astro'
 import Search from '../../components/ui/Search.astro'
@@ -66,7 +65,6 @@ import personCardRaw from '../../components/ui/PersonCard.astro?raw'
 import formRaw from '../../components/ui/Form.astro?raw'
 import formClosingRaw from '../../components/ui/FormClosing.astro?raw'
 import heroSectionRaw from '../../components/ui/HeroSection.astro?raw'
-import meshGradientRaw from '../../components/ui/MeshGradient.astro?raw'
 import timelineRaw from '../../components/ui/Timeline.astro?raw'
 import blogCardRaw from '../../components/ui/BlogCard.astro?raw'
 import blogCardNewRaw from '../../components/ui/BlogCardNew.astro?raw'
@@ -167,7 +165,6 @@ const personCardMeta = parseSource(personCardRaw)
 const formMeta = parseSource(formRaw)
 const formClosingMeta = parseSource(formClosingRaw)
 const heroSectionMeta = parseSource(heroSectionRaw)
-const meshGradientMeta = parseSource(meshGradientRaw)
 const timelineMeta = parseSource(timelineRaw)
 const blogCardMeta = parseSource(blogCardRaw)
 const blogCardNewMeta = parseSource(blogCardNewRaw)
@@ -240,7 +237,6 @@ export function getStaticPaths() {
     { params: { slug: 'logo-grid' }, props: { section: 'logo-grid' } },
     { params: { slug: 'mega-menu' }, props: { section: 'mega-menu' } },
     { params: { slug: 'menu-posts' }, props: { section: 'menu-posts' } },
-    { params: { slug: 'mesh-gradient' }, props: { section: 'mesh-gradient' } },
     { params: { slug: 'modal-inline-form' }, props: { section: 'modal-inline-form' } },
     { params: { slug: 'page-section' }, props: { section: 'page-section' } },
     { params: { slug: 'persons' }, props: { section: 'persons' } },
@@ -296,7 +292,6 @@ const sections = [
   { slug: 'logo-grid', label: 'LogoGrid' },
   { slug: 'mega-menu', label: 'MegaMenu' },
   { slug: 'menu-posts', label: 'MenuPosts' },
-  { slug: 'mesh-gradient', label: 'Mesh Gradient' },
   { slug: 'modal-inline-form', label: 'Modal Inline Form' },
   { slug: 'page-section', label: 'PageSection' },
   { slug: 'pixel-arrow-pattern', label: 'PixelArrowPattern' },
@@ -1644,37 +1639,6 @@ const sections = [
                 { title: 'Скоринг заёмщика без бюро: миф или реальность', slug: 'scoring' },
               ]}
             />
-          </div>
-        </div>
-      )}
-
-      {section === 'mesh-gradient' && (
-        <div>
-          <h1 class="text-3xl font-bold font-heading mb-6">Mesh Gradient</h1>
-          <p class="text-gray-600 mb-4">
-            Анимированный WebGL mesh-градиент (@paper-design/shaders). GPU-ускоренный, ~3-5KB. Автопауза когда не видно.
-          </p>
-          <PropsTable props={meshGradientMeta.props} class="mb-8" />
-
-          <div class="space-y-8">
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Brand (default)</p>
-              <div class="relative h-64 rounded-xl overflow-hidden">
-                <MeshGradient />
-              </div>
-            </div>
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Warm orange-yellow</p>
-              <div class="relative h-64 rounded-xl overflow-hidden">
-                <MeshGradient colors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']} speed={0.3} />
-              </div>
-            </div>
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Slow, high distortion</p>
-              <div class="relative h-64 rounded-xl overflow-hidden">
-                <MeshGradient colors={['#ff4d00', '#ff8c42', '#1b2226', '#ffb347']} speed={0.15} distortion={0.9} swirl={0.4} />
-              </div>
-            </div>
           </div>
         </div>
       )}

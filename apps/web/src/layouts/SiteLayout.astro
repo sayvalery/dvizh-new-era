@@ -9,6 +9,8 @@ interface Props {
   description?: string
   ogImage?: string
   jsonLd?: object | object[]
+  /** Запретить индексацию (meta robots noindex) */
+  noindex?: boolean
   /** Прозрачный хедер поверх контента */
   transparentHeader?: boolean
   /** Инвертировать триггер белой версии хедера (тёмный вверху, белый после скролла над цветным блоком) */

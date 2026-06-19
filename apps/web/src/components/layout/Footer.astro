@@ -11,6 +11,8 @@ interface Props {
   light?: boolean
 }
 
+import { PRIVACY_POLICY_URL } from '../../lib/links'
+
 const { light = false } = Astro.props
 
 // Цвета под светлую/обычную версию
@@ -88,7 +90,7 @@ const columns = [
       </div>
       <div class:list={['text-sm text-right', legalMutedCls]}>
         <p>Новодмитровская 2к2, Москва, 127015</p>
-        <p class="mt-1"><a href="https://cdn.dvizh.io/policy.pdf" class:list={[policyHover]} target="_blank" rel="noopener">Политика конфиденциальности</a></p>
+        <p class="mt-1"><a href={PRIVACY_POLICY_URL} class:list={[policyHover]} target="_blank" rel="noopener">Политика конфиденциальности</a></p>
       </div>
     </div>
 
