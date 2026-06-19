@@ -190,16 +190,21 @@ const hasDateMeta = date || readTime
 
 {size === 'xs' && (
   <a href={`/blog/${slug}`}
-    class:list={['group flex flex-col gap-3 p-6 rounded-3xl transition-colors hover:bg-background-secondary', className]}>
+    class:list={['group block p-6 rounded-3xl transition-colors hover:bg-background-secondary', className]}>
 
-    {category && <p class="text-side-menu text-gray-400">{category}</p>}
-    {hasDateMeta && (
-      <div class="flex items-end gap-1 opacity-70 text-subhead text-gray-500">
-        {date && <span>{date}</span>}
-        {date && readTime && <span>·</span>}
-        {readTime && <span>{readTime}</span>}
-      </div>
-    )}
-    <h2 class="text-h4 text-gray-900 transition-colors group-hover:text-brand">{title}</h2>
+    {/* gap на внутреннем flex-контейнере, а не на <a>: классы видимости вроде
+        `hidden xl:block` переключают display самого <a> на block и тогда gap (только
+        flex/grid) молча отключается. Inner-div держит отступы независимо от <a>. */}
+    <div class="flex flex-col gap-3">
+      {category && <p class="text-side-menu text-gray-400">{category}</p>}
+      {hasDateMeta && (
+        <div class="flex items-end gap-1 opacity-70 text-subhead text-gray-500">
+          {date && <span>{date}</span>}
+          {date && readTime && <span>·</span>}
+          {readTime && <span>{readTime}</span>}
+        </div>
+      )}
+      <h2 class="text-h4 text-gray-900 transition-colors group-hover:text-brand">{title}</h2>
+    </div>
   </a>
 )}
