@@ -86,11 +86,16 @@ const clearThreshold = clearAt ?? (isBlog ? 24 : 450)
 // Сравнение для clear: обычно белый вверху (<), при invertClear — белый после скролла (>=).
 const clearCmp = invertClear ? '>=' : '<'
 
-// Фон острова при скролле. transparent (главная и blog) — фрост как на главной, привязан к clear.
-// Непрозрачный blog (текущий прод /blog) — прежний bg-white/20 по lastY.
-const navIslandClass = (isBlog && !transparent)
-  ? "lastY > 20 ? 'bg-white/20 backdrop-blur-[10px]' : ''"
-  : "clear ? '' : 'bg-background-primary/60 backdrop-blur-lg shadow-[inset_1px_2px_2px_rgba(255,255,255,0.3)]'"
+// Фон острова. Вверху страницы — пусто (нет холостой подложки), фрост появляется при скролле:
+//  - transparent (главная) — фрост привязан к clear (вверху прозрачно, при скролле фрост);
+//  - blog непрозрачный (текущий прод /blog) — bg-white/20 по lastY;
+//  - default непрозрачный (продуктовые страницы) — фрост ТОЛЬКО при скролле, вверху пусто.
+const frostIsland = 'bg-background-primary/60 backdrop-blur-lg shadow-[inset_1px_2px_2px_rgba(255,255,255,0.3)]'
+const navIslandClass = transparent
+  ? `clear ? '' : '${frostIsland}'`
+  : isBlog
+    ? "lastY > 20 ? 'bg-white/20 backdrop-blur-[10px]' : ''"
+    : `lastY > 20 ? '${frostIsland}' : ''`
 ---
 
 <header
@@ -135,11 +140,7 @@ const navIslandClass = (isBlog && !transparent)
   <div
     @mouseenter="if (megaOpen) clearTimeout(hoverTimeout)"
     @mouseleave="hoverTimeout = setTimeout(() => megaOpen = null, 200)"
-    :class={`{
-      'bg-background-primary': !clear && !floatingIsland && !${isBlog},
-      'bg-transparent': clear || floatingIsland || ${isBlog}
-    }`}
-    class="transition-colors duration-200"
+    class="bg-transparent transition-colors duration-200"
   >
     <!-- Island wrapper: горизонтальные паддинги = боковым отступам страницы (.page-container 16/24/40). -->
     <!-- Единые гаттеры для всех вариантов (сайт = блог) → лого/кнопка совпадают с краями контента, хэдер не «скачет» при переходе сайт↔блог. -->
@@ -171,13 +172,18 @@ const navIslandClass = (isBlog && !transparent)
           <div class="hidden lg:flex lg:gap-x-1">
             {items.map(item => (
               item.posts?.length ? (
-                /* === POSTS DROPDOWN (Блог / Кейсы) — клик ведёт на страницу, ховер открывает === */
+                /* === POSTS DROPDOWN (Блог / Кейсы) — клик ведёт на страницу, ховер/фокус открывает === */
                 <div
                   class="relative h-full flex items-center"
                   @mouseenter={`clearTimeout(hoverTimeout); megaOpen = '${item.label}'`}
+                  @focusin={`clearTimeout(hoverTimeout); megaOpen = '${item.label}'`}
+                  @keydown.escape={`megaOpen = null; $el.querySelector('a')?.focus()`}
+                  @focusout={`if (!$el.contains($event.relatedTarget)) megaOpen = (megaOpen === '${item.label}' ? null : megaOpen)`}
                 >
                   <a
                     href={item.href}
+                    aria-haspopup="true"
+                    :aria-expanded={`megaOpen === '${item.label}' ? 'true' : 'false'`}
                     class="inline-flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
                     :class={`{
                       'text-white hover:bg-white/10': clear,
@@ -213,8 +219,14 @@ const navIslandClass = (isBlog && !transparent)
                 <div
                   class="relative h-full flex items-center"
                   @mouseenter={`clearTimeout(hoverTimeout); megaOpen = '${item.label}'`}
+                  @keydown.escape={`megaOpen = null; $el.querySelector('button')?.focus()`}
+                  @focusout={`if (!$el.contains($event.relatedTarget)) megaOpen = (megaOpen === '${item.label}' ? null : megaOpen)`}
                 >
                   <button
+                    type="button"
+                    @click={`clearTimeout(hoverTimeout); megaOpen = (megaOpen === '${item.label}' ? null : '${item.label}')`}
+                    aria-haspopup="true"
+                    :aria-expanded={`megaOpen === '${item.label}' ? 'true' : 'false'`}
                     class="flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
                     :class={`{
                       'text-white hover:bg-white/10': clear,
@@ -248,8 +260,14 @@ const navIslandClass = (isBlog && !transparent)
                   class="relative h-full flex items-center"
                   @mouseenter={`clearTimeout(menuTimeout); openMenu = '${item.label}'`}
                   @mouseleave={`menuTimeout = setTimeout(() => openMenu = null, 150)`}
+                  @keydown.escape={`openMenu = null; $el.querySelector('button')?.focus()`}
+                  @focusout={`if (!$el.contains($event.relatedTarget)) openMenu = (openMenu === '${item.label}' ? null : openMenu)`}
                 >
                   <button
+                    type="button"
+                    @click={`clearTimeout(menuTimeout); openMenu = (openMenu === '${item.label}' ? null : '${item.label}')`}
+                    aria-haspopup="true"
+                    :aria-expanded={`openMenu === '${item.label}' ? 'true' : 'false'`}
                     class="flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
                     :class="clear ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-100'"
                   >
