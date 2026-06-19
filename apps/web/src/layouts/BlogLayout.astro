@@ -66,8 +66,8 @@ const { insightsHeader = false, ...baseProps } = Astro.props
   <!-- Футер в белой карточке. Гасим SiteLayout-овый mt-24/40 и border-t: -->
   <!-- внутри карточки они дают пустую полосу и лишнюю линию. Отступ задаёт сам Footer (py-12). -->
   <!-- insights: 64px между контентной карточкой и футером; footer по ширине контента (page-container). -->
-  <div class:list={['relative pb-6', insightsHeader ? 'page-container mt-16' : 'px-4']} style="z-index:10">
-    <div class:list={['rounded-3xl overflow-hidden [&>footer]:!mt-0 [&>footer]:!border-t-0', insightsHeader ? 'bg-white/20 backdrop-blur-[10px]' : 'bg-background-primary']}>
+  <div class:list={['relative', insightsHeader ? 'page-container mt-16' : 'px-4']} style="z-index:10">
+    <div class:list={['rounded-t-3xl overflow-hidden [&>footer]:!mt-0 [&>footer]:!border-t-0', insightsHeader ? 'bg-white/20 backdrop-blur-[10px]' : 'bg-background-primary']}>
       <Footer light={insightsHeader} />
     </div>
   </div>
