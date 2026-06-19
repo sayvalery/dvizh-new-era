@@ -52,6 +52,7 @@ import BlogGrid from '../../components/ui/BlogGrid.astro'
 import CTA from '../../components/ui/CTA.astro'
 import ClearGlassBg from '../../components/ui/ClearGlassBg.astro'
 import FlutedGlassBg from '../../components/ui/FlutedGlassBg.astro'
+import PixelArrowPattern from '../../components/ui/PixelArrowPattern.astro'
 import FunnelSection from '../../components/ui/FunnelSection.astro'
 import LogoDrum from '../../components/ui/LogoDrum.astro'
 import PageSection from '../../components/ui/PageSection.astro'
@@ -94,6 +95,7 @@ import ctaRaw from '../../components/ui/CTA.astro?raw'
 import ctaBannerRaw from '../../components/ui/CTABanner.astro?raw'
 import clearGlassBgRaw from '../../components/ui/ClearGlassBg.astro?raw'
 import flutedGlassBgRaw from '../../components/ui/FlutedGlassBg.astro?raw'
+import pixelArrowPatternRaw from '../../components/ui/PixelArrowPattern.astro?raw'
 import funnelSectionRaw from '../../components/ui/FunnelSection.astro?raw'
 import logoDrumRaw from '../../components/ui/LogoDrum.astro?raw'
 import pageSectionRaw from '../../components/ui/PageSection.astro?raw'
@@ -188,6 +190,7 @@ const ctaMeta = parseSource(ctaRaw)
 const ctaBannerMeta = parseSource(ctaBannerRaw)
 const clearGlassBgMeta = parseSource(clearGlassBgRaw)
 const flutedGlassBgMeta = parseSource(flutedGlassBgRaw)
+const pixelArrowPatternMeta = parseSource(pixelArrowPatternRaw)
 const funnelSectionMeta = parseSource(funnelSectionRaw)
 const logoDrumMeta = parseSource(logoDrumRaw)
 const pageSectionMeta = parseSource(pageSectionRaw)
@@ -296,6 +299,7 @@ const sections = [
   { slug: 'mesh-gradient', label: 'Mesh Gradient' },
   { slug: 'modal-inline-form', label: 'Modal Inline Form' },
   { slug: 'page-section', label: 'PageSection' },
+  { slug: 'pixel-arrow-pattern', label: 'PixelArrowPattern' },
   { slug: 'persons', label: 'PersonCard' },
   { slug: 'product-bento', label: 'ProductBentoBlock' },
   { slug: 'product-card', label: 'Product Card' },
@@ -3066,6 +3070,33 @@ const sections = [
 
           <div class="relative overflow-hidden h-80 rounded-2xl">
             <FlutedGlassBg />
+          </div>
+        </div>
+      )}
+
+      {section === 'pixel-arrow-pattern' && (
+        <div>
+          <h1 class="text-3xl font-bold font-heading mb-2">PixelArrowPattern</h1>
+          <p class="text-gray-600 mb-8">
+            Анимированный фон из фирменных оранжевых стрелочек. Стрелки мигают поодиночке —
+            долгая пауза → быстрый вспых → угасание. Используется в <code>slot="background"</code>
+            компонента <code>HeroSectionFull</code>. Автопауза при скролле за фолд и смене вкладки.
+          </p>
+          <PropsTable props={pixelArrowPatternMeta.props} class="mb-10" />
+
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Дефолт (350 стрелок, 315°)</p>
+          <div class="relative overflow-hidden h-96 rounded-2xl bg-background-primary mb-6">
+            <PixelArrowPattern />
+          </div>
+
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Меньше стрелок, выше opacity</p>
+          <div class="relative overflow-hidden h-64 rounded-2xl bg-background-primary mb-6">
+            <PixelArrowPattern count={150} opacity={0.8} sizeMin={12} sizeMax={20} seed={42} />
+          </div>
+
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Тёмный фон</p>
+          <div class="relative overflow-hidden h-64 rounded-2xl bg-gray-900">
+            <PixelArrowPattern count={200} opacity={0.4} angle={45} seed={999} />
           </div>
         </div>
       )}
