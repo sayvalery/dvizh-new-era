@@ -4,6 +4,7 @@
  */
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
+import PixelArrowPattern from '../components/ui/PixelArrowPattern.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
@@ -28,13 +29,16 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     demoPreset="demo"
     kpPreset="lead"
   >
+    <PixelArrowPattern slot="background" />
     <img
+      id="hero-img"
       slot="right"
       src="https://admin.dvizh.cc/api/media/file/developers-hero.webp"
       alt=""
-      class="h-[106dvh] w-auto object-contain animate-hero-float"
-      style="max-width: none"
+      class="h-[106dvh] w-auto object-contain"
+      style="max-width: none; opacity: 0; transform: translateY(20px)"
       loading="eager"
+      fetchpriority="high"
     />
     <LogoGrid
       slot="logos"
@@ -49,6 +53,29 @@ const cms = import.meta.env.PUBLIC_CMS_URL
       ]}
     />
   </HeroSectionFull>
+
+  {/* Reveal-анимация hero-картинки: невидима → плавно выплывает снизу → передаёт управление float */}
+  <script>
+    const img = document.getElementById('hero-img') as HTMLImageElement | null
+    if (img) {
+      const reveal = () => {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          img.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out'
+          img.style.opacity    = '1'
+          img.style.transform  = 'translateY(0)'
+        }))
+        setTimeout(() => {
+          img.style.transition = ''
+          img.style.opacity    = ''
+          img.style.transform  = ''
+          img.classList.add('animate-hero-float')
+        }, 750)
+      }
+      if (img.complete && img.naturalWidth > 0) reveal()
+      else img.addEventListener('load', reveal, { once: true })
+    }
+  </script>
+
   <!-- gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок (флюид) -->
   <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 

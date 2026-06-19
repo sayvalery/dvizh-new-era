@@ -50,7 +50,7 @@ const allowedOrigin = new URL(src).origin
     src={src}
     title={title}
     loading="lazy"
-    class="w-full block border-0 bg-transparent h-[var(--calc-h-mobile)] lg:h-[var(--calc-h-desktop)]"
+    class="w-full block border-0 bg-transparent h-[var(--calc-h-mobile)] lg:h-[var(--calc-h-desktop)] transition-[height] duration-300 ease-out motion-reduce:transition-none"
   ></iframe>
 </div>
 
@@ -84,23 +84,15 @@ const allowedOrigin = new URL(src).origin
           allowedOrigin,
         )
       } else if (data.type === 'embedResize' && typeof data.height === 'number' && data.height > 0) {
-        // Высота «обычного состояния» = первый сообщённый размер; iframe не опускается ниже.
+        // Высота «дефолтного состояния» = первый сообщённый размер; iframe не опускается ниже.
         const h = Math.ceil(data.height)
         if (!baselineHeight) baselineHeight = h
         const target = Math.max(h, baselineHeight)
 
-        // Авто-высота + компенсация скролла: состояние снимаем ДО изменения высоты,
-        // при уменьшении подкручиваем страницу на дельту, чтобы вьюпорт не «прыгал».
-        const prevScrollY = window.scrollY
-        const rectBefore = iframe.getBoundingClientRect()
-        const prevClientHeight = iframe.clientHeight
-
+        // Авто-высота. Стартовая 640/760 — лишь резерв до хендшейка; первый embedResize
+        // подгоняет к настоящей дефолтной высоте. Переход (CSS transition по height)
+        // сглаживает эту коррекцию и ресайзы при взаимодействии, чтобы окно не «прыгало».
         iframe.style.height = `${target}px`
-        const delta = iframe.clientHeight - prevClientHeight
-        if (delta < 0 && rectBefore.top < window.innerHeight) {
-          const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight)
-          window.scrollTo(0, Math.min(Math.max(0, prevScrollY + delta), maxScroll))
-        }
       }
     })
   })
