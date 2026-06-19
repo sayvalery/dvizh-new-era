@@ -15,7 +15,7 @@
  */
 
 interface Props {
-  /** Количество стрелочек (default: 350) */
+  /** Количество стрелочек (default: 3000) */
   count?: number
   /** Угол наклона в градусах, 315 = диагональ ↗ (default: 315) */
   angle?: number
@@ -23,7 +23,7 @@ interface Props {
   opacity?: number
   /** Минимальный размер стрелки в px (default: 9) */
   sizeMin?: number
-  /** Максимальный размер стрелки в px (default: 14) */
+  /** Максимальный размер стрелки в px (default: 12) */
   sizeMax?: number
   /** Зерно генератора — для воспроизводимой случайности (default: 1337) */
   seed?: number
@@ -31,12 +31,17 @@ interface Props {
   color?: string
 }
 
+// ── ОРИГИНАЛЬНЫЕ НАСТРОЙКИ (для отката) ──────────────────────────────────
+// count=350, sizeMin=9, sizeMax=14
+// CFG: size=10, gap=6 → step=16px (~350 стрелочек из ~4500 ячеек, 7% заполненность)
+// ─────────────────────────────────────────────────────────────────────────
+
 const {
-  count   = 350,
+  count   = 1500,
   angle   = 315,
   opacity = 0.55,
-  sizeMin = 9,
-  sizeMax = 14,
+  sizeMin = 10,
+  sizeMax = 12,
   seed    = 1337,
   color   = '#FF4D00',
 } = Astro.props
@@ -114,7 +119,7 @@ const {
   // ── Параметры паттерна ────────────────────────────────────────
   const CFG = {
     seed, count, angle,
-    size: 10, gap: 6,
+    size: 8, gap: 3,
     nscale: 2.5, noise: 0,
     pulseSpeed: 0.3, pulseDepth: 0.85,
     flashDur: 0.20, fadeDur: 0.02,
