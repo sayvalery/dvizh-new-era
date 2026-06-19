@@ -101,6 +101,23 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Styrene A', system-ui, sans-serif;
   overflow-wrap: break-word;
+  /* Висячая пунктуация (оптическое выравнивание заголовков). Нативно — только
+     Safari/WebKit; кросс-браузерный fallback — классы .hp-* ниже (проставляет
+     scripts/hanging-punctuation.mjs по dist на сборке). */
+  hanging-punctuation: first;
+}
+/* .text-h* — визуальные заголовки на не-h-тегах (p/span/a): тот же нативный слой. */
+.text-h1, .text-h1-italic, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6 {
+  hanging-punctuation: first;
+}
+/* Fallback для браузеров без hanging-punctuation (Chrome/Firefox/Edge): маркеры
+   .hp-* на заголовках с ведущей пунктуацией → отрицательный text-indent в em уводит
+   её за край первой строки (масштабируется со шрифтом). В Safari блок не активен —
+   там работает нативный hanging-punctuation, двойного смещения нет. */
+@supports not (hanging-punctuation: first) {
+  .hp-quote { text-indent: -0.42em; }
+  .hp-dash  { text-indent: -0.58em; }
+  .hp-paren { text-indent: -0.3em; }
 }
 
 /* ─── Типографические утилиты ────────────────────────────────────────────── */
