@@ -16,7 +16,7 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
 const cms = import.meta.env.PUBLIC_CMS_URL
 ---
 
-<SiteLayout title="Для департамента продаж" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="bg-background-primary">
+<SiteLayout title="Для департамента продаж" description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI." bodyClass="fluid-page">
   <HeroSectionFull
     title="Ускоряем цикл сделки и&#160;забираем на&#160;себя всю&#160;рутину"
     description="Единая платформа для повышения продаж. Помогаем отделам продаж выполнять KPI"
@@ -25,6 +25,14 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     demoPreset="demo"
     kpPreset="lead"
   >
+    <img
+      slot="right"
+      src="https://admin.dvizh.cc/api/media/file/sales-hero.webp"
+      alt=""
+      class="h-[106dvh] w-auto object-contain animate-hero-float"
+      style="max-width: none"
+      loading="eager"
+    />
     <LogoGrid
       slot="logos"
       noPadding
@@ -44,7 +52,8 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     />
   </HeroSectionFull>
 
-  <div class="flex flex-col gap-24 lg:gap-40">
+  {/* gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок (флюид) */}
+  <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
     <KeyFacts
       class="!pb-0"
       variant="large"
