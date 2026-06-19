@@ -1,0 +1,263 @@
+---
+/**
+ * PixelArrowPattern — анимированный паттерн из фирменных стрелочек
+ *
+ * Использование: передать в slot="background" компонента HeroSectionFull.
+ * Стрелочки мигают поодиночке (долгая пауза → быстрый вспых → угасание).
+ * Анимация автоматически ставится на паузу при скролле за фолд и смене вкладки.
+ *
+ * @example
+ * ```astro
+ * <HeroSectionFull title="...">
+ *   <PixelArrowPattern slot="background" />
+ * </HeroSectionFull>
+ * ```
+ */
+
+interface Props {
+  /** Количество стрелочек (default: 350) */
+  count?: number
+  /** Угол наклона в градусах, 315 = диагональ ↗ (default: 315) */
+  angle?: number
+  /** Прозрачность всего паттерна 0..1 (default: 0.55) */
+  opacity?: number
+  /** Минимальный размер стрелки в px (default: 9) */
+  sizeMin?: number
+  /** Максимальный размер стрелки в px (default: 14) */
+  sizeMax?: number
+  /** Зерно генератора — для воспроизводимой случайности (default: 1337) */
+  seed?: number
+  /** CSS-цвет стрелок (default: '#FF4D00') */
+  color?: string
+}
+
+const {
+  count   = 350,
+  angle   = 315,
+  opacity = 0.55,
+  sizeMin = 9,
+  sizeMax = 14,
+  seed    = 1337,
+  color   = '#FF4D00',
+} = Astro.props
+---
+
+<canvas
+  data-pixel-arrows
+  style={`position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:${opacity};display:block`}
+  aria-hidden="true"
+></canvas>
+
+<script define:vars={{ count, angle, sizeMin, sizeMax, seed, color }}>
+(function () {
+  const canvas = document.querySelector('[data-pixel-arrows]');
+  if (!canvas) return;
+
+  // ── Форма стрелки (фирменная диагональная) ────────────────────
+  const ARROW_PATH =
+    'M41.49,491.25c-22.88,0-41.49-18.61-41.49-41.49v-47.46c0-22.88,18.61-41.49,' +
+    '41.49-41.49h43.52c3.91,0,7.08-3.17,7.08-7.08v-41.63c0-22.88,18.61-41.49,' +
+    '41.49-41.49h43.52c3.91,0,7.08-3.17,7.08-7.08v-35.8c0-3.91-3.17-7.08-7.08-7.08h-43.52' +
+    'c-22.88,0-41.49-18.61-41.49-41.49v-41.63c0-3.91-3.17-7.08-7.08-7.08h-43.52' +
+    'C18.61,130.44,0,111.83,0,88.95v-47.46C0,18.61,18.61,0,41.49,0h47.46' +
+    'c22.88,0,41.49,18.61,41.49,41.49v41.63c0,3.91,3.17,7.08,7.08,7.08h43.52' +
+    'c22.88,0,41.49,18.61,41.49,41.49v41.63c0,3.91,3.17,7.08,7.08,7.08h43.52' +
+    'c22.88,0,41.49,18.61,41.49,41.49v47.46c0,22.88-18.61,41.49-41.49,41.49h-43.52' +
+    'c-3.91,0-7.08,3.17-7.08,7.08v41.63c0,22.88-18.61,41.49-41.49,41.49h-43.52' +
+    'c-3.91,0-7.08,3.17-7.08,7.08v41.63c0,22.88-18.61,41.49-41.49,41.49h-47.46Z';
+  const ARROW_W = 314.62;
+  const ARROW_H = 491.25;
+  const arrowPath = new Path2D(ARROW_PATH);
+
+  // ── PRNG mulberry32 ───────────────────────────────────────────
+  let _rs = 0;
+  const seedRand = s => { _rs = s >>> 0; };
+  const rand = () => {
+    _rs |= 0; _rs = (_rs + 0x6D2B79F5) | 0;
+    let t = Math.imul(_rs ^ (_rs >>> 15), 1 | _rs);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+
+  // Детерминированный хэш для уникальных параметров каждой стрелки
+  const hash  = (a, b) => (Math.imul(a, 1664525) ^ Math.imul(b, 1013904223)) >>> 0;
+  const hashF = (a, b) => (hash(a, b) & 0x7fffffff) / 0x7fffffff;
+
+  // ── Perlin noise (2D) ─────────────────────────────────────────
+  const perm = new Uint8Array(512);
+  (() => {
+    const p = new Uint8Array(256);
+    for (let i = 0; i < 256; i++) p[i] = i;
+    for (let i = 255; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [p[i], p[j]] = [p[j], p[i]];
+    }
+    for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
+  })();
+  const fade = t => t * t * t * (t * (t * 6 - 15) + 10);
+  const lerp  = (a, b, t) => a + t * (b - a);
+  const grad  = (h, x, y) => {
+    const hh = h & 3, u = hh < 2 ? x : y, v = hh < 2 ? y : x;
+    return ((hh & 1) ? -u : u) + ((hh & 2) ? -v : v);
+  };
+  const noise2 = (x, y) => {
+    const X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
+    x -= Math.floor(x); y -= Math.floor(y);
+    const u = fade(x), v = fade(y), a = perm[X] + Y, b = perm[X + 1] + Y;
+    return lerp(
+      lerp(grad(perm[a],     x,     y), grad(perm[b],     x - 1, y    ), u),
+      lerp(grad(perm[a + 1], x,     y - 1), grad(perm[b + 1], x - 1, y - 1), u),
+      v
+    );
+  };
+
+  // ── Параметры паттерна ────────────────────────────────────────
+  const CFG = {
+    seed, count, angle,
+    size: 10, gap: 6,
+    nscale: 2.5, noise: 0,
+    pulseSpeed: 0.3, pulseDepth: 0.85,
+    flashDur: 0.20, fadeDur: 0.02,
+    sizeMin, sizeMax,
+    sizeVariance: 100, sizeScale: 2.3,
+  };
+
+  // ── Кэш позиций (пересчёт только при resize) ──────────────────
+  let _posCache = null, _posCacheKey = '';
+
+  const getPositions = (w, h) => {
+    const key = `${CFG.seed}|${CFG.count}|${CFG.size}|${CFG.gap}|${w}|${h}`;
+    if (key === _posCacheKey && _posCache) return _posCache;
+
+    const step = CFG.size + CFG.gap;
+    const cols = Math.ceil(w / step);
+    const rows = Math.ceil(h / step);
+    const total = cols * rows;
+    const grid = [];
+    for (let r = 0; r < rows; r++)
+      for (let c = 0; c < cols; c++)
+        grid.push({ x: c * step + step / 2, y: r * step + step / 2 });
+
+    seedRand(CFG.seed);
+    const n = Math.min(CFG.count, total);
+    for (let i = 0; i < n; i++) {
+      const j = i + Math.floor(rand() * (total - i));
+      [grid[i], grid[j]] = [grid[j], grid[i]];
+    }
+
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      const g = grid[i];
+      pts.push({
+        x:   g.x + (rand() - 0.5) * step * 0.4,
+        y:   g.y + (rand() - 0.5) * step * 0.4,
+        idx: i,
+      });
+    }
+
+    _posCache = pts; _posCacheKey = key;
+    return pts;
+  };
+
+  // ── Flash: долгая пауза → быстрый вспых → быстрое угасание ───
+  const flashAlpha = (idx, t) => {
+    const phase  = hashF(idx, 0);
+    const period = 1.5 + hashF(idx, 1) * 3;   // 1.5–4.5 с на цикл
+    const pos    = ((t * CFG.pulseSpeed / period) + phase) % 1;
+    const fd = CFG.flashDur, dd = CFG.fadeDur;
+    if (pos < fd) {
+      const tt = pos / fd;
+      return 1 - Math.pow(1 - tt, 2);          // easeOut появление
+    }
+    if (pos < fd + dd) {
+      const tt = (pos - fd) / dd;
+      return 1 - tt * tt;                       // easeIn угасание
+    }
+    return 0;                                   // пауза
+  };
+
+  // ── Draw ──────────────────────────────────────────────────────
+  const draw = (no, t) => {
+    const w = canvas.width, h = canvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = color;
+
+    for (const pt of getPositions(w, h)) {
+      const alpha = flashAlpha(pt.idx, t) * CFG.pulseDepth;
+      if (alpha < 0.01) continue;
+
+      const angleDeg =
+        CFG.angle +
+        noise2(pt.x / w * CFG.nscale + no, pt.y / h * CFG.nscale) * CFG.noise;
+
+      const sn   = (noise2(pt.x / w * CFG.sizeScale + 11.7, pt.y / h * CFG.sizeScale + 5.3) + 1) / 2;
+      const size = CFG.sizeMin + sn * (CFG.sizeMax - CFG.sizeMin) * (CFG.sizeVariance / 100);
+      const sc   = size / Math.max(ARROW_W, ARROW_H);
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(pt.x, pt.y);
+      ctx.rotate(angleDeg * Math.PI / 180);
+      ctx.translate(-ARROW_W * sc / 2, -ARROW_H * sc / 2);
+      ctx.scale(sc, sc);
+      ctx.fill(arrowPath);
+      ctx.restore();
+    }
+  };
+
+  // ── Resize ────────────────────────────────────────────────────
+  let noiseOffset = 0, elapsed = 100, lastT = 0;
+
+  const resize = () => {
+    const parent = canvas.parentElement;
+    if (!parent) return;
+    const rect = parent.getBoundingClientRect();
+    const dpr  = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width  = Math.round(rect.width  * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    _posCache = null;
+    draw(noiseOffset, elapsed);
+  };
+
+  // ── RAF loop с паузой при невидимости ─────────────────────────
+  let paused = false;
+
+  const tick = ts => {
+    requestAnimationFrame(tick);
+    if (paused || ts - lastT < 16) return;
+    const dt = Math.min((ts - lastT) / 1000, 0.05);
+    lastT       = ts;
+    elapsed     += dt;
+    noiseOffset += 0.0003;
+    draw(noiseOffset, elapsed);
+  };
+
+  // Пауза при скрытой вкладке
+  document.addEventListener('visibilitychange', () => {
+    paused = document.hidden;
+    if (!paused) lastT = 0;
+  });
+
+  // Пауза при скролле за пределы viewport
+  new IntersectionObserver(entries => {
+    paused = !entries[0].isIntersecting || document.hidden;
+  }, { threshold: 0 }).observe(canvas);
+
+  // Реакция на resize
+  window.addEventListener('resize', resize, { passive: true });
+  new ResizeObserver(resize).observe(canvas.parentElement);
+
+  // Старт — ждём load чтобы layout был полностью вычислен
+  // (иначе getBoundingClientRect возвращает 0 при инлайн-скрипте)
+  if (document.readyState === 'complete') {
+    resize();
+    requestAnimationFrame(tick);
+  } else {
+    window.addEventListener('load', () => {
+      resize();
+      requestAnimationFrame(tick);
+    }, { once: true });
+  }
+})();
+</script>
