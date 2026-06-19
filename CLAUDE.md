@@ -54,6 +54,14 @@ MacBook с macOS, OrbStack (Docker), Cloudflare Tunnel. Автозапуск ч�
 - **Интерактивность:** Alpine.js для состояния. Inline vanilla JS для простых случаев. Не подключать jQuery, GSAP и т.д.
 - **JS на клиенте:** минимум. Только Alpine.js (~15KB). Так и должно оставаться.
 
+### Согласованное исключение: FlutedGlassBg (vanilla WebGL)
+
+Компонент фонового шейдера `FlutedGlassBg` — самописный vanilla-WebGL (без внешних библиотек). Это **разрешённое исключение** из правила «только Alpine.js ~15KB»: код свой, зависимостей не тянет. Запрет на внешние анимационные/шейдерные **библиотеки** (Three.js, GSAP, Lottie, Framer Motion, @paper-design и т.п.) при этом остаётся в силе.
+
+### Машинный чек-лист
+
+`bash scripts/audit.sh [<dist-dir>]` — автоматическая проверка этих ограничений: запрещённые импорты (FAIL), утечки dev-only страниц в dist (FAIL при передаче dist), хардкод-hex равный токенам и `.url` без `normalizeMediaUrl` (WARN), битые внутренние ссылки (WARN). Заготовка git-хука — `.githooks/pre-push` (не активирована; включается через `git config core.hooksPath .githooks`).
+
 ## Структура проекта
 
 ```

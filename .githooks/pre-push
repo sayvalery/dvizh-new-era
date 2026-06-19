@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Git pre-push hook — runs the machine checklist before every push.
+#
+# This hook is NOT active by default. To enable it, run once from repo root:
+#     git config core.hooksPath .githooks
+#     chmod +x .githooks/pre-push
+# To disable: git config --unset core.hooksPath
+#
+# On a hard violation (exit 1) the push is aborted. Warnings do not block.
+
+set -uo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+echo "[pre-push] running scripts/audit.sh ..."
+if ! bash "$REPO_ROOT/scripts/audit.sh"; then
+  echo "[pre-push] audit failed — push aborted. Fix violations or bypass with --no-verify." >&2
+  exit 1
+fi
+
+exit 0

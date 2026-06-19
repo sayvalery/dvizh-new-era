@@ -89,13 +89,13 @@ const tagCats = [...catMap.values()].sort((a, b) => a.title.localeCompare(b.titl
         <Tab
           label="Все статьи"
           x-on:click="cat = 'all'"
-          x-bind:class={`cat === 'all' ? '!border-[#fecda9] !text-brand' : ''`}
+          x-bind:class={`cat === 'all' ? '!border-brand-200 !text-brand' : ''`}
         />
         {tagCats.map((c) => (
           <Tab
             label={c.title}
             x-on:click={`cat = '${c.slug}'`}
-            x-bind:class={`cat === '${c.slug}' ? '!border-[#fecda9] !text-brand' : ''`}
+            x-bind:class={`cat === '${c.slug}' ? '!border-brand-200 !text-brand' : ''`}
           />
         ))}
       </div>

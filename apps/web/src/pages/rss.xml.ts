@@ -10,13 +10,19 @@ export async function GET(context: APIContext) {
     title: 'ДВИЖ — Блог',
     description: 'AI-платформа для автоматизации продаж и маркетинга застройщиков. Статьи, кейсы, исследования.',
     site: context.site!.toString(),
-    items: posts.map((post: any) => ({
-      title: post.title,
-      pubDate: new Date(post.publishedAt || post.createdAt),
-      description: post.excerpt || '',
-      link: `/blog/${post.slug}`,
-      ...(post.cover?.url ? { enclosure: { url: `${context.site}api/media/file/${post.cover.url.split('/').pop()}`, length: 0, type: 'image/jpeg' } } : {}),
-    })),
+    items: posts.map((post: any) => {
+      // Нормализуем CMS-URL обложки (origin + двойная URL-кодировка), затем делаем
+      // абсолютным относительно site — enclosure в RSS требует абсолютного URL.
+      const coverPath = normalizeMediaUrl(post.cover?.url)
+      const enclosureUrl = coverPath ? new URL(coverPath, context.site).toString() : null
+      return {
+        title: post.title,
+        pubDate: new Date(post.publishedAt || post.createdAt),
+        description: post.excerpt || '',
+        link: `/blog/${post.slug}`,
+        ...(enclosureUrl ? { enclosure: { url: enclosureUrl, length: 0, type: 'image/jpeg' } } : {}),
+      }
+    }),
     customData: '<language>ru-ru</language>',
   })
 }

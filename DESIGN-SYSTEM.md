@@ -88,3 +88,9 @@ Figma-файл: https://www.figma.com/design/PnfTfcrl6KaCZU0mEMQiws/
 - Figma MCP (desktop, порт 3845)
 - Скрипт токенов: `scripts/push-tokens-to-figma.mjs`
 - Токены JSON: `design-tokens.json`
+
+---
+
+## ⚠️ Согласованные исключения
+
+- **FlutedGlassBg (vanilla WebGL)** — самописный шейдерный фон без внешних библиотек. Разрешённое исключение из правила «только Alpine.js ~15KB на клиенте». Внешние анимационные/шейдерные библиотеки (Three.js, GSAP, Lottie, Framer Motion и т.п.) по-прежнему запрещены.

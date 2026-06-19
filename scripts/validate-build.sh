@@ -77,6 +77,19 @@ if [ "$CSS_COUNT" -eq 0 ]; then
   fail "No CSS files found"
 fi
 
+# 9. Dev-only directories must NOT leak into prod build
+for devdir in lab sales ui-kit; do
+  if [ -e "$DIST_DIR/$devdir" ]; then
+    fail "dev-only directory '$devdir' present in dist (must be excluded from prod build)"
+  fi
+done
+
+# 10. Sitemap must not reference dev-only paths
+SITEMAP_LEAK="$(grep -rl "/lab/\|/sales\|/ui-kit" "$DIST_DIR"/sitemap*.xml 2>/dev/null | wc -l | tr -d ' ')" || true
+if [ "${SITEMAP_LEAK:-0}" -gt 0 ]; then
+  fail "sitemap references dev-only paths (/lab, /sales or /ui-kit)"
+fi
+
 # Result
 if [ "$ERRORS" -gt 0 ]; then
   echo "Validation FAILED: $ERRORS errors" >&2

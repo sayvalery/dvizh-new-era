@@ -7,12 +7,16 @@ interface Props {
   ogImage?: string
   ogType?: string
   jsonLd?: object | object[]
+  /** Запретить индексацию (meta robots noindex) */
+  noindex?: boolean
   /** CSS-класс для <body> (например bg-background-primary) */
   bodyClass?: string
 }
 
-const { title, description, ogImage, ogType = 'website', jsonLd, bodyClass = '' } = Astro.props
-const siteTitle = title ? `${title} — ДВИЖ` : 'ДВИЖ'
+const { title, description, ogImage, ogType = 'website', jsonLd, noindex = false, bodyClass = '' } = Astro.props
+const siteTitle = title
+  ? (title.endsWith('— ДВИЖ') ? title : `${title} — ДВИЖ`)
+  : 'ДВИЖ'
 const canonicalUrl = Astro.url.href
 const defaultOgImage = `${Astro.site}og-default.jpg`
 const resolvedOgImage = ogImage || defaultOgImage
@@ -26,6 +30,7 @@ const resolvedOgImage = ogImage || defaultOgImage
 
     <title>{siteTitle}</title>
     {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- RSS -->

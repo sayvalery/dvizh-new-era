@@ -10,6 +10,8 @@
  * Форматирование: bold (1), italic (2), strikethrough (4), underline (8), code (16).
  */
 
+import { normalizeMediaUrl } from './payload'
+
 // ─── Slugify (транслитерация кириллицы → латиница) ────────────────
 const translitMap: Record<string, string> = {
   а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'y',
@@ -108,7 +110,9 @@ function serializeNode(node: any, opts: SerializeOptions): string {
     case 'horizontalrule': return '<hr/>'
     case 'code': return `<pre><code>${children || node.text || ''}</code></pre>`
     case 'upload': {
-      const url = node.value?.url || ''
+      // Нормализуем CMS-URL на границе сериализации: убираем абсолютный origin
+      // и декодируем двойную URL-кодировку, иначе inline-картинки статей ломаются на проде.
+      const url = normalizeMediaUrl(node.value?.url) || ''
       const alt = node.value?.alt || ''
       return url ? `<figure><img src="${url}" alt="${alt}" loading="lazy" /></figure>` : ''
     }

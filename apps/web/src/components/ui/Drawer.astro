@@ -38,9 +38,27 @@ const defaultPointsJson = JSON.stringify({ demo: defaultPoints, lead: defaultPoi
 ---
 
 <div
-  x-data={`{ open: false, preset: 'demo', points: [], defaults: ${defaultPointsJson} }`}
-  @open-drawer.window="preset = $event.detail.preset ?? 'demo'; points = $event.detail.points ?? defaults[preset] ?? []; open = true"
-  x-init="$watch('open', v => document.body.classList.toggle('overflow-hidden', v))"
+  x-data={`{
+    open: false,
+    preset: 'demo',
+    points: [],
+    defaults: ${defaultPointsJson},
+    trigger: null,
+    focusables() {
+      return Array.from($refs.panel.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=\"-1\"])')).filter(el => el.offsetParent !== null)
+    },
+    trapFocus(e) {
+      const items = this.focusables();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+    }
+  }`}
+  @open-drawer.window="trigger = $event.target instanceof HTMLElement ? $event.target.closest('button, a, [role=button]') : document.activeElement; preset = $event.detail.preset ?? 'demo'; points = $event.detail.points ?? defaults[preset] ?? []; open = true"
+  x-init="$watch('open', v => { document.body.classList.toggle('overflow-hidden', v); if (v) { $nextTick(() => (focusables()[0] ?? $refs.panel).focus()) } else if (trigger) { trigger.focus(); trigger = null } })"
+  @keydown.escape.window="if (open) open = false"
 >
   <!-- Backdrop -->
   <div
@@ -58,14 +76,20 @@ const defaultPointsJson = JSON.stringify({ demo: defaultPoints, lead: defaultPoi
 
   <!-- Panel -->
   <div
+    x-ref="panel"
     x-show="open"
+    role="dialog"
+    aria-modal="true"
+    :aria-labelledby="'drawer-title-' + preset"
+    tabindex="-1"
+    @keydown.tab="trapFocus($event)"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="translate-x-full"
     x-transition:enter-end="translate-x-0"
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="translate-x-0"
     x-transition:leave-end="translate-x-full"
-    class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-gray-50 shadow-2xl flex flex-col rounded-l-3xl"
+    class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-gray-50 shadow-2xl flex flex-col rounded-l-3xl focus:outline-none"
     style="display:none"
   >
     <!-- Header -->
@@ -73,6 +97,7 @@ const defaultPointsJson = JSON.stringify({ demo: defaultPoints, lead: defaultPoi
       <div>
         {presets.map(p => (
           <h2
+            id={`drawer-title-${p}`}
             x-show={`preset === '${p}'`}
             class="font-semibold text-gray-900"
             style="display:none"
