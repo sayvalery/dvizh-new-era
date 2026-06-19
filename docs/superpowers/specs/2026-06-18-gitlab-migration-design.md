@@ -122,7 +122,7 @@ git push -u origin dev
 
 **Настройка GitLab после пуша:**
 - Settings → Repository → **Default branch = `main`**.
-- **Protected branches:** `main` (Allowed to merge = Maintainers, Allowed to push = No one), `dev` — свободнее. Это база безопасности и сигнал «команда знает, что делает».
+- **Protected branches:** `main` (Allowed to merge = Maintainers = **Valery**, Allowed to push = No one), `dev` — свободнее. Это база безопасности и сигнал «команда знает, что делает».
 - Settings → General → Description + аватар проекта.
 - Добавить `CONTRIBUTING.md` / `docs/branching.md` с моделью веток; (опц.) MR-шаблон; (опц.) минимальный `.gitlab-ci.yml` (install + build + `apps/web/tests/build-smoke.sh`).
 
@@ -194,9 +194,11 @@ git push -u origin dev
 2. **Доки в репо — оставляем.** `README.md`, `CLAUDE.md`, скиллы, текущие основные доки и этот spec — **оставляем в GitLab**. В архив (GitHub-only) уезжают только **разовые отчёты/спецификации прошлых задач**. Возможен финальный архивный push в GitHub, чтобы «забетонировать» исходную версию.
 3. **Бэкапы — критичны только заявки (`form_submissions`).** Статьи/контент хранятся и у компании, и у нас, и в превью — не страшно. Заявки живут только в базе → защищаем (GFS + sanity-check + append-only экспорт). Расширим, если у маркетинга появятся хотелки.
 
-**Ещё открыто (не блокирует старт):**
-- **Кто Maintainer на `main`** (для protected branches).
-- **Домен CMS:** `admin.dvizh.cc` → `admin.dvizh.io`? Остаётся ли CMS/админка на MacBook+Cloudflare-туннель. (Часть пласта миграции доменов.)
+**Закрыто 2026-06-18 (вторая итерация):**
+4. **Maintainer на `main` = Valery.** Protected branch `main`: merge разрешён Valery, push запрещён всем.
+5. **Админка CMS остаётся на `admin.dvizh.cc`** (где и сейчас, MacBook + Cloudflare-туннель). Не переносим.
+
+_Открытых блокеров не осталось._
 
 ## Вне скоупа (отдельные задачи на потом)
 - **🔴 Telegram-бот мониторинга (критично, отдельная задача).** Ежедневный обход: сайт пингуется, тестовая заявка отправляется и доходит, CMS/база живы — отчёт в Telegram. Туда же — алерты бэкапов (sanity-check не прошёл). Заготовка уже есть: в `build-site.sh` закомментированы `notify()`-хуки на Telegram (`TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID`).
@@ -215,5 +217,5 @@ git push -u origin dev
 ## Действия на стороне пользователя (не автоматизируется)
 1. Сменить пароль админки CMS.
 2. Создать в GitLab проект + Personal Access Token, дать URL и группу.
-3. Подтвердить, кого ставим Maintainer на `main` (для protected branches).
+3. ✅ Maintainer на `main` = Valery.
 4. Финально уточнить у CTO формулировку по деплою (ожидается: вебхук на push в `main` = наша логика; не блокирует старт).
