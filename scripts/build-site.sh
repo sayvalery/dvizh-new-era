@@ -214,15 +214,6 @@ else
   update_status "building" "media_copy" "skipped"
 fi
 
-# Step 2.6: Hanging-punctuation fallback (не-Safari) — маркеры заголовкам с ведущей
-# пунктуацией. Non-fatal: оптическая правка, не должна валить сборку.
-log "Applying hanging-punctuation markers..."
-if node scripts/hanging-punctuation.mjs "$DIST_DIR" 2>&1 | tee -a "$LOG_FILE"; then
-  log "Hanging-punctuation markers applied"
-else
-  log "WARNING: hanging-punctuation pass failed (non-fatal), continuing"
-fi
-
 # Step 3: Validate
 update_status "building" "validate" "active"
 log "Validating build..."
