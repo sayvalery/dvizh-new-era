@@ -68,16 +68,27 @@ const hasRight = Astro.slots.has('right')
          * изображение в правой колонке раздувает grid-строку и смещает pb-40 за фолд.
          * min-h сохраняет рост на мобилках (правая колонка там скрыта).
          */
-        <!-- <lg: одноколоночный flex (как в варианте без картинки) — текст растягивается
-             на высоту и прибивается к низу. lg+: двухколоночный grid с картинкой справа.
-             Грид только с lg, иначе на мобилке одна auto-строка не тянется и justify-end
-             не прибивает контент к низу (картинка там всё равно hidden lg:block). -->
+        <!-- <lg: flex-col — картинка (1-я в DOM) сверху, текст под ней (flex-1, прижат к низу).
+             lg+: grid; колонки расставлены ЯВНО (lg:col-start-*), т.к. в DOM картинка идёт
+             первой: текст в 1-й колонке слева (58%), картинка во 2-й справа (42%).
+             Порядок — через DOM + col-start, а не order/flex-reverse (order-none не генерится
+             минификатором, а column-reverse дал неверный порядок). Грид только с lg —
+             иначе одна auto-строка не тянется и justify-end не прибивает контент к низу. -->
         <div class="flex flex-col min-h-[calc(100dvh-76px)] lg:grid lg:h-[calc(100dvh-76px)] lg:grid-cols-[58%_42%]">
 
-          <!-- Левая колонка: текст прибит к низу, z-10 чтобы быть поверх картинки.
+          <!-- Колонка картинки — В DOM ПЕРВАЯ → на мобилке (flex-col) встаёт СВЕРХУ, вписана
+               (см. <style>). На lg явно во 2-й колонке справа; absolute-обёртка даёт «вытекание»
+               за колонку, не влияя на layout-высоту (верт. клип — overflow-hidden секции). -->
+          <div class="hero-media relative lg:col-start-2 lg:row-start-1 lg:-mt-8" aria-hidden="true">
+            <div class="flex justify-center lg:absolute lg:-top-[100px] lg:left-0 lg:right-0 lg:bottom-0 lg:items-start">
+              <slot name="right" />
+            </div>
+          </div>
+
+          <!-- Текстовая колонка — В DOM ВТОРАЯ → на мобилке снизу. На lg явно в 1-й колонке слева.
                flex-1 нужен только <lg (заполнить высоту flex-контейнера); в grid игнорируется.
-               hero-left-col: на .fluid-page (лаб) pb становится флюидным (см. global.css). -->
-          <div class="hero-left-col relative z-10 flex flex-1 flex-col justify-end pb-24 lg:pb-40">
+               z-10 чтобы быть поверх картинки. hero-left-col: на .fluid-page pb флюидный (global.css). -->
+          <div class="hero-left-col relative z-10 flex flex-1 flex-col justify-end pb-24 lg:pb-40 lg:col-start-1 lg:row-start-1">
             <div class="flex flex-col gap-6">
               {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
               <h1 class="text-h1 text-gray-900">{title}</h1>
@@ -92,16 +103,6 @@ const hasRight = Astro.slots.has('right')
                 <slot name="logos" />
               </div>
             )}
-          </div>
-
-          <!-- Правая колонка: контейнер растягивается на высоту грида (stretch по умолчанию).
-               Внутри — absolute-обёртка: изображение не влияет на layout-высоту предков,
-               но визуально выходит за пределы колонки влево/вправо.
-               Вертикальный клип — overflow-hidden на <section>. -->
-          <div class="hidden lg:block relative -mt-8" aria-hidden="true">
-            <div class="absolute -top-[100px] left-0 right-0 bottom-0 flex items-start justify-center">
-              <slot name="right" />
-            </div>
           </div>
 
         </div>
@@ -132,4 +133,21 @@ const hasRight = Astro.slots.has('right')
   </div>
 
 </section>
+
+<style>
+  /* Размер hero-картинки задаётся в пропсах страницы (h-[106dvh] w-auto max-width:none) —
+     это «вытекающий» десктопный рендер. На <lg каппим: вписываем сверху, не даём вытекать.
+     :global(img) — картинка приходит через slot (вне scope компонента). max-width c
+     !important перебивает inline style="max-width:none". На lg каппы снимаются → десктоп как был. */
+  .hero-media :global(img) {
+    max-height: 40dvh;
+    max-width: 100% !important;
+  }
+  @media (min-width: 1024px) {
+    .hero-media :global(img) {
+      max-height: none;
+      max-width: none !important;
+    }
+  }
+</style>
 
