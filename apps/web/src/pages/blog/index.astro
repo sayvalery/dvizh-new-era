@@ -220,6 +220,7 @@ const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (
     </div>
 
     {/* ── Баннер: «Станьте автором» ── */}
+    {/* TODO image: заменить "" на /api/media/file/<имя> после загрузки */}
     <Banner
       bg="bg-background-secondary"
       title="Станьте автором ДВИЖ&#160;Инсайты"
@@ -227,6 +228,8 @@ const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (
       buttons={[
         { label: 'Стать автором', drawerPreset: 'lead' },
       ]}
+      image=""
+      imageAlt="Стань автором ДВИЖ Инсайты"
     />
 
     {/* ── Блок 5: Теги-фильтры + md-карточки — клик по тегу переключает карточки справа (Alpine).
@@ -269,6 +272,7 @@ const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (
     </div>
 
     {/* ── Блок 6: Banner — подписка на каналы ── */}
+    {/* TODO image: заменить "" на /api/media/file/<имя> после загрузки */}
     <Banner
       bg="bg-background-secondary"
       title="Оставайтесь на&#160;связи"
@@ -276,6 +280,8 @@ const defaultCat = tagCats.some((c) => c.slug === 'pro-dvizh') ? 'pro-dvizh' : (
       buttons={[
         { label: 'Telegram', href: 'https://t.me/dvizh4realty', icon: '/api/media/file/telegram.svg' },
       ]}
+      image=""
+      imageAlt="Telegram-канал ДВИЖ"
     />
 
     {/* ── Блок 7: «Конференции, подкасты и вебинары» — header-row при <xl, 2 колонки 1/3+2/3 при xl+ ── */}
