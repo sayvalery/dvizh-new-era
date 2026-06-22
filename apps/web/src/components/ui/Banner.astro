@@ -159,14 +159,26 @@ const footnoteCls = dark ? 'text-white/40' : 'text-gray-400'
       class:list={[
         bgImage ? '' : bg,
         roundedCls,
-        'overflow-hidden p-6 md:p-8',
+        'relative overflow-hidden p-6 md:p-8',
       ]}
       style={[
         bgImage ? `background-image:url('${bgImage}');background-size:cover;background-position:center` : '',
         minHeight ? `min-height:${minHeight}` : '',
       ].filter(Boolean).join(';') || undefined}
     >
-  <div class="flex flex-col gap-6 md:flex-row md:gap-10 md:items-center">
+  <!-- ── Правая картинка: absolute, прибита к правому краю, на всю высоту ──── -->
+  <!-- Вне потока → не поджимает текст. Ширину задаёт пропорция (w-auto).        -->
+  <!-- Прозрачный фон → перекрытие текста не мешает. overflow-hidden родителя    -->
+  <!-- обрезает то, что шире бокса, и сохраняет скругление углов.                -->
+  {image && (
+    <img
+      src={image}
+      alt={imageAlt}
+      class="hidden md:block absolute inset-y-0 right-0 h-full w-auto max-w-none object-cover object-right pointer-events-none select-none"
+    />
+  )}
+
+  <div class="relative z-10 flex flex-col gap-6 md:flex-row md:gap-10 md:items-center">
 
     <!-- ── Левая колонка ──────────────────────────────────────────────────── -->
     <div class:list={['flex-1 flex flex-col gap-6 md:gap-10 min-w-0', showSideButton && 'max-w-[900px]']}>
@@ -254,14 +266,6 @@ const footnoteCls = dark ? 'text-white/40' : 'text-gray-400'
         >
           {buttonText}
         </Button>
-      </div>
-    )}
-    <!-- ─────────────────────────────────────────────────────────────────────── -->
-
-    <!-- ── Правая картинка ──────────────────────────────────────────────── -->
-    {image && (
-      <div class="hidden md:flex shrink-0 items-end self-stretch overflow-hidden">
-        <img src={image} alt={imageAlt} class="max-h-48 w-auto object-contain object-bottom" />
       </div>
     )}
     <!-- ─────────────────────────────────────────────────────────────────────── -->
