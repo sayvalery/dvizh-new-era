@@ -397,6 +397,23 @@ h1, h2, h3, h4, h5, h6 {
   .fluid-page .support-tab    { min-height: clamp(220px, 9.17rem + 5.73vw, 293px); }  /* три таба */
 }
 
+/* 2.2. Bento/карточные блоки: фиксированные высоты строк скейлятся ×1.333
+   (vp 1280→2560), как контейнер. Иначе на широких карточки остаются низкими,
+   пока сетка тянется в ширину (та же проблема, что была с поддержкой/историями).
+   Каждый класс живёт в одном компоненте (ProductBentoBlock / AdvantageCard /
+   BentoGrid) — коллизий нет. lg:-классы — под lg+, xl:-классы — под xl+ (иначе
+   высота протекла бы в стек-раскладку планшета). */
+@media (min-width: 1024px) {
+  .fluid-page .lg\:h-\[600px\]     { height: clamp(600px, 25rem + 15.625vw, 800px); }    /* ProductBento ряды 1/3 */
+  .fluid-page .lg\:h-\[540px\]     { height: clamp(540px, 22.5rem + 14.063vw, 720px); }  /* ProductBento ряд 2 */
+  .fluid-page .lg\:min-h-\[360px\] { min-height: clamp(360px, 15rem + 9.375vw, 480px); } /* AdvantageCard */
+  .fluid-page .lg\:h-\[488px\]     { height: clamp(488px, 20.333rem + 12.708vw, 650px); }/* BentoGrid four ряд 1 */
+  .fluid-page .lg\:h-\[360px\]     { height: clamp(360px, 15rem + 9.375vw, 480px); }     /* BentoGrid four ряд 2 */
+}
+@media (min-width: 1280px) {
+  .fluid-page .xl\:h-\[738px\]     { height: clamp(738px, 30.75rem + 19.219vw, 984px); } /* BentoGrid three */
+}
+
 /* 3. Hero (HeroSectionFull) под .fluid-page — только продуктовые лаб-страницы.
    body.fluid-page для специфичности выше scoped-стилей компонента. */
 
