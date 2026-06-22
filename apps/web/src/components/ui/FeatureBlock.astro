@@ -198,12 +198,14 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
                       x-bind:style={`active === ${i} ? 'max-height: 800px; opacity: 1; margin-top: 1rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
                     >
                       {(feature.imageMobile ?? feature.image ?? imageMobile ?? image) ? (
-                        <img
-                          src={feature.imageMobile ?? feature.image ?? imageMobile ?? image}
-                          alt={feature.imageAlt ?? imageAlt}
-                          class="block w-full h-auto rounded-2xl lg:rounded-3xl"
-                          loading="lazy"
-                        />
+                        <div class="aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden">
+                          <img
+                            src={feature.imageMobile ?? feature.image ?? imageMobile ?? image}
+                            alt={feature.imageAlt ?? imageAlt}
+                            class="block w-full h-full object-cover object-center"
+                            loading="lazy"
+                          />
+                        </div>
                       ) : (
                         <div class="aspect-[4/3] rounded-2xl lg:rounded-3xl bg-background-secondary">
                           <slot name="image-mobile" />
@@ -220,11 +222,11 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
 
         {!interactive && (imageMobile ?? image) && (
           <!-- Mobile: одно изображение для всего блока (скрыто на lg+) -->
-          <div class="lg:hidden">
+          <div class="lg:hidden aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden">
             <img
               src={imageMobile ?? image}
               alt={imageAlt}
-              class="block w-full h-auto rounded-2xl lg:rounded-3xl"
+              class="block w-full h-full object-cover object-center"
               loading="lazy"
             />
           </div>
