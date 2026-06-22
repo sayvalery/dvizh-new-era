@@ -378,21 +378,21 @@ const partnerLogos = [
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
         <div class="flex flex-col items-center text-center gap-6">
-          <img src="/api/media/file/result-99.webp" alt="Результат" class="shrink-0 rounded-3xl" style="width:120px;height:120px;object-fit:contain" loading="lazy" />
+          <img src="/api/media/file/result-99.webp" alt="Результат" class="stable-illustration shrink-0 rounded-3xl" loading="lazy" />
           <div class="flex flex-col gap-2">
             <h3 class="text-h3 text-gray-900">Результат</h3>
             <p class="text-body-lg text-gray-500">Uptime платформы 99,9%</p>
           </div>
         </div>
         <div class="flex flex-col items-center text-center gap-6">
-          <img src="/api/media/file/security.webp" alt="Безопасность" class="shrink-0 rounded-3xl" style="width:120px;height:120px;object-fit:contain" loading="lazy" />
+          <img src="/api/media/file/security.webp" alt="Безопасность" class="stable-illustration shrink-0 rounded-3xl" loading="lazy" />
           <div class="flex flex-col gap-2">
             <h3 class="text-h3 text-gray-900">Безопасность</h3>
             <p class="text-body-lg text-gray-500">Подтверждена отделами ИБ крупнейших застройщиков и банков страны</p>
           </div>
         </div>
         <div class="flex flex-col items-center text-center gap-6">
-          <img src="/api/media/file/confiden.webp" alt="Конфиденциальность" class="shrink-0 rounded-3xl" style="width:120px;height:120px;object-fit:contain" loading="lazy" />
+          <img src="/api/media/file/confiden.webp" alt="Конфиденциальность" class="stable-illustration shrink-0 rounded-3xl" loading="lazy" />
           <div class="flex flex-col gap-2">
             <h3 class="text-h3 text-gray-900">Конфиденциальность</h3>
             <p class="text-body-lg text-gray-500">Соответствие стандартам 152 ФЗ</p>
@@ -475,8 +475,16 @@ const partnerLogos = [
       .fluid-page .lg\:h-\[600px\] { height: clamp(600px, 25rem + 15.625vw, 800px); }      /* бенто-сетки */
       .fluid-page .lg\:h-\[540px\] { height: clamp(540px, 22.5rem + 14.063vw, 720px); }    /* бенто c3 */
       .fluid-page .lg\:min-h-\[360px\] { min-height: clamp(360px, 15rem + 9.375vw, 480px); } /* AdvantageCard */
-      .fluid-page .min-h-\[480px\] { min-height: clamp(480px, 20rem + 12.5vw, 640px); }     /* фото-панель поддержки */
     }
+
+    /*
+      «Стабильное решение»: три 3D-иллюстрации. Источники одной высоты (1120px),
+      но разной ширины → старый жёсткий бокс 120×120 с object-fit:contain рендерил
+      их разной видимой высотой (58/104/70px). Фиксируем высоту, ширина авто —
+      все три одной высоты. На широких растёт ×1.333 (как контейнер), floor 120px
+      держится на планшете/мобайле.
+    */
+    .stable-illustration { height: clamp(120px, 5rem + 3.125vw, 160px); width: auto; }
   </style>
 
 </SiteLayout>

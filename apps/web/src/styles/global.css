@@ -389,6 +389,14 @@ h1, h2, h3, h4, h5, h6 {
 .fluid-page header .max-w-\[1440px\],
 .fluid-page section .max-w-\[1440px\] { max-width: clamp(1440px, 60rem + 37.5vw, 1920px); }
 
+/* 2.1. Блок поддержки (SupportSection): высоты растут тем же темпом ×1.333, что
+   и контейнер (vp 1280→2560), иначе на широких экранах фото-панель становится
+   широкой и низкой, а табы — сплюснутыми. Только lg+, мобайл/планшет не трогаем. */
+@media (min-width: 1024px) {
+  .fluid-page .min-h-\[480px\] { min-height: clamp(480px, 20rem + 12.5vw, 640px); }   /* фото-панель */
+  .fluid-page .support-tab    { min-height: clamp(220px, 9.17rem + 5.73vw, 293px); }  /* три таба */
+}
+
 /* 3. Hero (HeroSectionFull) под .fluid-page — только продуктовые лаб-страницы.
    body.fluid-page для специфичности выше scoped-стилей компонента. */
 
