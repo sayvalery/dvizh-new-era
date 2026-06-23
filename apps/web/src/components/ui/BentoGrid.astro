@@ -53,6 +53,8 @@ interface BentoItem {
    * Растягивается на весь размер карточки (object-fit: cover).
    */
   backgroundImage?: string
+  /** URL картинки под мобилку (<640px) — обычно вертикальный кроп. Если не задан — backgroundImage. */
+  backgroundImageMobile?: string
   /**
    * Позиция фокуса изображения. Значение CSS object-position.
    * Примеры: 'center' (по умолчанию), 'top', 'bottom', 'left', 'right', '50% 20%'
@@ -112,17 +114,22 @@ const isFour = variant === 'four'
       <div class="flex flex-col gap-6 xl:flex-1">
 
         <!-- Карточка 1: текст снизу-слева до xl, сверху-слева на xl+ -->
-        <div class="relative min-h-[350px] flex-1 overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0">
+        <div class="relative min-h-[400px] sm:min-h-[460px] md:min-h-[520px] flex-1 overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0">
           {card1.backgroundImage && (
-            <img
-              src={card1.backgroundImage}
-              alt=""
-              class="absolute inset-0 w-full h-full object-cover"
-              style={card1.imagePosition ? `object-position: ${card1.imagePosition}` : ''}
-              loading="lazy"
-            />
+            <picture>
+              {card1.backgroundImageMobile && (
+                <source media="(max-width: 639px)" srcset={card1.backgroundImageMobile} />
+              )}
+              <img
+                src={card1.backgroundImage}
+                alt=""
+                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
+                style={card1.imagePosition ? `object-position: ${card1.imagePosition}` : ''}
+                loading="lazy"
+              />
+            </picture>
           )}
-          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 xl:bottom-auto xl:top-10 xl:max-w-[48%]">
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:bottom-auto xl:top-10 xl:max-w-[48%]">
             <h3 class="text-h3 text-gray-900">{card1.title}</h3>
             {card1.description && (
               <p class="text-body-lg text-black/40">{card1.description}</p>
@@ -130,18 +137,23 @@ const isFour = variant === 'four'
           </div>
         </div>
 
-        <!-- Карточка 2: текст снизу-слева на всех брейкпойнтах -->
-        <div class="relative min-h-[350px] flex-1 overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0">
+        <!-- Карточка 2: текст снизу-слева в стеке, сверху-слева на xl+ -->
+        <div class="relative min-h-[400px] sm:min-h-[460px] md:min-h-[520px] flex-1 overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0">
           {card2.backgroundImage && (
-            <img
-              src={card2.backgroundImage}
-              alt=""
-              class="absolute inset-0 w-full h-full object-cover"
-              style={card2.imagePosition ? `object-position: ${card2.imagePosition}` : ''}
-              loading="lazy"
-            />
+            <picture>
+              {card2.backgroundImageMobile && (
+                <source media="(max-width: 639px)" srcset={card2.backgroundImageMobile} />
+              )}
+              <img
+                src={card2.backgroundImage}
+                alt=""
+                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
+                style={card2.imagePosition ? `object-position: ${card2.imagePosition}` : ''}
+                loading="lazy"
+              />
+            </picture>
           )}
-          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 xl:max-w-[48%]">
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:bottom-auto xl:top-10 xl:max-w-[48%]">
             <h3 class="text-h3 text-gray-900">{card2.title}</h3>
             {card2.description && (
               <p class="text-body-lg text-black/40">{card2.description}</p>
@@ -152,17 +164,22 @@ const isFour = variant === 'four'
       </div>
 
       <!-- Правая колонка (xl+): один большой элемент. Текст снизу-слева до xl, сверху-слева на xl+ -->
-      <div class="relative min-h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0 xl:flex-1">
+      <div class="relative min-h-[400px] sm:min-h-[460px] md:min-h-[520px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl xl:min-h-0 xl:flex-1">
         {card3.backgroundImage && (
-          <img
-            src={card3.backgroundImage}
-            alt=""
-            class="absolute inset-0 w-full h-full object-cover"
-            style={card3.imagePosition ? `object-position: ${card3.imagePosition}` : ''}
-            loading="lazy"
-          />
+          <picture>
+            {card3.backgroundImageMobile && (
+              <source media="(max-width: 639px)" srcset={card3.backgroundImageMobile} />
+            )}
+            <img
+              src={card3.backgroundImage}
+              alt=""
+              class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
+              style={card3.imagePosition ? `object-position: ${card3.imagePosition}` : ''}
+              loading="lazy"
+            />
+          </picture>
         )}
-        <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 xl:bottom-auto xl:top-10">
+        <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:max-w-none xl:bottom-auto xl:top-10">
           <h3 class="text-h3 text-gray-900">{card3.title}</h3>
           {card3.description && (
             <p class="text-body-lg text-black/40">{card3.description}</p>
@@ -189,13 +206,18 @@ const isFour = variant === 'four'
         <!-- Карточка 1: широкая, текст внизу-слева -->
         <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
           {card1.backgroundImage && (
-            <img
-              src={card1.backgroundImage}
-              alt=""
-              class="absolute inset-0 w-full h-full object-cover"
-              style={card1.imagePosition ? `object-position: ${card1.imagePosition}` : ''}
-              loading="lazy"
-            />
+            <picture>
+              {card1.backgroundImageMobile && (
+                <source media="(max-width: 639px)" srcset={card1.backgroundImageMobile} />
+              )}
+              <img
+                src={card1.backgroundImage}
+                alt=""
+                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
+                style={card1.imagePosition ? `object-position: ${card1.imagePosition}` : ''}
+                loading="lazy"
+              />
+            </picture>
           )}
           <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
             <h3 class="text-h3 text-gray-900">{card1.title}</h3>
@@ -208,13 +230,18 @@ const isFour = variant === 'four'
         <!-- Карточка 2: узкая, текст вверху-слева на десктопе / внизу-слева на мобайле -->
         <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
           {card2.backgroundImage && (
-            <img
-              src={card2.backgroundImage}
-              alt=""
-              class="absolute inset-0 w-full h-full object-cover"
-              style={card2.imagePosition ? `object-position: ${card2.imagePosition}` : ''}
-              loading="lazy"
-            />
+            <picture>
+              {card2.backgroundImageMobile && (
+                <source media="(max-width: 639px)" srcset={card2.backgroundImageMobile} />
+              )}
+              <img
+                src={card2.backgroundImage}
+                alt=""
+                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
+                style={card2.imagePosition ? `object-position: ${card2.imagePosition}` : ''}
+                loading="lazy"
+              />
+            </picture>
           )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:top-10 lg:bottom-auto lg:left-10 lg:right-10">
             <h3 class="text-h3 text-gray-900">{card2.title}</h3>
@@ -232,13 +259,18 @@ const isFour = variant === 'four'
         <!-- Карточка 3: узкая, текст внизу-слева -->
         <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
           {card3.backgroundImage && (
-            <img
-              src={card3.backgroundImage}
-              alt=""
-              class="absolute inset-0 w-full h-full object-cover"
-              style={card3.imagePosition ? `object-position: ${card3.imagePosition}` : ''}
-              loading="lazy"
-            />
+            <picture>
+              {card3.backgroundImageMobile && (
+                <source media="(max-width: 639px)" srcset={card3.backgroundImageMobile} />
+              )}
+              <img
+                src={card3.backgroundImage}
+                alt=""
+                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
+                style={card3.imagePosition ? `object-position: ${card3.imagePosition}` : ''}
+                loading="lazy"
+              />
+            </picture>
           )}
           <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
             <h3 class="text-h3 text-gray-900">{card3.title}</h3>
@@ -251,13 +283,18 @@ const isFour = variant === 'four'
         <!-- Карточка 4: широкая, текст внизу-слева -->
         <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
           {card4.backgroundImage && (
-            <img
-              src={card4.backgroundImage}
-              alt=""
-              class="absolute inset-0 w-full h-full object-cover"
-              style={card4.imagePosition ? `object-position: ${card4.imagePosition}` : ''}
-              loading="lazy"
-            />
+            <picture>
+              {card4.backgroundImageMobile && (
+                <source media="(max-width: 639px)" srcset={card4.backgroundImageMobile} />
+              )}
+              <img
+                src={card4.backgroundImage}
+                alt=""
+                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
+                style={card4.imagePosition ? `object-position: ${card4.imagePosition}` : ''}
+                loading="lazy"
+              />
+            </picture>
           )}
           <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
             <h3 class="text-h3 text-gray-900">{card4.title}</h3>
