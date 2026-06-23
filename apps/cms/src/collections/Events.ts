@@ -7,6 +7,7 @@ export const Events: CollectionConfig = {
     read: () => true,
   },
   admin: {
+    hidden: true,
     useAsTitle: 'name',
     defaultColumns: ['name', 'date'],
     preview: (doc) => `${process.env.WEB_URL}/events/${doc.slug}`,

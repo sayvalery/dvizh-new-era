@@ -7,6 +7,7 @@ export const Videos: CollectionConfig = {
     read: () => true,
   },
   admin: {
+    hidden: true,
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'publishedAt'],
     group: 'Контент',

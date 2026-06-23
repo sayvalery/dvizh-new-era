@@ -10,6 +10,7 @@ export const Research: CollectionConfig = {
     read: () => true,
   },
   admin: {
+    hidden: true,
     useAsTitle: 'title',
     defaultColumns: ['title', 'status'],
     group: 'Контент',

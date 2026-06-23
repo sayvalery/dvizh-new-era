@@ -11,6 +11,7 @@ export const Cases: CollectionConfig = {
     read: () => true,
   },
   admin: {
+    hidden: true,
     useAsTitle: 'title',
     defaultColumns: ['title', 'client', 'status'],
     group: 'Контент',
