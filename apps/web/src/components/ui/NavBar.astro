@@ -86,6 +86,15 @@ const clearThreshold = clearAt ?? (isBlog ? 24 : 450)
 // Сравнение для clear: обычно белый вверху (<), при invertClear — белый после скролла (>=).
 const clearCmp = invertClear ? '>=' : '<'
 
+// ── Анти-FOUC: серверный начальный цвет ──
+// Getter `clear` при lastY=0 и mobileOpen=false:
+//   invertClear=false → clear = transparent && (0 < threshold)  = transparent
+//   invertClear=true  → clear = transparent && (0 >= threshold) = false (threshold всегда > 0)
+// Этот же класс кладём в статический `class`, чтобы SSR-рендер сразу был верным цветом
+// (белый на цветном hero / тёмный на светлых страницах) — без скачка чёрный→белый после JS.
+// Alpine-:class (object-синтаксис) затем чисто переключает цвета при скролле/состоянии.
+const initialClear = transparent && !invertClear
+
 // Фон острова. Вверху страницы — пусто (нет холостой подложки), фрост появляется при скролле:
 //  - transparent (главная) — фрост привязан к clear (вверху прозрачно, при скролле фрост);
 //  - blog непрозрачный (текущий прод /blog) — bg-white/20 по lastY;
@@ -132,9 +141,10 @@ const navIslandClass = transparent
   }"
   class="transition-transform duration-300"
 >
-  <!-- Gradient blur backdrop for transparent mode: two layers -->
-  <div x-show="clear" x-transition.opacity.duration.300ms class="nav-blur-fade"></div>
-  <div x-show="clear" x-transition.opacity.duration.300ms class="nav-blur-fade nav-blur-strong"></div>
+  <!-- Gradient blur backdrop for transparent mode: two layers. -->
+  <!-- Начальный display = initialClear (анти-FOUC): на светлых страницах не мигает блюром вверху. -->
+  <div x-show="clear" x-transition.opacity.duration.300ms class="nav-blur-fade" style={initialClear ? undefined : 'display:none'}></div>
+  <div x-show="clear" x-transition.opacity.duration.300ms class="nav-blur-fade nav-blur-strong" style={initialClear ? undefined : 'display:none'}></div>
 
   <!-- Hover zone: keeps mega menu open while cursor is inside header area -->
   <div
@@ -153,9 +163,11 @@ const navIslandClass = transparent
         <div class="flex items-center gap-6">
           <a href={logo.href} class="flex-shrink-0">
             {logo.image && logo.imageLight && transparent ? (
+              /* Две версии лого. SSR-видимость задаётся initialClear (через inline display),
+                 чтобы изначально показывалась нужная версия без скачка; Alpine переключает при скролле. */
               <>
-                <img src={logo.image} alt={logo.label} class="h-7 w-auto" x-show="!clear" x-cloak />
-                <img src={logo.imageLight} alt={logo.label} class:list={['h-7 w-auto', logo.lightFilter && 'brightness-0 invert']} x-show="clear" />
+                <img src={logo.image} alt={logo.label} class="h-7 w-auto" x-show="!clear" style={initialClear ? 'display:none' : undefined} />
+                <img src={logo.imageLight} alt={logo.label} class:list={['h-7 w-auto', logo.lightFilter && 'brightness-0 invert']} x-show="clear" style={initialClear ? undefined : 'display:none'} />
               </>
             ) : logo.image ? (
               <img src={logo.image} alt={logo.label} class="h-7 w-auto" />
@@ -184,7 +196,7 @@ const navIslandClass = transparent
                     href={item.href}
                     aria-haspopup="true"
                     :aria-expanded={`megaOpen === '${item.label}' ? 'true' : 'false'`}
-                    class="inline-flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
+                    class:list={['inline-flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors', initialClear ? 'text-white' : 'text-gray-700']}
                     :class={`{
                       'text-white hover:bg-white/10': clear,
                       'bg-white/10': clear && megaOpen === '${item.label}',
@@ -195,7 +207,7 @@ const navIslandClass = transparent
                     {item.label}
                     {item.badge === 'dot' && (
                       <span
-                        class="w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors"
+                        class:list={['w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors', initialClear ? 'bg-white' : 'bg-red-500']}
                         :class="clear ? 'bg-white' : 'bg-red-500'"
                       />
                     )}
@@ -227,7 +239,7 @@ const navIslandClass = transparent
                     @click={`clearTimeout(hoverTimeout); megaOpen = (megaOpen === '${item.label}' ? null : '${item.label}')`}
                     aria-haspopup="true"
                     :aria-expanded={`megaOpen === '${item.label}' ? 'true' : 'false'`}
-                    class="flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
+                    class:list={['flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors', initialClear ? 'text-white' : 'text-gray-700']}
                     :class={`{
                       'text-white hover:bg-white/10': clear,
                       'bg-white/10': clear && megaOpen === '${item.label}',
@@ -268,7 +280,7 @@ const navIslandClass = transparent
                     @click={`clearTimeout(menuTimeout); openMenu = (openMenu === '${item.label}' ? null : '${item.label}')`}
                     aria-haspopup="true"
                     :aria-expanded={`openMenu === '${item.label}' ? 'true' : 'false'`}
-                    class="flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
+                    class:list={['flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors', initialClear ? 'text-white' : 'text-gray-700']}
                     :class="clear ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-100'"
                   >
                     {item.label}
@@ -307,13 +319,13 @@ const navIslandClass = transparent
                 /* === FLAT LINK === */
                 <a
                   href={item.href}
-                  class="inline-flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors"
+                  class:list={['inline-flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors', initialClear ? 'text-white' : 'text-gray-700']}
                   :class="clear ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-100'"
                 >
                   {item.label}
                   {item.badge === 'dot' && (
                     <span
-                      class="w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors"
+                      class:list={['w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors', initialClear ? 'bg-white' : 'bg-red-500']}
                       :class="clear ? 'bg-white' : 'bg-red-500'"
                     />
                   )}
@@ -330,7 +342,7 @@ const navIslandClass = transparent
           {secondaryLink && (
             <a
               href={secondaryLink.href}
-              class="hidden sm:inline-flex items-center gap-1.5 text-subhead opacity-80 transition-colors group"
+              class:list={['hidden sm:inline-flex items-center gap-1.5 text-subhead opacity-80 transition-colors group', initialClear ? 'text-white' : 'text-gray-500']}
               :class="clear ? 'text-white hover:text-white/70' : 'text-gray-500 hover:text-gray-900'"
             >
               {secondaryLink.arrow === 'left' && (
@@ -348,7 +360,7 @@ const navIslandClass = transparent
               href={cta.href ?? '/contacts'}
               variant="dark"
               size="sm"
-              class="hidden sm:inline-flex"
+              class={`hidden sm:inline-flex${initialClear ? ' !bg-white !text-gray-900 hover:!bg-white/90' : ''}`}
               x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
             >{cta.label}</Button>
           )}
@@ -367,7 +379,7 @@ const navIslandClass = transparent
               variant="dark"
               size="sm"
               drawerPreset={cta.preset ?? 'demo'}
-              class="hidden sm:inline-flex lg:hidden"
+              class={`hidden sm:inline-flex lg:hidden${initialClear ? ' !bg-white !text-gray-900 hover:!bg-white/90' : ''}`}
               x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
             >{cta.label}</Button>
           )}
@@ -378,7 +390,7 @@ const navIslandClass = transparent
               variant="dark"
               size="sm"
               drawerPreset={cta.preset ?? 'demo'}
-              class="hidden lg:inline-flex"
+              class={`hidden lg:inline-flex${initialClear ? ' !bg-white !text-gray-900 hover:!bg-white/90' : ''}`}
               x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
             >{cta.label}</Button>
           )}
@@ -391,7 +403,7 @@ const navIslandClass = transparent
             variant="dark"
             @click="mobileOpen = true"
             x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
-            class="lg:hidden flex-shrink-0"
+            class={`lg:hidden flex-shrink-0${initialClear ? ' !bg-white !text-gray-900 hover:!bg-white/90' : ''}`}
             aria-label="Открыть меню"
           >
             <svg slot="icon-left" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
