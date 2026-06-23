@@ -37,13 +37,16 @@ interface Props {
   size?: 'lg' | 'md' | 's' | 'xs'
   /** Дополнительные CSS классы */
   class?: string
+  /** Доп. классы на заголовок (например, переопределить размер шрифта в выпадашке хедера) */
+  titleClass?: string
 }
 
 const {
   title, slug, cover, category, excerpt,
   date, readTime,
   size = 'md',
-  class: className = ''
+  class: className = '',
+  titleClass = ''
 } = Astro.props
 
 const coverUrl = normalizeMediaUrl(cover?.url ?? null)
@@ -115,7 +118,7 @@ const hasDateMeta = date || readTime
           {readTime && <span>{readTime}</span>}
         </div>
       )}
-      <h2 class="text-h4 text-gray-900 transition-colors group-hover:text-brand">{title}</h2>
+      <h2 class:list={['text-h4 text-gray-900 transition-colors group-hover:text-brand', titleClass]}>{title}</h2>
     </div>
   </a>
 )}
@@ -144,7 +147,7 @@ const hasDateMeta = date || readTime
           {readTime && <span>{readTime}</span>}
         </div>
       )}
-      <h2 class="text-h4 text-gray-900 transition-colors group-hover:text-brand">{title}</h2>
+      <h2 class:list={['text-h4 text-gray-900 transition-colors group-hover:text-brand', titleClass]}>{title}</h2>
     </div>
   </a>
 )}
