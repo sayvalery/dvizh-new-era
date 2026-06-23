@@ -57,8 +57,11 @@ const heightFor = (ratio?: number): number | null =>
 // Нормализуем вход к {src, ratio}
 const norm = logos.map((l) => (typeof l === 'string' ? { src: l } : l))
 
-// Сколько слотов помещается на барабане
-const totalSlots = Math.floor(360 / angleGap)
+// Сколько слотов помещается на барабане (ближайшее целое к 360/angleGap)
+const totalSlots = Math.round(360 / angleGap)
+// Реальный шаг — ровно делит 360°, чтобы стык первого/последнего лого был
+// таким же, как остальные зазоры (иначе остаётся «шов» из остатка деления).
+const step = 360 / totalSlots
 
 // Заполняем слоты, повторяя логотипы по кругу
 const items = Array.from({ length: totalSlots }, (_, i) => norm[i % norm.length])
@@ -70,7 +73,7 @@ const items = Array.from({ length: totalSlots }, (_, i) => norm[i % norm.length]
       <div
         class="logo-drum-face"
         style={`
-          transform: rotateX(${i * angleGap}deg) translateZ(${radius}px);
+          transform: rotateX(${i * step}deg) translateZ(${radius}px);
           animation-duration: ${duration}s;
           animation-delay: ${(-i / totalSlots * duration).toFixed(2)}s;
         `}
