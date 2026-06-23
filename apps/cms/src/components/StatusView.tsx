@@ -3,7 +3,6 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { AdminViewServerProps } from 'payload'
 import { DefaultTemplate } from '@payloadcms/next/templates'
-import { Gutter } from '@payloadcms/ui'
 
 /**
  * Кастомная админ-страница «Статус» (Payload custom view).
@@ -88,7 +87,7 @@ const StatusView = async ({ initPageResult, params, searchParams }: AdminViewSer
       user={initPageResult.req.user || undefined}
       visibleEntities={initPageResult.visibleEntities}
     >
-      <Gutter>
+      <div style={{ padding: '20px 40px' }}>
         <h1 style={{ marginBottom: 4 }}>Статус</h1>
         <p style={{ color: '#888', fontSize: 13, marginBottom: 24 }}>
           Последний пинг: {fmt(status.lastPingAt as string)}
@@ -179,7 +178,7 @@ const StatusView = async ({ initPageResult, params, searchParams }: AdminViewSer
             ))
           )}
         </div>
-      </Gutter>
+      </div>
     </DefaultTemplate>
   )
 }
