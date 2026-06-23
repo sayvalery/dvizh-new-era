@@ -6,7 +6,9 @@
  * Текст и статы прижаты к низу карточки (absolute bottom).
  * Верхняя часть карточки — свободна под иллюстрацию (backgroundImage).
  *
- * Мобайл/планшет: все карточки вертикальным стеком, h-[440px] каждая.
+ * Мобайл/планшет: все карточки вертикальным стеком; высота растёт по брейкпойнтам
+ *   (500 → sm:560 → md:620), чтобы картинки не леттербоксились и контент снизу не налезал.
+ * Строка 1 (десктоп): пропорция 61/39 применяется с lg. Кадрирование — imagePosition / imagePositionLg.
  * Десктоп (lg+): bento с фиксированными высотами строк.
  *
  * variant карточки:
@@ -46,9 +48,23 @@ interface ProductCard {
    */
   variant?: 'default' | 'dark' | 'brand'
   /**
-   * URL фонового изображения. background-size: cover; background-position: center.
+   * URL фонового изображения. background-size: cover.
    */
   backgroundImage?: string
+  /**
+   * URL отдельной картинки под мобилку (<640px) — обычно вертикальный кроп.
+   * Если не задан, на мобилке используется backgroundImage.
+   */
+  backgroundImageMobile?: string
+  /**
+   * Позиция кропа (CSS background-position) в зоне вертикального стека — мобилка + планшет (<1024px).
+   * По умолчанию 'top' (см. .bento-card-bg в global.css). Примеры: 'center', 'top', '50% 20%'.
+   */
+  imagePosition?: string
+  /**
+   * Позиция кропа на десктопной bento-сетке (lg+). По умолчанию 'center'.
+   */
+  imagePositionLg?: string
   stats?: Stat[]
   /** 'row' — статы вертикально в ряд (по умолчанию), 'inline' — значение и подпись на одной линии */
   statsLayout?: 'row' | 'inline'
@@ -104,6 +120,11 @@ const cardAttrs = (c?: ProductCard) =>
         '@keydown.space.prevent': openDrawer(c),
       }
 
+// Карточки с textPosition 'top' (у десктопной картинки субъект внизу) в зоне стека (<lg)
+// показывают мобильную картинку (субъект вверху) и текст внизу — как остальные карточки.
+const imgScopeClass = (c?: ProductCard) =>
+  c?.textPosition === 'top' ? 'bento-img-mobile-lg' : ''
+
 const subtitleHtml = subtitle?.replace(/<strong(\s|>)/g, '<strong class="text-gray-900"$1')
 
 const cardBg = (v?: ProductCard['variant']) =>
@@ -132,11 +153,19 @@ const arrowHoverColor = (v?: ProductCard['variant']) =>
 
 const contentPos = (pos?: 'top' | 'bottom') =>
   pos === 'top'
-    ? 'absolute bottom-6 left-6 right-6 flex flex-col gap-8 lg:bottom-auto lg:top-10 lg:left-10 lg:right-10 lg:pr-16'
-    : 'absolute bottom-6 left-6 right-6 flex flex-col gap-8 lg:bottom-10 lg:left-10 lg:right-10'
+    ? 'absolute bottom-6 left-6 right-6 flex flex-col gap-5 sm:gap-8 lg:bottom-auto lg:top-10 lg:left-10 lg:right-10 lg:pr-16'
+    : 'absolute bottom-6 left-6 right-6 flex flex-col gap-5 sm:gap-8 lg:bottom-10 lg:left-10 lg:right-10'
 
-const bgStyle = (img?: string) =>
-  img ? `background-image: url('${img}'); background-size: cover; background-position: center;` : ''
+// Фон карточки: картинки и кадрирование — через CSS-переменные (см. .bento-card-bg в global.css).
+// --bento-img — десктоп/планшет, --bento-img-mobile — отдельный вертикальный кроп под <640px.
+const bgStyle = (c?: ProductCard) => {
+  if (!c?.backgroundImage) return ''
+  let s = `--bento-img: url('${c.backgroundImage}');`
+  if (c.backgroundImageMobile) s += ` --bento-img-mobile: url('${c.backgroundImageMobile}');`
+  if (c.imagePosition) s += ` --bento-pos: ${c.imagePosition};`
+  if (c.imagePositionLg) s += ` --bento-pos-lg: ${c.imagePositionLg};`
+  return s
+}
 ---
 
 <section class:list={[className]}>
@@ -162,14 +191,14 @@ const bgStyle = (img?: string) =>
   <div class="flex flex-col gap-4 lg:gap-6">
 
     <!-- Строка 1: широкая карточка + узкая -->
-    <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-2 xl:grid-cols-[61fr_39fr] lg:h-[600px]">
+    <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-[61fr_39fr] lg:h-[600px]">
 
       <!-- Карточка 1 -->
       {c1 && (
         <div
           {...cardAttrs(c1)}
-          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c1.variant)]}
-          style={bgStyle(c1.backgroundImage)}
+          class:list={['bento-card-bg group relative h-[500px] sm:h-[560px] md:h-[620px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c1.variant), imgScopeClass(c1)]}
+          style={bgStyle(c1)}
         >
           {c1.href && <a href={c1.href} class="absolute inset-0 z-10" aria-label={c1.title} />}
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c1.variant), arrowHoverColor(c1.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
@@ -181,7 +210,7 @@ const bgStyle = (img?: string) =>
               <p class:list={['text-body-lg', descColor(c1.variant)]}>{c1.description}</p>
             </div>
             {c1.stats && c1.stats.length > 0 && (
-              <div class:list={['flex flex-wrap', c1.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-6 lg:gap-10']}>
+              <div class:list={['flex flex-wrap', c1.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-x-6 gap-y-3 lg:gap-10']}>
                 {c1.stats.map(s => c1.statsLayout === 'inline' ? (
                   <Fragment>
                     <p class={statValueClass(s.highlight, c1.variant)}>{s.value}</p>
@@ -203,8 +232,8 @@ const bgStyle = (img?: string) =>
       {c2 && (
         <div
           {...cardAttrs(c2)}
-          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c2.variant)]}
-          style={bgStyle(c2.backgroundImage)}
+          class:list={['bento-card-bg group relative h-[500px] sm:h-[560px] md:h-[620px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c2.variant), imgScopeClass(c2)]}
+          style={bgStyle(c2)}
         >
           {c2.href && <a href={c2.href} class="absolute inset-0 z-10" aria-label={c2.title} />}
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c2.variant), arrowHoverColor(c2.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
@@ -216,7 +245,7 @@ const bgStyle = (img?: string) =>
               <p class:list={['text-body-lg', descColor(c2.variant)]}>{c2.description}</p>
             </div>
             {c2.stats && c2.stats.length > 0 && (
-              <div class:list={['flex flex-wrap', c2.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-6 lg:gap-10']}>
+              <div class:list={['flex flex-wrap', c2.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-x-6 gap-y-3 lg:gap-10']}>
                 {c2.stats.map(s => c2.statsLayout === 'inline' ? (
                   <Fragment>
                     <p class={statValueClass(s.highlight, c2.variant)}>{s.value}</p>
@@ -240,8 +269,8 @@ const bgStyle = (img?: string) =>
     {c3 && (
       <div
         {...cardAttrs(c3)}
-        class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-[540px] transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c3.variant)]}
-        style={bgStyle(c3.backgroundImage)}
+        class:list={['bento-card-bg group relative h-[500px] sm:h-[560px] md:h-[620px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-[540px] transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c3.variant), imgScopeClass(c3)]}
+        style={bgStyle(c3)}
       >
         {c3.href && <a href={c3.href} class="absolute inset-0 z-10" aria-label={c3.title} />}
         <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c3.variant), arrowHoverColor(c3.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
@@ -253,7 +282,7 @@ const bgStyle = (img?: string) =>
             <p class:list={['text-body-lg', descColor(c3.variant)]}>{c3.description}</p>
           </div>
           {c3.stats && c3.stats.length > 0 && (
-            <div class:list={['flex flex-wrap', c3.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-6 lg:gap-10']}>
+            <div class:list={['flex flex-wrap', c3.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-x-6 gap-y-3 lg:gap-10']}>
               {c3.stats.map(s => c3.statsLayout === 'inline' ? (
                 <Fragment>
                   <p class={statValueClass(s.highlight, c3.variant)}>{s.value}</p>
@@ -278,8 +307,8 @@ const bgStyle = (img?: string) =>
       {c4 && (
         <div
           {...cardAttrs(c4)}
-          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c4.variant)]}
-          style={bgStyle(c4.backgroundImage)}
+          class:list={['bento-card-bg group relative h-[500px] sm:h-[560px] md:h-[620px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c4.variant), imgScopeClass(c4)]}
+          style={bgStyle(c4)}
         >
           {c4.href && <a href={c4.href} class="absolute inset-0 z-10" aria-label={c4.title} />}
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c4.variant), arrowHoverColor(c4.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
@@ -291,7 +320,7 @@ const bgStyle = (img?: string) =>
               <p class:list={['text-body-lg', descColor(c4.variant)]}>{c4.description}</p>
             </div>
             {c4.stats && c4.stats.length > 0 && (
-              <div class:list={['flex flex-wrap', c4.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-6 lg:gap-10']}>
+              <div class:list={['flex flex-wrap', c4.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-x-6 gap-y-3 lg:gap-10']}>
                 {c4.stats.map(s => c4.statsLayout === 'inline' ? (
                   <Fragment>
                     <p class={statValueClass(s.highlight, c4.variant)}>{s.value}</p>
@@ -313,8 +342,8 @@ const bgStyle = (img?: string) =>
       {c5 && (
         <div
           {...cardAttrs(c5)}
-          class:list={['group relative h-[440px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c5.variant)]}
-          style={bgStyle(c5.backgroundImage)}
+          class:list={['bento-card-bg group relative h-[500px] sm:h-[560px] md:h-[620px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-auto transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c5.variant), imgScopeClass(c5)]}
+          style={bgStyle(c5)}
         >
           {c5.href && <a href={c5.href} class="absolute inset-0 z-10" aria-label={c5.title} />}
           <svg class:list={['absolute top-6 right-6 lg:top-10 lg:right-10 w-6 h-6 lg:w-8 lg:h-8 rotate-[-45deg] transition-colors duration-300', arrowColor(c5.variant), arrowHoverColor(c5.variant)]} viewBox="0 0 21 32" fill="currentColor" aria-hidden="true">
@@ -326,7 +355,7 @@ const bgStyle = (img?: string) =>
               <p class:list={['text-body-lg', descColor(c5.variant)]}>{c5.description}</p>
             </div>
             {c5.stats && c5.stats.length > 0 && (
-              <div class:list={['flex flex-wrap', c5.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-6 lg:gap-10']}>
+              <div class:list={['flex flex-wrap', c5.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-x-6 gap-y-3 lg:gap-10']}>
                 {c5.stats.map(s => c5.statsLayout === 'inline' ? (
                   <Fragment>
                     <p class={statValueClass(s.highlight, c5.variant)}>{s.value}</p>

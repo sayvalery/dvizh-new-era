@@ -147,6 +147,45 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   /*
+   * Фон карточек bento (ProductBentoBlock) с адаптивным кадрированием.
+   * background-image задаётся inline-стилем; позицию кропа задаём через CSS-переменные:
+   *   --bento-pos    — зона вертикального стека (мобилка + планшет, <1024px), дефолт top
+   *   --bento-pos-lg — десктопная bento-сетка (lg+), дефолт center
+   * Дефолт top для стека: текст/статы лежат внизу под оверлеем, иллюстрация вверху остаётся видимой.
+   *
+   * Картинки: --bento-img — десктоп/планшет, --bento-img-mobile — вертикальный кроп под <640px
+   * (если не задан, на мобилке используется --bento-img).
+   */
+  .bento-card-bg {
+    background-size: cover;
+    background-position: var(--bento-pos, top);
+    background-image: var(--bento-img-mobile, var(--bento-img));
+  }
+
+  @media (min-width: 640px) {
+    .bento-card-bg {
+      background-image: var(--bento-img);
+    }
+  }
+
+  /*
+   * Карточки с .bento-img-mobile-lg (напр. скоринг — у десктопной картинки субъект внизу):
+   * на планшете (640–1023px) тоже показываем мобильную картинку (субъект вверху),
+   * чтобы текст можно было держать внизу, как у остальных карточек.
+   */
+  @media (min-width: 640px) and (max-width: 1023.98px) {
+    .bento-card-bg.bento-img-mobile-lg {
+      background-image: var(--bento-img-mobile, var(--bento-img));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bento-card-bg {
+      background-position: var(--bento-pos-lg, center);
+    }
+  }
+
+  /*
    * Заголовки — Styrene A
    *
    * Fluid typography через clamp(min, preferred, max).
