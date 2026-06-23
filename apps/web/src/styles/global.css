@@ -186,6 +186,29 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   /*
+   * object-position для <img> карточек BentoGrid с адаптивным кадрированием по брейкпойнтам:
+   *   --bento-obj     — мобилка (<640px), дефолт top (мобильные картинки — субъект вверху)
+   *   --bento-obj-sm  — планшет (640–1023px), дефолт center
+   *   --bento-obj-lg  — десктоп (≥1024px), дефолт center
+   * Значения задаются inline через imagePosition / imagePositionSm / imagePositionLg на карточке.
+   */
+  .bento-obj {
+    object-position: var(--bento-obj, 50% 0%);
+  }
+
+  @media (min-width: 640px) {
+    .bento-obj {
+      object-position: var(--bento-obj-sm, 50% 50%);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bento-obj {
+      object-position: var(--bento-obj-lg, 50% 50%);
+    }
+  }
+
+  /*
    * Заголовки — Styrene A
    *
    * Fluid typography через clamp(min, preferred, max).

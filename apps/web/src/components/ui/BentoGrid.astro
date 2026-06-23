@@ -55,11 +55,17 @@ interface BentoItem {
   backgroundImage?: string
   /** URL картинки под мобилку (<640px) — обычно вертикальный кроп. Если не задан — backgroundImage. */
   backgroundImageMobile?: string
+  /** URL картинки под планшет (640–1023px). Если не задан — backgroundImage. */
+  backgroundImageTablet?: string
   /**
-   * Позиция фокуса изображения. Значение CSS object-position.
-   * Примеры: 'center' (по умолчанию), 'top', 'bottom', 'left', 'right', '50% 20%'
+   * Позиция кропа (CSS object-position) по брейкпойнтам. Значения вроде 'center', 'top', '50% 85%'.
+   *   imagePosition   — мобилка (<640px), дефолт 'top' (мобильные картинки — субъект вверху)
+   *   imagePositionSm — планшет (640–1023px), дефолт 'center'
+   *   imagePositionLg — десктоп (≥1024px), дефолт 'center'
    */
   imagePosition?: string
+  imagePositionSm?: string
+  imagePositionLg?: string
 }
 
 interface Props {
@@ -88,6 +94,15 @@ const card4 = items[3] ?? { title: '' }
 
 const isThree = variant === 'three'
 const isFour = variant === 'four'
+
+// object-position по брейкпойнтам через CSS-переменные (см. .bento-obj в global.css).
+const imgStyle = (c: BentoItem) => {
+  let s = ''
+  if (c.imagePosition)   s += `--bento-obj: ${c.imagePosition};`
+  if (c.imagePositionSm) s += `--bento-obj-sm: ${c.imagePositionSm};`
+  if (c.imagePositionLg) s += `--bento-obj-lg: ${c.imagePositionLg};`
+  return s
+}
 ---
 
 <section class:list={['flex flex-col gap-10 lg:gap-16', className]}>
@@ -123,8 +138,8 @@ const isFour = variant === 'four'
               <img
                 src={card1.backgroundImage}
                 alt=""
-                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
-                style={card1.imagePosition ? `object-position: ${card1.imagePosition}` : ''}
+                class="absolute inset-0 w-full h-full object-cover bento-obj"
+                style={imgStyle(card1)}
                 loading="lazy"
               />
             </picture>
@@ -144,11 +159,14 @@ const isFour = variant === 'four'
               {card2.backgroundImageMobile && (
                 <source media="(max-width: 639px)" srcset={card2.backgroundImageMobile} />
               )}
+              {card2.backgroundImageTablet && (
+                <source media="(min-width: 640px) and (max-width: 1023px)" srcset={card2.backgroundImageTablet} />
+              )}
               <img
                 src={card2.backgroundImage}
                 alt=""
-                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
-                style={card2.imagePosition ? `object-position: ${card2.imagePosition}` : ''}
+                class="absolute inset-0 w-full h-full object-cover bento-obj"
+                style={imgStyle(card2)}
                 loading="lazy"
               />
             </picture>
@@ -173,8 +191,8 @@ const isFour = variant === 'four'
             <img
               src={card3.backgroundImage}
               alt=""
-              class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
-              style={card3.imagePosition ? `object-position: ${card3.imagePosition}` : ''}
+              class="absolute inset-0 w-full h-full object-cover bento-obj"
+              style={imgStyle(card3)}
               loading="lazy"
             />
           </picture>
@@ -204,7 +222,7 @@ const isFour = variant === 'four'
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-[62fr_38fr] lg:h-[488px]">
 
         <!-- Карточка 1: широкая, текст внизу-слева -->
-        <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
+        <div class="relative h-[350px] sm:h-[400px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
           {card1.backgroundImage && (
             <picture>
               {card1.backgroundImageMobile && (
@@ -213,8 +231,8 @@ const isFour = variant === 'four'
               <img
                 src={card1.backgroundImage}
                 alt=""
-                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
-                style={card1.imagePosition ? `object-position: ${card1.imagePosition}` : ''}
+                class="absolute inset-0 w-full h-full object-cover bento-obj"
+                style={imgStyle(card1)}
                 loading="lazy"
               />
             </picture>
@@ -228,17 +246,20 @@ const isFour = variant === 'four'
         </div>
 
         <!-- Карточка 2: узкая, текст вверху-слева на десктопе / внизу-слева на мобайле -->
-        <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
+        <div class="relative h-[350px] sm:h-[400px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
           {card2.backgroundImage && (
             <picture>
               {card2.backgroundImageMobile && (
                 <source media="(max-width: 639px)" srcset={card2.backgroundImageMobile} />
               )}
+              {card2.backgroundImageTablet && (
+                <source media="(min-width: 640px) and (max-width: 1023px)" srcset={card2.backgroundImageTablet} />
+              )}
               <img
                 src={card2.backgroundImage}
                 alt=""
-                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
-                style={card2.imagePosition ? `object-position: ${card2.imagePosition}` : ''}
+                class="absolute inset-0 w-full h-full object-cover bento-obj"
+                style={imgStyle(card2)}
                 loading="lazy"
               />
             </picture>
@@ -257,7 +278,7 @@ const isFour = variant === 'four'
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-[40fr_60fr] lg:h-[360px]">
 
         <!-- Карточка 3: узкая, текст внизу-слева -->
-        <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
+        <div class="relative h-[350px] sm:h-[400px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
           {card3.backgroundImage && (
             <picture>
               {card3.backgroundImageMobile && (
@@ -266,8 +287,8 @@ const isFour = variant === 'four'
               <img
                 src={card3.backgroundImage}
                 alt=""
-                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
-                style={card3.imagePosition ? `object-position: ${card3.imagePosition}` : ''}
+                class="absolute inset-0 w-full h-full object-cover bento-obj"
+                style={imgStyle(card3)}
                 loading="lazy"
               />
             </picture>
@@ -281,7 +302,7 @@ const isFour = variant === 'four'
         </div>
 
         <!-- Карточка 4: широкая, текст внизу-слева -->
-        <div class="relative h-[350px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
+        <div class="relative h-[350px] sm:h-[400px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
           {card4.backgroundImage && (
             <picture>
               {card4.backgroundImageMobile && (
@@ -290,8 +311,8 @@ const isFour = variant === 'four'
               <img
                 src={card4.backgroundImage}
                 alt=""
-                class="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
-                style={card4.imagePosition ? `object-position: ${card4.imagePosition}` : ''}
+                class="absolute inset-0 w-full h-full object-cover bento-obj"
+                style={imgStyle(card4)}
                 loading="lazy"
               />
             </picture>
