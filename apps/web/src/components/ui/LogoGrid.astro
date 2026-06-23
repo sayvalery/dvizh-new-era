@@ -18,6 +18,8 @@ interface Logo {
   w?: number
   /** Высота исходника */
   h?: number
+  /** Множитель высоты относительно базовых 2rem (например 0.8 — на 20% меньше) */
+  scale?: number
 }
 
 interface Props {
@@ -64,6 +66,7 @@ const { logos, noFade = false, white = false, monochrome = false, noPadding = fa
           alt={logo.alt}
           height="32"
           class:list={['logo-grid-img', white && 'logo-grid-img--white']}
+          style={logo.scale ? `height:${2 * logo.scale}rem` : undefined}
           loading={i < logos.length ? 'eager' : 'lazy'}
           draggable="false"
           aria-hidden={i >= logos.length ? 'true' : undefined}
