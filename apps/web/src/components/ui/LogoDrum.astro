@@ -19,9 +19,13 @@
  * ```
  */
 
+/** Логотип: URL или {src, ratio, h}. ratio = ширина/высота из viewBox.
+ *  h — явная высота в px (оверрайд авто-нормировки для отдельного лого). */
+type LogoItem = string | { src: string; ratio?: number; h?: number }
+
 interface Props {
-  /** Массив URL логотипов (SVG рекомендуется) */
-  logos: string[]
+  /** Массив логотипов. Передавай {src, ratio} для нормировки по площади (см. ниже). */
+  logos: LogoItem[]
   /** Длительность полного оборота в секундах */
   duration?: number
   /** Радиус цилиндра в px */
@@ -40,14 +44,24 @@ const {
   class: className = ''
 } = Astro.props
 
+/* Единая система размера: нормировка по ОПТИЧЕСКОЙ ПЛОЩАДИ, а не по высоте.
+   Высота = √(AREA / ratio) с клампом [MIN_H, MAX_H] → у всех примерно равный
+   «чернильный вес»: узкие чуть выше, широкие чуть ниже. Лого без ratio падают
+   на CSS-фолбэк (max-height). ratio = width/height из viewBox SVG. */
+const AREA = 7200
+const MIN_H = 20
+const MAX_H = 48
+const heightFor = (ratio?: number): number | null =>
+  ratio ? Math.round(Math.min(MAX_H, Math.max(MIN_H, Math.sqrt(AREA / ratio)))) : null
+
+// Нормализуем вход к {src, ratio}
+const norm = logos.map((l) => (typeof l === 'string' ? { src: l } : l))
+
 // Сколько слотов помещается на барабане
 const totalSlots = Math.floor(360 / angleGap)
 
 // Заполняем слоты, повторяя логотипы по кругу
-const items: string[] = []
-for (let i = 0; i < totalSlots; i++) {
-  items.push(logos[i % logos.length])
-}
+const items = Array.from({ length: totalSlots }, (_, i) => norm[i % norm.length])
 ---
 
 <div class:list={['logo-drum', className]}>
@@ -62,9 +76,10 @@ for (let i = 0; i < totalSlots; i++) {
         `}
       >
         <img
-          src={logo}
+          src={logo.src}
           alt=""
           class="logo-drum-img"
+          style={(logo.h ?? heightFor(logo.ratio)) ? `height:${logo.h ?? heightFor(logo.ratio)}px` : undefined}
           loading="eager"
         />
       </div>

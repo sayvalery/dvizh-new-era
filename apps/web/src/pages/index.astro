@@ -105,14 +105,27 @@ const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
   href: `/blog/${post.slug}`,
 }))
 
+// Логотипы партнёров для барабана/строки. Цвет роли не играет: LogoDrum и
+// LogoGrid (white) перекрашивают любой логотип в белый через CSS-фильтр.
+// ratio = ширина/высота из viewBox SVG → LogoDrum нормирует размер по площади
+// (единый «чернильный вес», а не по высоте). При замене лого — обновить ratio.
 const partnerLogos = [
-  '/partners/a101.svg',
-  '/partners/ava.svg',
-  '/partners/ganel.svg',
-  '/partners/glorax.svg',
-  '/partners/lsr.svg',
-  '/partners/strana.svg',
-  '/logo-dvizh-white.svg',
+  { src: '/api/media/file/samolet_color.svg', ratio: 115 / 20, h: 31 },
+  { src: '/api/media/file/dogma.svg', ratio: 97 / 28, h: 42 },
+  { src: '/api/media/file/tochno_color.svg', ratio: 80 / 20, h: 38 },
+  { src: '/api/media/file/fsk_color.svg', ratio: 66 / 22, h: 44 },
+  { src: '/api/media/file/pn_white.svg', ratio: 1435 / 1435, h: 58 },
+  { src: '/api/media/file/6550fa1efdbf390e34cc72af_strana_logo.svg', ratio: 831 / 54, h: 14 },
+  { src: '/api/media/file/etalon.svg', ratio: 105 / 18, h: 31 },
+  { src: '/api/media/file/lsr_white-1.svg', ratio: 63 / 20, h: 44 },
+  { src: '/api/media/file/mrgroup.svg', ratio: 89 / 20, h: 36 },
+  { src: '/api/media/file/granel.svg', ratio: 198 / 22, h: 16 },
+  { src: '/api/media/file/donstroy.svg', ratio: 96 / 23, h: 38 },
+  { src: '/api/media/file/glorax_color.svg', ratio: 93 / 18, h: 33 },
+  { src: '/api/media/file/enko.svg', ratio: 137 / 26, h: 29 },
+  { src: '/api/media/file/unistroy_color.svg', ratio: 113 / 22 },
+  { src: '/api/media/file/razum_color.svg', ratio: 174 / 38, h: 31 },
+  { src: '/api/media/file/sminex.svg', ratio: 315 / 73, h: 37 },
 ]
 ---
 
@@ -138,7 +151,7 @@ const partnerLogos = [
     </div>
     <div slot="logos" class="w-full overflow-x-hidden xl:hidden">
       <LogoGrid
-        logos={partnerLogos.map(src => ({ src, alt: '' }))}
+        logos={partnerLogos.map(l => ({ src: l.src, alt: '' }))}
         noFade
         white
         noPadding
