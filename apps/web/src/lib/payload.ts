@@ -450,3 +450,91 @@ export async function getPostsByTag(tagId: number | string) {
   })
 }
 
+// ── Скрипты страниц (Тип B интеграций) ────────────────────────────────────
+// Коллекция `page-scripts`: { name, code (сырой), placement ('head'|'body-end'),
+// scope (мультиселект групп), enabled }. ЗАВИСИТ от трека 3 (Payload-схема).
+// Пока коллекции/типов нет — пишем по контракту.
+
+/** Группы страниц для scope скриптов. */
+export type PageScriptGroup =
+  | 'all'
+  | 'home'
+  | 'blog'
+  | 'glossary'
+  | 'cases'
+  | 'research'
+  | 'video'
+  | 'product'
+
+export interface PageScript {
+  id: number | string
+  name: string
+  /** Сырой сниппет (вставляется через set:html как есть). */
+  code: string
+  placement: 'head' | 'body-end'
+  /** Группы, на которых показывать. Может включать 'all'. */
+  scope: PageScriptGroup[]
+  enabled: boolean
+}
+
+/**
+ * Получить включённые скрипты страниц из CMS.
+ *
+ * ВАЖНО: используется собственный fetch БЕЗ typografDoc — поле `code` сырое
+ * (JS/HTML), типографика (NBSP/ё→е) сломала бы скрипты. Сбой CMS → пустой
+ * массив (сайт собирается без скриптов, не падает).
+ */
+let _pageScriptsCache: Promise<PageScript[]> | null = null
+
+/** Мемоизировано: один фетч к CMS на всю сборку (BaseLayout зовёт на каждой из ~514 страниц). */
+export function getPageScripts(): Promise<PageScript[]> {
+  if (!_pageScriptsCache) _pageScriptsCache = _fetchPageScripts()
+  return _pageScriptsCache
+}
+
+async function _fetchPageScripts(): Promise<PageScript[]> {
+  const params = new URLSearchParams({ limit: '200', depth: '0' })
+  // where[enabled][equals]=true
+  params.set('where[enabled][equals]', 'true')
+  const url = `${CMS_URL}/api/page-scripts?${params.toString()}`
+  const isDev = import.meta.env.DEV
+  const timeoutMs = isDev ? 1000 : 5000
+
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    const res = await fetch(url, { signal: controller.signal })
+    clearTimeout(timeoutId)
+    if (!res.ok) throw new Error(`CMS fetch failed: ${res.status} ${url}`)
+    const json = (await res.json()) as { docs?: any[] }
+    const docs = Array.isArray(json.docs) ? json.docs : []
+    return docs
+      .filter((d) => d && d.enabled && typeof d.code === 'string' && d.code.trim())
+      .map((d) => ({
+        id: d.id,
+        name: String(d.name ?? ''),
+        code: String(d.code),
+        placement: d.placement === 'body-end' ? 'body-end' : 'head',
+        scope: Array.isArray(d.scope) ? (d.scope as PageScriptGroup[]) : [],
+        enabled: Boolean(d.enabled),
+      }))
+  } catch {
+    clearTimeout(timeoutId)
+    console.warn('[CMS] page-scripts недоступны, возвращаю пустой массив')
+    return []
+  }
+}
+
+/**
+ * Отфильтровать скрипты по группе страницы.
+ * Запись показывается, если её scope включает данную группу или 'all'.
+ */
+export function filterPageScriptsByGroup(
+  scripts: PageScript[],
+  group: PageScriptGroup,
+): PageScript[] {
+  return scripts.filter(
+    (s) => s.scope.includes('all') || s.scope.includes(group),
+  )
+}
+

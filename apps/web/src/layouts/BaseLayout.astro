@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css'
+import { getPageScripts, filterPageScriptsByGroup } from '../lib/payload'
+import { getPageGroup, type PageGroup } from '../lib/pageGroup'
 
 interface Props {
   title?: string
@@ -11,15 +13,25 @@ interface Props {
   noindex?: boolean
   /** CSS-класс для <body> (например bg-background-primary) */
   bodyClass?: string
+  /** Явная группа страницы для скриптов (Тип B). По умолчанию — по pathname. */
+  pageGroup?: PageGroup
 }
 
-const { title, description, ogImage, ogType = 'website', jsonLd, noindex = false, bodyClass = '' } = Astro.props
+const { title, description, ogImage, ogType = 'website', jsonLd, noindex = false, bodyClass = '', pageGroup } = Astro.props
 const siteTitle = title
   ? (title.endsWith('— ДВИЖ') ? title : `${title} — ДВИЖ`)
   : 'ДВИЖ'
 const canonicalUrl = Astro.url.href
 const defaultOgImage = `${Astro.site}og-default.jpg`
 const resolvedOgImage = ogImage || defaultOgImage
+
+// ── Скрипты страниц (Тип B интеграций) ──
+// Группа страницы: явный проп либо авто-детект по маршруту.
+const resolvedGroup: PageGroup = pageGroup ?? getPageGroup(Astro.url.pathname)
+const allPageScripts = await getPageScripts()
+const groupScripts = filterPageScriptsByGroup(allPageScripts, resolvedGroup)
+const headScripts = groupScripts.filter((s) => s.placement === 'head')
+const bodyEndScripts = groupScripts.filter((s) => s.placement === 'body-end')
 ---
 
 <!doctype html>
@@ -70,8 +82,14 @@ const resolvedOgImage = ogImage || defaultOgImage
       window.Alpine = Alpine
       Alpine.start()
     </script>
+
+    {/* Скрипты страниц (Тип B) — placement: head. Сырой код, вставляется как есть. */}
+    {headScripts.map((s) => <Fragment set:html={s.code} />)}
   </head>
   <body class:list={['min-h-screen flex flex-col bg-background-primary', bodyClass]}>
     <slot />
+
+    {/* Скрипты страниц (Тип B) — placement: body-end. Сырой код, вставляется как есть. */}
+    {bodyEndScripts.map((s) => <Fragment set:html={s.code} />)}
   </body>
 </html>

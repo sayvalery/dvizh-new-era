@@ -154,6 +154,19 @@ fi
 update_status "building" "cms_check" "done"
 log "CMS OK"
 
+# Step 1.5: Pre-deploy DB backup snapshot (safety net before any prod change)
+# Non-fatal: a backup hiccup must never block a deploy. backup-db.sh logs/alerts itself.
+update_status "building" "db_backup" "active"
+log "Taking pre-deploy DB backup snapshot..."
+if bash scripts/backup-db.sh --reason "pre-deploy" 2>&1 | tee -a "$LOG_FILE"; then
+  update_status "building" "db_backup" "done"
+  log "Pre-deploy backup OK"
+else
+  log "WARNING: pre-deploy backup reported a problem (continuing deploy)"
+  update_status "building" "db_backup" "skipped"
+  notify "WARN" "Build $BUILD_ID: pre-deploy DB backup reported a problem (see backup-db.log)"
+fi
+
 # Step 2: Build
 update_status "building" "build" "active"
 log "Building..."

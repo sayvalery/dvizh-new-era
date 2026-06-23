@@ -28,6 +28,12 @@ import { Media } from './collections/Media'
 // Система
 import { Users } from './collections/Users'
 import { FormSubmissions } from './collections/FormSubmissions'
+// Интеграции (Тип B — скрипты страниц)
+import { PageScripts } from './collections/PageScripts'
+// Интеграции / мониторинг (глобалы)
+import { IntegrationsConfig } from './globals/IntegrationsConfig'
+import { BotConfig } from './globals/BotConfig'
+import { MonitorStatus } from './globals/MonitorStatus'
 // Navigation and Footer globals removed — hardcoded in frontend for stability
 // import { Navigation } from './globals/Navigation'
 // import { Footer } from './globals/Footer'
@@ -46,7 +52,13 @@ export default buildConfig({
       graphics: {
         Icon: '/src/graphics/Icon',
       },
-      afterNavLinks: ['/src/components/DeployButton'],
+      afterNavLinks: ['/src/components/DeployButton', '/src/components/StatusLink'],
+      views: {
+        status: {
+          Component: '/src/components/StatusView',
+          path: '/status',
+        },
+      },
     },
     livePreview: {
       url: ({ data, collectionConfig }) => {
@@ -77,8 +89,14 @@ export default buildConfig({
     // Система
     Users,
     FormSubmissions,
+    // Интеграции (Тип B)
+    PageScripts,
   ],
-  globals: [],
+  globals: [
+    IntegrationsConfig,
+    BotConfig,
+    MonitorStatus,
+  ],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       // Сохраняем все дефолтные фичи Payload (paragraph, bold, italic, lists, blockquote, inline toolbar и т.д.)

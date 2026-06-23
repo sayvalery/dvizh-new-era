@@ -215,19 +215,26 @@ CMS хранит медиа в `/app/apps/cms/media/` внутри Docker-кон
 ### Ветки
 
 ```
-dev   ← рабочая ветка, все мерджат сюда, preview.dvizh.cc
-main  ← прод, обновляется ТОЛЬКО через CMS или Valery, dvizh.cc
+main  ← ПРОД. Деплой собирает из main. preview→dvizh.io. Обновляется ТОЛЬКО промоутом dev→main (Valery)
+dev   ← стейджинг/превью, все мерджат сюда, preview.dvizh.cc
+  ├── valery-sayfullin
+  ├── anastasia-sheveleva
+  └── <личные ветки>     ← ответвляются от dev
 ```
 
 Каждый участник — в **своей ветке** (по `git config user.name`), ответвлённой от `dev`.
 В `main` напрямую НЕ коммитить. В `dev` напрямую НЕ коммитить — только через мерж из своей ветки.
 
+**Целевая модель деплоя:** `main` = прод, деплой пересобирает сайт **из `main`**. Мерж в `dev` попадает **только на preview**, в прод сам по себе НЕ идёт. Выкатка в прод = осознанный промоут `dev→main` (см. ниже).
+
+> ⚠️ **Сейчас деплой ФАКТИЧЕСКИ собирает из `dev`** (`scripts/build-site.sh`, `SOURCE_BRANCH="dev"`). Переключение на `main` — **pending (Фаза 3** миграции в GitLab, см. `docs/superpowers/specs/2026-06-18-gitlab-migration-design.md`). Порядок критичен: сначала промоут `dev→main`, только потом смена `SOURCE_BRANCH`. До переключения модель «main = прод» — целевая, не действующая.
+
 ### Рабочий процесс
 
-- **Начало** — скилл `sync` (или «начни работу») → переключает на ветку, rebase на dev
-- **Публикация** — «опубликуй» → мерж в `dev`, push
-- **Деплой** — кнопка «Опубликовать» в CMS → собирает из `dev`, валидирует, деплоит
-- **Прод (main)** — обновляется только Valery или через CMS после деплоя
+- **Начало** — скилл `sync` (или «начни работу») → переключает на ветку, rebase на `dev`
+- **Публикация** — «опубликуй» → мерж личной ветки в `dev`, push. Попадает **только на preview**, в прод НЕ идёт
+- **Выкатка в прод** — «выкатить в прод» (Режим 3 `sync`, гейт по Valery) → промоут `dev→main` (мерж + push) → деплой из `main`. Это **единственный** путь в прод
+- **Контент-публикация** — кнопка «Опубликовать» в CMS пересобирает неизменный `main` со свежим контентом из CMS (когда Фаза 3 завершена). Эксперименты из `dev` в прод не утекают
 - **Конфликты** — визард с показом обоих вариантов
 
 ## Команды
@@ -236,11 +243,21 @@ main  ← прод, обновляется ТОЛЬКО через CMS или Va
 pnpm dev              # Astro dev-сервер (localhost:4321)
 pnpm dev:cms          # CMS (localhost:3002)
 pnpm build            # Сборка статики (pnpm --filter web build)
-bash scripts/build-site.sh   # Сборка + деплой (рестарт nginx)
+bash scripts/build-site.sh   # Сборка + деплой (рестарт nginx). Сейчас собирает из dev (Фаза 3 → main pending)
 bash apps/web/tests/build-smoke.sh  # Smoke-тесты сборки
+bash scripts/audit.sh [<dist-dir>]  # Машинный чек-лист ограничений (импорты, dev-утечки, hex, ссылки)
 docker compose -f docker-compose.prod.yml up -d  # Все сервисы
 docker compose -f docker-compose.prod.yml logs cms --tail 20  # Логи CMS
 ```
+
+**Git-хук guardrail (опционально):** `.githooks/pre-push` прогоняет `scripts/audit.sh` перед каждым push и блокирует при FAIL. По умолчанию **не активирован**. Включить однократно из корня репозитория:
+
+```bash
+git config core.hooksPath .githooks   # активировать хук
+git config --unset core.hooksPath      # отключить
+```
+
+Обход разовый: `git push --no-verify`. `scripts/audit.sh` — машинный чек-лист ограничений из раздела «Ограничения».
 
 ## Переменные окружения (apps/web/.env)
 

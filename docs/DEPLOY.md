@@ -1,6 +1,6 @@
 # Развёртывание базы данных
 
-Файл `dvizh_dump.sql` рядом с этой инструкцией — дамп базы.
+Свежие дампы базы лежат в `~/dvizh-backups/auto/<дата-время>-<reason>/dvizh-db.dump` (формат `pg_dump -Fc`, создаются скриптом `scripts/backup-db.sh` — ежедневно и перед каждым деплоем). Старый одноразовый `dvizh_dump.sql` больше не используется.
 
 ## Требования
 - Docker + Docker Compose
@@ -21,9 +21,16 @@ docker ps
 ```
 
 ### 2. Залить дамп
+
+Восстановление из последнего автоматического бэкапа (формат `-Fc` → `pg_restore`):
 ```bash
-docker exec -i dvizh-new-era-postgres-1 psql -U dvizh dvizh < dvizh_dump.sql
+LATEST=$(ls -1dt ~/dvizh-backups/auto/*/ | head -1)
+docker exec -i dvizh-new-era-postgres-1 \
+  pg_restore -U dvizh -d dvizh --clean --if-exists < "$LATEST/dvizh-db.dump"
 ```
+
+Самые ценные данные — входящие заявки — дополнительно лежат в накопительном
+append-only файле `~/dvizh-backups/leads-export.csv` (никогда не обнуляется ротацией).
 
 ### 3. Установить зависимости
 ```bash

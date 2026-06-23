@@ -58,21 +58,143 @@ export const FormSubmissions: CollectionConfig = {
   ],
   hooks: {
     afterChange: [
-      async ({ doc }) => {
-        // Webhook в n8n/Albato
-        const webhookUrl = process.env.FORM_WEBHOOK_URL
-        if (webhookUrl) {
-          try {
-            await fetch(webhookUrl, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(doc),
-            })
-          } catch (err) {
-            console.error('Webhook error:', err)
-          }
-        }
+      async ({ doc, operation, req }) => {
+        // Только при создании новой заявки. Заявка УЖЕ сохранена в CMS (Postgres) —
+        // это единственный обязательный шаг. Дальше — асинхронный fan-out, КАЖДЫЙ
+        // внешний вызов в try/catch: его падение НЕ роняет приём заявки.
+        if (operation !== 'create') return
+
+        const preset = (doc?.preset as string) ?? ''
+
+        // Запускаем рассылку в фоне (не блокируем ответ пользователю).
+        void fanOut({ doc, preset, payload: req.payload })
       },
     ],
   },
+}
+
+type FanOutArgs = {
+  doc: Record<string, unknown>
+  preset: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload: any
+}
+
+/**
+ * Асинхронная рассылка заявки во внешние сервисы. Каждый вызов изолирован в try/catch
+ * и НИКОГДА не бросает наружу — заявка уже в базе, потерять её нельзя.
+ */
+async function fanOut({ doc, preset, payload }: FanOutArgs): Promise<void> {
+  // Конфиг интеграций (Тип A)
+  let config: {
+    albatoWebhookUrl?: string | null
+    telegramLeadEnabled?: boolean | null
+    rules?: Array<{ preset?: string; webhookUrl?: string | null; enabled?: boolean | null }> | null
+  } = {}
+  try {
+    config = await payload.findGlobal({ slug: 'integrations-config' })
+  } catch (err) {
+    console.error('[form-fanout] Не удалось прочитать integrations-config:', err)
+    return
+  }
+
+  // (1) Telegram-лид в allowedChatIds через TELEGRAM_BOT_TOKEN
+  if (config?.telegramLeadEnabled) {
+    try {
+      await sendTelegramLead({ doc, payload })
+    } catch (err) {
+      console.error('[form-fanout] Telegram лид — ошибка:', err)
+    }
+  }
+
+  // (2) Глобальный Albato-вебхук — все формы
+  if (config?.albatoWebhookUrl) {
+    try {
+      await postWebhook(config.albatoWebhookUrl, doc)
+    } catch (err) {
+      console.error('[form-fanout] Albato вебхук — ошибка:', err)
+    }
+  }
+
+  // (3) Доп. вебхуки правил, совпавших по preset
+  const rules = Array.isArray(config?.rules) ? config.rules : []
+  for (const rule of rules) {
+    if (!rule?.enabled) continue
+    if (rule?.preset !== preset) continue
+    if (!rule?.webhookUrl) continue
+    try {
+      await postWebhook(rule.webhookUrl, doc)
+    } catch (err) {
+      console.error(`[form-fanout] Вебхук правила (${preset}) — ошибка:`, err)
+    }
+  }
+}
+
+async function postWebhook(url: string, doc: unknown): Promise<void> {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(doc),
+  })
+  if (!res.ok) {
+    throw new Error(`Webhook ${url} вернул ${res.status}`)
+  }
+}
+
+/**
+ * Шлёт текст заявки в каждый чат из allowedChatIds через Bot API.
+ * Токен — ТОЛЬКО из env TELEGRAM_BOT_TOKEN (секрет, не хардкодить).
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function sendTelegramLead({ doc, payload }: { doc: Record<string, unknown>; payload: any }): Promise<void> {
+  const token = process.env.TELEGRAM_BOT_TOKEN
+  if (!token) {
+    console.error('[form-fanout] TELEGRAM_BOT_TOKEN не задан — лид в Telegram пропущен')
+    return
+  }
+
+  const botConfig = await payload.findGlobal({ slug: 'bot-config' })
+  const rawIds = botConfig?.allowedChatIds
+  const chatIds: number[] = Array.isArray(rawIds) ? rawIds : []
+  if (chatIds.length === 0) {
+    console.error('[form-fanout] allowedChatIds пуст — некуда слать лид')
+    return
+  }
+
+  const text = formatLead(doc)
+  const apiUrl = `https://api.telegram.org/bot${token}/sendMessage`
+
+  for (const chatId of chatIds) {
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML', disable_web_page_preview: true }),
+    })
+    if (!res.ok) {
+      const body = await res.text().catch(() => '')
+      console.error(`[form-fanout] Telegram sendMessage в чат ${chatId} вернул ${res.status}: ${body}`)
+    }
+  }
+}
+
+const PRESET_LABELS: Record<string, string> = {
+  lead: 'Лид',
+  subscribe: 'Подписка',
+  demo: 'Демо',
+  research: 'Исследование',
+}
+
+function esc(v: unknown): string {
+  return String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+function formatLead(doc: Record<string, unknown>): string {
+  const preset = String(doc?.preset ?? '')
+  const lines: string[] = [`<b>Новая заявка — ${esc(PRESET_LABELS[preset] ?? preset)}</b>`]
+  if (doc?.name) lines.push(`Имя: ${esc(doc.name)}`)
+  if (doc?.email) lines.push(`Email: ${esc(doc.email)}`)
+  if (doc?.phone) lines.push(`Телефон: ${esc(doc.phone)}`)
+  if (doc?.company) lines.push(`Компания: ${esc(doc.company)}`)
+  if (doc?.page) lines.push(`Страница: ${esc(doc.page)}`)
+  return lines.join('\n')
 }
