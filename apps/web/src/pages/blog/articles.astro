@@ -76,7 +76,7 @@ for (const p of allPosts as any[]) {
 const tagCats = [...catMap.values()].sort((a, b) => a.title.localeCompare(b.title, 'ru'))
 ---
 
-<BlogLayout title={`${TITLE} — ДВИЖ`} description="Все статьи блога" insightsHeader>
+<BlogLayout title={`${TITLE} — ДВИЖ`} description="Все статьи блога" insightsHeader bodyClass="fluid-page">
   <div class="py-10 md:py-16">
 
     <div class="page-container flex flex-col gap-10 lg:gap-16" x-data="{ cat: new URLSearchParams(window.location.search).get('cat') || 'all' }">
