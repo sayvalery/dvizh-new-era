@@ -36,6 +36,8 @@ interface Article {
   imageAlt?: string
   /** ISO-строка ("2024-01-15") или готовый текст ("19 марта 2026") */
   date: string
+  /** Время чтения, готовая строка ("9 мин") */
+  readTime?: string
   category: string
   categoryHref?: string
   title: string
@@ -64,8 +66,9 @@ const {
 
 /** Форматирует ISO-дату в "19 марта 2026". Нераспознанные строки возвращает как есть. */
 function formatDate(dateStr: string): string {
-  // Если уже содержит буквы (кириллица или латиница) — уже отформатировано
-  if (/[a-zA-Zа-яА-ЯёЁ]/.test(dateStr)) return dateStr
+  // Уже отформатировано по-русски (название месяца кириллицей) — возвращаем как есть.
+  // Латиницу (T/Z из ISO-таймстампа) «готовым текстом» НЕ считаем, иначе утечёт сырой ISO.
+  if (/[а-яА-ЯёЁ]/.test(dateStr)) return dateStr
   try {
     const date = new Date(dateStr)
     if (isNaN(date.getTime())) return dateStr
@@ -115,10 +118,12 @@ function formatDate(dateStr: string): string {
             }
           </div>
 
-          {/* Дата + заголовок */}
+          {/* Дата · время чтения + заголовок */}
           <div class="flex flex-col gap-3">
-            <p class="text-subhead text-gray-500 leading-snug">
-              {formatDate(article.date)}
+            <p class="text-subhead text-gray-500 leading-snug flex items-center gap-2">
+              <span>{formatDate(article.date)}</span>
+              {article.readTime && <span aria-hidden="true">·</span>}
+              {article.readTime && <span>{article.readTime}</span>}
             </p>
             <h3 class="text-card-title text-gray-900 group-hover:text-brand transition-colors duration-200">
               {article.title}

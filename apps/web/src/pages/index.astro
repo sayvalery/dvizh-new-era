@@ -65,11 +65,39 @@ const [ayaks, granel, lidov, ereg] = await Promise.all([
   fetchArticleHtml('alfavit-polzy-zastroyshchika-elektronnaya-registraciya'),
 ])
 
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+
+/** ISO-дата → «27 февраля 2026». Пустую/битую дату → ''. */
+function ruDate(iso?: string): string {
+  if (!iso) return ''
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return ''
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`
+}
+
+/** Рекурсивно собирает текст из Lexical-узла (root/children/text) */
+function lexicalText(node: any): string {
+  if (!node) return ''
+  if (typeof node.text === 'string') return node.text
+  const kids = node.children ?? node.root?.children
+  return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
+}
+
+/** Время чтения из объёма текста (≈200 слов/мин) → «9 мин». bodyHtml (Webflow) или content (Lexical). */
+function readTime(post: any): string {
+  let text = ''
+  if (post.bodyHtml) text = String(post.bodyHtml).replace(/<[^>]+>/g, ' ')
+  else if (Array.isArray(post.content)) text = post.content.map((b: any) => lexicalText(b.richText)).join(' ')
+  const words = text.replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).length
+  return `${Math.max(1, Math.round(words / 200))} мин`
+}
+
 const blogResult = await getBlogPosts({ limit: 3 })
 const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
   image: normalizeMediaUrl(post.cover?.url) ?? '/og-default.jpg',
   imageAlt: post.cover?.alt ?? post.title,
-  date: post.publishedAt ?? '',
+  date: ruDate(post.publishedAt),
+  readTime: readTime(post),
   category: post.category?.title ?? '',
   categoryHref: post.category?.slug ? `/category/${post.category.slug}` : undefined,
   title: post.title ?? '',
