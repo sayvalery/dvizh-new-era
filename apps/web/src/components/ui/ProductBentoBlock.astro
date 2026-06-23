@@ -57,6 +57,12 @@ interface ProductCard {
    */
   backgroundImageMobile?: string
   /**
+   * Использовать мобильную картинку уже с планшета (до lg, <1024px), а не только <640px.
+   * Нужно широким десктоп-скриншотам (напр. на всю ширину), которые на планшете
+   * кадрируются в узкую полоску. Позицию текста не меняет.
+   */
+  mobileImageUntilLg?: boolean
+  /**
    * Позиция кропа (CSS background-position) в зоне вертикального стека — мобилка + планшет (<1024px).
    * По умолчанию 'top' (см. .bento-card-bg в global.css). Примеры: 'center', 'top', '50% 20%'.
    */
@@ -120,10 +126,11 @@ const cardAttrs = (c?: ProductCard) =>
         '@keydown.space.prevent': openDrawer(c),
       }
 
-// Карточки с textPosition 'top' (у десктопной картинки субъект внизу) в зоне стека (<lg)
-// показывают мобильную картинку (субъект вверху) и текст внизу — как остальные карточки.
+// Показывать мобильную картинку уже с планшета (640–1023px), а не только <640px:
+//  - textPosition 'top' (у десктопной картинки субъект внизу) — чтобы текст держать внизу;
+//  - mobileImageUntilLg — для широких картинок, которые на планшете режутся в полоску.
 const imgScopeClass = (c?: ProductCard) =>
-  c?.textPosition === 'top' ? 'bento-img-mobile-lg' : ''
+  c?.textPosition === 'top' || c?.mobileImageUntilLg ? 'bento-img-mobile-lg' : ''
 
 const subtitleHtml = subtitle?.replace(/<strong(\s|>)/g, '<strong class="text-gray-900"$1')
 
