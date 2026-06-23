@@ -380,7 +380,7 @@ const navIslandClass = transparent
               size="sm"
               drawerPreset={cta.preset ?? 'demo'}
               class={`hidden sm:inline-flex lg:hidden${initialClear ? ' !bg-white !text-gray-900 hover:!bg-white/90' : ''}`}
-              x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
+              x-bind:class={`{ '!bg-white !text-gray-900 hover:!bg-white/90': clear }`}
             >{cta.label}</Button>
           )}
 
@@ -391,7 +391,7 @@ const navIslandClass = transparent
               size="sm"
               drawerPreset={cta.preset ?? 'demo'}
               class={`hidden lg:inline-flex${initialClear ? ' !bg-white !text-gray-900 hover:!bg-white/90' : ''}`}
-              x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
+              x-bind:class={`{ '!bg-white !text-gray-900 hover:!bg-white/90': clear }`}
             >{cta.label}</Button>
           )}
 
