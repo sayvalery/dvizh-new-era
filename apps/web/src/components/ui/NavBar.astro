@@ -207,8 +207,8 @@ const navIslandClass = transparent
                     {item.label}
                     {item.badge === 'dot' && (
                       <span
-                        class:list={['w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors', initialClear ? 'bg-white' : 'bg-red-500']}
-                        :class="clear ? 'bg-white' : 'bg-red-500'"
+                        class:list={['w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors', initialClear ? 'bg-white' : 'bg-brand']}
+                        :class={`{ 'bg-white': clear, 'bg-brand': !clear }`}
                       />
                     )}
                   </a>
@@ -281,7 +281,7 @@ const navIslandClass = transparent
                     aria-haspopup="true"
                     :aria-expanded={`openMenu === '${item.label}' ? 'true' : 'false'`}
                     class:list={['flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors', initialClear ? 'text-white' : 'text-gray-700']}
-                    :class="clear ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-100'"
+                    :class={`{ 'text-white hover:bg-white/10': clear, 'text-gray-700 hover:bg-gray-100': !clear }`}
                   >
                     {item.label}
                     <svg
@@ -320,13 +320,13 @@ const navIslandClass = transparent
                 <a
                   href={item.href}
                   class:list={['inline-flex items-center gap-1 px-3 py-2 text-subhead rounded-md transition-colors', initialClear ? 'text-white' : 'text-gray-700']}
-                  :class="clear ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-100'"
+                  :class={`{ 'text-white hover:bg-white/10': clear, 'text-gray-700 hover:bg-gray-100': !clear }`}
                 >
                   {item.label}
                   {item.badge === 'dot' && (
                     <span
-                      class:list={['w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors', initialClear ? 'bg-white' : 'bg-red-500']}
-                      :class="clear ? 'bg-white' : 'bg-red-500'"
+                      class:list={['w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors', initialClear ? 'bg-white' : 'bg-brand']}
+                      :class={`{ 'bg-white': clear, 'bg-brand': !clear }`}
                     />
                   )}
                 </a>
@@ -343,7 +343,7 @@ const navIslandClass = transparent
             <a
               href={secondaryLink.href}
               class:list={['hidden sm:inline-flex items-center gap-1.5 text-subhead opacity-80 transition-colors group', initialClear ? 'text-white' : 'text-gray-500']}
-              :class="clear ? 'text-white hover:text-white/70' : 'text-gray-500 hover:text-gray-900'"
+              :class={`{ 'text-white hover:text-white/70': clear, 'text-gray-500 hover:text-gray-900': !clear }`}
             >
               {secondaryLink.arrow === 'left' && (
                 <svg class="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -509,7 +509,7 @@ const navIslandClass = transparent
               >
                 {item.label}
                 {item.badge === 'dot' && (
-                  <span class="w-1.5 h-1.5 bg-red-500 rounded-full flex-shrink-0" />
+                  <span class="w-1.5 h-1.5 bg-brand rounded-full flex-shrink-0" />
                 )}
               </a>
             )
