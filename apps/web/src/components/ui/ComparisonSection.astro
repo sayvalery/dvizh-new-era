@@ -431,7 +431,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       Оба абсолютных фона bg-gray-200. Чек-иконки серые для обеих колонок.
     -->
     {isSymmetric && (
-    <div class="hidden lg:grid lg:grid-cols-2 lg:gap-6 relative">
+    <div class="hidden lg:grid lg:grid-cols-2 lg:gap-x-6 relative">
 
       <!-- Декоративные фоны — оба серые -->
       <div
@@ -462,7 +462,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       <!-- border-t на внешнем div → равный py-5 сверху и снизу, items-center вертикально центрирует -->
       {pairs.map((pair, i) => (
         <Fragment>
-          <div class:list={['relative z-10 px-[34px] flex items-center py-5', i !== 0 && 'border-t border-gray-300']}>
+          <div class:list={['relative z-10 px-[34px] flex items-center py-10', i !== 0 && 'border-t border-gray-300']}>
             {pair.left && (
               <div class="flex gap-3 items-center w-full">
                 <svg class="w-6 h-6 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" aria-hidden="true">
@@ -473,7 +473,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
               </div>
             )}
           </div>
-          <div class:list={['relative z-10 px-[34px] flex items-center py-5', i !== 0 && 'border-t border-gray-300']}>
+          <div class:list={['relative z-10 px-[34px] flex items-center py-10', i !== 0 && 'border-t border-gray-300']}>
             {pair.right && (
               <div class="flex gap-3 items-center w-full">
                 <svg class="w-6 h-6 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" aria-hidden="true">
