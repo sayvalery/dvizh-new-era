@@ -275,28 +275,39 @@ const cms = import.meta.env.PUBLIC_CMS_URL
 
     <!-- SuccessStoryBlock -->
     <SuccessStoryBlock
-      heading="70+ историй успеха на&#160;рынке застройщиков"
+      heading="70+ историй успеха на рынке застройщиков"
       buttonLabel="Получить демо"
       buttonPreset="demo"
+      class="!py-0"
       stories={[
         {
           logo: '/api/media/file/lsr_color.svg',
           logoAlt: 'Группа ЛСР',
-          titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на&#160;281% заявок больше,</span> чем&#160;в среднем на&#160;рынке',
+          logoHover: '/api/media/file/lsr_white-1.svg',
+          hoverBackground: '/api/media/file/lsr_bg.png',
+          hoverGlass: true,
+          href: '/blog/keys-lsr-dvizh',
+          titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
           personName: 'Группа ЛСР',
-          personJobTitle: 'Один из ведущих строительных холдингов',
+          personJobTitle: 'Один из ведущих строительных холдингов',
         },
         {
           logo: '/api/media/file/tochno_color.svg',
           logoAlt: 'ГК Точно',
-          titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с&#160;1165 до&#160;3500 за&#160;год</span>',
+          logoHover: '/api/media/file/tochno_white.svg',
+          hoverBackground: '/api/media/file/tochno_bg.png',
+          href: '/blog/keys-gk-tochno-i-dvizha',
+          titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
           personName: 'ГК «Точно»',
           personJobTitle: 'Крупнейший девелопер Краснодарского края',
         },
         {
           logo: '/api/media/file/samolet_color.svg',
           logoAlt: 'ГК Самолет',
-          titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
+          logoHover: '/api/media/file/samolet_white.svg',
+          hoverBackground: '/api/media/file/samolet_bg.png',
+          href: '/blog/samolet-ai-u-developera',
+          titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
           personName: 'ГК «Самолет»',
           personJobTitle: 'Крупнейший федеральный девелопер России',
         },
