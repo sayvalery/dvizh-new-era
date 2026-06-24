@@ -17,6 +17,47 @@ import ComparisonSection from '../components/ui/ComparisonSection.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
 import Banner from '../components/ui/Banner.astro'
 import BlogCards from '../components/ui/BlogCards.astro'
+import { getBlogPosts, normalizeMediaUrl } from '../lib/payload'
+
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+
+function ruDate(iso?: string): string {
+  if (!iso) return ''
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return ''
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`
+}
+
+/** Рекурсивно собирает текст из Lexical-узла (root/children/text) */
+function lexicalText(node: any): string {
+  if (!node) return ''
+  if (typeof node.text === 'string') return node.text
+  const kids = node.children ?? node.root?.children
+  return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
+}
+
+/** Время чтения из объёма текста (≈200 слов/мин) → «9 мин». bodyHtml (Webflow) или content (Lexical). */
+function readTime(post: any): string {
+  let text = ''
+  if (post.bodyHtml) text = String(post.bodyHtml).replace(/<[^>]+>/g, ' ')
+  else if (Array.isArray(post.content)) text = post.content.map((b: any) => lexicalText(b.richText)).join(' ')
+  const words = text.replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).length
+  return `${Math.max(1, Math.round(words / 200))} мин`
+}
+
+// Последние 6 статей из CMS — секция «От наших экспертов» (как на главной, но 6 шт.)
+const blogResult = await getBlogPosts({ limit: 6 })
+const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
+  image: normalizeMediaUrl(post.cover?.url) ?? '/og-default.jpg',
+  imageAlt: post.cover?.alt ?? post.title,
+  date: ruDate(post.publishedAt),
+  readTime: readTime(post),
+  category: post.category?.title ?? '',
+  categoryHref: post.category?.slug ? `/category/${post.category.slug}` : undefined,
+  title: post.title ?? '',
+  description: post.excerpt ?? '',
+  href: `/blog/${post.slug}`,
+}))
 ---
 
 <SiteLayout
@@ -86,7 +127,8 @@ import BlogCards from '../components/ui/BlogCards.astro'
   {/* «Нас читают» и «Вы можете рассказать» — обе карточки одного цвета */}
   <ComparisonSection
     variant="symmetric"
-    title="ДВИЖ Инсайты — медиа для современных застройщиков"
+    titleHtml="ДВИЖ Инсайты — медиа<br>для современных застройщиков"
+    titleAlign="left"
     leftTitle="Нас читают"
     rightTitle="Вы можете рассказать"
     leftItems={[
@@ -104,7 +146,10 @@ import BlogCards from '../components/ui/BlogCards.astro'
       'О подходах, используемых в работе',
     ]}
     class="py-16 lg:py-24"
-  />
+  >
+    <img slot="left-icon" src="/api/media/file/editorial-icon-1.svg" alt="" class="w-14 h-14 shrink-0" />
+    <img slot="right-icon" src="/api/media/file/editorial-icon-2.svg" alt="" class="w-14 h-14 shrink-0" />
+  </ComparisonSection>
 
   <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
@@ -160,64 +205,13 @@ import BlogCards from '../components/ui/BlogCards.astro'
       imageAlt="Стань автором ДВИЖ Инсайты"
     />
 
-    {/* ── 5. BlogCards — от наших экспертов ── */}
-    <BlogCards
-      title="От наших экспертов"
-      articles={[
-        {
-          image: '',
-          date: '2024-08-14',
-          readTime: '11 мин',
-          category: 'Правила девелопера',
-          title: 'Как провести стратсессию и не облажаться?',
-          description: '',
-          href: '/blog/kak-provesti-stratsessiyu-i-ne-oblazhatsya',
-        },
-        {
-          image: '',
-          date: '2024-08-02',
-          readTime: '9 мин',
-          category: 'Правила девелопера',
-          title: 'Михаил Гущин о том, как рост мегаполисов меняет форматы жилой недвижимости',
-          description: '',
-          href: '/blog',
-        },
-        {
-          image: '',
-          date: '2024-07-12',
-          readTime: '8 мин',
-          category: 'Правила девелопера',
-          title: 'Планировка: как найти идеальный размер и формат квартиры',
-          description: '',
-          href: '/blog',
-        },
-        {
-          image: '',
-          date: '2024-06-06',
-          readTime: '7 мин',
-          category: 'Правила девелопера',
-          title: 'Знаем цель, не видим препятствий',
-          description: '',
-          href: '/blog',
-        },
-        {
-          image: '',
-          date: '2024-05-23',
-          readTime: '10 мин',
-          category: 'Правила девелопера',
-          title: 'Персональные офферы и новый клиентский путь',
-          description: '',
-        },
-        {
-          image: '',
-          date: '2024-04-27',
-          readTime: '7 мин',
-          category: 'Правила девелопера',
-          title: 'Языки любви партнерских отношений',
-          description: '',
-        },
-      ]}
-    />
+    {/* ── 5. BlogCards — последние статьи из CMS ── */}
+    {recentPosts.length > 0 && (
+      <BlogCards
+        title="От наших экспертов"
+        articles={recentPosts}
+      />
+    )}
 
   </div>
 
