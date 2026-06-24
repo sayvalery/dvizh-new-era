@@ -65,14 +65,16 @@ interface PriceRow {
 }
 
 interface Props {
-  /** Вариант отображения: 'default' — пункты с иконками, 'prices' — строки цен */
-  variant?: 'default' | 'prices'
+  /** Вариант отображения: 'default' — пункты с иконками, 'prices' — строки цен, 'symmetric' — обе карточки одного цвета */
+  variant?: 'default' | 'prices' | 'symmetric'
   /** Мелкая подпись-бейдж над заголовком */
   label?: string
   /** Главный заголовок секции */
   title?: string
-  /** Заголовок левой (серой) карточки */
+  /** Заголовок левой карточки */
   leftTitle: string
+  /** Заголовок правой карточки (только для variant='symmetric') */
+  rightTitle?: string
   /** Пункты левой карточки (серые, с иконкой «минус») — только для variant='default' */
   leftItems?: string[]
   /** Пункты правой (тёмной) карточки (с иконкой «чек») — только для variant='default' */
@@ -102,6 +104,7 @@ const {
   label = 'В чём разница',
   title = 'Выбирайте лучшее',
   leftTitle,
+  rightTitle = '',
   leftItems = [],
   rightItems = [],
   priceRows = [],
@@ -115,6 +118,7 @@ const {
 } = Astro.props
 
 const isPrices = variant === 'prices'
+const isSymmetric = variant === 'symmetric'
 
 /**
  * Попарно объединяем пункты: каждый индекс — одна горизонтальная строка.
@@ -218,7 +222,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       ═══ MOBILE (< lg): простые стекированные карточки ═══
       Стандартный flex-col — пункты внутри каждой карточки независимы.
     -->
-    {!isPrices && (
+    {!isPrices && !isSymmetric && (
     <div class="flex flex-col gap-6 lg:hidden">
 
       <!-- Правая карточка (тёмная, «С ДВИЖем») — первой на мобайле -->
@@ -272,6 +276,54 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
     )}
 
     <!--
+      ═══ SYMMETRIC VARIANT (mobile) ═══
+      Обе карточки одного цвета (bg-gray-200). Чек-иконки серые для обеих колонок.
+      Слот right-icon — опциональная иконка в шапке правой карточки.
+    -->
+    {isSymmetric && (
+    <div class="flex flex-col gap-6 lg:hidden">
+
+      <!-- Правая карточка — первой на мобайле -->
+      <div class="bg-gray-200 rounded-2xl lg:rounded-3xl p-8 flex flex-col gap-10">
+        <div class="flex items-center gap-3 min-h-[54px]">
+          <slot name="right-icon" />
+          {rightTitle && <h3 class="text-h3 text-gray-900">{rightTitle}</h3>}
+        </div>
+        <div class="flex flex-col divide-y divide-gray-300">
+          {rightItems.map((text) => (
+            <div class="flex gap-3 items-start py-5 first:pt-0 last:pb-0">
+              <svg class="w-6 h-6 shrink-0 mt-0.5 text-gray-500" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <p class="text-body-lg text-gray-900 leading-[1.3]">{text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Левая карточка -->
+      <div class="bg-gray-200 rounded-2xl lg:rounded-3xl p-8 flex flex-col gap-10">
+        <div class="min-h-[54px] flex items-center">
+          <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
+        </div>
+        <div class="flex flex-col divide-y divide-gray-300">
+          {leftItems.map((text) => (
+            <div class="flex gap-3 items-start py-5 first:pt-0 last:pb-0">
+              <svg class="w-6 h-6 shrink-0 mt-0.5 text-gray-500" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <p class="text-body-lg text-gray-900 leading-[1.3]">{text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+    )}
+
+    <!--
       ═══ DESKTOP (≥ lg): выровненная по строкам сетка ═══
 
       Принцип: фоновые карточки — абсолютно позиционированные декоративные
@@ -283,7 +335,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       если один текст однострочный, а другой двухстрочный, оба занимают
       одинаковую высоту.
     -->
-    {!isPrices && (
+    {!isPrices && !isSymmetric && (
     <div class="hidden lg:grid lg:grid-cols-2 lg:gap-6 relative">
 
       <!--
@@ -370,6 +422,74 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
         <Button variant="primary" drawerPreset={primaryDrawerPreset}>{primaryButtonText}</Button>
         {secondaryButtonText && <Button variant="ghost-dark" drawerPreset={secondaryDrawerPreset}>{secondaryButtonText}</Button>}
       </div>
+
+    </div>
+    )}
+
+    <!--
+      ═══ SYMMETRIC VARIANT (desktop ≥ lg) ═══
+      Оба абсолютных фона bg-gray-200. Чек-иконки серые для обеих колонок.
+    -->
+    {isSymmetric && (
+    <div class="hidden lg:grid lg:grid-cols-2 lg:gap-6 relative">
+
+      <!-- Декоративные фоны — оба серые -->
+      <div
+        class="absolute inset-y-0 left-0 rounded-2xl lg:rounded-3xl bg-gray-200"
+        style="width: calc(50% - 0.75rem)"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="absolute inset-y-0 right-0 rounded-2xl lg:rounded-3xl bg-gray-200"
+        style="width: calc(50% - 0.75rem)"
+        aria-hidden="true"
+      ></div>
+
+      <!-- Строка 1: заголовки / иконка -->
+      <div class="relative z-10 px-[34px] pt-[34px] pb-14">
+        <div class="min-h-[54px] flex items-center">
+          <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
+        </div>
+      </div>
+      <div class="relative z-10 px-[34px] pt-[34px] pb-14">
+        <div class="min-h-[54px] flex items-center gap-3">
+          <slot name="right-icon" />
+          {rightTitle && <h3 class="text-h3 text-gray-900">{rightTitle}</h3>}
+        </div>
+      </div>
+
+      <!-- Строки 2..N+1: попарные пункты -->
+      <!-- border-t на внешнем div → равный py-5 сверху и снизу, items-center вертикально центрирует -->
+      {pairs.map((pair, i) => (
+        <Fragment>
+          <div class:list={['relative z-10 px-[34px] flex items-center py-5', i !== 0 && 'border-t border-gray-300']}>
+            {pair.left && (
+              <div class="flex gap-3 items-center w-full">
+                <svg class="w-6 h-6 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="text-body-lg text-gray-900 leading-[1.3]">{pair.left}</p>
+              </div>
+            )}
+          </div>
+          <div class:list={['relative z-10 px-[34px] flex items-center py-5', i !== 0 && 'border-t border-gray-300']}>
+            {pair.right && (
+              <div class="flex gap-3 items-center w-full">
+                <svg class="w-6 h-6 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="text-body-lg text-gray-900 leading-[1.3]">{pair.right}</p>
+              </div>
+            )}
+          </div>
+        </Fragment>
+      ))}
+
+      <!-- Нижний отступ -->
+      <div class="relative z-10 px-[34px] pb-[34px] pt-8"></div>
+      <div class="relative z-10 px-[34px] pb-[34px] pt-8"></div>
 
     </div>
     )}

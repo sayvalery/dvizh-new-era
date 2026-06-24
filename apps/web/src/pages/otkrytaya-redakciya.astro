@@ -1,0 +1,193 @@
+---
+/**
+ * Открытая редакция ДВИЖ Инсайты — страница для потенциальных авторов медиа
+ *
+ * Структура:
+ *   1. Hero (HeroSectionFull) + PixelArrowPattern + логотипы
+ *   2. ComparisonSection variant="symmetric" — аудитория / темы
+ *   3. BentoGrid variant="four" — что получит автор
+ *   4. Banner — CTA «Стать автором»
+ *   5. BlogCards — последние статьи экспертов
+ */
+import SiteLayout from '../layouts/SiteLayout.astro'
+import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
+import PixelArrowPattern from '../components/ui/PixelArrowPattern.astro'
+import LogoGrid from '../components/ui/LogoGrid.astro'
+import ComparisonSection from '../components/ui/ComparisonSection.astro'
+import BentoGrid from '../components/ui/BentoGrid.astro'
+import Banner from '../components/ui/Banner.astro'
+import BlogCards from '../components/ui/BlogCards.astro'
+---
+
+<SiteLayout
+  title="Открытая редакция — ДВИЖ Инсайты"
+  description="Поделитесь своим опытом с топами рынка недвижимости. Станьте автором ДВИЖ Инсайты — медиа для современных застройщиков."
+  bodyClass="fluid-page"
+>
+
+  {/* ── 1. Hero ── */}
+  <HeroSectionFull
+    title="Станьте автором ДВИЖ Инсайты"
+    description="Поделитесь своим опытом с топами рынка недвижимости"
+    demoLabel="Стать автором"
+    kpLabel="Узнать подробнее"
+    demoPreset="lead"
+    kpPreset="lead"
+  >
+    <PixelArrowPattern slot="background" />
+    <LogoGrid
+      slot="logos"
+      noPadding
+      logos={[
+        { src: '/partners/dark/a101.svg',    alt: 'А101' },
+        { src: '/partners/dark/samolet.svg', alt: 'Самолёт' },
+        { src: '/partners/dark/lsr.svg',     alt: 'ЛСР' },
+        { src: '/partners/dark/strana.svg',  alt: 'Страна' },
+        { src: '/partners/dark/glorax.svg',  alt: 'Глоракс' },
+        { src: '/partners/dark/donstroy.svg',alt: 'Донстрой' },
+        { src: '/partners/dark/fsk.svg',     alt: 'ФСК' },
+        { src: '/partners/dark/mrgroup.svg', alt: 'MR Group' },
+      ]}
+    />
+  </HeroSectionFull>
+
+  {/* ── 2. ComparisonSection symmetric ── */}
+  {/* «Нас читают» и «Вы можете рассказать» — обе карточки одного цвета */}
+  <ComparisonSection
+    variant="symmetric"
+    title="ДВИЖ Инсайты — медиа для современных застройщиков"
+    leftTitle="Нас читают"
+    rightTitle="Вы можете рассказать"
+    leftItems={[
+      'Руководители ипотечных отделов',
+      'Руководители агентств недвижимости',
+      'Ипотечные брокеры в банках',
+      'Топы на рынке недвижимости',
+      'Коммерческие директора крупных девелоперов',
+    ]}
+    rightItems={[
+      'О работе вашей команды',
+      'О способах выстраивать воронку продаж',
+      'Об уникальных подходах и методиках',
+      'О способах привлекать клиентов',
+      'О подходах, используемых в работе',
+    ]}
+    class="py-16 lg:py-24"
+  />
+
+  <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
+
+    {/* ── 3. BentoGrid — что получает автор ── */}
+    <section class="!py-0">
+      <div class="page-container flex flex-col gap-10 lg:gap-16">
+        <h2 class="text-h2 text-gray-900">Что вы получите</h2>
+        <BentoGrid
+          variant="four"
+          items={[
+            {
+              title: 'Рассылка на 10 тысяч',
+              description: 'Подготовка email-рассылок на базу 10 тыс человек из вашей отрасли',
+              backgroundImage: '/api/media/file/editorial_what-you-get_panels-procession.webp',
+              backgroundImageMobile: '/api/media/file/editorial_what-you-get_panels-procession-mobile.webp',
+              backgroundImageTablet: '/api/media/file/editorial_what-you-get_panels-procession-laptop.webp',
+            },
+            {
+              title: 'Актуальная аналитика',
+              description: 'Сбор актуальной статистики по рынку недвижимости к вашему материалу',
+              backgroundImage: '/api/media/file/editorial_what-you-get_pie-chart.webp',
+              backgroundImageMobile: '/api/media/file/editorial_what-you-get_pie-chart-mobile.webp',
+              backgroundImageTablet: '/api/media/file/editorial_what-you-get_pie-chart-laptop.webp',
+            },
+            {
+              title: 'Вебинары',
+              description: 'Проведение вебинаров для застройщиков с вашим участием',
+              backgroundImage: '/api/media/file/editorial_what-you-get_concentric-rings.webp',
+              backgroundImageMobile: '/api/media/file/editorial_what-you-get_concentric-rings-mobile.webp',
+              backgroundImageTablet: '/api/media/file/editorial_what-you-get_concentric-rings-laptop.webp',
+            },
+            {
+              title: 'Дистрибуция контента',
+              description: 'Распространение материалов через каналы ДВИЖ для максимального охвата',
+              backgroundImage: '/api/media/file/editorial_what-you-get_pinwheel.webp',
+              backgroundImageMobile: '/api/media/file/editorial_what-you-get_pinwheel-mobile.webp',
+              backgroundImageTablet: '/api/media/file/editorial_what-you-get_pinwheel-laptop.webp',
+            },
+          ]}
+        />
+      </div>
+    </section>
+
+    {/* ── 4. Banner CTA ── */}
+    <Banner
+      bg="bg-background-secondary"
+      title="Станьте автором&#160;ДВИЖ&#160;Инсайты"
+      subtitle="Поделитесь своим опытом с&#160;топами рынка недвижимости"
+      buttons={[
+        { label: 'Стать автором', drawerPreset: 'lead' },
+      ]}
+      image="/api/media/file/insight-banner.webp"
+      imageAlt="Стань автором ДВИЖ Инсайты"
+    />
+
+    {/* ── 5. BlogCards — от наших экспертов ── */}
+    <BlogCards
+      title="От наших экспертов"
+      articles={[
+        {
+          image: '',
+          date: '2024-08-14',
+          readTime: '11 мин',
+          category: 'Правила девелопера',
+          title: 'Как провести стратсессию и не облажаться?',
+          description: '',
+          href: '/blog/kak-provesti-stratsessiyu-i-ne-oblazhatsya',
+        },
+        {
+          image: '',
+          date: '2024-08-02',
+          readTime: '9 мин',
+          category: 'Правила девелопера',
+          title: 'Михаил Гущин о том, как рост мегаполисов меняет форматы жилой недвижимости',
+          description: '',
+          href: '/blog',
+        },
+        {
+          image: '',
+          date: '2024-07-12',
+          readTime: '8 мин',
+          category: 'Правила девелопера',
+          title: 'Планировка: как найти идеальный размер и формат квартиры',
+          description: '',
+          href: '/blog',
+        },
+        {
+          image: '',
+          date: '2024-06-06',
+          readTime: '7 мин',
+          category: 'Правила девелопера',
+          title: 'Знаем цель, не видим препятствий',
+          description: '',
+          href: '/blog',
+        },
+        {
+          image: '',
+          date: '2024-05-23',
+          readTime: '10 мин',
+          category: 'Правила девелопера',
+          title: 'Персональные офферы и новый клиентский путь',
+          description: '',
+        },
+        {
+          image: '',
+          date: '2024-04-27',
+          readTime: '7 мин',
+          category: 'Правила девелопера',
+          title: 'Языки любви партнерских отношений',
+          description: '',
+        },
+      ]}
+    />
+
+  </div>
+
+</SiteLayout>
