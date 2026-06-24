@@ -217,7 +217,9 @@ const formFields = fields[preset] ?? ['name', 'email']
 </form>
 
 <script>
-  document.querySelectorAll('form[data-preset]').forEach((form) => {
+  // :not([data-form-closing]) — у форм FormClosing свой обработчик (data-form-closing).
+  // Без исключения они получали ДВА submit-листенера → двойная отправка заявки.
+  document.querySelectorAll('form[data-preset]:not([data-form-closing])').forEach((form) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault()
       const f = e.target as HTMLFormElement
