@@ -47,6 +47,8 @@ export interface NavItem {
   sections?: NavSection[]
   /** Выпадашка с 3 горизонтальными карточками (Блог, Кейсы) */
   posts?: MenuPost[]
+  /** Закреплённая статья в правой карточке мегаменю (иначе — общий blogPosts) */
+  featuredPost?: BlogPost
   badge?: 'dot'
 }
 
@@ -263,7 +265,7 @@ const navIslandClass = transparent
                     x-transition:leave-end="opacity-0 [clip-path:inset(0_-48px_40%_-48px)]"
                     class="absolute top-full left-0 pt-2 z-50"
                   >
-                    <MegaMenu sections={item.sections ?? []} blogPosts={blogPosts} />
+                    <MegaMenu sections={item.sections ?? []} blogPosts={item.featuredPost ? [item.featuredPost] : blogPosts} />
                   </div>
                 </div>
               ) : item.children?.length ? (

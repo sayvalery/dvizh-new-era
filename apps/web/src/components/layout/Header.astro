@@ -35,8 +35,12 @@ function toCard(post: any) {
   }
 }
 
+// Slug статьи, закреплённой в карточке мегаменю «Решения»
+const SOLUTIONS_FEATURED_SLUG = 'case-fsk-dvizh'
+
 let latestPosts: any[] = []
 let caseDocs: any[] = []
+let solutionsDoc: any = null
 if (variant !== 'blog') {
   try {
     // Блог: 3 свежих поста (+ 1-й для карточки мегаменю)
@@ -49,6 +53,13 @@ if (variant !== 'blog') {
       depth: 2,
     })
     caseDocs = cases.docs
+    // Закреплённая статья для карточки «Решения»
+    const featured = await getBlogPosts({
+      where: { slug: { equals: SOLUTIONS_FEATURED_SLUG } },
+      limit: 1,
+      depth: 2,
+    })
+    solutionsDoc = featured.docs?.[0] ?? null
   } catch {
     // CMS недоступен при сборке — меню работает без карточек
   }
@@ -57,13 +68,20 @@ if (variant !== 'blog') {
 const blogCards = latestPosts.slice(0, 3).map(toCard)
 const caseCards = caseDocs.slice(0, 3).map(toCard)
 
-// Последний пост — для правой колонки мегаменю (Продукты/Решения) и мобильного меню
-const blogPosts = latestPosts.slice(0, 1).map((post: any) => ({
-  title: post.title,
-  slug: post.slug,
-  cover: post.cover ? { url: normalizeMediaUrl(post.cover.url) ?? undefined, alt: post.cover.alt } : undefined,
-  category: post.category?.title,
-}))
+/** Пост CMS → пропсы карточки правой колонки мегаменю */
+function toFeatured(post: any) {
+  return {
+    title: post.title,
+    slug: post.slug,
+    cover: post.cover ? { url: normalizeMediaUrl(post.cover.url) ?? undefined, alt: post.cover.alt } : undefined,
+    category: post.category?.title,
+  }
+}
+
+// Последний пост — для правой колонки мегаменю «Продукты» и мобильного меню
+const blogPosts = latestPosts.slice(0, 1).map(toFeatured)
+// Карточка «Решения» — закреплённая статья (фолбэк на свежий пост, если её нет)
+const solutionsFeatured = solutionsDoc ? toFeatured(solutionsDoc) : blogPosts[0]
 
 const navItems: NavItem[] = [
   {
@@ -82,6 +100,7 @@ const navItems: NavItem[] = [
   },
   {
     label: 'Решения',
+    featuredPost: solutionsFeatured,
     sections: [
       {
         title: 'Сферы',
