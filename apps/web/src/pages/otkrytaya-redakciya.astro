@@ -9,7 +9,7 @@
  *   4. Banner — CTA «Стать автором»
  *   5. BlogCards — последние статьи экспертов
  */
-import SiteLayout from '../layouts/SiteLayout.astro'
+import BlogLayout from '../layouts/BlogLayout.astro'
 import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import PixelArrowPattern from '../components/ui/PixelArrowPattern.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
@@ -60,9 +60,10 @@ const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
 }))
 ---
 
-<SiteLayout
+<BlogLayout
   title="Открытая редакция — ДВИЖ Инсайты"
   description="Поделитесь своим опытом с топами рынка недвижимости. Станьте автором ДВИЖ Инсайты — медиа для современных застройщиков."
+  insightsHeader
   bodyClass="fluid-page"
 >
 
@@ -73,6 +74,7 @@ const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
     description="Поделитесь своим опытом с топами рынка недвижимости"
     demoLabel="Стать автором"
     demoPreset="lead"
+    class="rounded-t-3xl"
   >
     <PixelArrowPattern slot="background" />
     <img
@@ -215,4 +217,4 @@ const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
 
   </div>
 
-</SiteLayout>
+</BlogLayout>

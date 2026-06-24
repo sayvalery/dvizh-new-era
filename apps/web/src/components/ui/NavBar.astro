@@ -361,7 +361,7 @@ const navIslandClass = transparent
               variant="dark"
               size="sm"
               class={`hidden sm:inline-flex${initialClear ? ' !bg-white !text-gray-900 hover:!bg-white/90' : ''}`}
-              x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
+              x-bind:class={`{ '!bg-white !text-gray-900 hover:!bg-white/90': clear }`}
             >{cta.label}</Button>
           )}
 
@@ -402,7 +402,7 @@ const navIslandClass = transparent
             size="sm"
             variant="dark"
             @click="mobileOpen = true"
-            x-bind:class={`clear ? '!bg-white !text-gray-900 hover:!bg-white/90' : ''`}
+            x-bind:class={`{ '!bg-white !text-gray-900 hover:!bg-white/90': clear }`}
             class={`lg:hidden flex-shrink-0${initialClear ? ' !bg-white !text-gray-900 hover:!bg-white/90' : ''}`}
             aria-label="Открыть меню"
           >

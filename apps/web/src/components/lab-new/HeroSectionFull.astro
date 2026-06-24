@@ -83,8 +83,8 @@ const hasRight = Astro.slots.has('right')
           <!-- Колонка картинки — В DOM ПЕРВАЯ → на мобилке (flex-col) встаёт СВЕРХУ, вписана
                (см. <style>). На lg явно во 2-й колонке справа; absolute-обёртка даёт «вытекание»
                за колонку, не влияя на layout-высоту (верт. клип — overflow-hidden секции). -->
-          <div class="hero-media hidden lg:block relative lg:col-start-2 lg:row-start-1 lg:-mt-8" aria-hidden="true">
-            <div class="flex justify-center md:justify-end lg:justify-center lg:absolute lg:-top-[100px] lg:left-0 lg:right-0 lg:bottom-0 lg:items-start">
+          <div class="hero-media relative lg:col-start-2 lg:row-start-1 lg:-mt-8" aria-hidden="true">
+            <div class="flex justify-center lg:absolute lg:-top-[100px] lg:left-0 lg:right-0 lg:bottom-0 lg:items-start">
               <slot name="right" />
             </div>
           </div>
@@ -142,10 +142,14 @@ const hasRight = Astro.slots.has('right')
 </section>
 
 <style>
-  /* Картинка скрыта на мобилке/планшете (hidden lg:block на контейнере).
-     На десктопе — без ограничений, «вытекающий» рендер как задан в пропсах страницы.
-     :global(img) нужен т.к. картинка приходит через slot (вне scope компонента).
-     max-width с !important перебивает inline style="max-width:none". */
+  /* Размер hero-картинки задаётся в пропсах страницы (h-[106dvh] w-auto max-width:none) —
+     это «вытекающий» десктопный рендер. На <lg каппим: вписываем сверху, не даём вытекать.
+     :global(img) — картинка приходит через slot (вне scope компонента). max-width c
+     !important перебивает inline style="max-width:none". На lg каппы снимаются → десктоп как был. */
+  .hero-media :global(img) {
+    max-height: 40dvh;
+    max-width: 100% !important;
+  }
   @media (min-width: 1024px) {
     .hero-media :global(img) {
       max-height: none;
