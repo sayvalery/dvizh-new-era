@@ -26,8 +26,11 @@ import Button from '../ui/Button.astro'
 interface Props {
   badge?: string
   title: string
+  /** HTML-вариант заголовка (если нужны <br>, &nbsp; и т.д.). Приоритет над title. */
+  titleHtml?: string
   description?: string
   demoLabel?: string
+  /** Если не передан — вторая кнопка не рендерится */
   kpLabel?: string
   demoPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
   kpPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
@@ -37,9 +40,10 @@ interface Props {
 const {
   badge,
   title,
+  titleHtml,
   description,
   demoLabel = 'Получить демо',
-  kpLabel = 'Получить КП',
+  kpLabel,
   demoPreset = 'demo',
   kpPreset = 'lead',
   class: className = '',
@@ -91,11 +95,14 @@ const hasRight = Astro.slots.has('right')
           <div class="hero-left-col relative z-10 flex flex-1 flex-col justify-end pb-24 lg:pb-40 lg:col-start-1 lg:row-start-1">
             <div class="flex flex-col gap-6">
               {badge && <p class="text-brand text-body-lg font-normal">{badge}</p>}
-              <h1 class="text-h1 text-gray-900">{title}</h1>
+              {titleHtml
+                ? <h1 class="text-h1 text-gray-900" set:html={titleHtml} />
+                : <h1 class="text-h1 text-gray-900">{title}</h1>
+              }
               {description && <p class="text-body-lg text-gray-500">{description}</p>}
               <div class="flex flex-col xs:flex-row gap-4 pt-2">
                 <Button variant="primary" size="lg" drawerPreset={demoPreset} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{demoLabel}</Button>
-                <Button variant="ghost"   size="lg" drawerPreset={kpPreset}  class="w-full xs:flex-1 lg:flex-none lg:w-auto">{kpLabel}</Button>
+                {kpLabel && <Button variant="ghost" size="lg" drawerPreset={kpPreset} class="w-full xs:flex-1 lg:flex-none lg:w-auto">{kpLabel}</Button>}
               </div>
             </div>
             {hasLogos && (
