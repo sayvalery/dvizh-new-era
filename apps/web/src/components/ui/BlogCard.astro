@@ -39,6 +39,8 @@ interface Props {
   class?: string
   /** Доп. классы на заголовок (например, переопределить размер шрифта в выпадашке хедера) */
   titleClass?: string
+  /** Отступ текста от картинки (size=md). По умолчанию mt-6; в мегаменю — mt-4 */
+  bodyGapClass?: string
 }
 
 const {
@@ -46,7 +48,8 @@ const {
   date, readTime,
   size = 'md',
   class: className = '',
-  titleClass = ''
+  titleClass = '',
+  bodyGapClass = 'mt-6'
 } = Astro.props
 
 const coverUrl = normalizeMediaUrl(cover?.url ?? null)
@@ -109,7 +112,7 @@ const hasDateMeta = date || readTime
     </div>
 
     <!-- Текст -->
-    <div class="flex flex-col gap-3 mt-6">
+    <div class:list={['flex flex-col gap-3', bodyGapClass]}>
       {category && <p class="text-side-menu text-gray-400">{category}</p>}
       {hasDateMeta && (
         <div class="flex items-end gap-1 opacity-70 text-subhead text-gray-500">
