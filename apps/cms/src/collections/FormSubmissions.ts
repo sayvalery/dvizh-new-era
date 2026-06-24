@@ -27,6 +27,7 @@ export const FormSubmissions: CollectionConfig = {
         { label: 'Подписка', value: 'subscribe' },
         { label: 'Демо', value: 'demo' },
         { label: 'Исследование', value: 'research' },
+        { label: 'Автор', value: 'author' },
       ],
     },
     {
@@ -48,6 +49,11 @@ export const FormSubmissions: CollectionConfig = {
       name: 'company',
       type: 'text',
       label: 'Компания',
+    },
+    {
+      name: 'topic',
+      type: 'text',
+      label: 'Тема материала',
     },
     {
       name: 'page',

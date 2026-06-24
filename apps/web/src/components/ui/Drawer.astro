@@ -12,19 +12,21 @@
  *   lead      → "Связаться с нами"
  *   research  → "Получить исследование"
  *   subscribe → "Подписаться на обновления"
+ *   author    → "Стать автором"
  *
  * Примечание: кнопка должна находиться внутри x-data scope (хотя бы x-data без значения),
  * либо использовать нативный JS: document.dispatchEvent(new CustomEvent('open-drawer', ...))
  */
 import Form from './Form.astro'
 
-const presets = ['demo', 'lead', 'research', 'subscribe'] as const
+const presets = ['demo', 'lead', 'research', 'subscribe', 'author'] as const
 
 const titles: Record<string, string> = {
   demo:      'Получить демо',
   lead:      'Связаться с нами',
   research:  'Получить исследование',
   subscribe: 'Подписаться на обновления',
+  author:    'Стать автором',
 }
 
 // Пункты по умолчанию для форм-заявок (demo/lead). Переданные через open-drawer
@@ -34,7 +36,11 @@ const defaultPoints = [
   'Рассчитаем ROMI и экономический эффект',
   'Разберем ваши задачи',
 ]
-const defaultPointsJson = JSON.stringify({ demo: defaultPoints, lead: defaultPoints })
+const authorPoints = [
+  'Делитесь экспертизой с рынком',
+  'Материал проходит модерацию',
+]
+const defaultPointsJson = JSON.stringify({ demo: defaultPoints, lead: defaultPoints, author: authorPoints })
 ---
 
 <div

@@ -7,6 +7,7 @@
  *   subscribe → email
  *   demo      → name, email, phone, company
  *   research  → name, email, company
+ *   author    → name, phone, email, topic (все поля обязательны)
  *
  * Лейауты:
  *   stacked (по умолчанию) — лейбл сверху, инпут снизу
@@ -32,7 +33,7 @@ const CMS_URL = import.meta.env.CMS_URL || 'http://localhost:3002'
 const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
 
 interface Props {
-  preset: 'lead' | 'subscribe' | 'demo' | 'research'
+  preset: 'lead' | 'subscribe' | 'demo' | 'research' | 'author'
   layout?: 'stacked' | 'labels-left' | 'inline'
   /** light — для светлого фона, dark — для тёмного (FormClosing и т.п.) */
   variant?: 'light' | 'dark'
@@ -66,6 +67,7 @@ const fields: Record<string, string[]> = {
   subscribe:['email'],
   demo:     ['name', 'email', 'phone', 'company'],
   research: ['name', 'email', 'company'],
+  author:   ['name', 'phone', 'email', 'topic'],
 }
 
 const fieldLabels: Record<string, string> = {
@@ -73,6 +75,7 @@ const fieldLabels: Record<string, string> = {
   email:   'Email',
   phone:   'Телефон',
   company: 'Компания',
+  topic:   'Тема материала',
 }
 
 const defaultSubmitLabels: Record<string, string> = {
@@ -80,7 +83,16 @@ const defaultSubmitLabels: Record<string, string> = {
   subscribe: 'Подписаться',
   demo:      'Получить демо',
   research:  'Получить исследование',
+  author:    'Отправить заявку',
 }
+
+// Обязательные поля по пресету. Если пресет не указан — дефолт: name + email.
+// author — все поля обязательны.
+const requiredFields: Record<string, string[]> = {
+  author: ['name', 'phone', 'email', 'topic'],
+}
+const isRequired = (field: string): boolean =>
+  requiredFields[preset]?.includes(field) ?? (field === 'email' || field === 'name')
 
 const btnLabel = submitLabel ?? defaultSubmitLabels[preset] ?? 'Отправить'
 const formFields = fields[preset] ?? ['name', 'email']
@@ -98,7 +110,7 @@ const formFields = fields[preset] ?? ['name', 'email']
           id={`field-${preset}-${field}`}
           type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
           name={field}
-          required={field === 'email' || field === 'name'}
+          required={isRequired(field)}
           placeholder={fieldLabels[field]}
           variant={isDark ? 'white' : 'colour'}
           class="flex-1"
@@ -127,7 +139,7 @@ const formFields = fields[preset] ?? ['name', 'email']
             id={`field-${preset}-${field}`}
             type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
             name={field}
-            required={field === 'email' || field === 'name'}
+            required={isRequired(field)}
             placeholder={fieldLabels[field]}
             variant={isDark ? 'white' : 'colour'}
           />
@@ -148,7 +160,7 @@ const formFields = fields[preset] ?? ['name', 'email']
             id={`field-${preset}-${field}`}
             type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
             name={field}
-            required={field === 'email' || field === 'name'}
+            required={isRequired(field)}
             placeholder={fieldLabels[field]}
             variant={isDark ? 'white' : 'colour'}
           />

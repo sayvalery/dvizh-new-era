@@ -71,7 +71,7 @@ interface Props {
   /** Показывать встроенную форму */
   showForm?: boolean
   /** Пресет формы */
-  formPreset?: 'lead' | 'demo' | 'research' | 'subscribe'
+  formPreset?: 'lead' | 'demo' | 'research' | 'subscribe' | 'author'
   /** Лейбл кнопки отправки формы */
   formSubmitLabel?: string
   /** Текст согласия/сноски под формой */
@@ -82,7 +82,7 @@ interface Props {
   buttons?: Array<{
     label: string
     href?: string
-    drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+    drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe' | 'author'
     /** URL иконки слева от текста (опционально) */
     icon?: string
   }>
@@ -95,7 +95,7 @@ interface Props {
   /** Ссылка для боковой кнопки (игнорируется если задан buttonDrawerPreset) */
   buttonHref?: string
   /** Пресет дровера для боковой кнопки */
-  buttonDrawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  buttonDrawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe' | 'author'
 
   // ─── Правая колонка ────────────────────────────────────────────────────────
   /** URL изображения в правой колонке (скрыто на мобилке) */
