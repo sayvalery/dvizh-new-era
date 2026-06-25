@@ -34,6 +34,9 @@ interface Props {
   kpLabel?: string
   demoPreset?: 'demo' | 'lead' | 'research' | 'subscribe' | 'author'
   kpPreset?: 'demo' | 'lead' | 'research' | 'subscribe' | 'author'
+  /** URL фонового изображения для мобилки/планшета (<lg). Когда задан, 3D из
+      slot="right" скрыто на <lg, вместо него — полноэкранный фон с градиентом. */
+  mobileBg?: string
   class?: string
 }
 
@@ -46,6 +49,7 @@ const {
   kpLabel,
   demoPreset = 'demo',
   kpPreset = 'lead',
+  mobileBg,
   class: className = '',
 } = Astro.props
 
@@ -59,6 +63,20 @@ const hasRight = Astro.slots.has('right')
   <div class="absolute inset-0 z-0" aria-hidden="true">
     <slot name="background" />
   </div>
+
+  {/* Слой 1.5: мобильный фон — полноэкранное изображение с градиентом (только <lg) */}
+  {mobileBg && (
+    <div class="absolute top-0 left-0 right-0 h-[70dvh] md:h-[60dvh] z-[1] lg:hidden" aria-hidden="true">
+      <img
+        src={mobileBg}
+        alt=""
+        class="w-full h-full object-cover object-top"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-x-0 bottom-0 h-1/3" style="background: linear-gradient(to bottom, transparent, #FBF9F6)"></div>
+    </div>
+  )}
 
   <!-- Слой 2: контент поверх фона -->
   <div class="relative z-10 flex flex-col min-h-[calc(100dvh-76px)]">
@@ -83,7 +101,7 @@ const hasRight = Astro.slots.has('right')
           <!-- Колонка картинки — В DOM ПЕРВАЯ → на мобилке (flex-col) встаёт СВЕРХУ, вписана
                (см. <style>). На lg явно во 2-й колонке справа; absolute-обёртка даёт «вытекание»
                за колонку, не влияя на layout-высоту (верт. клип — overflow-hidden секции). -->
-          <div class="hero-media relative lg:col-start-2 lg:row-start-1 lg:-mt-8" aria-hidden="true">
+          <div class:list={['hero-media relative lg:col-start-2 lg:row-start-1 lg:-mt-8', mobileBg && 'hidden lg:block']} aria-hidden="true">
             <div class="flex justify-center lg:absolute lg:-top-[100px] lg:left-0 lg:right-0 lg:bottom-0 lg:items-start">
               <slot name="right" />
             </div>
