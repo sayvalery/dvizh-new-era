@@ -70,6 +70,11 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Резервируем место под скроллбар всегда: при открытии Drawer на <body> вешается
+     overflow-hidden, скроллбар исчезает и контент прыгал вправо на его ширину.
+     stable резервирует gutter → сдвига нет. Для overlay-скроллбаров (macOS дефолт)
+     gutter = 0, визуально ни на что не влияет. */
+  scrollbar-gutter: stable;
 }
 
 /* Утилита для скрытия скроллбара при сохранении touch-скролла */
@@ -457,6 +462,15 @@ h1, h2, h3, h4, h5, h6 {
 @media (min-width: 1024px) {
   .fluid-page .min-h-\[480px\] { min-height: clamp(480px, 20rem + 12.5vw, 640px); }   /* фото-панель */
   .fluid-page .support-tab    { min-height: clamp(220px, 9.17rem + 5.73vw, 293px); }  /* три таба */
+}
+
+/* 2.1.1. Контентная колонка FormClosing (заголовок + список пунктов) зафиксирована
+   на 800px, но на флюиде шрифт растёт (text-h2 → 64px, text-subhead → 18px) и
+   перестаёт влезать → тесные переносы на широких экранах. Расширяем колонку тем же
+   темпом ×1.333 (vp 1440→2560): ровно 800px до 1440px (другие разрешения не
+   меняются), дальше плавно до 1067px. */
+@media (min-width: 1024px) {
+  .fluid-page .formclosing-w { max-width: clamp(800px, 28.54rem + 23.84vw, 1067px); }
 }
 
 /* 2.2. Bento/карточные блоки: фиксированные высоты строк скейлятся ×1.333

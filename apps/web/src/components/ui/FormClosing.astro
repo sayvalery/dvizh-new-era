@@ -51,8 +51,12 @@ interface Props {
   title: string
   /** Описание под заголовком (опционально) */
   description?: string
-  /** Список пунктов с иконкой check circle */
-  items?: string[]
+  /**
+   * Список пунктов с иконкой check circle.
+   * - строка — одна строка текста (поддерживает HTML, напр. <span class="font-semibold">);
+   * - объект { title, subtitle } — двухуровневый пункт: тёмный заголовок + светлый подзаголовок.
+   */
+  items?: (string | { title: string; subtitle?: string })[]
   /** Текст на кнопке отправки (mode=form) */
   submitLabel?: string
   /** Основная кнопка (mode=buttons) */
@@ -153,10 +157,8 @@ const privacyMain = privacyText
   >
 
     <!-- Заголовок + описание -->
-    <div class="max-w-full lg:max-w-[800px]">
-      <h2 class:list={['text-h2 font-medium leading-none tracking-tighter', headingCls]}>
-        {title}
-      </h2>
+    <div class="max-w-full lg:max-w-[800px] formclosing-w">
+      <h2 class:list={['text-h2 font-medium leading-none tracking-tighter', headingCls]} set:html={title}></h2>
 
       {description && (
         <p class:list={['mt-4 text-body-lg leading-relaxed', descCls]}>
@@ -167,7 +169,7 @@ const privacyMain = privacyText
 
     <!-- Список пунктов с check circle -->
     {items && items.length > 0 && (
-      <ul class="mt-6 space-y-3 max-w-full lg:max-w-[800px]">
+      <ul class="mt-6 space-y-4 max-w-full lg:max-w-[800px] formclosing-w">
         {items.map((item) => (
           <li class="flex items-start gap-2">
             <svg
@@ -179,7 +181,16 @@ const privacyMain = privacyText
               <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
               <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span class:list={['text-body-lg leading-snug', listTextCls]} set:html={item} />
+            {typeof item === 'string' ? (
+              <span class:list={['text-body-lg leading-snug', listTextCls]} set:html={item} />
+            ) : (
+              <span class="flex flex-col gap-1">
+                <span class:list={['text-body-lg-bold leading-snug', headingCls]}>{item.title}</span>
+                {item.subtitle && (
+                  <span class:list={['text-subhead leading-snug', descCls]}>{item.subtitle}</span>
+                )}
+              </span>
+            )}
           </li>
         ))}
       </ul>

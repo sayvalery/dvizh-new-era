@@ -195,6 +195,9 @@ const partnerLogos = [
   </div>
 
   {/* ── 2. Девелоперы с ДВИЖ — 4 AdvantageCard ── */}
+  {/* ВРЕМЕННО: drawerPreset="demo" на карточках → клик открывает дровер вместо
+     модалки с кейсом. Контент кейсов (слоты modal-body ниже) сохранён.
+     Чтобы вернуть модалки — убрать drawerPreset="demo" с 4 карточек. */}
   {/* gap-24 (96px) base/sm/md / lg:gap-40 (160px) */}
   <div class="flex flex-col" style="gap:clamp(96px, 2.5rem + 9.375vw, 220px); padding-top:clamp(96px, 2.5rem + 9.375vw, 220px)">
 
@@ -212,6 +215,7 @@ const partnerLogos = [
           stat="+26%"
           label="сделок на том же трафике"
           expandHref="/blog/case-ayaks-dvizh"
+          drawerPreset="demo"
         >
           {ayaks.html && (
             <div slot="modal-body" class="p-10">
@@ -226,6 +230,7 @@ const partnerLogos = [
           stat="до 90%"
           label="одобрений при среднем уровне в 49%"
           expandHref="/blog/granel-rost-procenta-odobreniya"
+          drawerPreset="demo"
         >
           {granel.html && (
             <div slot="modal-body" class="p-10">
@@ -240,6 +245,7 @@ const partnerLogos = [
           stat="+281%"
           label="заявок, чем в среднем на рынке"
           expandHref="/blog/keys-lsr-dvizh"
+          drawerPreset="demo"
         >
           {lidov.html && (
             <div slot="modal-body" class="p-10">
@@ -254,6 +260,7 @@ const partnerLogos = [
           stat="-30%"
           label="затрат на регистрацию"
           expandHref="/blog/alfavit-polzy-zastroyshchika-elektronnaya-registraciya"
+          drawerPreset="demo"
         >
           {ereg.html && (
             <div slot="modal-body" class="p-10">

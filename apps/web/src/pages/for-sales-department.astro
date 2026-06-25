@@ -8,7 +8,6 @@ import PixelArrowPattern from '../components/ui/PixelArrowPattern.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
-import AdvantageCard from '../components/ui/AdvantageCard.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
 import ReviewFull from '../components/ui/ReviewFull.astro'
 import SuccessStoryBlock from '../components/ui/SuccessStoryBlock.astro'
@@ -99,41 +98,6 @@ const cms = import.meta.env.PUBLIC_CMS_URL
       description="на первичном рынке России выдается с&#160;помощью ДВИЖа"
     />
 
-    <!-- Мы помогаем -->
-    <div class="page-container">
-      <h2 class="text-h2">Мы помогаем</h2>
-      <div
-        x-data="{ active: 0 }"
-        @mouseleave="active = 0"
-        class="mt-6 md:mt-8 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6"
-      >
-        <AdvantageCard
-          index={0}
-          title="Наполнить воронку качественными лидами"
-          titleBottom
-          drawerPreset="demo"
-        />
-        <AdvantageCard
-          index={1}
-          title="Закрыть клиентов быстрее, чем конкуренты"
-          titleBottom
-          drawerPreset="demo"
-        />
-        <AdvantageCard
-          index={2}
-          title="Увеличить средний чек и&#160;допродажи"
-          titleBottom
-          drawerPreset="demo"
-        />
-        <AdvantageCard
-          index={3}
-          title="Увидеть результат работы каждого сотрудника"
-          titleBottom
-          drawerPreset="demo"
-        />
-      </div>
-    </div>
-
     <!-- Повышаем качество лидов -->
     <FeatureBlock
       class="!py-0"
@@ -184,7 +148,6 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     <FeatureBlock
       class="!py-0"
       heading="… и делать это быстрее конкурентов"
-      imageSide="left"
       button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
       features={[
         {
@@ -226,6 +189,7 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     <FeatureBlock
       class="!py-0"
       heading="Раскрываем финансовый потенциал клиентов"
+      imageSide="left"
       button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
       features={[
         {
@@ -245,7 +209,6 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     <FeatureBlock
       class="!py-0"
       heading="Делаем работу менеджеров управляемой"
-      imageSide="left"
       button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
       features={[
         {

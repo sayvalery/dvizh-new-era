@@ -85,6 +85,8 @@ interface Props {
     drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe' | 'author'
     /** URL иконки слева от текста (опционально) */
     icon?: string
+    /** target для ссылки (напр. '_blank' — открыть в новом окне) */
+    target?: string
   }>
 
   // ─── Боковая кнопка ────────────────────────────────────────────────────────
@@ -223,6 +225,8 @@ const footnoteCls = dark ? 'text-white/40' : 'text-gray-400'
               variant="dark"
               drawerPreset={btn.drawerPreset}
               href={!btn.drawerPreset ? (btn.href ?? '#') : undefined}
+              target={!btn.drawerPreset ? btn.target : undefined}
+              rel={!btn.drawerPreset && btn.target === '_blank' ? 'noopener' : undefined}
             >
               {btn.icon && (
                 <span

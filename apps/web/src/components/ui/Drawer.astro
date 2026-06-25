@@ -105,7 +105,7 @@ const defaultPointsJson = JSON.stringify({ demo: defaultPoints, lead: defaultPoi
           <h2
             id={`drawer-title-${p}`}
             x-show={`preset === '${p}'`}
-            class="font-semibold text-gray-900"
+            class="text-h4 text-gray-900"
             style="display:none"
           >
             {titles[p]}
@@ -138,7 +138,11 @@ const defaultPointsJson = JSON.stringify({ demo: defaultPoints, lead: defaultPoi
       </ul>
       {presets.map(p => (
         <div x-show={`preset === '${p}'`} style="display:none">
-          <Form preset={p} layout="labels-left" />
+          <Form
+            preset={p}
+            layout="labels-left"
+            fields={p === 'lead' ? ['name', 'email', 'phone', 'company'] : undefined}
+          />
         </div>
       ))}
     </div>

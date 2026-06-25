@@ -42,10 +42,12 @@ interface Props {
   showPrivacy?: boolean
   /** Текст согласия перед ссылкой на Политику (по умолчанию — стандартный) */
   privacyText?: string
+  /** Переопределить набор полей пресета (напр. lead-дровер с полями demo) */
+  fields?: string[]
   class?: string
 }
 
-const { preset, layout = 'stacked', variant = 'light', submitLabel, showPrivacy = true, privacyText, class: className } = Astro.props
+const { preset, layout = 'stacked', variant = 'light', submitLabel, showPrivacy = true, privacyText, fields: fieldsOverride, class: className } = Astro.props
 
 const isDark = variant === 'dark'
 
@@ -95,7 +97,7 @@ const isRequired = (field: string): boolean =>
   requiredFields[preset]?.includes(field) ?? (field === 'email' || field === 'name')
 
 const btnLabel = submitLabel ?? defaultSubmitLabels[preset] ?? 'Отправить'
-const formFields = fields[preset] ?? ['name', 'email']
+const formFields = fieldsOverride ?? fields[preset] ?? ['name', 'email']
 ---
 
 <form

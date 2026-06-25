@@ -106,6 +106,14 @@ const {
 
 const imageLeft = imageSide === 'left'
 const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i !== -1)
+
+// Высота фрейма картинки = высоте текстовой колонки (grid items-stretch).
+// Блоки с отзывом уже высокие (контент диктует высоту); блокам без отзыва
+// поднимаем пол min-h, чтобы картинка не кадрировалась сильнее — единый
+// фрейм по сайту. Строки литеральные целиком: иначе Tailwind JIT их не соберёт.
+const colMinH = review
+  ? 'lg:min-h-[520px] xl:min-h-[720px]'
+  : 'lg:min-h-[600px] xl:min-h-[820px]'
 ---
 
 <section class:list={['py-24 lg:py-[120px]', className]}>
@@ -131,7 +139,7 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
     >
 
       <!-- Текстовая колонка (+ inline image на мобайле) -->
-      <div class:list={['flex flex-col gap-12 lg:gap-16 lg:justify-between lg:min-h-[520px] xl:min-h-[720px]', imageLeft && 'lg:order-2']}>
+      <div class:list={['flex flex-col gap-12 lg:gap-16 lg:justify-between', colMinH, imageLeft && 'lg:order-2']}>
 
         <!-- Заголовок + описание + кнопка -->
         <div class="flex flex-col gap-6">
@@ -249,7 +257,8 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
       <!-- Desktop: колонка с изображением (скрыта на мобайле) -->
       <div
         class:list={[
-          'hidden lg:block relative rounded-3xl overflow-hidden lg:min-h-[520px] xl:min-h-[720px] transition-colors duration-500 bg-background-primary',
+          'hidden lg:block relative rounded-3xl overflow-hidden transition-colors duration-500 bg-background-primary',
+          colMinH,
           imageLeft && 'lg:order-1'
         ]}
         {...(interactive ? { 'x-bind:class': `${JSON.stringify(featuresWithImage)}.includes(active) ? 'bg-background-primary' : 'bg-background-secondary'` } : {})}
