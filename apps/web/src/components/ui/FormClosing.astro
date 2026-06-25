@@ -57,6 +57,8 @@ interface Props {
    * - объект { title, subtitle } — двухуровневый пункт: тёмный заголовок + светлый подзаголовок.
    */
   items?: (string | { title: string; subtitle?: string })[]
+  /** Переопределить набор полей формы пресета (mode=form). Напр. lead + company */
+  fields?: string[]
   /** Текст на кнопке отправки (mode=form) */
   submitLabel?: string
   /** Основная кнопка (mode=buttons) */
@@ -89,6 +91,7 @@ const {
   title,
   description,
   items,
+  fields: fieldsOverride,
   submitLabel,
   primaryButton,
   secondaryButton,
@@ -121,7 +124,7 @@ const successCls = isDark ? 'text-green-400' : 'text-green-600'
 const errorCls   = isDark ? 'text-red-400'   : 'text-red-500'
 
 const fields: Record<string, string[]> = {
-  lead:      ['name', 'phone'],
+  lead:      ['name', 'phone', 'company'],
   subscribe: ['email'],
   demo:      ['name', 'email', 'phone', 'company'],
   research:  ['name', 'email', 'company'],
@@ -140,10 +143,15 @@ const defaultSubmitLabels: Record<string, string> = {
 }
 
 const btnLabel   = submitLabel ?? defaultSubmitLabels[preset] ?? 'Отправить'
-const formFields = fields[preset] ?? ['name', 'email']
+const formFields = fieldsOverride ?? fields[preset] ?? ['name', 'email']
 
-// Ширина блока полей: subscribe — поле email 320px (по запросу) на десктопе; иначе 3/5
-const fieldsWidthCls = preset === 'subscribe' ? 'w-full lg:w-[320px]' : 'w-full lg:w-3/5'
+// Ширина блока полей: subscribe — поле email 320px (по запросу) на десктопе;
+// 3+ поля — группа растёт (flex-1), чтобы влезали в строку; иначе 3/5.
+const fieldsWidthCls = preset === 'subscribe'
+  ? 'w-full lg:w-[320px]'
+  : formFields.length >= 3
+    ? 'w-full lg:flex-1'
+    : 'w-full lg:w-3/5'
 
 const privacyMain = privacyText
   ?? `Нажимая кнопку «${btnLabel}», вы даёте согласие на обработку ваших персональных данных и подтверждаете, что ознакомлены с `
@@ -219,7 +227,7 @@ const privacyMain = privacyText
     <!-- Режим: форма -->
     {mode === 'form' && (
       <form
-        class="mt-8 space-y-3 max-w-full lg:max-w-[800px]"
+        class="mt-8 space-y-3 max-w-full lg:max-w-[800px] formclosing-w"
         data-form-closing
         data-preset={preset}
         data-cms-url={CLIENT_CMS_URL}

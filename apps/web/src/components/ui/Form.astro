@@ -65,7 +65,7 @@ const checkboxBorder = isDark ? 'border-white/20 bg-white/5' : 'border-gray-300/
 const privacyMain = privacyText ?? 'Я даю согласие на обработку персональных данных и ознакомлен с '
 
 const fields: Record<string, string[]> = {
-  lead:     ['name', 'phone'],
+  lead:     ['name', 'phone', 'company'],
   subscribe:['email'],
   demo:     ['name', 'email', 'phone', 'company'],
   research: ['name', 'email', 'company'],
@@ -98,6 +98,10 @@ const isRequired = (field: string): boolean =>
 
 const btnLabel = submitLabel ?? defaultSubmitLabels[preset] ?? 'Отправить'
 const formFields = fieldsOverride ?? fields[preset] ?? ['name', 'email']
+
+// Инлайн-форма с 3+ полями: кнопка уходит на отдельную строку под полями,
+// чтобы поля заняли всю ширину колонки (иначе кнопка съедает ширину и поля узкие).
+const manyInline = layout === 'inline' && formFields.length >= 3
 ---
 
 <form
@@ -106,18 +110,20 @@ const formFields = fieldsOverride ?? fields[preset] ?? ['name', 'email']
   data-cms-url={CLIENT_CMS_URL}
 >
   {layout === 'inline' ? (
-    <div class="flex flex-col sm:flex-row gap-3 items-start">
-      {formFields.map((field) => (
-        <Input
-          id={`field-${preset}-${field}`}
-          type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
-          name={field}
-          required={isRequired(field)}
-          placeholder={fieldLabels[field]}
-          variant={isDark ? 'white' : 'colour'}
-          class="flex-1"
-        />
-      ))}
+    <div class:list={['flex flex-col gap-3', !manyInline && 'sm:flex-row sm:items-start']}>
+      <div class="flex flex-col sm:flex-row gap-3 sm:flex-1">
+        {formFields.map((field) => (
+          <Input
+            id={`field-${preset}-${field}`}
+            type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
+            name={field}
+            required={isRequired(field)}
+            placeholder={fieldLabels[field]}
+            variant={isDark ? 'white' : 'colour'}
+            class="flex-1"
+          />
+        ))}
+      </div>
       <Button
         type="submit"
         size="md"
