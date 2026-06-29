@@ -69,7 +69,7 @@ const fields: Record<string, string[]> = {
   subscribe:['email'],
   demo:     ['name', 'email', 'phone', 'company'],
   research: ['name', 'email', 'company'],
-  author:   ['name', 'phone', 'email', 'topic'],
+  author:   ['name', 'phone', 'email', 'company', 'topic'],
 }
 
 const fieldLabels: Record<string, string> = {
@@ -89,12 +89,12 @@ const defaultSubmitLabels: Record<string, string> = {
 }
 
 // Обязательные поля по пресету. Если пресет не указан — дефолт: name + email.
-// author — все поля обязательны.
+// author — все поля обязательны. company — обязательно везде, где встречается.
 const requiredFields: Record<string, string[]> = {
-  author: ['name', 'phone', 'email', 'topic'],
+  author: ['name', 'phone', 'email', 'company', 'topic'],
 }
 const isRequired = (field: string): boolean =>
-  requiredFields[preset]?.includes(field) ?? (field === 'email' || field === 'name')
+  field === 'company' || (requiredFields[preset]?.includes(field) ?? (field === 'email' || field === 'name'))
 
 const btnLabel = submitLabel ?? defaultSubmitLabels[preset] ?? 'Отправить'
 const formFields = fieldsOverride ?? fields[preset] ?? ['name', 'email']
