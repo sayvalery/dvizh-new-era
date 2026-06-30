@@ -1,96 +1,81 @@
-# Dvizh Site
+# ДВИЖ — сайт dvizh.io
 
-Стек: Astro (статика) + Payload CMS v3 + PostgreSQL + Tailwind.
+Монорепозиторий нового сайта **dvizh.io** (заменяет старую версию на Webflow): статический сайт на Astro + headless-CMS на Payload.
 
-## Быстрый старт
+ДВИЖ — AI-платформа автоматизации продаж и маркетинга для застройщиков.
 
-### Требования
-- Node.js 20+
-- pnpm 9+
-- Docker Desktop / OrbStack
+## Стек
 
-### 1. Установить зависимости
-
-```bash
-pnpm install
-```
-
-### 2. Настроить окружение
-
-```bash
-cp apps/cms/.env.example apps/cms/.env
-cp apps/web/.env.example apps/web/.env
-```
-
-### 3. Поднять базу через Docker
-
-```bash
-docker compose up -d
-```
-
-### 4. Запустить CMS
-
-```bash
-pnpm --filter cms dev
-```
-
-CMS будет доступна на http://localhost:3002/admin
-
-При первом запуске: http://localhost:3002/admin/create-first-user — создать первого пользователя.
-
-### 5. Запустить Astro-сайт
-
-В другом терминале:
-
-```bash
-pnpm --filter web dev
-```
-
-Сайт доступен на http://localhost:4321
+- **Astro 5** — статический генератор сайта (SSG, `output: 'static'`)
+- **Payload CMS v3** (Next.js 15 + PostgreSQL) — headless-CMS для блога, кейсов, словаря и т.д.
+- **Tailwind CSS 3.4** + `@tailwindcss/typography`
+- **Alpine.js 3** — единственный клиентский JS (~15 КБ). React/Vue/Svelte не используются.
+- **TypeScript**, шрифты Styrene A + Inter (локальные), бренд-цвет `#ff4d00`
 
 ## Структура
 
 ```
 apps/
-  web/    -- Astro-сайт (SSG)
-  cms/    -- Payload CMS v3 (Next.js + REST API)
+├── web/   — Astro-сайт (SSG). Компоненты, страницы, lib/payload.ts (клиент CMS)
+└── cms/   — Payload CMS v3 (коллекции, глобалы, payload.config.ts)
+nginx/                  — конфиг nginx (прод)
+docker-compose.prod.yml — прод-сервисы (postgres, cms, nginx, cloudflared)
+scripts/                — сборка/деплой/бэкапы/мониторинг
+docs/superpowers/specs/ — дизайн-документы (spec) по фичам
+CLAUDE.md               — подробные конвенции и архитектура (главный источник правды для разработки)
 ```
 
-## Порты (локально)
-- PostgreSQL: 5432
-- Payload CMS: 3002
-- Astro dev: 4321
+## Требования
 
-> Порты 3000 и 3001 зарезервированы OrbStack.
+- Node.js 20+
+- pnpm 9+
+- Docker (OrbStack / Docker Desktop) — для PostgreSQL и CMS
 
-## Страницы в коде (не CMS)
+## Быстрый старт
 
-Главная, о нас, контакты, продукты (7), решения (3), for-whom (4) — в `apps/web/src/pages/`.
-Редактируются через код напрямую.
+```bash
+pnpm install
 
-## Страницы в CMS
+# окружение (заполнить значения)
+cp apps/web/.env.example apps/web/.env
+cp apps/cms/.env.example apps/cms/.env
 
-Блог, видео, кейсы, исследования, категории — через Payload CMS.
-Навигация и футер — через Payload Globals.
+# поднять PostgreSQL + CMS
+docker compose up -d
 
-## Публикация контента
+# дев-серверы (в разных терминалах)
+pnpm dev        # Astro-сайт → http://localhost:4321
+pnpm dev:cms    # Payload CMS → http://localhost:3002/admin
+```
 
-1. Открыть http://localhost:3002/admin
-2. Создать запись → нажать Publish
-3. Пересобрать Astro: `pnpm --filter web build`
+Первый запуск CMS: `http://localhost:3002/admin/create-first-user`. Порты 3000/3001 заняты OrbStack.
 
-## Коллекции CMS
+## Команды
 
-- **BlogPosts** — статьи блога
-- **Videos** — вебинары, конференции, подкасты
-- **Research** — исследования (с PDF)
-- **Cases** — кейсы клиентов
-- **Categories** — категории блога
-- **Media** — медиафайлы
-- **Users** — пользователи CMS
-- **FormSubmissions** — сабмиты форм
+| Команда | Назначение |
+|---------|-----------|
+| `pnpm dev` | дев-сервер сайта (Astro) |
+| `pnpm dev:cms` | дев-сервер CMS (Payload) |
+| `pnpm build` | сборка статики сайта |
+| `pnpm build:prod` | прод-сборка + деплой (`scripts/build-site.sh`) |
+| `pnpm start:prod` / `pnpm stop:prod` | поднять/остановить прод-сервисы (docker compose) |
 
-## Globals
+## Контент и сборка
 
-- **Navigation** — навигационное меню
-- **Footer** — футер
+Контент тянется из CMS **на этапе сборки**. Сайт статический — новый контент и страницы появляются на проде только после пересборки. Часть страниц (главная, продуктовые, о нас и т.д.) живёт в коде `apps/web/src/pages/`; блог, кейсы, исследования, видео, словарь — в CMS. Навигация и футер **захардкожены** в компонентах (не из CMS).
+
+## Деплой
+
+Прод-сайт — статика: собирается и заливается на сервер через `scripts/build-site.sh` (rsync + переключение симлинка + reload nginx). CMS работает в Docker. Детали инфраструктуры, доменов и модели веток — в `CLAUDE.md`.
+
+## Документация
+
+- **`CLAUDE.md`** — архитектура, конвенции, ограничения (запрещённые зависимости, токены дизайн-системы, работа с медиа, модель веток, подводные камни). Читать перед разработкой.
+- **`docs/superpowers/specs/`** — дизайн-документы по конкретным фичам.
+
+## Ограничения (кратко, полностью — в `CLAUDE.md`)
+
+- Только `.astro`-компоненты; никаких React/Vue/Svelte и UI-библиотек на фронте.
+- Стили — Tailwind-классы; цвета — токены (`text-brand`), не хардкод hex.
+- Интерактивность — Alpine.js; тяжёлый клиентский JS не добавляется.
+- Перед добавлением любой npm-зависимости — согласование.

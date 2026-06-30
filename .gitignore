@@ -10,6 +10,13 @@ dist/
 .env.gitlab
 .DS_Store
 
+# Claude Code — локальные настройки и временные worktree-копии
+.claude/settings.local.json
+.claude/worktrees/
+
+# Скриншоты в корне (рабочий мусор, не в репозиторий)
+Screenshot*.png
+
 # Astro
 apps/web/.astro/
 apps/web/dist/
