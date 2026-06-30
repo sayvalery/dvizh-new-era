@@ -64,6 +64,10 @@ export const BlogPosts: CollectionConfig = {
       name: 'bodyHtml',
       type: 'textarea',
       label: 'Тело статьи (HTML)',
+      // Снимаем дефолтный лимит Payload textarea (40000): мигрированные из Webflow
+      // лонгриды бывают длиннее (напр. plan-na-2026... — 51804 симв.). Колонка в БД —
+      // varchar без ограничения, так что это чисто потолок валидации.
+      maxLength: 200000,
       admin: {
         description: 'HTML-контент, мигрированный из Webflow. Если заполнено — используется вместо блоков.',
         rows: 15,
