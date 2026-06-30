@@ -362,7 +362,7 @@ Sitemap: https://dvizh.io/sitemap-index.xml
 **Проблема:** `build-smoke.sh` запускается только вручную. Нет CI/CD пайплайна.
 
 **Решение:**
-- GitHub Actions workflow: при push в main -- `pnpm build` + `build-smoke.sh`
+- GitHub Actions workflow: при push в master -- `pnpm build` + `build-smoke.sh`
 - Нужен доступ к CMS при билде -- два варианта:
   1. Мокать CMS-ответы (из `.cache/`) для CI
   2. Поднимать CMS в Docker в CI (дольше, но достовернее)

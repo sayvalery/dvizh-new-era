@@ -28,7 +28,7 @@ Commit `b3d21f2` created but not pushed (GitHub auth needed).
 To push:
 ```bash
 gh auth login
-git push origin main
+git push origin master
 ```
 
 ## Quick tunnel note
