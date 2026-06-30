@@ -358,8 +358,8 @@ log "Remote cleanup: keeping last $KEEP_DEPLOYS deploys"
 
 # Also reload local nginx if running (for dvizh.cc local access)
 if docker compose -f docker-compose.prod.yml ps --status running nginx 2>/dev/null | grep -q nginx; then
-  docker compose -f docker-compose.prod.yml exec nginx nginx -s reload 2>/dev/null || true
-  log "Local nginx reloaded"
+  docker compose -f docker-compose.prod.yml restart nginx 2>/dev/null || true
+  log "Local nginx restarted (RESTART, не reload: astro build пересоздаёт dist → reload не перемонтирует → prod.dvizh.cc 404)"
 fi
 
 # Эталон двигаем ТОЛЬКО здесь — после того как деплой реально доехал
