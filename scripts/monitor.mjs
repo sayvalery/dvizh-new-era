@@ -101,22 +101,29 @@ function checkBackup() {
     if (!existsSync(BACKUP_DIR)) {
       return { ok: false, backupAt: '', note: `нет директории ${BACKUP_DIR}` }
     }
-    const files = readdirSync(BACKUP_DIR)
-      .map((f) => join(BACKUP_DIR, f))
-      .filter((p) => {
-        try {
-          return statSync(p).isFile()
-        } catch {
-          return false
+    // Бэкапы лежат как auto/<timestamp>/dvizh-db.dump (подкаталоги).
+    // Поддерживаем и старый плоский формат (.dump прямо в каталоге) на всякий случай.
+    const candidates = []
+    for (const entry of readdirSync(BACKUP_DIR)) {
+      const p = join(BACKUP_DIR, entry)
+      try {
+        const st = statSync(p)
+        if (st.isDirectory()) {
+          const dump = join(p, 'dvizh-db.dump')
+          if (existsSync(dump)) candidates.push({ p: dump, mtime: statSync(dump).mtimeMs })
+        } else if (st.isFile() && entry.endsWith('.dump')) {
+          candidates.push({ p, mtime: st.mtimeMs })
         }
-      })
-      .map((p) => ({ p, mtime: statSync(p).mtimeMs }))
-      .sort((a, b) => b.mtime - a.mtime)
+      } catch {
+        // нечитаемую запись пропускаем
+      }
+    }
+    candidates.sort((a, b) => b.mtime - a.mtime)
 
-    if (files.length === 0) {
+    if (candidates.length === 0) {
       return { ok: false, backupAt: '', note: 'нет файлов бэкапа' }
     }
-    const newest = files[0]
+    const newest = candidates[0]
     const ageH = (Date.now() - newest.mtime) / 3_600_000
     const backupAt = new Date(newest.mtime).toISOString()
     return {
