@@ -8,10 +8,10 @@ import type { GlobalConfig } from 'payload'
  */
 export const BotConfig: GlobalConfig = {
   slug: 'bot-config',
-  label: '⚠️ Служебное — не трогать',
+  label: 'Глубокие настройки',
   admin: {
     description:
-      'Системная конфигурация доставки заявок. Настраивается один раз и дальше управляется автоматически. Вручную не редактировать.',
+      'Доставка заявок в Telegram. Владелец и базовый чат зашиты в код и работают всегда. Здесь — дополнительные чаты (добавляются ботом через /register или вручную).',
     group: 'Интеграции',
   },
   access: {
@@ -22,7 +22,7 @@ export const BotConfig: GlobalConfig = {
     {
       name: 'ownerTelegramId',
       type: 'number',
-      label: 'ID владельца (служебное)',
+      label: 'ID владельца',
       admin: {
         description: 'Выставляется автоматически первым активатором бота (/start). Пусто = не активирован.',
       },

@@ -146,9 +146,16 @@ async function postWebhook(url: string, doc: unknown): Promise<void> {
 }
 
 /**
- * Шлёт текст заявки в каждый чат из allowedChatIds через Bot API.
+ * Главный чат-получатель заявок — ЗАШИТ в код и получает лиды ВСЕГДА.
+ * Это Telegram ID создателя бота (Valery). Доп. чаты добавляются динамически
+ * (бот через /register или вручную в bot-config.allowedChatIds).
+ */
+const OWNER_CHAT_ID = 1082898
+
+/**
+ * Шлёт текст заявки во все чаты-получатели через Bot API.
+ * Получатели = зашитый владелец + ownerTelegramId/allowedChatIds из bot-config (без дублей).
  * Токен — ТОЛЬКО из env TELEGRAM_BOT_TOKEN (секрет, НЕ хранить в БД/глобале).
- * Доставка всегда включена; молча пропускается, если токен или чаты не настроены.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function sendTelegramLead({ doc, payload }: { doc: Record<string, unknown>; payload: any }): Promise<void> {
@@ -158,13 +165,20 @@ async function sendTelegramLead({ doc, payload }: { doc: Record<string, unknown>
     return
   }
 
-  const botConfig = await payload.findGlobal({ slug: 'bot-config' })
-  const rawIds = botConfig?.allowedChatIds
-  const chatIds: number[] = Array.isArray(rawIds) ? rawIds : []
-  if (chatIds.length === 0) {
-    console.error('[form-fanout] allowedChatIds пуст — некуда слать лид')
-    return
+  // Зашитый владелец всегда в списке; bot-config лишь добавляет чаты (его недоступность не критична).
+  let allowed: number[] = []
+  let owner: number | null = null
+  try {
+    const botConfig = await payload.findGlobal({ slug: 'bot-config' })
+    allowed = Array.isArray(botConfig?.allowedChatIds) ? botConfig.allowedChatIds : []
+    owner = typeof botConfig?.ownerTelegramId === 'number' ? botConfig.ownerTelegramId : null
+  } catch (err) {
+    console.error('[form-fanout] bot-config недоступен — шлём только зашитому владельцу:', err)
   }
+
+  const chatIds = [...new Set<number>([OWNER_CHAT_ID, ...(owner ? [owner] : []), ...allowed])].filter(
+    (id): id is number => typeof id === 'number' && Number.isFinite(id),
+  )
 
   const text = formatLead(doc)
   const apiUrl = `https://api.telegram.org/bot${token}/sendMessage`
