@@ -52,7 +52,7 @@ export default buildConfig({
       graphics: {
         Icon: '/src/graphics/Icon',
       },
-      afterNavLinks: ['/src/components/DeployButton', '/src/components/StatusLink'],
+      afterNavLinks: ['/src/components/StatusLink', '/src/components/DeployButton'],
       views: {
         status: {
           Component: '/src/components/StatusView',
@@ -76,6 +76,7 @@ export default buildConfig({
   collections: [
     // Контент
     BlogPosts,
+    Glossaries,
     Categories,
     Tags,
     Persons,
@@ -83,7 +84,6 @@ export default buildConfig({
     Videos,
     Research,
     Cases,
-    Glossaries,
     Events,
     Media,
     // Система

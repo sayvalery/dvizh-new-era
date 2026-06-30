@@ -94,7 +94,6 @@ async function fanOut({ doc, preset, payload }: FanOutArgs): Promise<void> {
   // Конфиг интеграций (Тип A)
   let config: {
     albatoWebhookUrl?: string | null
-    telegramLeadEnabled?: boolean | null
     rules?: Array<{ preset?: string; webhookUrl?: string | null; enabled?: boolean | null }> | null
   } = {}
   try {
@@ -104,13 +103,12 @@ async function fanOut({ doc, preset, payload }: FanOutArgs): Promise<void> {
     return
   }
 
-  // (1) Telegram-лид в allowedChatIds через TELEGRAM_BOT_TOKEN
-  if (config?.telegramLeadEnabled) {
-    try {
-      await sendTelegramLead({ doc, payload })
-    } catch (err) {
-      console.error('[form-fanout] Telegram лид — ошибка:', err)
-    }
+  // (1) Telegram-лид — ВСЕГДА включён (без тумблера): шлёт в allowedChatIds бота через TELEGRAM_BOT_TOKEN.
+  // Молча пропускается, если токен/чаты не настроены (см. sendTelegramLead) — приём заявки не страдает.
+  try {
+    await sendTelegramLead({ doc, payload })
+  } catch (err) {
+    console.error('[form-fanout] Telegram лид — ошибка:', err)
   }
 
   // (2) Глобальный Albato-вебхук — все формы
@@ -149,7 +147,8 @@ async function postWebhook(url: string, doc: unknown): Promise<void> {
 
 /**
  * Шлёт текст заявки в каждый чат из allowedChatIds через Bot API.
- * Токен — ТОЛЬКО из env TELEGRAM_BOT_TOKEN (секрет, не хардкодить).
+ * Токен — ТОЛЬКО из env TELEGRAM_BOT_TOKEN (секрет, НЕ хранить в БД/глобале).
+ * Доставка всегда включена; молча пропускается, если токен или чаты не настроены.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function sendTelegramLead({ doc, payload }: { doc: Record<string, unknown>; payload: any }): Promise<void> {
@@ -188,6 +187,7 @@ const PRESET_LABELS: Record<string, string> = {
   subscribe: 'Подписка',
   demo: 'Демо',
   research: 'Исследование',
+  author: 'Автор',
 }
 
 function esc(v: unknown): string {
@@ -201,6 +201,7 @@ function formatLead(doc: Record<string, unknown>): string {
   if (doc?.email) lines.push(`Email: ${esc(doc.email)}`)
   if (doc?.phone) lines.push(`Телефон: ${esc(doc.phone)}`)
   if (doc?.company) lines.push(`Компания: ${esc(doc.company)}`)
+  if (doc?.topic) lines.push(`Тема: ${esc(doc.topic)}`)
   if (doc?.page) lines.push(`Страница: ${esc(doc.page)}`)
   return lines.join('\n')
 }

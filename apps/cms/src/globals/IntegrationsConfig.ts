@@ -4,7 +4,7 @@ import type { GlobalConfig } from 'payload'
  * Интеграции заявок (Тип A) — маршрутизация лидов в реальном времени.
  *
  * Конфиг для afterChange-хука FormSubmissions: общий Albato-вебхук (берёт на себя
- * ретраи/роутинг), глобальный тумблер Telegram-лидов и доп. вебхуки по пресету.
+ * ретраи/роутинг) и доп. вебхуки по пресету.
  * Редактирует маркетинг.
  */
 export const IntegrationsConfig: GlobalConfig = {
@@ -12,7 +12,7 @@ export const IntegrationsConfig: GlobalConfig = {
   label: 'Интеграции заявок',
   admin: {
     description:
-      'Куда улетают заявки после сохранения. Все формы → Albato; плюс Telegram-лиды и доп. вебхуки по типу формы.',
+      'Куда улетают заявки после сохранения. Все формы → Albato; плюс доп. вебхуки по типу формы.',
     group: 'Интеграции',
   },
   access: {
@@ -23,19 +23,10 @@ export const IntegrationsConfig: GlobalConfig = {
     {
       name: 'albatoWebhookUrl',
       type: 'text',
-      label: 'Albato Webhook URL',
+      label: 'Главный хук Albato',
       admin: {
         description:
           'Все заявки POST-ятся сюда. Albato берёт на себя ретраи и роутинг к нижестоящим сервисам. Пусто = не отправлять.',
-      },
-    },
-    {
-      name: 'telegramLeadEnabled',
-      type: 'checkbox',
-      label: 'Слать лиды в Telegram',
-      defaultValue: false,
-      admin: {
-        description: 'Если включено — каждая заявка уходит в авторизованные чаты бота.',
       },
     },
     {

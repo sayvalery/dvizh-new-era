@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const Glossaries: CollectionConfig = {
   slug: 'glossaries',
-  labels: { singular: 'Термин', plural: 'Глоссарий' },
+  labels: { singular: 'Термин', plural: 'Словарь девелопера' },
   access: {
     read: () => true,
   },
