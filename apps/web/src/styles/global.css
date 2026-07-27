@@ -230,7 +230,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: clamp(28px, 3.38vw + 15.33px, 64px);
     font-weight: 700;
     line-height: 100%;
-    letter-spacing: -1px;
+    letter-spacing: -0.03em;
   }
 
   .text-h1-italic {
@@ -239,12 +239,12 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     font-style: italic;
     line-height: 100%;
-    letter-spacing: -1px;
+    letter-spacing: -0.03em;
   }
 
   /* На маленьких экранах фиксируем min чтобы не было слишком мелко */
   @media (max-width: 639px) {
-    .text-h1, .text-h1-italic { font-size: 28px; }
+    .text-h1, .text-h1-italic { font-size: 34px; }
   }
 
   .text-h2 {
@@ -253,7 +253,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: clamp(30px, 1.69vw + 23.66px, 48px);
     font-weight: 500;
     line-height: 100%;
-    letter-spacing: -2px;
+    letter-spacing: -0.025em;
   }
 
   @media (max-width: 639px) {
@@ -266,7 +266,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: clamp(24px, 0.75vw + 21.19px, 32px);
     font-weight: 500;
     line-height: 100%;
-    letter-spacing: -1px;
+    letter-spacing: -0.02em;
   }
 
   @media (max-width: 639px) {
@@ -280,7 +280,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: clamp(24px, 2.25vw + 15.56px, 48px);
     font-weight: 500;
     line-height: 100%;
-    letter-spacing: clamp(-1px, -0.094vw + -0.65px, -2px);
+    letter-spacing: -0.02em;
   }
 
   @media (max-width: 639px) {
@@ -302,7 +302,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: clamp(18px, 0.56vw + 15.9px, 24px);
     font-weight: 500;
     line-height: 120%;
-    letter-spacing: -1px;
+    letter-spacing: -0.015em;
   }
 
   .text-h5 {
@@ -311,7 +311,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: clamp(16px, 0.19vw + 15.3px, 18px);
     font-weight: 700;
     line-height: 120%;
-    letter-spacing: -1px;
+    letter-spacing: -0.01em;
   }
 
   .text-h6 {
@@ -320,7 +320,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: clamp(14px, 0.19vw + 13.3px, 16px);
     font-weight: 700;
     line-height: 120%;
-    letter-spacing: -1px;
+    letter-spacing: -0.01em;
   }
 
   /* Тело текста — Inter */
@@ -435,7 +435,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* 1. Типографика (без мобильных фиксов — непрерывный флюид) */
 .fluid-page .text-h1,
-.fluid-page .text-h1-italic { font-size: clamp(28px, 1rem + 3.75vw, 68px); } /* потолок 68 (капается ~с 1386px); на 1280px = 64 (ДС-десктоп) */
+.fluid-page .text-h1-italic { font-size: clamp(34px, 1rem + 3.75vw, 68px); } /* потолок 68 (капается ~с 1386px); на 1280px = 64 (ДС-десктоп) */
 .fluid-page .text-h2 { font-size: clamp(30px, 1rem + 2.5vw, 64px); }
 .fluid-page .text-h3 { font-size: clamp(24px, 0.75rem + 1.56vw, 42px); }
 .fluid-page .text-product-card-h { font-size: clamp(24px, 1rem + 2.5vw, 64px); }
