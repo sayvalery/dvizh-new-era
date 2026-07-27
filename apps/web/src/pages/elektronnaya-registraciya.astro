@@ -1,27 +1,25 @@
-﻿---
+---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import PixelArrowPattern from '../components/ui/PixelArrowPattern.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
-import ComparisonSection from '../components/ui/ComparisonSection.astro'
-import CTABanner from '../components/ui/CTABanner.astro'
-import ReviewFull from '../components/ui/ReviewFull.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
+import FeatureBlock from '../components/ui/FeatureBlock.astro'
 ---
 
 <SiteLayout
   title="Электронная регистрация сделок"
   bodyClass="fluid-page"
-  description="Сократите затраты на регистрацию на 30%. Электронная регистрация сделок с недвижимостью."
+  description="Сократите затраты на регистрацию на 30%. Электронная регистрация сделок с недвижимостью."
   jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Электронная регистрация', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
 >
 
-  {/* ── 1. Hero Section + Logos в одном экране ── */}
+  {/* ── 1. Hero Section + Logos ── */}
   <HeroSectionFull
-    title="Регистрируйте все виды сделок с выгодой до 30%"
-    description="Заводите сделки на регистрацию за 5 минут — все данные по подписантам подтянутся из CRM или ипотечного модуля"
-    demoLabel="Записаться на демо"
+    title="Регистрируйте сделки быстрее: без ручного ввода данных и приостановок"
+    description="Заводите сделки на регистрацию за 5 минут — все данные по подписантам подтянутся из CRM или ипотечного модуля. А эксперты поддержки помогут довести до финала сделки любой сложности"
+    demoLabel="Записаться на демо"
     kpLabel="Попробовать бесплатно"
     mobileBg="https://admin.dvizh.cc/api/media/file/rega1-hero-mobile.webp"
   >
@@ -50,7 +48,7 @@ import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
     />
   </HeroSectionFull>
 
-  {/* Reveal-анимация hero-картинки: невидима → плавно выплывает снизу → передаёт управление float */}
+  {/* Reveal-анимация hero-картинки */}
   <script>
     const img = document.getElementById('hero-img') as HTMLImageElement | null
     if (img) {
@@ -72,98 +70,100 @@ import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
     }
   </script>
 
-  {/* gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок (флюид) */}
+  {/* gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок */}
   <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
-  {/* ── 2. ProductBentoBlock — 5 карточек ── */}
+  {/* ── 2. FeatureBlock 1 — Легкий старт (картинка справа) + отзыв GloraX ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    image="/api/media/file/e-reg_bento_batch-registrations.webp"
+    imageAlt="Легкий старт и масштабирование"
+    heading="Легкий старт и масштабирование"
+    features={[
+      { title: 'Заведение сделки в систему — до 5 минут' },
+      { title: 'Подключение новых объектов и регионов — до 15 минут' },
+    ]}
+    review={{
+      quote: 'Раньше мы могли провозиться с регистрацией дома неделю, потому что каждое заявление создавалось вручную. Теперь любое количество объектов мы можем отправить на регистрацию за считанные минуты.',
+      author: 'Марина Белоусова',
+      role: 'Руководитель отдела регистрации GloraX',
+      company: { logo: '/api/media/file/glorax_color.svg', alt: 'GloraX' },
+      caseLink: { label: 'Читать кейс', href: '/cases/glorax' },
+    }}
+  />
+
+  {/* ── 3. FeatureBlock 2 — Бесшовный цикл (картинка слева, шахматный порядок) ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    imageSide="left"
+    image="/api/media/file/e-reg_bento_prepaid-account.webp"
+    imageAlt="Бесшовный цикл сделки от ипотеки до регистрации"
+    heading="Бесшовный цикл сделки от ипотеки до регистрации"
+    features={[
+      { title: 'Данные из ипотечного профиля или CRM автоматически подставляются в анкету' },
+      { title: 'Меньше рутины для менеджеров' },
+      { title: 'Меньше ошибок из-за ручного ввода данных' },
+    ]}
+  />
+
+  {/* ── 4. FeatureBlock 3 — Гибкие опции оплаты (картинка справа) + отзыв GloraX ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    image="/api/media/file/e-reg_bento_e-signature.webp"
+    imageAlt="Гибкие опции оплаты"
+    heading="Гибкие опции оплаты и минимум на 30% дешевле других платформ"
+    features={[
+      { title: 'Стоимость ниже за счет комплексного предложения' },
+      { title: 'Отложенный платеж: если на авансовом счете закончились деньги, регистрация не останавливается' },
+      { title: 'Настройка оплаты госпошлины под каждую сделку — платит или застройщик, или клиент' },
+    ]}
+    review={{
+      quote: 'За счет комплексного предложения (ипотека + регистрация) ДВИЖ выходит на 30% дешевле других рыночных платформ',
+      author: 'Марина Белоусова',
+      role: 'Руководитель отдела регистрации GloraX',
+      company: { logo: '/api/media/file/glorax_color.svg', alt: 'GloraX' },
+      caseLink: { label: 'Читать кейс', href: '/cases/glorax' },
+    }}
+  />
+
+  {/* ── 5. ProductBentoBlock — 3 карточки (4 и 5 убраны) ── */}
   <ProductBentoBlock
     class="!py-0"
     showEyebrow={false}
-    headingDark="Лучшие девелоперы регистрируют"
-    headingBrand="сделки через ДВИЖ"
+    headingDark="Делаем все, чтобы довести до финала"
+    headingBrand="100% сделок"
     cards={[
       {
-        title: 'Сложные сделки',
-        description: 'Регистрация более 10 видов сделок: ДДУ, ДКП, ДС, сделки с детьми и иностранцами и другие',
-        backgroundImage: '/api/media/file/e-reg_bento_deal-types.webp',
-        backgroundImageMobile: '/api/media/file/e-reg_bento_deal-types-mobile.webp',
-        imagePositionLg: 'top',
-      },
-      {
-        title: 'Пакетные регистрации',
-        description: 'Проводите массовую загрузку и подписание документов в несколько кликов',
-        backgroundImage: '/api/media/file/e-reg_bento_batch-registrations.webp',
-        backgroundImageMobile: '/api/media/file/e-reg_bento_batch-registrations-mobile.webp',
-        imagePositionLg: 'top',
-        variant: 'dark',
-      },
-      {
-        title: 'Бесшовный цикл сделки',
-        description: 'Подгружайте данные по клиенту из ипотечного модуля или вашей CRM',
-        backgroundImage: "/api/media/file/e-reg_bento_prepaid-account.webp",
-        backgroundImageMobile: "/api/media/file/e-reg_bento_prepaid-account-mobile.webp",
-        mobileImageUntilLg: true,
-      },
-      {
-        title: 'Выпуск ЭЦП за 5 минут',
-        description: 'Поддерживаем все технологии: токен, Sign.Me, Госключ',
-        backgroundImage: "/api/media/file/e-reg_bento_e-signature.webp",
-        backgroundImageMobile: "/api/media/file/e-reg_bento_e-signature-mobile.webp",
+        title: 'Экспертная поддержка, а не просто техподдержка',
+        description: 'Служба поддержки — бывшие регистраторы застройщиков. Помогают правильно оформить сделки любой сложности',
         variant: 'brand',
+        backgroundImage: '/api/media/file/e-reg_bento_deal-types.webp',
+        imagePositionLg: 'top',
       },
       {
-        title: 'Всегда рядом с вами',
-        description: 'Поможем зарегистрировать сложные сделки: с иностранными гражданами или военной ипотекой',
-        backgroundImage: "/api/media/file/e-reg_bento_expert-profile.webp",
-        backgroundImageMobile: "/api/media/file/e-reg_bento_expert-profile-mobile.webp",
+        title: 'Обмен данными с CRM — потерять сделку невозможно',
+        description: 'Статус в карточке сделки автоматически обновляется на каждом этапе регистрации',
+        backgroundImage: '/api/media/file/e-reg_bento_expert-profile.webp',
+        imagePositionLg: 'top',
+      },
+      {
+        title: 'Встроенная аналитика',
+        description: 'Метрики по каждой сделке и сотруднику всегда под рукой',
+        variant: 'dark',
+        backgroundImage: '/api/media/file/e-reg_bento_prepaid-account.webp',
       },
     ]}
   />
 
-  {/* ── 3. ComparisonSection variant='prices' + CTABanner внутри ── */}
-  <ComparisonSection
-    class="!py-0"
-    variant="prices"
-    label="Стоимость"
-    title="Быстрее и выгоднее на каждом этапе"
-    leftTitle="Без ДВИЖа"
-    rightLogoSrc={`${import.meta.env.PUBLIC_CMS_URL}/api/media/file/dvizh_comp.svg`}
-    priceRows={[
-      { label: 'Регистрация', leftValue: 'от 1 700 ₽', rightValue: '1 000 ₽' },
-      { label: 'Госпошлина', leftValue: '7%', rightValue: '200 ₽' },
-    ]}
-  >
-    <CTABanner
-      slot="cta"
-      title="Узнайте, сколько вы можете сэкономить"
-      buttonText="Получить расчет"
-      drawerPreset="lead"
-    />
-  </ComparisonSection>
-
-  {/* ── 5. ReviewFull ── */}
-  <section class="!py-0">
-    <div class="page-container">
-      <ReviewFull
-        photo={{ src: '/api/media/file/belousova.webp', alt: 'Марина Белоусова' }}
-        quote="Раньше мы могли провозиться с регистрацией дома неделю, потому что каждое заявление создавалось вручную. Теперь любое количество объектов мы можем отправить на регистрацию за считанные минуты. К тому же, за счет комплексного предложения (ипотека+регистрация) ДВИЖ выходит на 30% дешевле других рыночных платформ."
-        author="Марина Белоусова"
-        company={{ logo: '/api/media/file/glorax_color.svg', alt: 'Glorax' }}
-        role="Руководитель отдела регистрации"
-      />
-    </div>
-  </section>
-
   {/* ── 6. FormClosing ── */}
   <FormClosing
     preset="lead"
-    title="Попробуйте ДВИЖ в деле"
-    items={[
-      'Менеджер ответит на любые вопросы',
-      'Среднее время ответа техподдержки — 57 сек',
-      'Помогаем увеличивать продажи',
-    ]}
-    submitLabel="Получить демо"
+    title="Защитите сделки от ошибок и форс-мажоров"
+    description="Оставьте заявку, чтобы заводить сделки на регистрацию за 5 минут — без ошибок и приостановок"
+    submitLabel="Попробовать бесплатно"
     class="!py-0"
   />
 
