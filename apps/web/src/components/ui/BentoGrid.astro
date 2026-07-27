@@ -7,6 +7,23 @@
  * учитывай читаемость при подборе картинки.
  * Позиция фокуса управляется через `imagePosition` (CSS object-position, default: 'center').
  *
+ * ## Вариант 'two'
+ * Две равные карточки 50/50. На десктопе (lg+) — вертикальные (portrait), рядом.
+ * До lg — стек друг под другом. Текст всегда снизу-слева: заголовок (h3) + подзаголовок.
+ * Картинки под этот вариант — вертикальные (portrait crop).
+ *
+ * @example variant='two'
+ * ```astro
+ * <BentoGrid
+ *   variant="two"
+ *   heading="Делаем всё для ваших крутых результатов"
+ *   items={[
+ *     { title: "Готовые интеграции", description: "С популярными системами", backgroundImage: "/img/crm.png" },
+ *     { title: "Быстрая поддержка", description: "Среднее время ответа — 57 секунд", backgroundImage: "/img/chat.png" }
+ *   ]}
+ * />
+ * ```
+ *
  * ## Вариант 'three' (по умолчанию)
  * xs–lg включительно: три карточки вертикальным стеком, текст всегда снизу-слева.
  * xl+: bento — слева стек из двух, справа большая. Позиции текста: card1 — верх-лево,
@@ -69,14 +86,15 @@ interface BentoItem {
 }
 
 interface Props {
-  /** Вариант раскладки: 'three' — 3 карточки (по умолчанию), 'four' — 4 карточки в 2 строках */
-  variant?: 'three' | 'four'
+  /** Вариант раскладки: 'two' — 2 карточки 50/50 (вертикальные), 'three' — 3 карточки (по умолчанию), 'four' — 4 карточки в 2 строках */
+  variant?: 'two' | 'three' | 'four'
   /** Заголовок секции над сеткой */
   heading?: string
   /** Описание под заголовком (опционально) */
   description?: string
   /**
    * Карточки сетки.
+   * variant='two':   [0] левая, [1] правая — две равные вертикальные карточки.
    * variant='three': [0] верх-лево, [1] низ-лево, [2] большая справа.
    * variant='four':  [0] строка1-широкая, [1] строка1-узкая, [2] строка2-узкая, [3] строка2-широкая.
    */
@@ -92,6 +110,7 @@ const card2 = items[1] ?? { title: '' }
 const card3 = items[2] ?? { title: '' }
 const card4 = items[3] ?? { title: '' }
 
+const isTwo = variant === 'two'
 const isThree = variant === 'three'
 const isFour = variant === 'four'
 
@@ -113,6 +132,44 @@ const imgStyle = (c: BentoItem) => {
       {description && (
         <p class="text-body-lg text-gray-600 max-w-3xl">{description}</p>
       )}
+    </div>
+  )}
+
+  <!--
+    ═══ VARIANT TWO ═══
+    Две равные карточки 50/50. lg+: вертикальные (portrait) рядом; до lg — стек.
+    Текст снизу-слева: заголовок (h3) + подзаголовок (description).
+    Картинки — вертикальные, растягиваются на всю площадь карточки.
+  -->
+  {isTwo && (
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      {[card1, card2].map((card) => (
+        <div class="relative h-[500px] sm:h-[620px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-[720px] min-[1920px]:h-[900px]">
+          {card.backgroundImage && (
+            <picture>
+              {card.backgroundImageMobile && (
+                <source media="(max-width: 639px)" srcset={card.backgroundImageMobile} />
+              )}
+              {card.backgroundImageTablet && (
+                <source media="(min-width: 640px) and (max-width: 1023px)" srcset={card.backgroundImageTablet} />
+              )}
+              <img
+                src={card.backgroundImage}
+                alt=""
+                class="absolute inset-0 w-full h-full object-cover bento-obj"
+                style={imgStyle(card)}
+                loading="lazy"
+              />
+            </picture>
+          )}
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-2xl">
+            <h3 class="text-h3 text-gray-900">{card.title}</h3>
+            {card.description && (
+              <p class="text-body-lg text-black/40">{card.description}</p>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   )}
 

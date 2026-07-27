@@ -17,8 +17,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
 
   {/* ── 1. Hero Section + Logos в одном экране ── */}
   <HeroSectionFull
-    title="Закрывайте до 26% больше сделок на том же трафике"
-    description="Ипотечная платформа для современных девелоперов. Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
+    title="Закрывайте до 26% больше ипотечных сделок на том же трафике"
+    description="Ипотечная платформа, превращающая заявки в сделки. Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
     demoLabel="Получить демо"
     kpLabel="Получить КП"
     mobileBg="https://admin.dvizh.cc/api/media/file/ipoteka1-hero-mobile.webp"
@@ -79,18 +79,18 @@ import FormClosing from '../components/ui/FormClosing.astro'
     class="!py-0"
     image="/api/media/file/mortgage_bento_ai-prognosis.webp"
     imageAlt="Ипотечный калькулятор"
-    heading="Повышаем конверсию из первичной консультации в 2 раза"
+    heading="Повышаем конверсию из первичной консультации в заявку в 2 раза"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
     features={[
+      { title: 'Подбор самых выгодных ипотечных программ под каждого клиента из 10 000 вариантов' },
+      { title: '100% охват банков-партнеров с максимальным одобрением' },
       { title: 'Расчет досрочных погашений и рефинансирования' },
-      { title: '40+ банков партнеров' },
-      { title: 'Большой выбор ипотечных программ' },
     ]}
     review={{
-      quote: 'В ДВИЖе мы можем оперативно добавлять новые банки Краснодарского края и сразу же отправлять в них заявки',
-      author: 'Гульсина Шакова',
-      role: 'Начальник отдела ипотечного кредитования',
-      company: { logo: '/api/media/file/tochno_color.svg', alt: 'Точно' },
+      quote: 'Без единой анкеты ДВИЖа консультирование усложнилось, так как приходилось заходить на сайты, личные кабинеты каждого банка и смотреть ставки, размеры ежемесячных платежей',
+      author: 'Елена Самсонова',
+      role: 'Ипотечный брокер АН «АТОМ»',
+      company: { logo: '/api/media/file/tochno_color.svg', alt: 'Логотип' },
     }}
   />
 
@@ -101,12 +101,11 @@ import FormClosing from '../components/ui/FormClosing.astro'
     imageSide="left"
     image="/api/media/file/mortgage_bento_unified-form.webp"
     imageAlt="Анкета клиента"
-    heading="Сокращаем время на заполнение анкеты до 10 секунд"
+    heading="Сводим на нет ошибки в анкетах — до 25% меньше заявок на доработке"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
     features={[
       { title: 'Распознавание документов от паспорта до 2-НДФЛ' },
-      { title: 'Заполнение через Госуслуги' },
-      { title: 'Одна анкета в 40+ банков' },
+      { title: 'Единая анкета в банки-лидеры по одобрению' },
     ]}
     review={{
       quote: 'С появлением ДВИЖа мы ускорили подачу заявок с часа до 5 минут и минимизировали ошибки в заполнении анкет',
@@ -122,11 +121,12 @@ import FormClosing from '../components/ui/FormClosing.astro'
     class="!py-0"
     image="/api/media/file/mortgage_bento_score.webp"
     imageAlt="Ипотечный калькулятор"
-    heading="Проверяем ваших клиентов по банковским стандартам"
+    heading="Повышаем одобрение на 14% с помощью прескоринга"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
     features={[
-      { title: 'Долговая нагрузка и «красные флаги» клиента' },
-      { title: 'Рекомендации по улучшению рейтинга клиента' },
+      { title: 'Проверка долговой нагрузки и «красных флагов» банков' },
+      { title: 'Прогноз скорости и вероятности одобрения в разных банках' },
+      { title: 'Рекомендации по улучшению рейтинга и кредитного потенциала клиентов' },
     ]}
     review={{
       quote: 'Иногда клиент не знает о наличии какой-либо задолженности. Мы исключаем негативные факторы еще до подачи заявки в банк и увеличиваем шансы клиента получить одобрение по ипотеке',
@@ -136,36 +136,15 @@ import FormClosing from '../components/ui/FormClosing.astro'
     }}
   />
 
-  {/* ── 7. FeatureBlock — Увеличиваем одобрение ── */}
-  <FeatureBlock
-    interactive={false}
-    class="!py-0"
-    imageSide="left"
-    image="/api/media/file/mortgage_bento_score_2.webp"
-    imageAlt="Анкета клиента"
-    heading="Увеличиваем процент одобрения до 95%"
-    button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
-    features={[
-      { title: 'Прогноз скорости и вероятности одобрения клиента в банках' },
-      { title: 'Отправка заявки сразу в 5+ банков' },
-    ]}
-    review={{
-      quote: 'Мы обрабатываем на 281% заявок больше, чем в среднем на рынке, и при этом сохраняем одобрение на уровне 90%',
-      author: 'Александр Рычков',
-      role: 'Начальник отдела ипотеки «ЛСР. Недвижимость — М»',
-      company: { logo: '/api/media/file/lsr_color.svg', alt: 'ЛСР' },
-    }}
-  />
-
   {/* ── 8. BentoGrid — Дополнительные возможности ── */}
   <section>
     <div class="page-container">
       <BentoGrid
+        variant="two"
         heading="Делаем все для ваших крутых результатов"
         items={[
-          { title: 'Готовые интеграции с популярными системами', backgroundImage: '/api/media/file/mortgage_extras_crm-integrations.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-integrations-mobile.webp' },
-          { title: 'Среднее время ответа в чате поддержки — 57 секунд', backgroundImage: '/api/media/file/mortgage_extras_chat-57sec.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_chat-57sec-mobile.webp' },
-          { title: 'Все ключевые показатели в одном готовом дашборде', backgroundImage: '/api/media/file/mortgage_extras_crm-dashboard.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-dashboard-mobile.webp' },
+          { title: 'Готовые интеграции с популярными системами', description: 'Все данные из ипотечных заявок и актуальные статусы по ним внутри вашей CRM — без смены рабочего окна', backgroundImage: '/api/media/file/mortgage_extras_crm-integrations.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-integrations-mobile.webp' },
+          { title: 'Ключевые показатели по заявкам в персональном дашборде', description: 'Приборная панель отдела: разберите ипотечную воронку за 1 минуту и раскройте потенциал команды', backgroundImage: '/api/media/file/mortgage_extras_crm-dashboard.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-dashboard-mobile.webp' },
         ]}
       />
     </div>
