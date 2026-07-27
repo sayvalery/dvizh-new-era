@@ -1,27 +1,30 @@
-﻿---
+---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import PixelArrowPattern from '../components/ui/PixelArrowPattern.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
-import FeatureBlock from '../components/ui/FeatureBlock.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
+import FeatureBlock from '../components/ui/FeatureBlock.astro'
+import ComparisonSection from '../components/ui/ComparisonSection.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 ---
 
 <SiteLayout
   title="Финансовый скоринг"
   bodyClass="fluid-page"
-  description="Проверяйте платежеспособность покупателей на банковском уровне до подписания договора"
+  description="Проверяйте платежеспособность покупателей по банковским стандартам до подписания договора рассрочки"
   jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Скоринг', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'RUB' }, provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
 >
 
   {/* ── 1. Hero ── */}
   <HeroSectionFull
-    title="Проверьте ипотечного заемщика до обращения в банки"
-    description="Сократите риск отказа до минимума благодаря предварительной оценке клиента по данным из 15 источников"
-    demoLabel="Записаться на демо"
+    title="Сократите риски просрочек по рассрочке в 2 раза за счет скоринга клиентов"
+    description="Проверяйте клиентов по банковским стандартам и выявляйте все красные флаги до подписания договора рассрочки. Оценивайте финансовые возможности и ипотечный потенциал клиентов за секунды"
+    demoLabel="Записаться на демо"
     kpLabel="Попробовать бесплатно"
+    demoPreset="demo"
+    kpPreset="lead"
     mobileBg="https://admin.dvizh.cc/api/media/file/skoring-hero-mobile.webp"
   >
     <PixelArrowPattern slot="background" />
@@ -54,7 +57,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
     />
   </HeroSectionFull>
 
-  {/* Reveal-анимация hero-картинки: невидима → плавно выплывает снизу → передаёт управление float */}
+  {/* Reveal-анимация hero-картинки */}
   <script>
     const img = document.getElementById('hero-img') as HTMLImageElement | null
     if (img) {
@@ -76,113 +79,136 @@ import FormClosing from '../components/ui/FormClosing.astro'
     }
   </script>
 
-  {/* gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок (флюид) */}
+  {/* gap-24/40 между блоками + mt-24 lg:mt-32 — воздух на стыке hero↔первый блок */}
   <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
-
-  {/* ── 3. KeyFacts — 3 пункта ── */}
+  {/* ── 2. KeyFacts — риски рассрочки ── */}
   <KeyFacts
-    class="!py-0"
-    title="Зачем вам финансовый скоринг"
+    class="!pb-0"
     variant="large"
+    titleHtml="Рассрочка без скоринга клиента —<br>прямой риск для застройщика"
+    subtitle="Когда клиент берет рассрочку у застройщика, банк в сделке не участвует. Он не проверяет финансовые возможности клиента — и риск остается на застройщике"
     items={[
       {
-        value: 'до 35% заявок',
-        description: 'уходят в автоматический отказ на стороне банков из-за плохого кредитного рейтинга',
+        value: '80% клиентов',
+        description: 'не отправляют запросы в БКИ и не знают, смогут ли получить одобрение ипотеки в будущем',
       },
       {
-        value: '80% клиентов',
-        description: 'не отправляют запросы в БКИ и не знают, могут ли получить одобрение ипотеки',
+        value: 'Каждый пятый заемщик',
+        description: 'имеет низкий кредитный рейтинг',
+        footnote: 'По данным ОКБ',
       },
       {
-        value: 'на 20% выше',
-        description: 'вероятность одобрения после предварительной проверки и правок в ипотечной анкете',
+        value: '5% договоров на рассрочку',
+        description: 'расторгаются — это миллионные потери',
+        footnote: 'По данным РБК',
       },
     ]}
   />
 
-  {/* ── 4. FeatureBlock ── */}
-  <FeatureBlock
-    class="!py-0"
-    heading="Покажем красные флаги клиента"
-    description="Скоринг охватывает полный финансовый профиль заемщика — от долговой нагрузки до банкротных дел"
-    imageSide="left"
-    button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
-    features={[
-      {
-        title: 'Долговую нагрузку клиента',
-        subtitle: 'Соотношение активных кредитов и доходов',
-        image: '/api/media/file/scoring-red-flags-debt-load.webp',
-        imageAlt: 'Долговая нагрузка клиента',
-      },
-      {
-        title: 'Долги по налогам и сборам',
-        subtitle: 'Задолженности перед ФНС и другими государственными органами',
-        image: '/api/media/file/scoring-red-flags-tax-debts.webp',
-        imageAlt: 'Долги по налогам и сборам',
-      },
-      {
-        title: 'Долги по кредитам и кредитным картам',
-        subtitle: 'Данные из бюро кредитных историй',
-        image: '/api/media/file/scoring_red-flags_credit-history.webp',
-        imageAlt: 'Долги по кредитам и кредитным картам',
-      },
-      {
-        title: 'Информацию о банкротстве и приостановлении счетов',
-        subtitle: 'Открытые дела о банкротстве и блокировки счетов',
-        image: '/api/media/file/scoring_red-flags_bankruptcy.webp',
-        imageAlt: 'Информация о банкротстве и приостановлении счетов',
-      },
-    ]}
-  />
-
-  {/* ── 5. BentoGrid variant="four" ── */}
+  {/* ── 3. BentoGrid — 2 сценария применения ── */}
   <section class="!py-0">
     <div class="page-container">
       <BentoGrid
-        variant="four"
-        heading="Как это работает"
+        variant="two"
+        headingHtml="Помогаем принять решение<br>по клиенту и подобрать под него условия"
         items={[
           {
-            title: 'Распознавание',
-            description: 'Определяем тип документа и вытаскиваем нужные поля автоматически',
-            backgroundImage: '/api/media/file/scoring_hero_cards-3d.webp',
-          },
-          {
-            title: 'Дополняем профиль клиента',
-            description: 'Подтягиваем данные из сторонних источников — ФНС, ГИБДД, БКИ',
+            title: 'Перед оформлением рассрочки',
+            description: 'Чтобы избежать неплатежей и расторжения договоров',
             backgroundImage: '/api/media/file/scoring_bento_data-sources.webp',
             backgroundImageMobile: '/api/media/file/scoring_bento_data-sources-mobile.webp',
-            backgroundImageTablet: '/api/media/file/scoring_bento_data-sources-laptop.webp',
-            imagePositionSm: 'top',
           },
           {
-            title: 'Антифрод',
-            description: 'Ищем признаки мошенничества и сверяем данные с внешними базами',
+            title: 'При переходе с рассрочки на ипотеку',
+            description: 'Чтобы оценить кредитный потенциал клиента',
             backgroundImage: '/api/media/file/scoring_bento_fraud-check.webp',
             backgroundImageMobile: '/api/media/file/scoring_bento_fraud-check-mobile.webp',
-            imagePositionSm: 'top',
-          },
-          {
-            title: 'Верификация',
-            description: 'Проверяем документ на подлинность еще до ручной обработки',
-            backgroundImage: '/api/media/file/scoring_bento_shield-3d.webp',
           },
         ]}
       />
     </div>
   </section>
 
-  {/* ── 7. FormClosing ── */}
-  <FormClosing
-    mode="buttons"
-    primaryButton={{ label: 'Оставить заявку', drawerPreset: 'lead' }}
-    title="Бесплатно проверим 5 ваших клиентов, которые уже получили отказ"
-    items={[
-      { title: 'Вы присылаете 5 отказников', subtitle: 'любые заявки, которые банк не одобрил за последний месяц' },
-      { title: 'Мы проводим скоринг', subtitle: 'проверяем клиента по кредитным бюро и базам, подбираем банк, который бы одобрил заявку' },
-      { title: 'Вы получаете отчет в течение дня', subtitle: 'по каждой заявке — причина отказа, рекомендации, которые спасли бы сделку, и сумма возможного одобрения' },
+  {/* ── 4. FeatureBlock 1 — Проверяем клиента (картинка справа) + отзыв ЭНКО ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    image="/api/media/file/scoring_hero_cards-3d.webp"
+    imageAlt="Проверка клиента по банковским стандартам"
+    heading="Проверяем каждого клиента без заведения ипотечной заявки"
+    features={[
+      { title: 'Минимальная анкета — ФИО, телефон, доход' },
+      { title: 'Автоматическая проверка вместо ручного сбора справок' },
+      { title: 'Данные из ОКБ и 15+ источников — за секунды' },
     ]}
+    review={{
+      quote: 'Скоринг ДВИЖа помогает проверять финансовые возможности клиентов и перспективы перехода на ипотеку. С помощью отдельного инструмента менеджеры ЭНКО проверяют покупателя перед подписанием договора по рассрочке, чтобы снизить риски до минимума',
+      author: 'Юлия Романовская',
+      role: 'Руководитель службы сопровождения клиентов',
+      company: { logo: '/api/media/file/enko.svg', alt: 'ЭНКО' },
+      caseLink: { label: 'Читать кейс', href: '/cases/enko' },
+    }}
+  />
+
+  {/* ── 5. FeatureBlock 2 — Финансовые возможности (картинка слева, шахматный порядок) ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    imageSide="left"
+    image="/api/media/file/scoring-red-flags-debt-load.webp"
+    imageAlt="Финансовые возможности клиента"
+    heading="Показываем финансовые возможности клиента"
+    features={[
+      { title: 'Проверка долговой нагрузки: учитываются даже покупки в сплит' },
+      { title: 'Оценка красных флагов банков' },
+      { title: 'Прогноз максимальной суммы одобрения и платежа' },
+    ]}
+  />
+
+  {/* ── 6. FeatureBlock 3 — Кредитный потенциал и риски (картинка справа) ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    image="/api/media/file/scoring_bento_fraud-check.webp"
+    imageAlt="Кредитный потенциал и риски"
+    heading="Оцениваем кредитный потенциал и риски"
+    features={[
+      { title: 'Готовое заключение — в карточке клиента в CRM' },
+      { title: 'Три статуса: низкий, повышенный и высокий риск — сигнал, что делать менеджеру дальше' },
+    ]}
+  />
+
+  {/* ── 7. ComparisonSection — Без скоринга vs Со скорингом ДВИЖа ── */}
+  <ComparisonSection
+    title=""
+    leftTitle="Без скоринга"
+    leftItems={[
+      'Несистемная проверка клиентов',
+      'Клиент сам приносит справки, процесс растягивается на дни и недели',
+      'Риски просрочек и расторжения договоров',
+      'Сотни тысяч уходят на досудебное урегулирование и суды',
+    ]}
+    rightItems={[
+      'Проверка 100% клиентов',
+      'Клиент проверяется по ОКБ и 15+ источникам за секунды',
+      'Снижение доли проблемных сделок в рассрочке в 2 раза',
+      'Время менеджеров и юристов на работу<br>с проблемными сделками сведено к минимуму',
+    ]}
+    rightLogoSrc={`${import.meta.env.PUBLIC_CMS_URL}/api/media/file/dvizh_comp.svg`}
+    rightLogoAlt="ДВИЖ"
+    primaryButtonText="Записаться на демо"
+    primaryDrawerPreset="demo"
+    secondaryButtonText="Попробовать бесплатно"
+    secondaryDrawerPreset="lead"
+  />
+
+  {/* ── 8. FormClosing ── */}
+  <FormClosing
+    preset="lead"
+    title="Защитите портфель от просрочек и судебных исков"
+    description="Оставьте заявку, и мы покажем, как скоринг встроится в ваши процессы по рассрочке"
+    submitLabel="Попробовать бесплатно"
     class="!py-0"
   />
 

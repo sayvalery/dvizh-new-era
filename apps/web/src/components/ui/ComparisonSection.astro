@@ -250,7 +250,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
                   <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
                   <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <p class="text-body-lg text-white leading-[1.3]">{text}</p>
+                <p class="text-body-lg text-white leading-[1.3]" set:html={text} />
               </div>
             ))}
           </div>
@@ -273,7 +273,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
                 <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
                 <path d="M8 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
               </svg>
-              <p class="text-body-lg text-gray-900 leading-[1.3]">{text}</p>
+              <p class="text-body-lg text-gray-900 leading-[1.3]" set:html={text} />
             </div>
           ))}
         </div>
@@ -303,7 +303,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
                 <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
                 <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
-              <p class="text-body-lg text-gray-900 leading-[1.3]">{text}</p>
+              <p class="text-body-lg text-gray-900 leading-[1.3]" set:html={text} />
             </div>
           ))}
         </div>
@@ -322,7 +322,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
                 <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
                 <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
-              <p class="text-body-lg text-gray-900 leading-[1.3]">{text}</p>
+              <p class="text-body-lg text-gray-900 leading-[1.3]" set:html={text} />
             </div>
           ))}
         </div>
@@ -384,7 +384,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
           <!-- Левая ячейка строки i -->
           <!-- Левая ячейка: flex items-center центрирует группу в строке -->
           <!-- border-t перенесён на внутренний блок, чтобы линия была вровень с контентом (учитывает px-[34px]) -->
-          <div class="relative z-10 px-[34px] flex items-center opacity-60 pb-5">
+          <div class="relative z-10 px-[34px] flex items-start opacity-60 pb-5">
             {pair.left && (
               <div class:list={[
                 'flex gap-3 items-start w-full',
@@ -394,14 +394,14 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
                   <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
                   <path d="M8 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                 </svg>
-                <p class="text-body-lg text-gray-900 leading-[1.3]">{pair.left}</p>
+                <p class="text-body-lg text-gray-900 leading-[1.3]" set:html={pair.left} />
               </div>
             )}
           </div>
 
           <!-- Правая ячейка: flex items-center центрирует группу в строке -->
           <!-- border-t перенесён на внутренний блок, чтобы линия была вровень с контентом (учитывает px-[34px]) -->
-          <div class="relative z-10 px-[34px] flex items-center pb-5">
+          <div class="relative z-10 px-[34px] flex items-start pb-5">
             {pair.right && (
               <div class:list={[
                 'flex gap-3 items-start w-full',
@@ -411,7 +411,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
                   <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
                   <path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <p class="text-body-lg text-white leading-[1.3]">{pair.right}</p>
+                <p class="text-body-lg text-white leading-[1.3]" set:html={pair.right} />
               </div>
             )}
           </div>
