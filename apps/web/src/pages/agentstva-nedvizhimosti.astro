@@ -40,7 +40,7 @@ const cms = import.meta.env.PUBLIC_CMS_URL
       slot="logos"
       noPadding
       logos={[
-        { src: '/partners/dark/samolet-plus.svg', alt: 'Самолёт Плюс' },
+        { src: '/partners/dark/samolet-plus.svg', alt: 'Самолет Плюс' },
         { src: '/partners/dark/ayaks.svg', alt: 'Аякс', scale: 0.8 },
         { src: '/partners/dark/estatet.svg', alt: 'Est-a-Tet' },
         { src: '/partners/dark/ndv.svg', alt: 'НДВ' },
@@ -49,7 +49,7 @@ const cms = import.meta.env.PUBLIC_CMS_URL
     />
   </HeroSectionFull>
 
-  {/* Reveal-анимация hero-картинки: невидима → плавно выплывает снизу → передаёт управление float */}
+  {/* Reveal-анимация hero-картинки: невидима → плавно выплывает снизу → передает управление float */}
   <script>
     const img = document.getElementById('hero-img') as HTMLImageElement | null
     if (img) {

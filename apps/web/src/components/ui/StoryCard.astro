@@ -235,7 +235,7 @@ const CardTag = cardHref ? 'a' : 'div'
 <script>
   // Активация StoryCard (класс .is-active зеркалит :hover-вид).
   //  • md+ (>=768px): первая карточка каждой группы подсвечена по умолчанию;
-  //    подсветка снимается, когда курсор наведён на другую карточку группы.
+  //    подсветка снимается, когда курсор наведен на другую карточку группы.
   //  • <md (768px): scroll-driven — активна карточка ближе всего к центру viewport.
   function initStoryCardActive() {
     const cards = Array.from(document.querySelectorAll('.story-card-hover')) as HTMLElement[]

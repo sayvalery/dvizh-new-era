@@ -5,9 +5,9 @@
  * Шаблон по образцу страницы категории (lab/category-page):
  *   BlogLayout insightsHeader → page-container, дизайн-токены, заголовок text-h2.
  *
- * Шапка: логотип компании (вписан в скруглённый квадрат по высоте заголовка)
+ * Шапка: логотип компании (вписан в скругленный квадрат по высоте заголовка)
  * слева от названия; под названием — описание (company.description) и ссылка
- * на сайт. Ниже — раздел «Люди» (персоны компании) и «Материалы» (её статьи).
+ * на сайт. Ниже — раздел «Люди» (персоны компании) и «Материалы» (ее статьи).
  */
 import BlogLayout from '../../layouts/BlogLayout.astro'
 import PersonCard from '../../components/ui/PersonCard.astro'
@@ -108,7 +108,7 @@ function card(post: any) {
            размер (ширина = высоте) из реальной высоты блока «название + описание»
            через Alpine + ResizeObserver. Минимум — высота этого блока (~60/78px),
            задан через min-w/min-h (и тот же размер — no-JS фолбэк); если описание
-           переносится, квадрат растёт выше минимума. */}
+           переносится, квадрат растет выше минимума. */}
       <div
         x-data="{ s: 0, sync() { this.s = this.$refs.txt.offsetHeight } }"
         x-init="$nextTick(() => sync()); new ResizeObserver(() => sync()).observe($refs.txt)"

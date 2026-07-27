@@ -101,7 +101,7 @@ function card(post: any) {
            Размер круга (ширина = высоте) проставляем из реальной высоты текста через
            Alpine + ResizeObserver. Минимум — высота блока «имя + должность» (~60/78px),
            задан через min-w/min-h (и тот же размер — no-JS фолбэк); если должность
-           переносится на 2 строки, круг растёт выше минимума. */}
+           переносится на 2 строки, круг растет выше минимума. */}
       <div
         x-data="{ s: 0, sync() { this.s = this.$refs.txt.offsetHeight } }"
         x-init="$nextTick(() => sync()); new ResizeObserver(() => sync()).observe($refs.txt)"

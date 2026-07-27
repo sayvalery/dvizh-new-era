@@ -2,7 +2,7 @@
 /**
  * Drawer — глобальный правый дровер с формой
  *
- * Подключён один раз в SiteLayout. Управляется через Alpine custom event.
+ * Подключен один раз в SiteLayout. Управляется через Alpine custom event.
  *
  * Открыть с любой кнопки на странице:
  *   <button x-data @click="$dispatch('open-drawer', { preset: 'demo' })">...</button>
@@ -125,7 +125,7 @@ const defaultPointsJson = JSON.stringify({ demo: defaultPoints, lead: defaultPoi
 
     <!-- Forms (все пресеты pre-rendered, Alpine показывает нужный) -->
     <div class="flex-1 overflow-y-auto px-6 py-6">
-      {/* Чек-лист пунктов (передаётся через open-drawer detail.points) */}
+      {/* Чек-лист пунктов (передается через open-drawer detail.points) */}
       <ul x-show="points.length" class="flex flex-col gap-3 mb-6" style="display:none">
         <template x-for="point in points" :key="point">
           <li class="flex gap-3 items-start">

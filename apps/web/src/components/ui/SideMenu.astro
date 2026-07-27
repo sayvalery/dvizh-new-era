@@ -81,7 +81,7 @@ const parentH2 = (i: number) => {
   while (p >= 0 && (items[p]?.level ?? 2) > 2) p--
   return p
 }
-// h3 видна, только когда активна её секция (active в диапазоне родительского h2).
+// h3 видна, только когда активна ее секция (active в диапазоне родительского h2).
 const sectionRangeExpr = (i: number) => {
   const p = parentH2(i)
   return p < 0 ? 'true' : `(active >= ${p} && active < ${sectionEnd(p)})`

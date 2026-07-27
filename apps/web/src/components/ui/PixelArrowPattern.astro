@@ -127,7 +127,7 @@ const {
     sizeVariance: 100, sizeScale: 2.3,
   };
 
-  // ── Кэш позиций (пересчёт только при resize) ──────────────────
+  // ── Кэш позиций (пересчет только при resize) ──────────────────
   let _posCache = null, _posCacheKey = '';
 
   const getPositions = (w, h) => {
@@ -253,7 +253,7 @@ const {
   window.addEventListener('resize', resize, { passive: true });
   new ResizeObserver(resize).observe(canvas.parentElement);
 
-  // Старт — ждём load чтобы layout был полностью вычислен
+  // Старт — ждем load чтобы layout был полностью вычислен
   // (иначе getBoundingClientRect возвращает 0 при инлайн-скрипте)
   if (document.readyState === 'complete') {
     resize();

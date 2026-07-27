@@ -36,7 +36,7 @@ function lexicalText(node: any): string {
   return Array.isArray(kids) ? kids.map(lexicalText).join(' ') : ''
 }
 
-/** Время чтения из объёма текста (≈200 слов/мин) → «9 мин». bodyHtml (Webflow) или content (Lexical). */
+/** Время чтения из объема текста (≈200 слов/мин) → «9 мин». bodyHtml (Webflow) или content (Lexical). */
 function readTime(post: any): string {
   let text = ''
   if (post.bodyHtml) text = String(post.bodyHtml).replace(/<[^>]+>/g, ' ')
@@ -93,7 +93,7 @@ const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
       noPadding
       logos={[
         { src: '/partners/dark/a101.svg',    alt: 'А101' },
-        { src: '/partners/dark/samolet.svg', alt: 'Самолёт' },
+        { src: '/partners/dark/samolet.svg', alt: 'Самолет' },
         { src: '/partners/dark/lsr.svg',     alt: 'ЛСР' },
         { src: '/partners/dark/strana.svg',  alt: 'Страна' },
         { src: '/partners/dark/glorax.svg',  alt: 'Глоракс' },
@@ -104,7 +104,7 @@ const recentPosts = (blogResult?.docs ?? []).map((post: any) => ({
     />
   </HeroSectionFull>
 
-  {/* Reveal-анимация hero-картинки: невидима → плавно выплывает снизу → передаёт управление float */}
+  {/* Reveal-анимация hero-картинки: невидима → плавно выплывает снизу → передает управление float */}
   <script>
     const img = document.getElementById('hero-img') as HTMLImageElement | null
     if (img) {

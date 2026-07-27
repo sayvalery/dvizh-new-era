@@ -14,7 +14,7 @@
  *
  * person.slug  → кликабельная ссылка на /persons/[slug]
  * person.company.slug → ссылка на /companies/[slug]
- * person.photo.url    → абсолютный URL (Payload serverURL уже включён, не добавлять CMS_URL)
+ * person.photo.url    → абсолютный URL (Payload serverURL уже включен, не добавлять CMS_URL)
  *
  * logoUrl / logoAlt — только для варианта with-logo.
  *   Если logoUrl не передан — отображается серая заглушка.
@@ -120,7 +120,7 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
     )}
     <div>
       {personHref ? (
-        // Растянутая ссылка: ::after покрывает всю карточку → клик/ховер по любой её области
+        // Растянутая ссылка: ::after покрывает всю карточку → клик/ховер по любой ее области
         <a href={personHref} class:list={["text-h6 transition-colors hover:text-brand after:absolute after:inset-0 after:content-['']", isDark ? 'text-white' : 'text-gray-900']}>{person.name}</a>
       ) : (
         <p class:list={['text-h6', isDark ? 'text-white' : 'text-gray-900']}>{person.name}</p>
@@ -131,7 +131,7 @@ const companyHref = person.company?.slug ? `/companies/${person.company.slug}` :
           {person.company && (
             <>
               {companyHref ? (
-                // relative z-10 — поверх растянутой ссылки персоны, остаётся отдельно кликабельной
+                // relative z-10 — поверх растянутой ссылки персоны, остается отдельно кликабельной
                 <>, <a href={companyHref} class="relative z-10 transition-colors hover:text-brand">{person.company.name}</a></>
               ) : (
                 <>, {person.company.name}</>
