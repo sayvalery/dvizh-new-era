@@ -31,6 +31,8 @@ interface Props {
   items: FactItem[]
   /** Заголовок секции (опционально) */
   title?: string
+  /** Подзаголовок под заголовком (опционально). Поддерживает HTML */
+  subtitle?: string
   /** Количество колонок на десктопе (2–4). По умолчанию — по числу items */
   cols?: 2 | 3 | 4
   /**
@@ -42,7 +44,7 @@ interface Props {
   class?: string
 }
 
-const { items, title, cols, variant = 'default', class: className = '' } = Astro.props
+const { items, title, subtitle, cols, variant = 'default', class: className = '' } = Astro.props
 
 const valueCls = variant === 'large' ? 'text-h2' : 'text-h3'
 
@@ -60,10 +62,17 @@ const gridCols = {
   <div class="page-container">
     <div class="flex flex-col gap-14 lg:gap-20">
 
-      {title && (
-        <h2 class="text-h1 font-medium text-gray-900 max-w-4xl">
-          {title}
-        </h2>
+      {(title || subtitle) && (
+        <div class="flex flex-col gap-5 max-w-4xl">
+          {title && (
+            <h2 class="text-h1 font-medium text-gray-900">
+              {title}
+            </h2>
+          )}
+          {subtitle && (
+            <p class="text-body-lg text-gray-500 max-w-3xl" set:html={subtitle} />
+          )}
+        </div>
       )}
 
       <!-- Сетка фактов: subgrid из 2 строк (значение + описание). Все значения попадают в строку 1 родителя — выровнены друг с другом, описания в строку 2 — независимо от их высоты. -->
