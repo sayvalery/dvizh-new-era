@@ -11,15 +11,15 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
 <SiteLayout
   title="Электронная регистрация сделок"
   bodyClass="fluid-page"
-  description="Сократите затраты на регистрацию на 30%. Электронная регистрация сделок с недвижимостью."
+  description="Сократите затраты на регистрацию на 30%. Электронная регистрация сделок с недвижимостью."
   jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Электронная регистрация', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
 >
 
   {/* ── 1. Hero Section + Logos ── */}
   <HeroSectionFull
-    title="Регистрируйте сделки быстрее: без ручного ввода данных и приостановок"
-    description="Заводите сделки на регистрацию за 5 минут — все данные по подписантам подтянутся из CRM или ипотечного модуля. А эксперты поддержки помогут довести до финала сделки любой сложности"
-    demoLabel="Записаться на демо"
+    title="Регистрируйте сделки быстрее: без ручного ввода данных и приостановок"
+    description="Заводите сделки на регистрацию за 5 минут — все данные по подписантам подтянутся из CRM или ипотечного модуля. А эксперты поддержки помогут довести до финала сделки любой сложности"
+    demoLabel="Записаться на демо"
     kpLabel="Попробовать бесплатно"
     mobileBg="https://admin.dvizh.cc/api/media/file/rega1-hero-mobile.webp"
   >
@@ -78,14 +78,14 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
     interactive={false}
     class="!py-0"
     image="/api/media/file/e-reg_bento_batch-registrations.webp"
-    imageAlt="Легкий старт и масштабирование"
-    heading="Легкий старт и масштабирование"
+    imageAlt="Легкий старт и масштабирование"
+    heading="Легкий старт и масштабирование"
     features={[
-      { title: 'Заведение сделки в систему — до 5 минут' },
-      { title: 'Подключение новых объектов и регионов — до 15 минут' },
+      { title: 'Заведение сделки в систему — до 5 минут' },
+      { title: 'Подключение новых объектов и регионов — до 15 минут' },
     ]}
     review={{
-      quote: 'Раньше мы могли провозиться с регистрацией дома неделю, потому что каждое заявление создавалось вручную. Теперь любое количество объектов мы можем отправить на регистрацию за считанные минуты.',
+      quote: 'Раньше мы могли провозиться с регистрацией дома неделю, потому что каждое заявление создавалось вручную. Теперь любое количество объектов мы можем отправить на регистрацию за считанные минуты.',
       author: 'Марина Белоусова',
       role: 'Руководитель отдела регистрации GloraX',
       company: { logo: '/api/media/file/glorax_color.svg', alt: 'GloraX' },
@@ -99,12 +99,42 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
     class="!py-0"
     imageSide="left"
     image="/api/media/file/e-reg_bento_prepaid-account.webp"
-    imageAlt="Бесшовный цикл сделки от ипотеки до регистрации"
-    heading="Бесшовный цикл сделки от ипотеки до регистрации"
+    imageAlt="Бесшовный цикл сделки от ипотеки до регистрации"
+    heading="Бесшовный цикл сделки от ипотеки до регистрации"
     features={[
-      { title: 'Данные из ипотечного профиля или CRM автоматически подставляются в анкету' },
-      { title: 'Меньше рутины для менеджеров' },
-      { title: 'Меньше ошибок из-за ручного ввода данных' },
+      { title: 'Данные из ипотечного профиля или CRM автоматически подставляются в анкету' },
+      { title: 'Меньше рутины для менеджеров' },
+      { title: 'Меньше ошибок из-за ручного ввода данных' },
+    ]}
+  />
+
+  {/* ── 3. ProductBentoBlock — 3 карточки: c3 (оранжевая, wide) сверху, c1+c2 снизу ── */}
+  <ProductBentoBlock
+    class="!py-0"
+    showEyebrow={false}
+    headingHtml='Делаем все, чтобы довести до финала <span class="text-brand">100% сделок</span>'
+    layoutInverted={true}
+    cards={[
+      {
+        title: 'Обмен данными с CRM — потерять сделку невозможно',
+        description: 'Статус в карточке сделки автоматически обновляется на каждом этапе регистрации',
+        backgroundImage: '/api/media/file/e-reg_bento_expert-profile.webp',
+        imagePositionLg: 'top',
+      },
+      {
+        title: 'Встроенная аналитика',
+        description: 'Метрики по каждой сделке и сотруднику всегда под рукой',
+        variant: 'dark',
+        backgroundImage: '/api/media/file/e-reg_bento_prepaid-account.webp',
+      },
+      {
+        titleHtml: 'Экспертная поддержка,<br>а не просто техподдержка',
+        contentClass: 'lg:max-w-[70%]',
+        description: 'Служба поддержки — бывшие регистраторы застройщиков. Помогают правильно оформить сделки любой сложности',
+        variant: 'brand',
+        backgroundImage: '/api/media/file/e-reg_bento_deal-types.webp',
+        imagePositionLg: 'top',
+      },
     ]}
   />
 
@@ -129,40 +159,11 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
     }}
   />
 
-  {/* ── 5. ProductBentoBlock — 3 карточки (4 и 5 убраны) ── */}
-  <ProductBentoBlock
-    class="!py-0"
-    showEyebrow={false}
-    headingDark="Делаем все, чтобы довести до финала"
-    headingBrand="100% сделок"
-    cards={[
-      {
-        title: 'Экспертная поддержка, а не просто техподдержка',
-        description: 'Служба поддержки — бывшие регистраторы застройщиков. Помогают правильно оформить сделки любой сложности',
-        variant: 'brand',
-        backgroundImage: '/api/media/file/e-reg_bento_deal-types.webp',
-        imagePositionLg: 'top',
-      },
-      {
-        title: 'Обмен данными с CRM — потерять сделку невозможно',
-        description: 'Статус в карточке сделки автоматически обновляется на каждом этапе регистрации',
-        backgroundImage: '/api/media/file/e-reg_bento_expert-profile.webp',
-        imagePositionLg: 'top',
-      },
-      {
-        title: 'Встроенная аналитика',
-        description: 'Метрики по каждой сделке и сотруднику всегда под рукой',
-        variant: 'dark',
-        backgroundImage: '/api/media/file/e-reg_bento_prepaid-account.webp',
-      },
-    ]}
-  />
-
   {/* ── 6. FormClosing ── */}
   <FormClosing
     preset="lead"
-    title="Защитите сделки от ошибок и форс-мажоров"
-    description="Оставьте заявку, чтобы заводить сделки на регистрацию за 5 минут — без ошибок и приостановок"
+    title="Защитите сделки от ошибок и форс-мажоров"
+    description="Оставьте заявку, чтобы заводить сделки на регистрацию за 5 минут — без ошибок и приостановок"
     submitLabel="Попробовать бесплатно"
     class="!py-0"
   />

@@ -71,6 +71,10 @@ interface ProductCard {
    * Позиция кропа на десктопной bento-сетке (lg+). По умолчанию 'center'.
    */
   imagePositionLg?: string
+  /** HTML-заголовок (если задан — рендерится с set:html вместо title) */
+  titleHtml?: string
+  /** Доп. классы на внутреннем flex-контейнере текста */
+  contentClass?: string
   stats?: Stat[]
   /** 'row' — статы вертикально в ряд (по умолчанию), 'inline' — значение и подпись на одной линии */
   statsLayout?: 'row' | 'inline'
@@ -88,10 +92,14 @@ interface Props {
   showEyebrow?: boolean
   headingDark?: string
   headingBrand?: string
+  /** Альтернативный заголовок в HTML — если задан, не используется headingDark/headingBrand и <br>. */
+  headingHtml?: string
   subtitle?: string
   cards: ProductCard[]
   /** Пресет дровера, открываемого по клику на карточку. По умолчанию 'demo'. */
   drawerPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** Инвертированная раскладка: c3 (широкая) сверху, c1+c2 снизу. По умолчанию false. */
+  layoutInverted?: boolean
   class?: string
 }
 
@@ -100,9 +108,11 @@ const {
   showEyebrow = true,
   headingDark = 'Гибкие решения',
   headingBrand = 'под любую модель работы',
+  headingHtml,
   subtitle,
   cards,
   drawerPreset = 'demo',
+  layoutInverted = false,
   class: className = '',
 } = Astro.props
 
@@ -184,10 +194,14 @@ const bgStyle = (c?: ProductCard) => {
       <p class="text-side-menu text-gray-900/40">{eyebrow}</p>
     )}
     <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-      <h2 class="text-h2 text-gray-900">
-        {headingDark}<br />
-        <span class="text-brand">{headingBrand}</span>
-      </h2>
+      {headingHtml ? (
+        <h2 class="text-h2 text-gray-900" set:html={headingHtml} />
+      ) : (
+        <h2 class="text-h2 text-gray-900">
+          {headingDark}<br />
+          <span class="text-brand">{headingBrand}</span>
+        </h2>
+      )}
       {subtitle && (
         <p class="text-body-lg text-gray-500 lg:max-w-[400px] xl:max-w-[510px]" set:html={subtitleHtml} />
       )}
@@ -198,7 +212,7 @@ const bgStyle = (c?: ProductCard) => {
   <div class="flex flex-col gap-4 lg:gap-6">
 
     <!-- Строка 1: широкая карточка + узкая -->
-    <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-[61fr_39fr] lg:h-[600px]">
+    <div class:list={["grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-[61fr_39fr] lg:h-[600px]", layoutInverted && "order-2"]}>
 
       <!-- Карточка 1 -->
       {c1 && (
@@ -276,7 +290,7 @@ const bgStyle = (c?: ProductCard) => {
     {c3 && (
       <div
         {...cardAttrs(c3)}
-        class:list={['bento-card-bg group relative h-[500px] sm:h-[560px] md:h-[620px] overflow-hidden rounded-2xl sm:rounded-3xl lg:h-[540px] transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', cardBg(c3.variant), imgScopeClass(c3)]}
+        class:list={['bento-card-bg group relative h-[500px] sm:h-[560px] md:h-[620px] overflow-hidden rounded-2xl sm:rounded-3xl transition-transform duration-300 ease-out hover:-translate-y-2 cursor-pointer', layoutInverted ? 'order-1 lg:h-[600px]' : 'lg:h-[540px]', cardBg(c3.variant), imgScopeClass(c3)]}
         style={bgStyle(c3)}
       >
         {c3.href && <a href={c3.href} class="absolute inset-0 z-10" aria-label={c3.title} />}
@@ -284,8 +298,12 @@ const bgStyle = (c?: ProductCard) => {
           <path d="M2.70271 32C1.21228 32 0 30.7877 0 29.2973V26.2057C0 24.7153 1.21228 23.503 2.70271 23.503H5.53766C5.79236 23.503 5.99886 23.2965 5.99886 23.0418V20.3299C5.99886 18.8395 7.21114 17.6272 8.70157 17.6272H11.5365C11.7912 17.6272 11.9977 17.4207 11.9977 17.166V14.834C11.9977 14.5793 11.7912 14.3728 11.5365 14.3728H8.70157C7.21114 14.3728 5.99886 13.1605 5.99886 11.6701V8.95823C5.99886 8.70352 5.79236 8.49703 5.53766 8.49703H2.70271C1.21228 8.49703 0 7.28475 0 5.79432V2.70271C0 1.21228 1.21228 0 2.70271 0H5.79432C7.28475 0 8.49703 1.21228 8.49703 2.70271V5.41454C8.49703 5.66925 8.70352 5.87574 8.95823 5.87574H11.7932C13.2836 5.87574 14.4959 7.08802 14.4959 8.57845V11.2903C14.4959 11.545 14.7024 11.7515 14.9571 11.7515H17.792C19.2825 11.7515 20.4947 12.9638 20.4947 14.4542V17.5458C20.4947 19.0362 19.2825 20.2485 17.792 20.2485H14.9571C14.7024 20.2485 14.4959 20.455 14.4959 20.7097V23.4215C14.4959 24.912 13.2836 26.1243 11.7932 26.1243H8.95823C8.70352 26.1243 8.49703 26.3308 8.49703 26.5855V29.2973C8.49703 30.7877 7.28475 32 5.79432 32H2.70271Z"/>
         </svg>
         <div class={contentPos(c3.textPosition)}>
-          <div class="flex flex-col gap-3">
-            <h3 class:list={['text-product-card-h', titleColor(c3.variant)]}>{c3.title}</h3>
+          <div class:list={['flex flex-col gap-3', c3.contentClass]}>
+            {c3.titleHtml ? (
+              <h3 class:list={['text-product-card-h', titleColor(c3.variant)]} set:html={c3.titleHtml} />
+            ) : (
+              <h3 class:list={['text-product-card-h', titleColor(c3.variant)]}>{c3.title}</h3>
+            )}
             <p class:list={['text-body-lg', descColor(c3.variant)]}>{c3.description}</p>
           </div>
           {c3.stats && c3.stats.length > 0 && (
@@ -307,7 +325,8 @@ const bgStyle = (c?: ProductCard) => {
       </div>
     )}
 
-    <!-- Строка 3: две равные карточки -->
+    <!-- Строка 3: две равные карточки (только если есть c4 или c5) -->
+    {(c4 || c5) && (
     <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-2 lg:h-[600px]">
 
       <!-- Карточка 4 -->
@@ -381,6 +400,7 @@ const bgStyle = (c?: ProductCard) => {
       )}
 
     </div>
+    )}
 
   </div>
 
