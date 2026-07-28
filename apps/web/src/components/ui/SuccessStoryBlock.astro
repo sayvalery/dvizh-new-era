@@ -54,7 +54,7 @@ interface Props {
   heading?: string
   /** Подзаголовок под заголовком (text-body-lg, gray-500). Опционально. */
   subtitle?: string
-  /** Счётчик справа от заголовка (text-h4, opacity-30). Опционально. */
+  /** Счетчик справа от заголовка (text-h4, opacity-30). Опционально. */
   counter?: number | string
   /** Если задан — заголовок становится ссылкой с ховером (text-brand). Опционально. */
   headingHref?: string
@@ -93,7 +93,7 @@ const {
   <div class="page-container">
     <div class="flex flex-col gap-10 lg:gap-16">
 
-      <!-- Заголовок + (опц.) счётчик + (опц.) подзаголовок + кнопка -->
+      <!-- Заголовок + (опц.) счетчик + (опц.) подзаголовок + кнопка -->
       <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div class="flex flex-col gap-1 max-w-[1000px] w-full">
           {headingHref ? (

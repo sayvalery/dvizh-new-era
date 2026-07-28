@@ -16,7 +16,7 @@
  *
  * Варианты:
  *   light (по умолчанию) — для белого/светлого фона
- *   dark                  — для тёмного фона (FormClosing и т.п.)
+ *   dark                  — для темного фона (FormClosing и т.п.)
  *
  * Примеры:
  *   <Form preset="demo" />
@@ -35,7 +35,7 @@ const CLIENT_CMS_URL = import.meta.env.PUBLIC_CMS_URL ?? ''
 interface Props {
   preset: 'lead' | 'subscribe' | 'demo' | 'research' | 'author'
   layout?: 'stacked' | 'labels-left' | 'inline'
-  /** light — для светлого фона, dark — для тёмного (FormClosing и т.п.) */
+  /** light — для светлого фона, dark — для темного (FormClosing и т.п.) */
   variant?: 'light' | 'dark'
   submitLabel?: string
   /** Показывать чекбокс согласия на обработку персональных данных */
@@ -221,7 +221,7 @@ const manyInline = layout === 'inline' && formFields.length >= 3
   )}
 
   <p class:list={['form-success hidden mt-3 text-sm', successClasses]}>Спасибо! Мы свяжемся с вами.</p>
-  <p class:list={['form-error hidden mt-3 text-sm', errorClasses]}>Ошибка отправки. Попробуйте ещё раз.</p>
+  <p class:list={['form-error hidden mt-3 text-sm', errorClasses]}>Ошибка отправки. Попробуйте еще раз.</p>
 </form>
 
 <script>

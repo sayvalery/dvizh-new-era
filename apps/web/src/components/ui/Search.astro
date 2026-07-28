@@ -2,7 +2,7 @@
 /**
  * Search — строка поиска блога/инсайтов
  *
- * Всегда на тёмном/цветном фоне — элементы белые.
+ * Всегда на темном/цветном фоне — элементы белые.
  * Default: bg-white/20, без рамки.
  * Active (фокус): + border border-white.
  *
@@ -23,7 +23,7 @@ interface Props {
   class?: string
   /**
    * Адаптивная тема: белая при `clear` (прозрачный хедер вверху),
-   * тёмная при `!clear` (фрост над белым телом). Требует родительского
+   * темная при `!clear` (фрост над белым телом). Требует родительского
    * Alpine-стейта `clear` (NavBar в transparent-режиме).
    */
   adaptive?: boolean
@@ -40,7 +40,7 @@ const {
 // Адаптивные классы. Не-adaptive путь рендерит ровно прежний (белый) вид.
 const labelBase = 'flex items-center gap-3 h-[38px] px-4 rounded-full transition-all duration-150 cursor-text'
 const labelStatic = adaptive ? labelBase : `${labelBase} bg-white/20`
-// Тёмная тема (!clear): фон gray-300, текст/иконка #1D1E21 (gray-900) @50%, бордер только в active.
+// Темная тема (!clear): фон gray-300, текст/иконка #1D1E21 (gray-900) @50%, бордер только в active.
 const labelBind = adaptive
   ? "(clear ? 'bg-white/20 ' : 'bg-gray-300 ') + (active ? (clear ? 'border border-white' : 'border border-gray-900/50') : 'border border-transparent')"
   : "active ? 'border border-white' : 'border border-transparent'"
@@ -48,10 +48,10 @@ const labelBind = adaptive
 const inputStatic = adaptive
   ? 'search-input flex-1 min-w-0 bg-transparent text-subhead focus:outline-none'
   : 'search-input flex-1 min-w-0 bg-transparent text-subhead text-white placeholder:text-white/50 focus:outline-none'
-// Набранный текст в тёмной теме — полный #1D1E21 (gray-900); плейсхолдер — @50%.
+// Набранный текст в темной теме — полный #1D1E21 (gray-900); плейсхолдер — @50%.
 const inputBind = adaptive ? "clear ? 'text-white placeholder:text-white/50' : 'text-gray-900 placeholder:text-gray-900/50'" : null
 // Цвет автозаполненного/выделенного текста (webkit-text-fill-color и ::selection) через CSS-переменную:
-// тёмная тема (!clear) → #1D1E21, иначе белый (фолбэк).
+// темная тема (!clear) → #1D1E21, иначе белый (фолбэк).
 const fgStyleBind = adaptive ? "!clear ? '--search-fg: #1D1E21' : ''" : null
 
 const btnStatic = adaptive ? 'shrink-0 transition-colors' : 'shrink-0 text-white/70 hover:text-white transition-colors'
@@ -102,7 +102,7 @@ const btnBind = adaptive ? "clear ? 'text-white/70 hover:text-white' : 'text-gra
     transition: background-color 9999s ease-in-out 0s;
   }
 
-  /* Цвет выделения текста: по умолчанию белый, в тёмной теме (--search-fg) — #1D1E21 */
+  /* Цвет выделения текста: по умолчанию белый, в темной теме (--search-fg) — #1D1E21 */
   .search-input::selection {
     background: rgba(255, 255, 255, 0.25);
     color: var(--search-fg, white);

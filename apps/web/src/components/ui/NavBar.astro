@@ -6,7 +6,7 @@
  *   Header.astro    → основной сайт (мега-меню, CTA, блог-карточки)
  *   BlogLayout.astro → ДВИЖ Инсайты (только лого + плоские ссылки + secondaryLink)
  *
- * Дизайн: плавающий «островок» со скруглёнными краями, margin-top, внутренним padding.
+ * Дизайн: плавающий «островок» со скругленными краями, margin-top, внутренним padding.
  * На белых страницах — белый на белом (невидим). На градиенте — полупрозрачный с blur.
  *
  * Прозрачный режим (transparent=true):
@@ -14,7 +14,7 @@
  *   clear: островок полупрозрачный, белый текст/лого
  *   !clear: белый фон до верха страницы, стандартные цвета
  *
- * Мега-меню остаётся открытым пока курсор внутри всего хедера (nav + dropdown).
+ * Мега-меню остается открытым пока курсор внутри всего хедера (nav + dropdown).
  */
 
 import BlogCard from './BlogCard.astro'
@@ -47,7 +47,7 @@ export interface NavItem {
   sections?: NavSection[]
   /** Выпадашка с 3 горизонтальными карточками (Блог, Кейсы) */
   posts?: MenuPost[]
-  /** Закреплённая статья в правой карточке мегаменю (иначе — общий blogPosts) */
+  /** Закрепленная статья в правой карточке мегаменю (иначе — общий blogPosts) */
   featuredPost?: BlogPost
   badge?: 'dot'
 }
@@ -70,7 +70,7 @@ interface Props {
   variant?: 'default' | 'blog'
   /**
    * Инвертировать триггер «clear» (белая версия): по умолчанию белый ВВЕРХУ
-   * (lastY < threshold). При invertClear=true — наоборот: тёмный вверху, белый
+   * (lastY < threshold). При invertClear=true — наоборот: темный вверху, белый
    * ПОСЛЕ скролла (lastY >= threshold). Для страниц со светлой шапкой над цветным блоком.
    */
   invertClear?: boolean
@@ -92,8 +92,8 @@ const clearCmp = invertClear ? '>=' : '<'
 // Getter `clear` при lastY=0 и mobileOpen=false:
 //   invertClear=false → clear = transparent && (0 < threshold)  = transparent
 //   invertClear=true  → clear = transparent && (0 >= threshold) = false (threshold всегда > 0)
-// Этот же класс кладём в статический `class`, чтобы SSR-рендер сразу был верным цветом
-// (белый на цветном hero / тёмный на светлых страницах) — без скачка чёрный→белый после JS.
+// Этот же класс кладем в статический `class`, чтобы SSR-рендер сразу был верным цветом
+// (белый на цветном hero / темный на светлых страницах) — без скачка черный→белый после JS.
 // Alpine-:class (object-синтаксис) затем чисто переключает цвета при скролле/состоянии.
 const initialClear = transparent && !invertClear
 
@@ -165,7 +165,7 @@ const navIslandClass = transparent
         <div class="flex items-center gap-6">
           <a href={logo.href} class="flex-shrink-0">
             {logo.image && logo.imageLight && transparent ? (
-              /* Две версии лого. SSR-видимость задаётся initialClear (через inline display),
+              /* Две версии лого. SSR-видимость задается initialClear (через inline display),
                  чтобы изначально показывалась нужная версия без скачка; Alpine переключает при скролле. */
               <>
                 <img src={logo.image} alt={logo.label} class="h-7 w-auto" x-show="!clear" style={initialClear ? 'display:none' : undefined} />
@@ -186,7 +186,7 @@ const navIslandClass = transparent
           <div class="hidden lg:flex lg:gap-x-1">
             {items.map(item => (
               item.posts?.length ? (
-                /* === POSTS DROPDOWN (Блог / Кейсы) — клик ведёт на страницу, ховер/фокус открывает === */
+                /* === POSTS DROPDOWN (Блог / Кейсы) — клик ведет на страницу, ховер/фокус открывает === */
                 <div
                   class="relative h-full flex items-center"
                   @mouseenter={`clearTimeout(hoverTimeout); megaOpen = '${item.label}'`}

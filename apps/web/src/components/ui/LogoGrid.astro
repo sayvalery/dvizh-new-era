@@ -1,6 +1,6 @@
 ---
 /**
- * LogoGrid — бегущая строка логотипов клиентов/партнёров (marquee)
+ * LogoGrid — бегущая строка логотипов клиентов/партнеров (marquee)
  *
  * @example
  * ```astro
@@ -14,7 +14,7 @@ interface Logo {
   src: string
   /** Alt-текст */
   alt: string
-  /** Ширина исходника (для monochrome — задаёт aspect-ratio спана без async-сайзера) */
+  /** Ширина исходника (для monochrome — задает aspect-ratio спана без async-сайзера) */
   w?: number
   /** Высота исходника */
   h?: number
@@ -27,7 +27,7 @@ interface Props {
   logos: Logo[]
   /** Убрать градиенты по бокам */
   noFade?: boolean
-  /** Белые логотипы без opacity (для тёмного/цветного фона) */
+  /** Белые логотипы без opacity (для темного/цветного фона) */
   white?: boolean
   /** Плоский ровный серый (#374151) через CSS-маску — для разноцветных оригиналов */
   monochrome?: boolean
@@ -134,7 +134,7 @@ const { logos, noFade = false, white = false, monochrome = false, noPadding = fa
   }
 
   /* Плоский ровный серый через маску: любой логотип красится в один цвет по форме.
-     Внутренний <img> задаёт размеры (пропорции лого), сам скрыт. #374151 — тон,
+     Внутренний <img> задает размеры (пропорции лого), сам скрыт. #374151 — тон,
      совпадающий с серыми логотипами в partners/dark/. */
   .logo-grid-img--mono {
     display: inline-block;

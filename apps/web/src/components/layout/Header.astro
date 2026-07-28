@@ -10,7 +10,7 @@ interface Props {
   variant?: 'default' | 'blog'
   /** Брендинг «ДВИЖ Инсайты» (логотип insight вместо основного) */
   insights?: boolean
-  /** Инвертировать триггер белой версии (тёмный вверху, белый после скролла) */
+  /** Инвертировать триггер белой версии (темный вверху, белый после скролла) */
   invertClear?: boolean
   /** Кастомный порог переключения белой версии (px) */
   clearAt?: number
@@ -26,7 +26,7 @@ const logo = insights
 
 // Свежие посты для выпадашек «Блог»/«Кейсы», карточки мегаменю и мобильного меню (только default-вариант).
 
-/** Пост CMS → пропсы карточки выпадашки (cover передаём сырым — BlogCard сам нормализует + srcset) */
+/** Пост CMS → пропсы карточки выпадашки (cover передаем сырым — BlogCard сам нормализует + srcset) */
 function toCard(post: any) {
   return {
     title: post.title,
@@ -35,9 +35,9 @@ function toCard(post: any) {
   }
 }
 
-// Slug статьи, закреплённой в карточке мегаменю «Решения»
+// Slug статьи, закрепленной в карточке мегаменю «Решения»
 const SOLUTIONS_FEATURED_SLUG = 'case-fsk-dvizh'
-// Slug статьи, закреплённой в карточке мегаменю «Продукты»
+// Slug статьи, закрепленной в карточке мегаменю «Продукты»
 const PRODUCTS_FEATURED_SLUG = 'keys-glorax-elektronnaya-registraciya'
 
 let latestPosts: any[] = []
@@ -56,14 +56,14 @@ if (variant !== 'blog') {
       depth: 2,
     })
     caseDocs = cases.docs
-    // Закреплённая статья для карточки «Решения»
+    // Закрепленная статья для карточки «Решения»
     const featured = await getBlogPosts({
       where: { slug: { equals: SOLUTIONS_FEATURED_SLUG } },
       limit: 1,
       depth: 2,
     })
     solutionsDoc = featured.docs?.[0] ?? null
-    // Закреплённая статья для карточки «Продукты»
+    // Закрепленная статья для карточки «Продукты»
     const productsFeaturedRes = await getBlogPosts({
       where: { slug: { equals: PRODUCTS_FEATURED_SLUG } },
       limit: 1,
@@ -88,11 +88,11 @@ function toFeatured(post: any) {
   }
 }
 
-// Последний пост — для правой колонки мобильного меню (фолбэк, если закреплённой нет)
+// Последний пост — для правой колонки мобильного меню (фолбэк, если закрепленной нет)
 const blogPosts = latestPosts.slice(0, 1).map(toFeatured)
-// Карточка «Решения» — закреплённая статья (фолбэк на свежий пост, если её нет)
+// Карточка «Решения» — закрепленная статья (фолбэк на свежий пост, если ее нет)
 const solutionsFeatured = solutionsDoc ? toFeatured(solutionsDoc) : blogPosts[0]
-// Карточка «Продукты» — закреплённая статья (фолбэк на свежий пост, если её нет)
+// Карточка «Продукты» — закрепленная статья (фолбэк на свежий пост, если ее нет)
 const productsFeatured = productsDoc ? toFeatured(productsDoc) : blogPosts[0]
 
 const navItems: NavItem[] = [

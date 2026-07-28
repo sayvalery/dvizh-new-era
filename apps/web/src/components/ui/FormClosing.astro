@@ -14,7 +14,7 @@
  * <FormClosing
  *   preset="lead"
  *   title="Попробуйте ДВИЖ в деле"
- *   items={['Покажем кейсы', 'Рассчитаем ROMI', 'Разберём ваши задачи']}
+ *   items={['Покажем кейсы', 'Рассчитаем ROMI', 'Разберем ваши задачи']}
  * />
  *
  * <!-- Вариант с кнопками -->
@@ -54,7 +54,7 @@ interface Props {
   /**
    * Список пунктов с иконкой check circle.
    * - строка — одна строка текста (поддерживает HTML, напр. <span class="font-semibold">);
-   * - объект { title, subtitle } — двухуровневый пункт: тёмный заголовок + светлый подзаголовок.
+   * - объект { title, subtitle } — двухуровневый пункт: темный заголовок + светлый подзаголовок.
    */
   items?: (string | { title: string; subtitle?: string })[]
   /** Переопределить набор полей формы пресета (mode=form). Напр. lead + company */
@@ -71,7 +71,7 @@ interface Props {
   bgImage?: string
   /** Позиция фонового изображения */
   bgImagePosition?: 'center' | 'right' | 'left' | 'top' | 'bottom' | 'top right' | 'top left' | 'bottom right' | 'bottom left'
-  /** Вариант формы: light — для светлого фона, dark — для тёмного */
+  /** Вариант формы: light — для светлого фона, dark — для темного */
   formVariant?: 'light' | 'dark'
   /** Цвет текста заголовка (Tailwind-класс), по умолчанию text-gray-900 */
   textColor?: string
@@ -146,7 +146,7 @@ const btnLabel   = submitLabel ?? defaultSubmitLabels[preset] ?? 'Отправи
 const formFields = fieldsOverride ?? fields[preset] ?? ['name', 'email']
 
 // Ширина блока полей: subscribe — поле email 320px (по запросу) на десктопе;
-// 3+ поля — группа растёт (flex-1), чтобы влезали в строку; иначе 3/5.
+// 3+ поля — группа растет (flex-1), чтобы влезали в строку; иначе 3/5.
 const fieldsWidthCls = preset === 'subscribe'
   ? 'w-full lg:w-[320px]'
   : formFields.length >= 3
@@ -154,7 +154,7 @@ const fieldsWidthCls = preset === 'subscribe'
     : 'w-full lg:w-3/5'
 
 const privacyMain = privacyText
-  ?? `Нажимая кнопку «${btnLabel}», вы даёте согласие на обработку ваших персональных данных и подтверждаете, что ознакомлены с `
+  ?? `Нажимая кнопку «${btnLabel}», вы даете согласие на обработку ваших персональных данных и подтверждаете, что ознакомлены с `
 ---
 
 <section class:list={['', className]}>
@@ -289,7 +289,7 @@ const privacyMain = privacyText
         </div>
 
         <p class:list={['form-success hidden text-sm', successCls]}>Спасибо! Мы свяжемся с вами.</p>
-        <p class:list={['form-error hidden text-sm', errorCls]}>Ошибка отправки. Попробуйте ещё раз.</p>
+        <p class:list={['form-error hidden text-sm', errorCls]}>Ошибка отправки. Попробуйте еще раз.</p>
       </form>
     )}
 
