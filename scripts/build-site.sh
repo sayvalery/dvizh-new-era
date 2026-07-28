@@ -9,6 +9,9 @@ cd "$(dirname "$0")/.."
 
 # --- Config ---
 SOURCE_BRANCH="dev"
+# Источник кода — GitLab (корпоративный). GitHub (origin) оставлен только как
+# исторический архив, в него больше не пушат. Переопределяется через env.
+SOURCE_REMOTE="${SOURCE_REMOTE:-gitlab}"
 # 127.0.0.1 (опубликованный порт), а НЕ cms.*.orb.local: Node не достаёт IP контейнера
 # OrbStack (EHOSTUNREACH), хотя curl достаёт. Через .orb.local билд молча пустой.
 CMS_HOST="${CMS_HOST:-127.0.0.1}"
@@ -197,12 +200,12 @@ if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
 fi
 
 # Pull latest from remote
-if ! git pull origin "$SOURCE_BRANCH" --ff-only 2>&1 | tee -a "$LOG_FILE"; then
+if ! git pull "$SOURCE_REMOTE" "$SOURCE_BRANCH" --ff-only 2>&1 | tee -a "$LOG_FILE"; then
   log "WARNING: git pull failed (possible divergence), building current state"
 fi
 
 GIT_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
-log "Building from $SOURCE_BRANCH @ $GIT_SHA"
+log "Building from $SOURCE_REMOTE/$SOURCE_BRANCH @ $GIT_SHA"
 update_status "building" "git_sync" "done"
 
 # Step 1: CMS check

@@ -58,7 +58,7 @@ export default function DeployButton() {
 
   const fetchStatus = useCallback(async () => {
     try {
-      const res = await fetch('/build-status')
+      const res = await fetch('/api/build-status')
       if (res.ok) {
         const data: BuildState = await res.json()
         setState(data)
@@ -98,7 +98,7 @@ export default function DeployButton() {
     setState({ status: 'building', steps: {} })
 
     try {
-      const res = await fetch('/deploy', { method: 'POST' })
+      const res = await fetch('/api/deploy', { method: 'POST' })
       if (!res.ok) {
         const data = await res.json().catch(() => ({ error: 'Unknown error' }))
         setState({
