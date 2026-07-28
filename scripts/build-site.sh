@@ -9,18 +9,28 @@ cd "$(dirname "$0")/.."
 
 # --- Config ---
 SOURCE_BRANCH="dev"
-CMS_HOST="${CMS_HOST:-cms.dvizh-new-era.orb.local}"
+# 127.0.0.1 (опубликованный порт), а НЕ cms.*.orb.local: Node не достаёт IP контейнера
+# OrbStack (EHOSTUNREACH), хотя curl достаёт. Через .orb.local билд молча пустой.
+CMS_HOST="${CMS_HOST:-127.0.0.1}"
 CMS_URL="http://${CMS_HOST}:3002"
 DIST_DIR="apps/web/dist"
 PREV_DIR="apps/web/dist-prev"
 LOG_FILE="logs/deploy.log"
 STATUS_FILE="logs/build-status.json"
+BASELINE_FILE="logs/last-good-pages.txt"  # число страниц последнего УСПЕШНО задеплоенного билда
 BUILD_ID="$(date '+%Y%m%d-%H%M%S')"
 
 # Remote deploy config (load from .env.deploy)
 if [ -f ".env.deploy" ]; then
   set -a; source .env.deploy; set +a
 fi
+
+# Абсолютный минимум страниц — страховка на случай, когда эталона ещё нет
+# (первый запуск после этой правки, свежий клон: logs/ в .gitignore).
+# Исторический размер сайта — 510–580 страниц, так что 400 отсекает обвал
+# (сломанный билд на 41 страницу), но не мешает легитимной чистке разделов.
+# Переопределяется через env или .env.deploy: MIN_PAGES_FLOOR=...
+MIN_PAGES_FLOOR="${MIN_PAGES_FLOOR:-400}"
 REMOTE_HOST="${REMOTE_HOST:?REMOTE_HOST not set. Create .env.deploy with REMOTE_HOST=user@ip}"
 REMOTE_DEPLOYS="/var/www/dvizh/deploys"
 REMOTE_CURRENT="/var/www/dvizh/current"
@@ -86,6 +96,52 @@ print(json.dumps(steps))
 EOF
 }
 
+# Определяет эталон числа страниц (BASELINE_COUNT) для проверки на обвал.
+#
+# Почему НЕ «сколько index.html сейчас в dist» (как было раньше): dist сам мог быть
+# собран сломанно. Один плохой билд (41 страница вместо 580) опускал порог до 41,
+# и следующий такой же плохой билд спокойно проходил валидацию — защита деградировала.
+# А если dist отсутствовал, порог был 0, т.е. проверка молча отключалась.
+#
+# Теперь эталон — снимок числа страниц последнего билда, который РЕАЛЬНО доехал до
+# прода (см. запись в $BASELINE_FILE после переключения симлинка). Локальный файл,
+# без сетевых запросов к VPS: деплой всегда идёт с этой машины, а состояние
+# «последнего хорошего» и так уже живёт в logs/ рядом с build-status.json.
+resolve_baseline() {
+  BASELINE_COUNT=0
+  BASELINE_SOURCE="none"
+
+  if [ -f "$BASELINE_FILE" ]; then
+    # Только цифры: мусор в файле не должен ронять арифметику под set -e
+    BASELINE_COUNT="$(tr -cd '0-9' < "$BASELINE_FILE")"
+    BASELINE_COUNT="${BASELINE_COUNT:-0}"
+    [ "$BASELINE_COUNT" -gt 0 ] && BASELINE_SOURCE="$BASELINE_FILE"
+  fi
+
+  # Бутстрап при первом запуске: build-status.json хранит pages_count прошлого билда,
+  # и он валиден как эталон только при status == success. Читать ОБЯЗАТЕЛЬНО до сброса
+  # этого файла в начале пайплайна.
+  if [ "$BASELINE_COUNT" -eq 0 ] && [ -f "$STATUS_FILE" ]; then
+    local from_status
+    from_status="$(python3 -c "
+import json
+try:
+    d = json.load(open('$STATUS_FILE'))
+    print(int(d.get('pages_count') or 0) if d.get('status') == 'success' else 0)
+except Exception:
+    print(0)
+" 2>/dev/null || echo 0)"
+    from_status="${from_status:-0}"
+    if [ "$from_status" -gt 0 ]; then
+      BASELINE_COUNT="$from_status"
+      BASELINE_SOURCE="$STATUS_FILE (bootstrap)"
+      # Сразу фиксируем в $BASELINE_FILE, иначе сброс build-status.json ниже
+      # затрёт единственный источник эталона.
+      echo "$BASELINE_COUNT" > "$BASELINE_FILE"
+    fi
+  fi
+}
+
 rollback() {
   if [ -d "$PREV_DIR" ]; then
     log "Rolling back: restoring previous dist"
@@ -98,6 +154,14 @@ rollback() {
 # --- Pipeline ---
 
 log "=== Build $BUILD_ID started ==="
+
+# Эталон читаем ДО сброса $STATUS_FILE (см. resolve_baseline)
+resolve_baseline
+if [ "$BASELINE_COUNT" -gt 0 ]; then
+  log "Эталон страниц: $BASELINE_COUNT (источник: $BASELINE_SOURCE), порог 80% = $((BASELINE_COUNT * 80 / 100)), абсолютный минимум = $MIN_PAGES_FLOOR"
+else
+  notify "WARN" "Эталон числа страниц не найден (нет $BASELINE_FILE и нет успешного билда в $STATUS_FILE). На этом прогоне защита от обвала работает только по абсолютному минимуму = $MIN_PAGES_FLOOR страниц; эталон запишется после первого успешного деплоя"
+fi
 
 # Reset status file for new build
 cat > "$STATUS_FILE" << EOF
@@ -145,10 +209,18 @@ update_status "building" "git_sync" "done"
 update_status "building" "cms_check" "active"
 log "Checking CMS at $CMS_URL ..."
 
-if ! curl -sf --max-time 10 "$CMS_URL/api/blog-posts?limit=1" > /dev/null 2>&1; then
-  log "FAILED: CMS not responding at $CMS_URL"
-  update_status "failed" "cms_check" "failed" "CMS not responding"
-  notify "ERROR" "Build $BUILD_ID failed: CMS not responding"
+# Проверяем ИМЕННО через node (undici), а не curl: curl достаёт IP контейнера OrbStack,
+# а Node — нет, поэтому curl-гейт проходил, а билд молча собирался без CMS-контента.
+# Заодно требуем totalDocs > 0: payload.ts при сбое отдаёт {docs: []} и билд «успешен».
+if ! CMS_CHECK_ERR="$(node -e '
+fetch(process.argv[1], { signal: AbortSignal.timeout(10000) })
+  .then(r => r.ok ? r.json() : Promise.reject(new Error("HTTP " + r.status)))
+  .then(j => { if (!j.totalDocs) throw new Error("totalDocs=0 (CMS пустая или отдаёт заглушку)") })
+  .catch(e => { console.error(e.cause ? e.cause.code || e.cause.message : e.message); process.exit(1) })
+' "$CMS_URL/api/blog-posts?limit=1" 2>&1)"; then
+  log "FAILED: CMS check failed at $CMS_URL — $CMS_CHECK_ERR"
+  update_status "failed" "cms_check" "failed" "CMS check failed: $CMS_CHECK_ERR"
+  notify "ERROR" "Build $BUILD_ID failed: CMS check ($CMS_CHECK_ERR)"
   exit 1
 fi
 update_status "building" "cms_check" "done"
@@ -171,12 +243,13 @@ fi
 update_status "building" "build" "active"
 log "Building..."
 
-# Count pages in current dist (for regression check)
-PREV_COUNT=0
+# Число страниц в текущем dist — ТОЛЬКО для лога/диагностики.
+# Эталоном для проверки на обвал он больше не является (см. resolve_baseline).
+DIST_COUNT=0
 if [ -d "$DIST_DIR" ]; then
-  PREV_COUNT=$(find "$DIST_DIR" -name "index.html" -type f | wc -l | tr -d ' ')
+  DIST_COUNT=$(find "$DIST_DIR" -name "index.html" -type f | wc -l | tr -d ' ')
 fi
-log "Previous page count: $PREV_COUNT"
+log "Pages in current dist: $DIST_COUNT (эталон для валидации: $BASELINE_COUNT)"
 
 # Back up current dist before build overwrites it
 if [ -d "$DIST_DIR" ]; then
@@ -231,7 +304,7 @@ fi
 update_status "building" "validate" "active"
 log "Validating build..."
 
-if ! bash scripts/validate-build.sh "$DIST_DIR" "$PREV_COUNT" 2>&1 | tee -a "$LOG_FILE"; then
+if ! bash scripts/validate-build.sh "$DIST_DIR" "$BASELINE_COUNT" "$MIN_PAGES_FLOOR" 2>&1 | tee -a "$LOG_FILE"; then
   log "FAILED: Validation errors"
   update_status "failed" "validate" "failed" "Validation errors"
   notify "ERROR" "Build $BUILD_ID failed: validation errors"
@@ -285,6 +358,12 @@ if docker compose -f docker-compose.prod.yml ps --status running nginx 2>/dev/nu
   docker compose -f docker-compose.prod.yml exec nginx nginx -s reload 2>/dev/null || true
   log "Local nginx reloaded"
 fi
+
+# Эталон двигаем ТОЛЬКО здесь — после того как деплой реально доехал
+# (rsync + переключение симлинка + reload nginx). Сломанный или не доехавший
+# до прода билд эталон не понижает, поэтому защита не деградирует.
+echo "$NEW_COUNT" > "$BASELINE_FILE"
+log "Эталон страниц обновлён: $NEW_COUNT → $BASELINE_FILE"
 
 update_status "success" "deploy" "done" "" "$NEW_COUNT"
 log "=== Build $BUILD_ID SUCCESS: $NEW_COUNT pages from $SOURCE_BRANCH@$GIT_SHA deployed ==="

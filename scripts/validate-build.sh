@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 # Validates a built static site before deployment.
-# Usage: bash scripts/validate-build.sh <dist-dir> [prev-page-count]
+# Usage: bash scripts/validate-build.sh <dist-dir> [baseline-page-count] [min-pages-floor]
+#   baseline-page-count — число страниц последнего УСПЕШНО задеплоенного билда
+#                         (build-site.sh хранит его в logs/last-good-pages.txt).
+#                         НЕ «сколько сейчас в dist»: иначе плохой билд понижает
+#                         порог и следующий такой же плохой билд проходит.
+#   min-pages-floor     — абсолютный минимум страниц; работает и когда эталона ещё нет.
 # Exit 0 = valid, Exit 1 = invalid (with details on stderr)
 
 set -euo pipefail
 
-DIST_DIR="${1:?Usage: validate-build.sh <dist-dir> [prev-page-count]}"
-PREV_COUNT="${2:-0}"
+DIST_DIR="${1:?Usage: validate-build.sh <dist-dir> [baseline-page-count] [min-pages-floor]}"
+# Нормализуем к числу: мусор/пустая строка не должны ронять арифметику под set -e
+BASELINE_COUNT="$(printf '%s' "${2:-0}" | tr -cd '0-9')"; BASELINE_COUNT="${BASELINE_COUNT:-0}"
+MIN_PAGES_FLOOR="$(printf '%s' "${3:-0}" | tr -cd '0-9')"; MIN_PAGES_FLOOR="${MIN_PAGES_FLOOR:-0}"
 ERRORS=0
 
 fail() {
@@ -36,15 +43,25 @@ for section in "${REQUIRED_SECTIONS[@]}"; do
   fi
 done
 
-# 3. Page count regression
+# 3. Page count regression — две независимые проверки:
+#    (а) относительная: не ниже 80% от последнего успешного деплоя;
+#    (б) абсолютная: не ниже жёсткого минимума (страховка, если эталона ещё нет).
 CURRENT_COUNT=$(find "$DIST_DIR" -name "index.html" -type f | wc -l | tr -d ' ')
-echo "Pages: $CURRENT_COUNT (previous: $PREV_COUNT)"
+echo "Pages: $CURRENT_COUNT (last good deploy: $BASELINE_COUNT, absolute floor: $MIN_PAGES_FLOOR)"
 
-if [ "$PREV_COUNT" -gt 0 ]; then
-  THRESHOLD=$((PREV_COUNT * 80 / 100))
+if [ "$BASELINE_COUNT" -gt 0 ]; then
+  THRESHOLD=$((BASELINE_COUNT * 80 / 100))
   if [ "$CURRENT_COUNT" -lt "$THRESHOLD" ]; then
-    fail "Page count dropped from $PREV_COUNT to $CURRENT_COUNT (below 80% threshold of $THRESHOLD)"
+    fail "Page count dropped from $BASELINE_COUNT (last good deploy) to $CURRENT_COUNT (below 80% threshold of $THRESHOLD)"
   fi
+fi
+
+if [ "$MIN_PAGES_FLOOR" -gt 0 ] && [ "$CURRENT_COUNT" -lt "$MIN_PAGES_FLOOR" ]; then
+  fail "Page count $CURRENT_COUNT is below the absolute floor of $MIN_PAGES_FLOOR pages"
+fi
+
+if [ "$BASELINE_COUNT" -eq 0 ] && [ "$MIN_PAGES_FLOOR" -eq 0 ]; then
+  echo "WARN: page-count regression check is DISABLED (no baseline and no floor passed)" >&2
 fi
 
 # 4. No tiny index.html files (empty template detection)
