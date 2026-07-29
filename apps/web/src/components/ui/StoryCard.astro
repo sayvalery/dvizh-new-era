@@ -140,9 +140,9 @@ const CardTag = cardHref ? 'a' : 'div'
       <!-- Нижняя часть с заголовком и PersonCard -->
       <div class:list={['flex flex-col gap-4 lg:gap-8', isActive && 'mt-auto']}>
         {titleHtml ? (
-          <h3 class:list={['text-h3 transition-colors', isActive ? 'text-white' : 'text-gray-900', hasHover && 'group-hover:text-white']} set:html={titleHtml} />
+          <h3 class:list={['text-h3 story-card-title transition-colors', isActive ? 'text-white' : 'text-gray-900', hasHover && 'group-hover:text-white']} set:html={titleHtml} />
         ) : (
-          <h3 class:list={['text-h3 transition-colors', isActive ? 'text-white' : 'text-gray-900', hasHover && 'group-hover:text-white']}>{title}</h3>
+          <h3 class:list={['text-h3 story-card-title transition-colors', isActive ? 'text-white' : 'text-gray-900', hasHover && 'group-hover:text-white']}>{title}</h3>
         )}
 
         <PersonCard person={person} theme={isActive ? 'dark' : 'light'} showPhoto={showPersonPhoto} />

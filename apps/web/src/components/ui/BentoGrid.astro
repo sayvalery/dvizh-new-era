@@ -145,11 +145,16 @@ const imgStyle = (c: BentoItem) => {
     Две равные карточки 50/50. lg+: вертикальные (portrait) рядом; до lg — стек.
     Текст снизу-слева: заголовок (h3) + подзаголовок (description).
     Картинки — вертикальные, растягиваются на всю площадь карточки.
+    Высота снижена на ~18% относительно первой версии (500/620/720/900 → 410/510/590/740):
+    контента в карточке ~140px, прежние пропорции читались громоздко. Портретность сохранена.
+    Значения намеренно «некруглые»: 600px/540px и т.п. перехватываются fluid-оверрайдами
+    ProductBento в global.css (`.fluid-page .lg\:h-\[600px\]`) — на продуктовых страницах
+    карточка получала бы чужую высоту.
   -->
   {isTwo && (
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
       {[card1, card2].map((card) => (
-        <div class="relative h-[500px] sm:h-[620px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-[720px] min-[1920px]:h-[900px]">
+        <div class="relative h-[410px] sm:h-[510px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-[590px] min-[1920px]:h-[740px]">
           {card.backgroundImage && (
             <picture>
               {card.backgroundImageMobile && (
