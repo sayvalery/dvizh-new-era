@@ -3,7 +3,10 @@
  * FeatureBlock — секция с авто-переключающимися пунктами и изображением
  *
  * Desktop (lg+): двухколоночный grid — пункты слева, изображение справа.
- * Mobile (< lg): одна колонка, изображение появляется inline под активным пунктом.
+ * Mobile (< lg): одна колонка. В интерактивном режиме картинка раскрывается 4:3 прямо
+ * под активным пунктом (иначе с телефона не видно, что она сменилась). В неинтерактивном
+ * режиме активного пункта нет — одна рамка 4:3 между списком и отзывом.
+ * Если картинок нет — серый фрейм-заглушка.
  *
  * Опционально: описание под заголовком и кнопка CTA.
  *
@@ -31,7 +34,7 @@ interface Feature {
   title: string
   /** Подпись — показывается при активном состоянии */
   subtitle?: string
-  /** Изображение этого пункта (если не задано — серый плейсхолдер на десктопе и общий fallback на мобайле) */
+  /** Изображение этого пункта (если не задано — серый плейсхолдер) */
   image?: string
   /** Изображение для мобильной версии (если не задано — используется `image`) */
   imageMobile?: string
@@ -106,14 +109,6 @@ const {
 
 const imageLeft = imageSide === 'left'
 const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i !== -1)
-
-// Высота фрейма картинки = высоте текстовой колонки (grid items-stretch).
-// Блоки с отзывом уже высокие (контент диктует высоту); блокам без отзыва
-// поднимаем пол min-h, чтобы картинка не кадрировалась сильнее — единый
-// фрейм по сайту. Строки литеральные целиком: иначе Tailwind JIT их не соберет.
-const colMinH = review
-  ? 'lg:min-h-[520px] xl:min-h-[720px]'
-  : 'lg:min-h-[600px] xl:min-h-[820px]'
 ---
 
 <section class:list={['py-24 lg:py-[120px]', className]}>
@@ -139,7 +134,7 @@ const colMinH = review
     >
 
       <!-- Текстовая колонка (+ inline image на мобайле) -->
-      <div class:list={['flex flex-col gap-12 lg:gap-16 lg:justify-between', colMinH, imageLeft && 'lg:order-2']}>
+      <div class:list={['feature-col flex flex-col gap-12', imageLeft && 'lg:order-2']}>
 
         <!-- Заголовок + описание + кнопка -->
         <div class="flex flex-col gap-6">
@@ -199,25 +194,23 @@ const colMinH = review
                   ))}
 
                   {interactive && (
-                    <!-- Mobile: изображение под активным пунктом (скрыто на lg+) -->
+                    <!-- Mobile: картинка раскрывается прямо под активным пунктом (скрыто на lg+).
+                         Именно под пунктом, а не под списком: пунктов бывает до шести, и при
+                         переключении картинку в конце списка с телефона не видно. -->
                     <div
                       class="lg:hidden overflow-hidden transition-[max-height,opacity,margin-top] duration-300 ease-in-out"
                       style="max-height: 0; opacity: 0; margin-top: 0"
-                      x-bind:style={`active === ${i} ? 'max-height: 800px; opacity: 1; margin-top: 1rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
+                      x-bind:style={`active === ${i} ? 'max-height: 80vw; opacity: 1; margin-top: 1rem' : 'max-height: 0; opacity: 0; margin-top: 0'`}
                     >
                       {(feature.imageMobile ?? feature.image ?? imageMobile ?? image) ? (
-                        <div class="aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden">
-                          <img
-                            src={feature.imageMobile ?? feature.image ?? imageMobile ?? image}
-                            alt={feature.imageAlt ?? imageAlt}
-                            class="block w-full h-full object-cover object-center"
-                            loading="lazy"
-                          />
-                        </div>
+                        <img
+                          src={feature.imageMobile ?? feature.image ?? imageMobile ?? image}
+                          alt={feature.imageAlt ?? imageAlt}
+                          class="block w-full aspect-[4/3] object-cover object-center rounded-2xl"
+                          loading="lazy"
+                        />
                       ) : (
-                        <div class="aspect-[4/3] rounded-2xl lg:rounded-3xl bg-background-secondary">
-                          <slot name="image-mobile" />
-                        </div>
+                        <div class="aspect-[4/3] rounded-2xl bg-gray-200"></div>
                       )}
                     </div>
                   )}
@@ -228,15 +221,19 @@ const colMinH = review
           <li><div class="h-px bg-gray-300"></div></li>
         </ul>
 
-        {!interactive && (imageMobile ?? image) && (
-          <!-- Mobile: одно изображение для всего блока (скрыто на lg+) -->
-          <div class="lg:hidden aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden">
-            <img
-              src={imageMobile ?? image}
-              alt={imageAlt}
-              class="block w-full h-full object-cover object-center"
-              loading="lazy"
-            />
+        {!interactive && (
+          <!-- Mobile: в неинтерактивном режиме нет активного пункта, поэтому одна картинка
+               между списком и отзывом (скрыто на lg+). Без картинки — серый фрейм-заглушка
+               (парно к `slot="image"` на десктопе). -->
+          <div class="lg:hidden relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-200">
+            {(imageMobile ?? image) && (
+              <img
+                src={imageMobile ?? image}
+                alt={imageAlt}
+                class="absolute inset-0 w-full h-full object-cover object-center"
+                loading="lazy"
+              />
+            )}
           </div>
         )}
 
@@ -248,6 +245,7 @@ const colMinH = review
             company={review.company}
             caseLink={review.caseLink}
             variant="dark"
+            class="lg:mt-auto"
           />
         )}
 
@@ -257,8 +255,7 @@ const colMinH = review
       <!-- Desktop: колонка с изображением (скрыта на мобайле) -->
       <div
         class:list={[
-          'hidden lg:block relative rounded-3xl overflow-hidden transition-colors duration-500 bg-background-primary',
-          colMinH,
+          'feature-media hidden lg:block relative rounded-3xl overflow-hidden transition-colors duration-500 bg-background-primary',
           imageLeft && 'lg:order-1'
         ]}
         {...(interactive ? { 'x-bind:class': `${JSON.stringify(featuresWithImage)}.includes(active) ? 'bg-background-primary' : 'bg-background-secondary'` } : {})}

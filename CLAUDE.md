@@ -184,7 +184,7 @@ CMS хранит медиа в `/app/apps/cms/media/` внутри Docker-кон
 | Figma | Класс дизайн-системы |
 |-------|----------------------|
 | Styrene A, 64px, w500 | `.text-h1 font-medium` |
-| Styrene A, 48px, w500 | `.text-h2` |
+| Styrene A, 48px, w500 | `.text-h2` (рендерит 40px на десктопе — токен намеренно уменьшен относительно Figma) |
 | Styrene A, 32px, w500 | `.text-h3` |
 | Styrene A, 24px, w500 | `.text-h4` |
 | Inter, 18px / 16px, w400 | `.text-body-lg` |
