@@ -74,12 +74,12 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
   {/* ── 4. FeatureBlock — Повышаем конверсию ── */}
+  {/* TODO вернуть картинку: image="/api/media/file/mortgage_bento_ai-prognosis.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
-    image="/api/media/file/mortgage_bento_ai-prognosis.webp"
     imageAlt="Ипотечный калькулятор"
-    heading="Повышаем конверсию из первичной консультации в заявку в 2 раза"
+    heading="Повышаем конверсию из первичной консультации в ипотечную заявку в 2 раза"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
     features={[
       { title: 'Подбор самых выгодных ипотечных программ под каждого клиента из 10 000 вариантов' },
@@ -92,14 +92,16 @@ import FormClosing from '../components/ui/FormClosing.astro'
       role: 'Ипотечный брокер АН «АТОМ»',
       company: { logo: '/api/media/file/tochno_color.svg', alt: 'Логотип' },
     }}
-  />
+  >
+    <div slot="image" class="h-full w-full bg-gray-200"></div>
+  </FeatureBlock>
 
   {/* ── 5. FeatureBlock — Сокращаем время ── */}
+  {/* TODO вернуть картинку: image="/api/media/file/mortgage_bento_unified-form.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
     imageSide="left"
-    image="/api/media/file/mortgage_bento_unified-form.webp"
     imageAlt="Анкета клиента"
     heading="Сводим на нет ошибки в анкетах — до 25% меньше заявок на доработке"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
@@ -113,13 +115,15 @@ import FormClosing from '../components/ui/FormClosing.astro'
       role: 'Руководитель управления прямых продаж',
       company: { logo: '/api/media/file/fsk_color.svg', alt: 'ФСК' },
     }}
-  />
+  >
+    <div slot="image" class="h-full w-full bg-gray-200"></div>
+  </FeatureBlock>
 
   {/* ── 6. FeatureBlock — Проверяем клиентов ── */}
+  {/* TODO вернуть картинку: image="/api/media/file/mortgage_bento_score.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
-    image="/api/media/file/mortgage_bento_score.webp"
     imageAlt="Ипотечный калькулятор"
     heading="Повышаем одобрение на 14% с помощью прескоринга"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
@@ -134,7 +138,9 @@ import FormClosing from '../components/ui/FormClosing.astro'
       role: 'Руководитель управления прямых продаж',
       company: { logo: '/api/media/file/fsk_color.svg', alt: 'ФСК' },
     }}
-  />
+  >
+    <div slot="image" class="h-full w-full bg-gray-200"></div>
+  </FeatureBlock>
 
   {/* ── 8. BentoGrid — Дополнительные возможности ── */}
   <section>
@@ -143,8 +149,8 @@ import FormClosing from '../components/ui/FormClosing.astro'
         variant="two"
         heading="Делаем все для ваших крутых результатов"
         items={[
-          { title: 'Готовые интеграции с популярными системами', description: 'Все данные из ипотечных заявок и актуальные статусы по ним внутри вашей CRM — без смены рабочего окна', backgroundImage: '/api/media/file/mortgage_extras_crm-integrations.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-integrations-mobile.webp' },
-          { title: 'Ключевые показатели по заявкам в персональном дашборде', description: 'Приборная панель отдела: разберите ипотечную воронку за 1 минуту и раскройте потенциал команды', backgroundImage: '/api/media/file/mortgage_extras_crm-dashboard.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-dashboard-mobile.webp' },
+          { title: 'Готовые интеграции с популярными системами', description: 'Все данные из ипотечных заявок и актуальные статусы по ним внутри вашей CRM — без смены рабочего окна' }, // TODO вернуть картинки: backgroundImage: '/api/media/file/mortgage_extras_crm-integrations.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-integrations-mobile.webp'
+          { title: 'Ключевые показатели по заявкам в персональном дашборде', description: 'Приборная панель отдела: разберите ипотечную воронку за 1 минуту и раскройте потенциал команды' }, // TODO вернуть картинки: backgroundImage: '/api/media/file/mortgage_extras_crm-dashboard.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-dashboard-mobile.webp'
         ]}
       />
     </div>

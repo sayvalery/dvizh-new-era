@@ -4,7 +4,7 @@ import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import PixelArrowPattern from '../components/ui/PixelArrowPattern.astro'
 import LogoGrid from '../components/ui/LogoGrid.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
-import ProductBentoBlock from '../components/ui/ProductBentoBlock.astro'
+import BentoGrid from '../components/ui/BentoGrid.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
 ---
 
@@ -74,10 +74,10 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
   <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
   {/* ── 2. FeatureBlock 1 — Легкий старт (картинка справа) + отзыв GloraX ── */}
+  {/* TODO вернуть картинку: image="/api/media/file/e-reg_bento_batch-registrations.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
-    image="/api/media/file/e-reg_bento_batch-registrations.webp"
     imageAlt="Легкий старт и масштабирование"
     heading="Легкий старт и масштабирование"
     features={[
@@ -91,14 +91,16 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
       company: { logo: '/api/media/file/glorax_color.svg', alt: 'GloraX' },
       caseLink: { label: 'Читать кейс', href: '/cases/glorax' },
     }}
-  />
+  >
+    <div slot="image" class="h-full w-full bg-gray-200"></div>
+  </FeatureBlock>
 
   {/* ── 3. FeatureBlock 2 — Бесшовный цикл (картинка слева, шахматный порядок) ── */}
+  {/* TODO вернуть картинку: image="/api/media/file/e-reg_bento_prepaid-account.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
     imageSide="left"
-    image="/api/media/file/e-reg_bento_prepaid-account.webp"
     imageAlt="Бесшовный цикл сделки от ипотеки до регистрации"
     heading="Бесшовный цикл сделки от ипотеки до регистрации"
     features={[
@@ -106,43 +108,37 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
       { title: 'Меньше рутины для менеджеров' },
       { title: 'Меньше ошибок из-за ручного ввода данных' },
     ]}
-  />
+  >
+    <div slot="image" class="h-full w-full bg-gray-200"></div>
+  </FeatureBlock>
 
-  {/* ── 3. ProductBentoBlock — 3 карточки: c3 (оранжевая, wide) сверху, c1+c2 снизу ── */}
-  <ProductBentoBlock
-    class="!py-0"
-    showEyebrow={false}
-    headingHtml='Делаем все, чтобы довести до финала <span class="text-brand">100% сделок</span>'
-    layoutInverted={true}
-    cards={[
-      {
-        title: 'Обмен данными с CRM — потерять сделку невозможно',
-        description: 'Статус в карточке сделки автоматически обновляется на каждом этапе регистрации',
-        backgroundImage: '/api/media/file/e-reg_bento_expert-profile.webp',
-        imagePositionLg: 'top',
-      },
-      {
-        title: 'Встроенная аналитика',
-        description: 'Метрики по каждой сделке и сотруднику всегда под рукой',
-        variant: 'dark',
-        backgroundImage: '/api/media/file/e-reg_bento_prepaid-account.webp',
-      },
-      {
-        titleHtml: 'Экспертная поддержка,<br>а не просто техподдержка',
-        contentClass: 'lg:max-w-[70%]',
-        description: 'Служба поддержки — бывшие регистраторы застройщиков. Помогают правильно оформить сделки любой сложности',
-        variant: 'brand',
-        backgroundImage: '/api/media/file/e-reg_bento_deal-types.webp',
-        imagePositionLg: 'top',
-      },
-    ]}
-  />
+  {/* ── 3. BentoGrid — 2 карточки: обмен с CRM + экспертная поддержка ── */}
+  <section class="!py-0">
+    <div class="page-container">
+      <BentoGrid
+        variant="two"
+        headingHtml='Каждый этап регистрации <span class="text-brand">под контролем</span>'
+        items={[
+          {
+            title: 'Обмен данными с CRM — контроль каждого этапа',
+            description: 'Статус в карточке сделки автоматически обновляется на каждом этапе регистрации',
+            // TODO вернуть картинку: backgroundImage: '/api/media/file/e-reg_bento_expert-profile.webp',
+          },
+          {
+            title: 'Экспертная поддержка без выходных',
+            description: 'Служба поддержки — бывшие регистраторы застройщиков. Помогают правильно оформить сделки любой сложности. Если возникла приостановка — выясняют причину в Росреестре и решают вопрос максимально быстро',
+            // TODO вернуть картинку: backgroundImage: '/api/media/file/e-reg_bento_deal-types.webp',
+          },
+        ]}
+      />
+    </div>
+  </section>
 
   {/* ── 4. FeatureBlock 3 — Гибкие опции оплаты (картинка справа) + отзыв GloraX ── */}
+  {/* TODO вернуть картинку: image="/api/media/file/e-reg_bento_e-signature.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
-    image="/api/media/file/e-reg_bento_e-signature.webp"
     imageAlt="Гибкие опции оплаты"
     heading="Гибкие опции оплаты и минимум на 30% дешевле других платформ"
     features={[
@@ -157,7 +153,9 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
       company: { logo: '/api/media/file/glorax_color.svg', alt: 'GloraX' },
       caseLink: { label: 'Читать кейс', href: '/cases/glorax' },
     }}
-  />
+  >
+    <div slot="image" class="h-full w-full bg-gray-200"></div>
+  </FeatureBlock>
 
   {/* ── 6. FormClosing ── */}
   <FormClosing
