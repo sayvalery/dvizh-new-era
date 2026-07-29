@@ -41,3 +41,9 @@ logs/
 # Archives & dumps
 *.zip
 *.sql
+
+# Локальные черновики и бэкапы
+*.bak
+*.tmp
+.claude/launch.json
+apps/web/src/pages/lab/hero-gradient.astro

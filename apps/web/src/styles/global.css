@@ -469,6 +469,19 @@ h1, h2, h3, h4, h5, h6 {
 .fluid-page .text-h6 { font-size: clamp(14px, 0.75rem + 0.31vw, 18px); }
 .fluid-page .text-card-title { font-size: clamp(20px, 1.15rem + 0.44vw, 24px); } /* мелкий лейбл карточки — капается на ДС-десктопе (24), выше не растим */
 
+/* ─── StoryCard: заголовок кейса — 85% от .text-h3 на lg+ ──────────────────────
+ * Карточка квадратная (md:aspect-square), спейсер уже на минимуме (min-h-16), поэтому
+ * заголовок в 5–6 строк выдавливал PersonCard за нижний край. Хуже всего на 1280–1380px:
+ * xl включает третью колонку (карточка 379px), а флюид-шрифт уже почти на потолке —
+ * подпись уезжала на 56px ниже карточки. На 1024 и на 1440+ влезало и без правки.
+ * Правило лежит здесь, а не рядом с .text-h3: перебить нужно в том числе
+ * `.fluid-page .text-h3` (два класса). До lg не трогаем — там всё влезает.
+ */
+@media (min-width: 1024px) {
+  .story-card-title             { font-size: clamp(24px, 0.64vw + 18px, 27px); }
+  .fluid-page .story-card-title { font-size: clamp(24px, 0.63rem + 1.32vw, 36px); }
+}
+
 /* Тело текста */
 .fluid-page .text-body-lg,
 .fluid-page .text-body-lg-italic,
