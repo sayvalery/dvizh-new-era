@@ -76,8 +76,12 @@ interface ProductCard {
   /** Доп. классы на внутреннем flex-контейнере текста */
   contentClass?: string
   stats?: Stat[]
-  /** 'row' — статы вертикально в ряд (по умолчанию), 'inline' — значение и подпись на одной линии */
-  statsLayout?: 'row' | 'inline'
+  /**
+   * 'row'    — статы в ряд по контенту, переносятся на новую строку при нехватке места (по умолчанию)
+   * 'inline' — значение и подпись на одной линии
+   * 'cols'   — статы всегда в одном ряду равными колонками; переносится подпись внутри колонки
+   */
+  statsLayout?: 'row' | 'inline' | 'cols'
   /** 'bottom' — текст прибит к низу (по умолчанию), 'top' — к верху с отступом от стрелки */
   textPosition?: 'top' | 'bottom'
   /** Пресет дровера для этой карточки. Перекрывает общий drawerPreset блока. */
@@ -154,10 +158,19 @@ const descColor = (v?: ProductCard['variant']) =>
   v === 'dark' ? 'text-white/60' : v === 'brand' ? 'text-white/80' : 'text-gray-500'
 
 const statValueClass = (highlight?: boolean, v?: ProductCard['variant']) => {
-  if (v === 'brand') return 'text-h3 text-white'
-  if (v === 'dark')  return `text-h3 ${highlight ? 'text-brand' : 'text-white'}`
-  return `text-h3 ${highlight ? 'text-brand' : 'text-gray-900'}`
+  if (v === 'brand') return 'bento-stat-value text-white'
+  if (v === 'dark')  return `bento-stat-value ${highlight ? 'text-brand' : 'text-white'}`
+  return `bento-stat-value ${highlight ? 'text-brand' : 'text-gray-900'}`
 }
+
+// Контейнер статов. 'cols' — flex-1/basis-0 на колонках: значения гарантированно остаются
+// в одном ряду, а переносится подпись внутри своей колонки.
+const statsWrapClass = (c?: ProductCard) =>
+  c?.statsLayout === 'inline'
+    ? 'flex flex-wrap gap-3 items-baseline'
+    : c?.statsLayout === 'cols'
+      ? 'flex gap-4 lg:gap-6 [&>div]:flex-1 [&>div]:min-w-0'
+      : 'flex flex-wrap gap-x-6 gap-y-3 lg:gap-10'
 
 const statLabelColor = (v?: ProductCard['variant']) =>
   v === 'dark' ? 'text-white/60' : v === 'brand' ? 'text-white/80' : 'text-black/40'
@@ -231,16 +244,16 @@ const bgStyle = (c?: ProductCard) => {
               <p class:list={['text-body-lg', descColor(c1.variant)]}>{c1.description}</p>
             </div>
             {c1.stats && c1.stats.length > 0 && (
-              <div class:list={['flex flex-wrap', c1.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-x-6 gap-y-3 lg:gap-10']}>
+              <div class={statsWrapClass(c1)}>
                 {c1.stats.map(s => c1.statsLayout === 'inline' ? (
                   <Fragment>
                     <p class={statValueClass(s.highlight, c1.variant)}>{s.value}</p>
-                    <p class:list={['text-body-lg', statLabelColor(c1.variant)]}>{s.label}</p>
+                    <p class:list={['text-subhead', statLabelColor(c1.variant)]}>{s.label}</p>
                   </Fragment>
                 ) : (
                   <div class="flex flex-col gap-1">
                     <p class={statValueClass(s.highlight, c1.variant)}>{s.value}</p>
-                    <p class:list={['text-body-lg', statLabelColor(c1.variant)]}>{s.label}</p>
+                    <p class:list={['text-subhead', statLabelColor(c1.variant)]}>{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -266,16 +279,16 @@ const bgStyle = (c?: ProductCard) => {
               <p class:list={['text-body-lg', descColor(c2.variant)]}>{c2.description}</p>
             </div>
             {c2.stats && c2.stats.length > 0 && (
-              <div class:list={['flex flex-wrap', c2.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-x-6 gap-y-3 lg:gap-10']}>
+              <div class={statsWrapClass(c2)}>
                 {c2.stats.map(s => c2.statsLayout === 'inline' ? (
                   <Fragment>
                     <p class={statValueClass(s.highlight, c2.variant)}>{s.value}</p>
-                    <p class:list={['text-body-lg', statLabelColor(c2.variant)]}>{s.label}</p>
+                    <p class:list={['text-subhead', statLabelColor(c2.variant)]}>{s.label}</p>
                   </Fragment>
                 ) : (
                   <div class="flex flex-col gap-1">
                     <p class={statValueClass(s.highlight, c2.variant)}>{s.value}</p>
-                    <p class:list={['text-body-lg', statLabelColor(c2.variant)]}>{s.label}</p>
+                    <p class:list={['text-subhead', statLabelColor(c2.variant)]}>{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -307,16 +320,16 @@ const bgStyle = (c?: ProductCard) => {
             <p class:list={['text-body-lg', descColor(c3.variant)]}>{c3.description}</p>
           </div>
           {c3.stats && c3.stats.length > 0 && (
-            <div class:list={['flex flex-wrap', c3.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-x-6 gap-y-3 lg:gap-10']}>
+            <div class={statsWrapClass(c3)}>
               {c3.stats.map(s => c3.statsLayout === 'inline' ? (
                 <Fragment>
                   <p class={statValueClass(s.highlight, c3.variant)}>{s.value}</p>
-                  <p class:list={['text-body-lg', statLabelColor(c3.variant)]}>{s.label}</p>
+                  <p class:list={['text-subhead', statLabelColor(c3.variant)]}>{s.label}</p>
                 </Fragment>
               ) : (
                 <div class="flex flex-col gap-1">
                   <p class={statValueClass(s.highlight, c3.variant)}>{s.value}</p>
-                  <p class:list={['text-body-lg', statLabelColor(c3.variant)]}>{s.label}</p>
+                  <p class:list={['text-subhead', statLabelColor(c3.variant)]}>{s.label}</p>
                 </div>
               ))}
             </div>
@@ -346,16 +359,16 @@ const bgStyle = (c?: ProductCard) => {
               <p class:list={['text-body-lg', descColor(c4.variant)]}>{c4.description}</p>
             </div>
             {c4.stats && c4.stats.length > 0 && (
-              <div class:list={['flex flex-wrap', c4.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-x-6 gap-y-3 lg:gap-10']}>
+              <div class={statsWrapClass(c4)}>
                 {c4.stats.map(s => c4.statsLayout === 'inline' ? (
                   <Fragment>
                     <p class={statValueClass(s.highlight, c4.variant)}>{s.value}</p>
-                    <p class:list={['text-body-lg', statLabelColor(c4.variant)]}>{s.label}</p>
+                    <p class:list={['text-subhead', statLabelColor(c4.variant)]}>{s.label}</p>
                   </Fragment>
                 ) : (
                   <div class="flex flex-col gap-1">
                     <p class={statValueClass(s.highlight, c4.variant)}>{s.value}</p>
-                    <p class:list={['text-body-lg', statLabelColor(c4.variant)]}>{s.label}</p>
+                    <p class:list={['text-subhead', statLabelColor(c4.variant)]}>{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -381,16 +394,16 @@ const bgStyle = (c?: ProductCard) => {
               <p class:list={['text-body-lg', descColor(c5.variant)]}>{c5.description}</p>
             </div>
             {c5.stats && c5.stats.length > 0 && (
-              <div class:list={['flex flex-wrap', c5.statsLayout === 'inline' ? 'gap-3 items-baseline' : 'gap-x-6 gap-y-3 lg:gap-10']}>
+              <div class={statsWrapClass(c5)}>
                 {c5.stats.map(s => c5.statsLayout === 'inline' ? (
                   <Fragment>
                     <p class={statValueClass(s.highlight, c5.variant)}>{s.value}</p>
-                    <p class:list={['text-body-lg', statLabelColor(c5.variant)]}>{s.label}</p>
+                    <p class:list={['text-subhead', statLabelColor(c5.variant)]}>{s.label}</p>
                   </Fragment>
                 ) : (
                   <div class="flex flex-col gap-1">
                     <p class={statValueClass(s.highlight, c5.variant)}>{s.value}</p>
-                    <p class:list={['text-body-lg', statLabelColor(c5.variant)]}>{s.label}</p>
+                    <p class:list={['text-subhead', statLabelColor(c5.variant)]}>{s.label}</p>
                   </div>
                 ))}
               </div>

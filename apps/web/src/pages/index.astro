@@ -141,7 +141,7 @@ const partnerLogos = [
     title={"ДВИЖ выжимает максимум на рынке, где мало заявок"}
     description={"Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"}
     formPreset="lead"
-    formSubmitLabel="Получить демо"
+    formSubmitLabel="Записаться на демо"
     wideTitle
     withGradient
     gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
@@ -211,24 +211,24 @@ const partnerLogos = [
       >
         <AdvantageCard
           index={0}
-          title="Закрыли до 26% больше сделок на том же трафике"
-          stat="+26%"
-          label="сделок на том же трафике"
-          expandHref="/blog/case-ayaks-dvizh"
+          title="Получили больше лидов с сайта"
+          stat="до +20%"
+          label="без увеличения рекламного бюджета"
+          expandHref="/blog/keys-lsr-dvizh"
           drawerPreset="demo"
         >
-          {ayaks.html && (
+          {lidov.html && (
             <div slot="modal-body" class="p-10">
-              {ayaks.title && <h1 class="font-heading text-3xl font-bold mb-8">{ayaks.title}</h1>}
-              <div class="prose prose-lg max-w-none" set:html={ayaks.html} />
+              {lidov.title && <h1 class="font-heading text-3xl font-bold mb-8">{lidov.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={lidov.html} />
             </div>
           )}
         </AdvantageCard>
         <AdvantageCard
           index={1}
           title="Снизили количество отказов по ипотеке"
-          stat="до 90%"
-          label="одобрений при среднем уровне в 49%"
+          stat="+14%"
+          label="к одобрению с помощью скоринга"
           expandHref="/blog/granel-rost-procenta-odobreniya"
           drawerPreset="demo"
         >
@@ -241,21 +241,6 @@ const partnerLogos = [
         </AdvantageCard>
         <AdvantageCard
           index={2}
-          title="Получили больше выручки на одного менеджера"
-          stat="+281%"
-          label="заявок, чем в среднем на рынке"
-          expandHref="/blog/keys-lsr-dvizh"
-          drawerPreset="demo"
-        >
-          {lidov.html && (
-            <div slot="modal-body" class="p-10">
-              {lidov.title && <h1 class="font-heading text-3xl font-bold mb-8">{lidov.title}</h1>}
-              <div class="prose prose-lg max-w-none" set:html={lidov.html} />
-            </div>
-          )}
-        </AdvantageCard>
-        <AdvantageCard
-          index={3}
           title="Сократили расходы на электронную регистрацию"
           stat="-30%"
           label="затрат на регистрацию"
@@ -266,6 +251,21 @@ const partnerLogos = [
             <div slot="modal-body" class="p-10">
               {ereg.title && <h1 class="font-heading text-3xl font-bold mb-8">{ereg.title}</h1>}
               <div class="prose prose-lg max-w-none" set:html={ereg.html} />
+            </div>
+          )}
+        </AdvantageCard>
+        <AdvantageCard
+          index={3}
+          title="Закрыли больше сделок на нестабильном рынке"
+          stat="+26%"
+          label="сделок на том же трафике"
+          expandHref="/blog/case-ayaks-dvizh"
+          drawerPreset="demo"
+        >
+          {ayaks.html && (
+            <div slot="modal-body" class="p-10">
+              {ayaks.title && <h1 class="font-heading text-3xl font-bold mb-8">{ayaks.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={ayaks.html} />
             </div>
           )}
         </AdvantageCard>
@@ -302,14 +302,14 @@ const partnerLogos = [
         personJobTitle: 'Крупнейший девелопер Краснодарского края',
       },
       {
-        logo: '/api/media/file/samolet_color.svg',
-        logoAlt: 'ГК Самолет',
-        logoHover: '/api/media/file/samolet_white.svg',
-        hoverBackground: '/api/media/file/samolet_bg.png',
-        href: '/blog/samolet-ai-u-developera',
-        titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
-        personName: 'ГК «Самолет»',
-        personJobTitle: 'Крупнейший федеральный девелопер России',
+        logo: '/api/media/file/enko.svg',
+        logoAlt: 'ЭНКО',
+        logoHover: '/api/media/file/enco-logo-white.svg',
+        hoverBackground: '/api/media/file/enco-case.webp',
+        href: '/blog/keys-enko-dvizh',
+        titleHtml: 'Увеличили <span class="text-brand">объем заявок в 3 раза</span> при доле ипотеки 80%',
+        personName: 'ЭНКО',
+        personJobTitle: 'Один из крупнейших застройщиков Тюмени',
       },
     ]}
   />
@@ -321,56 +321,63 @@ const partnerLogos = [
     showEyebrow={false}
     headingDark="Гибкие решения"
     headingBrand="под любую модель работы"
-    subtitle="<strong>Растите вместе с продуктом</strong> — включайте модули по одному, который закрывает вашу самую больную метрику. Дальше расширяйтесь — модули работают по отдельности или в связке"
+    subtitle="<strong>Модули работают по отдельности или в связке.</strong> Собирайте решение под актуальные задачи и подключайте новые инструменты по мере роста вашего бизнеса"
     cards={[
       {
         variant: "dark",
         title: "Цифровая ипотека",
         href: "/ipoteka",
-        description: "40+ банков в одном окне. Анкета «0 полей» через Госуслуги. Параллельная отправка. Авторазбор отказов. Скоринг до отправки в банк.",
+        description: "Подбор программ под портрет клиента. Распознавание документов. 0 ошибок в анкетах. Скоринг до отправки в банк",
         backgroundImage: "/api/media/file/home_bento_digital-mortgage.webp",
         backgroundImageMobile: "/api/media/file/home_bento_digital-mortgage-mobile.webp",
         imagePositionLg: "top",
         stats: [
-          { value: "до 95%", label: "процент одобрения", highlight: true },
-          { value: "40+", label: "банков-партнеров" },
-          { value: "3 дня", label: "срок сделки" },
+          { value: "100%", label: "банков с максимальным одобрением", highlight: true },
+          { value: "до 25%", label: "меньше заявок на доработке" },
+          { value: "до +14%", label: "к одобрению" },
         ],
       },
       {
         title: "Электронная регистрация",
         href: "/elektronnaya-registraciya",
-        description: "Подача в Росреестр прямо из ДВИЖ. Автопроверка. Сделка регистрируется за 24 часа",
+        description: "Бесшовная сделка: данные подтягиваются из CRM, модуля ипотеки или ДДУ/ДКП. Актуальные статусы в CRM",
         backgroundImage: "/api/media/file/home_bento_e-reg-stages.webp",
         backgroundImageMobile: "/api/media/file/home_bento_e-reg-stages-mobile.webp",
         imagePositionLg: "top",
+        statsLayout: "cols",
         stats: [
-          { value: "-30%", label: "затраты на регистрацию", highlight: true },
+          { value: "до 5 минут", label: "заведение сделки в систему", highlight: true },
+          { value: "до 15 минут", label: "подключение новых объектов" },
         ],
       },
       {
-        title: "Калькулятор ипотеки",
+        title: "Готовый ипотечный калькулятор",
         href: "/ipotechnyy-kalkulyator",
-        description: "Актуальные ставки от 40+ банков обновляются автоматически. Клиент сам рассчитывает платеж",
+        description: "Расчет программ любой сложности под портрет клиента. Автоматическое обновление ставок",
         backgroundImage: "/api/media/file/home_bento_mortgage-calculator.webp",
         backgroundImageMobile: "/api/media/file/home_bento_mortgage-calculator-mobile.webp",
         stats: [
-          { value: "+20% конверсия", label: "когда клиент знает свой бюджет ипотеки", highlight: true },
-          { value: "80%", label: "вне рабочего времени" },
+          { value: "24/7", label: "конвертирует трафик в заявки", highlight: true },
+          { value: "до +20%", label: "лидов с сайта" },
         ],
       },
       {
         title: "Финансовый скоринг",
         href: "/scoring",
-        description: "Банковский уровень проверки: кредитная история, долговая нагрузка. 15+ источников, менеджер видит финансовый рейтинг клиента",
+        description: "Проверка каждого клиента по банковским стандартам. Оценка рисков просрочек и расторжения на всех этапах сделки",
         backgroundImage: "/api/media/file/home_bento_score.webp",
         backgroundImageMobile: "/api/media/file/home_bento_score-mobile.webp",
         textPosition: "top",
+        statsLayout: "cols",
+        stats: [
+          { value: "ОКБ и 15+", label: "источников — за секунды", highlight: true },
+          { value: "до 50%", label: "меньше проблемных рассрочек" },
+        ],
       },
       {
         variant: "brand",
-        title: "Нейросети на службе отдела продаж",
-        description: "AI-инструменты для скоринга, прогноза и приоритизации заявок. Менеджер видит, кому звонить первым.",
+        title: "ДВИЖ AI на службе отделов продаж",
+        description: "Прогноз вероятности и скорости одобрения в банках. Подбор ипотечных программ под портрет клиента",
         backgroundImage: "/api/media/file/home_bento_dvizh-ai.webp",
         backgroundImageMobile: "/api/media/file/home_bento_dvizh-ai-mobile.webp",
         stats: [

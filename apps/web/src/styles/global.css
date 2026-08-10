@@ -289,6 +289,18 @@ h1, h2, h3, h4, h5, h6 {
     .text-product-card-h { font-size: 24px; }
   }
 
+  /* Значение стата в product-bento карточке — 22px → 26px.
+   * Отдельный класс, а не .text-h3: пять карточек по 2–3 стата давали слишком много
+   * крупных цифр в одном экране, а высокий стат-блок выдавливал иллюстрацию карточки.
+   * Подпись стата при этом .text-subhead (а не .text-body-lg). */
+  .bento-stat-value {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: clamp(22px, 0.38vw + 20.6px, 26px);
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.02em;
+  }
+
   /* 24px мобилка / 20px десктоп — для карточек блога (уменьшается к десктопу) */
   .text-card-title {
     font-family: 'Styrene A', system-ui, sans-serif;
@@ -464,6 +476,7 @@ h1, h2, h3, h4, h5, h6 {
 .fluid-page .text-h2 { font-size: clamp(30px, 1rem + 1.67vw, 48px); } /* 40px на 1440 (= ДС-десктоп), 48px на 1920 */
 .fluid-page .text-h3 { font-size: clamp(24px, 0.75rem + 1.56vw, 42px); }
 .fluid-page .text-product-card-h { font-size: clamp(24px, 1rem + 2.5vw, 64px); }
+.fluid-page .bento-stat-value { font-size: clamp(22px, 0.88rem + 0.83vw, 30px); } /* 26px на 1440, 30px с 1920 */
 .fluid-page .text-h4 { font-size: clamp(18px, 0.75rem + 0.94vw, 30px); }
 .fluid-page .text-h5 { font-size: clamp(16px, 0.88rem + 0.31vw, 20px); }
 .fluid-page .text-h6 { font-size: clamp(14px, 0.75rem + 0.31vw, 18px); }
