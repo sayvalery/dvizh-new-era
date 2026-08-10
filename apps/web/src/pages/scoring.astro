@@ -20,7 +20,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   {/* ── 1. Hero ── */}
   <HeroSectionFull
     title="Сократите риски просрочек по рассрочке в 2 раза за счет скоринга клиентов"
-    description="Проверяйте клиентов по банковским стандартам и выявляйте все красные флаги до подписания договора рассрочки. Оценивайте финансовые возможности и ипотечный потенциал клиентов за секунды"
+    description="Проверяйте клиентов по банковским стандартам и выявляйте все красные флаги до сделки. Оценивайте реальный бюджет и ипотечный потенциал клиентов за секунды — и повышайте средний чек"
     demoLabel="Записаться на демо"
     kpLabel="Попробовать бесплатно"
     demoPreset="demo"
@@ -110,12 +110,12 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <section class="!py-0">
     <div class="page-container">
       <BentoGrid
-        variant="two"
-        headingHtml="Помогаем принять решение<br>по клиенту и подобрать под него условия"
+        variant="three"
+        heading="Помогаем подобрать условия под клиента"
         items={[
           {
-            title: 'Перед оформлением рассрочки',
-            description: 'Чтобы избежать неплатежей и расторжения договоров',
+            title: 'При рассрочке',
+            description: 'Перед сделкой и в течение всего контракта — чтобы избежать неплатежей и расторжения',
             // TODO вернуть картинку: backgroundImage: '/api/media/file/scoring_bento_data-sources.webp',
             // TODO вернуть картинку: backgroundImageMobile: '/api/media/file/scoring_bento_data-sources-mobile.webp',
           },
@@ -124,6 +124,10 @@ import FormClosing from '../components/ui/FormClosing.astro'
             description: 'Чтобы оценить кредитный потенциал клиента',
             // TODO вернуть картинку: backgroundImage: '/api/media/file/scoring_bento_fraud-check.webp',
             // TODO вернуть картинку: backgroundImageMobile: '/api/media/file/scoring_bento_fraud-check-mobile.webp',
+          },
+          {
+            title: 'При повторных продажах',
+            description: 'Чтобы находить потенциал для продаж в текущей клиентской базе',
           },
         ]}
       />
@@ -136,7 +140,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
     interactive={false}
     class="!py-0"
     imageAlt="Проверка клиента по банковским стандартам"
-    heading="Проверяем каждого клиента без заведения ипотечной заявки"
+    heading="Проверяем каждого клиента по банковским стандартам"
     features={[
       { title: 'Минимальная анкета — ФИО, телефон, доход' },
       { title: 'Автоматическая проверка вместо ручного сбора справок' },
@@ -160,7 +164,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
     class="!py-0"
     imageSide="left"
     imageAlt="Финансовые возможности клиента"
-    heading="Показываем финансовые возможности клиента"
+    heading="Показываем реальный бюджет клиента и повышаем средний чек"
     features={[
       { title: 'Проверка долговой нагрузки: учитываются даже покупки в сплит' },
       { title: 'Оценка красных флагов банков' },
@@ -194,12 +198,14 @@ import FormClosing from '../components/ui/FormClosing.astro'
       'Клиент сам приносит справки, процесс растягивается на дни и недели',
       'Риски просрочек и расторжения договоров',
       'Сотни тысяч уходят на досудебное урегулирование и суды',
+      'Нет потенциала для апсейла',
     ]}
     rightItems={[
       'Проверка 100% клиентов',
       'Клиент проверяется по ОКБ и 15+ источникам за секунды',
       'Снижение доли проблемных сделок в рассрочке в 2 раза',
       'Время менеджеров и юристов на работу<br>с проблемными сделками сведено к минимуму',
+      'Средний чек и допродажи растут',
     ]}
     rightLogoSrc={`${import.meta.env.PUBLIC_CMS_URL}/api/media/file/dvizh_comp.svg`}
     rightLogoAlt="ДВИЖ"
