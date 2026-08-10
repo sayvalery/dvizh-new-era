@@ -142,15 +142,35 @@ import FormClosing from '../components/ui/FormClosing.astro'
     <div slot="image" class="h-full w-full bg-gray-200"></div>
   </FeatureBlock>
 
-  {/* ── 8. BentoGrid — Дополнительные возможности ── */}
+  {/* ── 7. FeatureBlock — Синхронизируем работу внутри отдела ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    imageSide="left"
+    imageAlt="Интеграции с CRM"
+    heading="Синхронизируем работу внутри отдела"
+    button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
+    features={[
+      { title: 'Готовые интеграции с популярными CRM' },
+      { title: 'Актуальные статусы без смены рабочего окна' },
+      { title: 'Контроль сделок на всех этапах' },
+    ]}
+  >
+    <div slot="image" class="h-full w-full bg-gray-200"></div>
+  </FeatureBlock>
+
+  {/* ── 8. BentoGrid — Управляйте процессом на основе данных ── */}
   <section>
     <div class="page-container">
       <BentoGrid
-        variant="two"
-        heading="Делаем все для ваших крутых результатов"
+        variant="four"
+        heading="Управляйте процессом на основе данных"
+        description="Насыщаем вашу CRM данными из ипотечных заявок и собираем ключевые показатели в персональные дашборды"
         items={[
-          { title: 'Готовые интеграции с популярными системами', description: 'Все данные из ипотечных заявок и актуальные статусы по ним внутри вашей CRM — без смены рабочего окна' }, // TODO вернуть картинки: backgroundImage: '/api/media/file/mortgage_extras_crm-integrations.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-integrations-mobile.webp'
-          { title: 'Ключевые показатели по заявкам в персональном дашборде', description: 'Приборная панель отдела: разберите ипотечную воронку за 1 минуту и раскройте потенциал команды' }, // TODO вернуть картинки: backgroundImage: '/api/media/file/mortgage_extras_crm-dashboard.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-dashboard-mobile.webp'
+          { titleHtml: 'Растите конверсии<br>маркетинговых кампаний', title: 'Растите конверсии маркетинговых кампаний', description: 'Формируем подробный портрет клиента: от возраста и дохода до ПДН и ПВ' },
+          { titleHtml: 'Стройте новые<br>каналы продаж', title: 'Стройте новые каналы продаж', description: 'Покажем, в какой отрасли и компании работают покупатели, — для корпоративных продаж' },
+          { title: 'Анализируйте воронку продаж за 1 минуту', description: 'Рассчитаем конверсии по каждому этапу ипотеки, дадим статистику по сотрудникам и заявкам' },
+          { titleHtml: 'Разрабатывайте<br>субсидированные программы', title: 'Разрабатывайте субсидированные программы', description: 'Подготовим статистику по банкам и сегментам вашей ЦА' },
         ]}
       />
     </div>

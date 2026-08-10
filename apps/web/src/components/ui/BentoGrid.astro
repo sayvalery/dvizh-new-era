@@ -43,8 +43,9 @@
  *
  * ## Вариант 'four'
  * Две строки по две карточки с разными пропорциями:
- * - Строка 1: широкая (≈62%) + узкая (≈38%), текст внизу/вверху соответственно
- * - Строка 2: узкая (≈40%) + широкая (≈60%), текст внизу у обеих
+ * - Строка 1: широкая (≈62%) + узкая (≈38%)
+ * - Строка 2: узкая (≈40%) + широкая (≈60%)
+ * Текст у всех четырех карточек прижат к низу. Высота строк одинаковая (430px на lg+).
  *
  * @example variant='four'
  * ```astro
@@ -63,6 +64,11 @@
 interface BentoItem {
   /** Заголовок карточки */
   title: string
+  /**
+   * Заголовок в HTML — для фиксированных переносов через <br>.
+   * Если задан, используется вместо title. Поддерживается в variant='four'.
+   */
+  titleHtml?: string
   /** Подпись под заголовком */
   description?: string
   /**
@@ -277,16 +283,16 @@ const imgStyle = (c: BentoItem) => {
 
   <!--
     ═══ VARIANT FOUR ═══
-    Две строки с разными пропорциями карточек.
-    Строка 1 (высокая): широкая (≈62%) + узкая (≈38%)
-    Строка 2 (пониже):  узкая (≈40%) + широкая (≈60%)
+    Две строки с разными пропорциями карточек, высота строк одинаковая (430px на lg+).
+    Строка 1: широкая (≈62%) + узкая (≈38%)
+    Строка 2: узкая (≈40%) + широкая (≈60%)
     Карточки поддерживают backgroundImage — растягивается на всю площадь карточки.
   -->
   {isFour && (
     <div class="flex flex-col gap-6">
 
       <!-- Строка 1 -->
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[62fr_38fr] lg:h-[488px]">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[62fr_38fr] lg:h-[430px]">
 
         <!-- Карточка 1: широкая, текст внизу-слева -->
         <div class="relative h-[350px] sm:h-[400px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
@@ -304,15 +310,18 @@ const imgStyle = (c: BentoItem) => {
               />
             </picture>
           )}
-          <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
-            <h3 class="text-h3 text-gray-900">{card1.title}</h3>
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+            {card1.titleHtml
+              ? <h3 class="text-h3 text-gray-900" set:html={card1.titleHtml} />
+              : <h3 class="text-h3 text-gray-900">{card1.title}</h3>
+            }
             {card1.description && (
-              <p class="text-body-lg text-black/40 max-w-[380px]">{card1.description}</p>
+              <p class="text-body-lg text-black/40">{card1.description}</p>
             )}
           </div>
         </div>
 
-        <!-- Карточка 2: узкая, текст вверху-слева на десктопе / внизу-слева на мобайле -->
+        <!-- Карточка 2: узкая, текст внизу-слева -->
         <div class="relative h-[350px] sm:h-[400px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
           {card2.backgroundImage && (
             <picture>
@@ -331,8 +340,11 @@ const imgStyle = (c: BentoItem) => {
               />
             </picture>
           )}
-          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:top-10 lg:bottom-auto lg:left-10 lg:right-10">
-            <h3 class="text-h3 text-gray-900">{card2.title}</h3>
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+            {card2.titleHtml
+              ? <h3 class="text-h3 text-gray-900" set:html={card2.titleHtml} />
+              : <h3 class="text-h3 text-gray-900">{card2.title}</h3>
+            }
             {card2.description && (
               <p class="text-body-lg text-black/40">{card2.description}</p>
             )}
@@ -342,7 +354,7 @@ const imgStyle = (c: BentoItem) => {
       </div>
 
       <!-- Строка 2 -->
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[40fr_60fr] lg:h-[360px]">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[40fr_60fr] lg:h-[430px]">
 
         <!-- Карточка 3: узкая, текст внизу-слева -->
         <div class="relative h-[350px] sm:h-[400px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
@@ -360,8 +372,11 @@ const imgStyle = (c: BentoItem) => {
               />
             </picture>
           )}
-          <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
-            <h3 class="text-h3 text-gray-900">{card3.title}</h3>
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+            {card3.titleHtml
+              ? <h3 class="text-h3 text-gray-900" set:html={card3.titleHtml} />
+              : <h3 class="text-h3 text-gray-900">{card3.title}</h3>
+            }
             {card3.description && (
               <p class="text-body-lg text-black/40">{card3.description}</p>
             )}
@@ -384,8 +399,11 @@ const imgStyle = (c: BentoItem) => {
               />
             </picture>
           )}
-          <div class="absolute bottom-6 left-6 flex flex-col gap-4 lg:bottom-10 lg:left-10">
-            <h3 class="text-h3 text-gray-900">{card4.title}</h3>
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
+            {card4.titleHtml
+              ? <h3 class="text-h3 text-gray-900" set:html={card4.titleHtml} />
+              : <h3 class="text-h3 text-gray-900">{card4.title}</h3>
+            }
             {card4.description && (
               <p class="text-body-lg text-black/40">{card4.description}</p>
             )}
