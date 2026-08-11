@@ -988,6 +988,11 @@ body.fluid-page .hero-left-col {
   /* SupportSection — подзаголовок и аватары */
   .fluid-scale .max-w-\[620px\]     { max-width: 38.75rem; }
   .fluid-scale .size-\[54px\]       { width: 3.375rem; height: 3.375rem; }
+
+  /* Исключение: /scoring. Заголовок согласован с заказчиком и не меняется,
+     на базовом кегле ломается на 5 строк. 3.5rem вместо 4rem → 4 строки
+     на всём диапазоне 1024–2560. Селектор с тегом (0,2,1) бьёт .text-h1. */
+  .fluid-scale .hero-h1-sm h1 { font-size: 3.5rem; }
 }
 
 /* xl:-классы — отдельным медиазапросом: сам Tailwind ставит их только с 1280,

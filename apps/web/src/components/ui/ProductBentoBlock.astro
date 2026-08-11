@@ -225,7 +225,7 @@ const bgStyle = (c?: ProductCard) => {
   <div class="flex flex-col gap-4 lg:gap-6">
 
     <!-- Строка 1: широкая карточка + узкая -->
-    <div class:list={["grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-[61fr_39fr] lg:h-[600px]", layoutInverted && "order-2"]}>
+    <div class:list={["grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-[61fr_39fr] lg:h-[41.25rem]", layoutInverted && "order-2"]}>
 
       <!-- Карточка 1 -->
       {c1 && (
@@ -340,7 +340,7 @@ const bgStyle = (c?: ProductCard) => {
 
     <!-- Строка 3: две равные карточки (только если есть c4 или c5) -->
     {(c4 || c5) && (
-    <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-2 lg:h-[600px]">
+    <div class="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-2 lg:h-[41.25rem]">
 
       <!-- Карточка 4 -->
       {c4 && (

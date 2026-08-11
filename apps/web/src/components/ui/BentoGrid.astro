@@ -66,7 +66,7 @@ interface BentoItem {
   title: string
   /**
    * Заголовок в HTML — для фиксированных переносов через <br>.
-   * Если задан, используется вместо title. Поддерживается в variant='four'.
+   * Если задан, используется вместо title. Поддерживается в variant='three' и 'four'.
    */
   titleHtml?: string
   /** Подпись под заголовком */
@@ -151,16 +151,15 @@ const imgStyle = (c: BentoItem) => {
     Две равные карточки 50/50. lg+: вертикальные (portrait) рядом; до lg — стек.
     Текст снизу-слева: заголовок (h3) + подзаголовок (description).
     Картинки — вертикальные, растягиваются на всю площадь карточки.
-    Высота снижена на ~18% относительно первой версии (500/620/720/900 → 410/510/590/740):
-    контента в карточке ~140px, прежние пропорции читались громоздко. Портретность сохранена.
-    Значения намеренно «некруглые»: 600px/540px и т.п. перехватываются fluid-оверрайдами
-    ProductBento в global.css (`.fluid-page .lg\:h-\[600px\]`) — на продуктовых страницах
-    карточка получала бы чужую высоту.
+    Высота: 484/602px до lg и 43.5rem с lg (= 696px на 1440). rem, а не px, —
+    чтобы карточка росла вместе с корневым font-size на .fluid-scale-страницах
+    (см. global.css); заодно снимает конфликт с fluid-оверрайдами ProductBento,
+    которые перехватывают «круглые» `.lg\:h-\[600px\]` и т.п.
   -->
   {isTwo && (
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
       {[card1, card2].map((card) => (
-        <div class="relative h-[410px] sm:h-[510px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-[590px] min-[1920px]:h-[740px]">
+        <div class="relative h-[484px] sm:h-[602px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-[43.5rem]">
           {card.backgroundImage && (
             <picture>
               {card.backgroundImageMobile && (
@@ -217,8 +216,10 @@ const imgStyle = (c: BentoItem) => {
               />
             </picture>
           )}
-          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:bottom-auto xl:top-10 xl:max-w-[48%]">
-            <h3 class="text-h3 text-gray-900">{card1.title}</h3>
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:bottom-auto xl:top-10 xl:max-w-[78%]">
+            {card1.titleHtml
+              ? <h3 class="text-h3 text-gray-900" set:html={card1.titleHtml} />
+              : <h3 class="text-h3 text-gray-900">{card1.title}</h3>}
             {card1.description && (
               <p class="text-body-lg text-black/40">{card1.description}</p>
             )}
@@ -244,8 +245,10 @@ const imgStyle = (c: BentoItem) => {
               />
             </picture>
           )}
-          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:bottom-auto xl:top-10 xl:max-w-[48%]">
-            <h3 class="text-h3 text-gray-900">{card2.title}</h3>
+          <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:bottom-auto xl:top-10 xl:max-w-[78%]">
+            {card2.titleHtml
+              ? <h3 class="text-h3 text-gray-900" set:html={card2.titleHtml} />
+              : <h3 class="text-h3 text-gray-900">{card2.title}</h3>}
             {card2.description && (
               <p class="text-body-lg text-black/40">{card2.description}</p>
             )}
@@ -271,7 +274,9 @@ const imgStyle = (c: BentoItem) => {
           </picture>
         )}
         <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:max-w-none xl:bottom-auto xl:top-10">
-          <h3 class="text-h3 text-gray-900">{card3.title}</h3>
+          {card3.titleHtml
+            ? <h3 class="text-h3 text-gray-900" set:html={card3.titleHtml} />
+            : <h3 class="text-h3 text-gray-900">{card3.title}</h3>}
           {card3.description && (
             <p class="text-body-lg text-black/40">{card3.description}</p>
           )}
