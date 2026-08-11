@@ -150,7 +150,9 @@ const cardCls = 'min-h-[350px] md:min-h-0 md:aspect-square'
         <!-- Карточки: лента (scroll) или сетка (grid) -->
         {isScroll ? (
           <div class="relative">
-            <div class="lg:overflow-x-auto lg:overscroll-x-contain scrollbar-hide lg:snap-x lg:snap-mandatory" data-story-viewport>
+            {/* lg:py-3 / -my-3 — запас под hover:-translate-y-2 карточки: overflow-x
+                режет и по вертикали, без запаса у карточки срезался верхний край. */}
+            <div class="lg:overflow-x-auto lg:overscroll-x-contain scrollbar-hide lg:snap-x lg:snap-mandatory lg:py-3 lg:-my-3" data-story-viewport>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:flex gap-6" data-story-track data-story-group>
                 {stories.map((story) => (
                   <div class={slideCls}>
