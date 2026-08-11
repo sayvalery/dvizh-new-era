@@ -1,24 +1,25 @@
 ---
 /**
- * SuccessStoryBlock — секция «истории успеха» с заголовком, кнопкой и сеткой карточек
+ * SuccessStoryBlock — секция «истории успеха»: заголовок, кнопка и карточки кейсов.
  *
- * Использует StoryCard (variant="default") с поддержкой titleHtml для оранжевых выделений в заголовке карточки.
- * PersonCard внутри карточки отображает название и описание компании.
+ * Раскладка (prop layout):
+ *   'grid'   — статичная сетка 1/2/3 колонки (дефолт);
+ *   'scroll' — <lg  — та же статичная сетка 1/2 колонки, что и в 'grid';
+ *              lg+  — горизонтальная лента: секция закрепляется (sticky) и едет
+ *                     по вертикальному скроллу — страница не уходит дальше,
+ *                     пока не долистаны все карточки.
+ *
+ * Опциональная CTA-карточка (prop cta) добавляется последней.
+ *
+ * Использует StoryCard (variant="default") с поддержкой titleHtml для оранжевых выделений.
  *
  * @example
  * ```astro
  * <SuccessStoryBlock
+ *   layout="scroll"
  *   heading="70+ историй успеха"
- *   buttonLabel="Получить демо"
- *   stories={[
- *     {
- *       logo: '/partners/lsr.svg',
- *       logoAlt: 'ЛСР',
- *       titleHtml: 'Помогли <span class="text-brand">вырасти на 281%</span>',
- *       personName: 'Группа ЛСР',
- *       personJobTitle: 'Ведущий строительный холдинг',
- *     }
- *   ]}
+ *   stories={[{ titleHtml: 'Помогли <span class="text-brand">вырасти на 281%</span>', personName: 'Группа ЛСР' }]}
+ *   cta={{ title: 'ещё 70+', subtitle: 'историй успеха', note: 'За 5 лет ни один клиент не ушёл к конкурентам' }}
  * />
  * ```
  */
@@ -49,6 +50,23 @@ interface StoryItem {
   href?: string
 }
 
+interface CtaCard {
+  /** Крупный заголовок (например «ещё 70+») */
+  title: string
+  /** Строка под заголовком */
+  subtitle?: string
+  /** Текст в нижней части карточки */
+  note?: string
+  /** Подпись кнопки */
+  buttonLabel?: string
+  /** Пресет дровера для кнопки */
+  buttonPreset?: 'demo' | 'lead' | 'research' | 'subscribe'
+  /** href кнопки (если задан — кнопка ссылка, а не дровер) */
+  buttonHref?: string
+  /** Фоновое изображение карточки (без него — брендовый градиент) */
+  backgroundImage?: string
+}
+
 interface Props {
   /** Заголовок секции */
   heading?: string
@@ -68,6 +86,10 @@ interface Props {
   buttonVariant?: 'primary' | 'secondary' | 'dark' | 'ghost'
   /** Карточки историй */
   stories: StoryItem[]
+  /** CTA-карточка последней в ленте (только для layout="scroll"). Опционально. */
+  cta?: CtaCard
+  /** Раскладка: статичная сетка или горизонтальная лента с закреплением на lg+ */
+  layout?: 'grid' | 'scroll'
   /** Показывать аватар персоны (фото или плейсхолдер с инициалом). По умолчанию false. */
   showPersonPhoto?: boolean
   /** Дополнительные классы */
@@ -84,60 +106,316 @@ const {
   buttonHref,
   buttonVariant = 'dark',
   stories,
+  cta,
+  layout = 'grid',
   showPersonPhoto = false,
   class: className = '',
 } = Astro.props
+
+const isScroll = layout === 'scroll'
+
+// <lg слайд — обычная ячейка сетки во всю колонку. lg+ он становится flex-элементом
+// ленты шириной ровно 1/2 (lg) и 1/3 (xl) контейнера с учетом gap-6 — стартовый кадр
+// ленты совпадает с grid-раскладкой.
+const slideCls = 'w-full lg:flex-none lg:snap-start lg:w-[calc((100%-1.5rem)/2)] xl:w-[calc((100%-3rem)/3)]'
+const cardCls = 'min-h-[350px] md:min-h-0 md:aspect-square'
 ---
 
-<section class:list={[className]}>
-  <div class="page-container">
-    <div class="flex flex-col gap-10 lg:gap-16">
+<section class:list={[isScroll && 'story-pin', className]} data-story-pin={isScroll ? '' : undefined}>
+  <div class="story-pin__sticky" data-story-sticky>
+    <div class="page-container w-full">
+      <div class="flex flex-col gap-10 lg:gap-16">
 
-      <!-- Заголовок + (опц.) счетчик + (опц.) подзаголовок + кнопка -->
-      <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-        <div class="flex flex-col gap-1 max-w-[1000px] w-full">
-          {headingHref ? (
-            <a href={headingHref} class="group w-fit">
-              <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">{heading}{counter !== undefined && <span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{counter}</span>}</h2>
-            </a>
-          ) : (
-            <h2 class="text-h2 text-gray-900">{heading}{counter !== undefined && <span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{counter}</span>}</h2>
-          )}
-          {subtitle && <p class="text-body-lg text-gray-500">{subtitle}</p>}
+        <!-- Заголовок + (опц.) счетчик + (опц.) подзаголовок + кнопка -->
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          <div class="flex flex-col gap-1 max-w-[1000px] w-full">
+            {headingHref ? (
+              <a href={headingHref} class="group w-fit">
+                <h2 class="text-h2 text-gray-900 transition-colors group-hover:text-brand">{heading}{counter !== undefined && <span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2 transition-colors group-hover:text-brand">{counter}</span>}</h2>
+              </a>
+            ) : (
+              <h2 class="text-h2 text-gray-900">{heading}{counter !== undefined && <span class="text-h4 text-gray-900 opacity-30 align-top leading-none ml-2">{counter}</span>}</h2>
+            )}
+            {subtitle && <p class="text-body-lg text-gray-500">{subtitle}</p>}
+          </div>
+          <div class="shrink-0">
+            {buttonHref ? (
+              <Button variant={buttonVariant} size="sm" href={buttonHref}>{buttonLabel}</Button>
+            ) : (
+              <Button variant={buttonVariant} size="sm" drawerPreset={buttonPreset}>{buttonLabel}</Button>
+            )}
+          </div>
         </div>
-        <div class="shrink-0">
-          {buttonHref ? (
-            <Button variant={buttonVariant} size="sm" href={buttonHref}>{buttonLabel}</Button>
-          ) : (
-            <Button variant={buttonVariant} size="sm" drawerPreset={buttonPreset}>{buttonLabel}</Button>
-          )}
-        </div>
-      </div>
 
-      <!-- Сетка карточек -->
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {stories.map((story) => (
-          <StoryCard
-            variant="default"
-            href={story.href}
-            title={story.titleHtml}
-            titleHtml={story.titleHtml}
-            logo={story.logo}
-            logoAlt={story.logoAlt}
-            logoHover={story.logoHover}
-            hoverBackground={story.hoverBackground}
-            hoverGlass={story.hoverGlass}
-            person={{
-              name: story.personName,
-              jobTitle: story.personJobTitle,
-              photo: story.personPhoto ? { url: story.personPhoto } : undefined,
-            }}
-            showPersonPhoto={showPersonPhoto}
-            class="min-h-[350px] md:min-h-0 md:aspect-square"
-          />
-        ))}
-      </div>
+        <!-- Карточки: лента (scroll) или сетка (grid) -->
+        {isScroll ? (
+          <div class="relative">
+            <div class="lg:overflow-x-auto lg:overscroll-x-contain scrollbar-hide lg:snap-x lg:snap-mandatory" data-story-viewport>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:flex gap-6" data-story-track data-story-group>
+                {stories.map((story) => (
+                  <div class={slideCls}>
+                    <StoryCard
+                      variant="default"
+                      href={story.href}
+                      title={story.titleHtml}
+                      titleHtml={story.titleHtml}
+                      logo={story.logo}
+                      logoAlt={story.logoAlt}
+                      logoHover={story.logoHover}
+                      hoverBackground={story.hoverBackground}
+                      hoverGlass={story.hoverGlass}
+                      person={{
+                        name: story.personName,
+                        jobTitle: story.personJobTitle,
+                        photo: story.personPhoto ? { url: story.personPhoto } : undefined,
+                      }}
+                      showPersonPhoto={showPersonPhoto}
+                      class={cardCls}
+                    />
+                  </div>
+                ))}
+                {cta && (
+                  <div class={slideCls}>
+                    <div
+                      class:list={['w-full rounded-2xl sm:rounded-3xl overflow-hidden relative flex flex-col bg-brand bg-cover bg-center transform-gpu transition-transform duration-300 ease-out hover:-translate-y-2', cardCls]}
+                      style={cta.backgroundImage
+                        ? `background-image: url(${cta.backgroundImage})`
+                        : 'background-image: linear-gradient(135deg, #ff4d00 0%, #ff8a3d 45%, #ff4d00 100%)'}
+                    >
+                      <div class="p-4 lg:p-8 flex flex-col flex-1 justify-between gap-8">
+                        <div class="flex flex-col gap-1">
+                          <h3 class="text-h2 text-white">{cta.title}</h3>
+                          {cta.subtitle && <p class="text-body-lg text-white/80">{cta.subtitle}</p>}
+                        </div>
+                        <div class="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+                          {cta.note && <p class="text-subhead text-white max-w-[240px]">{cta.note}</p>}
+                          {cta.buttonHref ? (
+                            <Button variant="secondary" size="md" href={cta.buttonHref}>{cta.buttonLabel ?? 'Записаться на демо'}</Button>
+                          ) : (
+                            <Button variant="secondary" size="md" drawerPreset={cta.buttonPreset ?? 'demo'}>{cta.buttonLabel ?? 'Записаться на демо'}</Button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div class="story-pin__fade" aria-hidden="true"></div>
+          </div>
+        ) : (
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" data-story-group>
+            {stories.map((story) => (
+              <StoryCard
+                variant="default"
+                href={story.href}
+                title={story.titleHtml}
+                titleHtml={story.titleHtml}
+                logo={story.logo}
+                logoAlt={story.logoAlt}
+                logoHover={story.logoHover}
+                hoverBackground={story.hoverBackground}
+                hoverGlass={story.hoverGlass}
+                person={{
+                  name: story.personName,
+                  jobTitle: story.personJobTitle,
+                  photo: story.personPhoto ? { url: story.personPhoto } : undefined,
+                }}
+                showPersonPhoto={showPersonPhoto}
+                class={cardCls}
+              />
+            ))}
+          </div>
+        )}
 
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  /* Закрепление включает только JS (data-pin="on"): без JS, на узких экранах и при
+     prefers-reduced-motion лента остается обычным горизонтальным скроллом. */
+  .story-pin[data-pin='on'] .story-pin__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Нативный скролл ленты отключаем только когда ею управляет вертикальный скролл. */
+  .story-pin[data-pin='on'] [data-story-viewport] {
+    overflow-x: hidden;
+  }
+
+  .story-pin[data-pin='on'] [data-story-track] {
+    will-change: transform;
+  }
+
+  /* ── Растушевка правого края ───────────────────────────────────────────────
+     Лента обрезается по краю колонки, и карточка уезжала «в пустоту» резким
+     срезом. Гасим срез двумя слоями:
+       1) маска на вьюпорте — карточка растворяется в прозрачность (не в цвет),
+          поэтому работает на любом фоне страницы;
+       2) полоса backdrop-filter поверх — уезжающий край еще и размывается.
+
+     Обе ширины считаются от --story-fade, которую JS гасит в ноль на конце ленты:
+     иначе последняя карточка (CTA) навсегда осталась бы размытой.
+     Вне закрепления (сетка на мобилке, фоллбэк) --story-fade = 0. */
+  .story-pin {
+    --story-fade-max: clamp(72px, 6.5vw, 140px);
+    --story-fade-k: 1;
+    --story-fade: 0px;
+    /* Полоса блюра шире растушевки: она должна начинаться на еще непрозрачной
+       карточке, иначе размывать уже нечего. */
+    --story-blur: 0px;
+  }
+
+  .story-pin[data-pin='on'] {
+    --story-fade: calc(var(--story-fade-max) * var(--story-fade-k));
+    --story-blur: calc(var(--story-fade) * 1.6);
+
+    /* Кусочно-линейная аппроксимация smoothstep вместо прямой: у прямой заметны
+       и старт (излом альфы), и хвост. У smoothstep производная на концах нулевая,
+       поэтому переход не читается даже на насыщенном оранжевом CTA.
+       Ноль достигается на 92% ширины — у края колонки гарантированно пусто. */
+    --story-mask: linear-gradient(
+      to right,
+      #000 calc(100% - var(--story-fade)),
+      rgba(0, 0, 0, 0.97) calc(100% - var(--story-fade) * 0.908),
+      rgba(0, 0, 0, 0.90) calc(100% - var(--story-fade) * 0.816),
+      rgba(0, 0, 0, 0.78) calc(100% - var(--story-fade) * 0.724),
+      rgba(0, 0, 0, 0.65) calc(100% - var(--story-fade) * 0.632),
+      rgba(0, 0, 0, 0.50) calc(100% - var(--story-fade) * 0.54),
+      rgba(0, 0, 0, 0.35) calc(100% - var(--story-fade) * 0.448),
+      rgba(0, 0, 0, 0.22) calc(100% - var(--story-fade) * 0.356),
+      rgba(0, 0, 0, 0.10) calc(100% - var(--story-fade) * 0.264),
+      rgba(0, 0, 0, 0.03) calc(100% - var(--story-fade) * 0.172),
+      transparent calc(100% - var(--story-fade) * 0.08)
+    );
+  }
+
+  .story-pin[data-pin='on'] [data-story-viewport] {
+    -webkit-mask-image: var(--story-mask);
+    mask-image: var(--story-mask);
+  }
+
+  /* Полоса гаснет с ОБЕИХ сторон. Раньше маска доходила до #000 и оставалась
+     непрозрачной до правого края — блюр обрывался ступенькой на границе полосы.
+     На светло-серых карточках шва не видно, на оранжевом CTA он читался. */
+  .story-pin__fade {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--story-blur);
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.28) 16%,
+      rgba(0, 0, 0, 0.72) 34%,
+      #000 50%,
+      #000 70%,
+      rgba(0, 0, 0, 0.55) 86%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.28) 16%,
+      rgba(0, 0, 0, 0.72) 34%,
+      #000 50%,
+      #000 70%,
+      rgba(0, 0, 0, 0.55) 86%,
+      transparent 100%
+    );
+  }
+</style>
+
+<script>
+  // Pinned horizontal scroll: пока секция закреплена, вертикальный скролл двигает ленту.
+  // Включается только на lg+ и только если контент помещается по высоте экрана.
+  function initStoryPin() {
+    const roots = Array.from(document.querySelectorAll('[data-story-pin]')) as HTMLElement[]
+    if (!roots.length) return
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+    for (const root of roots) {
+      const sticky = root.querySelector('[data-story-sticky]') as HTMLElement | null
+      const viewport = root.querySelector('[data-story-viewport]') as HTMLElement | null
+      const track = root.querySelector('[data-story-track]') as HTMLElement | null
+      if (!sticky || !viewport || !track) continue
+
+      let distance = 0
+      let ticking = false
+
+      // На хвосте ленты растушевка выключается: последняя карточка встает вплотную
+      // к краю колонки и не должна оставаться размытой. FADE_TAIL — запас: без него
+      // ноль достигается только в точке progress === 1, куда скролл почти никогда не
+      // попадает, и на конце остается заметная полоска в несколько пикселей.
+      const FADE_OUT = 160
+      const FADE_TAIL = 24
+
+      const disable = () => {
+        root.removeAttribute('data-pin')
+        root.style.height = ''
+        root.style.removeProperty('--story-fade-k')
+        track.style.transform = ''
+        distance = 0
+      }
+
+      const update = () => {
+        ticking = false
+        if (!distance) return
+        const top = root.getBoundingClientRect().top
+        const progress = Math.min(1, Math.max(0, -top / distance))
+        track.style.transform = `translate3d(${-progress * distance}px, 0, 0)`
+        const remaining = distance * (1 - progress)
+        const k = Math.min(1, Math.max(0, (remaining - FADE_TAIL) / FADE_OUT))
+        root.style.setProperty('--story-fade-k', String(k))
+      }
+
+      const measure = () => {
+        // Замеряем в выключенном состоянии: sticky и заданная высота искажают геометрию.
+        disable()
+        if (window.innerWidth < 1024 || reduced.matches) return
+
+        viewport.scrollLeft = 0
+        const last = track.lastElementChild as HTMLElement | null
+        if (!last) return
+
+        const overflow = last.getBoundingClientRect().right - viewport.getBoundingClientRect().right
+        if (overflow <= 1) return
+        // Если секция не помещается по высоте, закрепление обрежет карточки — оставляем обычный поток.
+        if (sticky.offsetHeight > window.innerHeight - 24) return
+
+        distance = overflow
+        root.style.height = window.innerHeight + overflow + 'px'
+        root.setAttribute('data-pin', 'on')
+        update()
+      }
+
+      const onScroll = () => {
+        if (!ticking) {
+          ticking = true
+          requestAnimationFrame(update)
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true })
+      window.addEventListener('resize', measure, { passive: true })
+      measure()
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStoryPin)
+  } else {
+    initStoryPin()
+  }
+</script>

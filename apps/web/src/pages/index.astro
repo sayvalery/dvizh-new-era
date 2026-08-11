@@ -273,13 +273,34 @@ const partnerLogos = [
     </div>
   </section>
 
-  {/* ── 3. Кейсы — SuccessStoryBlock ── */}
+  {/* ── 3. Кейсы — SuccessStoryBlock (лента с закреплением на lg+) ── */}
   <SuccessStoryBlock
-    heading="70+ историй успеха на рынке застройщиков"
+    layout="scroll"
+    heading="70+ историй успеха на рынке застройщиков"
     buttonLabel="Получить демо"
     buttonPreset="demo"
     class="!py-0"
     stories={[
+      {
+        logo: '/api/media/file/enko.svg',
+        logoAlt: 'ЭНКО',
+        logoHover: '/api/media/file/enco-logo-white.svg',
+        hoverBackground: '/api/media/file/enco-case.webp',
+        href: '/blog/keys-enko-dvizh',
+        titleHtml: 'Увеличили <span class="text-brand">объем заявок в 3 раза</span> при доле ипотеки 80%',
+        personName: 'ЭНКО',
+        personJobTitle: 'Один из крупнейших застройщиков Тюмени',
+      },
+      {
+        logo: '/api/media/file/glorax-logo.svg',
+        logoAlt: 'GloraX',
+        logoHover: '/api/media/file/glorax-logo-white.svg',
+        hoverBackground: '/api/media/file/glorax-case.webp',
+        href: '/blog/keys-glorax-elektronnaya-registraciya',
+        titleHtml: 'Сократили расходы на регистрацию <span class="text-brand">на 30%</span>',
+        personName: 'GloraX',
+        personJobTitle: 'Федеральный девелопер',
+      },
       {
         logo: '/api/media/file/lsr_color.svg',
         logoAlt: 'Группа ЛСР',
@@ -287,9 +308,9 @@ const partnerLogos = [
         hoverBackground: '/api/media/file/lsr_bg.png',
         hoverGlass: true,
         href: '/blog/keys-lsr-dvizh',
-        titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
-        personName: 'Группа ЛСР',
-        personJobTitle: 'Один из ведущих строительных холдингов',
+        titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
+        personName: 'Группа ЛСР',
+        personJobTitle: 'Один из ведущих строительных холдингов',
       },
       {
         logo: '/api/media/file/tochno_color.svg',
@@ -297,21 +318,19 @@ const partnerLogos = [
         logoHover: '/api/media/file/tochno_white.svg',
         hoverBackground: '/api/media/file/tochno_bg.png',
         href: '/blog/keys-gk-tochno-i-dvizha',
-        titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
-        personName: 'ГК «Точно»',
+        titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
+        personName: 'ГК «Точно»',
         personJobTitle: 'Крупнейший девелопер Краснодарского края',
       },
-      {
-        logo: '/api/media/file/enko.svg',
-        logoAlt: 'ЭНКО',
-        logoHover: '/api/media/file/enco-logo-white.svg',
-        hoverBackground: '/api/media/file/enco-case.webp',
-        href: '/blog/keys-enko-dvizh',
-        titleHtml: 'Увеличили <span class="text-brand">объем заявок в 3 раза</span> при доле ипотеки 80%',
-        personName: 'ЭНКО',
-        personJobTitle: 'Один из крупнейших застройщиков Тюмени',
-      },
     ]}
+    cta={{
+      title: 'ещё 70+',
+      subtitle: 'историй успеха',
+      note: 'За 5 лет ни один клиент не ушёл к конкурентам',
+      buttonLabel: 'Записаться на демо',
+      buttonPreset: 'demo',
+      backgroundImage: '/api/media/file/cta-banner-dvizh.webp',
+    }}
   />
 
 

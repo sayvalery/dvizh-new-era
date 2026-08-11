@@ -144,7 +144,9 @@
       "Bash(git ls-remote git@git.dvizh.io:vs/dvizh.io.git)",
       "Bash(bash scripts/audit.sh)",
       "Bash(node scripts/tmp-nbsp-audit.cjs)",
-      "Bash(node scripts/tmp-diff-inspect.cjs)"
+      "Bash(node scripts/tmp-diff-inspect.cjs)",
+      "Bash(node -e \"const s=require\\(''fs''\\).readFileSync\\(''apps/web/src/pages/ui-kit/[...slug].astro''\\); const t=s.toString\\(''utf8''\\); console.log\\(''CRLF'', \\(t.match\\(/\\\\r\\\\n/g\\)||[]\\).length, ''LF'', \\(t.match\\(/\\\\n/g\\)||[]\\).length, ''BOM'', s[0]===0xEF\\);\")",
+      "Bash(node -e \"const G=require\\(''fs''\\).readFileSync\\(''apps/web/src/pages/ui-kit/[...slug].astro'',''utf8''\\).split\\(/\\\\r?\\\\n/\\); [2309,2310].forEach\\(i=>console.log\\(i+1, JSON.stringify\\(G[i]\\).replace\\(/[^\\\\x20-\\\\x7e]/g, c=>''\\\\\\\\u''+c.charCodeAt\\(0\\).toString\\(16\\)\\)\\)\\);\")"
     ]
   },
   "enableAllProjectMcpServers": true,
