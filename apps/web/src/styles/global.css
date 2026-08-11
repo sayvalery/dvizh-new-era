@@ -905,7 +905,13 @@ body.fluid-page .hero-left-col {
 
   /* Фиксированные размеры компонентов (arbitrary-классы Tailwind).
      Классы не переименовываем: на них завязаны правила .fluid-page других страниц. */
-  .fluid-scale .lg\:h-\[430px\]    { height: 26.875rem; }   /* BentoGrid four */
+  .fluid-scale .lg\:h-\[430px\]    { height: 26.875rem; }
+  .fluid-scale .lg\:h-\[600px\]    { height: 37.5rem; }
+  .fluid-scale .lg\:h-\[540px\]    { height: 33.75rem; }
+  .fluid-scale .lg\:min-h-\[360px\] { min-height: 22.5rem; }
+  .fluid-scale .min-h-\[480px\]     { min-height: 30rem; }
+  .fluid-scale .support-tab          { min-height: 13.75rem; }
+  .fluid-scale .hero-cols-wide       { grid-template-columns: 51.25rem 1fr; }   /* BentoGrid four */
   .fluid-scale .max-w-\[1000px\]    { max-width: 62.5rem; }   /* колонка заголовка */
   .fluid-scale .lg\:-top-\[100px\] { top: -6.25rem; }        /* вынос картинки hero */
   .fluid-scale .formclosing-w,
@@ -947,4 +953,36 @@ body.fluid-page .hero-left-col {
 
   /* CTA-кнопка (ui/CTA.astro .cta-btn): px-8 py-4 rounded-xl text-base */
   .fluid-scale .cta-btn { padding: 1rem 2rem; font-size: 1rem; border-radius: 0.75rem; }
+
+  /* Формы (Form / FormClosing): подпись поля и текст согласия */
+  .fluid-scale .text-\[13px\]        { font-size: 0.8125rem; }
+  /* CTA-баннер */
+  .fluid-scale .lg\:text-\[40px\]   { font-size: 2.5rem; }
+  .fluid-scale .lg\:text-\[18px\]   { font-size: 1.125rem; }
+  /* HeroSection, узкий вариант (wideTitle={false}) — у широкого свой
+     .hero-cols-wide. Без этого левая колонка героя стояла на 726px, пока
+     контейнер тянулся до 2276px. */
+  .fluid-scale .lg\:grid-cols-\[726px_1fr\] { grid-template-columns: 45.375rem 1fr; }
+  .fluid-scale .max-w-\[602px\]      { max-width: 37.625rem; }
+  .fluid-scale .lg\:max-w-\[920px\] { max-width: 57.5rem; }
+  .fluid-scale .lg\:min-h-\[800px\] { min-height: 50rem; }
+  .fluid-scale .lg\:max-h-\[1100px\] { max-height: 68.75rem; }
+  .fluid-scale .hero-marquee-w        { width: min(85rem, calc(100vw - 5rem)); }
+  /* CTA: круглая иконка-аватар */
+  .fluid-scale .sm\:w-\[94px\]      { width: 5.875rem; }
+  .fluid-scale .sm\:min-w-\[94px\]  { min-width: 5.875rem; }
+  .fluid-scale .sm\:max-w-\[94px\]  { max-width: 5.875rem; }
+  .fluid-scale .sm\:h-\[95px\]      { height: 5.9375rem; }
+  /* FunnelSection — заголовок */
+  .fluid-scale .max-w-\[800px\]      { max-width: 50rem; }
+  /* ProductLink — иконка продукта */
+  .fluid-scale .lg\:size-\[60px\]   { width: 3.75rem; height: 3.75rem; }
+  /* Timeline (/about) — колонка года */
+  .fluid-scale .lg\:grid-cols-\[200px_1fr\] { grid-template-columns: 12.5rem 1fr; }
+}
+
+/* xl:-классы — отдельным медиазапросом: сам Tailwind ставит их только с 1280,
+   в блоке на 1024 высота протекла бы в раскладку планшетного десктопа. */
+@media (min-width: 1280px) {
+  .fluid-scale .xl\:h-\[738px\] { height: 46.125rem; }
 }
