@@ -853,6 +853,14 @@ html.fluid-scale { font-size: clamp(1rem, 1.1111vw, 1.7778rem); }
    существует только с lg. */
 .fluid-scale .feature-media { min-height: 0; aspect-ratio: 1; align-self: start; }
 
+/* Поля контейнера: 40px (базовые) на 1024 → 80px на 1440, дальше 5rem растут с
+   корнем. Рампа нужна, чтобы на границе 1440 не было скачка полей вдвое. */
+@media (min-width: 1024px) and (max-width: 1439.98px) {
+  .fluid-scale .page-container,
+  .fluid-scale header .max-w-\[1440px\],
+  .fluid-scale section .max-w-\[1440px\] { padding-left: clamp(2.5rem, -3.654rem + 9.615vw, 5rem); padding-right: clamp(2.5rem, -3.654rem + 9.615vw, 5rem); }
+}
+
 @media (min-width: 1440px) {
   /* Типографика — десктопные значения ДС в rem (были потолками базовых clamp) */
   .fluid-scale .text-h1,
@@ -877,10 +885,11 @@ html.fluid-scale { font-size: clamp(1rem, 1.1111vw, 1.7778rem); }
   .fluid-scale .text-side-menu       { font-size: 0.75rem;  letter-spacing: 0.0833em; }
   .fluid-scale .text-medium-32       { font-size: 2rem;     letter-spacing: -0.03125em; }
 
-  /* Контейнер: 90rem = 1440px на 1440 и 2560px на 2560 — поля остаются 2.8% */
-  .fluid-scale .page-container { max-width: 90rem; padding-left: 2.5rem; padding-right: 2.5rem; }
+  /* Контейнер: 90rem = 1440px на 1440 и 2560px на 2560, т.е. всегда во всю ширину.
+     Поля 5rem = 80px на 1440 → 142px на 2560 (5.6% с каждой стороны). */
+  .fluid-scale .page-container,
   .fluid-scale header .max-w-\[1440px\],
-  .fluid-scale section .max-w-\[1440px\] { max-width: 90rem; }
+  .fluid-scale section .max-w-\[1440px\] { max-width: 90rem; padding-left: 5rem; padding-right: 5rem; }
 
   .fluid-scale .feature-col { gap: 2.469rem; }
   .fluid-scale .lg\:py-\[120px\] { padding-top: 7.5rem; padding-bottom: 7.5rem; }
