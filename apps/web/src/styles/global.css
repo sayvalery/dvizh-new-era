@@ -814,3 +814,119 @@ body.fluid-page .hero-left-col {
 .animate-hero-float {
   animation: hero-float 6s ease-in-out infinite;
 }
+
+/* ─── Пропорциональный скейл (.fluid-scale на <html>) ──────────────────────────
+ * Альтернатива .fluid-page. Вместо ~40 независимых vw-клэмпов — один общий
+ * множитель (корневой font-size) и все размеры в rem. Благодаря этому отношение
+ * «ширина колонки / кегль» остаётся константой: переносы строк не меняются,
+ * высота блоков растёт вместе с шириной, страница масштабируется как вектор.
+ *
+ * Что чинит. У .fluid-page рампы кончались в разных точках: шрифты и контролы
+ * насыщались на 1920, контейнер тянулся до 2560, .feature-media упирался в
+ * потолок 700px. Отсюда разъезд пропорций (колонка/кегль: 29.7 на 1200 против
+ * 44.4 на 2560) и разная высота картинок у соседних FeatureBlock — картинка
+ * тянулась за текстом, а текст перевёрстывался по-разному на разных ширинах.
+ *
+ * Диапазон 1440 → 2560. Ниже 1440 корень фиксирован на 1rem, поэтому все
+ * значения равны сегодняшним пикселям — мобилка и планшет не затрагиваются.
+ * Выше 2560 — потолок. Стык на 1440 непрерывный: все rem-значения ниже равны
+ * рендеру .fluid-page на 1440px.
+ *
+ * Корень в rem, а не в px: на <html> rem считается от initial value, поэтому
+ * пользовательская настройка размера шрифта в браузере продолжает работать.
+ */
+html.fluid-scale { font-size: clamp(1rem, 1.1111vw, 1.7778rem); }
+
+/* Структурные правила, унаследованные от .fluid-page (со скейлом не связаны,
+   поэтому вне медиазапроса). Класс min-h-[calc(100dvh-76px)] не генерит CSS —
+   calc без пробелов вокруг «-» невалиден, минификатор выкидывает правило. */
+.fluid-scale .min-h-\[calc\(100dvh-76px\)\] { min-height: calc(100dvh - 4.75rem); }
+.fluid-scale .hero-left-col { padding-bottom: clamp(4rem, 2.094rem + 8.14vw, 6rem); }
+
+/* FeatureBlock: картинка — квадрат по ширине колонки, а не растяжка по высоте
+   текстовой колонки. Раньше высота фрейма равнялась высоте текста, поэтому у
+   соседних блоков одной страницы картинки были разной высоты (на /ipoteka 1440:
+   643 против 624, на 1280 — 697 против 600). Теперь размер задаёт только ширина
+   колонки: все блоки страницы получают картинку одного размера, и под неё нужен
+   ровно один квадратный файл. Если текст выше квадрата — блок просто выше,
+   картинка прижата к верху (align-self). Вне медиазапроса: .feature-media и так
+   существует только с lg. */
+.fluid-scale .feature-media { min-height: 0; aspect-ratio: 1; align-self: start; }
+
+@media (min-width: 1440px) {
+  /* Типографика — десктопные значения ДС в rem (были потолками базовых clamp) */
+  .fluid-scale .text-h1,
+  .fluid-scale .text-h1-italic       { font-size: 4rem; }
+  .fluid-scale .text-h2              { font-size: 2.5rem; }
+  .fluid-scale .text-h3              { font-size: 2rem; }
+  .fluid-scale .text-h4              { font-size: 1.5rem; }
+  .fluid-scale .text-h5              { font-size: 1.125rem; }
+  .fluid-scale .text-h6              { font-size: 1rem; }
+  .fluid-scale .text-product-card-h  { font-size: 3rem; }
+  .fluid-scale .bento-stat-value     { font-size: 1.625rem; }
+  .fluid-scale .text-card-title      { font-size: 1.25rem; }
+  .fluid-scale .story-card-title     { font-size: 1.6875rem; }
+
+  /* Тело текста. letter-spacing переведён из px в em — иначе на широких экранах
+     трекинг остаётся прежним в абсолюте и текст выглядит переразреженным. */
+  .fluid-scale .text-body-lg,
+  .fluid-scale .text-body-lg-italic  { font-size: 1.125rem; letter-spacing: -0.0278em; }
+  .fluid-scale .text-body-lg-bold    { font-size: 1.125rem; letter-spacing: -0.01em; }
+  .fluid-scale .text-subhead         { font-size: 1rem;     letter-spacing: -0.03125em; }
+  .fluid-scale .text-footnote        { font-size: 0.875rem; letter-spacing: -0.03571em; }
+  .fluid-scale .text-side-menu       { font-size: 0.75rem;  letter-spacing: 0.0833em; }
+  .fluid-scale .text-medium-32       { font-size: 2rem;     letter-spacing: -0.03125em; }
+
+  /* Контейнер: 90rem = 1440px на 1440 и 2560px на 2560 — поля остаются 2.8% */
+  .fluid-scale .page-container { max-width: 90rem; padding-left: 2.5rem; padding-right: 2.5rem; }
+  .fluid-scale header .max-w-\[1440px\],
+  .fluid-scale section .max-w-\[1440px\] { max-width: 90rem; }
+
+  .fluid-scale .feature-col { gap: 2.469rem; }
+  .fluid-scale .lg\:py-\[120px\] { padding-top: 7.5rem; padding-bottom: 7.5rem; }
+
+  /* Фиксированные размеры компонентов (arbitrary-классы Tailwind).
+     Классы не переименовываем: на них завязаны правила .fluid-page других страниц. */
+  .fluid-scale .lg\:h-\[430px\]    { height: 26.875rem; }   /* BentoGrid four */
+  .fluid-scale .max-w-\[1000px\]    { max-width: 62.5rem; }   /* колонка заголовка */
+  .fluid-scale .lg\:-top-\[100px\] { top: -6.25rem; }        /* вынос картинки hero */
+  .fluid-scale .formclosing-w,
+  .fluid-scale .lg\:max-w-\[800px\] { max-width: 50rem; }    /* FormClosing */
+  .fluid-scale .lg\:w-\[320px\]    { width: 20rem; }         /* форма FormClosing */
+  .fluid-scale .lg\:w-\[520px\]    { width: 32.5rem; }       /* Review */
+  .fluid-scale .lg\:min-h-\[400px\] { min-height: 25rem; }   /* Review */
+  .fluid-scale .max-w-\[240px\]     { max-width: 15rem; }
+  .fluid-scale .max-w-\[140px\]     { max-width: 8.75rem; }
+  .fluid-scale .max-w-\[80px\]      { max-width: 5rem; }
+  .fluid-scale .h-\[37px\]          { height: 2.3125rem; }
+  .fluid-scale .md\:w-\[540px\]    { width: 33.75rem; }      /* StoryCard hover */
+  .fluid-scale .lg\:min-w-\[600px\] { min-width: 37.5rem; }  /* StoryCard hover */
+
+  /* Контролы — маркер-классы компонентов (Button/Input/HeroBadge/Island) */
+  .fluid-scale .btn      { gap: 0.5rem; border-radius: 0.5rem; }
+  .fluid-scale .btn-sm   { height: 2.25rem; padding-left: 1rem;   padding-right: 1rem;   font-size: 0.875rem; }
+  .fluid-scale .btn-md   { height: 2.75rem; padding-left: 1.5rem; padding-right: 1.5rem; font-size: 0.875rem; }
+  .fluid-scale .btn-lg   { height: 3.25rem; padding-left: 1.5rem; padding-right: 1.5rem; font-size: 1rem; }
+  .fluid-scale .btn-sm .btn-icon { width: 1rem;     height: 1rem; }
+  .fluid-scale .btn-md .btn-icon { width: 1.125rem; height: 1.125rem; }
+  .fluid-scale .btn-lg .btn-icon { width: 1.25rem;  height: 1.25rem; }
+  .fluid-scale .btn-sm.w-9        { width: 2.25rem; }
+  .fluid-scale .btn-md.w-11       { width: 2.75rem; }
+  .fluid-scale .btn-lg.w-\[52px\] { width: 3.25rem; }
+
+  .fluid-scale .field   { padding-left: 1rem; padding-right: 1rem; border-radius: 0.5rem; }
+  .fluid-scale .field-m { padding-top: 0.5625rem; padding-bottom: 0.5625rem; font-size: 1rem; }
+  .fluid-scale .field-s { padding-top: 0.5rem;    padding-bottom: 0.5rem;    font-size: 0.875rem; }
+
+  .fluid-scale .hero-badge { gap: 0.375rem; padding: 0.375rem 0.75rem; }
+  .fluid-scale .hero-badge img  { width: 0.875rem; height: 0.875rem; }
+  .fluid-scale .hero-badge span { font-size: 0.875rem; }
+
+  .fluid-scale .island { gap: 0.75rem; padding: 0.75rem 0.75rem 0.75rem 1rem; }
+  .fluid-scale .island > span { font-size: 0.875rem; }
+  /* Возврат pill: .fluid-scale .btn выше по специфичности, чем базовый .island .btn */
+  .fluid-scale .island .btn { border-radius: 9999px; }
+
+  /* CTA-кнопка (ui/CTA.astro .cta-btn): px-8 py-4 rounded-xl text-base */
+  .fluid-scale .cta-btn { padding: 1rem 2rem; font-size: 1rem; border-radius: 0.75rem; }
+}
