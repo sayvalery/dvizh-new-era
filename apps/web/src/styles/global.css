@@ -979,10 +979,21 @@ body.fluid-page .hero-left-col {
   .fluid-scale .lg\:size-\[60px\]   { width: 3.75rem; height: 3.75rem; }
   /* Timeline (/about) — колонка года */
   .fluid-scale .lg\:grid-cols-\[200px_1fr\] { grid-template-columns: 12.5rem 1fr; }
+
+  /* AdvantageCard — заголовок и крупная цифра */
+  .fluid-scale .lg\:text-\[32px\]  { font-size: 2rem; }
+  .fluid-scale .lg\:text-\[64px\]  { font-size: 4rem; }
+  /* ProductBentoBlock — подзаголовок */
+  .fluid-scale .lg\:max-w-\[400px\] { max-width: 25rem; }
+  /* SupportSection — подзаголовок и аватары */
+  .fluid-scale .max-w-\[620px\]     { max-width: 38.75rem; }
+  .fluid-scale .size-\[54px\]       { width: 3.375rem; height: 3.375rem; }
 }
 
 /* xl:-классы — отдельным медиазапросом: сам Tailwind ставит их только с 1280,
    в блоке на 1024 высота протекла бы в раскладку планшетного десктопа. */
 @media (min-width: 1280px) {
   .fluid-scale .xl\:h-\[738px\] { height: 46.125rem; }
+  /* ProductBentoBlock — подзаголовок, широкий вариант */
+  .fluid-scale .xl\:max-w-\[510px\] { max-width: 31.875rem; }
 }

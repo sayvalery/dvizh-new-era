@@ -132,7 +132,7 @@ const partnerLogos = [
 <SiteLayout
   title="Цифровые продукты для рынка недвижимости"
   description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
-  bodyClass="fluid-page"
+  htmlClass="fluid-scale"
   transparentHeader
 >
 
@@ -509,51 +509,49 @@ const partnerLogos = [
   </div>
 
   {/*
-    Флюид-верстка главной (та же система, что на /lab/glavnaya и /lab/ipoteka-apex).
-    Скоуп .fluid-page живет на <body> ТОЛЬКО этой страницы (через bodyClass SiteLayout).
-    Общая флюид-система (типографика + ширина контейнера 1440→1920) — в global.css,
-    скоуп .fluid-page. Ниже в <style> — только специфичное для главной
-    (hero-сетка, LogoDrum, высоты карточек).
+    Флюид-верстка главной. Скоуп .fluid-scale живет на <html> ТОЛЬКО этой
+    страницы (через htmlClass SiteLayout) — вся раскладка масштабируется
+    пропорционально через корневой font-size (см. global.css).
+    Ниже в <style> — только специфичное для главной (LogoDrum, иллюстрации).
   */}
 
   <style is:global>
-    /*
-      Hero: левая колонка (заголовок+форма) была фикс 820px — вся доп. ширина
-      уходила в правый LogoDrum. Делаем ее растущей: minmax(820px, 1.6fr) держит
-      820px до ~1445px (как сейчас), дальше колонка растет пропорционально.
-      Только в lg+ — на мобиле сетка одноколоночная, ее не трогаем.
-    */
     @media (min-width: 1024px) {
-      .fluid-page .lg\:grid-cols-\[820px_1fr\] { grid-template-columns: minmax(820px, 1.6fr) 1fr; }
-    }
+      /*
+        Hero: блок формы (поля + кнопка) по умолчанию тянется на всю левую
+        колонку, а она растет вместе с макетом. Ограничиваем форму 640px @1440.
+        .gap-[52px] — обертка контента hero (на этой странице только в HeroSection).
+      */
+      html.fluid-scale .gap-\[52px\] form { max-width: 40rem; }
 
-    /*
-      Hero: блок формы (поля + кнопка) по умолчанию тянется на всю левую колонку,
-      а она у нас растет. Ограничиваем форму 640px, чтобы поля не разъезжались.
-      .gap-[52px] — обертка контента hero (на этой странице только в HeroSection).
-    */
-    .fluid-page .gap-\[52px\] form { max-width: 640px; }
+      /* Hero: рамка под LogoDrum */
+      html.fluid-scale .h-\[700px\] { height: 43.75rem; }
+    }
 
     /*
       Hero LogoDrum увеличен ~2×, чтобы заполнить правую часть и убрать «дыру»
       между текстом и барабаном. Правый край остается пришпилен к линии кнопки.
       radius={400} задан на инстансе (mag = 1200/800 = 1.5×).
+      html.fluid-scale (0,2,1) — чтобы перебить scoped-стили LogoDrum (0,2,0).
+      Без медиазапроса: ниже 1024 корень не масштабируется, rem = 16px.
     */
-    body.fluid-page .logo-drum { width: 380px; margin-left: auto; margin-right: 0; }
-    body.fluid-page .logo-drum-rotor { width: 380px; height: 110px; }
-    body.fluid-page .logo-drum-img { max-height: 74px; }
+    html.fluid-scale .logo-drum { width: 23.75rem; margin-left: auto; margin-right: 0; }
+    html.fluid-scale .logo-drum-rotor { width: 23.75rem; height: 6.875rem; }
+    html.fluid-scale .logo-drum-img { max-height: 4.625rem; }
     /* ДВИЖ — широкий вордмарк (~4:1), по высоте смотрится громадным рядом с компактными
        значками партнеров. Адресно уменьшаем именно его. */
-    body.fluid-page .logo-drum-img[src*="logo-dvizh"] { max-height: 54px; }
+    html.fluid-scale .logo-drum-img[src*="logo-dvizh"] { max-height: 3.375rem; }
 
     /*
       «Стабильное решение»: три 3D-иллюстрации. Источники одной высоты (1120px),
-      но разной ширины → старый жесткий бокс 120×120 с object-fit:contain рендерил
-      их разной видимой высотой (58/104/70px). Фиксируем высоту, ширина авто —
-      все три одной высоты. На широких растет ×1.333 (как контейнер), floor 120px
-      держится на планшете/мобайле.
+      но разной ширины → жесткий бокс 120×120 с object-fit:contain рендерил их
+      разной видимой высотой (58/104/70px). Фиксируем высоту, ширина авто.
+      Ниже 1024 — клэмп; выше подхватывает общий скейл (7.8125rem = 125px @1440).
     */
     .stable-illustration { height: clamp(120px, 5rem + 3.125vw, 160px); width: auto; }
+    @media (min-width: 1024px) {
+      html.fluid-scale .stable-illustration { height: 7.8125rem; }
+    }
   </style>
 
 </SiteLayout>
