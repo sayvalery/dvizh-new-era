@@ -364,6 +364,8 @@ const cardCls = 'min-h-[350px] md:min-h-0 md:aspect-square'
       const disable = () => {
         root.removeAttribute('data-pin')
         root.style.height = ''
+        root.style.marginTop = ''
+        root.style.marginBottom = ''
         root.style.removeProperty('--story-fade-k')
         track.style.transform = ''
         distance = 0
@@ -392,10 +394,19 @@ const cardCls = 'min-h-[350px] md:min-h-0 md:aspect-square'
         const overflow = last.getBoundingClientRect().right - viewport.getBoundingClientRect().right
         if (overflow <= 1) return
         // Если секция не помещается по высоте, закрепление обрежет карточки — оставляем обычный поток.
-        if (sticky.offsetHeight > window.innerHeight - 24) return
+        const contentHeight = sticky.offsetHeight
+        if (contentHeight > window.innerHeight - 24) return
 
         distance = overflow
         root.style.height = window.innerHeight + overflow + 'px'
+
+        // Контент отцентрован внутри sticky-окна высотой 100vh, поэтому сверху и снизу
+        // секции остается пустота (100vh - высота контента) / 2. Она складывается с
+        // отступом между секциями — вокруг ленты он выглядел вдвое больше остальных.
+        // Компенсируем отрицательными полями: пустота съедается, отступ равен общему.
+        const slack = Math.max(0, (window.innerHeight - contentHeight) / 2)
+        root.style.marginTop = -slack + 'px'
+        root.style.marginBottom = -slack + 'px'
         root.setAttribute('data-pin', 'on')
         update()
       }

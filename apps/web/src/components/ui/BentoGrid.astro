@@ -151,7 +151,7 @@ const imgStyle = (c: BentoItem) => {
     Две равные карточки 50/50. lg+: вертикальные (portrait) рядом; до lg — стек.
     Текст снизу-слева: заголовок (h3) + подзаголовок (description).
     Картинки — вертикальные, растягиваются на всю площадь карточки.
-    Высота: 484/602px до lg и 43.5rem с lg (= 696px на 1440). rem, а не px, —
+    Высота: 450/560px до lg и 40rem с lg (= 640px на 1440). rem, а не px, —
     чтобы карточка росла вместе с корневым font-size на .fluid-scale-страницах
     (см. global.css); заодно снимает конфликт с fluid-оверрайдами ProductBento,
     которые перехватывают «круглые» `.lg\:h-\[600px\]` и т.п.
@@ -159,7 +159,7 @@ const imgStyle = (c: BentoItem) => {
   {isTwo && (
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
       {[card1, card2].map((card) => (
-        <div class="relative h-[484px] sm:h-[602px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-[43.5rem]">
+        <div class="relative h-[450px] sm:h-[560px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-[40rem]">
           {card.backgroundImage && (
             <picture>
               {card.backgroundImageMobile && (
@@ -297,7 +297,7 @@ const imgStyle = (c: BentoItem) => {
     <div class="flex flex-col gap-6">
 
       <!-- Строка 1 -->
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[62fr_38fr] lg:h-[430px]">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[62fr_38fr] lg:h-[29.5rem]">
 
         <!-- Карточка 1: широкая, текст внизу-слева -->
         <div class="relative h-[350px] sm:h-[400px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">
@@ -359,7 +359,7 @@ const imgStyle = (c: BentoItem) => {
       </div>
 
       <!-- Строка 2 -->
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[40fr_60fr] lg:h-[430px]">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[40fr_60fr] lg:h-[29.5rem]">
 
         <!-- Карточка 3: узкая, текст внизу-слева -->
         <div class="relative h-[350px] sm:h-[400px] overflow-hidden rounded-2xl bg-background-secondary sm:rounded-3xl lg:h-auto">

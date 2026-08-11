@@ -71,8 +71,8 @@ const gridCols = {
         <div class="flex flex-col gap-5">
           {(title || titleHtml) && (
             titleHtml
-              ? <h2 class="text-h1 font-medium text-gray-900" set:html={titleHtml} />
-              : <h2 class="text-h1 font-medium text-gray-900">{title}</h2>
+              ? <h2 class="text-h2 text-gray-900" set:html={titleHtml} />
+              : <h2 class="text-h2 text-gray-900">{title}</h2>
           )}
           {subtitle && (
             <p class="text-body-lg text-gray-500 max-w-3xl" set:html={subtitle} />

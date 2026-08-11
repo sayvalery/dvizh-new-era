@@ -42,7 +42,7 @@ const post = blogPosts[0]
 
   {/* Пункты разделов — блоки с заголовками друг под другом в одной колонке */}
   {sections.length > 0 && (
-    <div class="flex flex-col gap-8 w-[22.5rem]">
+    <div class="flex flex-col gap-8 w-[20rem]">
       {sections.map(section => (
         <div>
           {sections.length > 1 && (
@@ -67,7 +67,7 @@ const post = blogPosts[0]
 
   {/* Полноразмерная карточка последней статьи */}
   {post && (
-    <div class="w-[22.5rem] border-l border-gray-100 pl-6">
+    <div class="w-[20rem] border-l border-gray-100 pl-6">
       <BlogCard
         title={post.title}
         slug={post.slug}
