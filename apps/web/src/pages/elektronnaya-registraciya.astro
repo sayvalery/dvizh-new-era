@@ -10,7 +10,7 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
 
 <SiteLayout
   title="Электронная регистрация сделок"
-  bodyClass="fluid-page"
+  htmlClass="fluid-scale"
   description="Сократите затраты на регистрацию на 30%. Электронная регистрация сделок с недвижимостью."
   jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Электронная регистрация', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}
 >
@@ -74,10 +74,10 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
   <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
   {/* ── 2. FeatureBlock 1 — Легкий старт (картинка справа) + отзыв GloraX ── */}
-  {/* TODO вернуть картинку: image="/api/media/file/e-reg_bento_batch-registrations.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
+    image="https://admin.dvizh.cc/api/media/file/e-reg_01_easy-start.webp"
     imageAlt="Легкий старт и масштабирование"
     heading="Легкий старт и масштабирование"
     features={[
@@ -91,26 +91,22 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
       company: { logo: '/api/media/file/glorax_color.svg', alt: 'GloraX' },
       caseLink: { label: 'Читать кейс', href: '/cases/glorax' },
     }}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   {/* ── 3. FeatureBlock 2 — Бесшовный цикл (картинка слева, шахматный порядок) ── */}
-  {/* TODO вернуть картинку: image="/api/media/file/e-reg_bento_prepaid-account.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
     imageSide="left"
+    image="https://admin.dvizh.cc/api/media/file/e-reg_02_seamless-cycle.webp"
     imageAlt="Бесшовный цикл сделки от ипотеки до регистрации"
     heading="Бесшовный цикл сделки от ипотеки до регистрации"
     features={[
-      { title: 'Данные из ипотечного профиля или CRM автоматически подставляются в анкету' },
-      { title: 'Меньше рутины для менеджеров' },
-      { title: 'Меньше ошибок из-за ручного ввода данных' },
+      { title: 'Данные из ипотечного профиля или CRM подтягиваются в анкету' },
+      { title: 'Распознавание ДДУ и ДКП' },
+      { title: 'Меньше ручного ввода данных и ошибок' },
     ]}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   {/* ── 3. BentoGrid — 2 карточки: обмен с CRM + экспертная поддержка ── */}
   <section class="!py-0">
@@ -122,12 +118,13 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
           {
             title: 'Обмен данными с CRM',
             description: 'Статус в карточке сделки автоматически обновляется на каждом этапе регистрации',
-            // TODO вернуть картинку: backgroundImage: '/api/media/file/e-reg_bento_expert-profile.webp',
+            backgroundImage: 'https://admin.dvizh.cc/api/media/file/e-reg_03_crm-exchange.webp',
           },
           {
             title: 'Экспертная поддержка без выходных',
             description: 'Служба поддержки — бывшие регистраторы застройщиков. Помогают правильно оформить сделки любой сложности. Если возникла приостановка — выясняют причину в Росреестре и решают вопрос максимально быстро',
-            // TODO вернуть картинку: backgroundImage: '/api/media/file/e-reg_bento_deal-types.webp',
+            theme: 'dark',
+            backgroundImage: 'https://admin.dvizh.cc/api/media/file/e-reg_04_expert-card.webp',
           },
         ]}
       />
@@ -135,10 +132,10 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
   </section>
 
   {/* ── 4. FeatureBlock 3 — Гибкие опции оплаты (картинка справа) + отзыв GloraX ── */}
-  {/* TODO вернуть картинку: image="/api/media/file/e-reg_bento_e-signature.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
+    image="https://admin.dvizh.cc/api/media/file/e-reg_05_payment-options.webp"
     imageAlt="Гибкие опции оплаты"
     heading="Гибкие опции оплаты и минимум на 30% дешевле других платформ"
     features={[
@@ -153,14 +150,12 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
       company: { logo: '/api/media/file/glorax_color.svg', alt: 'GloraX' },
       caseLink: { label: 'Читать кейс', href: '/cases/glorax' },
     }}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   {/* ── 6. FormClosing ── */}
   <FormClosing
     preset="lead"
-    title="Защитите сделки от ошибок и форс-мажоров"
+    title="Защитите сделки<br>от ошибок и форс-мажоров"
     description="Оставьте заявку, чтобы заводить сделки на регистрацию за 5 минут — без ошибок и приостановок"
     submitLabel="Попробовать бесплатно"
     class="!py-0"

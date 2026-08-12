@@ -244,10 +244,10 @@ const CardTag = cardHref ? 'a' : 'div'
     const MD = 768
     const isMobile = () => window.innerWidth < MD
 
-    // Группировка по контейнеру-сетке: .story-card-hover -> wrapper(x-data) -> grid
+    // Группировка по контейнеру-сетке: [data-story-group], иначе .story-card-hover -> wrapper(x-data) -> grid
     const groups = new Map<HTMLElement, HTMLElement[]>()
     for (const card of cards) {
-      const container = (card.parentElement?.parentElement ?? document.body) as HTMLElement
+      const container = (card.closest('[data-story-group]') ?? card.parentElement?.parentElement ?? document.body) as HTMLElement
       if (!groups.has(container)) groups.set(container, [])
       groups.get(container)!.push(card)
     }
@@ -280,6 +280,8 @@ const CardTag = cardHref ? 'a' : 'div'
     }
 
     // ── <md: scroll-driven, активна карточка ближе к центру viewport ──
+    // Дистанция считается по обеим осям: в вертикальной колонке работает как раньше (dx=0),
+    // в горизонтальной ленте (layout="scroll") — по горизонтали.
     let mobileActive: HTMLElement | null = null
     let ticking = false
     function setMobileActive(card: HTMLElement | null) {
@@ -292,14 +294,14 @@ const CardTag = cardHref ? 'a' : 'div'
       ticking = false
       if (!isMobile()) return
       const vh = window.innerHeight
-      const center = vh / 2
+      const vw = window.innerWidth
       let best: HTMLElement | null = null
       let bestDist = Infinity
       for (const card of cards) {
         const rect = card.getBoundingClientRect()
         if (rect.bottom < 0 || rect.top > vh) continue
-        const cardCenter = (rect.top + rect.bottom) / 2
-        const dist = Math.abs(cardCenter - center)
+        if (rect.right < 0 || rect.left > vw) continue
+        const dist = Math.hypot((rect.top + rect.bottom) / 2 - vh / 2, (rect.left + rect.right) / 2 - vw / 2)
         if (dist < bestDist) {
           bestDist = dist
           best = card
@@ -322,7 +324,8 @@ const CardTag = cardHref ? 'a' : 'div'
       else applyDesktopDefault()
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true })
+    // capture: ловим и скролл страницы, и горизонтальный скролл ленты (scroll не всплывает)
+    document.addEventListener('scroll', onScroll, { passive: true, capture: true })
     window.addEventListener('resize', applyMode, { passive: true })
     applyMode()
   }

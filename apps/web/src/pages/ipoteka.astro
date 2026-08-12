@@ -12,7 +12,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
 <SiteLayout
   title="Цифровая ипотека"
   description="Ипотечная платформа для современных девелоперов. Повышаем конверсии на каждом этапе работы с заявками: от консультации до одобрения в банке"
-  bodyClass="fluid-page"
+  htmlClass="fluid-scale"
 >
 
   {/* ── 1. Hero Section + Logos в одном экране ── */}
@@ -74,10 +74,10 @@ import FormClosing from '../components/ui/FormClosing.astro'
   <div class="flex flex-col gap-24 lg:gap-40 mt-24 lg:mt-32">
 
   {/* ── 4. FeatureBlock — Повышаем конверсию ── */}
-  {/* TODO вернуть картинку: image="/api/media/file/mortgage_bento_ai-prognosis.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
+    image="https://admin.dvizh.cc/api/media/file/mortgage_01_program-match.webp"
     imageAlt="Ипотечный калькулятор"
     heading="Повышаем конверсию из первичной консультации в ипотечную заявку в 2 раза"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
@@ -90,18 +90,16 @@ import FormClosing from '../components/ui/FormClosing.astro'
       quote: 'Без единой анкеты ДВИЖа консультирование усложнилось, так как приходилось заходить на сайты, личные кабинеты каждого банка и смотреть ставки, размеры ежемесячных платежей',
       author: 'Елена Самсонова',
       role: 'Ипотечный брокер АН «АТОМ»',
-      company: { logo: '/api/media/file/tochno_color.svg', alt: 'Логотип' },
+      company: { logo: '/api/media/file/atom-logo.svg', alt: 'АН «АТОМ»' },
     }}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   {/* ── 5. FeatureBlock — Сокращаем время ── */}
-  {/* TODO вернуть картинку: image="/api/media/file/mortgage_bento_unified-form.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
     imageSide="left"
+    image="https://admin.dvizh.cc/api/media/file/mortgage_02_unified-form.webp"
     imageAlt="Анкета клиента"
     heading="Сводим на нет ошибки в анкетах — до 25% меньше заявок на доработке"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
@@ -115,15 +113,13 @@ import FormClosing from '../components/ui/FormClosing.astro'
       role: 'Руководитель управления прямых продаж',
       company: { logo: '/api/media/file/fsk_color.svg', alt: 'ФСК' },
     }}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   {/* ── 6. FeatureBlock — Проверяем клиентов ── */}
-  {/* TODO вернуть картинку: image="/api/media/file/mortgage_bento_score.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
+    image="https://admin.dvizh.cc/api/media/file/mortgage_03_client-check.webp"
     imageAlt="Ипотечный калькулятор"
     heading="Повышаем одобрение на 14% с помощью прескоринга"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
@@ -138,19 +134,36 @@ import FormClosing from '../components/ui/FormClosing.astro'
       role: 'Руководитель управления прямых продаж',
       company: { logo: '/api/media/file/fsk_color.svg', alt: 'ФСК' },
     }}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
-  {/* ── 8. BentoGrid — Дополнительные возможности ── */}
+  {/* ── 7. FeatureBlock — Синхронизируем работу внутри отдела ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    imageSide="left"
+    image="https://admin.dvizh.cc/api/media/file/mortgage_04_crm-sync.webp"
+    imageAlt="Интеграции с CRM"
+    heading="Синхронизируем работу внутри отдела"
+    button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
+    features={[
+      { title: 'Готовые интеграции с популярными CRM' },
+      { title: 'Актуальные статусы без смены рабочего окна' },
+      { title: 'Контроль сделок на всех этапах' },
+    ]}
+  />
+
+  {/* ── 8. BentoGrid — Управляйте процессом на основе данных ── */}
   <section>
     <div class="page-container">
       <BentoGrid
-        variant="two"
-        heading="Делаем все для ваших крутых результатов"
+        variant="four"
+        heading="Управляйте процессом на основе данных"
+        description="Насыщаем вашу CRM данными из ипотечных заявок и собираем ключевые показатели в персональные дашборды"
         items={[
-          { title: 'Готовые интеграции с популярными системами', description: 'Все данные из ипотечных заявок и актуальные статусы по ним внутри вашей CRM — без смены рабочего окна' }, // TODO вернуть картинки: backgroundImage: '/api/media/file/mortgage_extras_crm-integrations.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-integrations-mobile.webp'
-          { title: 'Ключевые показатели по заявкам в персональном дашборде', description: 'Приборная панель отдела: разберите ипотечную воронку за 1 минуту и раскройте потенциал команды' }, // TODO вернуть картинки: backgroundImage: '/api/media/file/mortgage_extras_crm-dashboard.webp', backgroundImageMobile: '/api/media/file/mortgage_extras_crm-dashboard-mobile.webp'
+          { titleHtml: 'Растите конверсии<br>маркетинговых кампаний', title: 'Растите конверсии маркетинговых кампаний', description: 'Формируем подробный портрет клиента: от возраста и дохода до ПДН и ПВ', backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_05_audience-profile.webp' },
+          { titleHtml: 'Стройте новые<br>каналы продаж', title: 'Стройте новые каналы продаж', description: 'Покажем, в какой отрасли и компании работают покупатели, — для корпоративных продаж', backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_06_corporate-sales.webp' },
+          { title: 'Анализируйте воронку продаж за 1 минуту', description: 'Рассчитаем конверсии по каждому этапу ипотеки, дадим статистику по сотрудникам и заявкам', backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_07_sales-funnel.webp' },
+          { titleHtml: 'Разрабатывайте<br>субсидированные программы', title: 'Разрабатывайте субсидированные программы', description: 'Подготовим статистику по банкам и сегментам вашей ЦА', backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_08_subsidy-programs.webp', theme: 'dark' },
         ]}
       />
     </div>
@@ -183,15 +196,15 @@ import FormClosing from '../components/ui/FormClosing.astro'
         personName: 'ГК «Точно»',
         personJobTitle: 'Крупнейший девелопер Краснодарского края',
       },
-            {
-        logo: '/api/media/file/samolet_color.svg',
-        logoAlt: 'ГК Самолет',
-        logoHover: '/api/media/file/samolet_white.svg',
-        hoverBackground: '/api/media/file/samolet_bg.png',
-        href: '/blog/samolet-ai-u-developera',
-        titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
-        personName: 'ГК «Самолет»',
-        personJobTitle: 'Крупнейший федеральный девелопер России',
+      {
+        logo: '/api/media/file/enko.svg',
+        logoAlt: 'ЭНКО',
+        logoHover: '/api/media/file/enco-logo-white.svg',
+        hoverBackground: '/api/media/file/enco-case.webp',
+        href: '/blog/keys-enko-dvizh',
+        titleHtml: 'Увеличили <span class="text-brand">объем заявок в 3 раза</span> при доле ипотеки 80%',
+        personName: 'ЭНКО',
+        personJobTitle: 'Один из крупнейших застройщиков Тюмени',
       },
     ]}
   />

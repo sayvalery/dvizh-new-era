@@ -11,7 +11,7 @@ import CalculatorEmbed from '../components/ui/CalculatorEmbed.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
 ---
 
-<SiteLayout title="Ипотечный калькулятор" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." bodyClass="fluid-page" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
+<SiteLayout title="Ипотечный калькулятор" description="Встраиваемый ипотечный калькулятор для сайта застройщика. Актуальные ставки 40+ банков." htmlClass="fluid-scale" jsonLd={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'ДВИЖ Ипотечный калькулятор', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', provider: { '@type': 'Organization', name: 'ДВИЖ', url: 'https://dvizh.io' } }}>
   <HeroSectionFull
     title="Получайте до 20% больше заявок с помощью готового калькулятора"
     description="ДВИЖ Калькулятор — готовое решение, которое показывает клиентам реальные условия ипотеки, подбирает лучшие предложения банков и принимает онлайн-заявки 24/7"
@@ -85,10 +85,10 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
   />
 
   <!-- FeatureBlock 1 — Точные расчеты (картинка справа) + отзыв ЭНКО -->
-  {/* TODO вернуть картинку: image="/api/media/file/mortgage_bento_ai-prognosis.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
+    image="https://admin.dvizh.cc/api/media/file/calc_01_program-match.webp"
     imageAlt="Точные расчеты и подбор условий"
     heading="Точные расчеты и подбор лучших условий"
     features={[
@@ -103,16 +103,14 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
       company: { logo: '/api/media/file/enko.svg', alt: 'ЭНКО' },
       caseLink: { label: 'Читать кейс', href: '/blog/keys-enko-dvizh' },
     }}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   <!-- FeatureBlock 2 — Рост конверсии из агентских сделок (картинка слева, шахматный порядок) -->
-  {/* TODO вернуть картинку: image="/api/media/file/mortgage_bento_unified-form.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
     imageSide="left"
+    image="https://admin.dvizh.cc/api/media/file/calc_02_agent-deals.webp"
     imageAlt="Рост конверсии из агентских сделок"
     heading="Рост конверсии из агентских сделок"
     features={[
@@ -120,15 +118,13 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
       { title: 'Приводит клиентов с готовым расчетом и сформированными ожиданиями по платежу' },
       { title: 'Отправляет уже заполненную заявку в работу ипотечному брокеру' },
     ]}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   <!-- FeatureBlock 3 — Встраивается в вашу экосистему (картинка справа) -->
-  {/* TODO вернуть картинку: image="/api/media/file/mortgage_bento_score.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
+    image="https://admin.dvizh.cc/api/media/file/calc_03_integrations.webp"
     imageAlt="Встраивается в вашу экосистему"
     heading="Встраивается в вашу экосистему"
     features={[
@@ -136,9 +132,7 @@ import FeatureBlock from '../components/ui/FeatureBlock.astro'
       { title: 'На сайте или в карточке квартиры' },
       { title: 'Передает данные в CRM и ипотечный модуль' },
     ]}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   <!-- Виджет калькулятора — живое демо -->
   <!-- w-full на page-container: внутри flex-col его margin:auto отключает stretch,

@@ -289,6 +289,18 @@ h1, h2, h3, h4, h5, h6 {
     .text-product-card-h { font-size: 24px; }
   }
 
+  /* Значение стата в product-bento карточке — 22px → 26px.
+   * Отдельный класс, а не .text-h3: пять карточек по 2–3 стата давали слишком много
+   * крупных цифр в одном экране, а высокий стат-блок выдавливал иллюстрацию карточки.
+   * Подпись стата при этом .text-subhead (а не .text-body-lg). */
+  .bento-stat-value {
+    font-family: 'Styrene A', system-ui, sans-serif;
+    font-size: clamp(22px, 0.38vw + 20.6px, 26px);
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.02em;
+  }
+
   /* 24px мобилка / 20px десктоп — для карточек блога (уменьшается к десктопу) */
   .text-card-title {
     font-family: 'Styrene A', system-ui, sans-serif;
@@ -464,6 +476,7 @@ h1, h2, h3, h4, h5, h6 {
 .fluid-page .text-h2 { font-size: clamp(30px, 1rem + 1.67vw, 48px); } /* 40px на 1440 (= ДС-десктоп), 48px на 1920 */
 .fluid-page .text-h3 { font-size: clamp(24px, 0.75rem + 1.56vw, 42px); }
 .fluid-page .text-product-card-h { font-size: clamp(24px, 1rem + 2.5vw, 64px); }
+.fluid-page .bento-stat-value { font-size: clamp(22px, 0.88rem + 0.83vw, 30px); } /* 26px на 1440, 30px с 1920 */
 .fluid-page .text-h4 { font-size: clamp(18px, 0.75rem + 0.94vw, 30px); }
 .fluid-page .text-h5 { font-size: clamp(16px, 0.88rem + 0.31vw, 20px); }
 .fluid-page .text-h6 { font-size: clamp(14px, 0.75rem + 0.31vw, 18px); }
@@ -529,8 +542,7 @@ h1, h2, h3, h4, h5, h6 {
   .fluid-page .lg\:h-\[600px\]     { height: clamp(600px, 25rem + 15.625vw, 800px); }    /* ProductBento ряды 1/3 */
   .fluid-page .lg\:h-\[540px\]     { height: clamp(540px, 22.5rem + 14.063vw, 720px); }  /* ProductBento ряд 2 */
   .fluid-page .lg\:min-h-\[360px\] { min-height: clamp(360px, 15rem + 9.375vw, 480px); } /* AdvantageCard */
-  .fluid-page .lg\:h-\[488px\]     { height: clamp(488px, 20.333rem + 12.708vw, 650px); }/* BentoGrid four ряд 1 */
-  .fluid-page .lg\:h-\[360px\]     { height: clamp(360px, 15rem + 9.375vw, 480px); }     /* BentoGrid four ряд 2 */
+  .fluid-page .lg\:h-\[29\.5rem\]  { height: clamp(472px, 19.667rem + 12.292vw, 629px); }/* BentoGrid four — обе строки */
 }
 @media (min-width: 1280px) {
   .fluid-page .xl\:h-\[738px\]     { height: clamp(738px, 30.75rem + 19.219vw, 984px); } /* BentoGrid three */
@@ -801,4 +813,191 @@ body.fluid-page .hero-left-col {
 }
 .animate-hero-float {
   animation: hero-float 6s ease-in-out infinite;
+}
+
+/* ─── Пропорциональный скейл (.fluid-scale на <html>) ──────────────────────────
+ * Альтернатива .fluid-page. Вместо ~40 независимых vw-клэмпов — один общий
+ * множитель (корневой font-size) и все размеры в rem. Благодаря этому отношение
+ * «ширина колонки / кегль» остаётся константой: переносы строк не меняются,
+ * высота блоков растёт вместе с шириной, страница масштабируется как вектор.
+ *
+ * Что чинит. У .fluid-page рампы кончались в разных точках: шрифты и контролы
+ * насыщались на 1920, контейнер тянулся до 2560, .feature-media упирался в
+ * потолок 700px. Отсюда разъезд пропорций (колонка/кегль: 29.7 на 1200 против
+ * 44.4 на 2560) и разная высота картинок у соседних FeatureBlock — картинка
+ * тянулась за текстом, а текст перевёрстывался по-разному на разных ширинах.
+ *
+ * Диапазон 1024 → 2560 (совпадает с lg — точкой, где макет становится
+ * двухколоночным). Корень — чистый vw без сдвига (1.1111vw = 16px на 1440):
+ * только так отношение колонка/кегль остаётся константой, любой intercept его
+ * ломает. Клэмп упирается в границы ровно на краях диапазона (0.7111rem =
+ * 11.378px = 1.1111vw на 1024), внутри работает чистая пропорция.
+ *
+ * Цена пропорциональности — мелкий кегль на узком десктопе: на 1024 корень
+ * 11.4px и основной текст 12.8px, на 1280 — 14.2px и 16px. Это осознанный
+ * обмен: альтернатива (пол по кеглю или перестройка в одну колонку) ломает
+ * либо пропорцию, либо макет.
+ *
+ * Ниже 1024 корень 1rem — мобилка и планшет не затрагиваются вообще.
+ * Выше 2560 — потолок.
+ *
+ * Корень в rem, а не в px: на <html> rem считается от initial value, поэтому
+ * пользовательская настройка размера шрифта в браузере продолжает работать.
+ */
+@media (min-width: 1024px) {
+  html.fluid-scale { font-size: clamp(0.7111rem, 1.1111vw, 1.7778rem); }
+}
+
+/* Структурные правила, унаследованные от .fluid-page (со скейлом не связаны,
+   поэтому вне медиазапроса). Класс min-h-[calc(100dvh-76px)] не генерит CSS —
+   calc без пробелов вокруг «-» невалиден, минификатор выкидывает правило. */
+.fluid-scale .min-h-\[calc\(100dvh-76px\)\] { min-height: calc(100dvh - 4.75rem); }
+.fluid-scale .hero-left-col { padding-bottom: clamp(4rem, 2.094rem + 8.14vw, 6rem); }
+
+/* FeatureBlock: размер картинки задаёт только ширина колонки, а не высота
+   текста. Раньше высота фрейма равнялась высоте текстовой колонки, поэтому у
+   соседних блоков одной страницы картинки были разной высоты (на /ipoteka 1440:
+   643 против 624, на 1280 — 697 против 600). Теперь пропорция фиксированная —
+   все блоки страницы получают картинку одного размера, и под неё нужен ровно
+   один файл 1600×1800.
+
+   5/6, а не квадрат: самый длинный текст на /ipoteka занимает 1.14 ширины
+   колонки, то есть у квадратной картинки нижний край обрывался выше отзыва.
+   Высота 1.2×ширины перекрывает самый высокий блок с запасом 5–77px на всём
+   диапазоне 1024–2560 (запас растёт с шириной, потому что текст ужимается чуть
+   быстрее картинки). Отношение держится на всех ширинах: и колонка, и текст
+   масштабируются одним корнем. Вне медиазапроса: .feature-media и так
+   существует только с lg. */
+.fluid-scale .feature-media { min-height: 0; aspect-ratio: 5 / 6; align-self: start; }
+
+@media (min-width: 1024px) {
+  /* Типографика — десктопные значения ДС в rem (были потолками базовых clamp) */
+  .fluid-scale .text-h1,
+  .fluid-scale .text-h1-italic       { font-size: 4rem; }
+  .fluid-scale .text-h2              { font-size: 2.5rem; }
+  .fluid-scale .text-h3              { font-size: 2rem; }
+  .fluid-scale .text-h4              { font-size: 1.5rem; }
+  .fluid-scale .text-h5              { font-size: 1.125rem; }
+  .fluid-scale .text-h6              { font-size: 1rem; }
+  .fluid-scale .text-product-card-h  { font-size: 3rem; }
+  .fluid-scale .bento-stat-value     { font-size: 1.625rem; }
+  .fluid-scale .text-card-title      { font-size: 1.25rem; }
+  .fluid-scale .story-card-title     { font-size: 1.6875rem; }
+
+  /* Тело текста. letter-spacing переведён из px в em — иначе на широких экранах
+     трекинг остаётся прежним в абсолюте и текст выглядит переразреженным. */
+  .fluid-scale .text-body-lg,
+  .fluid-scale .text-body-lg-italic  { font-size: 1.125rem; letter-spacing: -0.0278em; }
+  .fluid-scale .text-body-lg-bold    { font-size: 1.125rem; letter-spacing: -0.01em; }
+  .fluid-scale .text-subhead         { font-size: 1rem;     letter-spacing: -0.03125em; }
+  .fluid-scale .text-footnote        { font-size: 0.875rem; letter-spacing: -0.03571em; }
+  .fluid-scale .text-side-menu       { font-size: 0.75rem;  letter-spacing: 0.0833em; }
+  .fluid-scale .text-medium-32       { font-size: 2rem;     letter-spacing: -0.03125em; }
+
+  /* Контейнер: 90rem = 1440px на 1440 и 2560px на 2560, т.е. всегда во всю ширину.
+     Поля 5rem = 80px на 1440 → 142px на 2560 (5.6% с каждой стороны). */
+  .fluid-scale .page-container,
+  .fluid-scale header .max-w-\[1440px\],
+  .fluid-scale section .max-w-\[1440px\] { max-width: 90rem; padding-left: 5rem; padding-right: 5rem; }
+
+  .fluid-scale .feature-col { gap: 2.469rem; }
+  .fluid-scale .lg\:py-\[120px\] { padding-top: 7.5rem; padding-bottom: 7.5rem; }
+
+  /* Фиксированные размеры компонентов (arbitrary-классы Tailwind).
+     Классы не переименовываем: на них завязаны правила .fluid-page других страниц. */
+  .fluid-scale .lg\:h-\[600px\]    { height: 37.5rem; }
+  .fluid-scale .lg\:h-\[540px\]    { height: 33.75rem; }
+  .fluid-scale .lg\:min-h-\[360px\] { min-height: 22.5rem; }
+  .fluid-scale .min-h-\[480px\]     { min-height: 30rem; }
+  .fluid-scale .support-tab          { min-height: 13.75rem; }
+  .fluid-scale .hero-cols-wide       { grid-template-columns: 51.25rem 1fr; }   /* BentoGrid four */
+  .fluid-scale .max-w-\[1000px\]    { max-width: 62.5rem; }   /* колонка заголовка */
+  .fluid-scale .lg\:-top-\[100px\] { top: -6.25rem; }        /* вынос картинки hero */
+  .fluid-scale .formclosing-w,
+  .fluid-scale .lg\:max-w-\[800px\] { max-width: 50rem; }    /* FormClosing */
+  .fluid-scale .lg\:w-\[320px\]    { width: 20rem; }         /* форма FormClosing */
+  .fluid-scale .lg\:w-\[520px\]    { width: 32.5rem; }       /* Review */
+  .fluid-scale .lg\:min-h-\[400px\] { min-height: 25rem; }   /* Review */
+  .fluid-scale .max-w-\[240px\]     { max-width: 15rem; }
+  .fluid-scale .max-w-\[140px\]     { max-width: 8.75rem; }
+  .fluid-scale .max-w-\[80px\]      { max-width: 5rem; }
+  .fluid-scale .h-\[37px\]          { height: 2.3125rem; }
+  .fluid-scale .md\:w-\[540px\]    { width: 33.75rem; }      /* StoryCard hover */
+  .fluid-scale .lg\:min-w-\[600px\] { min-width: 37.5rem; }  /* StoryCard hover */
+
+  /* Контролы — маркер-классы компонентов (Button/Input/HeroBadge/Island) */
+  .fluid-scale .btn      { gap: 0.5rem; border-radius: 0.5rem; }
+  .fluid-scale .btn-sm   { height: 2.25rem; padding-left: 1rem;   padding-right: 1rem;   font-size: 0.875rem; }
+  .fluid-scale .btn-md   { height: 2.75rem; padding-left: 1.5rem; padding-right: 1.5rem; font-size: 0.875rem; }
+  .fluid-scale .btn-lg   { height: 3.25rem; padding-left: 1.5rem; padding-right: 1.5rem; font-size: 1rem; }
+  .fluid-scale .btn-sm .btn-icon { width: 1rem;     height: 1rem; }
+  .fluid-scale .btn-md .btn-icon { width: 1.125rem; height: 1.125rem; }
+  .fluid-scale .btn-lg .btn-icon { width: 1.25rem;  height: 1.25rem; }
+  .fluid-scale .btn-sm.w-9        { width: 2.25rem; }
+  .fluid-scale .btn-md.w-11       { width: 2.75rem; }
+  .fluid-scale .btn-lg.w-\[52px\] { width: 3.25rem; }
+
+  .fluid-scale .field   { padding-left: 1rem; padding-right: 1rem; border-radius: 0.5rem; }
+  .fluid-scale .field-m { padding-top: 0.5625rem; padding-bottom: 0.5625rem; font-size: 1rem; }
+  .fluid-scale .field-s { padding-top: 0.5rem;    padding-bottom: 0.5rem;    font-size: 0.875rem; }
+
+  .fluid-scale .hero-badge { gap: 0.375rem; padding: 0.375rem 0.75rem; }
+  .fluid-scale .hero-badge img  { width: 0.875rem; height: 0.875rem; }
+  .fluid-scale .hero-badge span { font-size: 0.875rem; }
+
+  .fluid-scale .island { gap: 0.75rem; padding: 0.75rem 0.75rem 0.75rem 1rem; }
+  .fluid-scale .island > span { font-size: 0.875rem; }
+  /* Возврат pill: .fluid-scale .btn выше по специфичности, чем базовый .island .btn */
+  .fluid-scale .island .btn { border-radius: 9999px; }
+
+  /* CTA-кнопка (ui/CTA.astro .cta-btn): px-8 py-4 rounded-xl text-base */
+  .fluid-scale .cta-btn { padding: 1rem 2rem; font-size: 1rem; border-radius: 0.75rem; }
+
+  /* Формы (Form / FormClosing): подпись поля и текст согласия */
+  .fluid-scale .text-\[13px\]        { font-size: 0.8125rem; }
+  /* CTA-баннер */
+  .fluid-scale .lg\:text-\[40px\]   { font-size: 2.5rem; }
+  .fluid-scale .lg\:text-\[18px\]   { font-size: 1.125rem; }
+  /* HeroSection, узкий вариант (wideTitle={false}) — у широкого свой
+     .hero-cols-wide. Без этого левая колонка героя стояла на 726px, пока
+     контейнер тянулся до 2276px. */
+  .fluid-scale .lg\:grid-cols-\[726px_1fr\] { grid-template-columns: 45.375rem 1fr; }
+  .fluid-scale .max-w-\[602px\]      { max-width: 37.625rem; }
+  .fluid-scale .lg\:max-w-\[920px\] { max-width: 57.5rem; }
+  .fluid-scale .lg\:min-h-\[800px\] { min-height: 50rem; }
+  .fluid-scale .lg\:max-h-\[1100px\] { max-height: 68.75rem; }
+  .fluid-scale .hero-marquee-w        { width: min(85rem, calc(100vw - 5rem)); }
+  /* CTA: круглая иконка-аватар */
+  .fluid-scale .sm\:w-\[94px\]      { width: 5.875rem; }
+  .fluid-scale .sm\:min-w-\[94px\]  { min-width: 5.875rem; }
+  .fluid-scale .sm\:max-w-\[94px\]  { max-width: 5.875rem; }
+  .fluid-scale .sm\:h-\[95px\]      { height: 5.9375rem; }
+  /* FunnelSection — заголовок */
+  .fluid-scale .max-w-\[800px\]      { max-width: 50rem; }
+  /* ProductLink — иконка продукта */
+  .fluid-scale .lg\:size-\[60px\]   { width: 3.75rem; height: 3.75rem; }
+  /* Timeline (/about) — колонка года */
+  .fluid-scale .lg\:grid-cols-\[200px_1fr\] { grid-template-columns: 12.5rem 1fr; }
+
+  /* AdvantageCard — заголовок и крупная цифра */
+  .fluid-scale .lg\:text-\[32px\]  { font-size: 2rem; }
+  .fluid-scale .lg\:text-\[64px\]  { font-size: 4rem; }
+  /* ProductBentoBlock — подзаголовок */
+  .fluid-scale .lg\:max-w-\[400px\] { max-width: 25rem; }
+  /* SupportSection — подзаголовок и аватары */
+  .fluid-scale .max-w-\[620px\]     { max-width: 38.75rem; }
+  .fluid-scale .size-\[54px\]       { width: 3.375rem; height: 3.375rem; }
+
+  /* Исключение: /scoring. Заголовок согласован с заказчиком и не меняется,
+     на базовом кегле ломается на 5 строк. 3.5rem вместо 4rem → 4 строки
+     на всём диапазоне 1024–2560. Селектор с тегом (0,2,1) бьёт .text-h1. */
+  .fluid-scale .hero-h1-sm h1 { font-size: 3.5rem; }
+}
+
+/* xl:-классы — отдельным медиазапросом: сам Tailwind ставит их только с 1280,
+   в блоке на 1024 высота протекла бы в раскладку планшетного десктопа. */
+@media (min-width: 1280px) {
+  .fluid-scale .xl\:h-\[738px\] { height: 46.125rem; }
+  /* ProductBentoBlock — подзаголовок, широкий вариант */
+  .fluid-scale .xl\:max-w-\[510px\] { max-width: 31.875rem; }
 }

@@ -132,7 +132,7 @@ const partnerLogos = [
 <SiteLayout
   title="Цифровые продукты для рынка недвижимости"
   description="Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"
-  bodyClass="fluid-page"
+  htmlClass="fluid-scale"
   transparentHeader
 >
 
@@ -141,7 +141,7 @@ const partnerLogos = [
     title={"ДВИЖ выжимает максимум на рынке, где мало заявок"}
     description={"Единая платформа для увеличения продаж. Закрываем весь цикл сделки: от подбора квартиры до одобрения ипотеки и регистрации в Росреестре"}
     formPreset="lead"
-    formSubmitLabel="Получить демо"
+    formSubmitLabel="Записаться на демо"
     wideTitle
     withGradient
     gradientColors={['#ff4d00', '#ff6b2c', '#ffb347', '#ffd866']}
@@ -211,24 +211,24 @@ const partnerLogos = [
       >
         <AdvantageCard
           index={0}
-          title="Закрыли до 26% больше сделок на том же трафике"
-          stat="+26%"
-          label="сделок на том же трафике"
-          expandHref="/blog/case-ayaks-dvizh"
+          title="Получили больше лидов с сайта"
+          stat="до +20%"
+          label="без увеличения рекламного бюджета"
+          expandHref="/blog/keys-lsr-dvizh"
           drawerPreset="demo"
         >
-          {ayaks.html && (
+          {lidov.html && (
             <div slot="modal-body" class="p-10">
-              {ayaks.title && <h1 class="font-heading text-3xl font-bold mb-8">{ayaks.title}</h1>}
-              <div class="prose prose-lg max-w-none" set:html={ayaks.html} />
+              {lidov.title && <h1 class="font-heading text-3xl font-bold mb-8">{lidov.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={lidov.html} />
             </div>
           )}
         </AdvantageCard>
         <AdvantageCard
           index={1}
           title="Снизили количество отказов по ипотеке"
-          stat="до 90%"
-          label="одобрений при среднем уровне в 49%"
+          stat="+14%"
+          label="к одобрению с помощью скоринга"
           expandHref="/blog/granel-rost-procenta-odobreniya"
           drawerPreset="demo"
         >
@@ -241,21 +241,6 @@ const partnerLogos = [
         </AdvantageCard>
         <AdvantageCard
           index={2}
-          title="Получили больше выручки на одного менеджера"
-          stat="+281%"
-          label="заявок, чем в среднем на рынке"
-          expandHref="/blog/keys-lsr-dvizh"
-          drawerPreset="demo"
-        >
-          {lidov.html && (
-            <div slot="modal-body" class="p-10">
-              {lidov.title && <h1 class="font-heading text-3xl font-bold mb-8">{lidov.title}</h1>}
-              <div class="prose prose-lg max-w-none" set:html={lidov.html} />
-            </div>
-          )}
-        </AdvantageCard>
-        <AdvantageCard
-          index={3}
           title="Сократили расходы на электронную регистрацию"
           stat="-30%"
           label="затрат на регистрацию"
@@ -269,17 +254,53 @@ const partnerLogos = [
             </div>
           )}
         </AdvantageCard>
+        <AdvantageCard
+          index={3}
+          title="Закрыли больше сделок на нестабильном рынке"
+          stat="+26%"
+          label="сделок на том же трафике"
+          expandHref="/blog/case-ayaks-dvizh"
+          drawerPreset="demo"
+        >
+          {ayaks.html && (
+            <div slot="modal-body" class="p-10">
+              {ayaks.title && <h1 class="font-heading text-3xl font-bold mb-8">{ayaks.title}</h1>}
+              <div class="prose prose-lg max-w-none" set:html={ayaks.html} />
+            </div>
+          )}
+        </AdvantageCard>
       </div>
     </div>
   </section>
 
-  {/* ── 3. Кейсы — SuccessStoryBlock ── */}
+  {/* ── 3. Кейсы — SuccessStoryBlock (лента с закреплением на lg+) ── */}
   <SuccessStoryBlock
-    heading="70+ историй успеха на рынке застройщиков"
+    layout="scroll"
+    heading="70+ историй успеха на рынке застройщиков"
     buttonLabel="Получить демо"
     buttonPreset="demo"
     class="!py-0"
     stories={[
+      {
+        logo: '/api/media/file/enko.svg',
+        logoAlt: 'ЭНКО',
+        logoHover: '/api/media/file/enco-logo-white.svg',
+        hoverBackground: '/api/media/file/enco-case.webp',
+        href: '/blog/keys-enko-dvizh',
+        titleHtml: 'Увеличили <span class="text-brand">объем заявок в 3 раза</span> при доле ипотеки 80%',
+        personName: 'ЭНКО',
+        personJobTitle: 'Один из крупнейших застройщиков Тюмени',
+      },
+      {
+        logo: '/api/media/file/glorax-logo.svg',
+        logoAlt: 'GloraX',
+        logoHover: '/api/media/file/glorax-logo-white.svg',
+        hoverBackground: '/api/media/file/glorax-case.webp',
+        href: '/blog/keys-glorax-elektronnaya-registraciya',
+        titleHtml: 'Сократили расходы на регистрацию <span class="text-brand">на 30%</span>',
+        personName: 'GloraX',
+        personJobTitle: 'Федеральный девелопер',
+      },
       {
         logo: '/api/media/file/lsr_color.svg',
         logoAlt: 'Группа ЛСР',
@@ -287,9 +308,9 @@ const partnerLogos = [
         hoverBackground: '/api/media/file/lsr_bg.png',
         hoverGlass: true,
         href: '/blog/keys-lsr-dvizh',
-        titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
-        personName: 'Группа ЛСР',
-        personJobTitle: 'Один из ведущих строительных холдингов',
+        titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
+        personName: 'Группа ЛСР',
+        personJobTitle: 'Один из ведущих строительных холдингов',
       },
       {
         logo: '/api/media/file/tochno_color.svg',
@@ -297,21 +318,19 @@ const partnerLogos = [
         logoHover: '/api/media/file/tochno_white.svg',
         hoverBackground: '/api/media/file/tochno_bg.png',
         href: '/blog/keys-gk-tochno-i-dvizha',
-        titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
-        personName: 'ГК «Точно»',
+        titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
+        personName: 'ГК «Точно»',
         personJobTitle: 'Крупнейший девелопер Краснодарского края',
       },
-      {
-        logo: '/api/media/file/samolet_color.svg',
-        logoAlt: 'ГК Самолет',
-        logoHover: '/api/media/file/samolet_white.svg',
-        hoverBackground: '/api/media/file/samolet_bg.png',
-        href: '/blog/samolet-ai-u-developera',
-        titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
-        personName: 'ГК «Самолет»',
-        personJobTitle: 'Крупнейший федеральный девелопер России',
-      },
     ]}
+    cta={{
+      title: 'ещё 70+',
+      subtitle: 'историй успеха',
+      note: 'За 5 лет ни один клиент не ушёл к конкурентам',
+      buttonLabel: 'Записаться на демо',
+      buttonPreset: 'demo',
+      backgroundImage: '/api/media/file/cta-banner-dvizh.webp',
+    }}
   />
 
 
@@ -321,56 +340,63 @@ const partnerLogos = [
     showEyebrow={false}
     headingDark="Гибкие решения"
     headingBrand="под любую модель работы"
-    subtitle="<strong>Растите вместе с продуктом</strong> — включайте модули по одному, который закрывает вашу самую больную метрику. Дальше расширяйтесь — модули работают по отдельности или в связке"
+    subtitle="<strong>Модули работают по отдельности или в связке.</strong> Собирайте решение под актуальные задачи и подключайте новые инструменты по мере роста вашего бизнеса"
     cards={[
       {
         variant: "dark",
         title: "Цифровая ипотека",
         href: "/ipoteka",
-        description: "40+ банков в одном окне. Анкета «0 полей» через Госуслуги. Параллельная отправка. Авторазбор отказов. Скоринг до отправки в банк.",
+        description: "Подбор программ под портрет клиента. Распознавание документов. 0 ошибок в анкетах. Скоринг до отправки в банк",
         backgroundImage: "/api/media/file/home_bento_digital-mortgage.webp",
         backgroundImageMobile: "/api/media/file/home_bento_digital-mortgage-mobile.webp",
         imagePositionLg: "top",
         stats: [
-          { value: "до 95%", label: "процент одобрения", highlight: true },
-          { value: "40+", label: "банков-партнеров" },
-          { value: "3 дня", label: "срок сделки" },
+          { value: "100%", label: "банков с максимальным одобрением", highlight: true },
+          { value: "до 25%", label: "меньше заявок на доработке" },
+          { value: "до +14%", label: "к одобрению" },
         ],
       },
       {
         title: "Электронная регистрация",
         href: "/elektronnaya-registraciya",
-        description: "Подача в Росреестр прямо из ДВИЖ. Автопроверка. Сделка регистрируется за 24 часа",
+        description: "Бесшовная сделка: данные подтягиваются из CRM, модуля ипотеки или ДДУ/ДКП. Актуальные статусы в CRM",
         backgroundImage: "/api/media/file/home_bento_e-reg-stages.webp",
         backgroundImageMobile: "/api/media/file/home_bento_e-reg-stages-mobile.webp",
         imagePositionLg: "top",
+        statsLayout: "cols",
         stats: [
-          { value: "-30%", label: "затраты на регистрацию", highlight: true },
+          { value: "до 5 минут", label: "заведение сделки в систему", highlight: true },
+          { value: "до 15 минут", label: "подключение новых объектов" },
         ],
       },
       {
-        title: "Калькулятор ипотеки",
+        title: "Готовый ипотечный калькулятор",
         href: "/ipotechnyy-kalkulyator",
-        description: "Актуальные ставки от 40+ банков обновляются автоматически. Клиент сам рассчитывает платеж",
+        description: "Расчет программ любой сложности под портрет клиента. Автоматическое обновление ставок",
         backgroundImage: "/api/media/file/home_bento_mortgage-calculator.webp",
         backgroundImageMobile: "/api/media/file/home_bento_mortgage-calculator-mobile.webp",
         stats: [
-          { value: "+20% конверсия", label: "когда клиент знает свой бюджет ипотеки", highlight: true },
-          { value: "80%", label: "вне рабочего времени" },
+          { value: "24/7", label: "конвертирует трафик в заявки", highlight: true },
+          { value: "до +20%", label: "лидов с сайта" },
         ],
       },
       {
         title: "Финансовый скоринг",
         href: "/scoring",
-        description: "Банковский уровень проверки: кредитная история, долговая нагрузка. 15+ источников, менеджер видит финансовый рейтинг клиента",
+        description: "Проверка каждого клиента по банковским стандартам. Оценка рисков просрочек и расторжения на всех этапах сделки",
         backgroundImage: "/api/media/file/home_bento_score.webp",
         backgroundImageMobile: "/api/media/file/home_bento_score-mobile.webp",
         textPosition: "top",
+        statsLayout: "cols",
+        stats: [
+          { value: "ОКБ и 15+", label: "источников — за секунды", highlight: true },
+          { value: "до 50%", label: "меньше проблемных рассрочек" },
+        ],
       },
       {
         variant: "brand",
-        title: "Нейросети на службе отдела продаж",
-        description: "AI-инструменты для скоринга, прогноза и приоритизации заявок. Менеджер видит, кому звонить первым.",
+        title: "ДВИЖ AI на службе отделов продаж",
+        description: "Прогноз вероятности и скорости одобрения в банках. Подбор ипотечных программ под портрет клиента",
         backgroundImage: "/api/media/file/home_bento_dvizh-ai.webp",
         backgroundImageMobile: "/api/media/file/home_bento_dvizh-ai-mobile.webp",
         stats: [
@@ -483,51 +509,49 @@ const partnerLogos = [
   </div>
 
   {/*
-    Флюид-верстка главной (та же система, что на /lab/glavnaya и /lab/ipoteka-apex).
-    Скоуп .fluid-page живет на <body> ТОЛЬКО этой страницы (через bodyClass SiteLayout).
-    Общая флюид-система (типографика + ширина контейнера 1440→1920) — в global.css,
-    скоуп .fluid-page. Ниже в <style> — только специфичное для главной
-    (hero-сетка, LogoDrum, высоты карточек).
+    Флюид-верстка главной. Скоуп .fluid-scale живет на <html> ТОЛЬКО этой
+    страницы (через htmlClass SiteLayout) — вся раскладка масштабируется
+    пропорционально через корневой font-size (см. global.css).
+    Ниже в <style> — только специфичное для главной (LogoDrum, иллюстрации).
   */}
 
   <style is:global>
-    /*
-      Hero: левая колонка (заголовок+форма) была фикс 820px — вся доп. ширина
-      уходила в правый LogoDrum. Делаем ее растущей: minmax(820px, 1.6fr) держит
-      820px до ~1445px (как сейчас), дальше колонка растет пропорционально.
-      Только в lg+ — на мобиле сетка одноколоночная, ее не трогаем.
-    */
     @media (min-width: 1024px) {
-      .fluid-page .lg\:grid-cols-\[820px_1fr\] { grid-template-columns: minmax(820px, 1.6fr) 1fr; }
-    }
+      /*
+        Hero: блок формы (поля + кнопка) по умолчанию тянется на всю левую
+        колонку, а она растет вместе с макетом. Ограничиваем форму 640px @1440.
+        .gap-[52px] — обертка контента hero (на этой странице только в HeroSection).
+      */
+      html.fluid-scale .gap-\[52px\] form { max-width: 40rem; }
 
-    /*
-      Hero: блок формы (поля + кнопка) по умолчанию тянется на всю левую колонку,
-      а она у нас растет. Ограничиваем форму 640px, чтобы поля не разъезжались.
-      .gap-[52px] — обертка контента hero (на этой странице только в HeroSection).
-    */
-    .fluid-page .gap-\[52px\] form { max-width: 640px; }
+      /* Hero: рамка под LogoDrum */
+      html.fluid-scale .h-\[700px\] { height: 43.75rem; }
+    }
 
     /*
       Hero LogoDrum увеличен ~2×, чтобы заполнить правую часть и убрать «дыру»
       между текстом и барабаном. Правый край остается пришпилен к линии кнопки.
       radius={400} задан на инстансе (mag = 1200/800 = 1.5×).
+      html.fluid-scale (0,2,1) — чтобы перебить scoped-стили LogoDrum (0,2,0).
+      Без медиазапроса: ниже 1024 корень не масштабируется, rem = 16px.
     */
-    body.fluid-page .logo-drum { width: 380px; margin-left: auto; margin-right: 0; }
-    body.fluid-page .logo-drum-rotor { width: 380px; height: 110px; }
-    body.fluid-page .logo-drum-img { max-height: 74px; }
+    html.fluid-scale .logo-drum { width: 23.75rem; margin-left: auto; margin-right: 0; }
+    html.fluid-scale .logo-drum-rotor { width: 23.75rem; height: 6.875rem; }
+    html.fluid-scale .logo-drum-img { max-height: 4.625rem; }
     /* ДВИЖ — широкий вордмарк (~4:1), по высоте смотрится громадным рядом с компактными
        значками партнеров. Адресно уменьшаем именно его. */
-    body.fluid-page .logo-drum-img[src*="logo-dvizh"] { max-height: 54px; }
+    html.fluid-scale .logo-drum-img[src*="logo-dvizh"] { max-height: 3.375rem; }
 
     /*
       «Стабильное решение»: три 3D-иллюстрации. Источники одной высоты (1120px),
-      но разной ширины → старый жесткий бокс 120×120 с object-fit:contain рендерил
-      их разной видимой высотой (58/104/70px). Фиксируем высоту, ширина авто —
-      все три одной высоты. На широких растет ×1.333 (как контейнер), floor 120px
-      держится на планшете/мобайле.
+      но разной ширины → жесткий бокс 120×120 с object-fit:contain рендерил их
+      разной видимой высотой (58/104/70px). Фиксируем высоту, ширина авто.
+      Ниже 1024 — клэмп; выше подхватывает общий скейл (7.8125rem = 125px @1440).
     */
     .stable-illustration { height: clamp(120px, 5rem + 3.125vw, 160px); width: auto; }
+    @media (min-width: 1024px) {
+      html.fluid-scale .stable-illustration { height: 7.8125rem; }
+    }
   </style>
 
 </SiteLayout>

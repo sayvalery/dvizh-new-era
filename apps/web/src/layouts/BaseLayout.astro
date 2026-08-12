@@ -13,11 +13,14 @@ interface Props {
   noindex?: boolean
   /** CSS-класс для <body> (например bg-background-primary) */
   bodyClass?: string
+  /** CSS-класс для <html>. Нужен для правил, зависящих от корневого font-size
+   *  (пропорциональный скейл .fluid-scale — rem считается от <html>). */
+  htmlClass?: string
   /** Явная группа страницы для скриптов (Тип B). По умолчанию — по pathname. */
   pageGroup?: PageGroup
 }
 
-const { title, description, ogImage, ogType = 'website', jsonLd, noindex = false, bodyClass = '', pageGroup } = Astro.props
+const { title, description, ogImage, ogType = 'website', jsonLd, noindex = false, bodyClass = '', htmlClass = '', pageGroup } = Astro.props
 const siteTitle = title
   ? (title.endsWith('— ДВИЖ') ? title : `${title} — ДВИЖ`)
   : 'ДВИЖ'
@@ -35,7 +38,7 @@ const bodyEndScripts = groupScripts.filter((s) => s.placement === 'body-end')
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang="ru" class:list={[htmlClass]}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

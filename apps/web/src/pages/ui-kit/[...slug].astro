@@ -2265,6 +2265,63 @@ const sections = [
                 />
               </div>
             </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Вариант «four» — 4 карточки в 2 строках (62/38 + 40/60)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<BentoGrid variant="four" heading="..." items={[...4 items...]} />`}</code></p>
+              <div class="-mx-10 bg-[#fbfbfb] px-10 py-12 rounded-2xl">
+                <BentoGrid
+                  variant="four"
+                  heading="Управляйте процессом на основе данных"
+                  description="Насыщаем вашу CRM данными из ипотечных заявок и собираем ключевые показатели в персональные дашборды"
+                  items={[
+                    {
+                      titleHtml: "Растите конверсии<br>маркетинговых кампаний",
+                      title: "Растите конверсии маркетинговых кампаний",
+                      description: "Формируем подробный портрет клиента: от возраста и дохода до ПДН и ПВ"
+                    },
+                    {
+                      titleHtml: "Стройте новые<br>каналы продаж",
+                      title: "Стройте новые каналы продаж",
+                      description: "Покажем, в какой отрасли и компании работают покупатели, — для корпоративных продаж"
+                    },
+                    {
+                      title: "Анализируйте воронку продаж за 1 минуту",
+                      description: "Рассчитаем конверсии по каждому этапу ипотеки, дадим статистику по сотрудникам и заявкам"
+                    },
+                    {
+                      titleHtml: "Разрабатывайте<br>субсидированные программы",
+                      title: "Разрабатывайте субсидированные программы",
+                      description: "Подготовим статистику по банкам и сегментам вашей ЦА"
+                    }
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Белый текст поверх темной/оранжевой картинки — <code>theme: 'dark'</code> на карточке</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`{ title: "...", backgroundImage: "...", theme: 'dark' }`}</code></p>
+              <div class="-mx-10 bg-[#fbfbfb] px-10 py-12 rounded-2xl">
+                <BentoGrid
+                  variant="two"
+                  items={[
+                    {
+                      title: "При рассрочке",
+                      description: "Перед сделкой и в течение всего контракта — чтобы избежать неплатежей",
+                      backgroundImage: "https://admin.dvizh.cc/api/media/file/scoring_01_installment-risk.webp",
+                      theme: 'dark'
+                    },
+                    {
+                      title: "Разрабатывайте субсидированные программы",
+                      description: "Подготовим статистику по банкам и сегментам вашей ЦА",
+                      backgroundImage: "https://admin.dvizh.cc/api/media/file/mortgage_08_subsidy-programs.webp",
+                      theme: 'dark'
+                    }
+                  ]}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -2274,7 +2331,9 @@ const sections = [
           <h1 class="text-3xl font-bold font-heading mb-6">ProductBentoBlock</h1>
           <p class="text-gray-600 mb-10">
             Секция продуктов в bento-раскладке: заголовок + 5 карточек в трех строках (2 + 1 + 2).
-            Карточки 0 и 2 — вертикальные статы в ряд; карточки 1 и 4 — строчный стат.
+            Карточки 0 и 2 — статы в ряд по контенту (<code>row</code>); карточка 3 —
+            равные колонки (<code>cols</code>): значения всегда в одну строку, переносится только
+            подпись; карточки 1 и 4 — строчный стат (<code>inline</code>).
           </p>
           <div class="-mx-10 bg-[#fcfcfc] px-10 py-16 rounded-2xl">
             <ProductBentoBlock
@@ -2311,6 +2370,11 @@ const sections = [
                 {
                   title: "Финансовый скоринг",
                   description: "Банковский уровень проверки: кредитная история, долговая нагрузка. 15+ источников, менеджер видит финансовый рейтинг клиента",
+                  statsLayout: "cols",
+                  stats: [
+                    { value: "ОКБ и 15+", label: "источников — за секунды", highlight: true },
+                    { value: "до 50%", label: "меньше проблемных рассрочек" },
+                  ],
                 },
                 {
                   title: "Нейросети на службе отдела продаж",
@@ -2511,6 +2575,10 @@ const sections = [
           <p class="text-gray-600 mb-8">
             Секция «истории успеха» с заголовком, кнопкой и сеткой из 3 карточек.
             Заголовок карточки поддерживает HTML — используй <code>&lt;span class="text-brand"&gt;</code> для оранжевых выделений.
+            <br />
+            <code>layout="grid"</code> — статичная сетка 1/2/3 колонки;
+            <code>layout="scroll"</code> — горизонтальная лента: ниже lg свайп со snap, на lg+ секция
+            закрепляется и лента едет по вертикальному скроллу. Опциональная <code>cta</code>-карточка идёт последней.
           </p>
           <PropsTable props={parseSource(successStoryBlockRaw).props} class="mb-10" />
 
@@ -2542,6 +2610,59 @@ const sections = [
                   personJobTitle: 'Крупнейший федеральный девелопер России',
                 },
               ]}
+            />
+          </div>
+
+          <h2 class="text-xl font-bold font-heading mt-14 mb-2">layout="scroll" + CTA-карточка</h2>
+          <p class="text-gray-600 mb-6">
+            На lg+ секция закрепляется на экране, лента листается вертикальным скроллом.
+            Ниже lg — нативный свайп. Если контент не помещается по высоте экрана или включён
+            prefers-reduced-motion, закрепление отключается и остаётся обычный горизонтальный скролл.
+          </p>
+
+          <div class="-mx-10">
+            <SuccessStoryBlock
+              layout="scroll"
+              heading="70+ историй успеха на рынке застройщиков"
+              buttonLabel="Получить демо"
+              buttonPreset="demo"
+              stories={[
+                {
+                  logo: '/partners/lsr.svg',
+                  logoAlt: 'Группа ЛСР',
+                  titleHtml: 'Помогли начать обрабатывать <span class="text-brand">на 281% заявок больше,</span> чем в среднем на рынке',
+                  personName: 'Группа ЛСР',
+                  personJobTitle: 'Один из ведущих строительных холдингов',
+                },
+                {
+                  logo: '/partners/glorax.svg',
+                  logoAlt: 'GloraX',
+                  titleHtml: 'Сократили расходы на регистрацию <span class="text-brand">на 30%</span>',
+                  personName: 'GloraX',
+                  personJobTitle: 'Федеральный девелопер',
+                },
+                {
+                  logo: '/partners/strana.svg',
+                  logoAlt: 'ГК Точно',
+                  titleHtml: 'Увеличили объем закрытых сделок <span class="text-brand">с 1165 до 3500 за год</span>',
+                  personName: 'ГК «Точно»',
+                  personJobTitle: 'Крупнейший девелопер Краснодарского края',
+                },
+                {
+                  logo: '/partners/a101.svg',
+                  logoAlt: 'ГК Самолет',
+                  titleHtml: 'Дополнительно продали <span class="text-brand">96 квартир</span>',
+                  personName: 'ГК «Самолет»',
+                  personJobTitle: 'Крупнейший федеральный девелопер России',
+                },
+              ]}
+              cta={{
+                title: 'ещё 70+',
+                subtitle: 'историй успеха',
+                note: 'За 5 лет ни один клиент не ушёл к конкурентам',
+                buttonLabel: 'Записаться на демо',
+                buttonPreset: 'demo',
+              }}
             />
           </div>
         </div>

@@ -28,7 +28,7 @@ interface Tab {
 }
 
 interface Props {
-  /** Хвост заголовка (обычный цвет) */
+  /** Хвост заголовка (обычный цвет). Поддерживает HTML (<br>) */
   title?: string
   /** Начало заголовка (оранжевое) */
   titleAccent?: string
@@ -44,7 +44,7 @@ interface Props {
 }
 
 const {
-  title = ' поддерживаем на каждом этапе',
+  title = '<br>поддерживаем на каждом этапе',
   titleAccent = 'Не оставим вас одних,',
   subtitle = 'За каждой задачей — человек, который знает ваш проект и рынок',
   tabs,
@@ -65,10 +65,11 @@ const {
   <div class="page-container flex flex-col gap-10 lg:gap-16">
 
     <!-- Шапка -->
-    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
       <div class="flex flex-col gap-3">
-        <h2 class="text-h2 max-w-[800px]">
-          <span class="text-brand">{titleAccent}</span>{title}
+        <!-- max-w в rem: под .fluid-scale статический px не масштабируется вместе с кеглем. -->
+        <h2 class="text-h2 max-w-[50rem]">
+          <span class="text-brand">{titleAccent}</span><span set:html={title} />
         </h2>
         <p class="text-body-lg text-gray-500 max-w-[620px]">{subtitle}</p>
       </div>
