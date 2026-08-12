@@ -115,19 +115,18 @@ import FormClosing from '../components/ui/FormClosing.astro'
           {
             title: 'При рассрочке',
             description: 'Перед сделкой и в течение всего контракта — чтобы избежать неплатежей и расторжения',
-            // TODO вернуть картинку: backgroundImage: '/api/media/file/scoring_bento_data-sources.webp',
-            // TODO вернуть картинку: backgroundImageMobile: '/api/media/file/scoring_bento_data-sources-mobile.webp',
+            backgroundImage: 'https://admin.dvizh.cc/api/media/file/scoring_01_installment-risk.webp',
           },
           {
             title: 'При переходе с рассрочки на ипотеку',
             titleHtml: 'При переходе<br>с рассрочки на ипотеку',
             description: 'Чтобы оценить кредитный потенциал клиента',
-            // TODO вернуть картинку: backgroundImage: '/api/media/file/scoring_bento_fraud-check.webp',
-            // TODO вернуть картинку: backgroundImageMobile: '/api/media/file/scoring_bento_fraud-check-mobile.webp',
+            backgroundImage: 'https://admin.dvizh.cc/api/media/file/scoring_02_switch-to-mortgage.webp',
           },
           {
             title: 'При повторных продажах',
             description: 'Чтобы находить потенциал для продаж в текущей клиентской базе',
+            backgroundImage: 'https://admin.dvizh.cc/api/media/file/scoring_03_repeat-sales.webp',
           },
         ]}
       />
@@ -158,11 +157,11 @@ import FormClosing from '../components/ui/FormClosing.astro'
   </FeatureBlock>
 
   {/* ── 5. FeatureBlock 2 — Финансовые возможности (картинка слева, шахматный порядок) ── */}
-  {/* TODO вернуть картинку: image="/api/media/file/scoring-red-flags-debt-load.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
     imageSide="left"
+    image="https://admin.dvizh.cc/api/media/file/scoring_05_debt-load.webp"
     imageAlt="Финансовые возможности клиента"
     heading="Показываем реальный бюджет клиента и повышаем средний чек"
     features={[
@@ -170,9 +169,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
       { title: 'Оценка красных флагов банков' },
       { title: 'Прогноз максимальной суммы одобрения и платежа' },
     ]}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   {/* ── 6. FeatureBlock 3 — Кредитный потенциал и риски (картинка справа) ── */}
   {/* TODO вернуть картинку: image="/api/media/file/scoring_bento_fraud-check.webp" */}
