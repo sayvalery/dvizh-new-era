@@ -141,13 +141,16 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 <section class:list={['bg-gray-100', className]}>
   <div class="page-container flex flex-col gap-16">
 
-    <!-- Заголовок секции -->
-    <div class:list={['flex flex-col gap-5', titleAlign === 'left' ? 'items-start text-left' : 'items-center text-center']}>
-      {titleHtml
-        ? <h2 class="text-h1 font-medium text-gray-900" set:html={titleHtml} />
-        : title && <h2 class="text-h1 font-medium text-gray-900">{title}</h2>
-      }
-    </div>
+    <!-- Заголовок секции. Без заголовка блок не рендерится — иначе пустой
+         flex-ребенок съедает gap-16 контейнера. -->
+    {(titleHtml || title) && (
+      <div class:list={['flex flex-col gap-5', titleAlign === 'left' ? 'items-start text-left' : 'items-center text-center']}>
+        {titleHtml
+          ? <h2 class="text-h1 font-medium text-gray-900" set:html={titleHtml} />
+          : <h2 class="text-h1 font-medium text-gray-900">{title}</h2>
+        }
+      </div>
+    )}
 
     <!--
       ═══ PRICES VARIANT ═══
@@ -159,7 +162,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       <div class="flex flex-col lg:flex-row gap-6 lg:gap-10">
 
         <!-- Левая карточка (без ДВИЖа) — на мобайле второй -->
-        <div class="bg-gray-200 rounded-2xl lg:rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px] order-2 lg:order-1">
+        <div class="bg-gray-200 rounded-2xl lg:rounded-3xl p-[2.125rem] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[18.75rem] order-2 lg:order-1">
           <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
           <div class="border-t border-gray-300 pt-8 flex flex-col gap-6 opacity-60">
             {priceRows.map((row) => (
@@ -173,14 +176,14 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 
         <!-- Правая карточка (ДВИЖ) — на мобайле первой -->
         <!-- bg #151517 → bg-gray-900 (#1D1E21), ближайший токен -->
-        <div class="bg-gray-900 rounded-2xl lg:rounded-3xl p-[34px] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[300px] order-1 lg:order-2">
+        <div class="bg-gray-900 rounded-2xl lg:rounded-3xl p-[2.125rem] flex flex-col gap-8 lg:flex-1 lg:justify-between lg:min-h-[18.75rem] order-1 lg:order-2">
 
           <!-- Логотип -->
-          <div class="h-[54px] flex items-center">
+          <div class="h-[3.375rem] flex items-center">
             {rightLogoSrc ? (
               <img src={rightLogoSrc} alt={rightLogoAlt} class="h-full w-auto object-contain" />
             ) : (
-              <div class="h-full w-[220px] rounded-xl bg-white/10" role="img" aria-label={rightLogoAlt} />
+              <div class="h-full w-[13.75rem] rounded-xl bg-white/10" role="img" aria-label={rightLogoAlt} />
             )}
           </div>
 
@@ -236,11 +239,11 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       <!-- Цвет фона в Figma: #131313 → используем bg-gray-900 (#1D1E21), ближайший токен -->
       <div class="bg-gray-900 rounded-2xl lg:rounded-3xl p-8 flex flex-col justify-between gap-10">
         <div class="flex flex-col gap-10">
-          <div class="h-[54px] flex items-center">
+          <div class="h-[3.375rem] flex items-center">
             {rightLogoSrc ? (
               <img src={rightLogoSrc} alt={rightLogoAlt} class="h-full w-auto object-contain" />
             ) : (
-              <div class="h-full w-[220px] rounded-xl bg-white/10" role="img" aria-label={rightLogoAlt} />
+              <div class="h-full w-[13.75rem] rounded-xl bg-white/10" role="img" aria-label={rightLogoAlt} />
             )}
           </div>
           <div class="flex flex-col divide-y divide-white/15">
@@ -263,7 +266,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 
       <!-- Левая карточка (серая, «Без ДВИЖа») — второй на мобайле -->
       <div class="bg-gray-200 rounded-2xl lg:rounded-3xl p-8 flex flex-col gap-14">
-        <div class="h-[54px] flex items-center">
+        <div class="h-[3.375rem] flex items-center">
           <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
         </div>
         <div class="flex flex-col divide-y divide-gray-300">
@@ -292,7 +295,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 
       <!-- Правая карточка — первой на мобайле -->
       <div class="bg-gray-200 rounded-2xl lg:rounded-3xl p-8 flex flex-col gap-10">
-        <div class="flex items-center gap-3 min-h-[54px]">
+        <div class="flex items-center gap-3 min-h-[3.375rem]">
           <slot name="right-icon" />
           {rightTitle && <h3 class="text-h3 text-gray-900">{rightTitle}</h3>}
         </div>
@@ -311,7 +314,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
 
       <!-- Левая карточка -->
       <div class="bg-gray-200 rounded-2xl lg:rounded-3xl p-8 flex flex-col gap-10">
-        <div class="min-h-[54px] flex items-center gap-3">
+        <div class="min-h-[3.375rem] flex items-center gap-3">
           <slot name="left-icon" />
           <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
         </div>
@@ -363,17 +366,17 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       ></div>
 
       <!-- ── Строка 1: заголовок | логотип ── -->
-      <div class="relative z-10 px-[34px] pt-[34px] pb-8">
-        <div class="h-[54px] flex items-center">
+      <div class="relative z-10 px-[2.125rem] pt-[2.125rem] pb-8">
+        <div class="h-[3.375rem] flex items-center">
           <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
         </div>
       </div>
-      <div class="relative z-10 px-[34px] pt-[34px] pb-14 flex items-start">
-        <div class="h-[54px] flex items-center">
+      <div class="relative z-10 px-[2.125rem] pt-[2.125rem] pb-14 flex items-start">
+        <div class="h-[3.375rem] flex items-center">
           {rightLogoSrc ? (
             <img src={rightLogoSrc} alt={rightLogoAlt} class="h-full w-auto object-contain" />
           ) : (
-            <div class="h-full w-[220px] rounded-xl bg-white/10" role="img" aria-label={rightLogoAlt} />
+            <div class="h-full w-[13.75rem] rounded-xl bg-white/10" role="img" aria-label={rightLogoAlt} />
           )}
         </div>
       </div>
@@ -383,8 +386,8 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
         <Fragment>
           <!-- Левая ячейка строки i -->
           <!-- Левая ячейка: flex items-center центрирует группу в строке -->
-          <!-- border-t перенесен на внутренний блок, чтобы линия была вровень с контентом (учитывает px-[34px]) -->
-          <div class="relative z-10 px-[34px] flex items-start opacity-60 pb-5">
+          <!-- border-t перенесен на внутренний блок, чтобы линия была вровень с контентом (учитывает px-[2.125rem]) -->
+          <div class="relative z-10 px-[2.125rem] flex items-start opacity-60 pb-5">
             {pair.left && (
               <div class:list={[
                 'flex gap-3 items-start w-full',
@@ -400,8 +403,8 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
           </div>
 
           <!-- Правая ячейка: flex items-center центрирует группу в строке -->
-          <!-- border-t перенесен на внутренний блок, чтобы линия была вровень с контентом (учитывает px-[34px]) -->
-          <div class="relative z-10 px-[34px] flex items-start pb-5">
+          <!-- border-t перенесен на внутренний блок, чтобы линия была вровень с контентом (учитывает px-[2.125rem]) -->
+          <div class="relative z-10 px-[2.125rem] flex items-start pb-5">
             {pair.right && (
               <div class:list={[
                 'flex gap-3 items-start w-full',
@@ -425,8 +428,8 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
         Левый фон через эту строку тоже продолжается — визуально левая карточка
         «дотягивается» до высоты правой, как в дизайне Figma.
       -->
-      <div class="relative z-10 px-[34px] pb-[34px] pt-8"></div>
-      <div class="relative z-10 px-[34px] pb-[34px] pt-8 flex flex-wrap gap-2">
+      <div class="relative z-10 px-[2.125rem] pb-[2.125rem] pt-8"></div>
+      <div class="relative z-10 px-[2.125rem] pb-[2.125rem] pt-8 flex flex-wrap gap-2">
         <Button variant="primary" drawerPreset={primaryDrawerPreset}>{primaryButtonText}</Button>
         {secondaryButtonText && <Button variant="ghost-dark" drawerPreset={secondaryDrawerPreset}>{secondaryButtonText}</Button>}
       </div>
@@ -454,14 +457,14 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       ></div>
 
       <!-- Строка 1: заголовки / иконка -->
-      <div class="relative z-10 px-[34px] pt-[34px] pb-8">
-        <div class="min-h-[54px] flex items-center gap-3">
+      <div class="relative z-10 px-[2.125rem] pt-[2.125rem] pb-8">
+        <div class="min-h-[3.375rem] flex items-center gap-3">
           <slot name="left-icon" />
           <h3 class="text-h3 text-gray-900">{leftTitle}</h3>
         </div>
       </div>
-      <div class="relative z-10 px-[34px] pt-[34px] pb-8">
-        <div class="min-h-[54px] flex items-center gap-3">
+      <div class="relative z-10 px-[2.125rem] pt-[2.125rem] pb-8">
+        <div class="min-h-[3.375rem] flex items-center gap-3">
           <slot name="right-icon" />
           {rightTitle && <h3 class="text-h3 text-gray-900">{rightTitle}</h3>}
         </div>
@@ -471,7 +474,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       <!-- border-t на внешнем div → равный py-5 сверху и снизу, items-center вертикально центрирует -->
       {pairs.map((pair, i) => (
         <Fragment>
-          <div class:list={['relative z-10 px-[34px] flex items-center py-10', i !== 0 && 'border-t border-gray-300']}>
+          <div class:list={['relative z-10 px-[2.125rem] flex items-center py-10', i !== 0 && 'border-t border-gray-300']}>
             {pair.left && (
               <div class="flex gap-3 items-center w-full">
                 <svg class="w-6 h-6 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" aria-hidden="true">
@@ -482,7 +485,7 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
               </div>
             )}
           </div>
-          <div class:list={['relative z-10 px-[34px] flex items-center py-10', i !== 0 && 'border-t border-gray-300']}>
+          <div class:list={['relative z-10 px-[2.125rem] flex items-center py-10', i !== 0 && 'border-t border-gray-300']}>
             {pair.right && (
               <div class="flex gap-3 items-center w-full">
                 <svg class="w-6 h-6 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" aria-hidden="true">
@@ -497,8 +500,8 @@ const pairs = Array.from({ length: maxLen }, (_, i) => ({
       ))}
 
       <!-- Нижний отступ -->
-      <div class="relative z-10 px-[34px] pb-[34px] pt-8"></div>
-      <div class="relative z-10 px-[34px] pb-[34px] pt-8"></div>
+      <div class="relative z-10 px-[2.125rem] pb-[2.125rem] pt-8"></div>
+      <div class="relative z-10 px-[2.125rem] pb-[2.125rem] pt-8"></div>
 
     </div>
     )}
