@@ -136,10 +136,10 @@ import FormClosing from '../components/ui/FormClosing.astro'
   </section>
 
   {/* ── 4. FeatureBlock 1 — Проверяем клиента (картинка справа) + отзыв ЭНКО ── */}
-  {/* TODO вернуть картинку: image="/api/media/file/scoring_hero_cards-3d.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
+    image="https://admin.dvizh.cc/api/media/file/scoring_04_client-check.webp"
     imageAlt="Проверка клиента по банковским стандартам"
     heading="Проверяем каждого клиента по банковским стандартам"
     features={[
@@ -154,16 +154,14 @@ import FormClosing from '../components/ui/FormClosing.astro'
       company: { logo: '/api/media/file/enko.svg', alt: 'ЭНКО' },
       caseLink: { label: 'Читать кейс', href: '/cases/enko' },
     }}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   {/* ── 5. FeatureBlock 2 — Финансовые возможности (картинка слева, шахматный порядок) ── */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
     imageSide="left"
-    image="https://admin.dvizh.cc/api/media/file/scoring_05_debt-load.webp"
+    image="https://admin.dvizh.cc/api/media/file/scoring_05_debt-load_update.webp"
     imageAlt="Финансовые возможности клиента"
     heading="Показываем реальный бюджет клиента и повышаем средний чек"
     features={[
@@ -174,19 +172,17 @@ import FormClosing from '../components/ui/FormClosing.astro'
   />
 
   {/* ── 6. FeatureBlock 3 — Кредитный потенциал и риски (картинка справа) ── */}
-  {/* TODO вернуть картинку: image="/api/media/file/scoring_bento_fraud-check.webp" */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
+    image="https://admin.dvizh.cc/api/media/file/scoring_06_risk-verdict.webp"
     imageAlt="Кредитный потенциал и риски"
     heading="Оцениваем кредитный потенциал и риски"
     features={[
       { title: 'Готовое заключение — в карточке клиента в CRM' },
       { title: 'Три статуса: низкий, повышенный и высокий риск — сигнал, что делать менеджеру дальше' },
     ]}
-  >
-    <div slot="image" class="h-full w-full bg-gray-200"></div>
-  </FeatureBlock>
+  />
 
   {/* ── 7. ComparisonSection — Без скоринга vs Со скорингом ДВИЖа ── */}
   <ComparisonSection
