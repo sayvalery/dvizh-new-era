@@ -64,6 +64,11 @@
  */
 
 interface BentoItem {
+  /**
+   * Тема текста карточки. 'dark' — заголовок и подпись белые (под темную или
+   * оранжевую иллюстрацию). По умолчанию 'light' — темный текст.
+   */
+  theme?: 'light' | 'dark'
   /** Заголовок карточки */
   title: string
   /**
@@ -124,6 +129,10 @@ const isTwo = variant === 'two'
 const isThree = variant === 'three'
 const isFour = variant === 'four'
 
+// Цвет текста поверх картинки: theme='dark' — белый, иначе темный (дефолт).
+const titleCls = (c: BentoItem) => ['text-h3', c.theme === 'dark' ? 'text-white' : 'text-gray-900']
+const descCls = (c: BentoItem) => ['text-body-lg', c.theme === 'dark' ? 'text-white/60' : 'text-black/40']
+
 // object-position по брейкпойнтам через CSS-переменные (см. .bento-obj в global.css).
 const imgStyle = (c: BentoItem) => {
   let s = ''
@@ -180,9 +189,9 @@ const imgStyle = (c: BentoItem) => {
             </picture>
           )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-2xl">
-            <h3 class="text-h3 text-gray-900">{card.title}</h3>
+            <h3 class:list={titleCls(card)}>{card.title}</h3>
             {card.description && (
-              <p class="text-body-lg text-black/40">{card.description}</p>
+              <p class:list={descCls(card)}>{card.description}</p>
             )}
           </div>
         </div>
@@ -220,10 +229,10 @@ const imgStyle = (c: BentoItem) => {
           )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:bottom-auto xl:top-10 xl:max-w-[78%]">
             {card1.titleHtml
-              ? <h3 class="text-h3 text-gray-900" set:html={card1.titleHtml} />
-              : <h3 class="text-h3 text-gray-900">{card1.title}</h3>}
+              ? <h3 class:list={titleCls(card1)} set:html={card1.titleHtml} />
+              : <h3 class:list={titleCls(card1)}>{card1.title}</h3>}
             {card1.description && (
-              <p class="text-body-lg text-black/40">{card1.description}</p>
+              <p class:list={descCls(card1)}>{card1.description}</p>
             )}
           </div>
         </div>
@@ -249,10 +258,10 @@ const imgStyle = (c: BentoItem) => {
           )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:bottom-auto xl:top-10 xl:max-w-[78%]">
             {card2.titleHtml
-              ? <h3 class="text-h3 text-gray-900" set:html={card2.titleHtml} />
-              : <h3 class="text-h3 text-gray-900">{card2.title}</h3>}
+              ? <h3 class:list={titleCls(card2)} set:html={card2.titleHtml} />
+              : <h3 class:list={titleCls(card2)}>{card2.title}</h3>}
             {card2.description && (
-              <p class="text-body-lg text-black/40">{card2.description}</p>
+              <p class:list={descCls(card2)}>{card2.description}</p>
             )}
           </div>
         </div>
@@ -277,10 +286,10 @@ const imgStyle = (c: BentoItem) => {
         )}
         <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-3 lg:bottom-10 lg:left-10 lg:right-10 lg:gap-4 max-w-md xl:max-w-none xl:bottom-auto xl:top-10">
           {card3.titleHtml
-            ? <h3 class="text-h3 text-gray-900" set:html={card3.titleHtml} />
-            : <h3 class="text-h3 text-gray-900">{card3.title}</h3>}
+            ? <h3 class:list={titleCls(card3)} set:html={card3.titleHtml} />
+            : <h3 class:list={titleCls(card3)}>{card3.title}</h3>}
           {card3.description && (
-            <p class="text-body-lg text-black/40">{card3.description}</p>
+            <p class:list={descCls(card3)}>{card3.description}</p>
           )}
         </div>
       </div>
@@ -321,11 +330,11 @@ const imgStyle = (c: BentoItem) => {
           )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
             {card1.titleHtml
-              ? <h3 class="text-h3 text-gray-900" set:html={card1.titleHtml} />
-              : <h3 class="text-h3 text-gray-900">{card1.title}</h3>
+              ? <h3 class:list={titleCls(card1)} set:html={card1.titleHtml} />
+              : <h3 class:list={titleCls(card1)}>{card1.title}</h3>
             }
             {card1.description && (
-              <p class="text-body-lg text-black/40">{card1.description}</p>
+              <p class:list={descCls(card1)}>{card1.description}</p>
             )}
           </div>
         </div>
@@ -351,11 +360,11 @@ const imgStyle = (c: BentoItem) => {
           )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
             {card2.titleHtml
-              ? <h3 class="text-h3 text-gray-900" set:html={card2.titleHtml} />
-              : <h3 class="text-h3 text-gray-900">{card2.title}</h3>
+              ? <h3 class:list={titleCls(card2)} set:html={card2.titleHtml} />
+              : <h3 class:list={titleCls(card2)}>{card2.title}</h3>
             }
             {card2.description && (
-              <p class="text-body-lg text-black/40">{card2.description}</p>
+              <p class:list={descCls(card2)}>{card2.description}</p>
             )}
           </div>
         </div>
@@ -383,11 +392,11 @@ const imgStyle = (c: BentoItem) => {
           )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
             {card3.titleHtml
-              ? <h3 class="text-h3 text-gray-900" set:html={card3.titleHtml} />
-              : <h3 class="text-h3 text-gray-900">{card3.title}</h3>
+              ? <h3 class:list={titleCls(card3)} set:html={card3.titleHtml} />
+              : <h3 class:list={titleCls(card3)}>{card3.title}</h3>
             }
             {card3.description && (
-              <p class="text-body-lg text-black/40">{card3.description}</p>
+              <p class:list={descCls(card3)}>{card3.description}</p>
             )}
           </div>
         </div>
@@ -410,11 +419,11 @@ const imgStyle = (c: BentoItem) => {
           )}
           <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-4 lg:bottom-10 lg:left-10 lg:right-10">
             {card4.titleHtml
-              ? <h3 class="text-h3 text-gray-900" set:html={card4.titleHtml} />
-              : <h3 class="text-h3 text-gray-900">{card4.title}</h3>
+              ? <h3 class:list={titleCls(card4)} set:html={card4.titleHtml} />
+              : <h3 class:list={titleCls(card4)}>{card4.title}</h3>
             }
             {card4.description && (
-              <p class="text-body-lg text-black/40">{card4.description}</p>
+              <p class:list={descCls(card4)}>{card4.description}</p>
             )}
           </div>
         </div>

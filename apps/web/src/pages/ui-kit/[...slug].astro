@@ -2298,6 +2298,30 @@ const sections = [
                 />
               </div>
             </div>
+
+            <div>
+              <p class="text-sm font-medium text-gray-400 mb-4">Белый текст поверх темной/оранжевой картинки — <code>theme: 'dark'</code> на карточке</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`{ title: "...", backgroundImage: "...", theme: 'dark' }`}</code></p>
+              <div class="-mx-10 bg-[#fbfbfb] px-10 py-12 rounded-2xl">
+                <BentoGrid
+                  variant="two"
+                  items={[
+                    {
+                      title: "При рассрочке",
+                      description: "Перед сделкой и в течение всего контракта — чтобы избежать неплатежей",
+                      backgroundImage: "https://admin.dvizh.cc/api/media/file/scoring_01_installment-risk.webp",
+                      theme: 'dark'
+                    },
+                    {
+                      title: "Разрабатывайте субсидированные программы",
+                      description: "Подготовим статистику по банкам и сегментам вашей ЦА",
+                      backgroundImage: "https://admin.dvizh.cc/api/media/file/mortgage_08_subsidy-programs.webp",
+                      theme: 'dark'
+                    }
+                  ]}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
