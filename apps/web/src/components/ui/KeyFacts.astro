@@ -37,6 +37,8 @@ interface Props {
   titleHtml?: string
   /** Подзаголовок под заголовком (опционально). Поддерживает HTML */
   subtitle?: string
+  /** Максимальная ширина подзаголовка — управляет переносами. По умолчанию '3xl' */
+  subtitleMaxW?: '3xl' | '4xl' | '5xl'
   /** Количество колонок на десктопе (2–4). По умолчанию — по числу items */
   cols?: 2 | 3 | 4
   /**
@@ -48,9 +50,12 @@ interface Props {
   class?: string
 }
 
-const { items, title, titleHtml, subtitle, cols, variant = 'default', class: className = '' } = Astro.props
+const { items, title, titleHtml, subtitle, subtitleMaxW = '3xl', cols, variant = 'default', class: className = '' } = Astro.props
 
 const valueCls = variant === 'large' ? 'text-h2' : 'text-h3'
+
+// Литеральные классы — иначе Tailwind не увидит их при сканировании исходников
+const subtitleCls = { '3xl': 'max-w-3xl', '4xl': 'max-w-4xl', '5xl': 'max-w-5xl' }[subtitleMaxW]
 
 const colCount = (cols ?? Math.min(items.length, 4)) as 2 | 3 | 4
 
@@ -75,7 +80,7 @@ const gridCols = {
               : <h2 class="text-h2 text-gray-900">{title}</h2>
           )}
           {subtitle && (
-            <p class="text-body-lg text-gray-500 max-w-3xl" set:html={subtitle} />
+            <p class:list={['text-body-lg text-gray-500', subtitleCls]} set:html={subtitle} />
           )}
         </div>
       )}
