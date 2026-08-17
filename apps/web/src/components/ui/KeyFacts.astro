@@ -67,7 +67,11 @@ const gridCols = {
 }[colCount]
 ---
 
-<section class:list={['bg-gray-100 pt-20 lg:pt-[120px]', className]}>
+<!-- Своих вертикальных отступов у секции нет: ритм задаёт gap-контейнер страницы
+     (mt-24 lg:mt-32 на стыке с hero, gap-24 lg:gap-40 между блоками). Собственный
+     pt-20 lg:pt-[120px] складывался с ним и давал двойной провал под hero на тех
+     страницах, где KeyFacts идёт первым блоком. Нижний отступ убран ещё в d2389a0. -->
+<section class:list={['bg-gray-100', className]}>
   <div class="page-container">
     <div class="flex flex-col gap-14 lg:gap-20">
 
