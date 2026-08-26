@@ -1,4 +1,4 @@
-﻿---
+---
 import SiteLayout from '../layouts/SiteLayout.astro'
 import HeroSectionFull from '../components/lab-new/HeroSectionFull.astro'
 import PixelArrowPattern from '../components/ui/PixelArrowPattern.astro'
@@ -87,7 +87,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
       { title: 'Расчет досрочных погашений и рефинансирования' },
     ]}
     review={{
-      quote: 'Без единой анкеты ДВИЖа консультирование усложнилось, так как приходилось заходить на сайты, личные кабинеты каждого банка и смотреть ставки, размеры ежемесячных платежей',
+      quote: 'Без ДВИЖа консультирование усложнилось, так как приходилось заходить на сайты, личные кабинеты каждого банка и смотреть ставки, размеры ежемесячных платежей',
       author: 'Елена Самсонова',
       role: 'Ипотечный брокер АН «АТОМ»',
       company: { logo: '/api/media/file/atom-logo.svg', alt: 'АН «АТОМ»' },
@@ -136,34 +136,55 @@ import FormClosing from '../components/ui/FormClosing.astro'
     }}
   />
 
-  {/* ── 7. FeatureBlock — Синхронизируем работу внутри отдела ── */}
+  {/* ── 7. FeatureBlock — Синхронизируем работу отделов ── */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
     imageSide="left"
     image="https://admin.dvizh.cc/api/media/file/mortgage_04_crm-sync.webp"
     imageAlt="Интеграции с CRM"
-    heading="Синхронизируем работу внутри отдела"
+    heading="Синхронизируем работу отделов"
     button={{ label: 'Узнать больше', drawerPreset: 'demo' }}
     features={[
-      { title: 'Готовые интеграции с популярными CRM' },
-      { title: 'Актуальные статусы без смены рабочего окна' },
-      { title: 'Контроль сделок на всех этапах' },
+      { title: 'Автообмен данными между ипотечным модулем и CRM' },
+      { title: 'Единая картина сделки и актуальные статусы у отделов продаж и ипотеки' },
+      { title: 'Сокращение цикла сделки — без ручного переноса данных, ошибок и потерь' },
     ]}
   />
 
-  {/* ── 8. BentoGrid — Управляйте процессом на основе данных ── */}
+  {/* ── 8. BentoGrid — Управляйте ипотечными продажами на основе данных ── */}
   <section>
     <div class="page-container">
       <BentoGrid
         variant="four"
-        heading="Управляйте процессом на основе данных"
-        description="Насыщаем вашу CRM данными из ипотечных заявок и собираем ключевые показатели в персональные дашборды"
+        headingHtml="Управляйте ипотечными продажами<br>на основе данных"
+        descriptionHtml="Собираем ключевые показатели ипотечной воронки в персональные дашборды,<br>чтобы вы могли ответить на вопросы:"
         items={[
-          { titleHtml: 'Растите конверсии<br>маркетинговых кампаний', title: 'Растите конверсии маркетинговых кампаний', description: 'Формируем подробный портрет клиента: от возраста и дохода до ПДН и ПВ', backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_05_audience-profile.webp' },
-          { titleHtml: 'Стройте новые<br>каналы продаж', title: 'Стройте новые каналы продаж', description: 'Покажем, в какой отрасли и компании работают покупатели, — для корпоративных продаж', backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_06_corporate-sales.webp' },
-          { title: 'Анализируйте воронку продаж за 1 минуту', description: 'Рассчитаем конверсии по каждому этапу ипотеки, дадим статистику по сотрудникам и заявкам', backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_07_sales-funnel.webp' },
-          { titleHtml: 'Разрабатывайте<br>субсидированные программы', title: 'Разрабатывайте субсидированные программы', description: 'Подготовим статистику по банкам и сегментам вашей ЦА', backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_08_subsidy-programs.webp', theme: 'dark' },
+          {
+            titleHtml: 'Какой этап воронки усилить,<br>чтобы закрыть больше сделок',
+            title: 'Какой этап воронки усилить, чтобы закрыть больше сделок',
+            description: 'Статусы по всем заявкам: от отправленных до одобренных',
+            backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_05_audience-profile.webp',
+          },
+          {
+            titleHtml: 'В каких банках выше<br>шансы на одобрение',
+            title: 'В каких банках выше шансы на одобрение',
+            description: 'Доля, процент одобрения и скорость принятия решения по каждому банку',
+            backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_06_corporate-sales.webp',
+          },
+          {
+            titleHtml: 'Как меняется портрет<br>целевого клиента',
+            title: 'Как меняется портрет целевого клиента',
+            description: 'Доход, возраст, семейное положение, число детей, отрасль работы',
+            backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_07_sales-funnel.webp',
+          },
+          {
+            titleHtml: 'Какие субсидированные<br>программы разработать',
+            title: 'Какие субсидированные программы разработать',
+            description: 'Статистика по банкам и сегментам аудитории',
+            backgroundImage: 'https://admin.dvizh.cc/api/media/file/mortgage_08_subsidy-programs.webp',
+            theme: 'dark',
+          },
         ]}
       />
     </div>

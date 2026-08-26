@@ -6,6 +6,7 @@ import LogoGrid from '../components/ui/LogoGrid.astro'
 import KeyFacts from '../components/ui/KeyFacts.astro'
 import BentoGrid from '../components/ui/BentoGrid.astro'
 import FeatureBlock from '../components/ui/FeatureBlock.astro'
+import ReviewFull from '../components/ui/ReviewFull.astro'
 import ComparisonSection from '../components/ui/ComparisonSection.astro'
 import FormClosing from '../components/ui/FormClosing.astro'
 ---
@@ -86,7 +87,7 @@ import FormClosing from '../components/ui/FormClosing.astro'
   {/* ── 2. KeyFacts — риски рассрочки ── */}
   <KeyFacts
     variant="large"
-    titleHtml="Рассрочка без скоринга клиента —<br>главный риск для застройщика"
+    titleHtml="Рассрочка без скоринга клиента —<br>прямой риск для застройщика"
     subtitleMaxW="4xl"
     subtitle="Когда клиент берет рассрочку у застройщика, банк в сделке не участвует. Он не проверяет финансовые возможности клиента — и риск остается на застройщике"
     items={[
@@ -105,28 +106,29 @@ import FormClosing from '../components/ui/FormClosing.astro'
     ]}
   />
 
-  {/* ── 3. BentoGrid — 2 сценария применения ── */}
+  {/* ── 3. BentoGrid ── */}
   <section class="!py-0">
     <div class="page-container">
       <BentoGrid
         variant="three"
-        heading="Помогаем подобрать условия под клиента"
+        headingHtml='Скоринг ДВИЖа — это проверка клиента <span class="text-brand">по банковским стандартам</span>, до сделки и за секунды'
         items={[
           {
-            title: 'При рассрочке',
-            description: 'Перед сделкой и в течение всего контракта — чтобы избежать неплатежей и расторжения',
+            title: 'Расчет ПДН и детализация всех кредитных продуктов',
+            description: 'Данные из ОКБ, НБКИ, Скоринг Бюро, КредитИнфо. Учитываем всю долговую нагрузку — вплоть до покупок в сплит',
             theme: 'dark',
             backgroundImage: 'https://admin.dvizh.cc/api/media/file/scoring_01_installment-risk.webp',
           },
           {
-            title: 'При переходе с рассрочки на ипотеку',
-            titleHtml: 'При переходе<br>с рассрочки на ипотеку',
-            description: 'Чтобы оценить кредитный потенциал клиента',
+            title: 'Оценка риск-флагов',
+            titleHtml: 'Оценка риск-флагов',
+            description: 'Просрочки, банкротства, самозапрет, долги ФССП, аресты по налогам, состояние ИП или компании заемщика',
             backgroundImage: 'https://admin.dvizh.cc/api/media/file/scoring_02_switch-to-mortgage.webp',
           },
           {
-            title: 'При повторных продажах',
-            description: 'Чтобы находить потенциал для продаж в текущей клиентской базе',
+            title: 'Готовое заключение — в карточке клиента в CRM',
+            titleHtml: 'Готовое заключение —<br>в карточке клиента в CRM',
+            description: 'Менеджер видит риски и принимает взвешенное решение по клиенту',
             theme: 'dark',
             backgroundImage: 'https://admin.dvizh.cc/api/media/file/scoring_03_repeat-sales.webp',
           },
@@ -135,52 +137,60 @@ import FormClosing from '../components/ui/FormClosing.astro'
     </div>
   </section>
 
-  {/* ── 4. FeatureBlock 1 — Проверяем клиента (картинка справа) + отзыв ЭНКО ── */}
+  {/* ── 4. FeatureBlock 1 — Снижаем риски просрочек и расторжения ── */}
   <FeatureBlock
     interactive={false}
     class="!py-0"
-    image="https://admin.dvizh.cc/api/media/file/scoring_04_client-check.webp"
-    imageAlt="Проверка клиента по банковским стандартам"
-    heading="Проверяем каждого клиента по банковским стандартам"
-    features={[
-      { title: 'Минимальная анкета — ФИО, телефон, паспорт, ИНН и доход' },
-      { title: 'Автоматическая проверка вместо ручного сбора справок' },
-      { title: 'Данные из ОКБ и 15+ источников — за секунды' },
-    ]}
-    review={{
-      quote: 'Скоринг ДВИЖа помогает проверять финансовые возможности клиентов и перспективы перехода на ипотеку. С помощью отдельного инструмента менеджеры ЭНКО проверяют покупателя перед подписанием договора по рассрочке, чтобы снизить риски до минимума',
-      author: 'Юлия Романовская',
-      role: 'Руководитель службы сопровождения клиентов',
-      company: { logo: '/api/media/file/enco-logo.svg', alt: 'ЭНКО' },
-      caseLink: { label: 'Читать кейс', href: '/cases/enko' },
-    }}
-  />
-
-  {/* ── 5. FeatureBlock 2 — Финансовые возможности (картинка слева, шахматный порядок) ── */}
-  <FeatureBlock
-    interactive={false}
-    class="!py-0"
-    imageSide="left"
-    image="https://admin.dvizh.cc/api/media/file/scoring_05_debt-load_update.webp"
-    imageAlt="Финансовые возможности клиента"
-    heading="Показываем реальный бюджет клиента и повышаем средний чек"
-    features={[
-      { title: 'Проверка долговой нагрузки: учитываются даже покупки в сплит' },
-      { title: 'Оценка красных флагов банков' },
-      { title: 'Прогноз максимальной суммы одобрения и платежа' },
-    ]}
-  />
-
-  {/* ── 6. FeatureBlock 3 — Риски просрочек и расторжения (картинка справа) ── */}
-  <FeatureBlock
-    interactive={false}
-    class="!py-0"
+    eyebrow="Для оформления рассрочки и проверок в течение контракта"
     image="https://admin.dvizh.cc/api/media/file/scoring_06_risk-verdict.webp"
-    imageAlt="Риски просрочек и расторжения"
-    heading="Оцениваем риски просрочек и расторжения"
+    imageAlt="Снижаем риски просрочек и расторжения"
+    heading="Снижаем риски просрочек и расторжения"
     features={[
-      { title: 'Готовое заключение — в карточке клиента в CRM' },
-      { title: 'Три статуса — сигнал, что делать менеджеру дальше' },
+      { title: 'Анализируем платежеспособность клиента' },
+      { title: 'Предупреждаем о риск-флагах в портрете клиента' },
+      { title: 'Менеджер может защитить сделку или отказать клиенту' },
+    ]}
+  />
+
+  {/* ── 5. FeatureBlock 2 — Выявляем кредитный потенциал клиента ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    eyebrow="Для перехода с рассрочки на ипотеку"
+    imageSide="left"
+    image="https://admin.dvizh.cc/api/media/file/scoring_04_client-check.webp"
+    imageAlt="Выявляем кредитный потенциал клиента"
+    heading="Выявляем кредитный потенциал клиента"
+    features={[
+      { title: 'Рассчитываем доступную сумму и платеж по будущей ипотеке' },
+      { title: 'Подсвечиваем стоп-факторы для одобрения в банке' },
+      { title: 'Менеджер и клиент могут подготовиться к переходу на ипотеку' },
+    ]}
+  />
+
+  {/* ── 6. Цитата ЭНКО (ReviewFull) ── */}
+  <div class="page-container">
+    <ReviewFull
+      photo={{ src: 'https://admin.dvizh.cc/api/media/file/enco-case.webp', alt: 'Юлия Романовская' }}
+      quote="Скоринг ДВИЖа помогает проверять финансовые возможности клиентов и перспективы перехода на ипотеку. С помощью отдельного инструмента менеджеры ЭНКО проверяют покупателя перед подписанием договора по рассрочке, чтобы снизить риски до минимума"
+      author="Юлия Романовская"
+      role="Руководитель службы сопровождения клиентов"
+      company={{ logo: '/api/media/file/enco-logo.svg', alt: 'ЭНКО' }}
+      caseLink={{ label: 'Читать кейс', href: '/blog/keys-enko-dvizh' }}
+    />
+  </div>
+
+  {/* ── 7. FeatureBlock 3 — Повышаем средний чек ── */}
+  <FeatureBlock
+    interactive={false}
+    class="!py-0"
+    eyebrow="Для роста продаж"
+    image="https://admin.dvizh.cc/api/media/file/scoring_05_debt-load_update.webp"
+    imageAlt="Повышаем средний чек"
+    heading="Повышаем средний чек"
+    features={[
+      { title: 'Показываем реальный бюджет клиента, максимальную сумму одобрения и платежа' },
+      { title: 'Менеджер может предложить квартиру под доступный бюджет, допродать машиноместо или кладовку' },
     ]}
   />
 

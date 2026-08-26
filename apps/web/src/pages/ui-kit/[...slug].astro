@@ -2495,6 +2495,23 @@ const sections = [
           <div class="space-y-16">
 
             <div>
+              <p class="text-sm font-medium text-gray-400 mb-2">С надзаголовком (eyebrow)</p>
+              <p class="text-xs text-gray-400 mb-6"><code>{`<FeatureBlock eyebrow="Для оформления рассрочки и проверок" heading="..." features={[...]} />`}</code></p>
+              <div class="-mx-10">
+                <FeatureBlock
+                  eyebrow="Для оформления рассрочки и проверок"
+                  heading="Снижаем риски просрочек и расторжения"
+                  features={[
+                    { title: 'Анализируем платежеспособность клиента' },
+                    { title: 'Предупреждаем о риск-флагах в портрете клиента' },
+                    { title: 'Менеджер может защитить сделку или отказать клиенту' },
+                  ]}
+                  image="https://admin.dvizh.cc/api/media/file/scoring_06_risk-verdict.webp"
+                />
+              </div>
+            </div>
+
+            <div>
               <p class="text-sm font-medium text-gray-400 mb-2">Базовый — только заголовок и пункты</p>
               <p class="text-xs text-gray-400 mb-6"><code>{`<FeatureBlock heading="..." features={[...]} />`}</code></p>
               <div class="-mx-10">

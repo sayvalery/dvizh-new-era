@@ -67,6 +67,10 @@ interface ReviewProps {
 interface Props {
   /** Заголовок секции */
   heading?: string
+  /** Надзаголовок над заголовком (опционально) */
+  eyebrow?: string
+  /** Вариант стиля надзаголовка: 'brand' (оранжевый текст) | 'text' (темный текст) | 'muted' (серый текст) | 'badge' (серая плашка). По умолчанию 'brand'. */
+  eyebrowVariant?: 'brand' | 'text' | 'muted' | 'badge'
   /** Описание под заголовком (опционально) */
   description?: string
   /** Кнопка CTA под описанием (опционально) */
@@ -94,6 +98,8 @@ interface Props {
 
 const {
   heading = 'Повышаем конверсию в 2 раза',
+  eyebrow,
+  eyebrowVariant = 'brand',
   description,
   button,
   features = [],
@@ -139,6 +145,22 @@ const featuresWithImage = features.map((f, i) => f.image ? i : -1).filter(i => i
         <!-- Заголовок + описание + кнопка -->
         <div class="flex flex-col gap-6">
           <div class="flex flex-col gap-4">
+            {eyebrow && eyebrowVariant === 'brand' && (
+              <p class="text-body-lg font-medium text-brand">{eyebrow}</p>
+            )}
+            {eyebrow && eyebrowVariant === 'text' && (
+              <p class="text-body-lg font-medium text-gray-900">{eyebrow}</p>
+            )}
+            {eyebrow && eyebrowVariant === 'muted' && (
+              <p class="text-body-lg text-gray-500">{eyebrow}</p>
+            )}
+            {eyebrow && eyebrowVariant === 'badge' && (
+              <div>
+                <span class="inline-flex items-center px-3.5 py-1 rounded-full bg-gray-200 text-gray-800 text-subhead font-medium">
+                  {eyebrow}
+                </span>
+              </div>
+            )}
             <h2 class="text-h2 text-gray-900">{heading}</h2>
             {description && (
               <p class="text-body-lg text-gray-900">{description}</p>
