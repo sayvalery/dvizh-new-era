@@ -119,8 +119,15 @@ docker-compose.prod.yml     — продакшн-сервисы
 | Компании | `/companies/[slug]` | `getCompany()`, `getPersonsByCompany()` |
 
 ### Dev-only
-- `/ui-kit` — каталог компонентов (только в dev)
+- `/ui-kit` — каталог компонентов (только в dev; catch-all `ui-kit/[...slug].astro` с гардом `if (import.meta.env.PROD) return []`)
 - `/lab/*` — эксперименты с дизайном (только в dev)
+- `/sales` — экспериментальный лендинг (только в dev)
+
+**Механизм для `/lab/*` и `/sales`:** файлы лежат в `src/pages/_lab/` и `src/pages/_sales.astro`. Astro не создаёт маршруты для имён на `_`, поэтому в прод-сборке этих страниц нет физически. В dev их подключает по прежним URL интеграция `dvizh:dev-only-pages` в `apps/web/astro.config.ts` (через `injectRoute`).
+
+> **Новая lab-страница:** просто положи файл в `src/pages/_lab/` — в dev маршрут появится сам, в прод не утечёт. Гард в каждый файл добавлять не нужно. Кладёшь dev-страницу вне `_lab/` — она попадёт в прод (это ловит `scripts/audit.sh <dist>`, проверка (b)).
+
+Дополнительная страховка (не основной механизм): скрипт `build` в `apps/web/package.json` после сборки делает `rm -rf dist/lab dist/sales dist/ui-kit`. Оставлен как второй слой на случай регрессии.
 
 ## Работа с изображениями
 

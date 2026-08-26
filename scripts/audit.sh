@@ -172,9 +172,13 @@ if [ -d "$PAGES_DIR" ]; then
   MISSING=""
   while IFS= read -r seg; do
     [ -z "$seg" ] && continue
-    # Skip known asset/api roots.
+    # Skip known asset/api roots, plus dev-only roots: их страницы лежат в
+    # src/pages/_lab / _sales.astro (Astro игнорирует «_») и подключаются
+    # только в dev через интеграцию dev-only-pages в astro.config.ts,
+    # поэтому совпадающего пути под src/pages нет и быть не должно.
     case "$seg" in
       api|media|fonts|images|assets|rss*) continue ;;
+      lab|sales) continue ;;
     esac
     if [ -f "$PAGES_DIR/$seg.astro" ] \
       || [ -d "$PAGES_DIR/$seg" ] \

@@ -2,9 +2,12 @@
 /**
  * Lab — экспериментальные страницы (только dev)
  *
- * Catch-all роут: в продакшне getStaticPaths возвращает [],
- * поэтому lab-страницы не попадают в статическую сборку.
- * Доступны только через dev-сервер: preview.dvizh.cc/lab/
+ * Живёт в src/pages/_lab/ — Astro игнорирует папки на «_», поэтому в прод
+ * маршрута нет вообще. В dev папку подключает интеграция dev-only-pages
+ * из astro.config.ts (URL остаются прежними: preview.dvizh.cc/lab/...).
+ *
+ * Catch-all роут для страниц-компонентов из components/lab/. Гард
+ * `if (import.meta.env.PROD) return []` оставлен как второй слой защиты.
  */
 import LabIndex from '../../components/lab/LabIndex.astro'
 import LabProduct from '../../components/lab/LabProduct.astro'
