@@ -1,0 +1,320 @@
+---
+/**
+ * FunnelChart — воронка заявок
+ *
+ * Стандартная вертикальная «половинная» воронка: левый край прямой, правый
+ * сужается вниз трапециями. Фирменный цвет набирает насыщенность к последнему
+ * этапу, поэтому ступени различаются сами, без обводок и разделителей.
+ *
+ * Разница между периодами показана ЗАШТРИХОВАННОЙ областью под 45°, а не
+ * пунктирной границей. Вырос этап — штриховка ложится тёмным поверх заливки;
+ * упал — та же область оказывается за пределами заливки, на пустом фоне, и
+ * штриховка показывает, сколько потеряно. Фигура одна, меняется только то, на
+ * чём она лежит, поэтому рост и падение читаются одним приёмом.
+ *
+ * Легенды нет: подписи месяцев стоят прямо на графике — текущий период внутри
+ * воронки слева, предыдущий снаружи справа, оба повёрнуты на 90°.
+ * См. docs/analytics-charts/chart-guidelines.md §11.
+ *
+ * Значения внутри полос всегда СВЕТЛЫЕ, без переключения на тёмный для верхних
+ * полос: разный цвет в одной колонке читался как разный смысл, хотя это одни и те
+ * же проценты.
+ *
+ * Проценты — внутри полос, название этапа и дельта — справа. По ховеру этапа
+ * показывается остальное: конверсия с предыдущего шага, потеря на шаге и
+ * значение прошлого месяца (§3).
+ */
+import { buildFunnelBlock, type FunnelOptions } from '@/lib/charts/funnel'
+import { ARROW_GLYPH, HATCH_LAYERS } from '@/lib/charts/presets'
+import { SPARK_COLORS } from '@/lib/charts/sparkline'
+import type { Indicator } from '@/lib/charts/types'
+
+interface Props extends FunnelOptions {
+  indicator: Indicator
+  showTitle?: boolean
+  showSource?: boolean
+  class?: string
+}
+
+const {
+  indicator,
+  showTitle = true,
+  showSource = false,
+  class: className = '',
+  ...funnelOptions
+} = Astro.props
+
+const block = buildFunnelBlock(indicator, funnelOptions)
+const { geometry: g, stages } = block
+
+const BRAND = '#ff4d00'
+/** Цвет предыдущего периода: одинаковый у пунктира и у его подписи. */
+const PREVIOUS = '#505050'
+const LABEL_X = g.plotWidth + 30
+
+/** Подпись значения помещается внутрь полосы, только если она достаточно широкая. */
+const INSIDE_MIN_WIDTH = 92
+
+/**
+ * Подписи месяцев стоят у основания СВОЕЙ воронки, повёрнутые на 90°.
+ *
+ * Правило позиционное, а не «текущий/предыдущий»: та воронка, что шире у
+ * основания, подписывается СНАРУЖИ — справа от своей границы. Та, что уже,
+ * подписывается ВНУТРИ — слева от своей границы. Роли меняются сами, если в
+ * каком-то месяце воронка окажется хуже предыдущей.
+ *
+ * Колонка чисел слева при этом не трогается — подписи месяцев живут у границ.
+ */
+/**
+ * Подписи месяцев выровнены по центру НИЖНЕЙ ступеньки — и по вертикали тоже:
+ * text-anchor="middle" ставит середину строки на центр этой полосы. Привязка к
+ * низу графика делала подпись висящей на краю, ни к чему не относящейся.
+ */
+const MONTH_Y = g.rowCenters[g.rowCenters.length - 1]
+const MONTH_SIZE = 15
+/**
+ * Отступ от границы воронки до подписи — одинаковый снаружи и внутри.
+ *
+ * После rotate(-90) глифы лежат ВЛЕВО от базовой линии текста. У внутренней
+ * подписи базовая линия и есть ближняя к границе сторона, поэтому её зазор равен
+ * MONTH_GAP напрямую. У наружной к отступу нужно добавить видимую высоту литер —
+ * иначе глифы уезжают вглубь и зазор визуально получается больше.
+ *
+ * 0.53 от кегля — это измеренная величина, а не догадка. Растеризовал подписи и
+ * посчитал чернила: тело строчной буквы уходит влево от базовой линии на 8,0px при
+ * кегле 15 (0.53), вправо — до 2,9px у выносного элемента «р». Раньше здесь стояло
+ * 0.72 (высота ЗАГЛАВНЫХ), из-за чего наружная подпись отходила от своей границы
+ * дальше, чем внутренняя.
+ *
+ * Выравниваемся по телу буквы: тонкие хвостики («р» вниз, бревис у «й») могут
+ * выступать на 2–3px, но зазор на глаз задаёт именно тело.
+ */
+const MONTH_GAP = 10
+const GLYPH_EXTENT = Math.round(MONTH_SIZE * 0.53)
+
+/** Идентификаторы паттернов уникальны на страницу: воронок может быть несколько. */
+const uid = `${indicator.id}-${funnelOptions.through ?? 'last'}`.replace(/[^a-zA-Z0-9-]/g, '_')
+const HATCH_GROWN = `hatch-grown-${uid}`
+const HATCH_LOST = `hatch-lost-${uid}`
+
+const currentBase = g.bands[g.bands.length - 1].topWidth
+const previousBase = g.previousWidths?.[g.previousWidths.length - 1] ?? null
+
+/**
+ * Подписаны ОБА месяца, и каждый стоит у своей границы, со стороны, свободной от
+ * штриховки:
+ *
+ *  - воронка выросла → предыдущий период уже, его граница внутренняя: подпись
+ *    слева от неё, внутри заливки. Текущий шире, его подпись снаружи справа.
+ *  - воронка упала → наоборот: предыдущий период шире и подписывается снаружи
+ *    справа, текущий внутри слева.
+ *
+ * Внутренняя подпись всегда белая: она лежит на насыщенной заливке, и цвет своего
+ * периода там сливается с фоном.
+ */
+const outsideAt = (edge: number) => edge + MONTH_GAP + GLYPH_EXTENT
+const insideAt = (edge: number) => edge - MONTH_GAP
+const INSIDE_COLOR = '#ffffff'
+
+const monthLabels =
+  previousBase === null
+    ? [{ text: block.currentLabelShort, x: outsideAt(currentBase), color: BRAND }]
+    : currentBase >= previousBase
+      ? [
+          { text: block.currentLabelShort, x: outsideAt(currentBase), color: BRAND },
+          { text: block.previousLabelShort as string, x: insideAt(previousBase), color: INSIDE_COLOR },
+        ]
+      : [
+          { text: block.previousLabelShort as string, x: outsideAt(previousBase), color: PREVIOUS },
+          { text: block.currentLabelShort, x: insideAt(currentBase), color: INSIDE_COLOR },
+        ]
+---
+
+<figure class={`not-prose my-10 ${className}`} x-data="{ hovered: null }">
+  {showTitle && (
+    <figcaption class="mb-5">
+      <h3 class="font-heading text-h4 text-gray-900">{block.title} · {block.currentLabel}</h3>
+    </figcaption>
+  )}
+
+  <div class="relative rounded-3xl bg-[#f7f7f7] p-6 sm:p-8">
+    <!-- Подсказка своя у каждого этапа, абсолютным позиционированием по центру
+         его строки: места в потоке не занимает, вёрстка не прыгает. -->
+    {stages.map((stage, i) => (
+      <div
+        x-show={`hovered === ${i}`}
+        x-cloak
+        class="pointer-events-none absolute left-1/2 z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-xl bg-gray-900 px-3 py-2 shadow-lg"
+        style={`top:calc(1.5rem + ${(g.rowCenters[i] / g.height) * 100}% * 0.82)`}
+      >
+        <span class="block font-heading text-footnote leading-tight text-white">{stage.name}</span>
+        <span class="mt-0.5 block font-sans text-[0.7rem] leading-tight text-white/70">
+          {stage.valueLabel} от созданных
+          {stage.conversion !== null && (
+            <> · дошло {stage.conversion.toLocaleString('ru-RU', { maximumFractionDigits: 1 })}% с прошлого шага</>
+          )}
+          {stage.loss !== null && (
+            <> · потеряно {stage.loss.toLocaleString('ru-RU', { maximumFractionDigits: 1 })}%</>
+          )}
+        </span>
+        {stage.previous !== null && (
+          <span class="mt-0.5 block font-sans text-[0.7rem] leading-tight text-white/70">
+            {block.previousLabel}: {stage.previous.toLocaleString('ru-RU', { maximumFractionDigits: 1 })}%
+          </span>
+        )}
+      </div>
+    ))}
+
+    <svg
+      viewBox={`0 0 ${g.width} ${g.height}`}
+      style="display:block;width:100%;height:auto;overflow:visible"
+      font-family='"Styrene A", Inter, Helvetica, Arial, sans-serif'
+      role="img"
+      aria-label={`${block.title}, ${block.currentLabel}. ${stages.map(s => s.detail).join('. ')}`}
+    >
+      <!-- Тонкие выноски от полосы к подписи: связывают этап с его названием -->
+      {stages.map((_, i) => (
+        <line
+          x1="0"
+          y1={g.rowCenters[i]}
+          x2={g.plotWidth + 18}
+          y2={g.rowCenters[i]}
+          stroke="#1D1E21"
+          stroke-opacity="0.07"
+          stroke-width="1"
+        />
+      ))}
+
+      <defs>
+        <!--
+          Косая штриховка. Штрих и пропуск строго равны: 12 и 12 при плитке 24.
+
+          Именно ПРЯМОУГОЛЬНИК, а не линия: линия рисуется по центру своей
+          координаты, поэтому половина штриха уходила за границу плитки и
+          обрезалась — вместо 12/12 получалось 6 штриха и 18 пропуска.
+
+          rotate(-45): полосы идут сверху слева вниз вправо.
+
+          Слои и цвета берутся из общего токена HATCH_LAYERS — один приём на
+          воронку и на полосы рейтинга. У прироста два слоя: светлая подложка
+          отделяет прибавившийся кусок от заливки, тёмный штрих поверх даёт вес.
+          У потери один слой брендовым: она лежит на пустом фоне, отделять нечего.
+        -->
+        <pattern
+          id={HATCH_GROWN}
+          width="24"
+          height="24"
+          patternUnits="userSpaceOnUse"
+          patternTransform="rotate(-45)"
+        >
+          <rect width="12" height="24" fill={HATCH_LAYERS.grown.stripe} fill-opacity={HATCH_LAYERS.grown.stripeOpacity} />
+        </pattern>
+        <pattern
+          id={HATCH_LOST}
+          width="24"
+          height="24"
+          patternUnits="userSpaceOnUse"
+          patternTransform="rotate(-45)"
+        >
+          <rect width="12" height="24" fill={HATCH_LAYERS.lost.stripe} fill-opacity={HATCH_LAYERS.lost.stripeOpacity} />
+        </pattern>
+      </defs>
+
+      <!-- Полосы этапов: насыщенность фирменного цвета растёт вниз -->
+      {g.bands.map(band => (
+        <path d={band.path} fill={BRAND} fill-opacity={band.opacity} />
+      ))}
+
+      <!-- Разница с предыдущим периодом: заштрихованная область.
+           Прирост лежит внутри заливки, потеря — снаружи, на пустом фоне. -->
+      {g.diffs?.map(diff =>
+        diff.isEmpty ? null : (
+          <>
+            {/* Подложка только у прироста: она и делает область заметной. */}
+            {diff.grew && (
+              <path
+                d={diff.path}
+                fill={HATCH_LAYERS.grown.wash as string}
+                fill-opacity={HATCH_LAYERS.grown.washOpacity}
+              />
+            )}
+            <path d={diff.path} fill={`url(#${diff.grew ? HATCH_GROWN : HATCH_LOST})`} />
+          </>
+        )
+      )}
+
+      <!-- Подписи месяцев у основания своих воронок, вместо легенды -->
+      {monthLabels.map(label => (
+        <text
+          transform={`translate(${label.x} ${MONTH_Y}) rotate(-90)`}
+          font-size={MONTH_SIZE}
+          fill={label.color}
+          text-anchor="middle"
+        >
+          {label.text}
+        </text>
+      ))}
+
+      {stages.map((stage, i) => {
+        const y = g.rowCenters[i]
+        const band = g.bands[i]
+        const inside = band.topWidth >= INSIDE_MIN_WIDTH
+        const color = !stage.delta ? '#cacaca' : stage.delta > 0 ? SPARK_COLORS.good : SPARK_COLORS.bad
+
+        return (
+          <g>
+            <!-- Значение — внутри полосы, если она позволяет -->
+            <text
+              x={inside ? 20 : band.topWidth + 14}
+              y={y + 7}
+              font-size="20"
+              font-weight="500"
+              fill={inside ? '#ffffff' : '#858585'}
+            >
+              {stage.valueLabel}
+            </text>
+
+            <!-- Название этапа и дельта — справа от воронки -->
+            <text x={LABEL_X} y={y - 5} font-size="14" fill="#858585">{stage.name}</text>
+
+            {stage.deltaLabel && (
+              <text x={LABEL_X} y={y + 21} font-size="19" font-weight="600" fill="#1D1E21">
+                <tspan
+                  fill={color}
+                  font-family="Inter, Helvetica, Arial, sans-serif"
+                >{stage.delta! > 0 ? ARROW_GLYPH.up : ARROW_GLYPH.down}</tspan>
+                <tspan dx="4">{stage.deltaLabel}</tspan>
+              </text>
+            )}
+
+            <!-- Прозрачная зона ховера на всю строку -->
+            <rect
+              x="0"
+              y={g.rowTops[i]}
+              width={g.width}
+              height={g.rowHeight}
+              fill="transparent"
+              @mouseenter={`hovered = ${i}`}
+              @mouseleave="hovered = null"
+              @focus={`hovered = ${i}`}
+              @blur="hovered = null"
+              tabindex="0"
+            >
+              <title>{stage.detail}</title>
+            </rect>
+          </g>
+        )
+      })}
+    </svg>
+  </div>
+
+  {block.notes.length > 0 && (
+    <ul class="mt-3 space-y-1">
+      {block.notes.map(note => <li class="font-sans text-footnote text-gray-400">{note}</li>)}
+    </ul>
+  )}
+
+  {showSource && block.source && (
+    <p class="mt-3 font-sans text-footnote text-gray-400">Источник: {block.source}</p>
+  )}
+</figure>

@@ -1,0 +1,87 @@
+---
+/**
+ * DataChart — график аналитики из данных
+ *
+ * Рендерит SVG на этапе сборки: ноль клиентского JS, настоящий текст вместо
+ * кривых, адаптивность и тёмная тема из коробки (font-family:inherit,
+ * fill:currentColor в выводе движка).
+ *
+ * Заголовок, легенду и подписи осей рисует этот компонент, а не библиотека:
+ * у неё кегль заголовков осей жёстко зашит в 11px и не переопределяется.
+ *
+ * Оформление намеренно минимальное — визуальный язык проектируется отдельным
+ * этапом по стенду /lab/charts. См. docs/analytics-charts/README.md §5
+ */
+import { renderIndicator } from '@/lib/charts/render'
+import type { Channel, Indicator } from '@/lib/charts/types'
+
+interface Props {
+  indicator: Indicator
+  /** Канал публикации: определяет размеры и минимальный кегль. */
+  channel?: Channel
+  /** Последний показываемый период `YYYY-MM`. По умолчанию — самый свежий. */
+  through?: string
+  /** Глубина истории в месяцах. По умолчанию 9 — как в текущих дайджестах. */
+  months?: number
+  /** Подпись под графиком: вывод для читателя. Не дублировать заголовок. */
+  caption?: string
+  /** Показывать источник данных (для стенда и внутренних страниц). */
+  showSource?: boolean
+  class?: string
+}
+
+const {
+  indicator,
+  channel = 'web',
+  through,
+  months,
+  caption,
+  showSource = false,
+  class: className = '',
+} = Astro.props
+
+const chart = renderIndicator(indicator, { channel, through, months })
+const isRaster = channel !== 'web'
+---
+
+<figure class={`not-prose my-8 ${className}`}>
+  <figcaption class="mb-4">
+    <h3 class="text-h4 text-gray-900">{indicator.title}</h3>
+    {chart.legend.length > 0 && (
+      <ul class="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+        {chart.legend.map(item => (
+          <li class="flex items-center gap-2 text-footnote text-gray-500">
+            <span
+              class="inline-block h-[3px] w-4 shrink-0 rounded-full"
+              style={`background:${item.color}`}
+              aria-hidden="true"
+            ></span>
+            {item.label}
+          </li>
+        ))}
+      </ul>
+    )}
+  </figcaption>
+
+  <div
+    class={isRaster ? 'inline-block border border-black/5' : 'w-full'}
+    style={isRaster ? `width:${chart.width}px;max-width:100%` : ''}
+    role="img"
+    aria-label={chart.alt}
+    set:html={chart.svg}
+  />
+
+  {caption && <p class="mt-4 text-subhead text-gray-500">{caption}</p>}
+
+  {chart.notes.length > 0 && (
+    <ul class="mt-3 space-y-1">
+      {chart.notes.map(note => (
+        <li class="text-footnote text-gray-400">{note}</li>
+      ))}
+    </ul>
+  )}
+
+  {showSource && indicator.source && (
+    <p class="mt-3 text-footnote text-gray-400">Источник: {indicator.source}</p>
+  )}
+</figure>

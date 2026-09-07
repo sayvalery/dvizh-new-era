@@ -1,0 +1,224 @@
+---
+/**
+ * BracketChart — парные столбики по интервалам
+ *
+ * Для данных, где ряды — интервалы (доход, размер первого взноса, категория
+ * платежа). Каждый интервал сравнивается сам с собой месяц к месяцу; величины
+ * разных интервалов лежат на общей шкале от нуля.
+ *
+ * ЛИНИИ ЗДЕСЬ НЕТ И БЫТЬ НЕ МОЖЕТ. Между «50–99к» и «100–149к» нет промежуточных
+ * значений — соединять точки нечем, линия сообщала бы непрерывность, которой не
+ * существует. См. docs/analytics-charts/chart-guidelines.md §14.
+ *
+ * Столбик предыдущего периода ВСЕГДА тоньше текущего втрое: сравнение читается
+ * как «толстый — сейчас, тонкий — было», и прошлый месяц не забирает внимание.
+ * Порядок фиксированный — тонкий слева, толстый справа, независимо от данных.
+ *
+ * Раскладка подписей вокруг верхнего края столбика:
+ *
+ *        апр  май        ← месяцы, только у первой группы
+ *          ↑ 0,9 пп      ← дельта снаружи, ОТСТУП вверх
+ *        ┌──────────┐
+ *        │ 13,4%    │    ← значение внутри, ТОТ ЖЕ отступ вниз
+ *
+ * Отступ наружу и внутрь одинаковый — верхний край столбика становится осью
+ * симметрии для пары подписей.
+ *
+ * Если столбик слишком низкий, значение внутрь не влезает: тогда оно уходит в
+ * тултип по ховеру, а не выносится наружу вторым числом (§1, §3). Порог считает
+ * браузер через container query по высоте столбика — см. global.css.
+ *
+ * Сделан на HTML и CSS, без SVG: прямоугольники и текст не требуют геометрии,
+ * зато текст не масштабируется вместе с полем графика (§12).
+ */
+import { buildProfileBlock, type ProfileOptions } from '@/lib/charts/profile'
+import { ARROW_GLYPH, CHART_LABEL_CLASS } from '@/lib/charts/presets'
+import { SPARK_COLORS } from '@/lib/charts/sparkline'
+import type { Indicator } from '@/lib/charts/types'
+
+interface Props extends ProfileOptions {
+  indicator: Indicator
+  showTitle?: boolean
+  showSource?: boolean
+  class?: string
+}
+
+const {
+  indicator,
+  showTitle = true,
+  showSource = false,
+  class: className = '',
+  ...profileOptions
+} = Astro.props
+
+const block = buildProfileBlock(indicator, profileOptions)
+
+const BRAND = '#ff4d00'
+const PREVIOUS = '#cacaca'
+
+/** Высота столбика в процентах поля. Отсчёт строго от нуля. */
+const heightOf = (value: number) => (value / block.maxValue) * 100
+const unitSuffix = indicator.unit === 'percent' ? '%' : indicator.unit === 'rub' ? ' ₽' : ''
+
+/** Одинаковый отступ от верхнего края столбика — наружу и внутрь. */
+const PAD = 8
+/**
+ * Насколько подпись месяца поднята над дельтой.
+ *
+ * Ровно на высоту строки дельты плюс небольшой зазор: месяц относится к столбику,
+ * а не живёт сам по себе, поэтому висеть далеко ему незачем.
+ */
+const MONTH_ABOVE_DELTA = 15
+
+const deltaColorOf = (delta: number | null) =>
+  delta === null
+    ? '#cacaca'
+    : (indicator.polarity === 'higher-is-better' ? delta > 0 : delta < 0)
+      ? SPARK_COLORS.good
+      : SPARK_COLORS.bad
+---
+
+<figure class={`not-prose my-10 ${className}`} x-data="{ hovered: null }">
+  {showTitle && (
+    <figcaption class="mb-1">
+      <h3 class="font-heading text-h4 text-gray-900">{indicator.title}</h3>
+    </figcaption>
+  )}
+
+  <p class="mb-12 font-sans text-subhead text-gray-500">
+    {block.currentMonth}
+    {block.previousMonth && <> против {block.previousMonth}</>} · {block.summary}
+  </p>
+
+  <div class="flex items-end gap-3 sm:gap-5">
+    {block.points.map((point, groupIndex) => {
+      const currentHeight = point.current === null ? null : heightOf(point.current)
+      const previousHeight = point.previous === null ? null : heightOf(point.previous)
+
+      return (
+        <div
+          class="relative flex min-w-0 flex-1 flex-col"
+          @mouseenter={`hovered = ${groupIndex}`}
+          @mouseleave="hovered = null"
+        >
+          <div class="relative flex h-52 items-end justify-center gap-1 sm:gap-1.5">
+            {previousHeight !== null && (
+              <div class="relative flex h-full flex-[0.34] items-end">
+                {groupIndex === 0 && (
+                  <span
+                    class="absolute inset-x-0 whitespace-nowrap text-center font-sans text-[0.7rem] leading-none text-gray-400"
+                    style={`bottom:${previousHeight}%;margin-bottom:${PAD}px`}
+                  >
+                    {block.previousMonthShort}
+                  </span>
+                )}
+                <div
+                  class="w-full rounded-t"
+                  style={`height:${previousHeight}%;background:${PREVIOUS}`}
+                ></div>
+              </div>
+            )}
+
+            {currentHeight !== null && (
+              <div class="relative flex h-full flex-1 items-end">
+                <!-- Месяц — над дельтой, только у первой группы -->
+                {groupIndex === 0 && (
+                  <span
+                    class="absolute inset-x-0 whitespace-nowrap text-center font-sans text-[0.7rem] leading-none"
+                    style={`bottom:${currentHeight}%;margin-bottom:${PAD + MONTH_ABOVE_DELTA}px;color:${BRAND}`}
+                  >
+                    {block.currentMonthShort}
+                  </span>
+                )}
+
+                <!-- Дельта снаружи, над столбиком -->
+                <span
+                  class={`absolute inset-x-0 whitespace-nowrap text-center text-gray-900 ${CHART_LABEL_CLASS}`}
+                  style={`bottom:${currentHeight}%;margin-bottom:${PAD}px`}
+                >
+                  {point.deltaLabel ? (
+                    <>
+                      <span
+                        class="font-sans"
+                        style={`color:${deltaColorOf(point.delta)};font-weight:800`}
+                        aria-hidden="true"
+                      >{(point.delta as number) > 0 ? ARROW_GLYPH.up : ARROW_GLYPH.down}</span>{' '}
+                      {point.deltaLabel}
+                    </>
+                  ) : (
+                    <span class="text-gray-300">—</span>
+                  )}
+                </span>
+
+                <!-- Значение внутри столбика, у верхнего края -->
+                <!--
+                  Столбик — контейнер запроса: влезает ли значение внутрь, зависит
+                  от его фактической высоты, а не от процента шкалы. Порог задан в
+                  global.css (.chart-col / .chart-col-inside). Если не влезает —
+                  значение живёт только в подсказке, наружу вторым числом не идёт.
+                -->
+                <div
+                  class="chart-col relative w-full rounded-t"
+                  style={`height:${currentHeight}%;background:${BRAND}`}
+                >
+                  <span
+                    class={`chart-col-inside absolute inset-x-0 whitespace-nowrap text-center text-white ${CHART_LABEL_CLASS}`}
+                    style={`top:${PAD}px`}
+                  >
+                    {point.currentLabel}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {point.current === null && point.previous === null && (
+              <span class="self-center font-sans text-footnote text-gray-300">нет данных</span>
+            )}
+          </div>
+
+          <p class="mt-3 text-center font-sans text-footnote text-gray-500">{point.name}</p>
+
+          <!-- Подсказка своя у каждого столбика и позиционируется абсолютно:
+               места в потоке не занимает, поэтому вёрстка при наведении не прыгает.
+               Месяцы здесь пишутся полностью — это текст, а не подпись на графике. -->
+          <div
+            x-show={`hovered === ${groupIndex}`}
+            x-cloak
+            class="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-xl bg-gray-900 px-3 py-2 text-center shadow-lg"
+          >
+            <span class="block font-heading text-footnote leading-tight text-white">{point.name}</span>
+            <span class="mt-0.5 block font-sans text-[0.7rem] leading-tight text-white/70">
+              {block.previousMonth} {point.previousLabel ?? 'нет данных'} → {block.currentMonth}{' '}
+              {point.currentLabel ?? 'нет данных'}
+            </span>
+            {point.deltaLabel && (
+              <span
+                class="mt-0.5 block font-sans text-[0.7rem] leading-tight"
+                style={`color:${deltaColorOf(point.delta)}`}
+              >
+                {(point.delta as number) > 0 ? ARROW_GLYPH.up : ARROW_GLYPH.down} {point.deltaLabel}
+              </span>
+            )}
+          </div>
+
+        </div>
+      )
+    })}
+  </div>
+
+  <p class="mt-6 font-sans text-footnote text-gray-400">
+    Столбики от нуля, общая шкала до {block.maxValue.toLocaleString('ru-RU')}{unitSuffix}.
+    Интервалы сравниваются каждый сам с собой, между ними нет непрерывности —
+    поэтому столбики, а не линия.
+  </p>
+
+  {block.notes.length > 0 && (
+    <ul class="mt-3 space-y-1">
+      {block.notes.map(note => <li class="font-sans text-footnote text-gray-400">{note}</li>)}
+    </ul>
+  )}
+
+  {showSource && block.source && (
+    <p class="mt-2 font-sans text-footnote text-gray-400">Источник: {block.source}</p>
+  )}
+</figure>

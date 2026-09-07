@@ -1,0 +1,144 @@
+---
+/**
+ * Lab: Digest May — реальный дайджест с графиками из данных
+ *
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/digest-may
+ *
+ * Проверяет всю цепочку на настоящем лонгриде: берётся тело опубликованной
+ * статьи «Итоги мая 2026», две картинки-SVG из Figma заменяются на шорткоды,
+ * тело разбивается по шорткодам, вместо них рендерятся блоки карточек.
+ *
+ * Опубликованная статья НЕ ТРОГАЕТСЯ — тело читается из выгрузки в
+ * docs/analytics-charts/source/, записи никуда нет.
+ *
+ * Картинка «Процент одобрения, процент отказа и скорость одобрения»
+ * разворачивается в три показателя: в исходнике это были три графика на одном
+ * рисунке.
+ */
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import MetricCards from '../../components/ui/MetricCards.astro'
+import FunnelChart from '../../components/ui/FunnelChart.astro'
+import BracketChart from '../../components/ui/BracketChart.astro'
+import RankingChart from '../../components/ui/RankingChart.astro'
+import { BENCHMARKS } from '../../lib/charts/fixtures/benchmarks'
+import { splitByShortcodes, assertChartsAvailable } from '../../lib/charts/inject'
+
+const THROUGH = '2026-05'
+
+const SOURCE = resolve(
+  process.cwd(),
+  '../../docs/analytics-charts/source/articles-2026/itogi-maya-2026.html'
+)
+
+const raw = readFileSync(SOURCE, 'utf-8')
+const [title, , ...rest] = raw.split('\n')
+const bodyHtml = rest.join('\n').replace(/^---\n?/, '')
+
+/** Замена картинок на шорткоды — имитация того, что сделает маркетолог. */
+const REPLACEMENTS: { file: string; charts: string[] }[] = [
+  { file: '_219.svg', charts: ['approval-rate', 'refusal-rate', 'approval-speed'] },
+  { file: '_220.svg', charts: ['approval-by-region'] },
+  { file: '_227.svg', charts: ['mortgage-type'] },
+  // 229.svg — самая высокая картинка дайджеста: в ней была и воронка, и четыре
+  // блока снизу, повторявшие те же проценты. Заменяется одной воронкой.
+  { file: '_229.svg', charts: ['application-funnel'] },
+  // Интервалы дохода и взноса: читается форма рынка, а не «своя строка», —
+  // поэтому парные столбики с общей шкалой, а не карточки (§14).
+  { file: '_222.svg', charts: ['borrower-income'] },
+  { file: '_224.svg', charts: ['payment-by-income'] },
+  { file: '_226.svg', charts: ['approval-by-downpayment'] },
+  { file: '_221.svg', charts: ['subsidized-share'] },
+  { file: '_233.svg', charts: ['prescoring-risk'] },
+  // Четыре рейтинга банков: состав участников меняется от месяца к месяцу.
+  { file: '_228.svg', charts: ['bank-share'] },
+  { file: '_230.svg', charts: ['bank-approval'] },
+  { file: '_231.svg', charts: ['bank-speed'] },
+  { file: '_232.svg', charts: ['bank-reaction'] },
+]
+
+function toShortcodes(html: string): string {
+  let result = html
+  for (const { file, charts } of REPLACEMENTS) {
+    const pattern = new RegExp(
+      `<figure\\b[^>]*>(?:(?!<\\/figure>)[\\s\\S])*?${file}[\\s\\S]*?<\\/figure>`,
+      'i'
+    )
+    if (!pattern.test(result)) continue
+    result = result.replace(pattern, charts.map(id => `<figure data-chart="${id}"></figure>`).join(''))
+  }
+  return result
+}
+
+const byId = new Map(BENCHMARKS.map(i => [i.id, i]))
+const { segments, chartIds } = splitByShortcodes(toShortcodes(bodyHtml))
+
+// На сборке лучше упасть, чем выпустить статью с дырой вместо графика.
+assertChartsAvailable(chartIds, [...byId.keys()])
+
+/** Полноширинные карточки — повторяет раскладку исходных картинок. */
+const WIDE: Record<string, number[]> = {
+  'approval-by-region': [2],
+  'mortgage-type': [0],
+}
+
+const originalImages = (bodyHtml.match(/<img\b/g) ?? []).length
+const remainingImages = segments
+  .filter(s => s.type === 'html')
+  .reduce((sum, s) => sum + ((s as { html: string }).html.match(/<img\b/g) ?? []).length, 0)
+---
+
+<SiteLayout title={`Lab: ${title} — графики из данных`} bodyClass="bg-white">
+  <section class="py-12">
+    <div class="max-w-3xl mx-auto px-6">
+      <p class="text-footnote text-gray-400">Lab · графики из данных на реальном лонгриде</p>
+      <h1 class="mt-2 text-h1 font-medium text-gray-900">{title}</h1>
+
+      <dl class="mt-8 grid gap-5 sm:grid-cols-3">
+        <div>
+          <dt class="text-footnote text-gray-400">Блоков подставлено</dt>
+          <dd class="text-h4 text-gray-900">{chartIds.length}</dd>
+        </div>
+        <div>
+          <dt class="text-footnote text-gray-400">Картинок было / осталось</dt>
+          <dd class="text-h4 text-gray-900">{originalImages} → {remainingImages}</dd>
+        </div>
+        <div>
+          <dt class="text-footnote text-gray-400">Период</dt>
+          <dd class="text-h4 text-gray-900">май 2026</dd>
+        </div>
+      </dl>
+
+      <p class="mt-6 text-subhead text-gray-500">
+        Период в шорткодах не указан — он приходит из выпуска. Поэтому тело прошлого
+        дайджеста копируется целиком в новый, и все графики сами становятся графиками
+        нового месяца.
+      </p>
+    </div>
+  </section>
+
+  <article class="py-16">
+    <div class="max-w-3xl mx-auto px-6">
+      {segments.map(segment =>
+        segment.type === 'html' ? (
+          <div class="prose prose-lg" set:html={segment.html} />
+        ) : byId.get(segment.id)!.form === 'ranking' ? (
+          <RankingChart indicator={byId.get(segment.id)!} through={THROUGH} />
+        ) : byId.get(segment.id)!.form === 'funnel' ? (
+          <FunnelChart indicator={byId.get(segment.id)!} through={THROUGH} />
+        ) : byId.get(segment.id)!.orderedDomain ? (
+          <BracketChart indicator={byId.get(segment.id)!} through={THROUGH} />
+        ) : (
+          <MetricCards
+            indicator={byId.get(segment.id)!}
+            through={THROUGH}
+            variant={byId.get(segment.id)!.series?.length ? 'cards' : 'plain'}
+            wide={WIDE[segment.id] ?? []}
+            showTitle={Boolean(byId.get(segment.id)!.series?.length)}
+          />
+        )
+      )}
+    </div>
+  </article>
+</SiteLayout>

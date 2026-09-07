@@ -1,0 +1,332 @@
+---
+/**
+ * Lab: Charts — стенд графиков аналитики
+ *
+ * Доступна только в dev-режиме: preview.dvizh.cc/lab/charts
+ *
+ * Разбираем типы графиков по очереди. Сейчас на стенде — карточки динамики,
+ * основной тип дайджеста: изолированная шкала на карточку, цвет по смыслу
+ * «хорошо/плохо», крупная дельта к предыдущему месяцу.
+ *
+ * Данные реальные, из выгрузки исходной таблицы бенчмарков.
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro'
+import MetricCards from '../../components/ui/MetricCards.astro'
+import FunnelChart from '../../components/ui/FunnelChart.astro'
+import BracketChart from '../../components/ui/BracketChart.astro'
+import DumbbellChart from '../../components/ui/DumbbellChart.astro'
+import RankingChart from '../../components/ui/RankingChart.astro'
+import { BENCHMARKS } from '../../lib/charts/fixtures/benchmarks'
+import { buildCardsBlock } from '../../lib/charts/cards'
+import { buildFunnelBlock } from '../../lib/charts/funnel'
+import { SPARK_COLORS } from '../../lib/charts/sparkline'
+
+const THROUGH = '2026-05'
+
+const byId = new Map(BENCHMARKS.map(i => [i.id, i]))
+const basic = ['approval-rate', 'refusal-rate', 'approval-speed'].map(id => byId.get(id)!)
+const regions = byId.get('approval-by-region')!
+const types = byId.get('mortgage-type')!
+
+/** Сверка с оригинальными картинками из майского дайджеста. */
+const CHECKS = [
+  { label: 'Процент одобрения', was: '56,4 → 63,8, ↑ 7,4%', polarity: 'выше — лучше' },
+  { label: 'Процент отказа', was: '28,2 → 22,9, ↓ 5,3%', polarity: 'ниже — лучше' },
+  { label: 'Скорость одобрения', was: '2,9 → 3,3 ч, ↑ 0,4 ч', polarity: 'ниже — лучше' },
+]
+
+const regionCards = buildCardsBlock(regions, { through: THROUGH })
+
+const income = byId.get('borrower-income')!
+const downpayment = byId.get('approval-by-downpayment')!
+const payment = byId.get('payment-by-income')!
+
+/** Сдвиг распределения доходов: то, что семь карточек скрывают. */
+const incomeShift = (() => {
+  const at = (period: string, names: string[]) =>
+    names.reduce((sum, n) => {
+      const v = income.observations.find(o => o.period === period && o.series === n)?.value
+      return sum + (v ?? 0)
+    }, 0)
+  const low = ['0–49к', '50–99к', '100–149к']
+  return {
+    aprLow: at('2026-04', low),
+    mayLow: at('2026-05', low),
+  }
+})()
+
+const rankings = ['bank-share', 'bank-approval', 'bank-speed', 'bank-reaction'].map(
+  id => byId.get(id)!
+)
+
+const funnel = byId.get('application-funnel')!
+const funnelBlock = buildFunnelBlock(funnel, { through: THROUGH })
+const approved = funnelBlock.stages[funnelBlock.stages.length - 1]
+---
+
+<SiteLayout title="Lab: Charts — стенд графиков" bodyClass="bg-white">
+  <section class="py-16">
+    <div class="max-w-5xl mx-auto px-6">
+      <h1 class="text-h1 font-medium text-gray-900">Стенд графиков</h1>
+      <p class="mt-4 text-body-lg text-gray-500 max-w-2xl">
+        Тип первый: карточки динамики. Реальные данные бенчмарков, апрель → май 2026.
+      </p>
+
+      <ul class="mt-8 space-y-3 text-subhead text-gray-500 max-w-2xl">
+        <li>
+          <strong class="text-gray-900">Шкала у каждой карточки своя.</strong> Москва (71%) и
+          Дальневосточная (1%) на общей оси несравнимы — мелкие значения стали бы плоской линией.
+        </li>
+        <li>
+          <strong class="text-gray-900">Цвет означает «хорошо», а не «вверх».</strong> Процент
+          отказа падает — зелёный со стрелкой вниз. Скорость одобрения растёт — серый, потому что
+          одобрять медленнее плохо.
+        </li>
+        <li>
+          <strong class="text-gray-900">Точки только настоящие.</strong> В оригинале промежуточная
+          вершина линии была нарисована в Figma и не соответствовала никаким данным.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Базовые метрики: без карточной подложки, заголовок над линией -->
+  <section class="py-16 border-t border-black/5">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-h2 text-gray-900">Базовые метрики</h2>
+      <p class="mt-2 mb-8 text-footnote text-gray-400">
+        Три показателя с разными единицами и разной полярностью
+      </p>
+
+      {basic.map(indicator => (
+        <MetricCards indicator={indicator} through={THROUGH} variant="plain" showTitle={false} />
+      ))}
+
+      <table class="mt-10 w-full text-footnote text-gray-500">
+        <thead>
+          <tr class="border-b border-black/10 text-left">
+            <th class="py-2 pr-4 font-medium">Показатель</th>
+            <th class="py-2 pr-4 font-medium">Было в дайджесте</th>
+            <th class="py-2 font-medium">Полярность</th>
+          </tr>
+        </thead>
+        <tbody>
+          {CHECKS.map(row => (
+            <tr class="border-b border-black/5">
+              <td class="py-2 pr-4">{row.label}</td>
+              <td class="py-2 pr-4 tabular-nums">{row.was}</td>
+              <td class="py-2">{row.polarity}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="mt-3 text-footnote text-gray-400">
+        Цифры выше сняты с оригинальных картинок — карточки должны совпадать с ними.
+      </p>
+    </div>
+  </section>
+
+  <!-- Регионы: 2+1, как в исходной картинке -->
+  <section class="py-16 border-t border-black/5">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-h2 text-gray-900">Процент одобрения по регионам</h2>
+      <p class="mt-2 mb-4 text-footnote text-gray-400">
+        Раскладка 2 + 1: третья карточка на всю ширину, как в оригинале
+      </p>
+      <MetricCards indicator={regions} through={THROUGH} wide={[2]} showTitle={false} showSource />
+    </div>
+  </section>
+
+  <!-- Тип ипотеки: 1 на всю ширину + 2×2 -->
+  <section class="py-16 border-t border-black/5">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-h2 text-gray-900">Тип ипотеки</h2>
+      <p class="mt-2 mb-4 text-footnote text-gray-400">
+        Пять программ, значения от 56,3% до 1,0% — видно, зачем нужна отдельная шкала на карточку
+      </p>
+      <MetricCards indicator={types} through={THROUGH} wide={[0]} showTitle={false} showSource />
+    </div>
+  </section>
+
+  <!-- Воронка: одна сущность вместо шести блоков -->
+  <section class="py-16 border-t border-black/5">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-h2 text-gray-900">Воронка заявок</h2>
+      <p class="mt-2 mb-8 text-body-lg text-gray-500">
+        Было шесть блоков: воронка сверху и четыре пары полос снизу, повторявшие те же
+        проценты. Стало одно поле с двумя воронками — сплошная май, пунктирная апрель.
+        Проценты внутри, название этапа и дельта справа.
+      </p>
+
+      <FunnelChart indicator={funnel} through={THROUGH} showTitle={false} showSource />
+
+      <div class="mt-16">
+        <h3 class="text-h4 text-gray-900">Рост и падение рядом</h3>
+        <p class="mt-3 mb-8 text-subhead text-gray-500">
+          Вместо пунктирной границы разница заштрихована косыми полосами. Сверху май
+          против апреля: все этапы выросли, штриховка лежит тёмным поверх заливки.
+          Ниже июнь против мая: этапы упали, и та же область оказалась снаружи
+          заливки — на пустом фоне видно, сколько потеряно. Приём один, читается
+          в обе стороны. Подписан только предыдущий месяц и стоит у края штриховки:
+          текущий назван в заголовке, вторая подпись была бы шумом.
+        </p>
+
+        <div>
+          <p class="mb-4 font-heading text-subhead text-gray-900">Воронка заявок · май</p>
+          <FunnelChart indicator={funnel} through="2026-05" showTitle={false} />
+        </div>
+        <div class="mt-14">
+          <p class="mb-4 font-heading text-subhead text-gray-900">Воронка заявок · июнь</p>
+          <FunnelChart indicator={funnel} through="2026-06" showTitle={false} />
+        </div>
+      </div>
+
+      <div class="mt-10 rounded-2xl border border-black/10 p-5">
+        <p class="text-subhead text-gray-900">Что заодно исправилось в цифрах</p>
+        <p class="mt-2 text-footnote text-gray-500">
+          В статье было «на последнем шаге теряется 21,2%». Это процентные пункты от
+          исходной базы, а не доля потерянных на шаге. От дошедших до предыдущего этапа
+          теряется <strong class="text-gray-900">{approved.loss?.toLocaleString('ru-RU', { maximumFractionDigits: 1 })}%</strong>.
+          Новая воронка эту величину не публикует вовсе — она показывается по ховеру,
+          и считается от предыдущего шага.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Распределение: одна форма против другой на одних и тех же данных -->
+  <section class="py-16 border-t border-black/5">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-h2 text-gray-900">Доходы заёмщиков</h2>
+      <p class="mt-3 text-body-lg text-gray-500">
+        Одни и те же данные в трёх формах. Семь интервалов дохода, суммы обоих месяцев
+        ровно 100,0%. В этих данных есть одно сообщение: доля заёмщиков с доходом
+        до 150 тысяч сократилась с {incomeShift.aprLow.toFixed(1).replace('.', ',')}% до
+        {' '}{incomeShift.mayLow.toFixed(1).replace('.', ',')}% — распределение сдвинулось вверх.
+      </p>
+
+      <div class="mt-12">
+        <p class="mb-1 text-footnote uppercase tracking-[0.14em] text-gray-400">Вариант 1 · плохо</p>
+        <h3 class="text-h4 text-gray-900">Карточки, как в дайджесте</h3>
+        <ul class="mt-3 mb-6 space-y-2 text-subhead text-gray-500">
+          <li>Сообщение про сдвиг не видно вовсе: семь несвязанных фактов, складывать их читателю.</li>
+          <li>Не видно, что это части целого — сумма 100% нигде не проявлена.</li>
+          <li>Цвет врёт: у доли в распределении нет полярности. Если одна доля упала, другая обязана вырасти.</li>
+        </ul>
+        <MetricCards indicator={income} through={THROUGH} showTitle={false} />
+      </div>
+
+      <div class="mt-16">
+        <p class="mb-1 text-footnote uppercase tracking-[0.14em] text-gray-400">Вариант 2 · хорошо</p>
+        <h3 class="text-h4 text-gray-900">Парные столбики</h3>
+        <p class="mt-3 mb-6 text-subhead text-gray-500">
+          Один график вместо семи карточек, общая шкала от нуля. Прошлый месяц всегда
+          тонким слева, текущий толстым справа. Слева майский столбик ниже апрельского,
+          справа выше — сдвиг вверх виден сразу. Линии между интервалами нет и быть не
+          может: между «100–149к» и «150–199к» промежуточных значений не существует.
+        </p>
+        <BracketChart indicator={income} through={THROUGH} showTitle={false} showSource />
+      </div>
+
+      <div class="mt-16">
+        <p class="mb-1 text-footnote uppercase tracking-[0.14em] text-gray-400">Вариант 3 · альтернатива</p>
+        <h3 class="text-h4 text-gray-900">Dumbbell</h3>
+        <p class="mt-3 mb-6 text-subhead text-gray-500">
+          Величину сдвига видно длиной отрезка и градиентом: где точки почти слились —
+          изменение незначительное. Подписано только текущее значение, с внешней стороны
+          своей точки.
+        </p>
+        <DumbbellChart indicator={income} through={THROUGH} showTitle={false} />
+      </div>
+    </div>
+  </section>
+
+  <!-- Зависимость: тот же профиль, но суммы 100% нет -->
+  <section class="py-16 border-t border-black/5">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-h2 text-gray-900">Одобрение и первый взнос</h2>
+      <p class="mt-3 mb-8 text-body-lg text-gray-500">
+        Суммы 100% здесь нет — это не распределение. Сообщение в том, что одобрение растёт
+        вместе со взносом, и по высоте столбиков это читается без всякой линии.
+      </p>
+      <BracketChart indicator={downpayment} through={THROUGH} showTitle={false} showSource />
+    </div>
+  </section>
+
+  <!-- Рубли и разрыв методологии -->
+  <section class="py-16 border-t border-black/5">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-h2 text-gray-900">Ежемесячный платёж по доходам</h2>
+      <p class="mt-3 mb-8 text-body-lg text-gray-500">
+        Здесь у каждого интервала своя медиана платежа — семь отдельных величин, а не один
+        ряд. Соединять их линией нечем: у оси X нет непрерывности, а «между» интервалами
+        значений не существует. Поэтому столбики.
+      </p>
+      <BracketChart indicator={payment} through={THROUGH} showTitle={false} showSource />
+      <DumbbellChart indicator={payment} through={THROUGH} showTitle={false} class="mt-14" />
+    </div>
+  </section>
+
+  <!-- Рейтинги: меняющийся состав участников -->
+  <section class="py-16 border-t border-black/5">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-h2 text-gray-900">Рейтинги банков</h2>
+      <p class="mt-3 mb-10 text-body-lg text-gray-500">
+        Состав участников меняется от месяца к месяцу, и это часть данных: у новых
+        пометка «новый», выпавшие перечислены под графиком. Засечка на полосе —
+        прошлый месяц, поэтому вторая полоса не нужна. Bump chart не делал: на десяти
+        участниках он превращается в спагетти и показывает только порядок, теряя величину.
+      </p>
+
+      {rankings.map(indicator => (
+        <RankingChart indicator={indicator} through={THROUGH} showTitle showSource class="mb-16" />
+      ))}
+    </div>
+  </section>
+
+  <section class="py-16 border-t border-black/5">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-h3 text-gray-900">Технические заметки</h2>
+      <dl class="mt-6 space-y-4 text-subhead text-gray-500">
+        <div>
+          <dt class="text-gray-900">Цвета</dt>
+          <dd>
+            «Хорошо» — <code>{SPARK_COLORS.good}</code>, «плохо» — <code>{SPARK_COLORS.bad}</code>.
+            Сняты пипеткой с оригинальных SVG. Воронка — фирменный <code>#ff4d00</code>
+            с нарастающей насыщенностью вниз.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-gray-900">Шрифты и подписи</dt>
+          <dd>
+            Числа — Styrene, стрелка — глиф из Inter. Подписи значений рисуются HTML-ом
+            поверх SVG: внутри SVG они масштабировались вместе с viewBox и на узкой
+            карточке становились мелкими.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-gray-900">Легенд нет</dt>
+          <dd>
+            Названия периодов стоят на самом графике: в воронке текущий месяц внутри
+            слева, предыдущий снаружи справа, повёрнутые на 90°.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-gray-900">Адаптивность</dt>
+          <dd>
+            Сетка сворачивается в одну колонку на узких экранах, спарклайн тянется по ширине,
+            текст остаётся текстом. У картинок из Figma этого не было.
+          </dd>
+        </div>
+        <div>
+          <dt class="text-gray-900">Ряды без данных</dt>
+          <dd>
+            Программа «Господдержка» закрыта — ряд пустой, карточка не рисуется, а не показывает ноль.
+            Всего карточек в блоке регионов: {regionCards.cards.length}.
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+</SiteLayout>

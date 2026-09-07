@@ -1,0 +1,135 @@
+---
+/**
+ * MetricCards — блок карточек показателя для дайджеста
+ *
+ * Не сравнение категорий между собой, а набор изолированных карточек: читатель
+ * находит свой регион или свою программу и видит, что стало именно с ней.
+ * У каждой карточки своя шкала, цвет означает «хорошо/плохо».
+ * См. docs/analytics-charts/chart-guidelines.md §5, §6.
+ *
+ * Название категории — одной строкой, Styrene. Никаких дублирующих подписей:
+ * график сам показывает динамику, а дельта — её размер (§1).
+ *
+ * Подписи значений рисуются HTML-ом поверх SVG, а не внутри него: внутри они
+ * масштабировались бы вместе с viewBox и на узкой карточке становились мелкими.
+ *
+ * По ховеру карточки проступают значения промежуточных точек — то, чем мы не
+ * шумим в статичном виде (§3).
+ */
+import { buildCardsBlock, type CardOptions } from '@/lib/charts/cards'
+import { ARROW_GLYPH, CHART_LABEL_CLASS, formatPeriod } from '@/lib/charts/presets'
+import type { Indicator } from '@/lib/charts/types'
+
+interface Props extends CardOptions {
+  indicator: Indicator
+  /**
+   * Оформление карточек.
+   * `cards` — подложка и название категории (регионы, тип ипотеки).
+   * `plain` — без подложки, название показателя над линией (базовые метрики).
+   */
+  variant?: 'cards' | 'plain'
+  /** Индексы карточек, растянутых на всю ширину сетки. */
+  wide?: number[]
+  /** Показывать заголовок блока. */
+  showTitle?: boolean
+  showSource?: boolean
+  class?: string
+}
+
+const {
+  indicator,
+  variant = 'cards',
+  wide = [],
+  showTitle = true,
+  showSource = false,
+  class: className = '',
+  ...cardOptions
+} = Astro.props
+
+const isPlain = variant === 'plain'
+const block = buildCardsBlock(indicator, {
+  width: isPlain ? 960 : 460,
+  height: isPlain ? 190 : 150,
+  ...cardOptions,
+})
+---
+
+<section class={`not-prose my-10 ${className}`}>
+  {showTitle && (
+    <header class="mb-6 flex items-baseline justify-between gap-4">
+      <h3 class="text-h4 text-gray-900">{indicator.title}</h3>
+      <p class="shrink-0 font-sans text-footnote text-gray-400">{formatPeriod(block.period)}</p>
+    </header>
+  )}
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    {block.cards.map((card, i) => (
+      <figure
+        x-data="{ open: false }"
+        @mouseenter="open = true"
+        @mouseleave="open = false"
+        aria-label={card.aria}
+        class={[
+          'flex flex-col justify-between',
+          wide.includes(i) ? 'sm:col-span-2' : '',
+          isPlain ? 'py-2' : 'rounded-3xl bg-[#f7f7f7] p-6',
+        ].join(' ')}
+      >
+        <!-- Только название. Ничего после него: дальше говорит график.
+             Описание для скринридера живёт в aria-label фигуры, а не текстом. -->
+        <figcaption class="font-heading text-h4 text-gray-900">
+          {card.label || indicator.title}
+        </figcaption>
+
+        <!-- График и подписи значений: SVG снизу, текст HTML-ом сверху -->
+        <div class="relative mt-5">
+          <div set:html={card.spark.svg} />
+
+          {card.spark.points.map(point => (
+            <span
+              class={[
+                // Промежуточная точка по ховеру — тем же цветом, что и крайние:
+                // она не важнее их, просто раньше была скрыта.
+                `pointer-events-none absolute -translate-y-full whitespace-nowrap text-gray-400 ${CHART_LABEL_CLASS}`,
+                // Первая подпись прижата влево, последняя вправо, промежуточные
+                // выровнены по центру своей точки.
+                point.isFirst ? '' : point.isLast ? '-translate-x-full' : '-translate-x-1/2',
+              ].join(' ')}
+              style={`left:${point.xPercent}%;top:${point.yPercent}%;margin-top:-6px`}
+              x-show={point.isEdge ? 'true' : 'open'}
+              x-cloak={point.isEdge ? undefined : true}
+            >
+              {point.label}
+            </span>
+          ))}
+        </div>
+
+        <!-- Стрелка вложена в тот же блок, что и число: так она наследует его
+             кегль. Глиф берётся из Inter — в Styrene он выглядит плохо — и
+             ставится жирным, иначе рядом с цифрами смотрится тонким. -->
+        <p class="mt-5 text-right font-heading text-h3 tabular-nums text-gray-900">
+          {card.spark.direction !== 'flat' && (
+            <span
+              class="font-sans"
+              style={`color:${card.spark.color};font-weight:800`}
+              aria-hidden="true"
+            >{card.spark.direction === 'up' ? ARROW_GLYPH.up : ARROW_GLYPH.down}</span>
+          )}
+          <span> </span>{card.delta}
+        </p>
+      </figure>
+    ))}
+  </div>
+
+  {block.notes.length > 0 && (
+    <ul class="mt-4 space-y-1">
+      {block.notes.map(note => (
+        <li class="font-sans text-footnote text-gray-400">{note}</li>
+      ))}
+    </ul>
+  )}
+
+  {showSource && block.source && (
+    <p class="mt-3 font-sans text-footnote text-gray-400">Источник: {block.source}</p>
+  )}
+</section>

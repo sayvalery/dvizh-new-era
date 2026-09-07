@@ -1,0 +1,184 @@
+---
+/**
+ * DumbbellChart — «до и после» по всем категориям сразу
+ *
+ * Строка на интервал, две точки (предыдущий и текущий период), между ними
+ * отрезок. Длина отрезка — величина сдвига, положение точки — значение на общей
+ * шкале. Дельта подписана справа.
+ *
+ * Дорожки-подложки под точками НЕТ: сплошная линия во всю ширину читается как
+ * «100% чего-то», а никакого целого здесь не существует — интервалы не части
+ * одной суммы. Шкала показана только подписями крайних значений.
+ * См. docs/analytics-charts/chart-guidelines.md §14.
+ *
+ * Подписано только ТЕКУЩЕЕ значение — у оранжевой точки, с её ВНЕШНЕЙ стороны:
+ * если оранжевая правее серой, подпись справа; если левее — слева. Так подпись
+ * никогда не наезжает на отрезок и всегда указывает, куда пришло значение.
+ * Значение предыдущего периода — в ховере, а не вторым числом (§1, §3).
+ *
+ * Отрезок залит градиентом от серого к оранжевому — направление задаёт, откуда
+ * куда сдвинулось значение.
+ *
+ * Сделан на HTML и CSS, без SVG: текст не должен масштабироваться вместе с
+ * полем графика (§12).
+ */
+import { buildProfileBlock, type ProfileOptions } from '@/lib/charts/profile'
+import { ARROW_GLYPH, CHART_LABEL_CLASS } from '@/lib/charts/presets'
+import { SPARK_COLORS } from '@/lib/charts/sparkline'
+import type { Indicator } from '@/lib/charts/types'
+
+interface Props extends ProfileOptions {
+  indicator: Indicator
+  showTitle?: boolean
+  showSource?: boolean
+  class?: string
+}
+
+const {
+  indicator,
+  showTitle = true,
+  showSource = false,
+  class: className = '',
+  ...profileOptions
+} = Astro.props
+
+const block = buildProfileBlock(indicator, profileOptions)
+
+const BRAND = '#ff4d00'
+const PREVIOUS = '#a8a8a8'
+
+/** Положение значения на общей шкале от нуля, в процентах ширины дорожки. */
+const at = (value: number) => (value / block.maxValue) * 100
+const unitSuffix = indicator.unit === 'percent' ? '%' : indicator.unit === 'rub' ? ' ₽' : ''
+---
+
+<figure class={`not-prose my-10 ${className}`} x-data="{ hovered: null }">
+  {showTitle && (
+    <figcaption class="mb-1">
+      <h3 class="font-heading text-h4 text-gray-900">{indicator.title}</h3>
+    </figcaption>
+  )}
+
+  <p class="mb-6 font-sans text-subhead text-gray-500">
+    {block.currentMonth}
+    {block.previousMonth && <> против {block.previousMonth}</>} · {block.summary}
+  </p>
+
+  <!-- Шкала подписана числами, а не нарисована полосой -->
+  <div class="mb-3 grid grid-cols-[7rem_1fr_6.5rem] gap-4">
+    <span></span>
+    <span class="flex justify-between font-sans text-footnote text-gray-400">
+      <span>0</span>
+      <span>{block.maxValue.toLocaleString('ru-RU')}{unitSuffix}</span>
+    </span>
+    <span></span>
+  </div>
+
+  <ul class="space-y-4">
+    {block.points.map(point => {
+      const hasBoth = point.current !== null && point.previous !== null
+      const from = hasBoth ? Math.min(at(point.previous as number), at(point.current as number)) : null
+      const to = hasBoth ? Math.max(at(point.previous as number), at(point.current as number)) : null
+      /** Оранжевая точка правее серой — значит подпись уходит вправо, и наоборот. */
+      const currentIsRight = hasBoth
+        ? (point.current as number) >= (point.previous as number)
+        : true
+      // Градиент по направлению сдвига: серый там, где было, оранжевый там, где стало.
+      const segmentGradient = currentIsRight
+        ? `linear-gradient(to right, ${PREVIOUS}, ${BRAND})`
+        : `linear-gradient(to right, ${BRAND}, ${PREVIOUS})`
+      const improved =
+        point.delta === null
+          ? null
+          : indicator.polarity === 'higher-is-better'
+            ? point.delta > 0
+            : point.delta < 0
+      const deltaColor = improved === null ? '#cacaca' : improved ? SPARK_COLORS.good : SPARK_COLORS.bad
+
+      return (
+        <li
+          class="relative grid grid-cols-[7rem_1fr_6.5rem] items-center gap-4"
+          @mouseenter={`hovered = ${block.points.indexOf(point)}`}
+          @mouseleave="hovered = null"
+        >
+          <!-- Подсказка своя у строки, абсолютным позиционированием: вёрстка не прыгает -->
+          <div
+            x-show={`hovered === ${block.points.indexOf(point)}`}
+            x-cloak
+            class="pointer-events-none absolute bottom-full left-1/2 z-20 mb-1 -translate-x-1/2 whitespace-nowrap rounded-xl bg-gray-900 px-3 py-2 text-center shadow-lg"
+          >
+            <span class="block font-heading text-footnote leading-tight text-white">{point.name}</span>
+            <span class="mt-0.5 block font-sans text-[0.7rem] leading-tight text-white/70">
+              {block.previousMonth} {point.previousLabel ?? 'нет данных'} → {block.currentMonth}{' '}
+              {point.currentLabel ?? 'нет данных'}
+            </span>
+          </div>
+          <span class="font-sans text-footnote text-gray-500">{point.name}</span>
+
+          <!-- Дорожка с общей шкалой от нуля -->
+          <span class="relative block h-8">
+            {from !== null && to !== null && (
+              <span
+                class="absolute top-1/2 h-[3px] -translate-y-1/2 rounded-full"
+                style={`left:${from}%;width:${to - from}%;background:${segmentGradient}`}
+              ></span>
+            )}
+
+            {point.previous !== null && (
+              <span
+                class="absolute top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={`left:${at(point.previous)}%;background:${PREVIOUS}`}
+              ></span>
+            )}
+
+            {point.current !== null && (
+              <span
+                class="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={`left:${at(point.current)}%;background:${BRAND}`}
+              ></span>
+            )}
+
+            {point.current !== null && (
+              <span
+                class={`absolute top-1/2 -translate-y-1/2 whitespace-nowrap text-gray-900 ${
+                  currentIsRight ? 'pl-3' : '-translate-x-full pr-3'
+                } ${CHART_LABEL_CLASS}`}
+                style={`left:${at(point.current)}%`}
+              >
+                {point.currentLabel}
+              </span>
+            )}
+          </span>
+
+          <span class="text-right font-heading text-subhead tabular-nums text-gray-900">
+            {point.deltaLabel ? (
+              <>
+                <span class="font-sans" style={`color:${deltaColor};font-weight:800`} aria-hidden="true">
+                  {(point.delta as number) > 0 ? ARROW_GLYPH.up : ARROW_GLYPH.down}
+                </span>{' '}
+                {point.deltaLabel}
+              </>
+            ) : (
+              <span class="text-gray-300">—</span>
+            )}
+          </span>
+        </li>
+      )
+    })}
+  </ul>
+
+  <p class="mt-5 font-sans text-footnote text-gray-400">
+    Крупная точка — {block.currentMonth}, мелкая — {block.previousMonth}. Шкала общая
+    для всех строк; интервалы не части одного целого, поэтому подложки под точками нет.
+  </p>
+
+  {block.notes.length > 0 && (
+    <ul class="mt-3 space-y-1">
+      {block.notes.map(note => <li class="font-sans text-footnote text-gray-400">{note}</li>)}
+    </ul>
+  )}
+
+  {showSource && block.source && (
+    <p class="mt-2 font-sans text-footnote text-gray-400">Источник: {block.source}</p>
+  )}
+</figure>
